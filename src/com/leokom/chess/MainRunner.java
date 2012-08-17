@@ -38,9 +38,6 @@ public class MainRunner {
             //LR: because we don't print any prompt, I don't put any newline here
             if ( line.equals( "xboard" ) ) {
                 logger.info( "Ready to work" );
-
-                //this still has no effect
-                System.out.println( "usermove e2e4" );
             }
 
             //protover N
@@ -57,6 +54,11 @@ public class MainRunner {
 
                 //TODO: check if 2'nd element exists
                 logger.info( "Protocol version detected = " + line.split( " " )[ 1 ] );
+            }
+
+            if ( line.equals( "go" ) ) {
+                logger.info( "Detected allowance to go" );
+                System.out.println( "move e2e4" );
             }
 		}
 	}
