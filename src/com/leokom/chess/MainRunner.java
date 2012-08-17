@@ -18,6 +18,7 @@ public class MainRunner {
 		//TODO: think about buffers, they're not recommended to use
 		BufferedReader r = new BufferedReader(new InputStreamReader( System.in ));
 
+        //TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
         int moveNumber = 0;
 		while( true ) {
             //TODO: any Thread.sleep needed?
@@ -75,7 +76,6 @@ public class MainRunner {
                     case 1:
                         System.out.println( "move e2e4" );
                         break;
-                    //NOTE: pointless - must be reactioon to the usermove
                     case 2:
                         System.out.println( "offer draw" );
                         break;
