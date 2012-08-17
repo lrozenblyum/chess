@@ -9,6 +9,10 @@ import org.apache.log4j.Logger;
 public class MainRunner {
 	private static Logger logger = Logger.getLogger(MainRunner.class);
 	public static void main(String[] args) throws IOException {
+        //critically important to send this sequence at the start
+        //to ensure the Winboard won't ignore our 'setfeature' commands
+        //set feature commands must be sent in response to protover
+        System.out.println("feature done=0");
 		logger.info( "Starting the chess" );
 
 		//TODO: think about buffers, they're not recommended to use
@@ -51,7 +55,10 @@ public class MainRunner {
                 //TODO: add analyze if this line is received immediately after xboard
                 //if not - we may assume it's protocol v1
 
-                //TODO: send any 'feature' requests for 2-version if needed
+                //enable usermove prefixes for moves for easier parsing
+                System.out.println( "feature usermove=1" );
+                //signal end of initializationss
+                System.out.println( "feature done=1" );
 
                 //TODO: check if 2'nd element exists
                 logger.info( "Protocol version detected = " + line.split( " " )[ 1 ] );
