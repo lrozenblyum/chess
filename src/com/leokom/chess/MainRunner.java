@@ -83,6 +83,11 @@ public class MainRunner {
                         //TODO:?
                 }
             }
+
+            //another player offers draw - accept always
+            if ( line.equals( "draw" ) ) {
+                System.out.println( "offer draw" );
+            }
 		}
 	}
 }
