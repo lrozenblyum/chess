@@ -77,10 +77,13 @@ public class MainRunner {
                         System.out.println( "move e2e4" );
                         break;
                     case 2:
+                        System.out.println( "move d2d4" );
+                        //NOTE: interesting to implement - how much do we need to wait for result?
+                        //NOTE2: it's not recommended way to offer draw after the move.
                         System.out.println( "offer draw" );
                         break;
                     default:
-                        //TODO:?
+                        System.out.println( "resign" );
                 }
             }
 
