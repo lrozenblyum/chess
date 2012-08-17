@@ -14,6 +14,7 @@ public class MainRunner {
 		//TODO: think about buffers, they're not recommended to use
 		BufferedReader r = new BufferedReader(new InputStreamReader( System.in ));
 
+        int moveNumber = 0;
 		while( true ) {
             //TODO: any Thread.sleep needed?
 			String line = r.readLine();
@@ -56,9 +57,23 @@ public class MainRunner {
                 logger.info( "Protocol version detected = " + line.split( " " )[ 1 ] );
             }
 
+            //this is received only if we play white, is it true?
+            //otherwise we'll get usermoves instead
             if ( line.equals( "go" ) ) {
-                logger.info( "Detected allowance to go" );
-                System.out.println( "move e2e4" );
+                moveNumber++;
+                logger.info( "Detected allowance to go. Move number = " + moveNumber );
+                switch ( moveNumber ) {
+                    case 1:
+                        System.out.println( "move e2e4" );
+                        break;
+                    //NOTE: pointless - must be reactioon to the usermove
+                    case 2:
+                        System.out.println( "offer draw" );
+                        break;
+                    default:
+                        //TODO:?
+                }
+
             }
 		}
 	}
