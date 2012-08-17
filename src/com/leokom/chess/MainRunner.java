@@ -11,20 +11,29 @@ public class MainRunner {
 	public static void main(String[] args) throws IOException {
 		logger.info( "Starting the chess" );
 
-        System.out.println( "usermove e2e4" );
-
-		//TODO: think about buffers
+		//TODO: think about buffers, they're not recommended to use
 		BufferedReader r = new BufferedReader(new InputStreamReader( System.in ));
-
 
 		while( true ) {
             //TODO: any Thread.sleep needed?
 			String line = r.readLine();
 			logger.info( "Line from engine = " + line );
 
-            if ( line != null && line.equals( "quit" ) ) {
+            //TODO: what does it mean?
+            if ( line == null ) {
+                continue;
+            }
+
+            if ( line.equals( "quit" ) ) {
                 logger.info( "Received quit command" );
                 break;
+            }
+
+            if ( line.equals( "xboard" ) ) {
+                logger.info( "Ready to work" );
+
+                //this still has no effect
+                System.out.println( "usermove e2e4" );
             }
 		}
 	}
