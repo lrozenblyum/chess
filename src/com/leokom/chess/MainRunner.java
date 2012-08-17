@@ -57,7 +57,7 @@ public class MainRunner {
 
                 //enable usermove prefixes for moves for easier parsing
                 System.out.println( "feature usermove=1" );
-                //signal end of initializationss
+                //signal end of initializations
                 System.out.println( "feature done=1" );
 
                 //TODO: check if 2'nd element exists
