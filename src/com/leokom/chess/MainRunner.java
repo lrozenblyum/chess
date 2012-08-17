@@ -66,7 +66,9 @@ public class MainRunner {
 
             //this is received only if we play white, is it true?
             //otherwise we'll get usermoves instead
-            if ( line.equals( "go" ) ) {
+
+            //the 2'nd check works because we enabled v2 feature...
+            if ( line.equals( "go" ) || line.startsWith( "usermove" ) ) {
                 moveNumber++;
                 logger.info( "Detected allowance to go. Move number = " + moveNumber );
                 switch ( moveNumber ) {
@@ -80,7 +82,6 @@ public class MainRunner {
                     default:
                         //TODO:?
                 }
-
             }
 		}
 	}
