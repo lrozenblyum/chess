@@ -3,9 +3,9 @@ Initial creator is Leonid Rozenblyum
 (the last name could also be spelled as Rozenblium according to Ukrainian transliteration rules)
 
 Main goals for version1 are:
-support Winboard protocol v2
-know about all chess rules (including ambiguities with the 3'd position repetition and insufficient material)
-be able to choose at least random 'correct according to rules' move.
+- support Winboard protocol v2
+- know about all chess rules (including ambiguities with the 3'd position repetition and insufficient material)
+- be able to choose at least random 'correct according to rules' move.
 
 The license is described in LICENSE file.
 Please read it carefully before forking the repository.
