@@ -1,1 +1,8 @@
-Chess repository powered by leokom
+Chess software that is developed for fun.
+
+Main goals for v1 are:
+support Winboard protocol v2
+know about all chess rules (including ambiguities with the 3'd position repetition and insufficient material).
+
+The license is described in LICENSE file.
+Please read it carefully before forking the repository.
