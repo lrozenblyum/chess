@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import org.apache.log4j.Logger;
 
 public class MainRunner {
-	private static Logger logger = Logger.getLogger(MainRunner.class);
+	private static final Logger logger = Logger.getLogger( MainRunner.class );
 	public static void main(String[] args) throws IOException {
         //critically important to send this sequence at the start
         //to ensure the Winboard won't ignore our 'setfeature' commands
@@ -66,7 +66,7 @@ public class MainRunner {
             }
 
             //this is received only if we play white, is it true?
-            //otherwise we'll get usermoves instead
+            //otherwise we'll get usermove commands instead
 
             //the 2'nd check works because we enabled v2 feature...
             if ( line.equals( "go" ) || line.startsWith( "usermove" ) ) {
