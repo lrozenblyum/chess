@@ -25,13 +25,13 @@ public class MainRunner {
         logger.info( "Starting the chess" );
 
 		//TODO: think about buffers, they're not recommended to use
-		BufferedReader r = new BufferedReader(new InputStreamReader( System.in ));
+		BufferedReader reader = new BufferedReader(new InputStreamReader( System.in ));
 
         //TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
         int moveNumber = 0;
 		while( true ) {
             //TODO: any Thread.sleep needed?
-			String line = r.readLine();
+			String line = reader.readLine();
 			logger.info( "Line from engine = " + line );
 
             //TODO: what does it mean?
