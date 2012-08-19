@@ -3,6 +3,7 @@ package com.leokom.chess;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 
 import org.apache.log4j.Logger;
 
@@ -18,8 +19,10 @@ public class MainRunner {
         //critically important to send this sequence at the start
         //to ensure the Winboard won't ignore our 'setfeature' commands
         //set feature commands must be sent in response to protover
-        System.out.println("feature done=0");
-		logger.info( "Starting the chess" );
+        final PrintStream outputStream = System.out;
+        final String toPrint = "feature done=0";
+        sendCommand(outputStream, toPrint);
+        logger.info( "Starting the chess" );
 
 		//TODO: think about buffers, they're not recommended to use
 		BufferedReader r = new BufferedReader(new InputStreamReader( System.in ));
@@ -63,9 +66,9 @@ public class MainRunner {
                 //if not - we may assume it's protocol v1
 
                 //enable usermove prefixes for moves for easier parsing
-                System.out.println( "feature usermove=1" );
+                sendCommand(outputStream, "feature usermove=1");
                 //signal end of initializations
-                System.out.println( "feature done=1" );
+                sendCommand(outputStream, "feature done=1");
 
                 //TODO: check if 2'nd element exists
                 logger.info( "Protocol version detected = " + line.split( " " )[ 1 ] );
@@ -80,23 +83,27 @@ public class MainRunner {
                 logger.info( "Detected allowance to go. Move number = " + moveNumber );
                 switch ( moveNumber ) {
                     case 1:
-                        System.out.println( "move e2e4" );
+                        sendCommand(outputStream, "move e2e4");
                         break;
                     case 2:
-                        System.out.println( "move d2d4" );
+                        sendCommand(outputStream, "move d2d4");
                         //NOTE: interesting to implement - how much do we need to wait for result?
                         //NOTE2: it's not recommended way to offer draw after the move.
-                        System.out.println( "offer draw" );
+                        sendCommand(outputStream, "offer draw");
                         break;
                     default:
-                        System.out.println( "resign" );
+                        sendCommand(outputStream, "resign");
                 }
             }
 
             //another player offers draw - accept always
             if ( line.equals( "draw" ) ) {
-                System.out.println( "offer draw" );
+                sendCommand(outputStream, "offer draw");
             }
 		}
 	}
+
+    private static void sendCommand(PrintStream outputStream, String command) {
+        outputStream.println(command);
+    }
 }
