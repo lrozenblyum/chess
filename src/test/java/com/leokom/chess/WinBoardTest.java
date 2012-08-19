@@ -11,6 +11,6 @@ import static org.junit.Assert.fail;
 public class WinBoardTest {
     @Test
     public void firstTest() {
-        fail( "Checking if JUnit works fine" );
+        fail( "any message" );
     }
 }
