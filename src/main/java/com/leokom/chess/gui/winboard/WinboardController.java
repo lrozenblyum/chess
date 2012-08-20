@@ -1,11 +1,9 @@
 package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.gui.Commander;
+import com.leokom.chess.gui.Controller;
 import com.leokom.chess.gui.Listener;
 import org.apache.log4j.Logger;
-
-import java.io.InputStream;
-import java.io.PrintStream;
 
 /**
  * Central entry point to Winboard processing.
@@ -13,7 +11,7 @@ import java.io.PrintStream;
  * Author: Leonid
  * Date-time: 20.08.12 19:28
  */
-public class WinboardController {
+public class WinboardController implements Controller {
 	private Commander commander;
 	private Listener listener;
 	private Logger logger = Logger.getLogger( this.getClass() );
@@ -36,6 +34,7 @@ public class WinboardController {
 	}
 
 	//may create attach - now it's over-projecting - 1 is OK
+	@Override
 	public void setOnMoveListener( Listener listenerToSet ) {
 		this.listener = listenerToSet;
 	}
@@ -43,6 +42,7 @@ public class WinboardController {
 	/**
 	 * Run main loop that works till winboard sends us termination signal
 	 */
+	@Override
 	public void run() {
 		while( true ) {
 			//TODO: any Thread.sleep needed?
@@ -109,6 +109,7 @@ public class WinboardController {
 	 * TODO: for sure it must get Command object that is xboard-independent
 	 * @param command command to be sent
 	 */
+	@Override
 	public void send( String command ) {
 		this.commander.send( command );
 	}

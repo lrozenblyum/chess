@@ -2,7 +2,7 @@ package com.leokom.chess;
 
 
 import com.leokom.chess.gui.Listener;
-import com.leokom.chess.gui.winboard.WinboardController;
+import com.leokom.chess.gui.Controller;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 
@@ -19,7 +19,7 @@ public class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		final WinboardController controller = WinboardFactory.getController();
+		final Controller controller = WinboardFactory.getController();
 
 		final Listener onMoveListener = new Listener() {
 			//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)

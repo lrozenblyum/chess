@@ -1,7 +1,7 @@
 package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.gui.Commander;
-import com.leokom.chess.gui.winboard.WinboardController;
+import com.leokom.chess.gui.Controller;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class WinBoardControllerTest {
 		//TODO: think about Mockito usage?
 		MockCommander commanderMock = new MockCommander();
 
-		final WinboardController controller = new WinboardController( commanderMock );
+		final Controller controller = new WinboardController( commanderMock );
 
 		assertEquals( 1, commanderMock.SENT_COMMANDS.size() );
 		final String initializationString = "feature done=0";
