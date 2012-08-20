@@ -17,6 +17,8 @@ public class MainRunner {
 	private static final Logger logger = Logger.getLogger( MainRunner.class );
 
 	public static void main( String[] args ) {
+		logger.info( "Starting the chess..." );
+
 		final WinboardController controller = WinboardFactory.getController();
 
 		final Listener onMoveListener = new Listener() {
@@ -44,9 +46,10 @@ public class MainRunner {
 		};
 
 		controller.setOnMoveListener( onMoveListener );
+		//it's main loop
 		controller.run();
 
-		logger.info( "Starting the chess" );
+		logger.info( "Chess are stopped. Bye-bye" );
 	}
 }
 
