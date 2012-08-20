@@ -6,6 +6,8 @@ package com.leokom.chess.gui;
  * Date-time: 20.08.12 20:19
  */
 public final class WinboardFactory {
+	private WinboardFactory() {}
+
 	/**
 	 * @return instance of properly initialized WinboardController
 	 */
