@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
  * Date-time: 20.08.12 16:13
  */
 //TODO: hide it and create some factory ?
+//TODO: if in any application place we'll use System.out.println or System.in.read
+//this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
+//to anything else (Logger?) and use the 'standard' in/out only inside WinboardController
 public class WinboardCommander implements Commander {
     private BufferedReader reader;
 
