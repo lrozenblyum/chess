@@ -23,7 +23,7 @@ public final class MainRunner {
 
 		final Listener onMoveListener = new Listener() {
 			//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
-			int moveNumber = 0;
+			private int moveNumber = 0;
 
 			@Override
 			public void onCommandReceived() {
