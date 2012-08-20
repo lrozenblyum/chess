@@ -21,35 +21,46 @@ public final class MainRunner {
 
 		final Controller controller = WinboardFactory.getController();
 
-		final Listener onMoveListener = new Listener() {
-			//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
-			private int moveNumber = 0;
-
-			@Override
-			public void onCommandReceived() {
-				moveNumber++;
-				logger.info( "Detected allowance to go. Move number = " + moveNumber );
-				switch ( moveNumber ) {
-					case 1:
-						controller.send( "move e2e4" );
-						break;
-					case 2:
-						controller.send( "move d2d4" );
-						//NOTE: interesting to implement - how much do we need to wait for result?
-						//NOTE2: it's not recommended way to offer draw after the move.
-						controller.send( "offer draw" );
-						break;
-					default:
-						controller.send( "resign" );
-				}
-			}
-		};
+		final Listener onMoveListener = new MoveListener( controller );
 
 		controller.setOnMoveListener( onMoveListener );
 		//it's main loop
 		controller.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
+	}
+
+	/**
+	 * Basic implementation of 'on move allowed'
+	 */
+	private static class MoveListener implements Listener {
+		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
+		private int moveNumber;
+		private final Controller controller;
+
+		public MoveListener( Controller controller ) {
+			this.controller = controller;
+			moveNumber = 0;
+		}
+
+		@Override
+		public void onCommandReceived() {
+			moveNumber++;
+			logger.info( "Detected allowance to go. Move number = " + moveNumber );
+			switch ( moveNumber ) {
+				case 1:
+					controller.send( "move e2e4" );
+					break;
+				case 2:
+					controller.send( "move d2d4" );
+					//NOTE: interesting to implement - how much do we need to wait for result?
+					//NOTE2: it's not recommended way to offer draw after the move.
+					controller.send( "offer draw" );
+					break;
+				default:
+					controller.send( "resign" );
+			}
+		}
 	}
 }
 
