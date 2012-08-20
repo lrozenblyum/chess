@@ -16,7 +16,10 @@ public class MainRunner {
 
 	private static final Logger logger = Logger.getLogger( MainRunner.class );
 	public static void main(String[] args) {
-        WinboardCommander commander = new WinboardCommander();
+        //TODO: if in any application place we'll use System.out.println or System.in.read
+        //this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
+        //to anything else (Logger?) and use the 'standard' in/out only inside WinboardController
+        WinboardCommander commander = new WinboardCommander( System.in, System.out );
 
         //critically important to send this sequence at the start
         //to ensure the Winboard won't ignore our 'setfeature' commands
