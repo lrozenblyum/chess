@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 /**
  * Entry point to the Chess application.
  */
-public class MainRunner {
+public final class MainRunner {
 	//prohibit instantiation
 	private MainRunner() {
 	}
