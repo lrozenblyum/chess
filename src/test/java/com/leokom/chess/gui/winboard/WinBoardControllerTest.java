@@ -1,5 +1,7 @@
-package com.leokom.chess.gui;
+package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.gui.Commander;
+import com.leokom.chess.gui.winboard.WinboardController;
 import org.junit.Test;
 
 import java.util.ArrayList;

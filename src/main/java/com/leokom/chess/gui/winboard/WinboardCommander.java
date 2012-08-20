@@ -1,5 +1,6 @@
-package com.leokom.chess.gui;
+package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.gui.Commander;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;

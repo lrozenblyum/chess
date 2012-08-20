@@ -1,4 +1,4 @@
-package com.leokom.chess.gui;
+package com.leokom.chess.gui.winboard;
 
 /**
  * Create Winboard-related stuff

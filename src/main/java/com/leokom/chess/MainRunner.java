@@ -2,8 +2,8 @@ package com.leokom.chess;
 
 
 import com.leokom.chess.gui.Listener;
-import com.leokom.chess.gui.WinboardController;
-import com.leokom.chess.gui.WinboardFactory;
+import com.leokom.chess.gui.winboard.WinboardController;
+import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 
 /**
