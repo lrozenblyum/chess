@@ -3,8 +3,8 @@ package com.leokom.chess;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 
+import com.leokom.chess.gui.WinboardCommander;
 import org.apache.log4j.Logger;
 
 /**
@@ -15,23 +15,20 @@ public class MainRunner {
     private MainRunner() {}
 
 	private static final Logger logger = Logger.getLogger( MainRunner.class );
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
+        WinboardCommander commander = new WinboardCommander();
+
         //critically important to send this sequence at the start
         //to ensure the Winboard won't ignore our 'setfeature' commands
         //set feature commands must be sent in response to protover
-        final PrintStream outputStream = System.out;
-        final String toPrint = "feature done=0";
-        sendCommand(outputStream, toPrint);
+        commander.send( "feature done=0" );
         logger.info( "Starting the chess" );
-
-		//TODO: think about buffers, they're not recommended to use
-		BufferedReader reader = new BufferedReader(new InputStreamReader( System.in ));
 
         //TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
         int moveNumber = 0;
 		while( true ) {
             //TODO: any Thread.sleep needed?
-			String line = reader.readLine();
+			String line = commander.receive();
 			logger.info( "Line from engine = " + line );
 
             //TODO: what does it mean?
@@ -66,9 +63,9 @@ public class MainRunner {
                 //if not - we may assume it's protocol v1
 
                 //enable usermove prefixes for moves for easier parsing
-                sendCommand(outputStream, "feature usermove=1");
+                commander.send("feature usermove=1");
                 //signal end of initializations
-                sendCommand(outputStream, "feature done=1");
+                commander.send("feature done=1");
 
                 //TODO: check if 2'nd element exists
                 logger.info( "Protocol version detected = " + line.split( " " )[ 1 ] );
@@ -83,27 +80,23 @@ public class MainRunner {
                 logger.info( "Detected allowance to go. Move number = " + moveNumber );
                 switch ( moveNumber ) {
                     case 1:
-                        sendCommand(outputStream, "move e2e4");
+                        commander.send("move e2e4");
                         break;
                     case 2:
-                        sendCommand(outputStream, "move d2d4");
+                        commander.send("move d2d4");
                         //NOTE: interesting to implement - how much do we need to wait for result?
                         //NOTE2: it's not recommended way to offer draw after the move.
-                        sendCommand(outputStream, "offer draw");
+                        commander.send("offer draw");
                         break;
                     default:
-                        sendCommand(outputStream, "resign");
+                        commander.send("resign");
                 }
             }
 
             //another player offers draw - accept always
             if ( line.equals( "draw" ) ) {
-                sendCommand(outputStream, "offer draw");
+                commander.send("offer draw");
             }
 		}
 	}
-
-    private static void sendCommand(PrintStream outputStream, String command) {
-        outputStream.println(command);
-    }
 }
