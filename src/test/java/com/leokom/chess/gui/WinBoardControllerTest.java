@@ -21,19 +21,19 @@ public class WinBoardControllerTest {
 		//TODO: think about Mockito usage?
 		MockCommander commanderMock = new MockCommander();
 
-		WinboardController controller = new WinboardController( commanderMock );
+		final WinboardController controller = new WinboardController( commanderMock );
 
-		assertEquals( 1, commanderMock.sentCommands.size() );
+		assertEquals( 1, commanderMock.SENT_COMMANDS.size() );
 		final String initializationString = "feature done=0";
-		assertEquals( initializationString, commanderMock.sentCommands.get( 0 ) );
+		assertEquals( initializationString, commanderMock.SENT_COMMANDS.get( 0 ) );
 	}
 
 	private static class MockCommander implements Commander {
-		List<String> sentCommands = new ArrayList<String>();
+		private List<String> SENT_COMMANDS = new ArrayList<String>();
 
 		@Override
 		public void send( String command ) {
-			sentCommands.add( command );
+			SENT_COMMANDS.add( command );
 		}
 
 		@Override
