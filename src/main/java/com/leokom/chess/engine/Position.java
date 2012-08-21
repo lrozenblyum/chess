@@ -18,6 +18,12 @@ public class Position {
 		//TODO: what if the square is already occupied?
 	}
 
+	/**
+	 * Get moves that are available from the square provided
+	 * @param square square currently in format like 'e2'
+	 * @return not-null set of available moves from square (could be empty for sure)
+	 * TODO: what if square doesn't contain any pieces?
+	 */
 	public Set<String> getMovesFrom( String square ) {
 		final HashSet<String> result = new HashSet<String>();
 		char file = square.charAt( 0 ); //depends on format e2
