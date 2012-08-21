@@ -9,20 +9,21 @@ import java.util.Set;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
-
 	/**
 	 * Add a pawn to the position
 	 * @param side
 	 * @param square
 	 */
 	public void addPawn( Side side, String square ) {
-
+		//TODO: what if the square is already occupied?
 	}
 
 	public Set<String> getMovesFrom( String square ) {
 		final HashSet<String> result = new HashSet<String>();
-		result.add( "e3" );
-		result.add( "e4" );
+		char file = square.charAt( 0 ); //depends on format e2
+
+		result.add( file + "3" );
+		result.add( file + "4" );
 		return result;
 	}
 }
