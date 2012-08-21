@@ -4,11 +4,9 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Author: Leonid
@@ -28,10 +26,17 @@ public class PositionPawnTest {
 		testWhitePawnInitially( position, "d2", "d3", "d4" );
 	}
 
+	@Test
+	public void notInitialPosition() {
+		Position position = new Position();
+
+		testWhitePawnInitially( position, "d3", "d4" );
+	}
+
 	private void testWhitePawnInitially( Position position, String initialField, String... expectedMoves ) {
 		position.addPawn( Side.WHITE, initialField );
 		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( 2, squares.size() );
-		assertEquals( squares, new HashSet<String>( Arrays.asList( expectedMoves ) ) );
+		assertEquals( expectedMoves.length, squares.size() );
+		assertEquals( new HashSet<String>( Arrays.asList( expectedMoves ) ), squares );
 	}
 }

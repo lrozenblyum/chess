@@ -22,8 +22,16 @@ public class Position {
 		final HashSet<String> result = new HashSet<String>();
 		char file = square.charAt( 0 ); //depends on format e2
 
-		result.add( file + "3" );
-		result.add( file + "4" );
+		//TODO: this internal conversion is needed because char itself has its
+		//numeric value
+		int row = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
+		if ( row == 2 ) {
+			result.add( file + "3" );
+			result.add( file + "4" );
+		}
+		else {
+			result.add( file + "4" );
+		}
 		return result;
 	}
 }
