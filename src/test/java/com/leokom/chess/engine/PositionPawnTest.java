@@ -2,6 +2,9 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -15,24 +18,20 @@ public class PositionPawnTest {
 	@Test
 	public void singlePawnInitialPosition() {
 		Position position = new Position();
-		position.addPawn( Side.WHITE, "e2" );
-
-		Set<String> squares = position.getMovesFrom( "e2" );
-
-		assertEquals( 2, squares.size() );
-		assertTrue( squares.contains( "e3" ) );
-		assertTrue( squares.contains( "e4" ) );
+		testWhitePawnInitially( position, "e2", "e3", "e4" );
 	}
 
 	@Test
 	public void singlePawnAnother() {
 		Position position = new Position();
-		position.addPawn( Side.WHITE, "d2" );
 
-		Set<String> squares = position.getMovesFrom( "d2" );
+		testWhitePawnInitially( position, "d2", "d3", "d4" );
+	}
 
+	private void testWhitePawnInitially( Position position, String initialField, String... expectedMoves ) {
+		position.addPawn( Side.WHITE, initialField );
+		Set<String> squares = position.getMovesFrom( initialField );
 		assertEquals( 2, squares.size() );
-		assertTrue( squares.contains( "d3" ) );
-		assertTrue( squares.contains( "d4" ) );
+		assertEquals( squares, new HashSet<String>( Arrays.asList( expectedMoves ) ) );
 	}
 }
