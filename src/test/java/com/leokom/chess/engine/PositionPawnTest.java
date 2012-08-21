@@ -27,10 +27,16 @@ public class PositionPawnTest {
 	}
 
 	@Test
-	public void notInitialPosition() {
+	public void singleMove() {
 		Position position = new Position();
 
 		testWhitePawnInitially( position, "d3", "d4" );
+	}
+
+	@Test
+	public void singleMoveSecondTry() {
+		Position position = new Position();
+		testWhitePawnInitially( position, "a4", "a5" );
 	}
 
 	private void testWhitePawnInitially( Position position, String initialField, String... expectedMoves ) {
