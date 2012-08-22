@@ -19,7 +19,7 @@ public class PositionPawnTest {
 	@Test
 	public void singlePawnInitialPosition() {
 		Position position = new Position();
-		testWhitePawnInitially( position, "e2", "e3", "e4" );
+		testPawn( position, "e2", Side.WHITE, "e3", "e4" );
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class PositionPawnTest {
 	public void singlePawnAnother() {
 		Position position = new Position();
 
-		testWhitePawnInitially( position, "d2", "d3", "d4" );
+		testPawn( position, "d2", Side.WHITE, "d3", "d4" );
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class PositionPawnTest {
 	public void singleMove() {
 		Position position = new Position();
 
-		testWhitePawnInitially( position, "d3", "d4" );
+		testPawn( position, "d3", Side.WHITE, "d4" );
 	}
 
 	/**
@@ -48,11 +48,11 @@ public class PositionPawnTest {
 	@Test
 	public void singleMoveSecondTry() {
 		Position position = new Position();
-		testWhitePawnInitially( position, "a4", "a5" );
+		testPawn( position, "a4", Side.WHITE, "a5" );
 	}
 
-	private void testWhitePawnInitially( Position position, String initialField, String... expectedMoves ) {
-		position.addPawn( Side.WHITE, initialField );
+	private void testPawn( Position position, String initialField, Side side, String... expectedMoves ) {
+		position.addPawn( side, initialField );
 		Set<String> squares = position.getMovesFrom( initialField );
 		assertEquals( expectedMoves.length, squares.size() );
 		assertEquals( new HashSet<String>( Arrays.asList( expectedMoves ) ), squares );
