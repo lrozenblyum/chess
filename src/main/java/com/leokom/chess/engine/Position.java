@@ -61,7 +61,8 @@ public class Position {
 					result.add( file + "6" );
 				}
 				else {
-					result.add( file + "2" );
+					int rowForPawn = row - 1;
+					result.add( String.valueOf( file ) + rowForPawn );
 				}
 				break;
 		}
