@@ -51,14 +51,11 @@ public class Position {
 				}
 				break;
 			case BLACK:
+				result.add( String.valueOf( file ) + ( row - 1 ) );
 				if ( row == BLACK_PAWN_INITIAL_ROW ) {
-					result.add( file + "5" );
-					result.add( file + "6" );
+					result.add( String.valueOf( file ) + ( row - 2 ) );
 				}
-				else {
-					int rowForPawn = row - 1;
-					result.add( String.valueOf( file ) + rowForPawn );
-				}
+
 				break;
 		}
 
