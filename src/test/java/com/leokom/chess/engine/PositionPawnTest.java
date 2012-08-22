@@ -32,6 +32,16 @@ public class PositionPawnTest {
 		testPawn( position, "d2", Side.WHITE, "d3", "d4" );
 	}
 
+	@Test
+	public void blackPawn7Row() {
+		Position position = new Position();
+
+		//TODO: do we have guarantee characters are ordered alphabetically?
+		for( char file = 'a'; file <= 'h'; file++ ) {
+			testPawn( position,  file + "7", Side.BLACK, file + "6", file + "5" );
+		}
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */

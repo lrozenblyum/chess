@@ -5,5 +5,5 @@ package com.leokom.chess.engine;
  * Date-time: 21.08.12 15:58
  */
 public enum Side {
-	WHITE
+	BLACK, WHITE
 }
