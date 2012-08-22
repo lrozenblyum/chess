@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -74,6 +73,18 @@ public class PositionPawnTest {
 		testPawn( position, "d3", Side.WHITE, "d4" );
 	}
 
+	@Test
+	public void singleCapturePossibleFromWhite() {
+		Position position = new Position();
+		position.addPawn( Side.WHITE, "d2" );
+		position.addPawn( Side.BLACK, "e3" );
+
+		Set<String> allowedMoves = position.getMovesFrom( "d2" );
+
+		//TODO: think if capture must be returned as just e3 or as e3Capture?
+		assertAllowedMoves( position, "d2", "d3", "d4", "e3" );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
@@ -85,6 +96,10 @@ public class PositionPawnTest {
 
 	private void testPawn( Position position, String initialField, Side side, String... expectedMoves ) {
 		position.addPawn( side, initialField );
+		assertAllowedMoves( position, initialField, expectedMoves );
+	}
+
+	private void assertAllowedMoves( Position position, String initialField, String... expectedMoves ) {
 		Set<String> squares = position.getMovesFrom( initialField );
 		assertEquals( expectedMoves.length, squares.size() );
 		assertEquals( new HashSet<String>( Arrays.asList( expectedMoves ) ), squares );
