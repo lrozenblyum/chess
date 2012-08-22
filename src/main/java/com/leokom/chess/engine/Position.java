@@ -54,8 +54,13 @@ public class Position {
 				}
 				break;
 			case BLACK:
-				result.add( file + "5" );
-				result.add( file + "6" );
+				if ( row == 7 ) {
+					result.add( file + "5" );
+					result.add( file + "6" );
+				}
+				else {
+					result.add( file + "2" );
+				}
 				break;
 		}
 

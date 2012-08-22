@@ -48,6 +48,18 @@ public class PositionPawnTest {
 	 * FIDE 3.7a
 	 */
 	@Test
+	public void blackPawnNotInitialPosition() {
+		for( char file = 'a'; file <= 'h'; file++ ) {
+			Position position = new Position();
+			//here 3 can be anything from 3..6 inclusive
+			testPawn( position, file + "3", Side.BLACK, file + "2" );
+		}
+	}
+
+	/**
+	 * FIDE 3.7a
+	 */
+	@Test
 	public void singleMove() {
 		Position position = new Position();
 
