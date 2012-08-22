@@ -11,6 +11,8 @@ import java.util.Set;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
+	private static final int WHITE_PAWN_INITIAL_ROW = 2;
+	private static final int BLACK_PAWN_INITIAL_ROW = 7;
 	/**
 	 * square -> side
 	 */
@@ -44,7 +46,7 @@ public class Position {
 		switch ( sidesOccupied.get( square ) ) {
 			case WHITE:
 
-				if ( row == 2 ) {
+				if ( row == WHITE_PAWN_INITIAL_ROW ) {
 					result.add( file + "3" );
 					result.add( file + "4" );
 				}
@@ -54,7 +56,7 @@ public class Position {
 				}
 				break;
 			case BLACK:
-				if ( row == 7 ) {
+				if ( row == BLACK_PAWN_INITIAL_ROW ) {
 					result.add( file + "5" );
 					result.add( file + "6" );
 				}
