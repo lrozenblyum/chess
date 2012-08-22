@@ -30,13 +30,14 @@ public class Position {
 
 		//TODO: this internal conversion is needed because char itself has its
 		//numeric value
-		int row = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
+		final int row = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
 		if ( row == 2 ) {
 			result.add( file + "3" );
 			result.add( file + "4" );
 		}
 		else {
-			result.add( file + "4" );
+			int rowForPawn = row + 1;
+			result.add( String.valueOf( file ) + rowForPawn );
 		}
 		return result;
 	}
