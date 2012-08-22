@@ -1,6 +1,8 @@
 package com.leokom.chess.engine;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -10,12 +12,18 @@ import java.util.Set;
  */
 public class Position {
 	/**
+	 * square -> side
+	 */
+	private Map< String, Side > sidesOccupied = new HashMap<String, Side>();
+
+	/**
 	 * Add a pawn to the position
 	 * @param side
 	 * @param square
 	 */
 	public void addPawn( Side side, String square ) {
 		//TODO: what if the square is already occupied?
+		sidesOccupied.put( square, side );
 	}
 
 	/**
@@ -31,14 +39,27 @@ public class Position {
 		//TODO: this internal conversion is needed because char itself has its
 		//numeric value
 		final int row = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
-		if ( row == 2 ) {
-			result.add( file + "3" );
-			result.add( file + "4" );
+
+		//NOTE: the possible NULL corresponds to to-do in javadoc
+		switch ( sidesOccupied.get( square ) ) {
+			case WHITE:
+
+				if ( row == 2 ) {
+					result.add( file + "3" );
+					result.add( file + "4" );
+				}
+				else {
+					int rowForPawn = row + 1;
+					result.add( String.valueOf( file ) + rowForPawn );
+				}
+				break;
+			case BLACK:
+				result.add( file + "5" );
+				result.add( file + "6" );
+				break;
 		}
-		else {
-			int rowForPawn = row + 1;
-			result.add( String.valueOf( file ) + rowForPawn );
-		}
+
 		return result;
+
 	}
 }
