@@ -13,12 +13,18 @@ import static org.junit.Assert.assertEquals;
  * Date-time: 21.08.12 15:55
  */
 public class PositionPawnTest {
+	/**
+	 * FIDE 3.7b
+	 */
 	@Test
 	public void singlePawnInitialPosition() {
 		Position position = new Position();
 		testWhitePawnInitially( position, "e2", "e3", "e4" );
 	}
 
+	/**
+	 * FIDE 3.7b
+	 */
 	@Test
 	public void singlePawnAnother() {
 		Position position = new Position();
@@ -26,6 +32,9 @@ public class PositionPawnTest {
 		testWhitePawnInitially( position, "d2", "d3", "d4" );
 	}
 
+	/**
+	 * FIDE 3.7a
+	 */
 	@Test
 	public void singleMove() {
 		Position position = new Position();
@@ -33,6 +42,9 @@ public class PositionPawnTest {
 		testWhitePawnInitially( position, "d3", "d4" );
 	}
 
+	/**
+	 * FIDE 3.7a
+	 */
 	@Test
 	public void singleMoveSecondTry() {
 		Position position = new Position();
