@@ -36,7 +36,7 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		final HashSet<String> result = new HashSet<String>();
-		char file = square.charAt( 0 ); //depends on format e2
+		String file = String.valueOf( square.charAt( 0 ) ); //depends on format e2
 
 		//TODO: this internal conversion is needed because char itself has its
 		//numeric value
@@ -45,15 +45,15 @@ public class Position {
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		switch ( sidesOccupied.get( square ) ) {
 			case WHITE:
-				result.add( String.valueOf( file ) + ( row + 1 )  );
+				result.add( file + ( row + 1 )  );
 				if ( row == WHITE_PAWN_INITIAL_ROW ) {
-					result.add( String.valueOf( file ) + ( row + 2 ) );
+					result.add( file + ( row + 2 ) );
 				}
 				break;
 			case BLACK:
-				result.add( String.valueOf( file ) + ( row - 1 ) );
+				result.add( file + ( row - 1 ) );
 				if ( row == BLACK_PAWN_INITIAL_ROW ) {
-					result.add( String.valueOf( file ) + ( row - 2 ) );
+					result.add( file + ( row - 2 ) );
 				}
 
 				break;
