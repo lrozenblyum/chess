@@ -45,14 +45,9 @@ public class Position {
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		switch ( sidesOccupied.get( square ) ) {
 			case WHITE:
-
+				result.add( String.valueOf( file ) + ( row + 1 )  );
 				if ( row == WHITE_PAWN_INITIAL_ROW ) {
-					result.add( file + "3" );
-					result.add( file + "4" );
-				}
-				else {
-					int rowForPawn = row + 1;
-					result.add( String.valueOf( file ) + rowForPawn );
+					result.add( String.valueOf( file ) + ( row + 2 ) );
 				}
 				break;
 			case BLACK:
