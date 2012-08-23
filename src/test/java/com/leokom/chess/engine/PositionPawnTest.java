@@ -252,6 +252,20 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, source, "h5", victim );
 	}
 
+	@Test
+	public void blackInitialPosition() {
+		final String source = "d7";
+		final String firstVictim = "c6";
+		final String secondVictim = "e6";
+
+		Position position = new Position();
+		position.addPawn( Side.BLACK, source );
+		addCapturable( position, Side.WHITE, firstVictim );
+		addCapturable( position, Side.WHITE, secondVictim );
+
+		assertAllowedMoves( position, source, "d6", "d5", firstVictim, secondVictim );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
