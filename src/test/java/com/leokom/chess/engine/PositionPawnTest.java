@@ -179,6 +179,18 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, source, "g5", "h5" );
 	}
 
+	@Test
+	public void blackRightCaptureImpossibleBlackPieceThere() {
+		final String source = "c4";
+		final String failedVictim = "d3";
+
+		Position position = new Position();
+		position.addPawn( Side.BLACK, source );
+		addCapturable( position, Side.BLACK, failedVictim );
+
+		assertAllowedMoves( position, source, "c3" );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
