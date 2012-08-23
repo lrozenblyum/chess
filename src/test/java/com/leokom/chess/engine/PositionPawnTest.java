@@ -96,6 +96,16 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, "d2", "d3", "d4" );
 	}
 
+	@Test
+	public void captureFromNotInitialPositionRightSideCapture() {
+		Position position = new Position();
+		position.addPawn( Side.WHITE, "g5" );
+		position.addPawn( Side.BLACK, "h6" );
+
+		Set<String> allowedMoves = position.getMovesFrom( "g5" );
+		assertAllowedMoves( position, "g6", "h6" );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
