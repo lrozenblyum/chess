@@ -114,6 +114,19 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, sourceSquare, "h5" );
 	}
 
+	@Test
+	public void leftCapture() {
+		final String sourceSquare = "d6";
+		final String victimSquare = "c7";
+
+		Position position = new Position();
+		position.addPawn( Side.WHITE, sourceSquare );
+
+		addCapturable( position, Side.BLACK, victimSquare );
+
+		assertAllowedMoves( position, sourceSquare, "d7", victimSquare );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
