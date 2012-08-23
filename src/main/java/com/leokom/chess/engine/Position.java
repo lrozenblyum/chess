@@ -60,10 +60,17 @@ public class Position {
 
 				break;
 			case BLACK:
-				result.add( file + ( rank - 1 ) );
+				final int lowerRank = rank - 1;
+				result.add( file + lowerRank );
 				if ( rank == BLACK_PAWN_INITIAL_RANK ) {
 					result.add( file + ( rank - 2 ) );
 				}
+
+				final String rightTarget = fileToRight( file ) + lowerRank;
+				if ( sidesOccupied.containsKey( rightTarget ) ) {
+					result.add( rightTarget );
+				}
+
 
 				break;
 		}

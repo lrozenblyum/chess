@@ -169,14 +169,14 @@ public class PositionPawnTest {
 
 	@Test
 	public void blackRightCapture() {
-		final String source = "g7";
-		final String victim = "h6";
+		final String source = "g6";
+		final String victim = "h5";
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.WHITE, source );
+		addCapturable( position, Side.WHITE, victim );
 
-		assertAllowedMoves( position, source, "g6", "h6" );
+		assertAllowedMoves( position, source, "g5", "h5" );
 	}
 
 	/**
@@ -210,7 +210,6 @@ public class PositionPawnTest {
 	 */
 	private void assertAllowedMoves( Position position, String initialField, String... reachableSquares ) {
 		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( reachableSquares.length, squares.size() );
 		assertEquals( new HashSet<String>( Arrays.asList( reachableSquares ) ), squares );
 	}
 }
