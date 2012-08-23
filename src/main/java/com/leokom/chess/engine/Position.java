@@ -35,7 +35,7 @@ public class Position {
 	 * TODO: what if square doesn't contain any pieces?
 	 */
 	public Set<String> getMovesFrom( String square ) {
-		final HashSet<String> result = new HashSet<String>();
+		final Set<String> result = new HashSet<String>();
 		String file = String.valueOf( square.charAt( 0 ) ); //depends on format e2
 
 		//TODO: this internal conversion is needed because char itself has its
