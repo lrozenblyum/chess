@@ -228,6 +228,30 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, source, "c3" );
 	}
 
+	@Test
+	public void blackLeftMostRank() {
+		final String source = "a5";
+		final String victim = "b4";
+
+		Position position = new Position();
+		position.addPawn( Side.BLACK, source );
+		addCapturable( position, Side.WHITE, victim );
+
+		assertAllowedMoves( position, source, "a4", victim );
+	}
+
+	@Test
+	public void blackRightMostRank() {
+		final String source = "h6";
+		final String victim = "g5";
+
+		Position position = new Position();
+		position.addPawn( Side.BLACK, source );
+		addCapturable( position, Side.WHITE, victim );
+
+		assertAllowedMoves( position, source, "h5", victim );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
