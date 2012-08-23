@@ -43,14 +43,15 @@ public class Position {
 		final int row = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
-		switch ( sidesOccupied.get( square ) ) {
+		final Side side = sidesOccupied.get( square );
+		switch ( side ) {
 			case WHITE:
 				result.add( file + ( row + 1 )  );
 				if ( row == WHITE_PAWN_INITIAL_ROW ) {
 					result.add( file + ( row + 2 ) );
 				}
 
-				if ( sidesOccupied.get( "e3" ) == Side.BLACK ) {
+				if ( sidesOccupied.get( "e3" ) != null && sidesOccupied.get( "e3" ) == Side.BLACK ) {
 					result.add( "e3" );
 				}
 				break;

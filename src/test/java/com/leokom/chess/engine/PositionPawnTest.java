@@ -97,13 +97,15 @@ public class PositionPawnTest {
 	}
 
 	@Test
-	public void captureFromNotInitialPositionRightSideCapture() {
-		Position position = new Position();
-		position.addPawn( Side.WHITE, "g5" );
-		position.addPawn( Side.BLACK, "h6" );
+	public void captureFromNotInitialPositionRightSide() {
+		final String sourceSquare = "g5";
+		final String victimPawnSquare = "h6";
 
-		Set<String> allowedMoves = position.getMovesFrom( "g5" );
-		assertAllowedMoves( position, "g6", "h6" );
+		Position position = new Position();
+		position.addPawn( Side.WHITE, sourceSquare );
+		position.addPawn( Side.BLACK, victimPawnSquare );
+
+		assertAllowedMoves( position, sourceSquare, "g6", victimPawnSquare );
 	}
 
 	/**
