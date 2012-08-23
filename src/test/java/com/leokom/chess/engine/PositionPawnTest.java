@@ -137,6 +137,21 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, sourceSquare, "a4" );
 	}
 
+	@Test
+	public void twoSidedCapture() {
+		final String sourceSquare = "f6";
+		final String firstVictim = "e7";
+		final String secondVictim = "g7";
+
+		Position position = new Position();
+		position.addPawn( Side.WHITE, sourceSquare );
+
+		addCapturable( position, Side.BLACK, firstVictim );
+
+		addCapturable( position, Side.BLACK, secondVictim );
+		assertAllowedMoves( position, sourceSquare, "f7", firstVictim, secondVictim );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
