@@ -36,7 +36,7 @@ public class PositionPawnTest {
 	 * FIDE 3.7b
 	 */
 	@Test
-	public void blackPawn7Row() {
+	public void blackPawn7rank() {
 		//TODO: do we have guarantee characters are ordered alphabetically?
 		for( char file = 'a'; file <= 'h'; file++ ) {
 			Position position = new Position();
@@ -53,12 +53,12 @@ public class PositionPawnTest {
 			//1, 8 aren't possible
 			//2 is source of promotion rules. TODO: and what?? The square is accessible anyway!
 			//7 -> 2 destinations.
-			for ( int row = 3; row <= 6; row++ ) {
+			for ( int rank = 3; rank <= 6; rank++ ) {
 				Position position = new Position();
-				String sourceRow = String.valueOf( row );
-				String expectedRow = String.valueOf( row - 1 );
+				String sourcerank = String.valueOf( rank );
+				String expectedrank = String.valueOf( rank - 1 );
 
-				testPawn( position, file + sourceRow, Side.BLACK, file + expectedRow );
+				testPawn( position, file + sourcerank, Side.BLACK, file + expectedrank );
 			}
 		}
 	}

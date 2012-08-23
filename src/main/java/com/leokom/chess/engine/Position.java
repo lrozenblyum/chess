@@ -11,8 +11,8 @@ import java.util.Set;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
-	private static final int WHITE_PAWN_INITIAL_ROW = 2;
-	private static final int BLACK_PAWN_INITIAL_ROW = 7;
+	private static final int WHITE_PAWN_INITIAL_RANK = 2;
+	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 	/**
 	 * square -> side
 	 */
@@ -40,15 +40,15 @@ public class Position {
 
 		//TODO: this internal conversion is needed because char itself has its
 		//numeric value
-		final int row = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
+		final int rank = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = sidesOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
-				result.add( file + ( row + 1 )  );
-				if ( row == WHITE_PAWN_INITIAL_ROW ) {
-					result.add( file + ( row + 2 ) );
+				result.add( file + ( rank + 1 )  );
+				if ( rank == WHITE_PAWN_INITIAL_RANK ) {
+					result.add( file + ( rank + 2 ) );
 				}
 
 				if ( sidesOccupied.get( "e3" ) != null && sidesOccupied.get( "e3" ) == Side.BLACK ) {
@@ -56,9 +56,9 @@ public class Position {
 				}
 				break;
 			case BLACK:
-				result.add( file + ( row - 1 ) );
-				if ( row == BLACK_PAWN_INITIAL_ROW ) {
-					result.add( file + ( row - 2 ) );
+				result.add( file + ( rank - 1 ) );
+				if ( rank == BLACK_PAWN_INITIAL_RANK ) {
+					result.add( file + ( rank - 2 ) );
 				}
 
 				break;
