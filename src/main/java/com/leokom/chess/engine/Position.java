@@ -46,21 +46,17 @@ public class Position {
 		final Side side = sidesOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
-				result.add( file + ( rank + 1 )  );
+				final int higherRank = rank + 1;
+				result.add( file + higherRank );
 				if ( rank == WHITE_PAWN_INITIAL_RANK ) {
 					result.add( file + ( rank + 2 ) );
 				}
 
-				//TODO: UGLY construction, need better!
 				//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
 				//because it simply cannot find 'i' file result - it's null... I don't like such side effects
-				final String topRightSquare = String.valueOf( (char) ( file.charAt( 0 ) + 1 ) ) + ( rank + 1 );
 
-				final String topLeftSquare =  String.valueOf( (char) ( file.charAt( 0 ) - 1 ) ) + ( rank + 1 );
-
-				addIfOccupiedByBlack( result, topRightSquare );
-
-				addIfOccupiedByBlack( result, topLeftSquare );
+				addIfOccupiedByBlack( result, fileToRight( file ) + higherRank );
+				addIfOccupiedByBlack( result, fileToLeft( file ) + higherRank );
 
 				break;
 			case BLACK:
@@ -74,6 +70,15 @@ public class Position {
 
 		return result;
 
+	}
+
+	private String fileToLeft( String file ) {
+		//TODO: UGLY construction, need better!
+		return String.valueOf( (char) ( file.charAt( 0 ) - 1 ) );
+	}
+
+	private String fileToRight( String file ) {
+		return String.valueOf( (char) ( file.charAt( 0 ) + 1 ) );
 	}
 
 	/**
