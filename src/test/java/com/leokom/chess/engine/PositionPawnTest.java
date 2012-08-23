@@ -85,6 +85,18 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, "d2", "d3", "d4", "e3" );
 	}
 
+	@Test
+	public void singleCaptureImPossibleFromWhiteColorsCoincide() {
+		Position position = new Position();
+		position.addPawn( Side.WHITE, "d2" );
+		position.addPawn( Side.WHITE, "e3" ); //our color - cannot capture for sure!
+
+		Set<String> allowedMoves = position.getMovesFrom( "d2" );
+
+		//TODO: think if capture must be returned as just e3 or as e3Capture?
+		assertAllowedMoves( position, "d2", "d3", "d4" );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
