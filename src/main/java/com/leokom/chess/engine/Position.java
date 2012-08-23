@@ -54,11 +54,11 @@ public class Position {
 				//TODO: UGLY construction, need better!
 				//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
 				//because it simply cannot find 'i' file result - it's null... I don't like such side effects
-				final String bottomRightSquare = String.valueOf( (char) ( file.charAt( 0 ) + 1 ) ) + ( rank + 1 );
+				final String topRightSquare = String.valueOf( (char) ( file.charAt( 0 ) + 1 ) ) + ( rank + 1 );
 
-				if ( sidesOccupied.get( bottomRightSquare ) != null &&
-					sidesOccupied.get( bottomRightSquare ) == Side.BLACK ) {
-					result.add( bottomRightSquare );
+				if ( sidesOccupied.get( topRightSquare ) != null &&
+					sidesOccupied.get( topRightSquare ) == Side.BLACK ) {
+					result.add( topRightSquare );
 				}
 				break;
 			case BLACK:
