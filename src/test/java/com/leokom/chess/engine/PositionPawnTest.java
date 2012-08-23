@@ -127,6 +127,16 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, sourceSquare, "d7", victimSquare );
 	}
 
+	@Test
+	public void leftMostCaptureAbsent() {
+		final String sourceSquare = "a3";
+
+		Position position = new Position();
+		position.addPawn( Side.WHITE, sourceSquare );
+
+		assertAllowedMoves( position, sourceSquare, "a4" );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
