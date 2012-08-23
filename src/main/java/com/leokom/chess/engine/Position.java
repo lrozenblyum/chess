@@ -58,15 +58,9 @@ public class Position {
 
 				final String topLeftSquare =  String.valueOf( (char) ( file.charAt( 0 ) - 1 ) ) + ( rank + 1 );
 
-				if ( sidesOccupied.get( topRightSquare ) != null &&
-					sidesOccupied.get( topRightSquare ) == Side.BLACK ) {
-					result.add( topRightSquare );
-				}
+				addIfOccupiedByBlack( result, topRightSquare );
 
-				if ( sidesOccupied.get( topLeftSquare ) != null &&
-						sidesOccupied.get( topLeftSquare ) == Side.BLACK ) {
-					result.add( topLeftSquare );
-				}
+				addIfOccupiedByBlack( result, topLeftSquare );
 
 				break;
 			case BLACK:
@@ -80,5 +74,17 @@ public class Position {
 
 		return result;
 
+	}
+
+	/**
+	 * Add the square to result IFF it's occupied by black!
+	 * @param result
+	 * @param square
+	 */
+	private void addIfOccupiedByBlack( Set<String> result, String square ) {
+		if ( sidesOccupied.get( square ) != null &&
+			sidesOccupied.get( square ) == Side.BLACK ) {
+			result.add( square );
+		}
 	}
 }
