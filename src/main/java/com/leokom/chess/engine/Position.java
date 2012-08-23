@@ -67,6 +67,7 @@ public class Position {
 				}
 
 				addIfOccupiedByWhite( result, fileToRight( file ) + lowerRank );
+				addIfOccupiedByWhite( result, fileToLeft( file ) + lowerRank );
 
 				break;
 		}
