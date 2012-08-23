@@ -56,10 +56,18 @@ public class Position {
 				//because it simply cannot find 'i' file result - it's null... I don't like such side effects
 				final String topRightSquare = String.valueOf( (char) ( file.charAt( 0 ) + 1 ) ) + ( rank + 1 );
 
+				final String topLeftSquare =  String.valueOf( (char) ( file.charAt( 0 ) - 1 ) ) + ( rank + 1 );
+
 				if ( sidesOccupied.get( topRightSquare ) != null &&
 					sidesOccupied.get( topRightSquare ) == Side.BLACK ) {
 					result.add( topRightSquare );
 				}
+
+				if ( sidesOccupied.get( topLeftSquare ) != null &&
+						sidesOccupied.get( topLeftSquare ) == Side.BLACK ) {
+					result.add( topLeftSquare );
+				}
+
 				break;
 			case BLACK:
 				result.add( file + ( rank - 1 ) );
