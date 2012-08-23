@@ -51,8 +51,12 @@ public class Position {
 					result.add( file + ( rank + 2 ) );
 				}
 
-				if ( sidesOccupied.get( "e3" ) != null && sidesOccupied.get( "e3" ) == Side.BLACK ) {
-					result.add( "e3" );
+				//TODO: UGLY construction, need better!
+				final String bottomRightSquare = String.valueOf( (char) ( file.charAt( 0 ) + 1 ) ) + ( rank + 1 );
+
+				if ( sidesOccupied.get( bottomRightSquare ) != null &&
+					sidesOccupied.get( bottomRightSquare ) == Side.BLACK ) {
+					result.add( bottomRightSquare );
 				}
 				break;
 			case BLACK:
