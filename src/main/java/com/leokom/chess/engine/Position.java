@@ -90,15 +90,16 @@ public class Position {
 	 * @param square
 	 */
 	private void addIfOccupiedByBlack( Set<String> result, String square ) {
-		if ( sidesOccupied.get( square ) != null &&
-			sidesOccupied.get( square ) == Side.BLACK ) {
-			result.add( square );
-		}
+		addIfOccupiedBy( result, square, Side.BLACK );
 	}
 
 	private void addIfOccupiedByWhite( Set<String> result, String square ) {
+		addIfOccupiedBy( result, square, Side.WHITE );
+	}
+
+	private void addIfOccupiedBy( Set<String> result, String square, Side side ) {
 		if ( sidesOccupied.get( square ) != null &&
-				sidesOccupied.get( square ) == Side.WHITE ) {
+				sidesOccupied.get( square ) == side ) {
 			result.add( square );
 		}
 	}
