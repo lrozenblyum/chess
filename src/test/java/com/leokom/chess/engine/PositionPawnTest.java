@@ -93,7 +93,6 @@ public class PositionPawnTest {
 
 		Set<String> allowedMoves = position.getMovesFrom( "d2" );
 
-		//TODO: think if capture must be returned as just e3 or as e3Capture?
 		assertAllowedMoves( position, "d2", "d3", "d4" );
 	}
 

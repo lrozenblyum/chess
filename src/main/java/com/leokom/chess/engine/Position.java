@@ -50,7 +50,7 @@ public class Position {
 					result.add( file + ( row + 2 ) );
 				}
 
-				if ( sidesOccupied.containsKey( "e3" ) ) {
+				if ( sidesOccupied.get( "e3" ) == Side.BLACK ) {
 					result.add( "e3" );
 				}
 				break;
