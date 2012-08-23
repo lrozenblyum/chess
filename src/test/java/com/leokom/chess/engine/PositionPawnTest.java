@@ -77,9 +77,7 @@ public class PositionPawnTest {
 	public void singleCapturePossibleFromWhite() {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, "d2" );
-		position.addPawn( Side.BLACK, "e3" );
-
-		Set<String> allowedMoves = position.getMovesFrom( "d2" );
+		addCapturable( position, Side.BLACK, "e3" );
 
 		//TODO: think if capture must be returned as just e3 or as e3Capture?
 		assertAllowedMoves( position, "d2", "d3", "d4", "e3" );
@@ -89,9 +87,7 @@ public class PositionPawnTest {
 	public void singleCaptureImPossibleFromWhiteColorsCoincide() {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, "d2" );
-		position.addPawn( Side.WHITE, "e3" ); //our color - cannot capture for sure!
-
-		Set<String> allowedMoves = position.getMovesFrom( "d2" );
+		addCapturable( position, Side.WHITE, "e3" );    //our color - cannot capture for sure!
 
 		assertAllowedMoves( position, "d2", "d3", "d4" );
 	}
@@ -103,7 +99,7 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
-		position.addPawn( Side.BLACK, victimPawnSquare );
+		addCapturable( position, Side.BLACK, victimPawnSquare );
 
 		assertAllowedMoves( position, sourceSquare, "g6", victimPawnSquare );
 	}
@@ -125,6 +121,13 @@ public class PositionPawnTest {
 	public void singleMoveSecondTry() {
 		Position position = new Position();
 		testPawn( position, "a4", Side.WHITE, "a5" );
+	}
+
+
+	//TODO: point to extend! When we introduce new pieces - need to make here randomization
+	//over each piece that can be captured (all except King!)
+	private static void addCapturable( Position position, Side side, String square ) {
+		position.addPawn( side, square );
 	}
 
 	private void testPawn( Position position, String initialField, Side side, String... reachableSquares ) {
