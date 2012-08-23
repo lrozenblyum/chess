@@ -52,6 +52,8 @@ public class Position {
 				}
 
 				//TODO: UGLY construction, need better!
+				//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
+				//because it simply cannot find 'i' file result - it's null... I don't like such side effects
 				final String bottomRightSquare = String.valueOf( (char) ( file.charAt( 0 ) + 1 ) ) + ( rank + 1 );
 
 				if ( sidesOccupied.get( bottomRightSquare ) != null &&

@@ -108,6 +108,16 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, sourceSquare, "g6", victimPawnSquare );
 	}
 
+	@Test
+	public void rightMostFileCapturingAtRightSideImpossible() {
+		final String sourceSquare = "h4";
+
+		Position position = new Position();
+		position.addPawn( Side.WHITE, sourceSquare );
+
+		assertAllowedMoves( position, sourceSquare, "h5" );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
