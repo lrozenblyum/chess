@@ -152,6 +152,21 @@ public class PositionPawnTest {
 		assertAllowedMoves( position, sourceSquare, "f7", firstVictim, secondVictim );
 	}
 
+	//maximally possible squares to move by pawn
+	@Test
+	public void twoSidedCaptureFromInitialPosition() {
+		final String sourceSquare = "b2";
+		final String firstVictim = "c3";
+		final String secondVictim = "a3";
+
+		Position position = new Position();
+		position.addPawn( Side.WHITE, sourceSquare );
+		addCapturable( position, Side.BLACK, firstVictim );
+		addCapturable( position, Side.BLACK, secondVictim );
+
+		assertAllowedMoves( position, sourceSquare, "b3", "b4", firstVictim, secondVictim );
+	}
+
 	/**
 	 * FIDE 3.7a
 	 */
