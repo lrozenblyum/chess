@@ -49,6 +49,10 @@ public class Position {
 				if ( row == WHITE_PAWN_INITIAL_ROW ) {
 					result.add( file + ( row + 2 ) );
 				}
+
+				if ( sidesOccupied.containsKey( "e3" ) ) {
+					result.add( "e3" );
+				}
 				break;
 			case BLACK:
 				result.add( file + ( row - 1 ) );
