@@ -128,6 +128,19 @@ public class PositionPawnTest {
 	}
 
 	@Test
+	public void leftCaptureImpossibleWhitePiece() {
+		final String sourceSquare = "e6";
+		final String victimSquareFailed = "d7";
+
+		Position position = new Position();
+		position.addPawn( Side.WHITE, sourceSquare );
+
+		addCapturable( position, Side.WHITE, victimSquareFailed );
+
+		assertAllowedMoves( position, sourceSquare, "e7" );
+	}
+
+	@Test
 	public void leftMostCaptureAbsent() {
 		final String sourceSquare = "a3";
 
