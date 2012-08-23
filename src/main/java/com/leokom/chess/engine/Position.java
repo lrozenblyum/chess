@@ -66,11 +66,7 @@ public class Position {
 					result.add( file + ( rank - 2 ) );
 				}
 
-				final String rightTarget = fileToRight( file ) + lowerRank;
-				if ( sidesOccupied.containsKey( rightTarget ) ) {
-					result.add( rightTarget );
-				}
-
+				addIfOccupiedByWhite( result, fileToRight( file ) + lowerRank );
 
 				break;
 		}
@@ -96,6 +92,13 @@ public class Position {
 	private void addIfOccupiedByBlack( Set<String> result, String square ) {
 		if ( sidesOccupied.get( square ) != null &&
 			sidesOccupied.get( square ) == Side.BLACK ) {
+			result.add( square );
+		}
+	}
+
+	private void addIfOccupiedByWhite( Set<String> result, String square ) {
+		if ( sidesOccupied.get( square ) != null &&
+				sidesOccupied.get( square ) == Side.WHITE ) {
 			result.add( square );
 		}
 	}
