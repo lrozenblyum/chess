@@ -117,14 +117,22 @@ public class PositionPawnTest {
 		testPawn( position, "a4", Side.WHITE, "a5" );
 	}
 
-	private void testPawn( Position position, String initialField, Side side, String... expectedMoves ) {
+	private void testPawn( Position position, String initialField, Side side, String... reachableSquares ) {
 		position.addPawn( side, initialField );
-		assertAllowedMoves( position, initialField, expectedMoves );
+		assertAllowedMoves( position, initialField, reachableSquares );
 	}
 
-	private void assertAllowedMoves( Position position, String initialField, String... expectedMoves ) {
+	/**
+	 * Check that inside the position, starting from initial field,
+	 * we can legally reach EVERY reachableSquares
+	 * (basing on position's feedback)
+	 * @param position
+	 * @param initialField
+	 * @param reachableSquares
+	 */
+	private void assertAllowedMoves( Position position, String initialField, String... reachableSquares ) {
 		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( expectedMoves.length, squares.size() );
-		assertEquals( new HashSet<String>( Arrays.asList( expectedMoves ) ), squares );
+		assertEquals( reachableSquares.length, squares.size() );
+		assertEquals( new HashSet<String>( Arrays.asList( reachableSquares ) ), squares );
 	}
 }
