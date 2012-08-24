@@ -8,11 +8,17 @@ import java.util.*;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
+	private static final int MINIMAL_RANK = 1; //by FIDE
+	private static final int MAXIMAL_RANK = 8; //by FIDE
+
 	private static final int WHITE_PAWN_INITIAL_RANK = 2;
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
-	private static final int WHITE_PAWN_RANK_WHERE_PROMOTION_CAN_BE_DONE_IN_ONE_MOVE = 7;
-	private static final int WHITE_PAWN_PROMOTION_RANK = 8;
+	//by specification - the furthest from starting position
+	//(in theory it means possibility to extend for fields others than 8*8)
+	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
+	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
+
 
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< String > PIECES_TO_PROMOTE_FROM_PAWN =
@@ -70,7 +76,8 @@ public class Position {
 		final Side side = sidesOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
-				if ( rank == WHITE_PAWN_RANK_WHERE_PROMOTION_CAN_BE_DONE_IN_ONE_MOVE ) {
+				// -1 means - the move will reach the promotion rank if executed
+				if ( rank == WHITE_PAWN_PROMOTION_RANK - 1 ) {
 					for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
 						result.add( file + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
 					}
@@ -91,9 +98,10 @@ public class Position {
 
 				break;
 			case BLACK:
-				if ( rank == 2 ) {
+				// +1 means - black pawn will reach promoted rank if executed
+				if ( rank == BLACK_PAWN_PROMOTION_RANK + 1 ) {
 					for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-						result.add( file + "1" + pieceToPromote );
+						result.add( file + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
 					}
 				}
 				else {
