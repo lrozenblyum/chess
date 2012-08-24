@@ -91,16 +91,24 @@ public class Position {
 
 				break;
 			case BLACK:
-				final int lowerRank = rank - 1;
-				result.add( file + lowerRank );
-				if ( rank == BLACK_PAWN_INITIAL_RANK ) {
-					result.add( file + ( rank - 2 ) );
+				if ( square == "c2" ) {
+					for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
+						result.add( file + "1" + pieceToPromote );
+					}
+				}
+				else {
+					final int lowerRank = rank - 1;
+					result.add( file + lowerRank );
+					if ( rank == BLACK_PAWN_INITIAL_RANK ) {
+						result.add( file + ( rank - 2 ) );
+					}
+
+					addIfOccupiedByWhite( result, fileToRight( file ) + lowerRank );
+					addIfOccupiedByWhite( result, fileToLeft( file ) + lowerRank );
 				}
 
-				addIfOccupiedByWhite( result, fileToRight( file ) + lowerRank );
-				addIfOccupiedByWhite( result, fileToLeft( file ) + lowerRank );
-
 				break;
+
 		}
 
 		return result;
