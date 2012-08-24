@@ -297,6 +297,12 @@ public class PositionPawnTest {
 		testPawn( position, "c2", Side.BLACK, "c1Q", "c1R", "c1N", "c1B" );
 	}
 
+	@Test
+	public void blackPromotionAnotherFile() {
+		Position position = new Position();
+		testPawn( position, "g2", Side.BLACK, "g1Q", "g1R", "g1B", "g1N" );
+	}
+
 	//TODO: point to extend! When we introduce new pieces - need to make here randomization
 	//over each piece that can be captured (all except King!)
 	private static void addCapturable( Position position, Side side, String square ) {
