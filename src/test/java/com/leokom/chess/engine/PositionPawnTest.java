@@ -51,7 +51,7 @@ public class PositionPawnTest {
 	public void blackPawnNotInitialPosition() {
 		for( char file = 'a'; file <= 'h'; file++ ) {
 			//1, 8 aren't possible
-			//2 is source of promotion rules. TODO: and what?? The square is accessible anyway!
+			//2 is source of promotion rules (so we'll test it separately)
 			//7 -> 2 destinations.
 			for ( int rank = 3; rank <= 6; rank++ ) {
 				Position position = new Position();
