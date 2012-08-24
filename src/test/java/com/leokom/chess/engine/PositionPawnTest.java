@@ -281,6 +281,13 @@ public class PositionPawnTest {
 		testPawn( position, "a7", Side.WHITE, "a8Q", "a8R", "a8N", "a8B" );
 	}
 
+	//triangulate in TDD
+	@Test
+	public void promotionAnotherFile() {
+		Position position = new Position();
+		testPawn( position, "b7", Side.WHITE, "b8Q", "b8R", "b8N", "b8B" );
+	}
+
 	//TODO: point to extend! When we introduce new pieces - need to make here randomization
 	//over each piece that can be captured (all except King!)
 	private static void addCapturable( Position position, Side side, String square ) {
