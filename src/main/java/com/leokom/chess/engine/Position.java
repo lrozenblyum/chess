@@ -12,7 +12,7 @@ public class Position {
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
 	private static final int WHITE_PAWN_RANK_WHERE_PROMOTION_CAN_BE_DONE_IN_ONE_MOVE = 7;
-	private static final String WHITE_PAWN_PROMOTION_RANK = "8";
+	private static final int WHITE_PAWN_PROMOTION_RANK = 8;
 
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< String > PIECES_TO_PROMOTE_FROM_PAWN =
