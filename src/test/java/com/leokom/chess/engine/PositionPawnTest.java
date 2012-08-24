@@ -275,6 +275,9 @@ public class PositionPawnTest {
 		testPawn( position, "a4", Side.WHITE, "a5" );
 	}
 
+	/**
+	 * FIDE 3.7e
+	 */
 	@Test
 	public void promotion() {
 		Position position = new Position();
