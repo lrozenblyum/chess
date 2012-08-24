@@ -55,10 +55,10 @@ public class PositionPawnTest {
 			//7 -> 2 destinations.
 			for ( int rank = 3; rank <= 6; rank++ ) {
 				Position position = new Position();
-				String sourcerank = String.valueOf( rank );
-				String expectedrank = String.valueOf( rank - 1 );
+				final String sourceRank = String.valueOf( rank );
+				final String expectedRank = String.valueOf( rank - 1 );
 
-				testPawn( position, file + sourcerank, Side.BLACK, file + expectedrank );
+				testPawn( position, file + sourceRank, Side.BLACK, file + expectedRank );
 			}
 		}
 	}
