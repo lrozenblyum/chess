@@ -303,6 +303,13 @@ public class PositionPawnTest {
 		testPawn( position, "g2", Side.BLACK, "g1Q", "g1R", "g1B", "g1N" );
 	}
 
+	@Test
+	public void promotionWithOneSideCapture() {
+		Position position = new Position();
+		addCapturable( position, Side.BLACK, "e8" );
+		testPawn( position, "d7", Side.WHITE, "d8Q", "d8R", "d8N", "d8B", "e8Q", "e8R", "e8N", "e8B" );
+	}
+
 	//TODO: point to extend! When we introduce new pieces - need to make here randomization
 	//over each piece that can be captured (all except King!)
 	private static void addCapturable( Position position, Side side, String square ) {
