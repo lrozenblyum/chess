@@ -30,8 +30,16 @@ public class Position {
 
 	/**
 	 * Get moves that are available from the square provided
-	 * @param square square currently in format like 'e2'
+	 * @param square square currently in format like 'e2' (this we'll call further as 'canonical representation')
 	 * @return not-null set of available moves from square (could be empty for sure)
+	 *
+	 * Move is now interpreted as following:
+	 * 1) square's canonical representation if it's univocal (e.g. any pawn move including capture except promotion)
+	 * While capture is usually indicated as x, from POV of single position it doesn't matter -
+	 * the destination field correctly determines the result position in this case
+	 * 2) square's canonical representation + upper-case of promoted piece from pawn (e.g. a8N -
+	 * if we promoted to Knight)
+	 *
 	 * TODO: what if square doesn't contain any pieces?
 	 */
 	public Set<String> getMovesFrom( String square ) {
