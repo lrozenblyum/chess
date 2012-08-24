@@ -54,11 +54,11 @@ public class Position {
 		final Side side = sidesOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
-				if ( square == "a7" ) {
-					result.add( "a8N" );
-					result.add( "a8Q" );
-					result.add( "a8B" );
-					result.add( "a8R" );
+				if ( rank == 7 ) {
+					result.add( file + "8N" );
+					result.add( file + "8Q" );
+					result.add( file + "8B" );
+					result.add( file + "8R" );
 				}
 				else {
 					final int higherRank = rank + 1;
