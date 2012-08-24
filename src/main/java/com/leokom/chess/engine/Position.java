@@ -19,10 +19,11 @@ public class Position {
 			Collections.unmodifiableSet(
 				new HashSet< String >(
 					Arrays.asList(
-						"Q",
-						"R",
-						"B",
-						"N"
+						"Q", //queen
+						"R", //rook
+						"B", //bishop. NOTICE: this name MUSTN'T be confused with anything religious.
+							// It's just a common name for the piece which e.g. in Russian has name слон ('elephant')
+						"N" //knight
 			)
 		)
 	);
