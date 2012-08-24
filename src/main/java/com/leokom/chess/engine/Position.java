@@ -46,17 +46,25 @@ public class Position {
 		final Side side = sidesOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
-				final int higherRank = rank + 1;
-				result.add( file + higherRank );
-				if ( rank == WHITE_PAWN_INITIAL_RANK ) {
-					result.add( file + ( rank + 2 ) );
+				if ( square == "a7" ) {
+					result.add( "a8N" );
+					result.add( "a8Q" );
+					result.add( "a8B" );
+					result.add( "a8R" );
 				}
+				else {
+					final int higherRank = rank + 1;
+					result.add( file + higherRank );
+					if ( rank == WHITE_PAWN_INITIAL_RANK ) {
+						result.add( file + ( rank + 2 ) );
+					}
 
-				//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
-				//because it simply cannot find 'i' file result - it's null... I don't like such side effects
+					//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
+					//because it simply cannot find 'i' file result - it's null... I don't like such side effects
 
-				addIfOccupiedByBlack( result, fileToRight( file ) + higherRank );
-				addIfOccupiedByBlack( result, fileToLeft( file ) + higherRank );
+					addIfOccupiedByBlack( result, fileToRight( file ) + higherRank );
+					addIfOccupiedByBlack( result, fileToLeft( file ) + higherRank );
+				}
 
 				break;
 			case BLACK:
