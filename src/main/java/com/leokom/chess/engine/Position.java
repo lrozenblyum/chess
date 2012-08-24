@@ -91,7 +91,7 @@ public class Position {
 
 				break;
 			case BLACK:
-				if ( square == "c2" ) {
+				if ( rank == 2 ) {
 					for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
 						result.add( file + "1" + pieceToPromote );
 					}
