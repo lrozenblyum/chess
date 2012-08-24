@@ -275,6 +275,11 @@ public class PositionPawnTest {
 		testPawn( position, "a4", Side.WHITE, "a5" );
 	}
 
+	@Test
+	public void promotion() {
+		Position position = new Position();
+		testPawn( position, "a7", Side.WHITE, "a8Q", "a8R", "a8N", "a8B" );
+	}
 
 	//TODO: point to extend! When we introduce new pieces - need to make here randomization
 	//over each piece that can be captured (all except King!)
