@@ -311,6 +311,14 @@ public class PositionPawnTest {
 	}
 
 	@Test
+	public void blackPromotionRightCapture() {
+		Position position = new Position();
+		addCapturable( position, Side.WHITE, "g1" );
+
+		testPawn( position, "f2", Side.BLACK, "f1Q", "f1R", "f1N", "f1B", "g1Q", "g1N", "g1R", "g1B" );
+	}
+
+	@Test
 	public void promotionWithRightSideCapture() {
 		Position position = new Position();
 		addCapturable( position, Side.BLACK, "e8" );
