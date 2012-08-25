@@ -78,12 +78,17 @@ public class Position {
 			case WHITE:
 				final int higherRank = rank + 1;
 				final String rightCaptureSquare = fileToRight( file ) + higherRank;
+				final String leftCaptureSquare = fileToLeft( file ) + higherRank;
 				// -1 means - the move will reach the promotion rank if executed
 				if ( rank == WHITE_PAWN_PROMOTION_RANK - 1 ) {
 					addWhitePromotionResult( result, file );
 
 					if ( isOccupiedBy( rightCaptureSquare, Side.BLACK ) ) {
 						addWhitePromotionResult( result, fileToRight( file ) );
+					}
+
+					if ( isOccupiedBy( leftCaptureSquare, Side.BLACK ) ) {
+						addWhitePromotionResult( result, fileToLeft( file ) );
 					}
 				}
 				else {
@@ -95,10 +100,8 @@ public class Position {
 
 					//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
 					//because it simply cannot find 'i' file result - it's null... I don't like such side effects
-
-
 					addIfOccupiedByBlack( result, rightCaptureSquare );
-					addIfOccupiedByBlack( result, fileToLeft( file ) + higherRank );
+					addIfOccupiedByBlack( result, leftCaptureSquare );
 				}
 
 				break;
