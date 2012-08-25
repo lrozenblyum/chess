@@ -2,6 +2,7 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
+import static com.leokom.chess.engine.PawnUtils.testPawn;
 import static com.leokom.chess.engine.PositionUtils.addCapturable;
 
 /**
@@ -36,7 +37,7 @@ public class PositionPawnTest {
 		//TODO: do we have guarantee characters are ordered alphabetically?
 		for( char file = 'a'; file <= 'h'; file++ ) {
 			Position position = new Position();
-			testPawn( position,  file + "7", Side.BLACK, file + "6", file + "5" );
+			testPawn( position, file + "7", Side.BLACK, file + "6", file + "5" );
 		}
 	}
 
@@ -339,11 +340,6 @@ public class PositionPawnTest {
 		addCapturable( position, Side.WHITE, "d8" );
 
 		testPawn( position, "e7", Side.WHITE, "e8Q", "e8N", "e8R", "e8B" );
-	}
-
-	private static void testPawn( Position position, String initialField, Side side, String... reachableSquares ) {
-		position.addPawn( side, initialField );
-		PositionUtils.assertAllowedMoves( position, initialField, reachableSquares );
 	}
 
 }
