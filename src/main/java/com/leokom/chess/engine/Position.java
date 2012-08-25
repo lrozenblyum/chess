@@ -76,14 +76,22 @@ public class Position {
 		final Side side = sidesOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
+				final int higherRank = rank + 1;
+				final String rightCaptureSquare = fileToRight( file ) + higherRank;
 				// -1 means - the move will reach the promotion rank if executed
 				if ( rank == WHITE_PAWN_PROMOTION_RANK - 1 ) {
 					for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
 						result.add( file + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
 					}
+
+					if ( isOccupiedBy( rightCaptureSquare, Side.BLACK ) ) {
+						for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
+							result.add( fileToRight( file ) + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
+						}
+					}
 				}
 				else {
-					final int higherRank = rank + 1;
+
 					result.add( file + higherRank );
 					if ( rank == WHITE_PAWN_INITIAL_RANK ) {
 						result.add( file + ( rank + 2 ) );
@@ -92,7 +100,8 @@ public class Position {
 					//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
 					//because it simply cannot find 'i' file result - it's null... I don't like such side effects
 
-					addIfOccupiedByBlack( result, fileToRight( file ) + higherRank );
+
+					addIfOccupiedByBlack( result, rightCaptureSquare );
 					addIfOccupiedByBlack( result, fileToLeft( file ) + higherRank );
 				}
 
@@ -146,9 +155,19 @@ public class Position {
 	}
 
 	private void addIfOccupiedBy( Set<String> result, String square, Side side ) {
-		if ( sidesOccupied.get( square ) != null &&
-				sidesOccupied.get( square ) == side ) {
+		if ( isOccupiedBy( square, side ) ) {
 			result.add( square );
 		}
+	}
+
+	/**
+	 * Check if square provided is occupied by the side
+	 * @param square
+	 * @param side
+	 * @return true if square is occupied by the side, false otherwise
+	 * (means NOT occupied or occupied by the opposite side)
+	 */
+	private boolean isOccupiedBy( String square, Side side ) {
+		return sidesOccupied.get( square ) != null && sidesOccupied.get( square ) == side;
 	}
 }
