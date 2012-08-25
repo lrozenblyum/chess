@@ -2,6 +2,8 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
+import static com.leokom.chess.engine.PositionUtils.addCapturable;
+
 /**
  * Author: Leonid
  * Date-time: 21.08.12 15:55
@@ -70,7 +72,7 @@ public class PositionPawnTest {
 	@Test
 	public void singleCapturePossibleFromWhite() {
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.BLACK, "e3" );
+		addCapturable( position, Side.BLACK, "e3" );
 
 		testPawn( position, "d2", Side.WHITE, "d3", "d4", "e3" );
 	}
@@ -81,7 +83,7 @@ public class PositionPawnTest {
 
 		final String pawnPosition = "d2";
 
-		PositionUtils.addCapturable( position, Side.WHITE, "e3" );    //our color - cannot capture for sure!
+		addCapturable( position, Side.WHITE, "e3" );    //our color - cannot capture for sure!
 
 		testPawn( position, pawnPosition, Side.WHITE, "d3", "d4" );
 	}
@@ -93,7 +95,7 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 
-		PositionUtils.addCapturable( position, Side.BLACK, victimPawnSquare );
+		addCapturable( position, Side.BLACK, victimPawnSquare );
 
 		testPawn( position, sourceSquare, Side.WHITE, "g6", victimPawnSquare );
 	}
@@ -111,7 +113,7 @@ public class PositionPawnTest {
 		final String victimSquare = "c7";
 
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.BLACK, victimSquare );
+		addCapturable( position, Side.BLACK, victimSquare );
 
 		testPawn( position, sourceSquare, Side.WHITE, "d7", victimSquare );
 	}
@@ -122,7 +124,7 @@ public class PositionPawnTest {
 		final String victimSquareFailed = "d7";
 
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.WHITE, victimSquareFailed );
+		addCapturable( position, Side.WHITE, victimSquareFailed );
 
 		testPawn( position, sourceSquare, Side.WHITE, "e7" );
 	}
@@ -144,8 +146,8 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 
-		PositionUtils.addCapturable( position, Side.BLACK, firstVictim );
-		PositionUtils.addCapturable( position, Side.BLACK, secondVictim );
+		addCapturable( position, Side.BLACK, firstVictim );
+		addCapturable( position, Side.BLACK, secondVictim );
 
 		testPawn( position, sourceSquare, Side.WHITE, "f7", firstVictim, secondVictim );
 	}
@@ -159,8 +161,8 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 
-		PositionUtils.addCapturable( position, Side.BLACK, firstVictim );
-		PositionUtils.addCapturable( position, Side.BLACK, secondVictim );
+		addCapturable( position, Side.BLACK, firstVictim );
+		addCapturable( position, Side.BLACK, secondVictim );
 
 		testPawn( position, sourceSquare, Side.WHITE, "b3", "b4", firstVictim, secondVictim );
 	}
@@ -171,7 +173,7 @@ public class PositionPawnTest {
 		final String victim = "h5";
 
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.WHITE, victim );
+		addCapturable( position, Side.WHITE, victim );
 
 		testPawn( position, source, Side.BLACK, "g5", "h5" );
 	}
@@ -182,7 +184,7 @@ public class PositionPawnTest {
 		final String failedVictim = "d3";
 
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.BLACK, failedVictim );
+		addCapturable( position, Side.BLACK, failedVictim );
 
 		testPawn( position, source, Side.BLACK, "c3" );
 	}
@@ -193,7 +195,7 @@ public class PositionPawnTest {
 		final String victim = "b3";
 
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.WHITE, victim );
+		addCapturable( position, Side.WHITE, victim );
 
 		testPawn( position, source, Side.BLACK, "c3", victim );
 	}
@@ -204,7 +206,7 @@ public class PositionPawnTest {
 		final String failedVictim = "b3";
 
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.BLACK, failedVictim );
+		addCapturable( position, Side.BLACK, failedVictim );
 
 		testPawn( position, source, Side.BLACK, "c3" );
 	}
@@ -215,7 +217,7 @@ public class PositionPawnTest {
 		final String victim = "b4";
 
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.WHITE, victim );
+		addCapturable( position, Side.WHITE, victim );
 
 		testPawn( position, source, Side.BLACK, "a4", victim );
 	}
@@ -227,7 +229,7 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		PositionUtils.addCapturable( position, Side.WHITE, victim );
+		addCapturable( position, Side.WHITE, victim );
 
 		PositionUtils.assertAllowedMoves( position, source, "h5", victim );
 	}
@@ -240,8 +242,8 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		PositionUtils.addCapturable( position, Side.WHITE, firstVictim );
-		PositionUtils.addCapturable( position, Side.WHITE, secondVictim );
+		addCapturable( position, Side.WHITE, firstVictim );
+		addCapturable( position, Side.WHITE, secondVictim );
 
 		PositionUtils.assertAllowedMoves( position, source, "d6", "d5", firstVictim, secondVictim );
 	}
@@ -286,14 +288,14 @@ public class PositionPawnTest {
 	@Test
 	public void blackPromotionLeftCapture() {
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.WHITE, "a1" );
+		addCapturable( position, Side.WHITE, "a1" );
 		testPawn( position, "b2", Side.BLACK, "b1Q", "b1R", "b1N", "b1B", "a1Q", "a1N", "a1R", "a1B" );
 	}
 
 	@Test
 	public void blackPromotionRightCapture() {
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.WHITE, "g1" );
+		addCapturable( position, Side.WHITE, "g1" );
 
 		testPawn( position, "f2", Side.BLACK, "f1Q", "f1R", "f1N", "f1B", "g1Q", "g1N", "g1R", "g1B" );
 	}
@@ -301,14 +303,14 @@ public class PositionPawnTest {
 	@Test
 	public void promotionWithRightSideCapture() {
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.BLACK, "e8" );
+		addCapturable( position, Side.BLACK, "e8" );
 		testPawn( position, "d7", Side.WHITE, "d8Q", "d8R", "d8N", "d8B", "e8Q", "e8R", "e8N", "e8B" );
 	}
 
 	@Test
 	public void promotionWithLeftSideCapture() {
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.BLACK, "g8" );
+		addCapturable( position, Side.BLACK, "g8" );
 
 		testPawn( position, "h7", Side.WHITE, "h8Q", "h8R", "h8N", "h8B", "g8Q", "g8N", "g8R", "g8B" );
 	}
@@ -318,8 +320,8 @@ public class PositionPawnTest {
 	@Test
 	public void promotionWithBothSideCapture() {
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.BLACK, "c8" );
-		PositionUtils.addCapturable( position, Side.BLACK, "e8" );
+		addCapturable( position, Side.BLACK, "c8" );
+		addCapturable( position, Side.BLACK, "e8" );
 
 		testPawn( position, "d7", Side.WHITE,
 				"d8Q", "d8N", "d8R", "d8B",
@@ -333,8 +335,8 @@ public class PositionPawnTest {
 	@Test
 	public void promotionCannotCaptureOurPieces() {
 		Position position = new Position();
-		PositionUtils.addCapturable( position, Side.WHITE, "f8" );
-		PositionUtils.addCapturable( position, Side.WHITE, "d8" );
+		addCapturable( position, Side.WHITE, "f8" );
+		addCapturable( position, Side.WHITE, "d8" );
 
 		testPawn( position, "e7", Side.WHITE, "e8Q", "e8N", "e8R", "e8B" );
 	}
