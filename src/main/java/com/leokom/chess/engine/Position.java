@@ -80,14 +80,10 @@ public class Position {
 				final String rightCaptureSquare = fileToRight( file ) + higherRank;
 				// -1 means - the move will reach the promotion rank if executed
 				if ( rank == WHITE_PAWN_PROMOTION_RANK - 1 ) {
-					for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-						result.add( file + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
-					}
+					addWhitePromotionResult( result, file );
 
 					if ( isOccupiedBy( rightCaptureSquare, Side.BLACK ) ) {
-						for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-							result.add( fileToRight( file ) + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
-						}
+						addWhitePromotionResult( result, fileToRight( file ) );
 					}
 				}
 				else {
@@ -130,6 +126,18 @@ public class Position {
 
 		return result;
 
+	}
+
+	/**
+	 * Add to the result set all possible cases of promoting a white pawn in
+	 * the file provided
+	 * @param result result set to be modified
+	 * @param file file - place of promotion
+	 */
+	private void addWhitePromotionResult( Set<String> result, String file ) {
+		for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
+			result.add( file + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
+		}
 	}
 
 	private String fileToLeft( String file ) {
