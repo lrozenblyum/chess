@@ -310,8 +310,16 @@ public class PositionPawnTest {
 		testPawn( position, "d7", Side.WHITE, "d8Q", "d8R", "d8N", "d8B", "e8Q", "e8R", "e8N", "e8B" );
 	}
 
+	@Test
+	public void promotionWithLeftSideCapture() {
+		Position position = new Position();
+		addCapturable( position, Side.WHITE, "g8" );
+
+		testPawn( position, "h7", Side.WHITE, "h8Q", "h8R", "h8N", "h8B", "g8Q", "g8N", "g8R", "g8B" );
+	}
+
 	//TODO: point to extend! When we introduce new pieces - need to make here randomization
-	//over each piece that can be captured (all except King!)
+	//over each piece that can be captured (all, except King, except pawns on final rank, except...?)
 	private static void addCapturable( Position position, Side side, String square ) {
 		position.addPawn( side, square );
 	}
