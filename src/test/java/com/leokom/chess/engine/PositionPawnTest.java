@@ -304,7 +304,7 @@ public class PositionPawnTest {
 	}
 
 	@Test
-	public void promotionWithOneSideCapture() {
+	public void promotionWithRightSideCapture() {
 		Position position = new Position();
 		addCapturable( position, Side.BLACK, "e8" );
 		testPawn( position, "d7", Side.WHITE, "d8Q", "d8R", "d8N", "d8B", "e8Q", "e8R", "e8N", "e8B" );
