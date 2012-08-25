@@ -22,7 +22,7 @@ final class PositionUtils {
 
 	/**
 	 * Check that inside the position, starting from initial field,
-	 * we can legally reach EVERY reachableSquares
+	 * we can legally reach EVERY reachableSquares (and ONLY them)
 	 * (basing on position's feedback)
 	 * @param position
 	 * @param initialField
