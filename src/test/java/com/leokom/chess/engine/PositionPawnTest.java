@@ -318,6 +318,20 @@ public class PositionPawnTest {
 		testPawn( position, "h7", Side.WHITE, "h8Q", "h8R", "h8N", "h8B", "g8Q", "g8N", "g8R", "g8B" );
 	}
 
+	//NOTE: In our model it's the largest possible outcome from the position!!!
+	//12 different positions are possible by using the pawn!
+	@Test
+	public void promotionWithBothSideCapture() {
+		Position position = new Position();
+		addCapturable( position, Side.BLACK, "c8" );
+		addCapturable( position, Side.BLACK, "e8" );
+
+		testPawn( position, "d7", Side.WHITE,
+				"d8Q", "d8N", "d8R", "d8B",
+				"c8Q", "c8R", "c8N", "c8B",
+				"e8Q", "e8N", "e8R", "e8B" );
+	}
+
 	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
 	//since it won't be created by 'addCapturable'
 	//look through other tests to check this
