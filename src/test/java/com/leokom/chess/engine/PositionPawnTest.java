@@ -318,6 +318,18 @@ public class PositionPawnTest {
 		testPawn( position, "h7", Side.WHITE, "h8Q", "h8R", "h8N", "h8B", "g8Q", "g8N", "g8R", "g8B" );
 	}
 
+	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
+	//since it won't be created by 'addCapturable'
+	//look through other tests to check this
+	@Test
+	public void promotionCannotCaptureOurPieces() {
+		Position position = new Position();
+		addCapturable( position, Side.WHITE, "f8" );
+		addCapturable( position, Side.WHITE, "d8" );
+
+		testPawn( position, "e7", Side.WHITE, "e8Q", "e8N", "e8R", "e8B" );
+	}
+
 	//TODO: point to extend! When we introduce new pieces - need to make here randomization
 	//over each piece that can be captured (all, except King, except pawns on final rank, except...?)
 	private static void addCapturable( Position position, Side side, String square ) {
