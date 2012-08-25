@@ -2,12 +2,6 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-
 /**
  * Author: Leonid
  * Date-time: 21.08.12 15:55
@@ -77,19 +71,19 @@ public class PositionPawnTest {
 	public void singleCapturePossibleFromWhite() {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, "d2" );
-		addCapturable( position, Side.BLACK, "e3" );
+		PositionUtils.addCapturable( position, Side.BLACK, "e3" );
 
 		//TODO: think if capture must be returned as just e3 or as e3Capture?
-		assertAllowedMoves( position, "d2", "d3", "d4", "e3" );
+		PositionUtils.assertAllowedMoves( position, "d2", "d3", "d4", "e3" );
 	}
 
 	@Test
 	public void singleCaptureImPossibleFromWhiteColorsCoincide() {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, "d2" );
-		addCapturable( position, Side.WHITE, "e3" );    //our color - cannot capture for sure!
+		PositionUtils.addCapturable( position, Side.WHITE, "e3" );    //our color - cannot capture for sure!
 
-		assertAllowedMoves( position, "d2", "d3", "d4" );
+		PositionUtils.assertAllowedMoves( position, "d2", "d3", "d4" );
 	}
 
 	@Test
@@ -99,9 +93,9 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
-		addCapturable( position, Side.BLACK, victimPawnSquare );
+		PositionUtils.addCapturable( position, Side.BLACK, victimPawnSquare );
 
-		assertAllowedMoves( position, sourceSquare, "g6", victimPawnSquare );
+		PositionUtils.assertAllowedMoves( position, sourceSquare, "g6", victimPawnSquare );
 	}
 
 	@Test
@@ -111,7 +105,7 @@ public class PositionPawnTest {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
 
-		assertAllowedMoves( position, sourceSquare, "h5" );
+		PositionUtils.assertAllowedMoves( position, sourceSquare, "h5" );
 	}
 
 	@Test
@@ -122,9 +116,9 @@ public class PositionPawnTest {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
 
-		addCapturable( position, Side.BLACK, victimSquare );
+		PositionUtils.addCapturable( position, Side.BLACK, victimSquare );
 
-		assertAllowedMoves( position, sourceSquare, "d7", victimSquare );
+		PositionUtils.assertAllowedMoves( position, sourceSquare, "d7", victimSquare );
 	}
 
 	@Test
@@ -135,9 +129,9 @@ public class PositionPawnTest {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
 
-		addCapturable( position, Side.WHITE, victimSquareFailed );
+		PositionUtils.addCapturable( position, Side.WHITE, victimSquareFailed );
 
-		assertAllowedMoves( position, sourceSquare, "e7" );
+		PositionUtils.assertAllowedMoves( position, sourceSquare, "e7" );
 	}
 
 	@Test
@@ -147,7 +141,7 @@ public class PositionPawnTest {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
 
-		assertAllowedMoves( position, sourceSquare, "a4" );
+		PositionUtils.assertAllowedMoves( position, sourceSquare, "a4" );
 	}
 
 	@Test
@@ -159,10 +153,10 @@ public class PositionPawnTest {
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
 
-		addCapturable( position, Side.BLACK, firstVictim );
+		PositionUtils.addCapturable( position, Side.BLACK, firstVictim );
 
-		addCapturable( position, Side.BLACK, secondVictim );
-		assertAllowedMoves( position, sourceSquare, "f7", firstVictim, secondVictim );
+		PositionUtils.addCapturable( position, Side.BLACK, secondVictim );
+		PositionUtils.assertAllowedMoves( position, sourceSquare, "f7", firstVictim, secondVictim );
 	}
 
 	//maximally possible squares to move by pawn
@@ -174,10 +168,10 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.WHITE, sourceSquare );
-		addCapturable( position, Side.BLACK, firstVictim );
-		addCapturable( position, Side.BLACK, secondVictim );
+		PositionUtils.addCapturable( position, Side.BLACK, firstVictim );
+		PositionUtils.addCapturable( position, Side.BLACK, secondVictim );
 
-		assertAllowedMoves( position, sourceSquare, "b3", "b4", firstVictim, secondVictim );
+		PositionUtils.assertAllowedMoves( position, sourceSquare, "b3", "b4", firstVictim, secondVictim );
 	}
 
 	@Test
@@ -187,9 +181,9 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.WHITE, victim );
+		PositionUtils.addCapturable( position, Side.WHITE, victim );
 
-		assertAllowedMoves( position, source, "g5", "h5" );
+		PositionUtils.assertAllowedMoves( position, source, "g5", "h5" );
 	}
 
 	@Test
@@ -199,9 +193,9 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.BLACK, failedVictim );
+		PositionUtils.addCapturable( position, Side.BLACK, failedVictim );
 
-		assertAllowedMoves( position, source, "c3" );
+		PositionUtils.assertAllowedMoves( position, source, "c3" );
 	}
 
 	@Test
@@ -211,9 +205,9 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.WHITE, victim );
+		PositionUtils.addCapturable( position, Side.WHITE, victim );
 
-		assertAllowedMoves( position, source, "c3", victim );
+		PositionUtils.assertAllowedMoves( position, source, "c3", victim );
 	}
 
 	@Test
@@ -223,9 +217,9 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.BLACK, failedVictim );
+		PositionUtils.addCapturable( position, Side.BLACK, failedVictim );
 
-		assertAllowedMoves( position, source, "c3" );
+		PositionUtils.assertAllowedMoves( position, source, "c3" );
 	}
 
 	@Test
@@ -235,9 +229,9 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.WHITE, victim );
+		PositionUtils.addCapturable( position, Side.WHITE, victim );
 
-		assertAllowedMoves( position, source, "a4", victim );
+		PositionUtils.assertAllowedMoves( position, source, "a4", victim );
 	}
 
 	@Test
@@ -247,9 +241,9 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.WHITE, victim );
+		PositionUtils.addCapturable( position, Side.WHITE, victim );
 
-		assertAllowedMoves( position, source, "h5", victim );
+		PositionUtils.assertAllowedMoves( position, source, "h5", victim );
 	}
 
 	@Test
@@ -260,10 +254,10 @@ public class PositionPawnTest {
 
 		Position position = new Position();
 		position.addPawn( Side.BLACK, source );
-		addCapturable( position, Side.WHITE, firstVictim );
-		addCapturable( position, Side.WHITE, secondVictim );
+		PositionUtils.addCapturable( position, Side.WHITE, firstVictim );
+		PositionUtils.addCapturable( position, Side.WHITE, secondVictim );
 
-		assertAllowedMoves( position, source, "d6", "d5", firstVictim, secondVictim );
+		PositionUtils.assertAllowedMoves( position, source, "d6", "d5", firstVictim, secondVictim );
 	}
 
 	/**
@@ -306,14 +300,14 @@ public class PositionPawnTest {
 	@Test
 	public void blackPromotionLeftCapture() {
 		Position position = new Position();
-		addCapturable( position, Side.WHITE, "a1" );
+		PositionUtils.addCapturable( position, Side.WHITE, "a1" );
 		testPawn( position, "b2", Side.BLACK, "b1Q", "b1R", "b1N", "b1B", "a1Q", "a1N", "a1R", "a1B" );
 	}
 
 	@Test
 	public void blackPromotionRightCapture() {
 		Position position = new Position();
-		addCapturable( position, Side.WHITE, "g1" );
+		PositionUtils.addCapturable( position, Side.WHITE, "g1" );
 
 		testPawn( position, "f2", Side.BLACK, "f1Q", "f1R", "f1N", "f1B", "g1Q", "g1N", "g1R", "g1B" );
 	}
@@ -321,14 +315,14 @@ public class PositionPawnTest {
 	@Test
 	public void promotionWithRightSideCapture() {
 		Position position = new Position();
-		addCapturable( position, Side.BLACK, "e8" );
+		PositionUtils.addCapturable( position, Side.BLACK, "e8" );
 		testPawn( position, "d7", Side.WHITE, "d8Q", "d8R", "d8N", "d8B", "e8Q", "e8R", "e8N", "e8B" );
 	}
 
 	@Test
 	public void promotionWithLeftSideCapture() {
 		Position position = new Position();
-		addCapturable( position, Side.BLACK, "g8" );
+		PositionUtils.addCapturable( position, Side.BLACK, "g8" );
 
 		testPawn( position, "h7", Side.WHITE, "h8Q", "h8R", "h8N", "h8B", "g8Q", "g8N", "g8R", "g8B" );
 	}
@@ -338,8 +332,8 @@ public class PositionPawnTest {
 	@Test
 	public void promotionWithBothSideCapture() {
 		Position position = new Position();
-		addCapturable( position, Side.BLACK, "c8" );
-		addCapturable( position, Side.BLACK, "e8" );
+		PositionUtils.addCapturable( position, Side.BLACK, "c8" );
+		PositionUtils.addCapturable( position, Side.BLACK, "e8" );
 
 		testPawn( position, "d7", Side.WHITE,
 				"d8Q", "d8N", "d8R", "d8B",
@@ -353,33 +347,15 @@ public class PositionPawnTest {
 	@Test
 	public void promotionCannotCaptureOurPieces() {
 		Position position = new Position();
-		addCapturable( position, Side.WHITE, "f8" );
-		addCapturable( position, Side.WHITE, "d8" );
+		PositionUtils.addCapturable( position, Side.WHITE, "f8" );
+		PositionUtils.addCapturable( position, Side.WHITE, "d8" );
 
 		testPawn( position, "e7", Side.WHITE, "e8Q", "e8N", "e8R", "e8B" );
 	}
 
-	//TODO: point to extend! When we introduce new pieces - need to make here randomization
-	//over each piece that can be captured (all, except King, except pawns on final rank, except...?)
-	private static void addCapturable( Position position, Side side, String square ) {
-		position.addPawn( side, square );
-	}
-
-	private void testPawn( Position position, String initialField, Side side, String... reachableSquares ) {
+	private static void testPawn( Position position, String initialField, Side side, String... reachableSquares ) {
 		position.addPawn( side, initialField );
-		assertAllowedMoves( position, initialField, reachableSquares );
+		PositionUtils.assertAllowedMoves( position, initialField, reachableSquares );
 	}
 
-	/**
-	 * Check that inside the position, starting from initial field,
-	 * we can legally reach EVERY reachableSquares
-	 * (basing on position's feedback)
-	 * @param position
-	 * @param initialField
-	 * @param reachableSquares
-	 */
-	private void assertAllowedMoves( Position position, String initialField, String... reachableSquares ) {
-		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( new HashSet<String>( Arrays.asList( reachableSquares ) ), squares );
-	}
 }
