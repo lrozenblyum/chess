@@ -112,20 +112,14 @@ public class Position {
 
 				// +1 means - black pawn will reach promoted rank if executed
 				if ( rank == BLACK_PAWN_PROMOTION_RANK + 1 ) {
-					for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-						result.add( file + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
-					}
+					addBlackPromotionResult( result, file );
 
 					if ( isOccupiedBy( leftCaptureSquareForBlack, Side.WHITE ) ) {
-						for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-							result.add( fileToLeft( file ) + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
-						}
+						addBlackPromotionResult( result, fileToLeft( file ) );
 					}
 
 					if ( isOccupiedBy( rightCaptureSquareForBlack, Side.WHITE ) ) {
-						for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-							result.add( fileToRight( file ) + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
-						}
+						addBlackPromotionResult( result, fileToRight( file ) );
 					}
 				}
 				else {
@@ -144,6 +138,19 @@ public class Position {
 
 		return result;
 
+	}
+
+	/**
+	 * @see #addWhitePromotionResult(java.util.Set, String)
+	 * the only difference it's black-specific method
+	 *
+	 * @param result
+	 * @param file
+	 */
+	private void addBlackPromotionResult( Set<String> result, String file ) {
+		for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
+			result.add( file + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
+		}
 	}
 
 	/**
