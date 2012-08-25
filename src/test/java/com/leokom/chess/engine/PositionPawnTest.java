@@ -229,10 +229,10 @@ public class PositionPawnTest {
 		final String victim = "g5";
 
 		Position position = new Position();
-		position.addPawn( Side.BLACK, source );
+
 		addCapturable( position, Side.WHITE, victim );
 
-		PositionUtils.assertAllowedMoves( position, source, "h5", victim );
+		testPawn( position, source, Side.BLACK, "h5", victim );
 	}
 
 	@Test
@@ -242,11 +242,11 @@ public class PositionPawnTest {
 		final String secondVictim = "e6";
 
 		Position position = new Position();
-		position.addPawn( Side.BLACK, source );
+
 		addCapturable( position, Side.WHITE, firstVictim );
 		addCapturable( position, Side.WHITE, secondVictim );
 
-		PositionUtils.assertAllowedMoves( position, source, "d6", "d5", firstVictim, secondVictim );
+		testPawn( position, source, Side.BLACK, "d6", "d5", firstVictim, secondVictim );
 	}
 
 	/**
