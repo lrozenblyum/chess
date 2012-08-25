@@ -108,6 +108,7 @@ public class Position {
 			case BLACK:
 				final int lowerRank = rank - 1;
 				final String leftCaptureSquareForBlack = fileToLeft( file ) + lowerRank;
+				final String rightCaptureSquareForBlack = fileToRight( file ) + lowerRank;
 
 				// +1 means - black pawn will reach promoted rank if executed
 				if ( rank == BLACK_PAWN_PROMOTION_RANK + 1 ) {
@@ -120,6 +121,12 @@ public class Position {
 							result.add( fileToLeft( file ) + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
 						}
 					}
+
+					if ( isOccupiedBy( rightCaptureSquareForBlack, Side.WHITE ) ) {
+						for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
+							result.add( fileToRight( file ) + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
+						}
+					}
 				}
 				else {
 					result.add( file + lowerRank );
@@ -127,7 +134,7 @@ public class Position {
 						result.add( file + ( rank - 2 ) );
 					}
 
-					addIfOccupiedByWhite( result, fileToRight( file ) + lowerRank );
+					addIfOccupiedByWhite( result, rightCaptureSquareForBlack );
 					addIfOccupiedByWhite( result, leftCaptureSquareForBlack );
 				}
 
