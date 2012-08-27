@@ -81,14 +81,14 @@ public class Position {
 				final String leftCaptureSquare = fileToLeft( file ) + higherRank;
 				// -1 means - the move will reach the promotion rank if executed
 				if ( rank == WHITE_PAWN_PROMOTION_RANK - 1 ) {
-					addWhitePromotionResult( result, file );
+					addPromotionResult( result, file, Side.WHITE );
 
 					if ( isOccupiedBy( rightCaptureSquare, Side.BLACK ) ) {
-						addWhitePromotionResult( result, fileToRight( file ) );
+						addPromotionResult( result, fileToRight( file ), Side.WHITE );
 					}
 
 					if ( isOccupiedBy( leftCaptureSquare, Side.BLACK ) ) {
-						addWhitePromotionResult( result, fileToLeft( file ) );
+						addPromotionResult( result, fileToLeft( file ), Side.WHITE );
 					}
 				}
 				else {
@@ -112,14 +112,14 @@ public class Position {
 
 				// +1 means - black pawn will reach promoted rank if executed
 				if ( rank == BLACK_PAWN_PROMOTION_RANK + 1 ) {
-					addBlackPromotionResult( result, file );
+					addPromotionResult( result, file, Side.BLACK );
 
 					if ( isOccupiedBy( leftCaptureSquareForBlack, Side.WHITE ) ) {
-						addBlackPromotionResult( result, fileToLeft( file ) );
+						addPromotionResult( result, fileToLeft( file ), Side.BLACK );
 					}
 
 					if ( isOccupiedBy( rightCaptureSquareForBlack, Side.WHITE ) ) {
-						addBlackPromotionResult( result, fileToRight( file ) );
+						addPromotionResult( result, fileToRight( file ), Side.BLACK );
 					}
 				}
 				else {
@@ -140,30 +140,30 @@ public class Position {
 
 	}
 
-	/**
-	 * @see #addWhitePromotionResult(java.util.Set, String)
-	 * the only difference it's black-specific method
-	 *
-	 * @param result
-	 * @param file
-	 */
-	private static void addBlackPromotionResult( Set<String> result, String file ) {
-		for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-			result.add( file + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
+	private static int getPromotionRank( Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return WHITE_PAWN_PROMOTION_RANK;
+			case BLACK:
+				return BLACK_PAWN_PROMOTION_RANK;
+			default:
+				throw new IllegalArgumentException( "Side is not supported: " + side );
 		}
 	}
 
 	/**
-	 * Add to the result set all possible cases of promoting a white pawn in
-	 * the file provided
+	 * Add to the result set all possible cases of promoting a pawn
+	 * of given side in the file provided
 	 * @param result result set to be modified
-	 * @param file file - place of promotion
+	 * @param file file place of promotion
+	 * @param side side of pawn
 	 */
-	private static void addWhitePromotionResult( Set<String> result, String file ) {
+	private static void addPromotionResult( Set<String> result, String file, Side side ) {
 		for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-			result.add( file + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
+			result.add( file + getPromotionRank( side ) + pieceToPromote );
 		}
 	}
+
 
 	private static String fileToLeft( String file ) {
 		//TODO: UGLY construction, need better!
