@@ -79,8 +79,8 @@ public class Position {
 				final int higherRank = rank + 1;
 				final String rightCaptureSquare = fileToRight( file ) + higherRank;
 				final String leftCaptureSquare = fileToLeft( file ) + higherRank;
-				// -1 means - the move will reach the promotion rank if executed
-				if ( rank == WHITE_PAWN_PROMOTION_RANK - 1 ) {
+
+				if ( rank == getRankBeforePromotion( side ) ) {
 					addPromotionResult( result, file, side );
 
 					if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
@@ -92,7 +92,6 @@ public class Position {
 					}
 				}
 				else {
-
 					result.add( file + higherRank );
 					if ( rank == WHITE_PAWN_INITIAL_RANK ) {
 						result.add( file + ( rank + 2 ) );
@@ -110,8 +109,7 @@ public class Position {
 				final String leftCaptureSquareForBlack = fileToLeft( file ) + lowerRank;
 				final String rightCaptureSquareForBlack = fileToRight( file ) + lowerRank;
 
-				// +1 means - black pawn will reach promoted rank if executed
-				if ( rank == BLACK_PAWN_PROMOTION_RANK + 1 ) {
+				if ( rank == getRankBeforePromotion( side ) ) {
 					addPromotionResult( result, file, side );
 
 					if ( isOccupiedBy( leftCaptureSquareForBlack, side.opposite() ) ) {
@@ -138,6 +136,22 @@ public class Position {
 
 		return result;
 
+	}
+
+	/**
+	 * @param side
+	 * @return rank from which next pawn move can reach promotion rank
+	 */
+	private static int getRankBeforePromotion( Side side ) {
+		switch ( side ) {
+			case WHITE :
+				return WHITE_PAWN_PROMOTION_RANK - 1;
+			case BLACK:
+				return BLACK_PAWN_PROMOTION_RANK + 1;
+			default:
+				//TODO: boring check just for compiler, better choices?
+				throw new IllegalArgumentException( "Side is not supported: " + side );
+		}
 	}
 
 	private static int getPromotionRank( Side side ) {
