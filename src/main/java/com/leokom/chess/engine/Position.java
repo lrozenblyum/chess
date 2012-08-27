@@ -100,8 +100,8 @@ public class Position {
 
 					//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
 					//because it simply cannot find 'i' file result - it's null... I don't like such side effects
-					addIfOccupiedByBlack( result, rightCaptureSquare );
-					addIfOccupiedByBlack( result, leftCaptureSquare );
+					addIfOccupiedBy( result, rightCaptureSquare, Side.BLACK );
+					addIfOccupiedBy( result, leftCaptureSquare, Side.BLACK );
 				}
 
 				break;
@@ -128,8 +128,8 @@ public class Position {
 						result.add( file + ( rank - 2 ) );
 					}
 
-					addIfOccupiedByWhite( result, rightCaptureSquareForBlack );
-					addIfOccupiedByWhite( result, leftCaptureSquareForBlack );
+					addIfOccupiedBy( result, rightCaptureSquareForBlack, Side.WHITE );
+					addIfOccupiedBy( result, leftCaptureSquareForBlack, Side.WHITE );
 				}
 
 				break;
@@ -175,18 +175,11 @@ public class Position {
 	}
 
 	/**
-	 * Add the square to result IFF it's occupied by black!
+	 * Add the square to result IFF it's occupied by the side provided!
 	 * @param result
 	 * @param square
+	 * @param side
 	 */
-	private void addIfOccupiedByBlack( Set<String> result, String square ) {
-		addIfOccupiedBy( result, square, Side.BLACK );
-	}
-
-	private void addIfOccupiedByWhite( Set<String> result, String square ) {
-		addIfOccupiedBy( result, square, Side.WHITE );
-	}
-
 	private void addIfOccupiedBy( Set<String> result, String square, Side side ) {
 		if ( isOccupiedBy( square, side ) ) {
 			result.add( square );
