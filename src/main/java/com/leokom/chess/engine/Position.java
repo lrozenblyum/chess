@@ -147,7 +147,7 @@ public class Position {
 	 * @param result
 	 * @param file
 	 */
-	private void addBlackPromotionResult( Set<String> result, String file ) {
+	private static void addBlackPromotionResult( Set<String> result, String file ) {
 		for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
 			result.add( file + BLACK_PAWN_PROMOTION_RANK + pieceToPromote );
 		}
@@ -159,18 +159,18 @@ public class Position {
 	 * @param result result set to be modified
 	 * @param file file - place of promotion
 	 */
-	private void addWhitePromotionResult( Set<String> result, String file ) {
+	private static void addWhitePromotionResult( Set<String> result, String file ) {
 		for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
 			result.add( file + WHITE_PAWN_PROMOTION_RANK + pieceToPromote );
 		}
 	}
 
-	private String fileToLeft( String file ) {
+	private static String fileToLeft( String file ) {
 		//TODO: UGLY construction, need better!
 		return String.valueOf( (char) ( file.charAt( 0 ) - 1 ) );
 	}
 
-	private String fileToRight( String file ) {
+	private static String fileToRight( String file ) {
 		return String.valueOf( (char) ( file.charAt( 0 ) + 1 ) );
 	}
 
