@@ -74,70 +74,38 @@ public class Position {
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = squaresOccupied.get( square );
-		switch ( side ) {
-			case WHITE:
-				final int nextRank = getNextRank( rank, side );
-				final String rightCaptureSquare = fileToRight( file ) + nextRank;
-				final String leftCaptureSquare = fileToLeft( file ) + nextRank;
 
-				if ( rank == getRankBeforePromotion( side ) ) {
-					addPromotionResult( result, file, side );
+		final int nextRank = getNextRank( rank, side );
+		final String rightCaptureSquare = fileToRight( file ) + nextRank;
+		final String leftCaptureSquare = fileToLeft( file ) + nextRank;
 
-					if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
-						addPromotionResult( result, fileToRight( file ), side );
-					}
+		if ( rank == getRankBeforePromotion( side ) ) {
+			addPromotionResult( result, file, side );
 
-					if ( isOccupiedBy( leftCaptureSquare, side.opposite() ) ) {
-						addPromotionResult( result, fileToLeft( file ), side );
-					}
-				}
-				else {
-					result.add( file + nextRank );
-					if ( rank == getInitialRank( side ) ) {
-						result.add( file + getNextRank( nextRank, side ) );
-					}
+			if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
+				addPromotionResult( result, fileToRight( file ), side );
+			}
 
-					//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
-					//because it simply cannot find 'i' file result - it's null... I don't like such side effects
-					addIfOccupiedBy( result, rightCaptureSquare, side.opposite() );
-					addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
-				}
+			if ( isOccupiedBy( leftCaptureSquare, side.opposite() ) ) {
+				addPromotionResult( result, fileToLeft( file ), side );
+			}
+		}
+		else {
+			result.add( file + nextRank );
+			if ( rank == getInitialRank( side ) ) {
+				result.add( file + getNextRank( nextRank, side ) );
+			}
 
-				break;
-			case BLACK:
-				final int nextBlackRank = getNextRank( rank, side );
-				final String leftCaptureSquareForBlack = fileToLeft( file ) + nextBlackRank;
-				final String rightCaptureSquareForBlack = fileToRight( file ) + nextBlackRank;
-
-				if ( rank == getRankBeforePromotion( side ) ) {
-					addPromotionResult( result, file, side );
-
-					if ( isOccupiedBy( leftCaptureSquareForBlack, side.opposite() ) ) {
-						addPromotionResult( result, fileToLeft( file ), side );
-					}
-
-					if ( isOccupiedBy( rightCaptureSquareForBlack, side.opposite() ) ) {
-						addPromotionResult( result, fileToRight( file ), side );
-					}
-				}
-				else {
-					result.add( file + nextBlackRank );
-					if ( rank == getInitialRank( side ) ) {
-						result.add( file + getNextRank( nextBlackRank, side ) );
-					}
-
-					addIfOccupiedBy( result, rightCaptureSquareForBlack, side.opposite() );
-					addIfOccupiedBy( result, leftCaptureSquareForBlack, side.opposite() );
-				}
-
-				break;
-
+			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
+			//because it simply cannot find 'i' file result - it's null... I don't like such side effects
+			addIfOccupiedBy( result, rightCaptureSquare, side.opposite() );
+			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 		}
 
 		return result;
-
 	}
 
+	//TODO: the switches are smell about inheritance for PawnMovement!
 	private static int getInitialRank( Side side ) {
 		switch ( side ) {
 			case WHITE:
