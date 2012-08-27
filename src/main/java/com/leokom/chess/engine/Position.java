@@ -93,7 +93,7 @@ public class Position {
 				}
 				else {
 					result.add( file + nextRank );
-					if ( rank == WHITE_PAWN_INITIAL_RANK ) {
+					if ( rank == getInitialRank( side ) ) {
 						result.add( file + getNextRank( nextRank, side ) );
 					}
 
@@ -122,7 +122,7 @@ public class Position {
 				}
 				else {
 					result.add( file + nextBlackRank );
-					if ( rank == BLACK_PAWN_INITIAL_RANK ) {
+					if ( rank == getInitialRank( side ) ) {
 						result.add( file + getNextRank( nextBlackRank, side ) );
 					}
 
@@ -136,6 +136,17 @@ public class Position {
 
 		return result;
 
+	}
+
+	private static int getInitialRank( Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return WHITE_PAWN_INITIAL_RANK;
+			case BLACK:
+				return BLACK_PAWN_INITIAL_RANK;
+			default:
+				throw new IllegalArgumentException( "Side is not supported: " + side );
+		}
 	}
 
 	/**
