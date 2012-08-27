@@ -81,14 +81,14 @@ public class Position {
 				final String leftCaptureSquare = fileToLeft( file ) + higherRank;
 				// -1 means - the move will reach the promotion rank if executed
 				if ( rank == WHITE_PAWN_PROMOTION_RANK - 1 ) {
-					addPromotionResult( result, file, Side.WHITE );
+					addPromotionResult( result, file, side );
 
-					if ( isOccupiedBy( rightCaptureSquare, Side.BLACK ) ) {
-						addPromotionResult( result, fileToRight( file ), Side.WHITE );
+					if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
+						addPromotionResult( result, fileToRight( file ), side );
 					}
 
-					if ( isOccupiedBy( leftCaptureSquare, Side.BLACK ) ) {
-						addPromotionResult( result, fileToLeft( file ), Side.WHITE );
+					if ( isOccupiedBy( leftCaptureSquare, side.opposite() ) ) {
+						addPromotionResult( result, fileToLeft( file ), side );
 					}
 				}
 				else {
@@ -100,8 +100,8 @@ public class Position {
 
 					//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
 					//because it simply cannot find 'i' file result - it's null... I don't like such side effects
-					addIfOccupiedBy( result, rightCaptureSquare, Side.BLACK );
-					addIfOccupiedBy( result, leftCaptureSquare, Side.BLACK );
+					addIfOccupiedBy( result, rightCaptureSquare, side.opposite() );
+					addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 				}
 
 				break;
@@ -112,14 +112,14 @@ public class Position {
 
 				// +1 means - black pawn will reach promoted rank if executed
 				if ( rank == BLACK_PAWN_PROMOTION_RANK + 1 ) {
-					addPromotionResult( result, file, Side.BLACK );
+					addPromotionResult( result, file, side );
 
-					if ( isOccupiedBy( leftCaptureSquareForBlack, Side.WHITE ) ) {
-						addPromotionResult( result, fileToLeft( file ), Side.BLACK );
+					if ( isOccupiedBy( leftCaptureSquareForBlack, side.opposite() ) ) {
+						addPromotionResult( result, fileToLeft( file ), side );
 					}
 
-					if ( isOccupiedBy( rightCaptureSquareForBlack, Side.WHITE ) ) {
-						addPromotionResult( result, fileToRight( file ), Side.BLACK );
+					if ( isOccupiedBy( rightCaptureSquareForBlack, side.opposite() ) ) {
+						addPromotionResult( result, fileToRight( file ), side );
 					}
 				}
 				else {
@@ -128,8 +128,8 @@ public class Position {
 						result.add( file + ( rank - 2 ) );
 					}
 
-					addIfOccupiedBy( result, rightCaptureSquareForBlack, Side.WHITE );
-					addIfOccupiedBy( result, leftCaptureSquareForBlack, Side.WHITE );
+					addIfOccupiedBy( result, rightCaptureSquareForBlack, side.opposite() );
+					addIfOccupiedBy( result, leftCaptureSquareForBlack, side.opposite() );
 				}
 
 				break;
