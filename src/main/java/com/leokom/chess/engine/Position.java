@@ -113,7 +113,7 @@ public class Position {
 			case BLACK:
 				return BLACK_PAWN_INITIAL_RANK;
 			default:
-				throw new IllegalArgumentException( "Side is not supported: " + side );
+				return sideNotSupported( side );
 		}
 	}
 
@@ -130,7 +130,7 @@ public class Position {
 			case BLACK:
 				return pawnRank - 1;
 			default:
-				throw new IllegalArgumentException( "Side is not supported: " + side );
+				return sideNotSupported( side );
 		}
 	}
 
@@ -145,8 +145,7 @@ public class Position {
 			case BLACK:
 				return BLACK_PAWN_PROMOTION_RANK + 1;
 			default:
-				//TODO: boring check just for compiler, better choices?
-				throw new IllegalArgumentException( "Side is not supported: " + side );
+				return sideNotSupported( side );
 		}
 	}
 
@@ -157,8 +156,14 @@ public class Position {
 			case BLACK:
 				return BLACK_PAWN_PROMOTION_RANK;
 			default:
-				throw new IllegalArgumentException( "Side is not supported: " + side );
+				return sideNotSupported( side );
 		}
+	}
+
+	//TODO: boring check just for compiler, better choices?
+
+	private static int sideNotSupported( Side side ) {
+		throw new IllegalArgumentException( "Side is not supported: " + side );
 	}
 
 	/**
