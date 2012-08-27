@@ -37,7 +37,7 @@ public class Position {
 	/**
 	 * square -> side
 	 */
-	private Map< String, Side > sidesOccupied = new HashMap<String, Side>();
+	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
 
 
 	/**
@@ -47,7 +47,7 @@ public class Position {
 	 */
 	public void addPawn( Side side, String square ) {
 		//TODO: what if the square is already occupied?
-		sidesOccupied.put( square, side );
+		squaresOccupied.put( square, side );
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class Position {
 		final int rank = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
-		final Side side = sidesOccupied.get( square );
+		final Side side = squaresOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
 				final int higherRank = rank + 1;
@@ -201,6 +201,6 @@ public class Position {
 	 * (means NOT occupied or occupied by the opposite side)
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
-		return sidesOccupied.get( square ) != null && sidesOccupied.get( square ) == side;
+		return squaresOccupied.get( square ) != null && squaresOccupied.get( square ) == side;
 	}
 }
