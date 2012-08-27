@@ -76,9 +76,9 @@ public class Position {
 		final Side side = squaresOccupied.get( square );
 		switch ( side ) {
 			case WHITE:
-				final int higherRank = rank + 1;
-				final String rightCaptureSquare = fileToRight( file ) + higherRank;
-				final String leftCaptureSquare = fileToLeft( file ) + higherRank;
+				final int nextRank = getNextRank( rank, side );
+				final String rightCaptureSquare = fileToRight( file ) + nextRank;
+				final String leftCaptureSquare = fileToLeft( file ) + nextRank;
 
 				if ( rank == getRankBeforePromotion( side ) ) {
 					addPromotionResult( result, file, side );
@@ -92,9 +92,9 @@ public class Position {
 					}
 				}
 				else {
-					result.add( file + higherRank );
+					result.add( file + nextRank );
 					if ( rank == WHITE_PAWN_INITIAL_RANK ) {
-						result.add( file + ( rank + 2 ) );
+						result.add( file + getNextRank( nextRank, side ) );
 					}
 
 					//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
@@ -105,9 +105,9 @@ public class Position {
 
 				break;
 			case BLACK:
-				final int lowerRank = rank - 1;
-				final String leftCaptureSquareForBlack = fileToLeft( file ) + lowerRank;
-				final String rightCaptureSquareForBlack = fileToRight( file ) + lowerRank;
+				final int nextBlackRank = getNextRank( rank, side );
+				final String leftCaptureSquareForBlack = fileToLeft( file ) + nextBlackRank;
+				final String rightCaptureSquareForBlack = fileToRight( file ) + nextBlackRank;
 
 				if ( rank == getRankBeforePromotion( side ) ) {
 					addPromotionResult( result, file, side );
@@ -121,9 +121,9 @@ public class Position {
 					}
 				}
 				else {
-					result.add( file + lowerRank );
+					result.add( file + nextBlackRank );
 					if ( rank == BLACK_PAWN_INITIAL_RANK ) {
-						result.add( file + ( rank - 2 ) );
+						result.add( file + getNextRank( nextBlackRank, side ) );
 					}
 
 					addIfOccupiedBy( result, rightCaptureSquareForBlack, side.opposite() );
@@ -136,6 +136,23 @@ public class Position {
 
 		return result;
 
+	}
+
+	/**
+	 * Get pawn rank that is reachable from current rank by SINGLE move
+	 * @param pawnRank
+	 * @param side pawn side
+	 * @return pawn rank
+	 */
+	private static int getNextRank( int pawnRank, Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return pawnRank + 1;
+			case BLACK:
+				return pawnRank - 1;
+			default:
+				throw new IllegalArgumentException( "Side is not supported: " + side );
+		}
 	}
 
 	/**
