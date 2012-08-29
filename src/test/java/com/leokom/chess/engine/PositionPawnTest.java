@@ -122,8 +122,6 @@ public class PositionPawnTest {
 		final String firstVictim = "c3";
 		final String secondVictim = "a3";
 
-		
-
 		addCapturable( position, Side.BLACK, firstVictim );
 		addCapturable( position, Side.BLACK, secondVictim );
 
@@ -155,7 +153,6 @@ public class PositionPawnTest {
 		final String source = "c4";
 		final String victim = "b3";
 
-		
 		addCapturable( position, Side.WHITE, victim );
 
 		testPawn( position, source, Side.BLACK, "c3", victim );
