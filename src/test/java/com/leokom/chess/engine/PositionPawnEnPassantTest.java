@@ -16,15 +16,36 @@ public class PositionPawnEnPassantTest {
 	*/
 	@Test
 	public void noEnPassantInSimilarPosition() {
-		Position position = createPositionWithoutEnpassantRight();
+		Position position = createPositionWithoutEnPassantRight();
 
 		position.addPawn( Side.BLACK, "f5" );
 
 		testPawn( position, "e5", Side.WHITE, "e6" );
 	}
 
+	@Test
+	public void enPassantInActionRightSideCapture() {
+		Position position = createPositionWithEnPassantPossibility( "f" );
 
-	private Position createPositionWithoutEnpassantRight() {
-		return new Position();
+		//TODO: in theory the flag could be inconsistent with actual position...
+		position.addPawn( Side.BLACK, "f5" );
+
+		//TODO: need any indication in 'f6' result as en passant?
+		testPawn( position, "e5", Side.WHITE, "e6", "f6" );
+	}
+
+	private Position createPositionWithoutEnPassantRight() {
+		return new Position( null );
+	}
+
+	/**
+	 * Create a position, indicating the previous move was done
+	 * by pawn as double-move from initial position to the file provided, so
+	 * en passant is legal
+	 * @param file
+	 * @return
+	 */
+	private Position createPositionWithEnPassantPossibility( String file ) {
+		return new Position( file );
 	}
 }

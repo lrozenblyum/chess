@@ -20,7 +20,7 @@ public class PositionPawnMultiplePositionTest {
 	public void blackPawn7rank() {
 		//TODO: do we have guarantee characters are ordered alphabetically?
 		for( char file = 'a'; file <= 'h'; file++ ) {
-			Position position = new Position();
+			Position position = new Position( null );
 			testPawn( position, file + "7", Side.BLACK, file + "6", file + "5" );
 		}
 	}
@@ -35,7 +35,7 @@ public class PositionPawnMultiplePositionTest {
 			//2 is source of promotion rules (so we'll test it separately)
 			//7 -> 2 destinations.
 			for ( int rank = 3; rank <= 6; rank++ ) {
-				Position position = new Position();
+				Position position = new Position( null );
 				final String sourceRank = String.valueOf( rank );
 				final String expectedRank = String.valueOf( rank - 1 );
 

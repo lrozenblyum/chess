@@ -16,7 +16,7 @@ public class PositionPawnTest {
 
 	@Before
 	public void prepare() {
-		position = new Position();
+		position = new Position( null );
 	}
 
 	/**

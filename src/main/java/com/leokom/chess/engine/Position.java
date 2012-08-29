@@ -39,6 +39,10 @@ public class Position {
 	 */
 	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
 
+	public Position( String enPassantFile ) {
+
+	}
+
 
 	/**
 	 * Add a pawn to the position
