@@ -34,6 +34,15 @@ public class PositionPawnEnPassantTest {
 		testPawn( position, "e5", Side.WHITE, "e6", "f6" );
 	}
 
+	@Test
+	public void enPassantInActionRightSideCaptureAnother() {
+		Position position = createPositionWithEnPassantPossibility( "g" );
+
+		position.addPawn( Side.BLACK, "g5" );
+
+		testPawn( position, "f5", Side.WHITE, "f6", "g6" );
+	}
+
 	private Position createPositionWithoutEnPassantRight() {
 		return new Position( null );
 	}
