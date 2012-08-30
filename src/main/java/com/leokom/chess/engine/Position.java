@@ -87,9 +87,8 @@ public class Position {
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = squaresOccupied.get( square );
 
-		final int nextRank = getNextRank( rank, side );
-		final String rightCaptureSquare = fileToRight( file ) + nextRank;
-		final String leftCaptureSquare = fileToLeft( file ) + nextRank;
+		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
+		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
@@ -103,9 +102,9 @@ public class Position {
 			}
 		}
 		else {
-			result.add( file + nextRank );
+			result.add( file + getNextRank( rank, side ) );
 			if ( rank == getInitialRank( side ) ) {
-				result.add( file + getNextRank( nextRank, side ) );
+				result.add( file + getNextRank( getNextRank( rank, side ), side ) );
 			}
 
 			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
@@ -116,10 +115,10 @@ public class Position {
 
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
 			if ( enPassantFile.equals( fileToRight( file ) ) ) {
-				result.add( fileToRight( file ) + nextRank );
+				result.add( fileToRight( file ) + getNextRank( rank, side ) );
 			}
 			else if ( enPassantFile.equals( fileToLeft( file ) ) ){
-				result.add( fileToLeft( file ) + nextRank );
+				result.add( fileToLeft( file ) + getNextRank( rank, side ) );
 			}
 		}
 
