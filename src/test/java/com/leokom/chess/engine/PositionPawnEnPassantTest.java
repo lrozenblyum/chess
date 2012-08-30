@@ -43,6 +43,14 @@ public class PositionPawnEnPassantTest {
 		testPawn( position, "f5", Side.WHITE, "f6", "g6" );
 	}
 
+	@Test
+	public void enPassantInActionButNotWorksOnDifferentRank() {
+		Position position = createPositionWithEnPassantPossibility( "c" );
+		position.addPawn( Side.BLACK, "c5" );
+
+		testPawn( position, "f5", Side.WHITE, "f6" );
+	}
+
 	private Position createPositionWithoutEnPassantRight() {
 		return new Position( null );
 	}
