@@ -114,8 +114,13 @@ public class Position {
 			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 		}
 
-		if ( rank == 5 && enPassantFile != null && enPassantFile.equals( fileToRight( file ) ) ) {
-			result.add( fileToRight( file ) + 6 );
+		if ( rank == 5 && enPassantFile != null ) {
+			if ( enPassantFile.equals( fileToRight( file ) ) ) {
+				result.add( fileToRight( file ) + 6 );
+			}
+			else if ( enPassantFile.equals( fileToLeft( file ) ) ){
+				result.add( fileToLeft( file ) + 6 );
+			}
 		}
 
 		return result;
