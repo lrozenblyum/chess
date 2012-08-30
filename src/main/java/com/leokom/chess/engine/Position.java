@@ -114,26 +114,34 @@ public class Position {
 			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 		}
 
-		if ( side == Side.WHITE && rank == 5 && enPassantFile != null ) {
+		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
 			if ( enPassantFile.equals( fileToRight( file ) ) ) {
-				result.add( fileToRight( file ) + 6 );
+				result.add( fileToRight( file ) + nextRank );
 			}
 			else if ( enPassantFile.equals( fileToLeft( file ) ) ){
-				result.add( fileToLeft( file ) + 6 );
-			}
-		}
-
-		if ( side == Side.BLACK && rank == 4 && enPassantFile != null ) {
-			if ( enPassantFile.equals( fileToLeft( file ) ) ) {
-				result.add( fileToLeft( file ) + 3 );
-			}
-
-			if ( enPassantFile.equals( fileToRight( file ) ) ) {
-				result.add( fileToRight( file ) + 3 );
+				result.add( fileToLeft( file ) + nextRank );
 			}
 		}
 
 		return result;
+	}
+
+	/**
+	 * Get rank staying on which a pawn can execute
+	 * en passant capture
+	 * if previous move from another side was a double pawn move
+	 * @param side
+	 * @return rank with en passant possibility
+	 */
+	private static int getEnPassantPossibleRank( Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return 5;
+			case BLACK:
+				return 4;
+			default:
+				return sideNotSupported( side );
+		}
 	}
 
 	//TODO: the switches are smell about inheritance for PawnMovement!
