@@ -123,7 +123,7 @@ public class Position {
 			}
 		}
 
-		if ( rank == 4 && enPassantFile != null ) {
+		if ( side == Side.BLACK && rank == 4 && enPassantFile != null ) {
 			if ( enPassantFile.equals( fileToLeft( file ) ) ) {
 				result.add( fileToLeft( file ) + 3 );
 			}
