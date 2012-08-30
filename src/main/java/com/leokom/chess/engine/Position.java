@@ -44,6 +44,9 @@ public class Position {
 	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
 
 	private boolean enPassant = false;
+
+	//TODO: in theory the flag could be inconsistent with actual position...
+	//maybe need some builder?
 	public Position( String enPassantFile ) {
 		enPassant = enPassantFile != null;
 	}

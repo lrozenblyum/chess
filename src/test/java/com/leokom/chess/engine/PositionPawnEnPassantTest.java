@@ -27,7 +27,6 @@ public class PositionPawnEnPassantTest {
 	public void enPassantInActionRightSideCapture() {
 		Position position = createPositionWithEnPassantPossibility( "f" );
 
-		//TODO: in theory the flag could be inconsistent with actual position...
 		position.addPawn( Side.BLACK, "f5" );
 
 		//TODO: need any indication in 'f6' result as en passant?
