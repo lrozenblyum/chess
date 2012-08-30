@@ -39,8 +39,9 @@ public class Position {
 	 */
 	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
 
+	private boolean enPassant = false;
 	public Position( String enPassantFile ) {
-
+		enPassant = enPassantFile != null;
 	}
 
 
@@ -104,6 +105,10 @@ public class Position {
 			//because it simply cannot find 'i' file result - it's null... I don't like such side effects
 			addIfOccupiedBy( result, rightCaptureSquare, side.opposite() );
 			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
+		}
+
+		if ( result.contains( "e6" ) && enPassant ) {
+			result.add( "f6" );
 		}
 
 		return result;
