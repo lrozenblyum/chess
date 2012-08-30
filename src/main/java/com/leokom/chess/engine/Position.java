@@ -127,6 +127,10 @@ public class Position {
 			if ( enPassantFile.equals( fileToLeft( file ) ) ) {
 				result.add( fileToLeft( file ) + 3 );
 			}
+
+			if ( enPassantFile.equals( fileToRight( file ) ) ) {
+				result.add( fileToRight( file ) + 3 );
+			}
 		}
 
 		return result;
