@@ -42,6 +42,15 @@ public class PositionPawnEnPassantTest {
 	}
 
 	@Test
+	public void noEnPassantSymmetricWhite() {
+		Position position = new Position( "a" );
+		position.addPawn( Side.WHITE, "a4" );
+		position.addPawn( Side.BLACK, "a5" );
+
+		testPawn( position, "b5", Side.BLACK, "b4", "a4" );
+	}
+
+	@Test
 	public void enPassantInActionLeftSideCaptureBlack() {
 		Position position = new Position( "c" );
 		position.addPawn( Side.WHITE, "c4" );
