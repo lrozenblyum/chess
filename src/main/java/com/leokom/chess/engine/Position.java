@@ -4,6 +4,10 @@ import java.util.*;
 
 /**
  * Current position on-board (probably with some historical data...)
+ *
+ * I consider the position as immutable (however this vision may change
+ * by taking into account historical data)
+ *
  * Author: Leonid
  * Date-time: 21.08.12 15:55
  */
@@ -38,6 +42,14 @@ public class Position {
 	 * square -> side
 	 */
 	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
+
+	private String enPassantFile;
+
+	//TODO: in theory the flag could be inconsistent with actual position...
+	//maybe need some builder?
+	public Position( String enPassantFile ) {
+		this.enPassantFile = enPassantFile;
+	}
 
 
 	/**
@@ -75,9 +87,8 @@ public class Position {
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = squaresOccupied.get( square );
 
-		final int nextRank = getNextRank( rank, side );
-		final String rightCaptureSquare = fileToRight( file ) + nextRank;
-		final String leftCaptureSquare = fileToLeft( file ) + nextRank;
+		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
+		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
@@ -91,9 +102,9 @@ public class Position {
 			}
 		}
 		else {
-			result.add( file + nextRank );
+			result.add( file + getNextRank( rank, side ) );
 			if ( rank == getInitialRank( side ) ) {
-				result.add( file + getNextRank( nextRank, side ) );
+				result.add( file + getNextRank( getNextRank( rank, side ), side ) );
 			}
 
 			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
@@ -102,7 +113,34 @@ public class Position {
 			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 		}
 
+		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
+			if ( enPassantFile.equals( fileToRight( file ) ) ) {
+				result.add( fileToRight( file ) + getNextRank( rank, side ) );
+			}
+			else if ( enPassantFile.equals( fileToLeft( file ) ) ){
+				result.add( fileToLeft( file ) + getNextRank( rank, side ) );
+			}
+		}
+
 		return result;
+	}
+
+	/**
+	 * Get rank staying on which a pawn can execute
+	 * en passant capture
+	 * if previous move from another side was a double pawn move
+	 * @param side
+	 * @return rank with en passant possibility
+	 */
+	private static int getEnPassantPossibleRank( Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return 5;
+			case BLACK:
+				return 4;
+			default:
+				return sideNotSupported( side );
+		}
 	}
 
 	//TODO: the switches are smell about inheritance for PawnMovement!
@@ -209,6 +247,6 @@ public class Position {
 	 * (means NOT occupied or occupied by the opposite side)
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
-		return squaresOccupied.get( square ) != null && squaresOccupied.get( square ) == side;
+		return ( squaresOccupied.get( square ) != null ) &&( squaresOccupied.get( square ) == side );
 	}
 }
