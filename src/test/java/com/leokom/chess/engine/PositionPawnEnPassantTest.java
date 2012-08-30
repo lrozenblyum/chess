@@ -34,7 +34,7 @@ public class PositionPawnEnPassantTest {
 	//both sides are on e, black had double move last
 	@Test
 	public void noEnPassantInSymmetricCase() {
-		Position position = new Position( "e" );
+		Position position = createPositionWithEnPassantPossibility( "e" );
 		position.addPawn( Side.WHITE, "e4" );
 		position.addPawn( Side.BLACK, "e5" );
 
@@ -43,7 +43,7 @@ public class PositionPawnEnPassantTest {
 
 	@Test
 	public void twoSidedEnPassant() {
-		Position position = new Position( "c" );
+		Position position = createPositionWithEnPassantPossibility( "c" );
 		position.addPawn( Side.BLACK, "c5" );
 
 		position.addPawn( Side.WHITE, "b5" );
@@ -55,7 +55,7 @@ public class PositionPawnEnPassantTest {
 
 	@Test
 	public void noEnPassantSymmetricWhite() {
-		Position position = new Position( "a" );
+		Position position = createPositionWithEnPassantPossibility( "a" );
 		position.addPawn( Side.WHITE, "a4" );
 		position.addPawn( Side.BLACK, "a5" );
 
@@ -64,7 +64,7 @@ public class PositionPawnEnPassantTest {
 
 	@Test
 	public void enPassantInActionLeftSideCaptureBlack() {
-		Position position = new Position( "c" );
+		Position position = createPositionWithEnPassantPossibility( "c" );
 		position.addPawn( Side.WHITE, "c4" );
 
 		testPawn( position, "d4", Side.BLACK, "d3", "c3" );
@@ -72,7 +72,7 @@ public class PositionPawnEnPassantTest {
 
 	@Test
 	public void enPassantInActionRightSideCaptureBlack() {
-		Position position = new Position( "g" );
+		Position position = createPositionWithEnPassantPossibility( "g" );
 		position.addPawn( Side.WHITE, "g4" );
 
 		testPawn( position, "f4", Side.BLACK, "f3", "g3" );
