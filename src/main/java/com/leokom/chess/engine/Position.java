@@ -107,8 +107,8 @@ public class Position {
 			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 		}
 
-		if ( result.contains( "e6" ) && enPassant ) {
-			result.add( "f6" );
+		if ( rank == 5 && enPassant ) {
+			result.add( fileToRight( file ) + "6" );
 		}
 
 		return result;
