@@ -43,12 +43,12 @@ public class Position {
 	 */
 	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
 
-	private boolean enPassant = false;
+	private String enPassantFile;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
 	public Position( String enPassantFile ) {
-		enPassant = enPassantFile != null;
+		this.enPassantFile = enPassantFile;
 	}
 
 
@@ -114,7 +114,7 @@ public class Position {
 			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 		}
 
-		if ( rank == 5 && enPassant ) {
+		if ( rank == 5 && enPassantFile != null && enPassantFile.equals( fileToRight( file ) ) ) {
 			result.add( fileToRight( file ) + "6" );
 		}
 
