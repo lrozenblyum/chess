@@ -114,7 +114,7 @@ public class Position {
 			addIfOccupiedBy( result, leftCaptureSquare, side.opposite() );
 		}
 
-		if ( rank == 5 && enPassantFile != null ) {
+		if ( side == Side.WHITE && rank == 5 && enPassantFile != null ) {
 			if ( enPassantFile.equals( fileToRight( file ) ) ) {
 				result.add( fileToRight( file ) + 6 );
 			}
