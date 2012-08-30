@@ -115,7 +115,7 @@ public class Position {
 		}
 
 		if ( rank == 5 && enPassantFile != null && enPassantFile.equals( fileToRight( file ) ) ) {
-			result.add( fileToRight( file ) + "6" );
+			result.add( fileToRight( file ) + 6 );
 		}
 
 		return result;
