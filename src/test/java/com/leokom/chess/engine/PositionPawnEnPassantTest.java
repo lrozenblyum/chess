@@ -42,6 +42,18 @@ public class PositionPawnEnPassantTest {
 	}
 
 	@Test
+	public void twoSidedEnPassant() {
+		Position position = new Position( "c" );
+		position.addPawn( Side.BLACK, "c5" );
+
+		position.addPawn( Side.WHITE, "b5" );
+		position.addPawn( Side.WHITE, "d5" );
+
+		testPawn( position, "b5", Side.WHITE, "b6", "c6" );
+		testPawn( position, "d5", Side.WHITE, "d6", "c6" );
+	}
+
+	@Test
 	public void noEnPassantSymmetricWhite() {
 		Position position = new Position( "a" );
 		position.addPawn( Side.WHITE, "a4" );
