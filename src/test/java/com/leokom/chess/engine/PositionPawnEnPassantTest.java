@@ -24,11 +24,19 @@ public class PositionPawnEnPassantTest {
 	}
 
 	@Test
-	public void noEnpassantInSimilarPositionBlack() {
+	public void noEnPassantInSimilarPositionBlack() {
 		Position position = createPositionWithoutEnPassantRight();
 		position.addPawn( Side.WHITE, "c4" );
 
 		testPawn( position, "d4", Side.BLACK, "d3" );
+	}
+
+	@Test
+	public void enPassantInActionLeftSideCaptureBlack() {
+		Position position = new Position( "c" );
+		position.addPawn( Side.WHITE, "c4" );
+
+		testPawn( position, "d4", Side.BLACK, "d3", "c3" );
 	}
 
 	@Test
