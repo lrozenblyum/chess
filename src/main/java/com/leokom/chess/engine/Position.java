@@ -4,6 +4,10 @@ import java.util.*;
 
 /**
  * Current position on-board (probably with some historical data...)
+ *
+ * I consider the position as immutable (however this vision may change
+ * by taking into account historical data)
+ *
  * Author: Leonid
  * Date-time: 21.08.12 15:55
  */
