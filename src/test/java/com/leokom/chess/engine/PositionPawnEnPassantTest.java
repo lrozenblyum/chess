@@ -31,6 +31,16 @@ public class PositionPawnEnPassantTest {
 		testPawn( position, "d4", Side.BLACK, "d3" );
 	}
 
+	//both sides are on e, black had double move last
+	@Test
+	public void noEnPassantInSymmetricCase() {
+		Position position = new Position( "e" );
+		position.addPawn( Side.WHITE, "e4" );
+		position.addPawn( Side.BLACK, "e5" );
+
+		testPawn( position, "f4", Side.WHITE, "e5", "f5" );
+	}
+
 	@Test
 	public void enPassantInActionLeftSideCaptureBlack() {
 		Position position = new Position( "c" );
