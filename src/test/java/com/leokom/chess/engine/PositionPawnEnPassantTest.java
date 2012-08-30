@@ -40,6 +40,14 @@ public class PositionPawnEnPassantTest {
 	}
 
 	@Test
+	public void enPassantInActionRightSideCaptureBlack() {
+		Position position = new Position( "g" );
+		position.addPawn( Side.WHITE, "g4" );
+
+		testPawn( position, "f4", Side.BLACK, "f3", "g3" );
+	}
+
+	@Test
 	public void enPassantInActionRightSideCapture() {
 		Position position = createPositionWithEnPassantPossibility( "f" );
 
