@@ -251,6 +251,6 @@ public class Position {
 	}
 
 	public Position move( String squareFrom, String squareTo ) {
-		return null;
+		return new Position( null );
 	}
 }

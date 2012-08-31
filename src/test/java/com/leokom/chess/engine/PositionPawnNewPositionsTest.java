@@ -3,6 +3,8 @@ package com.leokom.chess.engine;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
+
 /**
  * Generate positions by legal pawn moves using the initial position
  * Author: Leonid
@@ -21,5 +23,7 @@ public class PositionPawnNewPositionsTest {
 		position.addPawn( Side.WHITE, "c3" );
 
 		Position newPosition = position.move( "c3", "c4" );
+
+		assertNotNull( "New position must be not null", newPosition );
 	}
 }
