@@ -249,4 +249,8 @@ public class Position {
 	private boolean isOccupiedBy( String square, Side side ) {
 		return ( squaresOccupied.get( square ) != null ) &&( squaresOccupied.get( square ) == side );
 	}
+
+	public Position move( String squareFrom, String squareTo ) {
+		return null;
+	}
 }
