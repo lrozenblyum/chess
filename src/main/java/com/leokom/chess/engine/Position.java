@@ -250,6 +250,14 @@ public class Position {
 		return ( squaresOccupied.get( square ) != null ) &&( squaresOccupied.get( square ) == side );
 	}
 
+	/**
+	 * Perform move from squareFrom to squareTo
+	 * We guarantee returning a new position instead of
+	 * modifying the current one
+	 * @param squareFrom
+	 * @param squareTo
+	 * @return new position, which is received from current by doing 1 move
+	 */
 	public Position move( String squareFrom, String squareTo ) {
 		return new Position( null );
 	}

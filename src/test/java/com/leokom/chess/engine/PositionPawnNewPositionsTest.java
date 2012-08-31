@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * Generate positions by legal pawn moves using the initial position
@@ -25,5 +26,6 @@ public class PositionPawnNewPositionsTest {
 		Position newPosition = position.move( "c3", "c4" );
 
 		assertNotNull( "New position must be not null", newPosition );
+		assertNotSame( newPosition, position );
 	}
 }
