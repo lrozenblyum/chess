@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Develop position#hasPawn
@@ -21,5 +22,19 @@ public class PositionHasPawnTest {
 	@Test
 	public void noPawn() {
 		assertFalse( position.hasPawn( "a2" ) );
+	}
+
+	@Test
+	public void presentPawn() {
+		final String square = "g6";
+		position.addPawn( Side.WHITE, square );
+		assertTrue( position.hasPawn( square ) );
+	}
+
+	@Test
+	public void presentPawnInitial() {
+		final String square = "a2";
+		position.addPawn( Side.WHITE, square );
+		assertTrue( position.hasPawn( square ) );
 	}
 }
