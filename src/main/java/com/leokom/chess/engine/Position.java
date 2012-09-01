@@ -265,7 +265,7 @@ public class Position {
 	}
 
 	boolean hasPawn( String square, Side side ) {
-		return squaresOccupied.get( square ) != null;
+		return squaresOccupied.get( square ) != null && squaresOccupied.get( square ) == side;
 	}
 
 	//TODO: if this method is used in real production code
