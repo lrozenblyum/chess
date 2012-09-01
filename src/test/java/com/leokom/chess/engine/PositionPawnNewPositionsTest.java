@@ -30,11 +30,11 @@ public class PositionPawnNewPositionsTest {
 		assertNotSame( newPosition, position );
 
 		assertHasPawn( newPosition, squareToMove );
-		assertHasNoPawn( newPosition, initialSquare );
+		assertEmptySquare( newPosition, initialSquare );
 	}
 
-	private static void assertHasNoPawn( Position position, String square ) {
-		assertFalse( "Pawn must be absent on square" + square, position.hasPawn( square ) );
+	private static void assertEmptySquare( Position position, String square ) {
+		assertFalse( "The square must be empty: " + square, position.isEmptySquare( square ) );
 	}
 
 	/**

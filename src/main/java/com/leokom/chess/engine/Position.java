@@ -267,4 +267,13 @@ public class Position {
 	public boolean hasPawn( String square ) {
 		return squaresOccupied.get( square ) != null;
 	}
+
+	/**
+	 * Check if square is empty (not occupied by any piece)
+	 * @param square square to check
+	 * @return true if square is empty
+	 */
+	public boolean isEmptySquare( String square ) {
+		return squaresOccupied.get( square ) == null;
+	}
 }
