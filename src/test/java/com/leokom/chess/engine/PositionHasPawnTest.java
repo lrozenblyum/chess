@@ -21,27 +21,41 @@ public class PositionHasPawnTest {
 
 	@Test
 	public void noPawn() {
-		assertFalse( position.hasPawn( "a2" ) );
+		final String anySquare = "a2";
+		assertFalse( position.hasPawn( anySquare, Side.WHITE ) );
+		assertFalse( position.hasPawn( anySquare, Side.BLACK ) );
 	}
 
 	@Test
 	public void presentPawn() {
 		final String square = "g6";
-		position.addPawn( Side.WHITE, square );
-		assertTrue( position.hasPawn( square ) );
+		final Side side = Side.WHITE;
+		position.addPawn( side, square );
+		assertTrue( position.hasPawn( square, side ) );
+	}
+
+	@Test
+	public void absentPawnOfAnotherColor() {
+		final String anySquare = "c6";
+		final Side anySide = Side.WHITE;
+		position.addPawn( anySide, anySquare );
+
+		assertFalse( position.hasPawn( anySquare, anySide.opposite() ) );
 	}
 
 	@Test
 	public void presentPawnInitial() {
 		final String square = "a2";
-		position.addPawn( Side.WHITE, square );
-		assertTrue( position.hasPawn( square ) );
+		final Side side = Side.WHITE;
+		position.addPawn( side, square );
+		assertTrue( position.hasPawn( square, side ) );
 	}
 
 	@Test
 	public void presentBlackPawn() {
 		final String square = "c4";
-		position.addPawn(Side.BLACK, square );
-		assertTrue( position.hasPawn( square ) );
+		final Side side = Side.BLACK;
+		position.addPawn( side, square );
+		assertTrue( position.hasPawn( square, side ) );
 	}
 }

@@ -264,7 +264,7 @@ public class Position {
 		return result;
 	}
 
-	boolean hasPawn( String square ) {
+	boolean hasPawn( String square, Side side ) {
 		return squaresOccupied.get( square ) != null;
 	}
 

@@ -32,12 +32,13 @@ public class PositionPawnNewPositionsTest {
 	@Test
 	public void singleMove() {
 		final String initialSquare = "c3";
-		position.addPawn( Side.WHITE, initialSquare );
+		final Side side = Side.WHITE;
+		position.addPawn( side, initialSquare );
 
 		final String squareToMove = "c4";
 		Position newPosition = position.move( initialSquare, squareToMove );
 
-		assertHasPawn( newPosition, squareToMove );
+		assertHasPawn( newPosition, squareToMove, side );
 		assertEmptySquare( newPosition, initialSquare );
 	}
 
@@ -49,8 +50,10 @@ public class PositionPawnNewPositionsTest {
 	 * Assert that position has a pawn on the square
 	 * @param position
 	 * @param square
+	 * @param side
 	 */
-	private static void assertHasPawn( Position position, String square ) {
-		assertTrue( "Pawn is expected to be on square: " + square, position.hasPawn( square ) );
+	private static void assertHasPawn( Position position, String square, Side side ) {
+		assertTrue( "Pawn of + " + side + " is expected to be on square: " + square,
+				position.hasPawn( square, side ) );
 	}
 }
