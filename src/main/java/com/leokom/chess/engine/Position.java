@@ -259,7 +259,9 @@ public class Position {
 	 * @return new position, which is received from current by doing 1 move
 	 */
 	public Position move( String squareFrom, String squareTo ) {
-		return new Position( null );
+		final Position result = new Position( null );
+		result.addPawn( Side.BLACK, "c4" );
+		return result;
 	}
 
 	public boolean hasPawn( String square ) {

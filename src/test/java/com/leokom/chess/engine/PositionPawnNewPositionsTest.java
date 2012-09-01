@@ -34,7 +34,7 @@ public class PositionPawnNewPositionsTest {
 	}
 
 	private static void assertHasNoPawn( Position position, String square ) {
-		assertFalse( position.hasPawn( square ) );
+		assertFalse( "Pawn must be absent on square" + square, position.hasPawn( square ) );
 	}
 
 	/**
@@ -43,6 +43,6 @@ public class PositionPawnNewPositionsTest {
 	 * @param square
 	 */
 	private static void assertHasPawn( Position position, String square ) {
-		assertTrue( position.hasPawn( square ) );
+		assertTrue( "Pawn is expected to be on square: " + square, position.hasPawn( square ) );
 	}
 }
