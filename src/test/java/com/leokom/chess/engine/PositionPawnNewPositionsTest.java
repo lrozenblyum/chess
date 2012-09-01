@@ -3,9 +3,7 @@ package com.leokom.chess.engine;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Generate positions by legal pawn moves using the initial position
@@ -22,14 +20,21 @@ public class PositionPawnNewPositionsTest {
 
 	@Test
 	public void singleMove() {
-		position.addPawn( Side.WHITE, "c3" );
+		final String initialSquare = "c3";
+		position.addPawn( Side.WHITE, initialSquare );
 
-		Position newPosition = position.move( "c3", "c4" );
+		final String squareToMove = "c4";
+		Position newPosition = position.move( initialSquare, squareToMove );
 
 		assertNotNull( "New position must be not null", newPosition );
 		assertNotSame( newPosition, position );
 
-		assertHasPawn( newPosition, "c4" );
+		assertHasPawn( newPosition, squareToMove );
+		assertHasNoPawn( newPosition, initialSquare );
+	}
+
+	private static void assertHasNoPawn( Position position, String square ) {
+		assertFalse( position.hasPawn( square ) );
 	}
 
 	/**
@@ -37,7 +42,7 @@ public class PositionPawnNewPositionsTest {
 	 * @param position
 	 * @param square
 	 */
-	private void assertHasPawn( Position position, String square ) {
+	private static void assertHasPawn( Position position, String square ) {
 		assertTrue( position.hasPawn( square ) );
 	}
 }
