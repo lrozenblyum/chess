@@ -37,4 +37,11 @@ public class PositionHasPawnTest {
 		position.addPawn( Side.WHITE, square );
 		assertTrue( position.hasPawn( square ) );
 	}
+
+	@Test
+	public void presentBlackPawn() {
+		final String square = "c4";
+		position.addPawn(Side.BLACK, square );
+		assertTrue( position.hasPawn( square ) );
+	}
 }
