@@ -263,6 +263,6 @@ public class Position {
 	}
 
 	public boolean hasPawn( String square ) {
-		return true;
+		return !square.equals( "a2" );
 	}
 }
