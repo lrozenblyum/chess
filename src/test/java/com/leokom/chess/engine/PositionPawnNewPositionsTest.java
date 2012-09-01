@@ -19,15 +19,23 @@ public class PositionPawnNewPositionsTest {
 	}
 
 	@Test
+	public void basicContractRequirements() {
+		final String anyInitialSquare = "g3";
+		final String anyValidSquareToMove = "g4";
+		position.addPawn( Side.WHITE, anyInitialSquare );
+
+		Position newPosition = position.move( anyInitialSquare, anyValidSquareToMove );
+		assertNotNull( "New position must be not null", newPosition );
+		assertNotSame( newPosition, position );
+	}
+
+	@Test
 	public void singleMove() {
 		final String initialSquare = "c3";
 		position.addPawn( Side.WHITE, initialSquare );
 
 		final String squareToMove = "c4";
 		Position newPosition = position.move( initialSquare, squareToMove );
-
-		assertNotNull( "New position must be not null", newPosition );
-		assertNotSame( newPosition, position );
 
 		assertHasPawn( newPosition, squareToMove );
 		assertEmptySquare( newPosition, initialSquare );
