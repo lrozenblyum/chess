@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Generate positions by legal pawn moves using the initial position
@@ -27,5 +28,16 @@ public class PositionPawnNewPositionsTest {
 
 		assertNotNull( "New position must be not null", newPosition );
 		assertNotSame( newPosition, position );
+
+		assertHasPawn( newPosition, "c4" );
+	}
+
+	/**
+	 * Assert that position has a pawn on the square
+	 * @param position
+	 * @param square
+	 */
+	private void assertHasPawn( Position position, String square ) {
+		assertTrue( position.hasPawn( square ) );
 	}
 }

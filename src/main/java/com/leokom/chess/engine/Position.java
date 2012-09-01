@@ -261,4 +261,8 @@ public class Position {
 	public Position move( String squareFrom, String squareTo ) {
 		return new Position( null );
 	}
+
+	public boolean hasPawn( String square ) {
+		return true;
+	}
 }
