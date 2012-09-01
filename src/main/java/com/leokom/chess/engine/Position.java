@@ -264,16 +264,18 @@ public class Position {
 		return result;
 	}
 
-	public boolean hasPawn( String square ) {
+	boolean hasPawn( String square ) {
 		return squaresOccupied.get( square ) != null;
 	}
 
+	//TODO: if this method is used in real production code
+	//it probably requires test coverage. Now it's for tests only
 	/**
 	 * Check if square is empty (not occupied by any piece)
 	 * @param square square to check
 	 * @return true if square is empty
 	 */
-	public boolean isEmptySquare( String square ) {
+	boolean isEmptySquare( String square ) {
 		return squaresOccupied.get( square ) == null;
 	}
 }

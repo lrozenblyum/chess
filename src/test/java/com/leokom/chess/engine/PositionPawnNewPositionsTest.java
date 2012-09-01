@@ -34,7 +34,7 @@ public class PositionPawnNewPositionsTest {
 	}
 
 	private static void assertEmptySquare( Position position, String square ) {
-		assertFalse( "The square must be empty: " + square, position.isEmptySquare( square ) );
+		assertTrue( "The square must be empty: " + square, position.isEmptySquare( square ) );
 	}
 
 	/**
