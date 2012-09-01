@@ -53,7 +53,7 @@ public class PositionPawnNewPositionsTest {
 	 * @param side
 	 */
 	private static void assertHasPawn( Position position, String square, Side side ) {
-		assertTrue( "Pawn of + " + side + " is expected to be on square: " + square,
+		assertTrue( "Pawn of " + side + " is expected to be on square: " + square,
 				position.hasPawn( square, side ) );
 	}
 }
