@@ -31,13 +31,26 @@ public class PositionPawnNewPositionsTest {
 
 	@Test
 	public void singleMove() {
-		final String initialSquare = "c3";
+		final String anySquare = "c3";
 		final Side side = Side.WHITE;
-		position.addPawn( side, initialSquare );
+		position.addPawn( side, anySquare );
 
 		final String squareToMove = "c4";
-		Position newPosition = position.move( initialSquare, squareToMove );
+		Position newPosition = position.move( anySquare, squareToMove );
 
+		assertHasPawn( newPosition, squareToMove, side );
+		assertEmptySquare( newPosition, anySquare );
+	}
+
+	@Test
+	public void singleMoveFromInitialPosition() {
+		final String initialSquare = "e2";
+		final Side side = Side.WHITE;
+
+		position.addPawn( side, initialSquare );
+
+		final String squareToMove = "e3";
+		Position newPosition = position.move( initialSquare, squareToMove );
 		assertHasPawn( newPosition, squareToMove, side );
 		assertEmptySquare( newPosition, initialSquare );
 	}
