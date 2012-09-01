@@ -264,8 +264,15 @@ public class Position {
 		return result;
 	}
 
+	/**
+	 * Check if the position has a pawn on square provided
+	 * with needed side
+	 * @param square
+	 * @param side
+	 * @return true iff such pawn is present
+	 */
 	boolean hasPawn( String square, Side side ) {
-		return squaresOccupied.get( square ) != null && squaresOccupied.get( square ) == side;
+		return isOccupiedBy( square, side );
 	}
 
 	//TODO: if this method is used in real production code
