@@ -20,6 +20,22 @@ final class PositionUtils {
 		position.addPawn( side, square );
 	}
 
+	//TODO: extend when we introduce new pieces!
+
+	/**
+	 * Add any piece to the position's given square.
+	 * Note: I expect that the position will be still valid after this addition.
+	 * But this note requires deeper thinking about what's 'valid' position
+	 * and how must it be kept (e.g. by some validating builder?)
+	 * @param position
+	 * @param side
+	 * @param square
+	 */
+	static PieceType addAny( Position position, Side side, String square ) {
+		position.addPawn( side, square );
+		return PieceType.PAWN;
+	}
+
 	/**
 	 * Check that inside the position, starting from initial field,
 	 * we can legally reach EVERY reachableSquares (and ONLY them)

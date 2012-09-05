@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static com.leokom.chess.engine.PositionUtils.addAny;
 
 /**
  * Generate positions by legal pawn moves using the initial position
@@ -71,6 +72,26 @@ public class PositionPawnNewPositionsTest {
 		assertPawnMovement( Side.BLACK, "g7", "g5" );
 	}
 
+	@Test
+	public void preserveOtherWhitePieces() {
+		final Side notMovedPieceSide = Side.WHITE;
+		final String notMovedPieceSquare = "g4";
+		PieceType notMovedPieceType = addAny( position, notMovedPieceSide, notMovedPieceSquare );
+
+		//side effect of moving
+		Position newPosition = assertPawnMovement( Side.BLACK, "c6", "c5" );
+
+		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
+	}
+
+	private static void assertHasPiece( Position position, PieceType pieceType, Side notMovedPieceSide, String notMovedPieceSquare ) {
+		if ( pieceType != PieceType.PAWN ) {
+			throw new IllegalArgumentException( "Piece type is not supported yet: " + pieceType );
+		}
+
+		assertHasPawn( position, notMovedPieceSquare, notMovedPieceSide );
+	}
+
 	/**
 	 * Assert that:
 	 * if we add a pawn to the #position
@@ -79,13 +100,15 @@ public class PositionPawnNewPositionsTest {
 	 * @param side
 	 * @param initialSquare
 	 * @param squareToMove
+	 * @return newPosition for further asserts
 	 */
-	private void assertPawnMovement( Side side, String initialSquare, String squareToMove ) {
+	private Position assertPawnMovement( Side side, String initialSquare, String squareToMove ) {
 		position.addPawn( side, initialSquare );
 		Position newPosition = position.move( initialSquare, squareToMove );
 
 		assertHasPawn( newPosition, squareToMove, side );
 		assertEmptySquare( newPosition, initialSquare );
+		return newPosition;
 	}
 
 	private static void assertEmptySquare( Position position, String square ) {
