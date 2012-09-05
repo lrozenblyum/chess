@@ -1,5 +1,10 @@
 package com.leokom.chess.engine;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -31,5 +36,18 @@ public final class PositionAsserts {
 	static void assertHasPawn( Position position, String square, Side side ) {
 		assertTrue( "Pawn of " + side + " is expected to be on square: " + square,
 				position.hasPawn( square, side ) );
+	}
+
+	/**
+	 * Check that inside the position, starting from initial field,
+	 * we can legally reach EVERY reachableSquares (and ONLY them)
+	 * (basing on position's feedback)
+	 * @param position
+	 * @param initialField
+	 * @param reachableSquares
+	 */
+	static void assertAllowedMoves( Position position, String initialField, String... reachableSquares ) {
+		Set<String> squares = position.getMovesFrom( initialField );
+		assertEquals( new HashSet<String>( Arrays.asList( reachableSquares ) ), squares );
 	}
 }

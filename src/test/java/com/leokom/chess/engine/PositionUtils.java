@@ -36,16 +36,4 @@ final class PositionUtils {
 		return PieceType.PAWN;
 	}
 
-	/**
-	 * Check that inside the position, starting from initial field,
-	 * we can legally reach EVERY reachableSquares (and ONLY them)
-	 * (basing on position's feedback)
-	 * @param position
-	 * @param initialField
-	 * @param reachableSquares
-	 */
-	static void assertAllowedMoves( Position position, String initialField, String... reachableSquares ) {
-		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( new HashSet<String>( Arrays.asList( reachableSquares ) ), squares );
-	}
 }
