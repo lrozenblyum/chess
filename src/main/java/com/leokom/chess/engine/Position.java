@@ -260,7 +260,7 @@ public class Position {
 	 */
 	public Position move( String squareFrom, String squareTo ) {
 		final Position result = new Position( null );
-		result.addPawn( Side.WHITE, "c4" );
+		result.addPawn( Side.WHITE, squareTo );
 		return result;
 	}
 
