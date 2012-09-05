@@ -66,6 +66,11 @@ public class PositionPawnNewPositionsTest {
 		assertPawnMovement( side, initialSquare, squareToMove );
 	}
 
+	@Test
+	public void doubleBlackMove() {
+		assertPawnMovement( Side.BLACK, "g7", "g5" );
+	}
+
 	/**
 	 * Assert that:
 	 * if we add a pawn to the #position
