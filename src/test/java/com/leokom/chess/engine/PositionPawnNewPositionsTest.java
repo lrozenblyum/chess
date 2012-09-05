@@ -55,6 +55,18 @@ public class PositionPawnNewPositionsTest {
 		assertEmptySquare( newPosition, initialSquare );
 	}
 
+	@Test
+	public void singleBlackMove() {
+		final String initialSquare = "f4";
+		final Side side = Side.BLACK;
+		position.addPawn( side, initialSquare );
+
+		final String squareToMove = "f3";
+		Position newPosition = position.move( initialSquare, squareToMove );
+		assertHasPawn( newPosition, squareToMove, side );
+		assertEmptySquare(newPosition, initialSquare );
+	}
+
 	private static void assertEmptySquare( Position position, String square ) {
 		assertTrue( "The square must be empty: " + square, position.isEmptySquare( square ) );
 	}
