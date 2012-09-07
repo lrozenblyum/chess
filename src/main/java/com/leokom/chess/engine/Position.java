@@ -253,7 +253,12 @@ public class Position {
 	/**
 	 * Perform move from squareFrom to squareTo
 	 * We guarantee returning a new position instead of
-	 * modifying the current one
+	 * modifying the current one.
+	 *
+	 * The implementation should execute the move provided, guaranteeing that unaffected
+	 * pieces must be left on the same place
+	 * (NOTE: unaffected is not so easy as can be imagined, e.g. when we move en passant the piece we capture
+	 * IS affected! However it's not related to squareFrom and squareTo)
 	 * @param squareFrom
 	 * @param squareTo
 	 * @return new position, which is received from current by doing 1 move
