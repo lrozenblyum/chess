@@ -110,6 +110,24 @@ public class PositionPawnNewPositionsTest {
 		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
 	}
 
+	@Test
+	public void preserveCoupleOfPieces() {
+		//TODO: Side+Square are duplicated too much
+		//it means they must be coupled together!
+		final Side firstAnySide = Side.BLACK;
+		final String firstAnySquare = "f7";
+		final Side secondAnySide = Side.WHITE; //any not depending on first
+		final String secondAnySquare = "c3";
+
+		PieceType notMovedPieceType = addAny( position, firstAnySide, firstAnySquare );
+		PieceType notMovedPieceType2 = addAny( position, secondAnySide, secondAnySquare );
+
+		Position newPosition = assertPawnMovement( Side.WHITE, "e2", "e4" );
+
+		assertHasPiece( newPosition, notMovedPieceType, firstAnySide, firstAnySquare );
+		assertHasPiece( newPosition, notMovedPieceType2, secondAnySide, secondAnySquare );
+	}
+
 	/**
 	 * Assert that:
 	 * if we add a pawn to the #position
