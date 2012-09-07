@@ -85,6 +85,19 @@ public class PositionPawnNewPositionsTest {
 		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
 	}
 
+	@Test
+	public void preserveOtherBlackPieces() {
+		final Side notMovedPieceSide = Side.BLACK;
+		final String notMovedPieceSquare = "g4";
+
+		PieceType notMovedPieceType = addAny( position, notMovedPieceSide, notMovedPieceSquare );
+
+		//side effect of moving
+		Position newPosition = assertPawnMovement( Side.BLACK, "d6", "d5" );
+
+		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
+	}
+
 	/**
 	 * Assert that:
 	 * if we add a pawn to the #position
