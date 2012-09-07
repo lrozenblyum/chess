@@ -86,6 +86,18 @@ public class PositionPawnNewPositionsTest {
 	}
 
 	@Test
+	public void preserveOtherWhitePiecesTriangulate() {
+		final Side notMovedPieceSide = Side.WHITE;
+		final String notMovedPieceSquare = "c4";
+
+		PieceType notMovedPieceType = addAny( position, notMovedPieceSide, notMovedPieceSquare );
+
+		Position newPosition = assertPawnMovement( Side.WHITE, "d3", "d4" );
+
+		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
+	}
+
+	@Test
 	public void preserveOtherBlackPieces() {
 		final Side notMovedPieceSide = Side.BLACK;
 		final String notMovedPieceSquare = "g4";
