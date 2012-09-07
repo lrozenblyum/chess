@@ -261,7 +261,9 @@ public class Position {
 	public Position move( String squareFrom, String squareTo ) {
 		final Position result = new Position( null );
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
-		result.addPawn( squaresOccupied.get( "g4" ), "g4" );
+
+		final String busySquare = "g4";
+		result.addPawn( squaresOccupied.get( busySquare ), busySquare );
 		return result;
 	}
 
