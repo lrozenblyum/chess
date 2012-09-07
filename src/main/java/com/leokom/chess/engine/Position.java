@@ -262,8 +262,14 @@ public class Position {
 		final Position result = new Position( null );
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
 
-		final String busySquare = "g4";
-		result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
+		copySet.remove( squareFrom );
+
+		if ( !copySet.isEmpty() ) {
+			final String busySquare = copySet.iterator().next();
+			result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+		}
+
 		return result;
 	}
 
