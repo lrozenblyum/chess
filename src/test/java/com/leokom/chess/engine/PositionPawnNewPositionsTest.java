@@ -3,6 +3,7 @@ package com.leokom.chess.engine;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.leokom.chess.engine.PositionUtils.addCapturable;
 import static org.junit.Assert.*;
 import static com.leokom.chess.engine.PositionUtils.addAny;
 import static com.leokom.chess.engine.PositionAsserts.*;
@@ -126,6 +127,15 @@ public class PositionPawnNewPositionsTest {
 
 		assertHasPiece( newPosition, notMovedPieceType, firstAnySide, firstAnySquare );
 		assertHasPiece( newPosition, notMovedPieceType2, secondAnySide, secondAnySquare );
+	}
+
+	@Test
+	public void captureLeft() {
+		position.addPawn( Side.WHITE, "g4" );
+		addCapturable( position, Side.BLACK, "f5" );
+
+		Position newPosition = position.move( "g4", "f5" );
+		assertHasPawn( newPosition, "f5", Side.WHITE );
 	}
 
 	/**
