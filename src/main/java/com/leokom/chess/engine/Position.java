@@ -271,8 +271,9 @@ public class Position {
 		copySet.remove( squareFrom );
 
 		if ( !copySet.isEmpty() ) {
-			final String busySquare = copySet.iterator().next();
-			result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+			for ( String busySquare : copySet ) {
+				result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+			}
 		}
 
 		return result;
