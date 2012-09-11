@@ -131,42 +131,32 @@ public class PositionPawnNewPositionsTest {
 
 	@Test
 	public void captureLeft() {
-		position.addPawn( Side.WHITE, "g4" );
-		addCapturable( position, Side.BLACK, "f5" );
-
-		Position newPosition = position.move( "g4", "f5" );
-		assertHasPawn( newPosition, "f5", Side.WHITE );
-		assertEmptySquare( newPosition, "g4" );
+		testCapture( Side.WHITE, Side.BLACK, "g4", "f5" );
 	}
 
 	@Test
 	public void captureLeftTriangle() {
-		position.addPawn( Side.WHITE, "d2" );
-		addCapturable( position, Side.BLACK, "c3" );
-
-		Position newPosition = position.move( "d2", "c3" );
-		assertHasPawn( newPosition, "c3", Side.WHITE );
-		assertEmptySquare( newPosition, "d2" );
+		testCapture( Side.WHITE, Side.BLACK, "d2", "c3" );
 	}
 
 	@Test
 	public void captureRight() {
-		position.addPawn( Side.WHITE, "f6" );
-		addCapturable( position, Side.BLACK, "g7" );
-
-		Position newPosition = position.move( "f6", "g7" );
-		assertHasPawn( newPosition, "g7", Side.WHITE );
-		assertEmptySquare( newPosition, "f6" );
+		testCapture( Side.WHITE, Side.BLACK, "f6", "g7" );
 	}
 
 	@Test
 	public void captureLeftBlack() {
-		position.addPawn( Side.BLACK, "c3" );
-		addCapturable( position, Side.WHITE, "b2" );
 
-		Position newPosition = position.move( "c3", "b2" );
-		assertHasPawn( newPosition, "b2", Side.BLACK );
-		assertEmptySquare( newPosition, "c3" );
+		testCapture( Side.BLACK, Side.WHITE, "c3", "b2" );
+	}
+
+	private void testCapture( Side movingSide, Side sideToCapture, String sourceSquare, String targetSquare ) {
+		position.addPawn( movingSide, sourceSquare );
+		addCapturable( position, sideToCapture, targetSquare );
+
+		Position newPosition = position.move( sourceSquare, targetSquare );
+		assertHasPawn( newPosition, targetSquare, movingSide );
+		assertEmptySquare( newPosition, sourceSquare );
 	}
 
 	/**
