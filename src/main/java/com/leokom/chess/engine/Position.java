@@ -265,7 +265,7 @@ public class Position {
 	 */
 	public Position move( String squareFrom, String squareTo ) {
 		final Position result = new Position( null );
-		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
+
 
 		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
@@ -276,7 +276,9 @@ public class Position {
 			}
 		}
 
-		result.addPawn( Side.WHITE, "f5" );
+		//basing on current overwriting effect (must be the last),
+		//to capture...
+		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
 		return result;
 	}
 
