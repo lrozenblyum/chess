@@ -146,7 +146,6 @@ public class PositionPawnNewPositionsTest {
 
 	@Test
 	public void captureLeftBlack() {
-
 		testCapture( Side.BLACK, Side.WHITE, "c3", "b2" );
 	}
 
