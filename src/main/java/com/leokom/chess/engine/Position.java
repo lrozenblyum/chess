@@ -276,6 +276,7 @@ public class Position {
 			}
 		}
 
+		result.addPawn( Side.WHITE, "f5" );
 		return result;
 	}
 
