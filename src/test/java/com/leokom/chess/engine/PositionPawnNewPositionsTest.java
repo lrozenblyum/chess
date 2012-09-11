@@ -136,6 +136,17 @@ public class PositionPawnNewPositionsTest {
 
 		Position newPosition = position.move( "g4", "f5" );
 		assertHasPawn( newPosition, "f5", Side.WHITE );
+		assertEmptySquare( newPosition, "g4" );
+	}
+
+	@Test
+	public void captureLeftTriangle() {
+		position.addPawn( Side.WHITE, "d2" );
+		addCapturable( position, Side.BLACK, "c3" );
+
+		Position newPosition = position.move( "d2", "c3" );
+		assertHasPawn( newPosition, "c3", Side.WHITE );
+		assertEmptySquare( newPosition, "d2" );
 	}
 
 	/**
