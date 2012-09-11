@@ -149,6 +149,26 @@ public class PositionPawnNewPositionsTest {
 		assertEmptySquare( newPosition, "d2" );
 	}
 
+	@Test
+	public void captureRight() {
+		position.addPawn( Side.WHITE, "f6" );
+		addCapturable( position, Side.BLACK, "g7" );
+
+		Position newPosition = position.move( "f6", "g7" );
+		assertHasPawn( newPosition, "g7", Side.WHITE );
+		assertEmptySquare( newPosition, "f6" );
+	}
+
+	@Test
+	public void captureLeftBlack() {
+		position.addPawn( Side.BLACK, "c3" );
+		addCapturable( position, Side.WHITE, "b2" );
+
+		Position newPosition = position.move( "c3", "b2" );
+		assertHasPawn( newPosition, "b2", Side.BLACK );
+		assertEmptySquare( newPosition, "c3" );
+	}
+
 	/**
 	 * Assert that:
 	 * if we add a pawn to the #position
