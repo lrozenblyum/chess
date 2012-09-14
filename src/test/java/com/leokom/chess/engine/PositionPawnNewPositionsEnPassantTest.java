@@ -34,6 +34,15 @@ public class PositionPawnNewPositionsEnPassantTest {
 		assertEquals( "d", result.getPossibleEnPassantFile() );
 	}
 
+	@Test
+	public void singleMoveFromInitialPositionIgnored() {
+		Position position = getEmptyPosition();
+		position.addPawn( Side.WHITE, "c2" );
+
+		Position result = position.move( "c2", "c3" );
+		assertEquals( null, result.getPossibleEnPassantFile() );
+	}
+
 	private Position getEmptyPosition() {
 		//TODO: this null is not important, "a" - "h" are also perfectly legal
 		return new Position( null );
