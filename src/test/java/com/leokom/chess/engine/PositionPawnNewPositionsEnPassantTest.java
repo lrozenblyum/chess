@@ -16,11 +16,26 @@ public class PositionPawnNewPositionsEnPassantTest {
 
 	@Test
 	public void doubleMoveCreatesPossibility() {
-		Position position = new Position( null );
+		Position position = getEmptyPosition();
+
 		position.addPawn( Side.WHITE, "e2" );
 
 		Position result = position.move( "e2", "e4" );
 
 		assertEquals( "e", result.getPossibleEnPassantFile() );
+	}
+
+	@Test
+	public void doubleMoveTriangulate() {
+		Position position = getEmptyPosition();
+		position.addPawn( Side.WHITE, "d2" );
+
+		Position result = position.move( "d2", "d4" );
+		assertEquals( "d", result.getPossibleEnPassantFile() );
+	}
+
+	private Position getEmptyPosition() {
+		//TODO: this null is not important, "a" - "h" are also perfectly legal
+		return new Position( null );
 	}
 }
