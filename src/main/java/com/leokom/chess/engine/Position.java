@@ -78,7 +78,7 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		final Set<String> result = new HashSet<String>();
-		String file = String.valueOf( square.charAt( 0 ) ); //depends on format e2
+		String file = fileOfSquare( square );
 
 		//TODO: this internal conversion is needed because char itself has its
 		//numeric value
@@ -123,6 +123,15 @@ public class Position {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Depends on format e2
+	 * @param square
+	 * @return file of square
+	 */
+	private String fileOfSquare( String square ) {
+		return String.valueOf( square.charAt( 0 ) );
 	}
 
 	/**
@@ -264,8 +273,7 @@ public class Position {
 	 * @return new position, which is received from current by doing 1 move
 	 */
 	public Position move( String squareFrom, String squareTo ) {
-		final Position result = new Position( null );
-
+		final Position result = new Position( fileOfSquare( squareFrom ) );
 
 		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
@@ -279,6 +287,7 @@ public class Position {
 		//basing on current overwriting effect (must be the last),
 		//to capture...
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
+
 		return result;
 	}
 
@@ -310,6 +319,6 @@ public class Position {
 	 * @return possible en passant file if double-move done
 	 */
 	public String getPossibleEnPassantFile() {
-		return "e";
+		return this.enPassantFile;
 	}
 }
