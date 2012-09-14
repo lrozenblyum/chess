@@ -304,6 +304,11 @@ public class Position {
 		return squaresOccupied.get( square ) == null;
 	}
 
+	/**
+	 * If previous move was done by pawn (double-step_ from initial position
+	 * returns the file of movement, otherwise null
+	 * @return possible en passant file if double-move done
+	 */
 	public String getPossibleEnPassantFile() {
 		return "e";
 	}
