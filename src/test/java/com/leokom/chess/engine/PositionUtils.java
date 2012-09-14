@@ -20,16 +20,20 @@ final class PositionUtils {
 		position.addPawn( side, square );
 	}
 
+	//TODO: extend when we introduce new pieces!
+
 	/**
-	 * Check that inside the position, starting from initial field,
-	 * we can legally reach EVERY reachableSquares (and ONLY them)
-	 * (basing on position's feedback)
+	 * Add any piece to the position's given square.
+	 * Note: I expect that the position will be still valid after this addition.
+	 * But this note requires deeper thinking about what's 'valid' position
+	 * and how must it be kept (e.g. by some validating builder?)
 	 * @param position
-	 * @param initialField
-	 * @param reachableSquares
+	 * @param side
+	 * @param square
 	 */
-	static void assertAllowedMoves( Position position, String initialField, String... reachableSquares ) {
-		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( new HashSet<String>( Arrays.asList( reachableSquares ) ), squares );
+	static PieceType addAny( Position position, Side side, String square ) {
+		position.addPawn( side, square );
+		return PieceType.PAWN;
 	}
+
 }

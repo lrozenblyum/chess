@@ -18,6 +18,8 @@ public class Position {
 	private static final int WHITE_PAWN_INITIAL_RANK = 2;
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
+	private static final int WHITE_PAWN_DOUBLE_MOVE_RANK = getNextRank( getNextRank( WHITE_PAWN_INITIAL_RANK, Side.WHITE ), Side.WHITE );
+
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
@@ -78,11 +80,9 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		final Set<String> result = new HashSet<String>();
-		String file = String.valueOf( square.charAt( 0 ) ); //depends on format e2
+		String file = fileOfSquare( square );
 
-		//TODO: this internal conversion is needed because char itself has its
-		//numeric value
-		final int rank = Integer.valueOf( String.valueOf(square.charAt( 1 ) ));
+		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = squaresOccupied.get( square );
@@ -123,6 +123,20 @@ public class Position {
 		}
 
 		return result;
+	}
+
+	private static Integer rankOfSquare( String square ) {
+		//this internal conversion is needed because char itself has its
+		return Integer.valueOf( String.valueOf( square.charAt( 1 ) ));
+	}
+
+	/**
+	 * Depends on format e2
+	 * @param square
+	 * @return file of square
+	 */
+	private static String fileOfSquare( String square ) {
+		return String.valueOf( square.charAt( 0 ) );
 	}
 
 	/**
@@ -248,5 +262,73 @@ public class Position {
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
 		return ( squaresOccupied.get( square ) != null ) &&( squaresOccupied.get( square ) == side );
+	}
+
+	/**
+	 * Perform move from squareFrom to squareTo
+	 * We guarantee returning a new position instead of
+	 * modifying the current one.
+	 *
+	 * The implementation should execute the move provided, guaranteeing that unaffected
+	 * pieces must be left on the same place
+	 * (NOTE: unaffected is not so easy as can be imagined, e.g. when we move en passant the piece we capture
+	 * IS affected! However it's not related to squareFrom and squareTo)
+	 * @param squareFrom
+	 * @param squareTo
+	 * @return new position, which is received from current by doing 1 move
+	 */
+	public Position move( String squareFrom, String squareTo ) {
+		final String newEnPassantFile =
+				rankOfSquare( squareFrom ) == WHITE_PAWN_INITIAL_RANK &&
+				rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
+					fileOfSquare( squareFrom ) :
+					null;
+		final Position result = new Position( newEnPassantFile );
+
+		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
+		copySet.remove( squareFrom );
+
+		if ( !copySet.isEmpty() ) {
+			for ( String busySquare : copySet ) {
+				result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+			}
+		}
+
+		//basing on current overwriting effect (must be the last),
+		//to capture...
+		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
+
+		return result;
+	}
+
+	/**
+	 * Check if the position has a pawn on square provided
+	 * with needed side
+	 * @param square
+	 * @param side
+	 * @return true iff such pawn is present
+	 */
+	boolean hasPawn( String square, Side side ) {
+		return isOccupiedBy( square, side );
+	}
+
+	//TODO: if this method is used in real production code
+	//it probably requires test coverage. Now it's for tests only
+	/**
+	 * Check if square is empty (not occupied by any piece)
+	 * @param square square to check
+	 * @return true if square is empty
+	 */
+	boolean isEmptySquare( String square ) {
+		return squaresOccupied.get( square ) == null;
+	}
+
+	/**
+	 * If previous move was done by pawn (double-step_ from initial position
+	 * returns the file of movement, otherwise null
+	 * @return possible en passant file if double-move done
+	 */
+	public String getPossibleEnPassantFile() {
+		return this.enPassantFile;
 	}
 }
