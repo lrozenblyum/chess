@@ -305,6 +305,6 @@ public class Position {
 	}
 
 	public String getPossibleEnPassantFile() {
-		return null;
+		return "e";
 	}
 }
