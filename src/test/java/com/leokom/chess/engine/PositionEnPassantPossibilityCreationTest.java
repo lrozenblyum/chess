@@ -45,4 +45,12 @@ public class PositionEnPassantPossibilityCreationTest {
 		Position result = position.move( "c2", "c3" );
 		assertEquals( null, result.getPossibleEnPassantFile() );
 	}
+
+	@Test
+	public void singleMoveFromNotInitialPositionIgnored() {
+		position.addPawn( Side.WHITE, "b3" );
+
+		Position result = position.move( "b3", "b4" );
+		assertEquals( null, result.getPossibleEnPassantFile() );
+	}
 }
