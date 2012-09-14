@@ -303,4 +303,8 @@ public class Position {
 	boolean isEmptySquare( String square ) {
 		return squaresOccupied.get( square ) == null;
 	}
+
+	public String getPossibleEnPassantFile() {
+		return null;
+	}
 }
