@@ -13,11 +13,16 @@ import static org.junit.Assert.assertEquals;
 public class PositionEnPassantPossibilityCreationTest {
 	//file that gives en passant right
 	private static final String fileMovedBefore = "c"; //any!
+	private Position position;
+
+	@Before
+	public void prepare() {
+		//TODO: this null is not important, "a" - "h" are also perfectly legal
+		position = new Position( null );
+	}
 
 	@Test
 	public void doubleMoveCreatesPossibility() {
-		Position position = getEmptyPosition();
-
 		position.addPawn( Side.WHITE, "e2" );
 
 		Position result = position.move( "e2", "e4" );
@@ -27,7 +32,6 @@ public class PositionEnPassantPossibilityCreationTest {
 
 	@Test
 	public void doubleMoveTriangulate() {
-		Position position = getEmptyPosition();
 		position.addPawn( Side.WHITE, "d2" );
 
 		Position result = position.move( "d2", "d4" );
@@ -36,15 +40,9 @@ public class PositionEnPassantPossibilityCreationTest {
 
 	@Test
 	public void singleMoveFromInitialPositionIgnored() {
-		Position position = getEmptyPosition();
 		position.addPawn( Side.WHITE, "c2" );
 
 		Position result = position.move( "c2", "c3" );
 		assertEquals( null, result.getPossibleEnPassantFile() );
-	}
-
-	private Position getEmptyPosition() {
-		//TODO: this null is not important, "a" - "h" are also perfectly legal
-		return new Position( null );
 	}
 }
