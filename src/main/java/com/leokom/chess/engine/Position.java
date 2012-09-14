@@ -18,6 +18,8 @@ public class Position {
 	private static final int WHITE_PAWN_INITIAL_RANK = 2;
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
+	private static final int WHITE_PAWN_DOUBLE_MOVE_RANK = getNextRank( getNextRank( WHITE_PAWN_INITIAL_RANK, Side.WHITE ), Side.WHITE );
+
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
@@ -276,7 +278,7 @@ public class Position {
 	 * @return new position, which is received from current by doing 1 move
 	 */
 	public Position move( String squareFrom, String squareTo ) {
-		final String newEnPassantFile = rankOfSquare( squareTo ) == 4 ? fileOfSquare( squareFrom ) : null;
+		final String newEnPassantFile = rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK ? fileOfSquare( squareFrom ) : null;
 		final Position result = new Position( newEnPassantFile );
 
 		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
