@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * Author: Leonid
  * Date-time: 11.09.12 22:28
  */
-public class PositionPawnNewPositionsEnPassantTest {
+public class PositionEnPassantPossibilityCreationTest {
 	//file that gives en passant right
 	private static final String fileMovedBefore = "c"; //any!
 
