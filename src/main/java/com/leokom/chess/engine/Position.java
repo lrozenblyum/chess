@@ -278,7 +278,11 @@ public class Position {
 	 * @return new position, which is received from current by doing 1 move
 	 */
 	public Position move( String squareFrom, String squareTo ) {
-		final String newEnPassantFile = rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK ? fileOfSquare( squareFrom ) : null;
+		final String newEnPassantFile =
+				rankOfSquare( squareFrom ) == WHITE_PAWN_INITIAL_RANK &&
+				rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
+					fileOfSquare( squareFrom ) :
+					null;
 		final Position result = new Position( newEnPassantFile );
 
 		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
