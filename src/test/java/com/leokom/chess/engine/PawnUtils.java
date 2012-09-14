@@ -18,6 +18,6 @@ final class PawnUtils {
 	 */
 	static void testPawn( Position position, String pawnPosition, Side side, String... allMoves ) {
 		position.addPawn( side, pawnPosition );
-		PositionUtils.assertAllowedMoves( position, pawnPosition, allMoves );
+		PositionAsserts.assertAllowedMoves( position, pawnPosition, allMoves );
 	}
 }

@@ -33,6 +33,20 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+
+<plugin>
+    <groupId>org.pitest</groupId>
+    <artifactId>pitest-maven</artifactId>
+    <version>LATEST</version>
+    <configuration>
+      <targetClasses>
+        <param>com.leokom.chess.*</param>
+      </targetClasses>
+      <targetTests>
+        <param>com.leokom.chess.*</param>
+      </targetTests>
+    </configuration>
+  </plugin>
         </plugins>
     </build>
 </project>
