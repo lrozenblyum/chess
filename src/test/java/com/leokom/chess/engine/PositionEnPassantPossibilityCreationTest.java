@@ -44,7 +44,7 @@ public class PositionEnPassantPossibilityCreationTest {
 		position.addPawn( Side.WHITE, "c2" );
 
 		Position result = position.move( "c2", "c3" );
-		assertEquals( null, result.getPossibleEnPassantFile() );
+		assertNull( result.getPossibleEnPassantFile() );
 	}
 
 	@Test
@@ -52,7 +52,7 @@ public class PositionEnPassantPossibilityCreationTest {
 		position.addPawn( Side.WHITE, "b3" );
 
 		Position result = position.move( "b3", "b4" );
-		assertEquals( null, result.getPossibleEnPassantFile() );
+		assertNull( result.getPossibleEnPassantFile() );
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class PositionEnPassantPossibilityCreationTest {
 		position.addPawn( Side.BLACK, "g6" );
 
 		Position result = position.move( "g6", "g5" );
-		assertEquals( null, result.getPossibleEnPassantFile() );
+		assertNull( result.getPossibleEnPassantFile() );
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class PositionEnPassantPossibilityCreationTest {
 		position.addPawn( Side.BLACK, "c7" );
 
 		Position result = position.move( "c7", "c6" );
-		assertEquals( null, result.getPossibleEnPassantFile() );
+		assertNull( result.getPossibleEnPassantFile() );
 	}
 
 	@Test
