@@ -309,11 +309,11 @@ public class Position {
 		final Side side = squaresOccupied.get( squareFrom );
 		switch ( side ) {
 			case WHITE:
-				return rankOfSquare( squareFrom ) == WHITE_PAWN_INITIAL_RANK &&
+				return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
 						rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
 						fileOfSquare( squareFrom ) : null;
 			case BLACK:
-				return rankOfSquare( squareFrom ) == BLACK_PAWN_INITIAL_RANK &&
+				return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
 						rankOfSquare( squareTo ) == BLACK_PAWN_DOUBLE_MOVE_RANK ?
 						fileOfSquare( squareFrom ) : null;
 			default:
