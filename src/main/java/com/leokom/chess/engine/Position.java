@@ -102,7 +102,7 @@ public class Position {
 		else {
 			result.add( file + getNextRank( rank, side ) );
 			if ( rank == getInitialRank( side ) ) {
-				result.add( file + getNextRank( getNextRank( rank, side ), side ) );
+				result.add( file + getDoubleMoveRank( side ) );
 			}
 
 			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
