@@ -53,4 +53,12 @@ public class PositionEnPassantPossibilityCreationTest {
 		Position result = position.move( "b3", "b4" );
 		assertEquals( null, result.getPossibleEnPassantFile() );
 	}
+
+	@Test
+	public void blackEnPassantPossibility() {
+		position.addPawn( Side.BLACK, "a7" );
+
+		Position result = position.move( "a7", "a5" );
+		assertEquals( "a", result.getPossibleEnPassantFile() );
+	}
 }
