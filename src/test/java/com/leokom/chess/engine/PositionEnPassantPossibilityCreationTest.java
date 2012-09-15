@@ -97,4 +97,13 @@ public class PositionEnPassantPossibilityCreationTest {
 		Position result = newPosition.move( "c7", "c6" );
 		assertNull( result.getPossibleEnPassantFile() );
 	}
+
+	@Test
+	public void captureIgnored() {
+		position.addPawn( Side.BLACK, "h7" );
+		position.addPawn( Side.WHITE, "g6" );
+
+		Position result = position.move( "h7", "g6" );
+		assertNull( result.getPossibleEnPassantFile() );
+	}
 }
