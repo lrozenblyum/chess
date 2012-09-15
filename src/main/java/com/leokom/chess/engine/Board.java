@@ -6,6 +6,10 @@ package com.leokom.chess.engine;
  * Date-time: 15.09.12 18:48
  */
 final class Board {
+	//so far it's not intended to create the boards,
+	//however need to rethink this approach...
+	private Board() {}
+
 	static final int MINIMAL_RANK = 1; //by FIDE
 	static final int MAXIMAL_RANK = 8; //by FIDE
 
