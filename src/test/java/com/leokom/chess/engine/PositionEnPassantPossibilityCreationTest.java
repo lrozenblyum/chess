@@ -55,10 +55,18 @@ public class PositionEnPassantPossibilityCreationTest {
 	}
 
 	@Test
-	public void blackEnPassantPossibility() {
+	public void blackPossible() {
 		position.addPawn( Side.BLACK, "a7" );
 
 		Position result = position.move( "a7", "a5" );
 		assertEquals( "a", result.getPossibleEnPassantFile() );
+	}
+
+	@Test
+	public void blackPossibleTriangulate() {
+		position.addPawn( Side.BLACK, "g7" );
+		Position result = position.move( "g7", "g5" );
+
+		assertEquals( "g", result.getPossibleEnPassantFile() );
 	}
 }
