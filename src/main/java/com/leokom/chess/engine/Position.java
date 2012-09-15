@@ -302,8 +302,8 @@ public class Position {
 	/**
 	 * Get a file for new position, for which the next move could be en passant
 	 * (if possible)
-	 * @param squareFrom
-	 * @param squareTo
+	 * @param squareFrom square from which the piece is going to move
+	 * @param squareTo square to which the piece is going to move
 	 * @return possible en passant file (null if impossible)
 	 */
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
