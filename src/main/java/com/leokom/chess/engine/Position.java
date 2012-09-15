@@ -280,7 +280,7 @@ public class Position {
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
 
-		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
+		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
 
 		if ( !copySet.isEmpty() ) {
