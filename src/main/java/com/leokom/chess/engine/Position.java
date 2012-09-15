@@ -278,11 +278,7 @@ public class Position {
 	 * @return new position, which is received from current by doing 1 move
 	 */
 	public Position move( String squareFrom, String squareTo ) {
-		final String newEnPassantFile =
-				rankOfSquare( squareFrom ) == WHITE_PAWN_INITIAL_RANK &&
-				rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
-					fileOfSquare( squareFrom ) :
-					squaresOccupied.get( squareFrom ) == Side.BLACK ? fileOfSquare( squareFrom ) : null;
+		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
 
 		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
@@ -299,6 +295,28 @@ public class Position {
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
 
 		return result;
+	}
+
+	/**
+	 * Get a file for new position, for which the next move could be en passant
+	 * (if possible)
+	 * @param squareFrom
+	 * @param squareTo
+	 * @return possible en passant file (null if impossible)
+	 */
+	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
+		final Side side = squaresOccupied.get( squareFrom );
+		switch ( side ) {
+			case WHITE:
+				return rankOfSquare( squareFrom ) == WHITE_PAWN_INITIAL_RANK &&
+						rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
+						fileOfSquare( squareFrom ) : null;
+			case BLACK:
+				return fileOfSquare( squareFrom );
+			default:
+				//TODO: create descendants for Black/White and avoid this code
+				throw new AssertionError( "Side is not supported" + side );
+		}
 	}
 
 	/**
