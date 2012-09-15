@@ -18,9 +18,6 @@ public class Position {
 	private static final int WHITE_PAWN_INITIAL_RANK = 2;
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
-	private static final int WHITE_PAWN_DOUBLE_MOVE_RANK = getNextRank( getNextRank( WHITE_PAWN_INITIAL_RANK, Side.WHITE ), Side.WHITE );
-	private static final int BLACK_PAWN_DOUBLE_MOVE_RANK = getNextRank( getNextRank( BLACK_PAWN_INITIAL_RANK, Side.BLACK ), Side.BLACK );
-
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
@@ -265,6 +262,10 @@ public class Position {
 		return ( squaresOccupied.get( square ) != null ) &&( squaresOccupied.get( square ) == side );
 	}
 
+	private static int getDoubleMoveRank( Side side ) {
+		return getNextRank( getNextRank( getInitialRank( side ), side ), side );
+	}
+
 	/**
 	 * Perform move from squareFrom to squareTo
 	 * We guarantee returning a new position instead of
@@ -310,11 +311,11 @@ public class Position {
 		switch ( side ) {
 			case WHITE:
 				return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
-						rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
+						rankOfSquare( squareTo ) == getDoubleMoveRank( side )	?
 						fileOfSquare( squareFrom ) : null;
 			case BLACK:
 				return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
-						rankOfSquare( squareTo ) == BLACK_PAWN_DOUBLE_MOVE_RANK ?
+						rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
 						fileOfSquare( squareFrom ) : null;
 			default:
 				//TODO: create descendants for Black/White and avoid this code
