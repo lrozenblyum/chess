@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Test en passant cases for new position generation by pawn movement
@@ -84,5 +85,16 @@ public class PositionEnPassantPossibilityCreationTest {
 
 		Position result = position.move( "c7", "c6" );
 		assertEquals( null, result.getPossibleEnPassantFile() );
+	}
+
+	@Test
+	public void flagIsNotPreservedNextMove() {
+		Position newPosition = new Position( "e" );
+		newPosition.addPawn( Side.WHITE, "e4" );
+
+		newPosition.addPawn( Side.BLACK, "c7" ); //any
+		//any not double-pawn move
+		Position result = newPosition.move( "c7", "c6" );
+		assertNull( result.getPossibleEnPassantFile() );
 	}
 }
