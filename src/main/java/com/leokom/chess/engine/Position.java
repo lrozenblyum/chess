@@ -184,19 +184,23 @@ public class Position {
 		}
 	}
 
+	private static int getPreviousRank( int pawnRank, Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return pawnRank - 1;
+			case BLACK:
+				return pawnRank + 1;
+			default:
+				return sideNotSupported( side );
+		}
+	}
+
 	/**
 	 * @param side
 	 * @return rank from which next pawn move can reach promotion rank
 	 */
 	private static int getRankBeforePromotion( Side side ) {
-		switch ( side ) {
-			case WHITE :
-				return WHITE_PAWN_PROMOTION_RANK - 1;
-			case BLACK:
-				return BLACK_PAWN_PROMOTION_RANK + 1;
-			default:
-				return sideNotSupported( side );
-		}
+		return getPreviousRank( getPromotionRank( side ), side );
 	}
 
 	private static int getPromotionRank( Side side ) {
