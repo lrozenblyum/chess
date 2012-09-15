@@ -12,19 +12,13 @@ import java.util.*;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
-	private static final int MINIMAL_RANK = 1; //by FIDE
-	private static final int MAXIMAL_RANK = 8; //by FIDE
-
 	private static final int WHITE_PAWN_INITIAL_RANK = 2;
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
-	private static final int WHITE_PAWN_DOUBLE_MOVE_RANK = getNextRank( getNextRank( WHITE_PAWN_INITIAL_RANK, Side.WHITE ), Side.WHITE );
-
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
-	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
-	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
-
+	private static final int WHITE_PAWN_PROMOTION_RANK = Board.MAXIMAL_RANK;
+	private static final int BLACK_PAWN_PROMOTION_RANK = Board.MINIMAL_RANK;
 
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< String > PIECES_TO_PROMOTE_FROM_PAWN =
@@ -80,31 +74,31 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		final Set<String> result = new HashSet<String>();
-		String file = fileOfSquare( square );
 
-		final int rank = rankOfSquare( square );
+		final String file = Board.fileOfSquare( square );
+		final int rank = Board.rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = squaresOccupied.get( square );
 
-		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
-		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
+		final String rightCaptureSquare = Board.fileToRight( file ) + getNextRank( rank, side );
+		final String leftCaptureSquare = Board.fileToLeft( file ) + getNextRank( rank, side );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
 			if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, fileToRight( file ), side );
+				addPromotionResult( result, Board.fileToRight( file ), side );
 			}
 
 			if ( isOccupiedBy( leftCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, fileToLeft( file ), side );
+				addPromotionResult( result, Board.fileToLeft( file ), side );
 			}
 		}
 		else {
 			result.add( file + getNextRank( rank, side ) );
 			if ( rank == getInitialRank( side ) ) {
-				result.add( file + getNextRank( getNextRank( rank, side ), side ) );
+				result.add( file + getDoubleMoveRank( side ) );
 			}
 
 			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
@@ -114,29 +108,15 @@ public class Position {
 		}
 
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
-			if ( enPassantFile.equals( fileToRight( file ) ) ) {
-				result.add( fileToRight( file ) + getNextRank( rank, side ) );
+			if ( enPassantFile.equals( Board.fileToRight( file ) ) ) {
+				result.add( Board.fileToRight( file ) + getNextRank( rank, side ) );
 			}
-			else if ( enPassantFile.equals( fileToLeft( file ) ) ){
-				result.add( fileToLeft( file ) + getNextRank( rank, side ) );
+			else if ( enPassantFile.equals( Board.fileToLeft( file ) ) ){
+				result.add( Board.fileToLeft( file ) + getNextRank( rank, side ) );
 			}
 		}
 
 		return result;
-	}
-
-	private static Integer rankOfSquare( String square ) {
-		//this internal conversion is needed because char itself has its
-		return Integer.valueOf( String.valueOf( square.charAt( 1 ) ));
-	}
-
-	/**
-	 * Depends on format e2
-	 * @param square
-	 * @return file of square
-	 */
-	private static String fileOfSquare( String square ) {
-		return String.valueOf( square.charAt( 0 ) );
 	}
 
 	/**
@@ -147,14 +127,7 @@ public class Position {
 	 * @return rank with en passant possibility
 	 */
 	private static int getEnPassantPossibleRank( Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return 5;
-			case BLACK:
-				return 4;
-			default:
-				return sideNotSupported( side );
-		}
+		return getDoubleMoveRank( side.opposite() );
 	}
 
 	//TODO: the switches are smell about inheritance for PawnMovement!
@@ -186,19 +159,23 @@ public class Position {
 		}
 	}
 
+	private static int getPreviousRank( int pawnRank, Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return pawnRank - 1;
+			case BLACK:
+				return pawnRank + 1;
+			default:
+				return sideNotSupported( side );
+		}
+	}
+
 	/**
 	 * @param side
 	 * @return rank from which next pawn move can reach promotion rank
 	 */
 	private static int getRankBeforePromotion( Side side ) {
-		switch ( side ) {
-			case WHITE :
-				return WHITE_PAWN_PROMOTION_RANK - 1;
-			case BLACK:
-				return BLACK_PAWN_PROMOTION_RANK + 1;
-			default:
-				return sideNotSupported( side );
-		}
+		return getPreviousRank( getPromotionRank( side ), side );
 	}
 
 	private static int getPromotionRank( Side side ) {
@@ -231,16 +208,6 @@ public class Position {
 		}
 	}
 
-
-	private static String fileToLeft( String file ) {
-		//TODO: UGLY construction, need better!
-		return String.valueOf( (char) ( file.charAt( 0 ) - 1 ) );
-	}
-
-	private static String fileToRight( String file ) {
-		return String.valueOf( (char) ( file.charAt( 0 ) + 1 ) );
-	}
-
 	/**
 	 * Add the square to result IFF it's occupied by the side provided!
 	 * @param result
@@ -264,6 +231,10 @@ public class Position {
 		return ( squaresOccupied.get( square ) != null ) &&( squaresOccupied.get( square ) == side );
 	}
 
+	private static int getDoubleMoveRank( Side side ) {
+		return getNextRank( getNextRank( getInitialRank( side ), side ), side );
+	}
+
 	/**
 	 * Perform move from squareFrom to squareTo
 	 * We guarantee returning a new position instead of
@@ -278,14 +249,10 @@ public class Position {
 	 * @return new position, which is received from current by doing 1 move
 	 */
 	public Position move( String squareFrom, String squareTo ) {
-		final String newEnPassantFile =
-				rankOfSquare( squareFrom ) == WHITE_PAWN_INITIAL_RANK &&
-				rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
-					fileOfSquare( squareFrom ) :
-					null;
+		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
 
-		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
+		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
 
 		if ( !copySet.isEmpty() ) {
@@ -299,6 +266,21 @@ public class Position {
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
 
 		return result;
+	}
+
+	/**
+	 * Get a file for new position, for which the next move could be en passant
+	 * (if possible)
+	 * @param squareFrom square from which the piece is going to move
+	 * @param squareTo square to which the piece is going to move
+	 * @return possible en passant file (null if impossible)
+	 */
+	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
+		final Side side = squaresOccupied.get( squareFrom );
+
+		return Board.rankOfSquare( squareFrom ) == getInitialRank( side ) &&
+				Board.rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
+				Board.fileOfSquare( squareFrom ) : null;
 	}
 
 	/**
