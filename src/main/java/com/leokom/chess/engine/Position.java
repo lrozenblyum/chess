@@ -78,8 +78,8 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		final Set<String> result = new HashSet<String>();
-		String file = fileOfSquare( square );
 
+		final String file = fileOfSquare( square );
 		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
