@@ -145,14 +145,7 @@ public class Position {
 	 * @return rank with en passant possibility
 	 */
 	private static int getEnPassantPossibleRank( Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return 5;
-			case BLACK:
-				return 4;
-			default:
-				return sideNotSupported( side );
-		}
+		return getDoubleMoveRank( side.opposite() );
 	}
 
 	//TODO: the switches are smell about inheritance for PawnMovement!
