@@ -312,7 +312,7 @@ public class Position {
 						rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
 						fileOfSquare( squareFrom ) : null;
 			case BLACK:
-				return fileOfSquare( squareFrom );
+				return rankOfSquare( squareFrom ) == BLACK_PAWN_INITIAL_RANK ? fileOfSquare( squareFrom ) : null;
 			default:
 				//TODO: create descendants for Black/White and avoid this code
 				throw new AssertionError( "Side is not supported" + side );

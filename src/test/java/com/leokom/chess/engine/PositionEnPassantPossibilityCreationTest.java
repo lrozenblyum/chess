@@ -69,4 +69,12 @@ public class PositionEnPassantPossibilityCreationTest {
 
 		assertEquals( "g", result.getPossibleEnPassantFile() );
 	}
+
+	@Test
+	public void blackSingleMoveFromNotInitial() {
+		position.addPawn( Side.BLACK, "g6" );
+
+		Position result = position.move( "g6", "g5" );
+		assertEquals( null, result.getPossibleEnPassantFile() );
+	}
 }
