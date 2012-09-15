@@ -282,7 +282,7 @@ public class Position {
 				rankOfSquare( squareFrom ) == WHITE_PAWN_INITIAL_RANK &&
 				rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
 					fileOfSquare( squareFrom ) :
-					null;
+					squaresOccupied.get( squareFrom ) == Side.BLACK ? "a" : null;
 		final Position result = new Position( newEnPassantFile );
 
 		final HashSet<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
