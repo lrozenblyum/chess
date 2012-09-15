@@ -19,6 +19,7 @@ public class Position {
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
 	private static final int WHITE_PAWN_DOUBLE_MOVE_RANK = getNextRank( getNextRank( WHITE_PAWN_INITIAL_RANK, Side.WHITE ), Side.WHITE );
+	private static final int BLACK_PAWN_DOUBLE_MOVE_RANK = getNextRank( getNextRank( BLACK_PAWN_INITIAL_RANK, Side.BLACK ), Side.BLACK );
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
@@ -312,7 +313,9 @@ public class Position {
 						rankOfSquare( squareTo ) == WHITE_PAWN_DOUBLE_MOVE_RANK	?
 						fileOfSquare( squareFrom ) : null;
 			case BLACK:
-				return rankOfSquare( squareFrom ) == BLACK_PAWN_INITIAL_RANK ? fileOfSquare( squareFrom ) : null;
+				return rankOfSquare( squareFrom ) == BLACK_PAWN_INITIAL_RANK &&
+						rankOfSquare( squareTo ) == BLACK_PAWN_DOUBLE_MOVE_RANK ?
+						fileOfSquare( squareFrom ) : null;
 			default:
 				//TODO: create descendants for Black/White and avoid this code
 				throw new AssertionError( "Side is not supported" + side );

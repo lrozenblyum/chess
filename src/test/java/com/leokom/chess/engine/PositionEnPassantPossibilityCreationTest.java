@@ -77,4 +77,12 @@ public class PositionEnPassantPossibilityCreationTest {
 		Position result = position.move( "g6", "g5" );
 		assertEquals( null, result.getPossibleEnPassantFile() );
 	}
+
+	@Test
+	public void blackInitialSingleMove() {
+		position.addPawn( Side.BLACK, "c7" );
+
+		Position result = position.move( "c7", "c6" );
+		assertEquals( null, result.getPossibleEnPassantFile() );
+	}
 }
