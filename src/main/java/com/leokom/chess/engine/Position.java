@@ -308,19 +308,10 @@ public class Position {
 	 */
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = squaresOccupied.get( squareFrom );
-		switch ( side ) {
-			case WHITE:
-				return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
-						rankOfSquare( squareTo ) == getDoubleMoveRank( side )	?
-						fileOfSquare( squareFrom ) : null;
-			case BLACK:
-				return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
-						rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
-						fileOfSquare( squareFrom ) : null;
-			default:
-				//TODO: create descendants for Black/White and avoid this code
-				throw new AssertionError( "Side is not supported" + side );
-		}
+
+		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
+				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
+				fileOfSquare( squareFrom ) : null;
 	}
 
 	/**
