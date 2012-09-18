@@ -21,4 +21,18 @@ public class PositionEnPassantNewTest {
 		assertHasPawn( newPosition, "d6", Side.WHITE );
 		assertEmptySquare( newPosition, "d5" );
 	}
+
+	@Test
+	public void enPassantLeftTriangle() {
+		Position position = new Position( "e" );
+		position.addPawn( Side.BLACK, "e5" );
+
+		position.addPawn( Side.WHITE, "f5" );
+
+		Position newPosition = position.move( "f5", "e6" );
+
+		assertEmptySquare( newPosition, "f5" );
+		assertHasPawn( newPosition, "e6", Side.WHITE );
+		assertEmptySquare( newPosition, "e5" );
+	}
 }
