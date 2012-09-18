@@ -18,7 +18,7 @@ public class PositionEnPassantNewTest {
 		Position newPosition = position.move( "e5", "d6" );
 
 		assertEmptySquare( newPosition, "e5" );
-		assertEmptySquare( newPosition, "d5" );
 		assertHasPawn( newPosition, "d6", Side.WHITE );
+		assertEmptySquare( newPosition, "d5" );
 	}
 }

@@ -257,13 +257,19 @@ public class Position {
 
 		if ( !copySet.isEmpty() ) {
 			for ( String busySquare : copySet ) {
-				result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+				if ( !squareFrom.equals( "e5" ) ) {
+					result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+				}
 			}
 		}
+
+
 
 		//basing on current overwriting effect (must be the last),
 		//to capture...
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
+
+
 
 		return result;
 	}
