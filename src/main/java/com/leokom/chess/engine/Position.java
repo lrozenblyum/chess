@@ -264,9 +264,7 @@ public class Position {
 
 		if ( !copySet.isEmpty() ) {
 			for ( String busySquare : copySet ) {
-				if ( (
-						enPassantCapturedPieceSquare != null &&
-					!busySquare.equals( enPassantCapturedPieceSquare ) ) || enPassantCapturedPieceSquare == null ) {
+				if ( allowAddingPawnToResult( enPassantCapturedPieceSquare, busySquare ) ) {
 					result.addPawn( squaresOccupied.get( busySquare ), busySquare );
 				}
 			}
@@ -277,6 +275,14 @@ public class Position {
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
 
 		return result;
+	}
+
+	private static boolean allowAddingPawnToResult( String enPassantCapturedPieceSquare, String busySquare ) {
+		if ( enPassantCapturedPieceSquare == null ) {
+			return true;
+		}
+
+		return !busySquare.equals( enPassantCapturedPieceSquare );
 	}
 
 	/**
