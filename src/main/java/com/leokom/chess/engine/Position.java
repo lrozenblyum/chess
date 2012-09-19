@@ -255,21 +255,27 @@ public class Position {
 		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
 
+		String enPassantCapturedPieceSquare = null;
+		if ( this.enPassantFile != null &&
+			Board.rankOfSquare( squareFrom ) == 5 &&
+			this.enPassantFile.equals( Board.fileOfSquare( squareTo )) &&
+			this.squaresOccupied.get( squareFrom ) == Side.WHITE ) {
+			enPassantCapturedPieceSquare = this.enPassantFile + 5;
+		}
+
 		if ( !copySet.isEmpty() ) {
 			for ( String busySquare : copySet ) {
-				if ( !squareFrom.equals( "e5" ) ) {
+				if ( (
+						enPassantCapturedPieceSquare != null &&
+					!busySquare.equals( enPassantCapturedPieceSquare ) ) || enPassantCapturedPieceSquare == null ) {
 					result.addPawn( squaresOccupied.get( busySquare ), busySquare );
 				}
 			}
 		}
 
-
-
 		//basing on current overwriting effect (must be the last),
 		//to capture...
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
-
-
 
 		return result;
 	}
