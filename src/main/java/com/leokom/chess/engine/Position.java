@@ -258,8 +258,7 @@ public class Position {
 		String enPassantCapturedPieceSquare = null;
 		if ( this.enPassantFile != null &&
 			Board.rankOfSquare( squareFrom ) == 5 &&
-			this.enPassantFile.equals( Board.fileOfSquare( squareTo )) &&
-			this.squaresOccupied.get( squareFrom ) == Side.WHITE ) {
+			this.enPassantFile.equals( Board.fileOfSquare( squareTo ))) {
 			enPassantCapturedPieceSquare = this.enPassantFile + 5;
 		}
 
