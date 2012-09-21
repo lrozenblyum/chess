@@ -255,16 +255,17 @@ public class Position {
 		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
 
+		int someNumber = squaresOccupied.get( squareFrom ) == Side.WHITE ? 5 : 4;
 		String enPassantCapturedPieceSquare = null;
 		if ( this.enPassantFile != null &&
-			Board.rankOfSquare( squareFrom ) == 5 &&
+			Board.rankOfSquare( squareFrom ) == someNumber &&
 			this.enPassantFile.equals( Board.fileOfSquare( squareTo ))) {
-			enPassantCapturedPieceSquare = this.enPassantFile + 5;
+			enPassantCapturedPieceSquare = this.enPassantFile + someNumber;
 		}
 
 		if ( !copySet.isEmpty() ) {
 			for ( String busySquare : copySet ) {
-				if ( allowAddingPawnToResult( enPassantCapturedPieceSquare, busySquare ) && !squareFrom.equals( "b4" ) ) {
+				if ( allowAddingPawnToResult( enPassantCapturedPieceSquare, busySquare ) ) {
 					result.addPawn( squaresOccupied.get( busySquare ), busySquare );
 				}
 			}
