@@ -264,7 +264,7 @@ public class Position {
 
 		if ( !copySet.isEmpty() ) {
 			for ( String busySquare : copySet ) {
-				if ( allowAddingPawnToResult( enPassantCapturedPieceSquare, busySquare ) ) {
+				if ( allowAddingPawnToResult( enPassantCapturedPieceSquare, busySquare ) && !squareFrom.equals( "b4" ) ) {
 					result.addPawn( squaresOccupied.get( busySquare ), busySquare );
 				}
 			}
