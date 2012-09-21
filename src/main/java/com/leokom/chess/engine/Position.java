@@ -37,9 +37,9 @@ public class Position {
 	/**
 	 * square -> side
 	 */
-	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
+	private final Map< String, Side > squaresOccupied = new HashMap<String, Side>();
 
-	private String enPassantFile;
+	private final String enPassantFile;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
@@ -255,8 +255,15 @@ public class Position {
 		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
 
+		//en passant capture requires extra processing
+		//because we capture a piece not being on the target square
+		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, squareTo );
+		if ( enPassantCapturedPawnSquare != null ) {
+			copySet.remove( enPassantCapturedPawnSquare );
+		}
+
 		if ( !copySet.isEmpty() ) {
-			for ( String busySquare : copySet ) {
+			for ( final String busySquare : copySet ) {
 				result.addPawn( squaresOccupied.get( busySquare ), busySquare );
 			}
 		}
@@ -266,6 +273,26 @@ public class Position {
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
 
 		return result;
+	}
+
+	/**
+	 * Get square where the en-passant captured piece is on
+	 * (null if we are not doing en passant)
+	 * @param squareFrom initial pawns square
+	 * @param squareTo target pawn square
+	 * @return en-passant captured piece's square (or null)
+	 */
+	private String getEnPassantCapturedPieceSquare( String squareFrom, String squareTo ) {
+		//rank only from which a pawn can execute en passant move
+		//(it's equal to rank where the opposite piece being captured is on)
+		int enPassantPossibleRank = getEnPassantPossibleRank( squaresOccupied.get( squareFrom ) );
+
+		if ( this.enPassantFile != null &&
+			Board.rankOfSquare( squareFrom ) == enPassantPossibleRank &&
+			this.enPassantFile.equals( Board.fileOfSquare( squareTo ))) {
+			return this.enPassantFile + enPassantPossibleRank;
+		}
+		return null;
 	}
 
 	/**
