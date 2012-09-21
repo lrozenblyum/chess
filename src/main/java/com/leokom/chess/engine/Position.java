@@ -37,9 +37,9 @@ public class Position {
 	/**
 	 * square -> side
 	 */
-	private Map< String, Side > squaresOccupied = new HashMap<String, Side>();
+	private final Map< String, Side > squaresOccupied = new HashMap<String, Side>();
 
-	private String enPassantFile;
+	private final String enPassantFile;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
