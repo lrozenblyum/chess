@@ -254,13 +254,17 @@ public class Position {
 
 		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
-		final String enPassantCapturedPieceSquare = getEnPassantCapturedPieceSquare( squareFrom, squareTo );
+
+		//en passant capture requires extra processing
+		//because we capture a piece not being on the target square
+		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, squareTo );
+		if ( enPassantCapturedPawnSquare != null ) {
+			copySet.remove( enPassantCapturedPawnSquare );
+		}
 
 		if ( !copySet.isEmpty() ) {
-			for ( String busySquare : copySet ) {
-				if ( allowAddingPawnToResult( enPassantCapturedPieceSquare, busySquare ) ) {
-					result.addPawn( squaresOccupied.get( busySquare ), busySquare );
-				}
+			for ( final String busySquare : copySet ) {
+				result.addPawn( squaresOccupied.get( busySquare ), busySquare );
 			}
 		}
 
@@ -289,14 +293,6 @@ public class Position {
 			return this.enPassantFile + enPassantPossibleRank;
 		}
 		return null;
-	}
-
-	private static boolean allowAddingPawnToResult( String enPassantCapturedPieceSquare, String busySquare ) {
-		if ( enPassantCapturedPieceSquare == null ) {
-			return true;
-		}
-
-		return !busySquare.equals( enPassantCapturedPieceSquare );
 	}
 
 	/**
