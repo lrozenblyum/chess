@@ -255,12 +255,14 @@ public class Position {
 		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
 
-		int someNumber = squaresOccupied.get( squareFrom ) == Side.WHITE ? 5 : 4;
+		//rank only from which a pawn can execute en passant move
+		//(it's equal to rank where the opposite piece being captured is on)
+		int enPassantPossibleRank = getDoubleMoveRank( squaresOccupied.get( squareFrom ).opposite() );
 		String enPassantCapturedPieceSquare = null;
 		if ( this.enPassantFile != null &&
-			Board.rankOfSquare( squareFrom ) == someNumber &&
+			Board.rankOfSquare( squareFrom ) == enPassantPossibleRank &&
 			this.enPassantFile.equals( Board.fileOfSquare( squareTo ))) {
-			enPassantCapturedPieceSquare = this.enPassantFile + someNumber;
+			enPassantCapturedPieceSquare = this.enPassantFile + enPassantPossibleRank;
 		}
 
 		if ( !copySet.isEmpty() ) {
