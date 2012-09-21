@@ -254,16 +254,7 @@ public class Position {
 
 		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
 		copySet.remove( squareFrom );
-
-		//rank only from which a pawn can execute en passant move
-		//(it's equal to rank where the opposite piece being captured is on)
-		int enPassantPossibleRank = getDoubleMoveRank( squaresOccupied.get( squareFrom ).opposite() );
-		String enPassantCapturedPieceSquare = null;
-		if ( this.enPassantFile != null &&
-			Board.rankOfSquare( squareFrom ) == enPassantPossibleRank &&
-			this.enPassantFile.equals( Board.fileOfSquare( squareTo ))) {
-			enPassantCapturedPieceSquare = this.enPassantFile + enPassantPossibleRank;
-		}
+		final String enPassantCapturedPieceSquare = getEnPassantCapturedPieceSquare( squareFrom, squareTo );
 
 		if ( !copySet.isEmpty() ) {
 			for ( String busySquare : copySet ) {
@@ -278,6 +269,26 @@ public class Position {
 		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
 
 		return result;
+	}
+
+	/**
+	 * Get square where the en-passant captured piece is on
+	 * (null if we are not doing en passant)
+	 * @param squareFrom initial pawns square
+	 * @param squareTo target pawn square
+	 * @return en-passant captured piece's square (or null)
+	 */
+	private String getEnPassantCapturedPieceSquare( String squareFrom, String squareTo ) {
+		//rank only from which a pawn can execute en passant move
+		//(it's equal to rank where the opposite piece being captured is on)
+		int enPassantPossibleRank = getDoubleMoveRank( squaresOccupied.get( squareFrom ).opposite() );
+
+		if ( this.enPassantFile != null &&
+			Board.rankOfSquare( squareFrom ) == enPassantPossibleRank &&
+			this.enPassantFile.equals( Board.fileOfSquare( squareTo ))) {
+			return this.enPassantFile + enPassantPossibleRank;
+		}
+		return null;
 	}
 
 	private static boolean allowAddingPawnToResult( String enPassantCapturedPieceSquare, String busySquare ) {
