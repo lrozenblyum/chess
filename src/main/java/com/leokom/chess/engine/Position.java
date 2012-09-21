@@ -285,7 +285,7 @@ public class Position {
 	private String getEnPassantCapturedPieceSquare( String squareFrom, String squareTo ) {
 		//rank only from which a pawn can execute en passant move
 		//(it's equal to rank where the opposite piece being captured is on)
-		int enPassantPossibleRank = getDoubleMoveRank( squaresOccupied.get( squareFrom ).opposite() );
+		int enPassantPossibleRank = getEnPassantPossibleRank( squaresOccupied.get( squareFrom ) );
 
 		if ( this.enPassantFile != null &&
 			Board.rankOfSquare( squareFrom ) == enPassantPossibleRank &&
