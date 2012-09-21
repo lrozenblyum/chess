@@ -63,4 +63,17 @@ public class PositionEnPassantNewTest {
 		assertHasPawn( newPosition, "a3", BLACK );
 		assertEmptySquare( newPosition, "a4" );
 	}
+
+	@Test
+	public void enPassantBlackTriangulate() {
+		Position position = new Position( "g" );
+		position.addPawn( WHITE, "g4" );
+
+		position.addPawn( BLACK, "h4" );
+		Position newPosition = position.move( "h4", "g3" );
+
+		assertEmptySquare( newPosition, "h4" );
+		assertHasPawn( newPosition, "g3", BLACK );
+		assertEmptySquare( newPosition, "g4" );
+	}
 }
