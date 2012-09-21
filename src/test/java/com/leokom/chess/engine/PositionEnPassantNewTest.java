@@ -76,4 +76,17 @@ public class PositionEnPassantNewTest {
 		assertHasPawn( newPosition, "g3", BLACK );
 		assertEmptySquare( newPosition, "g4" );
 	}
+
+	@Test
+	public void enPassantRightBlack() {
+		Position position = new Position( "c" );
+		position.addPawn( WHITE, "c4" );
+
+		position.addPawn( BLACK, "b4" );
+		Position newPosition = position.move( "b4", "c3" );
+
+		assertEmptySquare( newPosition, "b4" );
+		assertHasPawn( newPosition, "c3", BLACK );
+		assertEmptySquare( newPosition, "c4" );
+	}
 }
