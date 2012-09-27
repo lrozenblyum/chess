@@ -2,6 +2,8 @@ package com.leokom.chess.engine;
 
 import java.util.*;
 
+import static com.leokom.chess.engine.Board.*;
+
 /**
  * Current position on-board (probably with some historical data...)
  *
@@ -17,8 +19,8 @@ public class Position {
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
-	private static final int WHITE_PAWN_PROMOTION_RANK = Board.MAXIMAL_RANK;
-	private static final int BLACK_PAWN_PROMOTION_RANK = Board.MINIMAL_RANK;
+	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
+	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< String > PIECES_TO_PROMOTE_FROM_PAWN =
@@ -75,24 +77,24 @@ public class Position {
 	public Set<String> getMovesFrom( String square ) {
 		final Set<String> result = new HashSet<String>();
 
-		final String file = Board.fileOfSquare( square );
-		final int rank = Board.rankOfSquare( square );
+		final String file = fileOfSquare( square );
+		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = squaresOccupied.get( square );
 
-		final String rightCaptureSquare = Board.fileToRight( file ) + getNextRank( rank, side );
-		final String leftCaptureSquare = Board.fileToLeft( file ) + getNextRank( rank, side );
+		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
+		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
 			if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, Board.fileToRight( file ), side );
+				addPromotionResult( result, fileToRight( file ), side );
 			}
 
 			if ( isOccupiedBy( leftCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, Board.fileToLeft( file ), side );
+				addPromotionResult( result, fileToLeft( file ), side );
 			}
 		}
 		else {
@@ -108,11 +110,11 @@ public class Position {
 		}
 
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
-			if ( enPassantFile.equals( Board.fileToRight( file ) ) ) {
-				result.add( Board.fileToRight( file ) + getNextRank( rank, side ) );
+			if ( enPassantFile.equals( fileToRight( file ) ) ) {
+				result.add( fileToRight( file ) + getNextRank( rank, side ) );
 			}
-			else if ( enPassantFile.equals( Board.fileToLeft( file ) ) ){
-				result.add( Board.fileToLeft( file ) + getNextRank( rank, side ) );
+			else if ( enPassantFile.equals( fileToLeft( file ) ) ){
+				result.add( fileToLeft( file ) + getNextRank( rank, side ) );
 			}
 		}
 
@@ -288,8 +290,8 @@ public class Position {
 		int enPassantPossibleRank = getEnPassantPossibleRank( squaresOccupied.get( squareFrom ) );
 
 		if ( this.enPassantFile != null &&
-			Board.rankOfSquare( squareFrom ) == enPassantPossibleRank &&
-			this.enPassantFile.equals( Board.fileOfSquare( squareTo ))) {
+			rankOfSquare( squareFrom ) == enPassantPossibleRank &&
+			this.enPassantFile.equals( fileOfSquare( squareTo ))) {
 			return this.enPassantFile + enPassantPossibleRank;
 		}
 		return null;
@@ -305,9 +307,9 @@ public class Position {
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = squaresOccupied.get( squareFrom );
 
-		return Board.rankOfSquare( squareFrom ) == getInitialRank( side ) &&
-				Board.rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
-				Board.fileOfSquare( squareFrom ) : null;
+		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
+				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
+				fileOfSquare( squareFrom ) : null;
 	}
 
 	/**
