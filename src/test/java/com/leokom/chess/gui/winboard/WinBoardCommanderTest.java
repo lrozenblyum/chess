@@ -20,7 +20,13 @@ public class WinBoardCommanderTest {
 	}
 
 	@Test
+	public void noCommandsSendFromScratch() {
+		assertEquals( 0, communicator.getSentCommands().size() );
+	}
+
+	@Test
 	public void initializationStarted() {
+		commander.startInit();
 		assertEquals( 1, communicator.getSentCommands().size() );
 		assertEquals( "feature done=0", communicator.getSentCommands().get( 0 ) );
 	}
