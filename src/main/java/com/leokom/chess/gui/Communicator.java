@@ -8,7 +8,7 @@ package com.leokom.chess.gui;
  * Author: Leonid
  * Date-time: 20.08.12 16:09
  */
-public interface Commander {
+public interface Communicator {
     /**
      * Send a command to the server
      * @param command command to be sent

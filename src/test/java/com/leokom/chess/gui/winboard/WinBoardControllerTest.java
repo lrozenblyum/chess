@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Commander;
+import com.leokom.chess.gui.Communicator;
 import com.leokom.chess.gui.Controller;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class WinBoardControllerTest {
 	public void switchesWinboardToSetUpMode() {
 		//The commander mock is actually EMULATOR OF Winboard behaviour!
 		//TODO: think about Mockito usage?
-		MockCommander commanderMock = new MockCommander();
+		MockCommunicator commanderMock = new MockCommunicator();
 
 		final Controller controller = new WinboardController( commanderMock );
 
@@ -30,7 +30,7 @@ public class WinBoardControllerTest {
 		assertEquals( initializationString, commanderMock.SENT_COMMANDS.get( 0 ) );
 	}
 
-	private static class MockCommander implements Commander {
+	private static class MockCommunicator implements Communicator {
 		private List<String> SENT_COMMANDS = new ArrayList<String>();
 
 		@Override

@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Commander;
+import com.leokom.chess.gui.Communicator;
 import com.leokom.chess.gui.Controller;
 import com.leokom.chess.gui.Listener;
 import org.apache.log4j.Logger;
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  * Date-time: 20.08.12 19:28
  */
 public class WinboardController implements Controller {
-	private Commander commander;
+	private Communicator communicator;
 	private Listener listener;
 	private Logger logger = Logger.getLogger( this.getClass() );
 
@@ -22,15 +22,15 @@ public class WinboardController implements Controller {
 
 	/**
 	 * Create instance on Winboard controller.
-	 * @param commander commander to be used for send-receive operations
+	 * @param communicator communicator to be used for send-receive operations
 	 */
-	WinboardController( Commander commander ) {
-		this.commander = commander;
+	WinboardController( Communicator communicator ) {
+		this.communicator = communicator;
 
 		//critically important to send this sequence at the start
 		//to ensure the Winboard won't ignore our 'setfeature' commands
 		//set feature commands must be sent in response to protover
-		commander.send( "feature done=0" );
+		communicator.send( "feature done=0" );
 	}
 
 	//may create attach - now it's over-projecting - 1 is OK
@@ -46,7 +46,7 @@ public class WinboardController implements Controller {
 	public void run() {
 		while( true ) {
 			//TODO: any Thread.sleep needed?
-			String line = commander.receive();
+			String line = communicator.receive();
 
 
 			//TODO: what does it mean?
@@ -81,9 +81,9 @@ public class WinboardController implements Controller {
 				//if not - we may assume it's protocol v1
 
 				//enable usermove prefixes for moves for easier parsing
-				commander.send( "feature usermove=1" );
+				communicator.send( "feature usermove=1" );
 				//signal end of initializations
-				commander.send( "feature done=1" );
+				communicator.send( "feature done=1" );
 
 				//TODO: check if 2'nd element exists
 				logger.info( "Protocol version detected = " + line.split( " " )[ 1 ] );
@@ -99,7 +99,7 @@ public class WinboardController implements Controller {
 
 			//another player offers draw - accept always
 			if ( line.equals( "draw" ) ) {
-				commander.send( "offer draw" );
+				communicator.send( "offer draw" );
 			}
 		}
 	}
@@ -111,6 +111,6 @@ public class WinboardController implements Controller {
 	 */
 	@Override
 	public void send( String command ) {
-		this.commander.send( command );
+		this.communicator.send( command );
 	}
 }

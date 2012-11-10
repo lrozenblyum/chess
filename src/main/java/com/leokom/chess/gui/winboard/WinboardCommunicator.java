@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Commander;
+import com.leokom.chess.gui.Communicator;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -11,10 +11,15 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 /**
+ * Low-level communication engine with some Winboard 'server'
+ * By Winboard server I mean the GUI implementing Winboard protocol
+ *
+ * This low-level communicator simply sends and receives commands
+ * But doesn't do any sofisticated processing.
  * Author: Leonid
  * Date-time: 20.08.12 16:13
  */
-class WinboardCommander implements Commander {
+class WinboardCommunicator implements Communicator {
 	/**
 	 * I don't set up UTF-8 since specification says we'll get only latin characters and digits
 	 * US-ASCII is 7-bit latin charset
@@ -29,7 +34,7 @@ class WinboardCommander implements Commander {
      * @param inputStream
      * @param outputStream
      */
-    public WinboardCommander( InputStream inputStream, PrintStream outputStream ) {
+    public WinboardCommunicator( InputStream inputStream, PrintStream outputStream ) {
 		final InputStreamReader streamReader;
 		try {
 			streamReader = new InputStreamReader( inputStream, INPUT_ENCODING );
