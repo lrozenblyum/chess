@@ -14,18 +14,6 @@ public class WinBoardControllerTest {
 
 	//this test should emulate WinBoard behaviour and analyze our reaction on it.
 	//in theory in future we could extract some Winboard emulator
-	@Test
-	public void switchesWinboardToSetUpMode() {
-		//The commander mock is actually EMULATOR OF Winboard behaviour!
-		//TODO: think about Mockito usage?
-		MockCommunicator communicator = new MockCommunicator();
-
-		final Controller controller = new WinboardController( communicator, new WinboardCommanderImpl( communicator ) );
-
-		assertEquals( 1, communicator.getSentCommands().size() );
-		final String initializationString = "feature done=0";
-		assertEquals( initializationString, communicator.getSentCommands().get( 0 ) );
-	}
 
 	@Test
 	public void creationSwitchesToInitMode() {
