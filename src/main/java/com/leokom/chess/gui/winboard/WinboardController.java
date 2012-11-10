@@ -15,7 +15,6 @@ public class WinboardController implements Controller {
 	private Communicator communicator;
 	private Listener listener;
 	private Logger logger = Logger.getLogger( this.getClass() );
-	private Controller controller;
 	private WinboardCommander commander;
 
 	//TODO: THINK about consequences of:
