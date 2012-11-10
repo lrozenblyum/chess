@@ -27,9 +27,7 @@ public class WinboardController implements Controller {
 	WinboardController( Communicator communicator ) {
 		this.communicator = communicator;
 
-		//critically important to send this sequence at the start
-		//to ensure the Winboard won't ignore our 'setfeature' commands
-		//set feature commands must be sent in response to protover
+
 		communicator.send( "feature done=0" );
 	}
 

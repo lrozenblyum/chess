@@ -20,9 +20,8 @@ public class WinBoardCommanderTest {
 	}
 
 	@Test
-	public void sayHello() {
-		commander.startInitialization();
-
+	public void initializationStarted() {
 		assertEquals( 1, communicator.getSentCommands().size() );
+		assertEquals( "feature done=0", communicator.getSentCommands().get( 0 ) );
 	}
 }

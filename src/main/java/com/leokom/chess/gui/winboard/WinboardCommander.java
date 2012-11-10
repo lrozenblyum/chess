@@ -14,14 +14,15 @@ import com.leokom.chess.gui.Communicator;
 class WinboardCommander {
 	/**
 	 * Create the commander, with communicator injected
-	 * @param communicator
+	 *
+	 * Immediately switches Winboard engine in 'features set up mode'
+	 *
+	 * @param communicator low-level framework to use to send/receive the commands
 	 */
 	public WinboardCommander( Communicator communicator ) {
-		communicator.send( "test" );
-	}
-
-	public void startInitialization() {
-
-
+		//critically important to send this sequence at the start
+		//to ensure the Winboard won't ignore our 'setfeature' commands
+		//set feature commands must be sent in response to protover
+		communicator.send( "feature done=0" );
 	}
 }
