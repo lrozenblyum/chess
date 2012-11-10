@@ -1,11 +1,7 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Communicator;
 import com.leokom.chess.gui.Controller;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,22 +21,9 @@ public class WinBoardControllerTest {
 
 		final Controller controller = new WinboardController( commanderMock );
 
-		assertEquals( 1, commanderMock.SENT_COMMANDS.size() );
+		assertEquals( 1, commanderMock.getSentCommands().size() );
 		final String initializationString = "feature done=0";
-		assertEquals( initializationString, commanderMock.SENT_COMMANDS.get( 0 ) );
+		assertEquals( initializationString, commanderMock.getSentCommands().get( 0 ) );
 	}
 
-	private static class MockCommunicator implements Communicator {
-		private List<String> SENT_COMMANDS = new ArrayList<String>();
-
-		@Override
-		public void send( String command ) {
-			SENT_COMMANDS.add( command );
-		}
-
-		@Override
-		public String receive() {
-			return null;
-		}
-	}
 }
