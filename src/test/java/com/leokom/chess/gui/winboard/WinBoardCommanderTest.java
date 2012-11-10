@@ -16,7 +16,7 @@ public class WinBoardCommanderTest {
 	@Before
 	public void prepare() {
 		communicator = new MockCommunicator();
-		commander = new WinboardCommander( communicator );
+		commander = new WinboardCommanderImpl( communicator );
 	}
 
 	@Test

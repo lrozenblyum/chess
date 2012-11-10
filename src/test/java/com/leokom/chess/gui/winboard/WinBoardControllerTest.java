@@ -4,6 +4,7 @@ import com.leokom.chess.gui.Controller;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author: Leonid
@@ -17,13 +18,24 @@ public class WinBoardControllerTest {
 	public void switchesWinboardToSetUpMode() {
 		//The commander mock is actually EMULATOR OF Winboard behaviour!
 		//TODO: think about Mockito usage?
-		MockCommunicator commanderMock = new MockCommunicator();
+		MockCommunicator communicator = new MockCommunicator();
 
-		final Controller controller = new WinboardController( commanderMock );
+		final Controller controller = new WinboardController( communicator, new WinboardCommanderImpl( communicator ) );
 
-		assertEquals( 1, commanderMock.getSentCommands().size() );
+		assertEquals( 1, communicator.getSentCommands().size() );
 		final String initializationString = "feature done=0";
-		assertEquals( initializationString, commanderMock.getSentCommands().get( 0 ) );
+		assertEquals( initializationString, communicator.getSentCommands().get( 0 ) );
 	}
 
+	@Test
+	public void creationSwitchesToInitMode() {
+		//TODO: this will be not needed when controller doesn't depend on it...
+		MockCommunicator communicator = new MockCommunicator();
+
+		MockCommander commander = new MockCommander();
+
+		WinboardController controller = new WinboardController( communicator, commander );
+
+		assertEquals( 1, commander.getStartInitCallsCount() );
+	}
 }

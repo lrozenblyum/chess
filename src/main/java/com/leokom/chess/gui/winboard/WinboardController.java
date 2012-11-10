@@ -15,6 +15,8 @@ public class WinboardController implements Controller {
 	private Communicator communicator;
 	private Listener listener;
 	private Logger logger = Logger.getLogger( this.getClass() );
+	private Controller controller;
+	private WinboardCommander commander;
 
 	//TODO: THINK about consequences of:
 	//creating several instances of the controller (must be singleton)
@@ -22,13 +24,18 @@ public class WinboardController implements Controller {
 
 	/**
 	 * Create instance on Winboard controller.
+	 * TODO: must used commander instead of communicator...
 	 * @param communicator communicator to be used for send-receive operations
+	 * @param winboardCommander
 	 */
-	WinboardController( Communicator communicator ) {
+	WinboardController( Communicator communicator, WinboardCommander winboardCommander ) {
 		this.communicator = communicator;
+		this.commander = winboardCommander;
 
-
-		communicator.send( "feature done=0" );
+		//critically important to send this sequence at the start
+		//to ensure the Winboard won't ignore our 'setfeature' commands
+		//set feature commands must be sent in response to protover
+		commander.startInit();
 	}
 
 	//may create attach - now it's over-projecting - 1 is OK
