@@ -61,7 +61,8 @@ class WinboardCommunicator implements Communicator {
 			final String line = reader.readLine();
 			logger.info( "Received: " + line );
 			return line;
-        } catch ( IOException e ) { //avoid propagating internal exception to signature
+        } catch ( IOException e ) {
+			//avoid propagating internal exception to the method signature
             throw new RuntimeException( e );
         }
     }
