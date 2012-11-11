@@ -40,5 +40,10 @@ class WinboardCommanderImpl implements WinboardCommander {
 		communicator.send( "feature usermove=1" );
 	}
 
+	@Override
+	public void finishInit() {
+		communicator.send( "feature done=1" );
+	}
+
 
 }

@@ -13,4 +13,6 @@ public interface WinboardCommander {
 	 * As it has influence how the result will be parsed...
 	 */
 	void enableUserMovePrefixes();
+
+	void finishInit();
 }

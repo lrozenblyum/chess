@@ -16,6 +16,11 @@ public class MockCommander implements WinboardCommander {
 
 	}
 
+	@Override
+	public void finishInit() {
+
+	}
+
 	public int getStartInitCallsCount() {
 		return startInitCallsCount;
 	}

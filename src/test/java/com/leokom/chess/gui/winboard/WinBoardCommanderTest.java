@@ -37,4 +37,11 @@ public class WinBoardCommanderTest {
 		assertEquals( 1, communicator.getSentCommands().size() );
 		assertEquals( "feature usermove=1", communicator.getSentCommands().get( 0 ) );
 	}
+
+	@Test
+	public void initializationFinished() {
+		commander.finishInit();
+		assertEquals( 1, communicator.getSentCommands().size() );
+		assertEquals( "feature done=1", communicator.getSentCommands().get( 0 ) );
+	}
 }

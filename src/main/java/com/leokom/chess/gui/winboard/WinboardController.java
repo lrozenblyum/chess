@@ -84,10 +84,11 @@ public class WinboardController implements Controller {
 				//TODO: add analyze if this line is received immediately after xboard
 				//if not - we may assume it's protocol v1
 
-				//TODO: replace by enableUserMovePrefixes
-				//when test shows this need
+				//TODO: replace by enableUserMovePrefixes when test shows this need
 				//enable usermove prefixes for moves for easier parsing
 				communicator.send( "feature usermove=1" );
+
+				//TODO: replace by finishInit when test shows this need
 				//signal end of initializations
 				communicator.send( "feature done=1" );
 
