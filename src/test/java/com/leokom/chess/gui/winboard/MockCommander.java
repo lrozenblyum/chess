@@ -11,6 +11,11 @@ public class MockCommander implements WinboardCommander {
 		startInitCallsCount++;
 	}
 
+	@Override
+	public void enableUserMovePrefixes() {
+
+	}
+
 	public int getStartInitCallsCount() {
 		return startInitCallsCount;
 	}

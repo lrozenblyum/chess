@@ -30,4 +30,11 @@ public class WinBoardCommanderTest {
 		assertEquals( 1, communicator.getSentCommands().size() );
 		assertEquals( "feature done=0", communicator.getSentCommands().get( 0 ) );
 	}
+
+	@Test
+	public void userMovesPrefixes() {
+		commander.enableUserMovePrefixes();
+		assertEquals( 1, communicator.getSentCommands().size() );
+		assertEquals( "feature usermove=1", communicator.getSentCommands().get( 0 ) );
+	}
 }
