@@ -45,5 +45,13 @@ class WinboardCommanderImpl implements WinboardCommander {
 		communicator.send( "feature done=1" );
 	}
 
+	@Override
+	public void agreeToDrawOffer() {
+		//'draw': The engine's opponent offers the engine a draw.
+		// To accept the draw, send "offer draw".
 
+		//TODO: need implement some method ignoreDrawOffer?
+		// To decline, ignore the offer (that is, send nothing).
+		communicator.send( "offer draw" );
+	}
 }

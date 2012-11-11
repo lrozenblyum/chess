@@ -15,4 +15,6 @@ public interface WinboardCommander {
 	void enableUserMovePrefixes();
 
 	void finishInit();
+
+	void agreeToDrawOffer();
 }

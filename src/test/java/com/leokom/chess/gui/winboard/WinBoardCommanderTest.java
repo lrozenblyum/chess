@@ -44,4 +44,13 @@ public class WinBoardCommanderTest {
 		assertEquals( 1, communicator.getSentCommands().size() );
 		assertEquals( "feature done=1", communicator.getSentCommands().get( 0 ) );
 	}
+
+	@Test
+	public void agreeToDraw() {
+		commander.agreeToDrawOffer();
+
+		assertEquals( 1, communicator.getSentCommands().size() );
+		//weird but fact... This command is used also to agree to draw.
+		assertEquals( "offer draw", communicator.getSentCommands().get( 0 ) );
+	}
 }

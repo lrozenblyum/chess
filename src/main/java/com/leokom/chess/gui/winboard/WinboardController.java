@@ -106,6 +106,7 @@ public class WinboardController implements Controller {
 
 			//another player offers draw - accept always
 			if ( line.equals( "draw" ) ) {
+				//TODO: see commander.agreeToDrawOffer
 				communicator.send( "offer draw" );
 			}
 		}
