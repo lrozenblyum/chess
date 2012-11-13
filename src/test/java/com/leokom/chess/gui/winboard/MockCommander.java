@@ -24,6 +24,16 @@ public class MockCommander implements WinboardCommander {
 	public void agreeToDrawOffer() {
 	}
 
+	@Override
+	public void setProtoverListener( ProtoverListener protoverListener ) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public void getInput() {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
 	public int getStartInitCallsCount() {
 		return startInitCallsCount;
 	}

@@ -17,4 +17,12 @@ public interface WinboardCommander {
 	void finishInit();
 
 	void agreeToDrawOffer();
+
+	void setProtoverListener( ProtoverListener protoverListener );
+
+	/**
+	 * Fetch input from the underlying communication component
+	 * Call some listeners if any....
+	 */
+	void getInput();
 }

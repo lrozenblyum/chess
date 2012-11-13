@@ -54,4 +54,14 @@ class WinboardCommanderImpl implements WinboardCommander {
 		// To decline, ignore the offer (that is, send nothing).
 		communicator.send( "offer draw" );
 	}
+
+	@Override
+	public void setProtoverListener( ProtoverListener protoverListener ) {
+
+	}
+
+	@Override
+	public void getInput() {
+
+	}
 }
