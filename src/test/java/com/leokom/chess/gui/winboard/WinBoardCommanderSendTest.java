@@ -1,5 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.gui.Communicator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * Author: Leonid
  * Date-time: 10.11.12 21:16
  */
-public class WinBoardCommanderTest {
+public class WinBoardCommanderSendTest {
 	private WinboardCommander commander;
 	private MockCommunicator communicator;
 
