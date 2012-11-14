@@ -14,25 +14,29 @@ public class WinBoardCommanderReceiveTest {
 
 	@Test
 	public void noProtoverLineSent() {
-		Communicator communicator = new Communicator() {
-			@Override
-			public void send( String command ) {
-			}
-
-			@Override
-			public String receive() {
-				return "Any line not starting by 'protover'";
-			}
-		};
-
-
+		Communicator communicator = getReceiveCommunicator( "Any line not starting by 'protover'" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
 		final ProtoverListenerMock listener = new ProtoverListenerMock();
 		commander.setProtoverListener( listener );
 
 		commander.getInput();
 
 		assertEquals( 0, listener.callsCount );
+	}
+
+	//TODO: extract somewhere...
+	private static Communicator getReceiveCommunicator( final String stringToReceive ) {
+		return new Communicator() {
+				@Override
+				public void send( String command ) {
+				}
+
+				@Override
+				public String receive() {
+					return stringToReceive;
+				}
+			};
 	}
 
 	private static class ProtoverListenerMock implements ProtoverListener {
