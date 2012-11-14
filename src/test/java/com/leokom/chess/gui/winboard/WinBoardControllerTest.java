@@ -1,6 +1,5 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Controller;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -18,11 +17,11 @@ public class WinBoardControllerTest {
 	@Test
 	public void creationSwitchesToInitMode() {
 		//TODO: this will be not needed when controller doesn't depend on it...
-		MockCommunicator communicator = new MockCommunicator();
+		MockCommunicatorSend communicatorSend = new MockCommunicatorSend();
 
 		MockCommander commander = new MockCommander();
 
-		WinboardController controller = new WinboardController( communicator, commander );
+		WinboardController controller = new WinboardController( communicatorSend, commander );
 
 		assertEquals( 1, commander.getStartInitCallsCount() );
 	}

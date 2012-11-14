@@ -19,12 +19,12 @@ public class WinBoardControllerIntegrationTest {
 	public void switchesWinboardToSetUpMode() {
 		//The commander mock is actually EMULATOR OF Winboard behaviour!
 		//TODO: think about Mockito usage?
-		MockCommunicator communicator = new MockCommunicator();
+		MockCommunicatorSend communicatorSend = new MockCommunicatorSend();
 
-		final Controller controller = new WinboardController( communicator, new WinboardCommanderImpl( communicator ) );
+		final Controller controller = new WinboardController( communicatorSend, new WinboardCommanderImpl( communicatorSend ) );
 
-		assertEquals( 1, communicator.getSentCommands().size() );
+		assertEquals( 1, communicatorSend.getSentCommands().size() );
 		final String initializationString = "feature done=0";
-		assertEquals( initializationString, communicator.getSentCommands().get( 0 ) );
+		assertEquals( initializationString, communicatorSend.getSentCommands().get( 0 ) );
 	}
 }

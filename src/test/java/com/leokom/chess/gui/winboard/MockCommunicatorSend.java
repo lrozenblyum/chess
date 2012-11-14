@@ -9,7 +9,7 @@ import java.util.List;
 * Author: Leonid
 * Date-time: 10.11.12 21:25
 */
-class MockCommunicator implements Communicator {
+class MockCommunicatorSend implements Communicator {
 	private List<String> SENT_COMMANDS = new ArrayList<String>();
 
 	@Override
