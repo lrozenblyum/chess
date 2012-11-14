@@ -38,6 +38,17 @@ public class WinBoardCommanderReceiveTest {
 		assertEquals( 1, listener.callsCount );
 	}
 
+	@Test
+	public void protoverLineSentNoInputNoCalls() {
+		Communicator communicator = getReceiveCommunicator( "protover" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final ProtoverListenerMock listener = new ProtoverListenerMock();
+		commander.setProtoverListener( listener );
+
+		assertEquals( 0, listener.callsCount );
+	}
+
 	//TODO: extract somewhere...
 	private static Communicator getReceiveCommunicator( final String stringToReceive ) {
 		return new Communicator() {
