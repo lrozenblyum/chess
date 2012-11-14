@@ -25,18 +25,31 @@ public class WinBoardCommanderReceiveTest {
 		assertEquals( 0, listener.callsCount );
 	}
 
+	@Test
+	public void protoverLineSent() {
+		Communicator communicator = getReceiveCommunicator( "protover" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final ProtoverListenerMock listener = new ProtoverListenerMock();
+		commander.setProtoverListener( listener );
+
+		commander.getInput();
+
+		assertEquals( 1, listener.callsCount );
+	}
+
 	//TODO: extract somewhere...
 	private static Communicator getReceiveCommunicator( final String stringToReceive ) {
 		return new Communicator() {
-				@Override
-				public void send( String command ) {
-				}
+			@Override
+			public void send( String command ) {
+			}
 
-				@Override
-				public String receive() {
-					return stringToReceive;
-				}
-			};
+			@Override
+			public String receive() {
+				return stringToReceive;
+			}
+		};
 	}
 
 	private static class ProtoverListenerMock implements ProtoverListener {

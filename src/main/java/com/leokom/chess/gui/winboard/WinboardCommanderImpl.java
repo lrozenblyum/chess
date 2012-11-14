@@ -57,7 +57,10 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void setProtoverListener( ProtoverListener protoverListener ) {
-
+		String whatToReceive = communicator.receive();
+		if ( whatToReceive.equals( "protover" ) ) {
+			protoverListener.execute();
+		}
 	}
 
 	@Override
