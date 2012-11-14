@@ -1,9 +1,9 @@
 package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.gui.Communicator;
-import org.junit.Before;
 import org.junit.Test;
 
+import static com.leokom.chess.gui.winboard.MockCommunicatorReceiveCreator.getReceiveCommunicator;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -58,20 +58,6 @@ public class WinBoardCommanderReceiveTest {
 		commander.setProtoverListener( listener );
 
 		assertEquals( 0, listener.callsCount );
-	}
-
-	//TODO: extract somewhere...
-	private static Communicator getReceiveCommunicator( final String stringToReceive ) {
-		return new Communicator() {
-			@Override
-			public void send( String command ) {
-			}
-
-			@Override
-			public String receive() {
-				return stringToReceive;
-			}
-		};
 	}
 
 	private static class ProtoverListenerMock implements ProtoverListener {
