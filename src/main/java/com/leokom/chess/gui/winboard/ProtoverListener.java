@@ -5,6 +5,6 @@ package com.leokom.chess.gui.winboard;
  * Author: Leonid
  * Date-time: 13.11.12 21:37
  */
-public interface ProtoverListener {
+interface ProtoverListener {
 	void execute();
 }
