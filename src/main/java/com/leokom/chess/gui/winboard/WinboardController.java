@@ -24,11 +24,10 @@ public class WinboardController implements Controller {
 	/**
 	 * Create instance on Winboard controller.
 	 * TODO: must used commander instead of communicator...
-	 * @param communicator communicator to be used for send-receive operations
 	 * @param winboardCommander
 	 */
-	WinboardController( Communicator communicator, WinboardCommander winboardCommander ) {
-		this.communicator = communicator;
+	WinboardController( WinboardCommander winboardCommander ) {
+		this.communicator = winboardCommander.getCommunicator();
 		this.commander = winboardCommander;
 
 		//critically important to send this sequence at the start
@@ -51,7 +50,6 @@ public class WinboardController implements Controller {
 		while( true ) {
 			//TODO: any Thread.sleep needed?
 			String line = communicator.receive();
-
 
 			//TODO: what does it mean?
 			if ( line == null ) {

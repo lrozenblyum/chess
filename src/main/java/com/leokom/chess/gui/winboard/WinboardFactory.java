@@ -20,6 +20,6 @@ public final class WinboardFactory {
 
 		//TODO: implement some singleton policy?
 		final WinboardCommunicator communicator = new WinboardCommunicator( System.in, System.out );
-		return new WinboardController( communicator, new WinboardCommanderImpl( communicator ) );
+		return new WinboardController( new WinboardCommanderImpl( communicator ) );
 	}
 }

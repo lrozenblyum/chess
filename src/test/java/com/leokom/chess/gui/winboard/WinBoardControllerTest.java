@@ -17,12 +17,9 @@ public class WinBoardControllerTest {
 
 	@Test
 	public void creationSwitchesToInitMode() {
-		//TODO: this will be not needed when controller doesn't depend on it...
-		MockCommunicatorSend communicatorSend = new MockCommunicatorSend();
-
 		MockCommander commander = new MockCommander();
 
-		WinboardController controller = new WinboardController( communicatorSend, commander );
+		WinboardController controller = new WinboardController( commander );
 
 		assertEquals( 1, commander.getStartInitCallsCount() );
 	}
@@ -30,13 +27,12 @@ public class WinBoardControllerTest {
 	//ensure need of refactoring into commander instead of communicator
 	@Test( timeout = 5000 )
 	public void useCommanderForQuitCommand() {
-		Communicator communicatorReceiveNotQuit = MockCommunicatorReceiveCreator.getReceiveCommunicator( "another command" );
 		Communicator quitCommunicator = MockCommunicatorReceiveCreator.getReceiveCommunicator( "quit" );
 
 		WinboardCommander commander = new WinboardCommanderImpl( quitCommunicator );
 
 		WinboardController controller = new WinboardController(
-				communicatorReceiveNotQuit, commander );
+				commander );
 
 		controller.run();
 	}

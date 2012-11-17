@@ -77,4 +77,9 @@ class WinboardCommanderImpl implements WinboardCommander {
 			quitListener.execute();
 		}
 	}
+
+	@Override
+	public Communicator getCommunicator() {
+		return this.communicator;
+	}
 }

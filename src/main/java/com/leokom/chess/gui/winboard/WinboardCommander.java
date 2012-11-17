@@ -1,5 +1,7 @@
 package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.gui.Communicator;
+
 /**
  * Low-level Winboard-commands for some abstraction
  * and easier testing.
@@ -32,5 +34,7 @@ interface WinboardCommander {
 	 */
 	void getInput();
 
-
+	//TODO: temporarily exposing this via interface
+	//to allow smooth step-by-step refactoring
+	Communicator getCommunicator();
 }

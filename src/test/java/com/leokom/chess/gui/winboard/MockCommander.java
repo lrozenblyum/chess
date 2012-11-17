@@ -1,5 +1,7 @@
 package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.gui.Communicator;
+
 /**
  * Author: Leonid
  * Date-time: 10.11.12 21:56
@@ -37,6 +39,11 @@ public class MockCommander implements WinboardCommander {
 	@Override
 	public void getInput() {
 		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
+	public Communicator getCommunicator() {
+		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	public int getStartInitCallsCount() {
