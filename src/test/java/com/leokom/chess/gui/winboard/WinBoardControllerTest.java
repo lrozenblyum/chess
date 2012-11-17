@@ -1,5 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -24,5 +25,19 @@ public class WinBoardControllerTest {
 		WinboardController controller = new WinboardController( communicatorSend, commander );
 
 		assertEquals( 1, commander.getStartInitCallsCount() );
+	}
+
+	//ensure need of refactoring into commander instead of communicator
+	@Test( timeout = 5000 )
+	public void useCommanderForQuitCommand() {
+		Communicator communicatorReceiveNotQuit = MockCommunicatorReceiveCreator.getReceiveCommunicator( "another command" );
+		Communicator quitCommunicator = MockCommunicatorReceiveCreator.getReceiveCommunicator( "quit" );
+
+		WinboardCommander commander = new WinboardCommanderImpl( quitCommunicator );
+
+		WinboardController controller = new WinboardController(
+				communicatorReceiveNotQuit, commander );
+
+		controller.run();
 	}
 }
