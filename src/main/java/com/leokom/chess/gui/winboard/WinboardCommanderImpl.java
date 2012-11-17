@@ -18,6 +18,7 @@ import com.leokom.chess.gui.Communicator;
 class WinboardCommanderImpl implements WinboardCommander {
 	private Communicator communicator;
 	private ProtoverListener protoverListener;
+	private QuitListener quitListener;
 
 	/**
 	 * Create the commander, with communicator injected
@@ -62,10 +63,18 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void setQuitListener( QuitListener listener ) {
+		this.quitListener = listener;
+	}
+
+	@Override
 	public void getInput() {
 		String whatToReceive = communicator.receive();
 		if ( whatToReceive.startsWith( "protover" ) && protoverListener != null ) {
 			protoverListener.execute();
+		}
+		if ( whatToReceive.equals( "quit" ) && quitListener != null ) {
+			quitListener.execute();
 		}
 	}
 }

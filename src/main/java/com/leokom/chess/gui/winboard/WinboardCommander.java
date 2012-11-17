@@ -24,10 +24,13 @@ interface WinboardCommander {
 	void agreeToDrawOffer();
 
 	void setProtoverListener( ProtoverListener protoverListener );
+	void setQuitListener( QuitListener listener );
 
 	/**
 	 * Fetch input from the underlying communication component
 	 * Call some listeners if any....
 	 */
 	void getInput();
+
+
 }

@@ -73,6 +73,55 @@ public class WinBoardCommanderReceiveTest {
 		assertEquals( 0, listener.callsCount );
 	}
 
+
+
+	@Test
+	public void nonQuitLine() {
+		Communicator communicator = getReceiveCommunicator( "anyNonQuitString" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final QuitListenerMock listener = new QuitListenerMock();
+		commander.setQuitListener( listener );
+
+		commander.getInput();
+
+		assertEquals( 0, listener.callsCount );
+	}
+
+	@Test
+	public void quitLine() {
+		Communicator communicator = getReceiveCommunicator( "quit" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final QuitListenerMock listener = new QuitListenerMock();
+		commander.setQuitListener( listener );
+
+		commander.getInput();
+
+		assertEquals( 1, listener.callsCount );
+	}
+
+	@Test
+	public void quitWithoutListenerSet() {
+		Communicator communicator = getReceiveCommunicator( "quit" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		//creating but not setting to commander
+		final QuitListenerMock listener = new QuitListenerMock();
+
+		commander.getInput();
+
+		assertEquals( 0, listener.callsCount );
+	}
+
+	private static class QuitListenerMock implements QuitListener {
+		private int callsCount = 0;
+		@Override
+		public void execute() {
+			callsCount++;
+		}
+	}
+
 	private static class ProtoverListenerMock implements ProtoverListener {
 		private int callsCount = 0;
 

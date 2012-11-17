@@ -30,6 +30,11 @@ public class MockCommander implements WinboardCommander {
 	}
 
 	@Override
+	public void setQuitListener( QuitListener listener ) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
+	@Override
 	public void getInput() {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
