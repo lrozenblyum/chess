@@ -70,11 +70,8 @@ public class WinBoardCommanderReceiveTest {
 		final ProtoverListenerMock listener = new ProtoverListenerMock();
 		commander.setProtoverListener( listener );
 
-		commander.getInput();
-
 		assertEquals( 0, listener.callsCount );
 	}
-
 
 	private static class ProtoverListenerMock implements ProtoverListener {
 		private int callsCount = 0;
@@ -84,5 +81,6 @@ public class WinBoardCommanderReceiveTest {
 			callsCount++;
 		}
 	}
+
 
 }
