@@ -1,10 +1,15 @@
 package com.leokom.chess.gui.winboard;
 
 /**
+ * Low-level Winboard-commands for some abstraction
+ * and easier testing.
+ * However it's hard to judge if it's not intersecting
+ * with WinboardController
  * Author: Leonid
  * Date-time: 10.11.12 21:54
  */
-public interface WinboardCommander {
+interface WinboardCommander {
+
 	void startInit();
 
 	/**
