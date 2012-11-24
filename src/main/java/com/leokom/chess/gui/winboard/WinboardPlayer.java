@@ -1,7 +1,7 @@
 package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.Player;
 import com.leokom.chess.gui.Communicator;
-import com.leokom.chess.gui.Controller;
 import com.leokom.chess.gui.Listener;
 import org.apache.log4j.Logger;
 
@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  * Author: Leonid
  * Date-time: 20.08.12 19:28
  */
-public class WinboardController implements Controller {
+public class WinboardPlayer implements Player {
 	private Communicator communicator;
 	private Listener listener;
 	private Logger logger = Logger.getLogger( this.getClass() );
@@ -26,7 +26,7 @@ public class WinboardController implements Controller {
 	 * TODO: must used commander instead of communicator...
 	 * @param winboardCommander
 	 */
-	WinboardController( WinboardCommander winboardCommander ) {
+	WinboardPlayer( WinboardCommander winboardCommander ) {
 		this.communicator = winboardCommander.getCommunicator();
 		this.commander = winboardCommander;
 

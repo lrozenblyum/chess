@@ -19,7 +19,7 @@ public class WinBoardControllerTest {
 	public void creationSwitchesToInitMode() {
 		MockCommander commander = new MockCommander();
 
-		WinboardController controller = new WinboardController( commander );
+		WinboardPlayer controller = new WinboardPlayer( commander );
 
 		assertEquals( 1, commander.getStartInitCallsCount() );
 	}
@@ -31,7 +31,7 @@ public class WinBoardControllerTest {
 
 		WinboardCommander commander = new WinboardCommanderImpl( quitCommunicator );
 
-		WinboardController controller = new WinboardController(
+		WinboardPlayer controller = new WinboardPlayer(
 				commander );
 
 		controller.run();

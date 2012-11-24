@@ -2,7 +2,6 @@ package com.leokom.chess;
 
 
 import com.leokom.chess.gui.Listener;
-import com.leokom.chess.gui.Controller;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 
@@ -19,13 +18,13 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		final Controller controller = WinboardFactory.getController();
+		final Player player = WinboardFactory.getController();
 
-		final Listener onMoveListener = new MoveListener( controller );
+		final Listener onMoveListener = new MoveListener( player );
 
-		controller.setOnMoveListener( onMoveListener );
+		player.setOnMoveListener( onMoveListener );
 		//it's main loop
-		controller.run();
+		player.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
@@ -36,10 +35,10 @@ public final class MainRunner {
 	private static class MoveListener implements Listener {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
-		private final Controller controller;
+		private final Player player;
 
-		public MoveListener( Controller controller ) {
-			this.controller = controller;
+		public MoveListener( Player player ) {
+			this.player = player;
 			moveNumber = 0;
 		}
 
@@ -49,16 +48,16 @@ public final class MainRunner {
 			logger.info( "Detected allowance to go. Move number = " + moveNumber );
 			switch ( moveNumber ) {
 				case 1:
-					controller.send( "move e2e4" );
+					player.send( "move e2e4" );
 					break;
 				case 2:
-					controller.send( "move d2d4" );
+					player.send( "move d2d4" );
 					//NOTE: interesting to implement - how much do we need to wait for result?
 					//NOTE2: it's not recommended way to offer draw after the move.
-					controller.send( "offer draw" );
+					player.send( "offer draw" );
 					break;
 				default:
-					controller.send( "resign" );
+					player.send( "resign" );
 			}
 		}
 	}

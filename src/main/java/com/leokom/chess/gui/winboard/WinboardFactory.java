@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Controller;
+import com.leokom.chess.Player;
 
 /**
  * Create Winboard-related stuff
@@ -11,15 +11,15 @@ public final class WinboardFactory {
 	private WinboardFactory() {}
 
 	/**
-	 * @return instance of properly initialized WinboardController
+	 * @return instance of properly initialized WinboardPlayer
 	 */
-	public static Controller getController() {
+	public static Player getController() {
 		//TODO: if in any application place we'll use System.out.println or System.in.read
 		//this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
-		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardController
+		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardPlayer
 
 		//TODO: implement some singleton policy?
 		final WinboardCommunicator communicator = new WinboardCommunicator( System.in, System.out );
-		return new WinboardController( new WinboardCommanderImpl( communicator ) );
+		return new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
 	}
 }
