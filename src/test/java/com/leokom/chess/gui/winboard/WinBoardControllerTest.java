@@ -38,6 +38,23 @@ public class WinBoardControllerTest {
 		controller.run();
 	}
 
+	//ensure need of refactoring into commander instead of communicator
+	@Test( timeout = 5000 )
+	public void useCommanderForQuitCommandRealTest() {
+		//dummy implementation - each time anybody sets a protover listener -
+		//we quit IMMEDIATELY
+		WinboardCommander commander = new MockCommander() {
+			@Override
+			public void setQuitListener( final QuitListener quitListener ) {
+				quitListener.execute();
+			}
+		};
+
+		WinboardPlayer controller = new WinboardPlayer(	commander );
+
+		controller.run();
+	}
+
 	@Test
 	public void correctProtoverReaction() {
 		//dummy implementation - each time anybody sets a protover listener -
