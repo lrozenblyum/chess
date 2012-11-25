@@ -12,6 +12,19 @@ import static org.junit.Assert.assertEquals;
  */
 public class WinBoardCommanderReceiveTest {
 	@Test
+	public void xboard() {
+		Communicator communicator = getReceiveCommunicator( "xboard" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final XBoardListenerMock listener = new XBoardListenerMock();
+		commander.setXboardListener( listener );
+
+		commander.getInput();
+
+		assertEquals( 1, listener.callsCount );
+	}
+
+	@Test
 	public void opponentOffersDraw() {
 		Communicator communicator = getReceiveCommunicator( "draw" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
@@ -216,6 +229,15 @@ public class WinBoardCommanderReceiveTest {
 	}
 
 	private static class OfferDrawListenerMock implements OfferDrawListener {
+		private int callsCount = 0;
+
+		@Override
+		public void execute() {
+			callsCount++;
+		}
+	}
+
+	private static class XBoardListenerMock implements XBoardListener {
 		private int callsCount = 0;
 
 		@Override
