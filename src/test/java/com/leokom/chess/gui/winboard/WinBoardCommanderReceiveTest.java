@@ -11,6 +11,43 @@ import static org.junit.Assert.assertEquals;
  * Date-time: 13.11.12 21:33
  */
 public class WinBoardCommanderReceiveTest {
+	@Test
+	public void nonGoReceived() {
+		Communicator communicator = getReceiveCommunicator( "non-go line" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final GoListenerMock listener = new GoListenerMock();
+		commander.setGoListener( listener );
+
+		commander.getInput();
+
+		assertEquals( 0, listener.callsCount );
+	}
+
+	@Test
+	public void goReceived() {
+		Communicator communicator = getReceiveCommunicator( "go" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final GoListenerMock listener = new GoListenerMock();
+		commander.setGoListener( listener );
+
+		commander.getInput();
+
+		assertEquals( 1, listener.callsCount );
+	}
+
+	@Test
+	public void goReceivedNoListenerConnection() {
+		Communicator communicator = getReceiveCommunicator( "go" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final GoListenerMock listener = new GoListenerMock();
+
+		commander.getInput();
+
+		assertEquals( 0, listener.callsCount );
+	}
 
 	@Test
 	public void noProtoverLineSent() {
@@ -131,5 +168,12 @@ public class WinBoardCommanderReceiveTest {
 		}
 	}
 
+	private static class GoListenerMock implements GoListener {
+		private int callsCount = 0;
 
+		@Override
+		public void execute() {
+			callsCount++;
+		}
+	}
 }
