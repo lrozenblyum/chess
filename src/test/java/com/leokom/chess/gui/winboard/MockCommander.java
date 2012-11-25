@@ -8,6 +8,10 @@ import com.leokom.chess.gui.Communicator;
  */
 public class MockCommander implements WinboardCommander {
 	private int startInitCallsCount = 0;
+
+
+	private int finishInitCallsCount = 0;
+	private int enableUserMovePrefixesCount = 0;
 	@Override
 	public void startInit() {
 		startInitCallsCount++;
@@ -15,11 +19,12 @@ public class MockCommander implements WinboardCommander {
 
 	@Override
 	public void enableUserMovePrefixes() {
-
+		enableUserMovePrefixesCount++;
 	}
 
 	@Override
 	public void finishInit() {
+		finishInitCallsCount++;
 	}
 
 	@Override
@@ -67,5 +72,13 @@ public class MockCommander implements WinboardCommander {
 
 	public int getStartInitCallsCount() {
 		return startInitCallsCount;
+	}
+
+	public int getFinishInitCallsCount() {
+		return finishInitCallsCount;
+	}
+
+	public int getEnableUserMovePrefixesCount() {
+		return enableUserMovePrefixesCount;
 	}
 }

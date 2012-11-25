@@ -15,12 +15,12 @@ interface WinboardCommander {
 	void startInit();
 
 	/**
-	 * TODO: think if it's must be the interface part
-	 * or part of implementation details.
-	 * As it has influence how the result will be parsed...
+	 * TODO: think if it's needed in interface
+	 * enable usermove prefixes for moves for easier parsing
 	 */
 	void enableUserMovePrefixes();
 
+	//signal end of initializations
 	void finishInit();
 
 	void agreeToDrawOffer();
@@ -44,5 +44,7 @@ interface WinboardCommander {
 
 	void setOfferDrawListener( OfferDrawListener listener );
 
+	//TODO: add analyze if this line is received immediately after xboard
+	//if not - we may assume it's protocol v1
 	void setXboardListener( XBoardListener listener );
 }
