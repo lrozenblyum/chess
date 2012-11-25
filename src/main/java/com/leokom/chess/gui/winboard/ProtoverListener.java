@@ -6,5 +6,5 @@ package com.leokom.chess.gui.winboard;
  * Date-time: 13.11.12 21:37
  */
 interface ProtoverListener {
-	void execute();
+	void execute( int protocolVersion );
 }

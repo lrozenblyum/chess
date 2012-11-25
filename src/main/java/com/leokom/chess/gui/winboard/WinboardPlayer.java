@@ -16,6 +16,7 @@ public class WinboardPlayer implements Player {
 	private Listener listener;
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private WinboardCommander commander;
+	private boolean needQuit = false;
 
 	//TODO: THINK about consequences of:
 	//creating several instances of the controller (must be singleton)
@@ -29,6 +30,53 @@ public class WinboardPlayer implements Player {
 	WinboardPlayer( WinboardCommander winboardCommander ) {
 		this.communicator = winboardCommander.getCommunicator();
 		this.commander = winboardCommander;
+
+
+
+		commander.setXboardListener( new XBoardListener() {
+			@Override
+			public void execute() {
+				logger.info( "Ready to work" );
+			}
+		});
+
+		commander.setOfferDrawListener(
+			new OfferDrawListener() {
+				@Override
+				public void execute() {
+					//TODO: see commander.agreeToDrawOffer
+					communicator.send( "offer draw" );
+				}
+			}
+		);
+
+		commander.setQuitListener( new QuitListener() {
+			@Override
+			public void execute() {
+				needQuit = true;
+			}
+		} );
+
+		commander.setUserMoveListener(new UserMoveListener() {
+			@Override
+			public void execute() {
+				listener.onCommandReceived();
+			}
+		});
+
+		commander.setGoListener(new GoListener() {
+			@Override
+			public void execute() {
+				listener.onCommandReceived();
+			}
+		});
+
+		commander.setProtoverListener(new ProtoverListener() {
+			@Override
+			public void execute( int protocolVersion ) {
+
+			}
+		});
 
 		//critically important to send this sequence at the start
 		//to ensure the Winboard won't ignore our 'setfeature' commands
@@ -48,6 +96,7 @@ public class WinboardPlayer implements Player {
 	@Override
 	public void run() {
 		while( true ) {
+			commander.getInput();
 			//TODO: any Thread.sleep needed?
 			String line = communicator.receive();
 
@@ -104,7 +153,6 @@ public class WinboardPlayer implements Player {
 
 			//another player offers draw - accept always
 			if ( line.equals( "draw" ) ) {
-				//TODO: see commander.agreeToDrawOffer
 				communicator.send( "offer draw" );
 			}
 		}

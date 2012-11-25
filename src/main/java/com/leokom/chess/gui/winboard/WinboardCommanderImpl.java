@@ -95,7 +95,8 @@ class WinboardCommanderImpl implements WinboardCommander {
 	public void getInput() {
 		String whatToReceive = communicator.receive();
 		if ( whatToReceive.startsWith( "protover" ) && protoverListener != null ) {
-			protoverListener.execute();
+			//TODO: validation??
+			protoverListener.execute( Integer.parseInt(whatToReceive.split( " " )[ 1 ]) );
 		}
 		if ( whatToReceive.equals( "quit" ) && quitListener != null ) {
 			quitListener.execute();

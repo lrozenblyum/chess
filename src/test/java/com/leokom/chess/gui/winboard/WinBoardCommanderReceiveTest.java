@@ -106,7 +106,7 @@ public class WinBoardCommanderReceiveTest {
 
 	@Test
 	public void protoverLineSent() {
-		Communicator communicator = getReceiveCommunicator( "protover" );
+		Communicator communicator = getReceiveCommunicator( "protover 2" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final ProtoverListenerMock listener = new ProtoverListenerMock();
@@ -205,7 +205,7 @@ public class WinBoardCommanderReceiveTest {
 		private int callsCount = 0;
 
 		@Override
-		public void execute() {
+		public void execute( int protocolVersion ) {
 			callsCount++;
 		}
 	}
