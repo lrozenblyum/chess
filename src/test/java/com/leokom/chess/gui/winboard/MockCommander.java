@@ -50,6 +50,11 @@ public class MockCommander implements WinboardCommander {
 	public void setGoListener( GoListener listener ) {
 	}
 
+	@Override
+	public void setUserMoveListener( UserMoveListener listener ) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
 	public int getStartInitCallsCount() {
 		return startInitCallsCount;
 	}

@@ -39,4 +39,6 @@ interface WinboardCommander {
 	Communicator getCommunicator();
 
 	void setGoListener( GoListener listener );
+
+	void setUserMoveListener( UserMoveListener listener );
 }

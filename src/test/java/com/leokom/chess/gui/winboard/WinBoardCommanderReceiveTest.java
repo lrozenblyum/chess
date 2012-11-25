@@ -11,6 +11,22 @@ import static org.junit.Assert.assertEquals;
  * Date-time: 13.11.12 21:33
  */
 public class WinBoardCommanderReceiveTest {
+	//TODO: I implement only simple test for usermove for 2 reasons:
+	//1. I want to check if pitest finds it
+	//2. I need to check deeper what's the correct format
+	@Test
+	public void userMove() {
+		Communicator communicator = getReceiveCommunicator( "usermove e2e4" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final UserMoveListenerMock listener = new UserMoveListenerMock();
+		commander.setUserMoveListener( listener );
+
+		commander.getInput();
+
+		assertEquals( 1, listener.callsCount );
+	}
+
 	@Test
 	public void nonGoReceived() {
 		Communicator communicator = getReceiveCommunicator( "non-go line" );
@@ -169,6 +185,15 @@ public class WinBoardCommanderReceiveTest {
 	}
 
 	private static class GoListenerMock implements GoListener {
+		private int callsCount = 0;
+
+		@Override
+		public void execute() {
+			callsCount++;
+		}
+	}
+
+	private static class UserMoveListenerMock implements UserMoveListener {
 		private int callsCount = 0;
 
 		@Override
