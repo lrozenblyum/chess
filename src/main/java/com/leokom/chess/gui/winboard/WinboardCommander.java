@@ -41,4 +41,6 @@ interface WinboardCommander {
 	void setGoListener( GoListener listener );
 
 	void setUserMoveListener( UserMoveListener listener );
+
+	void setOfferDrawListener( OfferDrawListener listener );
 }

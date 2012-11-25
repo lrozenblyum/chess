@@ -21,6 +21,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 	private QuitListener quitListener;
 	private GoListener goListener;
 	private UserMoveListener userMoveListener;
+	private OfferDrawListener offerDrawListener;
 
 	/**
 	 * Create the commander, with communicator injected
@@ -80,6 +81,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void setOfferDrawListener( OfferDrawListener listener ) {
+		this.offerDrawListener = listener;
+	}
+
+	@Override
 	public void getInput() {
 		String whatToReceive = communicator.receive();
 		if ( whatToReceive.startsWith( "protover" ) && protoverListener != null ) {
@@ -94,8 +100,12 @@ class WinboardCommanderImpl implements WinboardCommander {
 		}
 
 		//TODO: not fully test-covered
-		if ( whatToReceive.startsWith( "usermove" ) && whatToReceive != null ) {
+		if ( whatToReceive.startsWith( "usermove" ) && userMoveListener != null ) {
 			userMoveListener.execute();
+		}
+
+		if ( whatToReceive.equals( "draw" ) && offerDrawListener != null ) {
+			offerDrawListener.execute();
 		}
 	}
 
