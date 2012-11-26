@@ -47,11 +47,6 @@ public class MockCommander implements WinboardCommander {
 	}
 
 	@Override
-	public Communicator getCommunicator() {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	@Override
 	public void setGoListener( GoListener listener ) {
 	}
 

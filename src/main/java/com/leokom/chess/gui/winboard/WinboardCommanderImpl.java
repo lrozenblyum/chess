@@ -134,9 +134,4 @@ class WinboardCommanderImpl implements WinboardCommander {
 			xboardListener.execute();
 		}
 	}
-
-	@Override
-	public Communicator getCommunicator() {
-		return this.communicator;
-	}
 }

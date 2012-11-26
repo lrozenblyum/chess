@@ -32,10 +32,6 @@ interface WinboardCommander {
 	 */
 	void getInput();
 
-	//TODO: temporarily exposing this via interface
-	//to allow smooth step-by-step refactoring
-	Communicator getCommunicator();
-
 	void setGoListener( GoListener listener );
 
 	void setUserMoveListener( UserMoveListener listener );
