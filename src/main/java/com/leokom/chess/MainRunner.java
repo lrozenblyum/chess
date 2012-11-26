@@ -35,10 +35,10 @@ public final class MainRunner {
 	private static class MoveListener implements PlayerMovedListener {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
-		private final Player player;
+		private final Player anotherPlayer;
 
-		public MoveListener( Player player ) {
-			this.player = player;
+		public MoveListener( Player anotherPlayer ) {
+			this.anotherPlayer = anotherPlayer;
 			moveNumber = 0;
 		}
 
@@ -48,16 +48,16 @@ public final class MainRunner {
 			logger.info( "Detected allowance to go. Move number = " + moveNumber );
 			switch ( moveNumber ) {
 				case 1:
-					player.send( "move e2e4" );
+					anotherPlayer.send( "move e2e4" );
 					break;
 				case 2:
-					player.send( "move d2d4" );
+					anotherPlayer.send( "move d2d4" );
 					//NOTE: interesting to implement - how much do we need to wait for result?
 					//NOTE2: it's not recommended way to offer draw after the move.
-					player.send( "offer draw" );
+					anotherPlayer.send( "offer draw" );
 					break;
 				default:
-					player.send( "resign" );
+					anotherPlayer.send( "resign" );
 			}
 		}
 	}
