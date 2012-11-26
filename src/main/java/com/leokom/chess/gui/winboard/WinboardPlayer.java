@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
  * Date-time: 20.08.12 19:28
  */
 public class WinboardPlayer implements Player {
-	private Communicator communicator;
 	private PlayerMovedListener playerMovedListener;
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private WinboardCommander commander;
@@ -28,7 +27,6 @@ public class WinboardPlayer implements Player {
 	 * @param winboardCommander
 	 */
 	WinboardPlayer( WinboardCommander winboardCommander ) {
-		this.communicator = winboardCommander.getCommunicator();
 		this.commander = winboardCommander;
 
 
@@ -40,12 +38,12 @@ public class WinboardPlayer implements Player {
 			}
 		});
 
+		//TODO: it's caller's responsibility! Remove this logic!
 		commander.setOfferDrawListener(
 			new OfferDrawListener() {
 				@Override
 				public void execute() {
-					//TODO: see commander.agreeToDrawOffer
-					communicator.send( "offer draw" );
+					commander.agreeToDrawOffer();
 				}
 			}
 		);
