@@ -18,6 +18,11 @@ import com.leokom.chess.gui.Communicator;
 class WinboardCommanderImpl implements WinboardCommander {
 	private Communicator communicator;
 	private ProtoverListener protoverListener;
+	private QuitListener quitListener;
+	private GoListener goListener;
+	private UserMoveListener userMoveListener;
+	private OfferDrawListener offerDrawListener;
+	private XBoardListener xboardListener;
 
 	/**
 	 * Create the commander, with communicator injected
@@ -62,10 +67,71 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void setQuitListener( QuitListener listener ) {
+		this.quitListener = listener;
+	}
+
+	@Override
+	public void setGoListener( GoListener listener ) {
+		this.goListener = listener;
+	}
+
+	@Override
+	public void setUserMoveListener( UserMoveListener listener ) {
+		this.userMoveListener = listener;
+	}
+
+	@Override
+	public void setOfferDrawListener( OfferDrawListener listener ) {
+		this.offerDrawListener = listener;
+	}
+
+	@Override
+	public void setXboardListener( XBoardListener listener ) {
+		this.xboardListener = listener;
+	}
+
+	@Override
+	public void anotherPlayerMoved( String move ) {
+		this.communicator.send( "move " + move );
+	}
+
+	@Override
+	public void offerDraw() {
+		this.communicator.send( "offer draw" );
+	}
+
+	@Override
+	public void resign() {
+		this.communicator.send( "resign" );
+	}
+
+	@Override
 	public void getInput() {
 		String whatToReceive = communicator.receive();
 		if ( whatToReceive.startsWith( "protover" ) && protoverListener != null ) {
-			protoverListener.execute();
+			//TODO: validation??
+			protoverListener.execute( Integer.parseInt(whatToReceive.split( " " )[ 1 ]) );
+		}
+		if ( whatToReceive.equals( "quit" ) && quitListener != null ) {
+			quitListener.execute();
+		}
+
+		if ( whatToReceive.equals( "go" ) && goListener != null ) {
+			goListener.execute();
+		}
+
+		//TODO: not fully test-covered
+		if ( whatToReceive.startsWith( "usermove" ) && userMoveListener != null ) {
+			userMoveListener.execute();
+		}
+
+		if ( whatToReceive.equals( "draw" ) && offerDrawListener != null ) {
+			offerDrawListener.execute();
+		}
+
+		if ( whatToReceive.equals( "xboard" ) && xboardListener != null ) {
+			xboardListener.execute();
 		}
 	}
 }

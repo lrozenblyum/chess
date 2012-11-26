@@ -5,7 +5,9 @@ Initial creator is Leonid Rozenblyum
 Main goals for version1 are:
 - support Chess Engine Communication Protocol (http://home.hccnet.nl/h.g.muller/engine-intf.html)
 This protocol is one of de-facto standards in communicating between a chess GUI and an engine.
-The well-known GUI implementations are XBoard/Winboard
+The well-known GUI implementations are XBoard/Winboard.
+Probably the fastest way to implement is to take into account the 'Minimal protocol'
+document http://home.hccnet.nl/h.g.muller/interfacing.txt
 - know about all chess rules (including ambiguities with the 3'd position repetition and insufficient material)
 - be able to choose at least random 'correct according to rules' move.
 

@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Controller;
+import com.leokom.chess.framework.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,14 +14,14 @@ import static org.junit.Assert.assertEquals;
  * Author: Leonid
  * Date-time: 10.11.12 22:03
  */
-public class WinBoardControllerIntegrationTest {
+public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void switchesWinboardToSetUpMode() {
 		//The commander mock is actually EMULATOR OF Winboard behaviour!
 		//TODO: think about Mockito usage?
 		MockCommunicatorSend communicatorSend = new MockCommunicatorSend();
 
-		final Controller controller = new WinboardController( communicatorSend, new WinboardCommanderImpl( communicatorSend ) );
+		final Player player = new WinboardPlayer( new WinboardCommanderImpl( communicatorSend ) );
 
 		assertEquals( 1, communicatorSend.getSentCommands().size() );
 		final String initializationString = "feature done=0";

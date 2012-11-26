@@ -53,4 +53,13 @@ public class WinBoardCommanderSendTest {
 		//weird but fact... This command is used also to agree to draw.
 		assertEquals( "offer draw", communicatorSend.getSentCommands().get( 0 ) );
 	}
+
+	@Test
+	public void anotherPlayerMove() {
+		commander.anotherPlayerMoved( "e2e4" );
+
+		assertEquals( 1, communicatorSend.getSentCommands().size() );
+		//weird but fact... This command is used also to agree to draw.
+		assertEquals( "move e2e4", communicatorSend.getSentCommands().get( 0 ) );
+	}
 }

@@ -1,8 +1,8 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.gui.Listener;
-import com.leokom.chess.gui.Controller;
+import com.leokom.chess.framework.Player;
+import com.leokom.chess.framework.PlayerMovedListener;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 
@@ -19,13 +19,13 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		final Controller controller = WinboardFactory.getController();
+		final Player player = WinboardFactory.getPlayer();
 
-		final Listener onMoveListener = new MoveListener( controller );
+		final PlayerMovedListener onMovePlayerMovedListener = new MoveListener( player );
 
-		controller.setOnMoveListener( onMoveListener );
+		player.setOnMoveListener( onMovePlayerMovedListener );
 		//it's main loop
-		controller.run();
+		player.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
@@ -33,32 +33,32 @@ public final class MainRunner {
 	/**
 	 * Basic implementation of 'on move allowed'
 	 */
-	private static class MoveListener implements Listener {
+	private static class MoveListener implements PlayerMovedListener {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
-		private final Controller controller;
+		private final Player anotherPlayer;
 
-		public MoveListener( Controller controller ) {
-			this.controller = controller;
+		public MoveListener( Player anotherPlayer ) {
+			this.anotherPlayer = anotherPlayer;
 			moveNumber = 0;
 		}
 
 		@Override
-		public void onCommandReceived() {
+		public void onPlayerMoved( String move ) {
 			moveNumber++;
 			logger.info( "Detected allowance to go. Move number = " + moveNumber );
 			switch ( moveNumber ) {
 				case 1:
-					controller.send( "move e2e4" );
+					anotherPlayer.onPlayerMoved( "e2e4" );
 					break;
 				case 2:
-					controller.send( "move d2d4" );
+					anotherPlayer.onPlayerMoved( "d2d4" );
 					//NOTE: interesting to implement - how much do we need to wait for result?
 					//NOTE2: it's not recommended way to offer draw after the move.
-					controller.send( "offer draw" );
+					anotherPlayer.onDrawOfferred();
 					break;
 				default:
-					controller.send( "resign" );
+					anotherPlayer.onResigned();
 			}
 		}
 	}
