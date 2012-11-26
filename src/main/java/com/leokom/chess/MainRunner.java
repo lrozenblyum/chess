@@ -43,7 +43,7 @@ public final class MainRunner {
 		}
 
 		@Override
-		public void onCommandReceived() {
+		public void onPlayerMoved() {
 			moveNumber++;
 			logger.info( "Detected allowance to go. Move number = " + moveNumber );
 			switch ( moveNumber ) {

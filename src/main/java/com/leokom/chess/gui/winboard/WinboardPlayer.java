@@ -60,14 +60,14 @@ public class WinboardPlayer implements Player {
 		commander.setUserMoveListener(new UserMoveListener() {
 			@Override
 			public void execute() {
-				playerMovedListener.onCommandReceived();
+				playerMovedListener.onPlayerMoved();
 			}
 		});
 
 		commander.setGoListener(new GoListener() {
 			@Override
 			public void execute() {
-				playerMovedListener.onCommandReceived();
+				playerMovedListener.onPlayerMoved();
 			}
 		});
 

@@ -8,5 +8,5 @@ package com.leokom.chess.gui;
 public interface PlayerMovedListener {
 	//for sure in next versions it may be some Command object so that
 	//it's NOT dependent on xboard.
-	void onCommandReceived();
+	void onPlayerMoved();
 }
