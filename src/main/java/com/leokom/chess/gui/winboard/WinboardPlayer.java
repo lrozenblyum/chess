@@ -106,16 +106,6 @@ public class WinboardPlayer implements Player {
 		}
 	}
 
-	/**
-	 * Send the command provided
-	 * TODO: for sure it must get Command object that is xboard-independent
-	 * @param command command to be sent
-	 */
-	@Override
-	public void send( String command ) {
-		this.communicator.send( command );
-	}
-
 	//listener to another player's move
 	@Override
 	public void onPlayerMoved( String move ) {

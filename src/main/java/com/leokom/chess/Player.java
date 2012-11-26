@@ -17,7 +17,4 @@ public interface Player extends PlayerMovedListener, DrawOfferredListener, Resig
 
 	//TODO: think if it's player's property
 	void run();
-
-	//TODO: definitely, this is too low-level for a player to implement
-	void send( String command );
 }
