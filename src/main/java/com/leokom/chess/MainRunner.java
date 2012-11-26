@@ -1,7 +1,7 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.gui.Listener;
+import com.leokom.chess.gui.PlayerMovedListener;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 
@@ -20,9 +20,9 @@ public final class MainRunner {
 
 		final Player player = WinboardFactory.getPlayer();
 
-		final Listener onMoveListener = new MoveListener( player );
+		final PlayerMovedListener onMovePlayerMovedListener = new MoveListener( player );
 
-		player.setOnMoveListener( onMoveListener );
+		player.setOnMoveListener( onMovePlayerMovedListener );
 		//it's main loop
 		player.run();
 
@@ -32,7 +32,7 @@ public final class MainRunner {
 	/**
 	 * Basic implementation of 'on move allowed'
 	 */
-	private static class MoveListener implements Listener {
+	private static class MoveListener implements PlayerMovedListener {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
 		private final Player player;

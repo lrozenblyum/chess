@@ -2,7 +2,7 @@ package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.Player;
 import com.leokom.chess.gui.Communicator;
-import com.leokom.chess.gui.Listener;
+import com.leokom.chess.gui.PlayerMovedListener;
 import org.apache.log4j.Logger;
 
 /**
@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class WinboardPlayer implements Player {
 	private Communicator communicator;
-	private Listener listener;
+	private PlayerMovedListener playerMovedListener;
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private WinboardCommander commander;
 	private boolean needQuit = false;
@@ -60,14 +60,14 @@ public class WinboardPlayer implements Player {
 		commander.setUserMoveListener(new UserMoveListener() {
 			@Override
 			public void execute() {
-				listener.onCommandReceived();
+				playerMovedListener.onCommandReceived();
 			}
 		});
 
 		commander.setGoListener(new GoListener() {
 			@Override
 			public void execute() {
-				listener.onCommandReceived();
+				playerMovedListener.onCommandReceived();
 			}
 		});
 
@@ -89,8 +89,8 @@ public class WinboardPlayer implements Player {
 
 	//may create attach - now it's over-projecting - 1 is OK
 	@Override
-	public void setOnMoveListener( Listener listenerToSet ) {
-		this.listener = listenerToSet;
+	public void setOnMoveListener( PlayerMovedListener playerMovedListenerToSet ) {
+		this.playerMovedListener = playerMovedListenerToSet;
 	}
 
 	/**

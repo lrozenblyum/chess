@@ -1,6 +1,6 @@
 package com.leokom.chess;
 
-import com.leokom.chess.gui.Listener;
+import com.leokom.chess.gui.PlayerMovedListener;
 
 /**
  * Engine-agnostic player.
@@ -11,7 +11,7 @@ import com.leokom.chess.gui.Listener;
 public interface Player {
 	//may create attach - now it's over-projecting - 1 is OK
 	//TODO: rename to new vision
-	void setOnMoveListener( Listener listenerToSet );
+	void setOnMoveListener( PlayerMovedListener playerMovedListenerToSet );
 
 	//TODO: think if it's player's property
 	void run();
