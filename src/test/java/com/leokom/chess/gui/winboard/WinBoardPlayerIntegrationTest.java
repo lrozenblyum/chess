@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
  * Author: Leonid
  * Date-time: 10.11.12 22:03
  */
-public class WinBoardControllerIntegrationTest {
+public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void switchesWinboardToSetUpMode() {
 		//The commander mock is actually EMULATOR OF Winboard behaviour!

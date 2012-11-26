@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
  * Author: Leonid
  * Date-time: 19.08.12 18:16
  */
-public class WinBoardControllerTest {
+public class WinBoardPlayerTest {
 	private static final int PROTOCOL_VERSION = 2; //any??
 
 	//this test should emulate WinBoard behaviour and analyze our reaction on it.
