@@ -1,7 +1,5 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Communicator;
-
 /**
  * Author: Leonid
  * Date-time: 10.11.12 21:56

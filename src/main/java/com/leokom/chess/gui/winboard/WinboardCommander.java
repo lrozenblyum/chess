@@ -1,7 +1,5 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.gui.Communicator;
-
 /**
  * Low-level Winboard-commands for some abstraction
  * and easier testing.
