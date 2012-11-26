@@ -43,15 +43,15 @@ public final class MainRunner {
 		}
 
 		@Override
-		public void onPlayerMoved() {
+		public void onPlayerMoved( String move ) {
 			moveNumber++;
 			logger.info( "Detected allowance to go. Move number = " + moveNumber );
 			switch ( moveNumber ) {
 				case 1:
-					anotherPlayer.send( "move e2e4" );
+					anotherPlayer.onPlayerMoved( "e2e4" );
 					break;
 				case 2:
-					anotherPlayer.send( "move d2d4" );
+					anotherPlayer.onPlayerMoved( "d2d4" );
 					//NOTE: interesting to implement - how much do we need to wait for result?
 					//NOTE2: it's not recommended way to offer draw after the move.
 					anotherPlayer.send( "offer draw" );

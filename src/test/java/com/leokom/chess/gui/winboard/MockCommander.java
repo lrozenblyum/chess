@@ -70,6 +70,11 @@ public class MockCommander implements WinboardCommander {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
+	@Override
+	public void anotherPlayerMoved( String move ) {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
 	public int getStartInitCallsCount() {
 		return startInitCallsCount;
 	}

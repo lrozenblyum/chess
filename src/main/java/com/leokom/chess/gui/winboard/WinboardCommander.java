@@ -45,4 +45,6 @@ interface WinboardCommander {
 	//TODO: add analyze if this line is received immediately after xboard
 	//if not - we may assume it's protocol v1
 	void setXboardListener( XBoardListener listener );
+
+	void anotherPlayerMoved( String move );
 }
