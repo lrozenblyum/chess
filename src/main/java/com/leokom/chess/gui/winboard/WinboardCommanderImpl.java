@@ -102,6 +102,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void resign() {
+		this.communicator.send( "resign" );
+	}
+
+	@Override
 	public void getInput() {
 		String whatToReceive = communicator.receive();
 		if ( whatToReceive.startsWith( "protover" ) && protoverListener != null ) {

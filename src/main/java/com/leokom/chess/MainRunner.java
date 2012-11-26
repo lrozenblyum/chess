@@ -57,7 +57,7 @@ public final class MainRunner {
 					anotherPlayer.onDrawOfferred();
 					break;
 				default:
-					anotherPlayer.send( "resign" );
+					anotherPlayer.onResigned();
 			}
 		}
 	}

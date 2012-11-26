@@ -49,4 +49,6 @@ interface WinboardCommander {
 	void anotherPlayerMoved( String move );
 
 	void offerDraw();
+
+	void resign();
 }

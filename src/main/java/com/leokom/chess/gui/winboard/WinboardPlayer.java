@@ -126,4 +126,9 @@ public class WinboardPlayer implements Player {
 	public void onDrawOfferred() {
 		commander.offerDraw();
 	}
+
+	@Override
+	public void onResigned() {
+		commander.resign();
+	}
 }
