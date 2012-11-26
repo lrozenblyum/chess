@@ -97,6 +97,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void offerDraw() {
+		this.communicator.send( "offer draw" );
+	}
+
+	@Override
 	public void getInput() {
 		String whatToReceive = communicator.receive();
 		if ( whatToReceive.startsWith( "protover" ) && protoverListener != null ) {

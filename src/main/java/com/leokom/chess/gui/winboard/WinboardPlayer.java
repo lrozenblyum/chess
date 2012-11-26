@@ -121,4 +121,9 @@ public class WinboardPlayer implements Player {
 	public void onPlayerMoved( String move ) {
 		commander.anotherPlayerMoved( move );
 	}
+
+	@Override
+	public void onDrawOfferred() {
+		commander.offerDraw();
+	}
 }

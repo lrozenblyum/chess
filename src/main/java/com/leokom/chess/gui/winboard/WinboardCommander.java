@@ -47,4 +47,6 @@ interface WinboardCommander {
 	void setXboardListener( XBoardListener listener );
 
 	void anotherPlayerMoved( String move );
+
+	void offerDraw();
 }

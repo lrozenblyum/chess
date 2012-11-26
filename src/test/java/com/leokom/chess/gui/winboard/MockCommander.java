@@ -75,6 +75,11 @@ public class MockCommander implements WinboardCommander {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
+	@Override
+	public void offerDraw() {
+		//To change body of implemented methods use File | Settings | File Templates.
+	}
+
 	public int getStartInitCallsCount() {
 		return startInitCallsCount;
 	}
