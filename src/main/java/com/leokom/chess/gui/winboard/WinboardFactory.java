@@ -13,7 +13,7 @@ public final class WinboardFactory {
 	/**
 	 * @return instance of properly initialized WinboardPlayer
 	 */
-	public static Player getController() {
+	public static Player getPlayer() {
 		//TODO: if in any application place we'll use System.out.println or System.in.read
 		//this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
 		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardPlayer

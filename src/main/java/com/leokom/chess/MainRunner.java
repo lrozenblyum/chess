@@ -18,7 +18,7 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		final Player player = WinboardFactory.getController();
+		final Player player = WinboardFactory.getPlayer();
 
 		final Listener onMoveListener = new MoveListener( player );
 
