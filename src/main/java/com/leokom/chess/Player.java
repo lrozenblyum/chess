@@ -8,7 +8,7 @@ import com.leokom.chess.gui.PlayerMovedListener;
  * (independent of the fact the player is represented by a chess engine,
  * a human or a winboard-protocol )
  */
-public interface Player {
+public interface Player extends PlayerMovedListener {
 	//may create attach - now it's over-projecting - 1 is OK
 	//TODO: rename to new vision
 	void setOnMoveListener( PlayerMovedListener playerMovedListenerToSet );

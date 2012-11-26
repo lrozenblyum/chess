@@ -115,4 +115,10 @@ public class WinboardPlayer implements Player {
 	public void send( String command ) {
 		this.communicator.send( command );
 	}
+
+	//listener to another player's move
+	@Override
+	public void onPlayerMoved() {
+
+	}
 }
