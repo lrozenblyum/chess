@@ -1,8 +1,4 @@
-package com.leokom.chess;
-
-import com.leokom.chess.gui.DrawOfferredListener;
-import com.leokom.chess.gui.PlayerMovedListener;
-import com.leokom.chess.gui.ResignListener;
+package com.leokom.chess.framework;
 
 /**
  * Engine-agnostic player.

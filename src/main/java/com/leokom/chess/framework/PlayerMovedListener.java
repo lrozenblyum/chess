@@ -1,4 +1,4 @@
-package com.leokom.chess.gui;
+package com.leokom.chess.framework;
 
 /**
  * General listener to some command received

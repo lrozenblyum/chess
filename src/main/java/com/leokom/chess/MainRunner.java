@@ -1,7 +1,8 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.gui.PlayerMovedListener;
+import com.leokom.chess.framework.Player;
+import com.leokom.chess.framework.PlayerMovedListener;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 

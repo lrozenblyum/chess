@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.Player;
+import com.leokom.chess.framework.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
