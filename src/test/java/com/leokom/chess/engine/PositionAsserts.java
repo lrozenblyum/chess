@@ -15,12 +15,12 @@ import static org.junit.Assert.assertTrue;
 public final class PositionAsserts {
 	private PositionAsserts() {}
 
-	static void assertHasPiece( Position position, PieceType pieceType, Side notMovedPieceSide, String notMovedPieceSquare ) {
+	static void assertHasPiece( Position position, PieceType pieceType, Side side, String square ) {
 		if ( pieceType != PieceType.PAWN ) {
 			throw new IllegalArgumentException( "Piece type is not supported yet: " + pieceType );
 		}
 
-		assertHasPawn( position, notMovedPieceSquare, notMovedPieceSide );
+		assertHasPawn( position, square, side );
 	}
 
 	static void assertEmptySquare( Position position, String square ) {
