@@ -96,7 +96,7 @@ public class WinboardPlayer implements Player {
 	@Override
 	public void run() {
 		while( true ) {
-			commander.getInput();
+			commander.processInputFromServer();
 			if ( needQuit ) {
 				break;
 			}

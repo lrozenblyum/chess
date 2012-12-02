@@ -28,7 +28,7 @@ interface WinboardCommander {
 	 * Fetch input from the underlying communication component
 	 * Call some listeners if any....
 	 */
-	void getInput();
+	void processInputFromServer();
 
 	void setGoListener( GoListener listener );
 

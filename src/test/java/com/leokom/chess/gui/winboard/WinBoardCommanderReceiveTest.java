@@ -19,7 +19,7 @@ public class WinBoardCommanderReceiveTest {
 		final XBoardListenerMock listener = new XBoardListenerMock();
 		commander.setXboardListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 1, listener.callsCount );
 	}
@@ -32,7 +32,7 @@ public class WinBoardCommanderReceiveTest {
 		final OfferDrawListenerMock listener = new OfferDrawListenerMock();
 		commander.setOfferDrawListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 1, listener.callsCount );
 	}
@@ -48,7 +48,7 @@ public class WinBoardCommanderReceiveTest {
 		final UserMoveListenerMock listener = new UserMoveListenerMock();
 		commander.setUserMoveListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 1, listener.callsCount );
 	}
@@ -61,7 +61,7 @@ public class WinBoardCommanderReceiveTest {
 		final GoListenerMock listener = new GoListenerMock();
 		commander.setGoListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 0, listener.callsCount );
 	}
@@ -74,7 +74,7 @@ public class WinBoardCommanderReceiveTest {
 		final GoListenerMock listener = new GoListenerMock();
 		commander.setGoListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 1, listener.callsCount );
 	}
@@ -86,7 +86,7 @@ public class WinBoardCommanderReceiveTest {
 
 		final GoListenerMock listener = new GoListenerMock();
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 0, listener.callsCount );
 	}
@@ -99,7 +99,7 @@ public class WinBoardCommanderReceiveTest {
 		final ProtoverListenerMock listener = new ProtoverListenerMock();
 		commander.setProtoverListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 0, listener.callsCount );
 	}
@@ -112,7 +112,7 @@ public class WinBoardCommanderReceiveTest {
 		final ProtoverListenerMock listener = new ProtoverListenerMock();
 		commander.setProtoverListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 1, listener.callsCount );
 	}
@@ -125,7 +125,7 @@ public class WinBoardCommanderReceiveTest {
 		final ProtoverListenerMock listener = new ProtoverListenerMock();
 		commander.setProtoverListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 1, listener.callsCount );
 	}
@@ -136,7 +136,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final ProtoverListenerMock listener = new ProtoverListenerMock();
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 0, listener.callsCount );
 	}
@@ -162,7 +162,7 @@ public class WinBoardCommanderReceiveTest {
 		final QuitListenerMock listener = new QuitListenerMock();
 		commander.setQuitListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 0, listener.callsCount );
 	}
@@ -175,7 +175,7 @@ public class WinBoardCommanderReceiveTest {
 		final QuitListenerMock listener = new QuitListenerMock();
 		commander.setQuitListener( listener );
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 1, listener.callsCount );
 	}
@@ -188,7 +188,7 @@ public class WinBoardCommanderReceiveTest {
 		//creating but not setting to commander
 		final QuitListenerMock listener = new QuitListenerMock();
 
-		commander.getInput();
+		commander.processInputFromServer();
 
 		assertEquals( 0, listener.callsCount );
 	}

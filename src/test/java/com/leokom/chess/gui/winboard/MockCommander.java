@@ -36,7 +36,7 @@ public class MockCommander implements WinboardCommander {
 	}
 
 	@Override
-	public void getInput() {
+	public void processInputFromServer() {
 		//To change body of implemented methods use File | Settings | File Templates.
 	}
 
