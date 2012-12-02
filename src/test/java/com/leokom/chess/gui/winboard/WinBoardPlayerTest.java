@@ -21,7 +21,8 @@ public class WinBoardPlayerTest {
 	public void creationSwitchesToInitMode() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
-		WinboardPlayer controller = new WinboardPlayer( commander );
+		//implicit call of startInit
+		new WinboardPlayer( commander );
 
 		//it really checks only 1 method call
 		verify( commander ).startInit();
