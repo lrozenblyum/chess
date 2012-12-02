@@ -1,9 +1,9 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.framework.Player;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Check Winboard controller behaviour in combination with real
@@ -18,13 +18,10 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void switchesWinboardToSetUpMode() {
 		//The commander mock is actually EMULATOR OF Winboard behaviour!
-		//TODO: think about Mockito usage?
-		MockCommunicatorSend communicatorSend = new MockCommunicatorSend();
+		WinboardCommunicator communicator = mock( WinboardCommunicator.class );
 
-		final Player player = new WinboardPlayer( new WinboardCommanderImpl( communicatorSend ) );
+		new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
 
-		assertEquals( 1, communicatorSend.getSentCommands().size() );
-		final String initializationString = "feature done=0";
-		assertEquals( initializationString, communicatorSend.getSentCommands().get( 0 ) );
+		verify( communicator ).send( "feature done=0" );
 	}
 }
