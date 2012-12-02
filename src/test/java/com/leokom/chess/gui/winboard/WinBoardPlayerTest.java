@@ -4,6 +4,8 @@ import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -68,16 +70,21 @@ public class WinBoardPlayerTest {
 	public void useCommanderForQuitCommandRealTest() {
 		//dummy implementation - each time anybody sets a protover listener -
 		//we quit IMMEDIATELY
-		WinboardCommander commander = new MockCommander() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
+		final WinboardPlayer winboardPlayer = new WinboardPlayer( commander );
+		verify( commander ).setQuitListener( quitListener.capture() );
+
+		doAnswer( new Answer() {
 			@Override
-			public void setQuitListener( final QuitListener quitListener ) {
-				quitListener.execute();
+			public Object answer( InvocationOnMock invocationOnMock ) {
+				quitListener.getValue().execute();
+				return null;  //just for compiler... due to generic Answer interface
 			}
-		};
+		} ).when( commander ).processInputFromServer();
 
-		WinboardPlayer controller = new WinboardPlayer(	commander );
-
-		controller.run();
+		winboardPlayer.run();
 	}
 
 	/**
