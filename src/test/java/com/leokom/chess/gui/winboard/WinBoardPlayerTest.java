@@ -3,6 +3,7 @@ package com.leokom.chess.gui.winboard;
 import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -100,8 +101,9 @@ public class WinBoardPlayerTest {
 		//calling the protover listener - it must have implications described below.
 		listenerCaptor.getValue().execute( PROTOCOL_VERSION );
 
-		//TODO: it doesn't check methods order...
-		verify( commander ).enableUserMovePrefixes();
-		verify( commander ).finishInit();
+		InOrder orderedCalls = inOrder( commander );
+
+		orderedCalls.verify( commander ).enableUserMovePrefixes();
+		orderedCalls.verify( commander ).finishInit();
 	}
 }
