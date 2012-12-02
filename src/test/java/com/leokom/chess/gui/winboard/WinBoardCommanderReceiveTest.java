@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import static com.leokom.chess.gui.winboard.MockCommunicatorReceiveCreator.getReceiveCommunicator;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 /**
  * Author: Leonid
@@ -159,12 +162,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "anyNonQuitString" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final QuitListenerMock listener = new QuitListenerMock();
+		final QuitListener listener = mock( QuitListener.class );
 		commander.setQuitListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 0, listener.callsCount );
+		verify( listener, never() ).execute();
 	}
 
 	@Test
@@ -172,12 +175,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "quit" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final QuitListenerMock listener = new QuitListenerMock();
+		final QuitListener listener = mock( QuitListener.class );
 		commander.setQuitListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 1, listener.callsCount );
+		verify( listener ).execute();
 	}
 
 	@Test
@@ -186,19 +189,11 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		//creating but not setting to commander
-		final QuitListenerMock listener = new QuitListenerMock();
+		final QuitListener listener = mock( QuitListener.class );
 
 		commander.processInputFromServer();
 
-		assertEquals( 0, listener.callsCount );
-	}
-
-	private static class QuitListenerMock implements QuitListener {
-		private int callsCount = 0;
-		@Override
-		public void execute() {
-			callsCount++;
-		}
+		verify( listener, never() ).execute();
 	}
 
 	private static class ProtoverListenerMock implements ProtoverListener {
