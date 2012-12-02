@@ -118,4 +118,12 @@ public class WinboardPlayer implements Player {
 	public void onResigned() {
 		commander.resign();
 	}
+
+	/**
+	 * Check if we need break main loop
+	 * @return true if main loop must be stopped
+	 */
+	boolean needShuttingDown() {
+		return needQuit;
+	}
 }

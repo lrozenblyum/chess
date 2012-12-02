@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 
@@ -42,6 +44,22 @@ public class WinBoardPlayerTest {
 
 		controller.run();
 
+	}
+
+	@Test
+	public void quitCommandSwitchesShutdownNeed() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		WinboardPlayer controller = new WinboardPlayer(	commander );
+		ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
+		verify( commander ).setQuitListener( quitListener.capture() );
+
+		assertFalse( controller.needShuttingDown() );
+
+		//correct quit listener must enable need of shutting down
+		quitListener.getValue().execute();
+
+		assertTrue( controller.needShuttingDown() );
 	}
 
 	//ensure need of refactoring into commander instead of communicator
