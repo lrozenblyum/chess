@@ -4,6 +4,8 @@ import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
+
 
 /**
  * Author: Leonid
@@ -17,11 +19,14 @@ public class WinBoardPlayerTest {
 
 	@Test
 	public void creationSwitchesToInitMode() {
+		WinboardCommander commander1 = mock( WinboardCommander.class );
+
+
 		MockCommander commander = new MockCommander();
 
-		WinboardPlayer controller = new WinboardPlayer( commander );
+		WinboardPlayer controller = new WinboardPlayer( commander1 );
 
-		assertEquals( 1, commander.getStartInitCallsCount() );
+		verify( commander1 ).startInit();
 	}
 
 	//ensure need of refactoring into commander instead of communicator
