@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import static com.leokom.chess.gui.winboard.MockCommunicatorReceiveCreator.getReceiveCommunicator;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -99,12 +101,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "Any line not starting by 'protover'" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final ProtoverListenerMock listener = new ProtoverListenerMock();
+		final ProtoverListener listener = mock( ProtoverListener.class );
 		commander.setProtoverListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 0, listener.callsCount );
+		verify( listener, never() ).execute( anyInt() );
 	}
 
 	@Test
@@ -112,12 +114,13 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "protover 2" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final ProtoverListenerMock listener = new ProtoverListenerMock();
+		final ProtoverListener listener = mock( ProtoverListener.class );
 		commander.setProtoverListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 1, listener.callsCount );
+		//NOTE: nice, richer checking than before (argument as well)!
+		verify( listener ).execute( 2 );
 	}
 
 	@Test
@@ -125,12 +128,13 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "protover 2" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final ProtoverListenerMock listener = new ProtoverListenerMock();
+		final ProtoverListener listener = mock( ProtoverListener.class );
 		commander.setProtoverListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 1, listener.callsCount );
+		//NOTE: nice, richer checking than before (argument as well)!
+		verify( listener ).execute( 2 );
 	}
 
 	@Test
@@ -138,10 +142,10 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "protover" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final ProtoverListenerMock listener = new ProtoverListenerMock();
+		final ProtoverListener listener = mock( ProtoverListener.class );
 		commander.processInputFromServer();
 
-		assertEquals( 0, listener.callsCount );
+		verify( listener, never() ).execute( anyInt() );
 	}
 
 	@Test
@@ -149,10 +153,10 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "protover" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final ProtoverListenerMock listener = new ProtoverListenerMock();
+		final ProtoverListener listener = mock( ProtoverListener.class );
 		commander.setProtoverListener( listener );
 
-		assertEquals( 0, listener.callsCount );
+		verify( listener, never() ).execute( anyInt() );
 	}
 
 	@Test
@@ -192,14 +196,5 @@ public class WinBoardCommanderReceiveTest {
 		commander.processInputFromServer();
 
 		verify( listener, never() ).execute();
-	}
-
-	private static class ProtoverListenerMock implements ProtoverListener {
-		private int callsCount = 0;
-
-		@Override
-		public void execute( int protocolVersion ) {
-			callsCount++;
-		}
 	}
 }
