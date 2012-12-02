@@ -14,6 +14,7 @@ import static org.mockito.Mockito.*;
  */
 public class WinBoardPlayerTest {
 	private static final int PROTOCOL_VERSION = 2; //any??
+	private static final int WAIT_TILL_QUIT = 5000;
 
 	//this test should emulate WinBoard behaviour and analyze our reaction on it.
 	//in theory in future we could extract some Winboard emulator
@@ -30,14 +31,13 @@ public class WinBoardPlayerTest {
 	}
 
 	//ensure need of refactoring into commander instead of communicator
-	@Test( timeout = 5000 )
+	@Test( timeout = WAIT_TILL_QUIT )
 	public void useCommanderForQuitCommand() {
 		Communicator quitCommunicator = MockCommunicatorReceiveCreator.getReceiveCommunicator( "quit" );
 
 		WinboardCommander commander = new WinboardCommanderImpl( quitCommunicator );
 
-		WinboardPlayer controller = new WinboardPlayer(
-				commander );
+		WinboardPlayer controller = new WinboardPlayer(	commander );
 
 		controller.run();
 	}
