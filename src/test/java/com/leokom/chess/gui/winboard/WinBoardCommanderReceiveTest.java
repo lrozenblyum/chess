@@ -61,12 +61,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "non-go line" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final GoListenerMock listener = new GoListenerMock();
+		final GoListener listener = mock( GoListener.class );
 		commander.setGoListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 0, listener.callsCount );
+		verify( listener, never() ).execute();
 	}
 
 	@Test
@@ -74,12 +74,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "go" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final GoListenerMock listener = new GoListenerMock();
+		final GoListener listener = mock( GoListener.class );
 		commander.setGoListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 1, listener.callsCount );
+		verify( listener ).execute();
 	}
 
 	@Test
@@ -87,11 +87,11 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "go" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final GoListenerMock listener = new GoListenerMock();
+		final GoListener listener = mock( GoListener.class );
 
 		commander.processInputFromServer();
 
-		assertEquals( 0, listener.callsCount );
+		verify( listener, never() ).execute();
 	}
 
 	@Test
@@ -199,15 +199,6 @@ public class WinBoardCommanderReceiveTest {
 
 		@Override
 		public void execute( int protocolVersion ) {
-			callsCount++;
-		}
-	}
-
-	private static class GoListenerMock implements GoListener {
-		private int callsCount = 0;
-
-		@Override
-		public void execute() {
 			callsCount++;
 		}
 	}
