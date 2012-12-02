@@ -64,7 +64,27 @@ public class WinBoardPlayerTest {
 		assertTrue( controller.needShuttingDown() );
 	}
 
+	/**
+	 * Correct quit listener must set up inner flag to quit
+	 */
+	@Test
+	public void quitListenerActsCorrectly() {
+		//dummy implementation - each time anybody sets a protover listener -
+		//we quit IMMEDIATELY
+		final WinboardCommander commander = mock( WinboardCommander.class );
+
+		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
+		final WinboardPlayer winboardPlayer = new WinboardPlayer( commander );
+		verify( commander ).setQuitListener( quitListener.capture() );
+
+		quitListener.getValue().execute();
+
+		assertTrue( winboardPlayer.needShuttingDown() );
+	}
+
 	//ensure need of refactoring into commander instead of communicator
+	//this is an integration test to ensure the loop won't be infinite
+	//after receiving quit command
 	@Test( timeout = WAIT_TILL_QUIT )
 	public void useCommanderForQuitCommandRealTest() {
 		//dummy implementation - each time anybody sets a protover listener -
