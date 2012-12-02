@@ -48,12 +48,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "usermove e2e4" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final UserMoveListenerMock listener = new UserMoveListenerMock();
+		final UserMoveListener listener = mock( UserMoveListener.class );
 		commander.setUserMoveListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 1, listener.callsCount );
+		verify( listener ).execute();
 	}
 
 	@Test
@@ -204,15 +204,6 @@ public class WinBoardCommanderReceiveTest {
 	}
 
 	private static class GoListenerMock implements GoListener {
-		private int callsCount = 0;
-
-		@Override
-		public void execute() {
-			callsCount++;
-		}
-	}
-
-	private static class UserMoveListenerMock implements UserMoveListener {
 		private int callsCount = 0;
 
 		@Override
