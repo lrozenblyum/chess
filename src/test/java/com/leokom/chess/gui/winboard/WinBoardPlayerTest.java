@@ -69,13 +69,12 @@ public class WinBoardPlayerTest {
 			}
 		};
 
-		WinboardPlayer controller = new WinboardPlayer(	commander );
+		new WinboardPlayer(	commander );
 
 		//the player must have set its listeners in constructor...
 
 		//TODO: this doesn't check the commands order...
 		assertEquals( 1, commander.getFinishInitCallsCount() );
 		assertEquals( 1, commander.getEnableUserMovePrefixesCount() );
-
 	}
 }
