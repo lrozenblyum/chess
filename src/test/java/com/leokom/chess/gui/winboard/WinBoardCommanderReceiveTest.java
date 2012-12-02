@@ -19,12 +19,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "xboard" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final XBoardListenerMock listener = new XBoardListenerMock();
+		final XBoardListener listener = mock( XBoardListener.class );
 		commander.setXboardListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 1, listener.callsCount );
+		verify( listener ).execute();
 	}
 
 	@Test
@@ -155,8 +155,6 @@ public class WinBoardCommanderReceiveTest {
 		assertEquals( 0, listener.callsCount );
 	}
 
-
-
 	@Test
 	public void nonQuitLine() {
 		Communicator communicator = getReceiveCommunicator( "anyNonQuitString" );
@@ -224,15 +222,6 @@ public class WinBoardCommanderReceiveTest {
 	}
 
 	private static class OfferDrawListenerMock implements OfferDrawListener {
-		private int callsCount = 0;
-
-		@Override
-		public void execute() {
-			callsCount++;
-		}
-	}
-
-	private static class XBoardListenerMock implements XBoardListener {
 		private int callsCount = 0;
 
 		@Override
