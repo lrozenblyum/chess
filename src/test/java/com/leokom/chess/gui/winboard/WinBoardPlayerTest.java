@@ -2,6 +2,7 @@ package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -58,23 +59,29 @@ public class WinBoardPlayerTest {
 		controller.run();
 	}
 
+	/**
+	 * validate that our WinboardPlayer
+	 * in its constructor
+	 * initializes the commander's protover listener
+	 * in which, sets up our desired winboard properties
+	 * and finishes the initialization
+	 */
 	@Test
 	public void correctProtoverReaction() {
 		//dummy implementation - each time anybody sets a protover listener -
 		//we call it IMMEDIATELY
-		MockCommander commander = new MockCommander() {
-			@Override
-			public void setProtoverListener( ProtoverListener protoverListener ) {
-				protoverListener.execute( PROTOCOL_VERSION );
-			}
-		};
-
+		WinboardCommander commander = mock( WinboardCommander.class );
+		ArgumentCaptor< ProtoverListener > listenerCaptor = ArgumentCaptor.forClass( ProtoverListener.class );
 		new WinboardPlayer(	commander );
 
-		//the player must have set its listeners in constructor...
+		//the player must have set its listener in constructor...
+		verify( commander ).setProtoverListener( listenerCaptor.capture() );
 
-		//TODO: this doesn't check the commands order...
-		assertEquals( 1, commander.getFinishInitCallsCount() );
-		assertEquals( 1, commander.getEnableUserMovePrefixesCount() );
+		//calling the protover listener - it must have implications described below.
+		listenerCaptor.getValue().execute( PROTOCOL_VERSION );
+
+		//TODO: it doesn't check methods order...
+		verify( commander ).enableUserMovePrefixes();
+		verify( commander ).finishInit();
 	}
 }
