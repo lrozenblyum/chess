@@ -32,12 +32,12 @@ public class WinBoardCommanderReceiveTest {
 		Communicator communicator = getReceiveCommunicator( "draw" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final OfferDrawListenerMock listener = new OfferDrawListenerMock();
+		final OfferDrawListener listener = mock( OfferDrawListener.class );
 		commander.setOfferDrawListener( listener );
 
 		commander.processInputFromServer();
 
-		assertEquals( 1, listener.callsCount );
+		verify( listener ).execute();
 	}
 
 	//TODO: I implement only simple test for usermove for 2 reasons:
@@ -213,15 +213,6 @@ public class WinBoardCommanderReceiveTest {
 	}
 
 	private static class UserMoveListenerMock implements UserMoveListener {
-		private int callsCount = 0;
-
-		@Override
-		public void execute() {
-			callsCount++;
-		}
-	}
-
-	private static class OfferDrawListenerMock implements OfferDrawListener {
 		private int callsCount = 0;
 
 		@Override
