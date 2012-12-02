@@ -5,14 +5,10 @@ package com.leokom.chess.gui.winboard;
  * Date-time: 10.11.12 21:56
  */
 public class MockCommander implements WinboardCommander {
-	private int startInitCallsCount = 0;
-
-
 	private int finishInitCallsCount = 0;
 	private int enableUserMovePrefixesCount = 0;
 	@Override
 	public void startInit() {
-		startInitCallsCount++;
 	}
 
 	@Override
@@ -76,10 +72,6 @@ public class MockCommander implements WinboardCommander {
 	@Override
 	public void resign() {
 		//To change body of implemented methods use File | Settings | File Templates.
-	}
-
-	public int getStartInitCallsCount() {
-		return startInitCallsCount;
 	}
 
 	public int getFinishInitCallsCount() {
