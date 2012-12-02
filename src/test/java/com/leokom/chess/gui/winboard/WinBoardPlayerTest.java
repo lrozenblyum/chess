@@ -33,7 +33,8 @@ public class WinBoardPlayerTest {
 	//ensure need of refactoring into commander instead of communicator
 	@Test( timeout = WAIT_TILL_QUIT )
 	public void useCommanderForQuitCommand() {
-		Communicator quitCommunicator = MockCommunicatorReceiveCreator.getReceiveCommunicator( "quit" );
+		final Communicator quitCommunicator = mock( Communicator.class );
+		stub( quitCommunicator.receive() ).toReturn( "quit" );
 
 		WinboardCommander commander = new WinboardCommanderImpl( quitCommunicator );
 
