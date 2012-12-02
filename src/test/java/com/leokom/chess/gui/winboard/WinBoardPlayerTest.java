@@ -41,6 +41,7 @@ public class WinBoardPlayerTest {
 		WinboardPlayer controller = new WinboardPlayer(	commander );
 
 		controller.run();
+
 	}
 
 	//ensure need of refactoring into commander instead of communicator

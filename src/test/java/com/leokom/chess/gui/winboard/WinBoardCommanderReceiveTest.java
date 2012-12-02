@@ -3,13 +3,8 @@ package com.leokom.chess.gui.winboard;
 import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
 
-import static com.leokom.chess.gui.winboard.MockCommunicatorReceiveCreator.getReceiveCommunicator;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Author: Leonid
@@ -196,5 +191,11 @@ public class WinBoardCommanderReceiveTest {
 		commander.processInputFromServer();
 
 		verify( listener, never() ).execute();
+	}
+
+	private static Communicator getReceiveCommunicator( String messageToReceive ) {
+		Communicator result = mock( Communicator.class );
+		stub( result.receive() ).toReturn( messageToReceive );
+		return result;
 	}
 }
