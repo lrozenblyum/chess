@@ -19,14 +19,12 @@ public class WinBoardPlayerTest {
 
 	@Test
 	public void creationSwitchesToInitMode() {
-		WinboardCommander commander1 = mock( WinboardCommander.class );
+		WinboardCommander commander = mock( WinboardCommander.class );
 
+		WinboardPlayer controller = new WinboardPlayer( commander );
 
-		MockCommander commander = new MockCommander();
-
-		WinboardPlayer controller = new WinboardPlayer( commander1 );
-
-		verify( commander1 ).startInit();
+		//it really checks only 1 method call
+		verify( commander ).startInit();
 	}
 
 	//ensure need of refactoring into commander instead of communicator
