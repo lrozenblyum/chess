@@ -114,7 +114,7 @@ public class PositionPawnEnPassantTest {
 		testPawn( position, "f5", Side.WHITE, "f6" );
 	}
 
-	private Position createPositionWithoutEnPassantRight() {
+	private static Position createPositionWithoutEnPassantRight() {
 		return new Position( null );
 	}
 
@@ -125,7 +125,7 @@ public class PositionPawnEnPassantTest {
 	 * @param file
 	 * @return
 	 */
-	private Position createPositionWithEnPassantPossibility( String file ) {
+	private static Position createPositionWithEnPassantPossibility( String file ) {
 		return new Position( file );
 	}
 }
