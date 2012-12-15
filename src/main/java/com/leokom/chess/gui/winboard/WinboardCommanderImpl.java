@@ -121,7 +121,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 			goListener.execute();
 		}
 
-		//TODO: not fully test-covered
 		if ( whatToReceive.startsWith( "usermove" ) && userMoveListener != null ) {
 			userMoveListener.execute();
 		}
