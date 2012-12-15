@@ -110,7 +110,7 @@ public class WinboardPlayer implements Player {
 	}
 
 	@Override
-	public void onDrawOfferred() {
+	public void onDrawOffered() {
 		commander.offerDraw();
 	}
 

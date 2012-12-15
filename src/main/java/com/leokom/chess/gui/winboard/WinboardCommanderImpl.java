@@ -16,7 +16,7 @@ import com.leokom.chess.gui.Communicator;
  * Date-time: 10.11.12 21:22
  */
 class WinboardCommanderImpl implements WinboardCommander {
-	private Communicator communicator;
+	private final Communicator communicator;
 	private ProtoverListener protoverListener;
 	private QuitListener quitListener;
 	private GoListener goListener;

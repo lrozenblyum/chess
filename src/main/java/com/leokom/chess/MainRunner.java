@@ -55,7 +55,7 @@ public final class MainRunner {
 					anotherPlayer.onPlayerMoved( "d2d4" );
 					//NOTE: interesting to implement - how much do we need to wait for result?
 					//NOTE2: it's not recommended way to offer draw after the move.
-					anotherPlayer.onDrawOfferred();
+					anotherPlayer.onDrawOffered();
 					break;
 				default:
 					anotherPlayer.onResigned();
