@@ -11,8 +11,7 @@ interface WinboardCommander {
 	void startInit();
 
 	/**
-	 * TODO: think if it's needed in interface
-	 * enable usermove prefixes for moves for easier parsing
+	 * Enable usermove prefixes for moves for easier parsing
 	 */
 	void enableUserMovePrefixes();
 
