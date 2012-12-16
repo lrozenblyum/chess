@@ -7,6 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.Stubber;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -91,19 +92,25 @@ public class WinBoardPlayerTest {
 		//we quit IMMEDIATELY
 		final WinboardCommander commander = mock( WinboardCommander.class );
 
-		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
 		final Player winboardPlayer = new WinboardPlayer( commander );
+
+		executeQuitListener( commander ).when( commander ).processInputFromServer();
+
+		winboardPlayer.run();
+	}
+
+	private static Stubber executeQuitListener( WinboardCommander commander ) {
+		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
+
 		verify( commander ).setQuitListener( quitListener.capture() );
 
-		doAnswer( new Answer() {
+		return doAnswer( new Answer() {
 			@Override
 			public Object answer( InvocationOnMock invocationOnMock ) {
 				quitListener.getValue().execute();
 				return null;  //just for compiler... due to generic Answer interface
 			}
-		} ).when( commander ).processInputFromServer();
-
-		winboardPlayer.run();
+		} );
 	}
 
 	/**
