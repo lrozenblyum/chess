@@ -23,7 +23,7 @@ public final class MainRunner {
 
 		final PlayerMovedListener onMovePlayerMovedListener = new MoveListener( player );
 
-		player.setOnMoveListener( onMovePlayerMovedListener );
+		player.onMoved( onMovePlayerMovedListener );
 		//it's main loop
 		player.run();
 

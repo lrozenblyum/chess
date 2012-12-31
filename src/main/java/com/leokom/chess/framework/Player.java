@@ -8,8 +8,14 @@ package com.leokom.chess.framework;
  */
 public interface Player extends PlayerMovedListener, DrawOfferedListener, ResignListener {
 	//may create attach - now it's over-projecting - 1 is OK
-	//TODO: rename to new vision
-	void setOnMoveListener( PlayerMovedListener playerMovedListenerToSet );
+	/**
+	 * Set up listener for the event 'moved'.
+	 * It means: current player has executed the move
+	 * and informs the interested subscriber (currently only 1)
+	 * about this
+	 * @param playerMovedListenerToSet
+	 */
+	void onMoved( PlayerMovedListener playerMovedListenerToSet );
 
 	//TODO: think if it's player's property
 	void run();

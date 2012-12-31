@@ -86,7 +86,7 @@ public class WinboardPlayer implements Player {
 
 	//may create attach - now it's over-projecting - 1 is OK
 	@Override
-	public void setOnMoveListener( PlayerMovedListener playerMovedListenerToSet ) {
+	public void onMoved( PlayerMovedListener playerMovedListenerToSet ) {
 		this.playerMovedListener = playerMovedListenerToSet;
 	}
 
