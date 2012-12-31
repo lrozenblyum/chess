@@ -21,7 +21,6 @@ import java.util.Map;
 class WinboardCommanderImpl implements WinboardCommander {
 	private final Communicator communicator;
 	private ProtoverListener protoverListener;
-	private UserMoveListener userMoveListener;
 
 	/**
 	 * Create the commander, with communicator injected
@@ -88,7 +87,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void onUserMove( UserMoveListener listener ) {
-		this.userMoveListener = listener;
+		stringParameterListeners.put( "usermove", listener );
 	}
 
 	@Override
@@ -105,6 +104,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 	//we could use adapters
 	//but now I directly force the listeners to extend the interface
 	private Map<String, NoParametersListener> listenersWithoutParams = new HashMap<String, NoParametersListener>();
+	private Map<String, StringParameterListener> stringParameterListeners = new HashMap<String, StringParameterListener>();
 
 	@Override
 	public void onQuit( final QuitListener listener ) {
@@ -125,9 +125,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 			}
 		}
 
-
-		if ( receivedCommand.startsWith( "usermove" ) && userMoveListener != null ) {
-			userMoveListener.execute( receivedCommand.split( " " )[ 1 ] );
+		for ( String command : stringParameterListeners.keySet() ) {
+			if ( receivedCommand.startsWith( command ) ) {
+				stringParameterListeners.get( command ).execute( receivedCommand.split( " " )[ 1 ] );
+			}
 		}
+
 	}
 }
