@@ -21,6 +21,12 @@ import java.util.Map;
 class WinboardCommanderImpl implements WinboardCommander {
 	private final Communicator communicator;
 
+	//we could use adapters
+	//but now I directly force the listeners to extend the interface
+	private Map<String, NoParametersListener> listenersWithoutParams = new HashMap<String, NoParametersListener>();
+	private Map<String, StringParameterListener> stringParameterListeners = new HashMap<String, StringParameterListener>();
+	private Map<String, IntParameterListener> intParameterListeners = new HashMap<String, IntParameterListener>();
+
 	/**
 	 * Create the commander, with communicator injected
 	 *
@@ -99,16 +105,9 @@ class WinboardCommanderImpl implements WinboardCommander {
 		listenersWithoutParams.put( "xboard", listener );
 	}
 
-
-	//we could use adapters
-	//but now I directly force the listeners to extend the interface
-	private Map<String, NoParametersListener> listenersWithoutParams = new HashMap<String, NoParametersListener>();
-	private Map<String, StringParameterListener> stringParameterListeners = new HashMap<String, StringParameterListener>();
-	private Map<String, IntParameterListener> intParameterListeners = new HashMap<String, IntParameterListener>();
-
 	@Override
 	public void onQuit( final QuitListener listener ) {
-		this.listenersWithoutParams.put( "quit", listener );
+		listenersWithoutParams.put( "quit", listener );
 	}
 
 	@Override
