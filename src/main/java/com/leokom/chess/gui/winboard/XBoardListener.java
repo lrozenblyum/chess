@@ -5,6 +5,6 @@ package com.leokom.chess.gui.winboard;
  * You can use it to put your engine into "xboard mode" if that is needed.
  * If your engine prints a prompt to ask for user input, you must turn off the prompt and output a newline when the "xboard" command comes in.
  */
-interface XBoardListener {
+interface XBoardListener extends NoParametersListener {
 	void execute();
 }

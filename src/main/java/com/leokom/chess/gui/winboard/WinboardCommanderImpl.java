@@ -23,7 +23,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 	private ProtoverListener protoverListener;
 	private GoListener goListener;
 	private UserMoveListener userMoveListener;
-	private XBoardListener xboardListener;
 
 	/**
 	 * Create the commander, with communicator injected
@@ -100,7 +99,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void onXBoard( XBoardListener listener ) {
-		this.xboardListener = listener;
+		listenersWithoutParams.put( "xboard", listener );
 	}
 
 
@@ -133,10 +132,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 		if ( receivedCommand.startsWith( "usermove" ) && userMoveListener != null ) {
 			userMoveListener.execute();
-		}
-
-		if ( receivedCommand.equals( "xboard" ) && xboardListener != null ) {
-			xboardListener.execute();
 		}
 	}
 }
