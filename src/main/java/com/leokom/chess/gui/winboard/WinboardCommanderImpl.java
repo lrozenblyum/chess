@@ -127,7 +127,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 
 		if ( receivedCommand.startsWith( "usermove" ) && userMoveListener != null ) {
-			userMoveListener.execute();
+			userMoveListener.execute( "e2e4" );
 		}
 	}
 }

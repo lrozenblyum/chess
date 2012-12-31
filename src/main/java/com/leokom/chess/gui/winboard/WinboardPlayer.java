@@ -56,8 +56,9 @@ public class WinboardPlayer implements Player {
 
 		commander.onUserMove( new UserMoveListener() {
 			@Override
-			public void execute() {
-				playerMovedListener.onPlayerMoved( null );
+			public void execute( String move ) {
+				//TODO: prove this parameter passing
+				playerMovedListener.onPlayerMoved( move );
 			}
 		} );
 

@@ -39,7 +39,6 @@ public class WinBoardCommanderReceiveTest {
 
 	//TODO: I implement only simple test for usermove for 2 reasons:
 	//1. I want to check if pitest finds it
-	//2. I need to check deeper what's the correct format
 	@Test
 	public void userMove() {
 		Communicator communicator = getReceiveCommunicator( "usermove e2e4" );
@@ -49,8 +48,7 @@ public class WinBoardCommanderReceiveTest {
 		commander.onUserMove( listener );
 
 		commander.processInputFromServer();
-
-		verify( listener ).execute();
+		verify( listener ).execute( "e2e4" );
 	}
 
 	@Test
