@@ -20,7 +20,6 @@ import java.util.Map;
  */
 class WinboardCommanderImpl implements WinboardCommander {
 	private final Communicator communicator;
-	private ProtoverListener protoverListener;
 
 	/**
 	 * Create the commander, with communicator injected
@@ -77,7 +76,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void onProtover( ProtoverListener protoverListener ) {
-		this.protoverListener = protoverListener;
+		intParameterListeners.put( "protover", protoverListener );
 	}
 
 	@Override
@@ -105,6 +104,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 	//but now I directly force the listeners to extend the interface
 	private Map<String, NoParametersListener> listenersWithoutParams = new HashMap<String, NoParametersListener>();
 	private Map<String, StringParameterListener> stringParameterListeners = new HashMap<String, StringParameterListener>();
+	private Map<String, IntParameterListener> intParameterListeners = new HashMap<String, IntParameterListener>();
 
 	@Override
 	public void onQuit( final QuitListener listener ) {
@@ -114,10 +114,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 	@Override
 	public void processInputFromServer() {
 		String receivedCommand = communicator.receive();
-		if ( receivedCommand.startsWith( "protover" ) && protoverListener != null ) {
-			//TODO: validation??
-			protoverListener.execute( Integer.parseInt(receivedCommand.split( " " )[ 1 ]) );
-		}
 
 		for ( String command : listenersWithoutParams.keySet() ) {
 			if ( receivedCommand.equals( command ) ) {
@@ -130,6 +126,13 @@ class WinboardCommanderImpl implements WinboardCommander {
 				stringParameterListeners.get( command ).execute( receivedCommand.split( " " )[ 1 ] );
 			}
 		}
+
+		for ( String command : intParameterListeners.keySet() ) {
+			if ( receivedCommand.startsWith( command ) ) {
+				intParameterListeners.get( command ).execute( Integer.parseInt(receivedCommand.split( " " )[ 1 ] ) );
+			}
+		}
+
 
 	}
 }
