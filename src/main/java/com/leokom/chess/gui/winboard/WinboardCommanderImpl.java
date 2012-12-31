@@ -21,10 +21,8 @@ import java.util.Map;
 class WinboardCommanderImpl implements WinboardCommander {
 	private final Communicator communicator;
 	private ProtoverListener protoverListener;
-	private QuitListener quitListener;
 	private GoListener goListener;
 	private UserMoveListener userMoveListener;
-	private OfferDrawListener offerDrawListener;
 	private XBoardListener xboardListener;
 
 	/**
