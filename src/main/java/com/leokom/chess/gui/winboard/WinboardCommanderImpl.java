@@ -106,22 +106,13 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 
-	//TODO: either force all listener to implement this interface
-	//or make an adapter... Now decided for adapter.
+	//we could use adapters
+	//but now I directly force the listeners to extend the interface
 	private Map<String, NoParametersListener> listenersWithoutParams = new HashMap<String, NoParametersListener>();
-	interface NoParametersListener {
-		void execute();
-	}
 
 	@Override
 	public void onQuit( final QuitListener listener ) {
-		this.listenersWithoutParams.put( "quit", new NoParametersListener() {
-			@Override
-			public void execute() {
-				listener.execute();
-			}
-		} );
-		//this.quitListener = listener;
+		this.listenersWithoutParams.put( "quit", listener );
 	}
 
 	@Override

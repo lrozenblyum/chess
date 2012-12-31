@@ -5,6 +5,6 @@ package com.leokom.chess.gui.winboard;
  * Author: Leonid
  * Date-time: 17.11.12 22:11
  */
-interface QuitListener {
+interface QuitListener extends NoParametersListener {
 	void execute();
 }
