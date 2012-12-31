@@ -8,6 +8,6 @@ package com.leokom.chess.gui.winboard;
  * spontaneously generating moves for that side each time that side
  * has to move again.
  */
-interface GoListener {
+interface GoListener extends NoParametersListener {
 	void execute();
 }

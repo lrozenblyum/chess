@@ -21,7 +21,6 @@ import java.util.Map;
 class WinboardCommanderImpl implements WinboardCommander {
 	private final Communicator communicator;
 	private ProtoverListener protoverListener;
-	private GoListener goListener;
 	private UserMoveListener userMoveListener;
 
 	/**
@@ -84,7 +83,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void onGo( GoListener listener ) {
-		this.goListener = listener;
+		listenersWithoutParams.put( "go", listener );
 	}
 
 	@Override
@@ -126,9 +125,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 			}
 		}
 
-		if ( receivedCommand.equals( "go" ) && goListener != null ) {
-			goListener.execute();
-		}
 
 		if ( receivedCommand.startsWith( "usermove" ) && userMoveListener != null ) {
 			userMoveListener.execute();
