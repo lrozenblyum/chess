@@ -17,7 +17,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final XBoardListener listener = mock( XBoardListener.class );
-		commander.setXboardListener( listener );
+		commander.onXBoard( listener );
 
 		commander.processInputFromServer();
 
@@ -30,7 +30,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final OfferDrawListener listener = mock( OfferDrawListener.class );
-		commander.setOfferDrawListener( listener );
+		commander.onOfferDraw( listener );
 
 		commander.processInputFromServer();
 
@@ -46,7 +46,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final UserMoveListener listener = mock( UserMoveListener.class );
-		commander.setUserMoveListener( listener );
+		commander.onUserMove( listener );
 
 		commander.processInputFromServer();
 
@@ -59,7 +59,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final GoListener listener = mock( GoListener.class );
-		commander.setGoListener( listener );
+		commander.onGo( listener );
 
 		commander.processInputFromServer();
 
@@ -72,7 +72,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final GoListener listener = mock( GoListener.class );
-		commander.setGoListener( listener );
+		commander.onGo( listener );
 
 		commander.processInputFromServer();
 
@@ -97,7 +97,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final ProtoverListener listener = mock( ProtoverListener.class );
-		commander.setProtoverListener( listener );
+		commander.onProtover( listener );
 
 		commander.processInputFromServer();
 
@@ -110,7 +110,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final ProtoverListener listener = mock( ProtoverListener.class );
-		commander.setProtoverListener( listener );
+		commander.onProtover( listener );
 
 		commander.processInputFromServer();
 
@@ -124,7 +124,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final ProtoverListener listener = mock( ProtoverListener.class );
-		commander.setProtoverListener( listener );
+		commander.onProtover( listener );
 
 		commander.processInputFromServer();
 
@@ -149,7 +149,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final ProtoverListener listener = mock( ProtoverListener.class );
-		commander.setProtoverListener( listener );
+		commander.onProtover( listener );
 
 		verify( listener, never() ).execute( anyInt() );
 	}
@@ -160,7 +160,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final QuitListener listener = mock( QuitListener.class );
-		commander.setQuitListener( listener );
+		commander.onQuit( listener );
 
 		commander.processInputFromServer();
 
@@ -173,7 +173,7 @@ public class WinBoardCommanderReceiveTest {
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
 		final QuitListener listener = mock( QuitListener.class );
-		commander.setQuitListener( listener );
+		commander.onQuit( listener );
 
 		commander.processInputFromServer();
 

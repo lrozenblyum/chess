@@ -30,45 +30,45 @@ public class WinboardPlayer implements Player {
 
 
 
-		commander.setXboardListener( new XBoardListener() {
+		commander.onXBoard( new XBoardListener() {
 			@Override
 			public void execute() {
 				logger.info( "Ready to work" );
 			}
-		});
+		} );
 
 		//TODO: it's caller's responsibility! Remove this logic!
-		commander.setOfferDrawListener(
-			new OfferDrawListener() {
-				@Override
-				public void execute() {
-					commander.agreeToDrawOffer();
+		commander.onOfferDraw(
+				new OfferDrawListener() {
+					@Override
+					public void execute() {
+						commander.agreeToDrawOffer();
+					}
 				}
-			}
 		);
 
-		commander.setQuitListener( new QuitListener() {
+		commander.onQuit( new QuitListener() {
 			@Override
 			public void execute() {
 				needQuit = true;
 			}
 		} );
 
-		commander.setUserMoveListener(new UserMoveListener() {
+		commander.onUserMove( new UserMoveListener() {
 			@Override
 			public void execute() {
 				playerMovedListener.onPlayerMoved( null );
 			}
-		});
+		} );
 
-		commander.setGoListener(new GoListener() {
+		commander.onGo( new GoListener() {
 			@Override
 			public void execute() {
 				playerMovedListener.onPlayerMoved( null );
 			}
-		});
+		} );
 
-		commander.setProtoverListener(new ProtoverListener() {
+		commander.onProtover( new ProtoverListener() {
 			@Override
 			public void execute( int protocolVersion ) {
 				commander.enableUserMovePrefixes();
@@ -76,7 +76,7 @@ public class WinboardPlayer implements Player {
 
 				logger.info( "Protocol version detected = " + protocolVersion );
 			}
-		});
+		} );
 
 		//critically important to send this sequence at the start
 		//to ensure the Winboard won't ignore our 'setfeature' commands

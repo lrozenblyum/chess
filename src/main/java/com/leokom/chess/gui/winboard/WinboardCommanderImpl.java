@@ -29,7 +29,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 	 *
 	 * @param communicator low-level framework to use to send/receive the commands
 	 */
-	public WinboardCommanderImpl( Communicator communicator ) {
+	WinboardCommanderImpl( Communicator communicator ) {
 		this.communicator = communicator;
 	}
 
@@ -62,36 +62,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
-	public void setProtoverListener( ProtoverListener protoverListener ) {
-		this.protoverListener = protoverListener;
-	}
-
-	@Override
-	public void setQuitListener( QuitListener listener ) {
-		this.quitListener = listener;
-	}
-
-	@Override
-	public void setGoListener( GoListener listener ) {
-		this.goListener = listener;
-	}
-
-	@Override
-	public void setUserMoveListener( UserMoveListener listener ) {
-		this.userMoveListener = listener;
-	}
-
-	@Override
-	public void setOfferDrawListener( OfferDrawListener listener ) {
-		this.offerDrawListener = listener;
-	}
-
-	@Override
-	public void setXboardListener( XBoardListener listener ) {
-		this.xboardListener = listener;
-	}
-
-	@Override
 	public void anotherPlayerMoved( String move ) {
 		this.communicator.send( "move " + move );
 	}
@@ -104,6 +74,37 @@ class WinboardCommanderImpl implements WinboardCommander {
 	@Override
 	public void resign() {
 		this.communicator.send( "resign" );
+	}
+
+
+	@Override
+	public void onProtover( ProtoverListener protoverListener ) {
+		this.protoverListener = protoverListener;
+	}
+
+	@Override
+	public void onQuit( QuitListener listener ) {
+		this.quitListener = listener;
+	}
+
+	@Override
+	public void onGo( GoListener listener ) {
+		this.goListener = listener;
+	}
+
+	@Override
+	public void onUserMove( UserMoveListener listener ) {
+		this.userMoveListener = listener;
+	}
+
+	@Override
+	public void onOfferDraw( OfferDrawListener listener ) {
+		this.offerDrawListener = listener;
+	}
+
+	@Override
+	public void onXBoard( XBoardListener listener ) {
+		this.xboardListener = listener;
 	}
 
 	@Override

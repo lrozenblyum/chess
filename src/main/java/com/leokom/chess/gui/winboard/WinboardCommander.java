@@ -1,8 +1,8 @@
 package com.leokom.chess.gui.winboard;
 
 /**
- * Low-level Winboard-commands for some abstraction
- * and easier testing.
+ * Low-level Winboard-commands for some abstraction and easier testing.
+ * The 'on' methods set up listeners to some events received from Winboard server
  * Author: Leonid
  * Date-time: 10.11.12 21:54
  */
@@ -20,28 +20,26 @@ interface WinboardCommander {
 
 	void agreeToDrawOffer();
 
-	void setProtoverListener( ProtoverListener protoverListener );
-	void setQuitListener( QuitListener listener );
-
 	/**
 	 * Fetch input from the underlying communication component
-	 * Call some listeners if any....
+	 * Dispatch listeners (call them depending on the input)
 	 */
 	void processInputFromServer();
 
-	void setGoListener( GoListener listener );
-
-	void setUserMoveListener( UserMoveListener listener );
-
-	void setOfferDrawListener( OfferDrawListener listener );
-
-	//TODO: add analyze if this line is received immediately after xboard
+	//TODO: add analyze if this command is received immediately after xboard
 	//if not - we may assume it's protocol v1
-	void setXboardListener( XBoardListener listener );
 
+	void onXBoard( XBoardListener listener );
 	void anotherPlayerMoved( String move );
 
 	void offerDraw();
 
 	void resign();
+
+
+	void onProtover( ProtoverListener protoverListener );
+	void onQuit( QuitListener listener );
+	void onGo( GoListener listener );
+	void onUserMove( UserMoveListener listener );
+	void onOfferDraw( OfferDrawListener listener );
 }

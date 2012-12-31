@@ -55,7 +55,7 @@ public class WinBoardPlayerTest {
 
 		WinboardPlayer controller = new WinboardPlayer(	commander );
 		ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
-		verify( commander ).setQuitListener( quitListener.capture() );
+		verify( commander ).onQuit( quitListener.capture() );
 
 		assertFalse( controller.needShuttingDown() );
 
@@ -76,7 +76,7 @@ public class WinBoardPlayerTest {
 
 		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
 		final WinboardPlayer winboardPlayer = new WinboardPlayer( commander );
-		verify( commander ).setQuitListener( quitListener.capture() );
+		verify( commander ).onQuit( quitListener.capture() );
 
 		quitListener.getValue().execute();
 
@@ -102,7 +102,7 @@ public class WinBoardPlayerTest {
 	private static Stubber executeQuitListener( WinboardCommander commander ) {
 		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
 
-		verify( commander ).setQuitListener( quitListener.capture() );
+		verify( commander ).onQuit( quitListener.capture() );
 
 		return doAnswer( new Answer() {
 			@Override
@@ -129,7 +129,7 @@ public class WinBoardPlayerTest {
 		new WinboardPlayer(	commander );
 
 		//the player must have set its listener in constructor...
-		verify( commander ).setProtoverListener( listenerCaptor.capture() );
+		verify( commander ).onProtover( listenerCaptor.capture() );
 
 		//calling the protover listener - it must have implications described below.
 		listenerCaptor.getValue().execute( PROTOCOL_VERSION );
