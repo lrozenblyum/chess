@@ -1,7 +1,7 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0" is_locked="false">
     <option name="myName" value="Full inspection" />
-    <option name="myLocal" value="true" />
+    <option name="myLocal" value="false" />
     <inspection_tool class="AbsoluteAlignmentInUserInterface" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AbstractClassExtendsConcreteClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="AbstractClassNeverImplemented" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -183,10 +183,6 @@
     <inspection_tool class="CastToConcreteClass" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CastToIncompatibleInterface" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ChainedEquality" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="ChainedMethodCall" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="m_ignoreFieldInitializations" value="true" />
-      <option name="m_ignoreThisSuperCalls" value="true" />
-    </inspection_tool>
     <inspection_tool class="ChannelResource" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="insideTryAllowed" value="false" />
     </inspection_tool>
