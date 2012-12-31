@@ -112,7 +112,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void processInputFromServer() {
-		String receivedCommand = communicator.receive();
+		final String receivedCommand = communicator.receive();
 
 		for ( String command : listenersWithoutParams.keySet() ) {
 			if ( receivedCommand.equals( command ) ) {
@@ -128,10 +128,8 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 		for ( String command : intParameterListeners.keySet() ) {
 			if ( receivedCommand.startsWith( command ) ) {
-				intParameterListeners.get( command ).execute( Integer.parseInt(receivedCommand.split( " " )[ 1 ] ) );
+				intParameterListeners.get( command ).execute( Integer.parseInt( receivedCommand.split( " " )[ 1 ] ) );
 			}
 		}
-
-
 	}
 }
