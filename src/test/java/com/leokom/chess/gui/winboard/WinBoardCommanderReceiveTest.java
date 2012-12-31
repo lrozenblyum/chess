@@ -40,7 +40,7 @@ public class WinBoardCommanderReceiveTest {
 	//TODO: I implement only simple test for usermove for 2 reasons:
 	//1. I want to check if pitest finds it
 	@Test
-	public void userMove() {
+		 public void userMove() {
 		Communicator communicator = getReceiveCommunicator( "usermove e2e4" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
@@ -49,6 +49,18 @@ public class WinBoardCommanderReceiveTest {
 
 		commander.processInputFromServer();
 		verify( listener ).execute( "e2e4" );
+	}
+
+	@Test
+	public void userMoveTriangulate() {
+		Communicator communicator = getReceiveCommunicator( "usermove e7e5" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final UserMoveListener listener = mock( UserMoveListener.class );
+		commander.onUserMove( listener );
+
+		commander.processInputFromServer();
+		verify( listener ).execute( "e7e5" );
 	}
 
 	@Test
