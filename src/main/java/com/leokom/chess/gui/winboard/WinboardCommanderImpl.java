@@ -97,7 +97,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void onOfferDraw( OfferDrawListener listener ) {
-		this.offerDrawListener = listener;
+		listenersWithoutParams.put( "draw", listener );
 	}
 
 	@Override
@@ -135,10 +135,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 		if ( receivedCommand.startsWith( "usermove" ) && userMoveListener != null ) {
 			userMoveListener.execute();
-		}
-
-		if ( receivedCommand.equals( "draw" ) && offerDrawListener != null ) {
-			offerDrawListener.execute();
 		}
 
 		if ( receivedCommand.equals( "xboard" ) && xboardListener != null ) {
