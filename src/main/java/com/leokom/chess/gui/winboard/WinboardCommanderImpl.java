@@ -2,6 +2,9 @@ package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.gui.Communicator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Middle-level command work for Winboard.
  * It must know about commands format.
@@ -83,11 +86,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
-	public void onQuit( QuitListener listener ) {
-		this.quitListener = listener;
-	}
-
-	@Override
 	public void onGo( GoListener listener ) {
 		this.goListener = listener;
 	}
@@ -107,6 +105,25 @@ class WinboardCommanderImpl implements WinboardCommander {
 		this.xboardListener = listener;
 	}
 
+
+	//TODO: either force all listener to implement this interface
+	//or make an adapter... Now decided for adapter.
+	private Map<String, NoParametersListener> listenersWithoutParams = new HashMap<String, NoParametersListener>();
+	interface NoParametersListener {
+		void execute();
+	}
+
+	@Override
+	public void onQuit( final QuitListener listener ) {
+		this.listenersWithoutParams.put( "quit", new NoParametersListener() {
+			@Override
+			public void execute() {
+				listener.execute();
+			}
+		} );
+		//this.quitListener = listener;
+	}
+
 	@Override
 	public void processInputFromServer() {
 		String receivedCommand = communicator.receive();
@@ -114,8 +131,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 			//TODO: validation??
 			protoverListener.execute( Integer.parseInt(receivedCommand.split( " " )[ 1 ]) );
 		}
-		if ( receivedCommand.equals( "quit" ) && quitListener != null ) {
-			quitListener.execute();
+
+		for ( String command : listenersWithoutParams.keySet() ) {
+			if ( receivedCommand.equals( command ) ) {
+				listenersWithoutParams.get( command ).execute();
+			}
 		}
 
 		if ( receivedCommand.equals( "go" ) && goListener != null ) {
