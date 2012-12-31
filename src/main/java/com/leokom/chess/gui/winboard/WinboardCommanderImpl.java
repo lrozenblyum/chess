@@ -109,28 +109,28 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void processInputFromServer() {
-		String whatToReceive = communicator.receive();
-		if ( whatToReceive.startsWith( "protover" ) && protoverListener != null ) {
+		String receivedCommand = communicator.receive();
+		if ( receivedCommand.startsWith( "protover" ) && protoverListener != null ) {
 			//TODO: validation??
-			protoverListener.execute( Integer.parseInt(whatToReceive.split( " " )[ 1 ]) );
+			protoverListener.execute( Integer.parseInt(receivedCommand.split( " " )[ 1 ]) );
 		}
-		if ( whatToReceive.equals( "quit" ) && quitListener != null ) {
+		if ( receivedCommand.equals( "quit" ) && quitListener != null ) {
 			quitListener.execute();
 		}
 
-		if ( whatToReceive.equals( "go" ) && goListener != null ) {
+		if ( receivedCommand.equals( "go" ) && goListener != null ) {
 			goListener.execute();
 		}
 
-		if ( whatToReceive.startsWith( "usermove" ) && userMoveListener != null ) {
+		if ( receivedCommand.startsWith( "usermove" ) && userMoveListener != null ) {
 			userMoveListener.execute();
 		}
 
-		if ( whatToReceive.equals( "draw" ) && offerDrawListener != null ) {
+		if ( receivedCommand.equals( "draw" ) && offerDrawListener != null ) {
 			offerDrawListener.execute();
 		}
 
-		if ( whatToReceive.equals( "xboard" ) && xboardListener != null ) {
+		if ( receivedCommand.equals( "xboard" ) && xboardListener != null ) {
 			xboardListener.execute();
 		}
 	}
