@@ -3,7 +3,7 @@ package com.leokom.chess;
 
 import com.leokom.chess.framework.DrawOfferedListener;
 import com.leokom.chess.framework.Player;
-import com.leokom.chess.framework.PlayerMovedListener;
+import com.leokom.chess.framework.NeedToGoListener;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 
@@ -22,9 +22,9 @@ public final class MainRunner {
 
 		final Player player = WinboardFactory.getPlayer();
 
-		final PlayerMovedListener onMovePlayerMovedListener = new MoveListener( player );
+		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( player );
 
-		player.onMoved( onMovePlayerMovedListener );
+		player.onMoved( onMoveNeedToGoListener );
 		player.onDrawOffered( new DrawOfferedListener() {
 			@Override
 			public void anotherPlayerOfferedDraw() {
@@ -40,7 +40,7 @@ public final class MainRunner {
 	/**
 	 * Basic implementation of 'on move allowed'
 	 */
-	private static class MoveListener implements PlayerMovedListener {
+	private static class MoveListener implements NeedToGoListener {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
 		private final Player anotherPlayer;
@@ -51,7 +51,7 @@ public final class MainRunner {
 		}
 
 		@Override
-		public void anotherPlayerMoved( String move ) {
+		public void anotherPlayerMoved( String anotherPlayerMove ) {
 			moveNumber++;
 			logger.info( "Detected allowance to go. Move number = " + moveNumber );
 			switch ( moveNumber ) {

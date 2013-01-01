@@ -2,7 +2,7 @@ package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.framework.DrawOfferedListener;
 import com.leokom.chess.framework.Player;
-import com.leokom.chess.framework.PlayerMovedListener;
+import com.leokom.chess.framework.NeedToGoListener;
 import org.apache.log4j.Logger;
 
 /**
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  * Date-time: 20.08.12 19:28
  */
 public class WinboardPlayer implements Player {
-	private PlayerMovedListener playerMovedListener;
+	private NeedToGoListener needToGoListener;
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private WinboardCommander commander;
 	private boolean needQuit = false;
@@ -47,14 +47,14 @@ public class WinboardPlayer implements Player {
 			@Override
 			public void execute( String move ) {
 				//TODO: prove this parameter passing
-				playerMovedListener.anotherPlayerMoved( move );
+				needToGoListener.anotherPlayerMoved( move );
 			}
 		} );
 
 		commander.onGo( new GoListener() {
 			@Override
 			public void execute() {
-				playerMovedListener.anotherPlayerMoved( null );
+				needToGoListener.anotherPlayerMoved( null );
 			}
 		} );
 
@@ -76,8 +76,8 @@ public class WinboardPlayer implements Player {
 
 	//may create attach - now it's over-projecting - 1 is OK
 	@Override
-	public void onMoved( PlayerMovedListener playerMovedListenerToSet ) {
-		this.playerMovedListener = playerMovedListenerToSet;
+	public void onMoved( NeedToGoListener needToGoListenerToSet ) {
+		this.needToGoListener = needToGoListenerToSet;
 	}
 
 	/**
@@ -106,8 +106,8 @@ public class WinboardPlayer implements Player {
 
 	//listener to another player's move
 	@Override
-	public void anotherPlayerMoved( String move ) {
-		commander.anotherPlayerMoved( move );
+	public void anotherPlayerMoved( String anotherPlayerMove ) {
+		commander.anotherPlayerMoved( anotherPlayerMove );
 	}
 
 	@Override
