@@ -23,4 +23,6 @@ public interface Player extends PlayerMovedListener, DrawOfferedListener, Resign
 	void run();
 
 	void onDrawOffered( DrawOfferedListener listener );
+
+	void anotherPlayerAgreedToDrawOffer();
 }

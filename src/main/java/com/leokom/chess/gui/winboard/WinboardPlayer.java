@@ -29,24 +29,12 @@ public class WinboardPlayer implements Player {
 	WinboardPlayer( WinboardCommander winboardCommander ) {
 		this.commander = winboardCommander;
 
-
-
 		commander.onXBoard( new XBoardListener() {
 			@Override
 			public void execute() {
 				logger.info( "Ready to work" );
 			}
 		} );
-
-		//TODO: it's caller's responsibility! Remove this logic!
-		commander.onOfferDraw(
-				new OfferDrawListener() {
-					@Override
-					public void execute() {
-						commander.agreeToDrawOffer();
-					}
-				}
-		);
 
 		commander.onQuit( new QuitListener() {
 			@Override
@@ -130,6 +118,12 @@ public class WinboardPlayer implements Player {
 	@Override
 	public void anotherPlayerResigned() {
 		commander.resign();
+	}
+
+	//TODO: validate legality of this method call!
+	@Override
+	public void anotherPlayerAgreedToDrawOffer() {
+		commander.agreeToDrawOffer();
 	}
 
 	/**

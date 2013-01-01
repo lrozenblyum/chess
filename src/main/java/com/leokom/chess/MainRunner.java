@@ -1,6 +1,7 @@
 package com.leokom.chess;
 
 
+import com.leokom.chess.framework.DrawOfferedListener;
 import com.leokom.chess.framework.Player;
 import com.leokom.chess.framework.PlayerMovedListener;
 import com.leokom.chess.gui.winboard.WinboardFactory;
@@ -24,6 +25,12 @@ public final class MainRunner {
 		final PlayerMovedListener onMovePlayerMovedListener = new MoveListener( player );
 
 		player.onMoved( onMovePlayerMovedListener );
+		player.onDrawOffered( new DrawOfferedListener() {
+			@Override
+			public void anotherPlayerOfferedDraw() {
+				player.anotherPlayerAgreedToDrawOffer();
+			}
+		} );
 		//it's main loop
 		player.run();
 
