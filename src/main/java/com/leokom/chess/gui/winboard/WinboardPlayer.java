@@ -1,5 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.framework.DrawOfferedListener;
 import com.leokom.chess.framework.Player;
 import com.leokom.chess.framework.PlayerMovedListener;
 import org.apache.log4j.Logger;
@@ -102,6 +103,17 @@ public class WinboardPlayer implements Player {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void onDrawOffered( final DrawOfferedListener listener ) {
+		//low-level interface adapting to the high-level
+		commander.onOfferDraw( new OfferDrawListener() {
+			@Override
+			public void execute() {
+				listener.anotherPlayerOfferedDraw();
+			}
+		} );
 	}
 
 	//listener to another player's move

@@ -1,5 +1,7 @@
 package com.leokom.chess.framework;
 
+import com.leokom.chess.framework.DrawOfferedListener;
+
 /**
  * Engine-agnostic player.
  * This interface is suggested to be common chess player abstraction
@@ -19,4 +21,6 @@ public interface Player extends PlayerMovedListener, DrawOfferedListener, Resign
 
 	//TODO: think if it's player's property
 	void run();
+
+	void onDrawOffered( DrawOfferedListener listener );
 }

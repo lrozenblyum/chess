@@ -1,9 +1,11 @@
 package com.leokom.chess.gui.winboard;
 
+import com.leokom.chess.framework.DrawOfferedListener;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Check Winboard controller behaviour in combination with real
@@ -23,5 +25,24 @@ public class WinBoardPlayerIntegrationTest {
 		new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
 
 		verify( communicator ).send( "feature done=0" );
+	}
+
+
+	@Test
+	public void offerDrawListenerCalled() {
+		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
+
+		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+
+		final DrawOfferedListener listenerToCall = mock( DrawOfferedListener.class );
+		player.onDrawOffered( listenerToCall );
+
+		//low-level
+		when( communicator.receive() ).thenReturn( "draw" );
+		//mid-level processing
+		commander.processInputFromServer();
+		//top-level component has set up the commander's listener correctly
+		verify( listenerToCall ).anotherPlayerOfferedDraw();
 	}
 }

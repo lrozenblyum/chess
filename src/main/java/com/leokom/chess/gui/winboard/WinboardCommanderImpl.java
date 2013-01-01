@@ -36,6 +36,8 @@ class WinboardCommanderImpl implements WinboardCommander {
 		this.communicator = communicator;
 	}
 
+
+
 	/**
 	 * Switches Winboard engine in 'features set up mode'
 	 */
