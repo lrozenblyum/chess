@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
  * By Winboard server I mean the GUI implementing Winboard protocol
  *
  * This low-level communicator simply sends and receives commands
- * But doesn't do any sofisticated processing.
+ * But doesn't do any sophisticated processing.
  * Author: Leonid
  * Date-time: 20.08.12 16:13
  */
