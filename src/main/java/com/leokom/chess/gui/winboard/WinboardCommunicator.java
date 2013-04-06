@@ -50,7 +50,7 @@ class WinboardCommunicator implements Communicator {
     }
 
     @Override
-    public void send(String command) {
+    public void send( String command ) {
 		logger.info( "Sent: " + command );
         outputStream.println( command );
     }
