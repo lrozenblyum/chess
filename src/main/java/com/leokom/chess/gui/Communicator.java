@@ -2,7 +2,7 @@ package com.leokom.chess.gui;
 
 /**
  * Encapsulate possibility to send and receive commands
- * to some external 'server' (inspired by wish to make it test-coverable
+ * to some external 'server' (inspired by wish to make it test-controlled
  * sending and receiving commands to the Winboard interface)
  *
  * Author: Leonid
