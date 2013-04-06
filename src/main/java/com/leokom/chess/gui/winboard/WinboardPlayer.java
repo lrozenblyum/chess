@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 public class WinboardPlayer implements Player {
 	private NeedToGoListener needToGoListener;
 	private Logger logger = Logger.getLogger( this.getClass() );
-	private WinboardCommander commander;
+	private final WinboardCommander commander;
 	private boolean needQuit = false;
 
 	//TODO: THINK about consequences of:

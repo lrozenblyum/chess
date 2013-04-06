@@ -20,8 +20,8 @@ final class Board {
 	static final int MAXIMAL_RANK = 8;
 
 	/**
-	 * Depends on format e2
-	 * @param square
+	 * Get file where square is situated
+	 * @param square square in format 'e2'
 	 * @return file of square
 	 */
 	static String fileOfSquare( String square ) {
