@@ -23,6 +23,9 @@ public final class MainRunner {
 		//the player must be just a thin client over Winboard
 		final Player winboardPlayer = WinboardFactory.getPlayer();
 
+		//this is the real 'brains'
+		final Player enginePlayer = new EnginePlayer();
+
 		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( winboardPlayer );
 
 		winboardPlayer.onOpponentMoved( onMoveNeedToGoListener );
@@ -68,6 +71,44 @@ public final class MainRunner {
 				default:
 					opponent.opponentResigned();
 			}
+		}
+	}
+
+
+	private static class EnginePlayer implements Player {
+		@Override
+		public void onOpponentMoved( NeedToGoListener needToGoListenerToSet ) {
+			//To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public void onOpponentOfferedDraw( DrawOfferedListener listener ) {
+			//To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public void run() {
+			//To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public void opponentAgreedToDrawOffer() {
+			//To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public void opponentOfferedDraw() {
+			//To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public void opponentMoved( String opponentMove ) {
+			//To change body of implemented methods use File | Settings | File Templates.
+		}
+
+		@Override
+		public void opponentResigned() {
+			//To change body of implemented methods use File | Settings | File Templates.
 		}
 	}
 }
