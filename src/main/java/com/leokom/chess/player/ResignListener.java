@@ -1,4 +1,4 @@
-package com.leokom.chess.framework;
+package com.leokom.chess.player;
 
 /**
  * Author: Leonid

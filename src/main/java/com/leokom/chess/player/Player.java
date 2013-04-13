@@ -1,4 +1,4 @@
-package com.leokom.chess.framework;
+package com.leokom.chess.player;
 
 /**
  * Engine-agnostic player.
@@ -13,7 +13,7 @@ public interface Player extends NeedToGoListener, DrawOfferedListener, ResignLis
 	 * It means: current player has executed the move
 	 * and informs the interested subscriber (currently only 1)
 	 * about this
-	 * @param needToGoListenerToSet
+	 * @param needToGoListenerToSet the most important listener for move execution
 	 */
 	void onMoved( NeedToGoListener needToGoListenerToSet );
 

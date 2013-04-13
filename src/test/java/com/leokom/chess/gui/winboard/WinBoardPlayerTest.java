@@ -1,7 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.framework.DrawOfferedListener;
-import com.leokom.chess.framework.Player;
+import com.leokom.chess.player.Player;
 import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

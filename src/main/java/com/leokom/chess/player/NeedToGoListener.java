@@ -1,4 +1,4 @@
-package com.leokom.chess.framework;
+package com.leokom.chess.player;
 
 /**
  * Listener to fact that we need to go
@@ -13,7 +13,7 @@ public interface NeedToGoListener {
 	 * React on another player's move
 	 * If it's null - means it's our first move
 	 * which we must execute
-	 * @param anotherPlayerMove
+	 * @param anotherPlayerMove move received from the opponent, or null
 	 */
 	void anotherPlayerMoved( String anotherPlayerMove );
 }

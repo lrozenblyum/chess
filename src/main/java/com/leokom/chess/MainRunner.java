@@ -1,9 +1,9 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.framework.DrawOfferedListener;
-import com.leokom.chess.framework.Player;
-import com.leokom.chess.framework.NeedToGoListener;
+import com.leokom.chess.player.DrawOfferedListener;
+import com.leokom.chess.player.Player;
+import com.leokom.chess.player.NeedToGoListener;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 

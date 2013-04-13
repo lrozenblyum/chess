@@ -30,7 +30,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 	/**
 	 * Create the commander, with communicator injected
 	 *
-	 * @param communicator low-level framework to use to send/receive the commands
+	 * @param communicator low-level player to use to send/receive the commands
 	 */
 	WinboardCommanderImpl( Communicator communicator ) {
 		this.communicator = communicator;

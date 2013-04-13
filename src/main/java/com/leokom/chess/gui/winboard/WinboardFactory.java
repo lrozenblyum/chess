@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.framework.Player;
+import com.leokom.chess.player.Player;
 
 /**
  * Create Winboard-related stuff

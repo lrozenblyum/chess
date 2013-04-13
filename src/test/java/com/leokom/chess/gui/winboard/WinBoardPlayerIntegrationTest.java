@@ -1,6 +1,6 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.framework.DrawOfferedListener;
+import com.leokom.chess.player.DrawOfferedListener;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
