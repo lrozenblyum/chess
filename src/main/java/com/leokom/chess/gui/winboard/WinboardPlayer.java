@@ -47,14 +47,14 @@ public class WinboardPlayer implements Player {
 			@Override
 			public void execute( String move ) {
 				//TODO: prove this parameter passing
-				needToGoListener.anotherPlayerMoved( move );
+				needToGoListener.opponentMoved( move );
 			}
 		} );
 
 		commander.onGo( new GoListener() {
 			@Override
 			public void execute() {
-				needToGoListener.anotherPlayerMoved( null );
+				needToGoListener.opponentMoved( null );
 			}
 		} );
 
@@ -99,30 +99,30 @@ public class WinboardPlayer implements Player {
 		commander.onOfferDraw( new OfferDrawListener() {
 			@Override
 			public void execute() {
-				listener.anotherPlayerOfferedDraw();
+				listener.opponentOfferedDraw();
 			}
 		} );
 	}
 
 	//listener to another player's move
 	@Override
-	public void anotherPlayerMoved( String anotherPlayerMove ) {
-		commander.anotherPlayerMoved( anotherPlayerMove );
+	public void opponentMoved( String opponentMove ) {
+		commander.opponentMoved( opponentMove );
 	}
 
 	@Override
-	public void anotherPlayerOfferedDraw() {
+	public void opponentOfferedDraw() {
 		commander.offerDraw();
 	}
 
 	@Override
-	public void anotherPlayerResigned() {
+	public void opponentResigned() {
 		commander.resign();
 	}
 
 	//TODO: validate legality of this method call!
 	@Override
-	public void anotherPlayerAgreedToDrawOffer() {
+	public void opponentAgreedToDrawOffer() {
 		commander.agreeToDrawOffer();
 	}
 

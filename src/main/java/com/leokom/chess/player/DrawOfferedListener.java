@@ -5,5 +5,5 @@ package com.leokom.chess.player;
  * Date-time: 26.11.12 22:46
  */
 public interface DrawOfferedListener {
-	void anotherPlayerOfferedDraw();
+	void opponentOfferedDraw();
 }

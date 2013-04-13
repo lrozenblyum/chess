@@ -22,5 +22,5 @@ public interface Player extends NeedToGoListener, DrawOfferedListener, ResignLis
 
 	void onDrawOffered( DrawOfferedListener listener );
 
-	void anotherPlayerAgreedToDrawOffer();
+	void opponentAgreedToDrawOffer();
 }

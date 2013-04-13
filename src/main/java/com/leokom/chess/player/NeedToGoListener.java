@@ -13,7 +13,7 @@ public interface NeedToGoListener {
 	 * React on another player's move
 	 * If it's null - means it's our first move
 	 * which we must execute
-	 * @param anotherPlayerMove move received from the opponent, or null
+	 * @param opponentMove move received from the opponent, or null
 	 */
-	void anotherPlayerMoved( String anotherPlayerMove );
+	void opponentMoved( String opponentMove );
 }

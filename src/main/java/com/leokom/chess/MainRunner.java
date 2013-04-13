@@ -28,8 +28,8 @@ public final class MainRunner {
 		player.onMoved( onMoveNeedToGoListener );
 		player.onDrawOffered( new DrawOfferedListener() {
 			@Override
-			public void anotherPlayerOfferedDraw() {
-				player.anotherPlayerAgreedToDrawOffer();
+			public void opponentOfferedDraw() {
+				player.opponentAgreedToDrawOffer();
 			}
 		} );
 		//it's main loop
@@ -44,29 +44,29 @@ public final class MainRunner {
 	private static class MoveListener implements NeedToGoListener {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
-		private final Player anotherPlayer;
+		private final Player opponent;
 
-		public MoveListener( Player anotherPlayer ) {
-			this.anotherPlayer = anotherPlayer;
+		public MoveListener( Player opponent ) {
+			this.opponent = opponent;
 			moveNumber = 0;
 		}
 
 		@Override
-		public void anotherPlayerMoved( String anotherPlayerMove ) {
+		public void opponentMoved( String opponentMove ) {
 			moveNumber++;
 			logger.info( "Detected allowance to go. Move number = " + moveNumber );
 			switch ( moveNumber ) {
 				case 1:
-					anotherPlayer.anotherPlayerMoved( "e2e4" );
+					opponent.opponentMoved( "e2e4" );
 					break;
 				case 2:
-					anotherPlayer.anotherPlayerMoved( "d2d4" );
+					opponent.opponentMoved( "d2d4" );
 					//NOTE: interesting to implement - how much do we need to wait for result?
 					//NOTE2: it's not recommended way to offer draw after the move.
-					anotherPlayer.anotherPlayerOfferedDraw();
+					opponent.opponentOfferedDraw();
 					break;
 				default:
-					anotherPlayer.anotherPlayerResigned();
+					opponent.opponentResigned();
 			}
 		}
 	}

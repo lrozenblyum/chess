@@ -30,7 +30,7 @@ interface WinboardCommander {
 	//if not - we may assume it's protocol v1
 
 	void onXBoard( XBoardListener listener );
-	void anotherPlayerMoved( String move );
+	void opponentMoved( String move );
 
 	void offerDraw();
 

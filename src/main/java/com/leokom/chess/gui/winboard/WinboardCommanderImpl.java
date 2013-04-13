@@ -67,7 +67,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
-	public void anotherPlayerMoved( String move ) {
+	public void opponentMoved( String move ) {
 		this.communicator.send( "move " + move );
 	}
 

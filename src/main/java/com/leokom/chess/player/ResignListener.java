@@ -5,5 +5,5 @@ package com.leokom.chess.player;
  * Date-time: 26.11.12 22:48
  */
 public interface ResignListener {
-	void anotherPlayerResigned();
+	void opponentResigned();
 }

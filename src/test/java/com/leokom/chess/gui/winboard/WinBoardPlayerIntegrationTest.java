@@ -43,6 +43,6 @@ public class WinBoardPlayerIntegrationTest {
 		//mid-level processing
 		commander.processInputFromServer();
 		//top-level component has set up the commander's listener correctly
-		verify( listenerToCall ).anotherPlayerOfferedDraw();
+		verify( listenerToCall ).opponentOfferedDraw();
 	}
 }

@@ -51,8 +51,8 @@ public class WinBoardCommanderSendTest {
 	}
 
 	@Test
-	public void anotherPlayerMove() {
-		commander.anotherPlayerMoved( "e2e4" );
+	public void opponentMove() {
+		commander.opponentMoved( "e2e4" );
 		verify( communicator ).send( "move e2e4" );
 	}
 }
