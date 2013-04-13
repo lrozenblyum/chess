@@ -11,7 +11,14 @@ public final class WinboardFactory {
 	private WinboardFactory() {}
 
 	/**
-	 * @return instance of properly initialized WinboardPlayer
+	 * Create an instance of generic Player,
+	 * who is able to play against existing WinBoard-powered player
+	 * This Winboard-powered opponent could be a human
+	 * running the WinBoard-powered software or another engine
+	 * that can communicate via Winboard protocol
+	 *
+	 * @return instance of properly initialized Player against WinBoard-powered player
+	 *
 	 */
 	public static Player getPlayer() {
 		//TODO: if in any application place we'll use System.out.println or System.in.read

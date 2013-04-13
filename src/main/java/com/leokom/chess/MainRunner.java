@@ -20,6 +20,7 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
+		//the player is technically the brains of our Chess software
 		final Player player = WinboardFactory.getPlayer();
 
 		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( player );
