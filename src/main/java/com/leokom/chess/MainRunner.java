@@ -20,20 +20,20 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		//the player is technically the brains of our Chess software
-		final Player player = WinboardFactory.getPlayer();
+		//the player must be just a thin client over Winboard
+		final Player winboardPlayer = WinboardFactory.getPlayer();
 
-		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( player );
+		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( winboardPlayer );
 
-		player.onOpponentMoved( onMoveNeedToGoListener );
-		player.onOpponentOfferedDraw( new DrawOfferedListener() {
+		winboardPlayer.onOpponentMoved( onMoveNeedToGoListener );
+		winboardPlayer.onOpponentOfferedDraw( new DrawOfferedListener() {
 			@Override
 			public void opponentOfferedDraw() {
-				player.opponentAgreedToDrawOffer();
+				winboardPlayer.opponentAgreedToDrawOffer();
 			}
 		} );
 		//it's main loop
-		player.run();
+		winboardPlayer.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
