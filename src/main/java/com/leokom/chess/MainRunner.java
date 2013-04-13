@@ -74,7 +74,6 @@ public final class MainRunner {
 		}
 	}
 
-
 	private static class EnginePlayer implements Player {
 		@Override
 		public void onOpponentMoved( NeedToGoListener needToGoListenerToSet ) {
@@ -88,7 +87,7 @@ public final class MainRunner {
 
 		@Override
 		public void run() {
-			//To change body of implemented methods use File | Settings | File Templates.
+			throw new UnsupportedOperationException( "Definitely it's a sign 'run' must be removed from this interface" );
 		}
 
 		@Override
