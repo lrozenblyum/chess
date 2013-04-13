@@ -19,9 +19,9 @@ public interface Player extends NeedToGoListener, DrawOfferedListener, ResignLis
 	 * about this
 	 * @param needToGoListenerToSet the most important listener for move execution
 	 */
-	void onMoved( NeedToGoListener needToGoListenerToSet );
+	void onOpponentMoved( NeedToGoListener needToGoListenerToSet );
 
-	void onDrawOffered( DrawOfferedListener listener );
+	void onOpponentOfferedDraw( DrawOfferedListener listener );
 
 	//TODO: think if it's player's property
 	void run();

@@ -25,8 +25,8 @@ public final class MainRunner {
 
 		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( player );
 
-		player.onMoved( onMoveNeedToGoListener );
-		player.onDrawOffered( new DrawOfferedListener() {
+		player.onOpponentMoved( onMoveNeedToGoListener );
+		player.onOpponentOfferedDraw( new DrawOfferedListener() {
 			@Override
 			public void opponentOfferedDraw() {
 				player.opponentAgreedToDrawOffer();

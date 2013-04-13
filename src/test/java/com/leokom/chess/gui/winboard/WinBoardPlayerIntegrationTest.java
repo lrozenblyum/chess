@@ -36,7 +36,7 @@ public class WinBoardPlayerIntegrationTest {
 		final WinboardPlayer player = new WinboardPlayer( commander );
 
 		final DrawOfferedListener listenerToCall = mock( DrawOfferedListener.class );
-		player.onDrawOffered( listenerToCall );
+		player.onOpponentOfferedDraw( listenerToCall );
 
 		//low-level
 		when( communicator.receive() ).thenReturn( "draw" );

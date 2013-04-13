@@ -75,7 +75,7 @@ public class WinboardPlayer implements Player {
 
 	//may create attach - now it's over-projecting - 1 is OK
 	@Override
-	public void onMoved( NeedToGoListener needToGoListenerToSet ) {
+	public void onOpponentMoved( NeedToGoListener needToGoListenerToSet ) {
 		this.needToGoListener = needToGoListenerToSet;
 	}
 
@@ -93,7 +93,7 @@ public class WinboardPlayer implements Player {
 	}
 
 	@Override
-	public void onDrawOffered( final DrawOfferedListener listener ) {
+	public void onOpponentOfferedDraw( final DrawOfferedListener listener ) {
 		//low-level interface adapting to the high-level
 		commander.onOfferDraw( new OfferDrawListener() {
 			@Override
