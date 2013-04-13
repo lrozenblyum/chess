@@ -24,11 +24,8 @@ public final class MainRunner {
 		final Player winboardPlayer = WinboardFactory.getPlayer();
 
 		//this is the real 'brains'
-		final Player enginePlayer = new EnginePlayer();
+		final Player enginePlayer = new EnginePlayer( winboardPlayer );
 
-		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( winboardPlayer );
-
-		winboardPlayer.onOpponentMoved( onMoveNeedToGoListener );
 		winboardPlayer.onOpponentOfferedDraw( new DrawOfferedListener() {
 			@Override
 			public void opponentOfferedDraw() {
@@ -41,15 +38,12 @@ public final class MainRunner {
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
 
-	/**
-	 * Basic implementation of 'on move allowed'
-	 */
-	private static class MoveListener implements NeedToGoListener {
+	private static class EnginePlayer implements Player {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
 		private final Player opponent;
 
-		public MoveListener( Player opponent ) {
+		public EnginePlayer( Player opponent ) {
 			this.opponent = opponent;
 			moveNumber = 0;
 		}
@@ -72,13 +66,6 @@ public final class MainRunner {
 					opponent.opponentResigned();
 			}
 		}
-	}
-
-	private static class EnginePlayer implements Player {
-		@Override
-		public void onOpponentMoved( NeedToGoListener needToGoListenerToSet ) {
-			//To change body of implemented methods use File | Settings | File Templates.
-		}
 
 		@Override
 		public void onOpponentOfferedDraw( DrawOfferedListener listener ) {
@@ -97,11 +84,6 @@ public final class MainRunner {
 
 		@Override
 		public void opponentOfferedDraw() {
-			//To change body of implemented methods use File | Settings | File Templates.
-		}
-
-		@Override
-		public void opponentMoved( String opponentMove ) {
 			//To change body of implemented methods use File | Settings | File Templates.
 		}
 

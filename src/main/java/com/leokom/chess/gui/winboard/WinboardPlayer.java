@@ -73,12 +73,6 @@ public class WinboardPlayer implements Player {
 		commander.startInit();
 	}
 
-	//may create attach - now it's over-projecting - 1 is OK
-	@Override
-	public void onOpponentMoved( NeedToGoListener needToGoListenerToSet ) {
-		this.needToGoListener = needToGoListenerToSet;
-	}
-
 	/**
 	 * Run main loop that works till winboard sends us termination signal
 	 */
