@@ -8,7 +8,11 @@ package com.leokom.chess.player;
  */
 public interface Player extends NeedToGoListener, DrawOfferedListener, ResignListener {
 	//may create attach - now it's over-projecting - 1 is OK
-	/**
+
+	/* The 'on' listeners
+	 * represent the part of player that may be taught */
+
+ 	/**
 	 * Set up listener for the event 'moved'.
 	 * It means: current player has executed the move
 	 * and informs the interested subscriber (currently only 1)
@@ -17,10 +21,10 @@ public interface Player extends NeedToGoListener, DrawOfferedListener, ResignLis
 	 */
 	void onMoved( NeedToGoListener needToGoListenerToSet );
 
+	void onDrawOffered( DrawOfferedListener listener );
+
 	//TODO: think if it's player's property
 	void run();
-
-	void onDrawOffered( DrawOfferedListener listener );
 
 	void opponentAgreedToDrawOffer();
 }
