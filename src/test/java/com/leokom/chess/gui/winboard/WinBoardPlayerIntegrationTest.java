@@ -45,4 +45,21 @@ public class WinBoardPlayerIntegrationTest {
 		//top-level component has set up the commander's listener correctly
 		verify( listenerToCall ).opponentOfferedDraw();
 	}
+
+	@Test
+	public void userMoveNoException() {
+		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
+
+		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+
+		final DrawOfferedListener listenerToCall = mock( DrawOfferedListener.class );
+		player.onOpponentOfferedDraw( listenerToCall );
+
+		//low-level
+		when( communicator.receive() ).thenReturn( "usermove e2e4" );
+		//mid-level processing
+		commander.processInputFromServer();
+		//no exceptions expected
+	}
 }
