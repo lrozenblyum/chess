@@ -23,8 +23,7 @@ public class WinboardPlayer implements Player {
 
 	/**
 	 * Create instance on Winboard controller.
-	 * TODO: must used commander instead of communicator...
-	 * @param winboardCommander
+	 * @param winboardCommander instance of mid-level winboard-commander.
 	 */
 	WinboardPlayer( WinboardCommander winboardCommander ) {
 		this.commander = winboardCommander;
