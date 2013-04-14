@@ -14,6 +14,7 @@ public class WinboardPlayer implements Player {
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private final WinboardCommander commander;
 	private boolean needQuit = false;
+	private Player opponent;
 
 	//TODO: THINK about consequences of:
 	//creating several instances of the controller (must be singleton)
@@ -43,14 +44,15 @@ public class WinboardPlayer implements Player {
 		commander.onUserMove( new UserMoveListener() {
 			@Override
 			public void execute( String move ) {
-				//TODO: execute the move on common internal board
+				opponent.opponentMoved( move );
 			}
 		} );
 
 		commander.onGo( new GoListener() {
 			@Override
 			public void execute() {
-				//TODO: tell another player to go
+				//TODO: ugly null, need separate method
+				opponent.opponentMoved( null );
 			}
 		} );
 
@@ -114,6 +116,11 @@ public class WinboardPlayer implements Player {
 	@Override
 	public void opponentAgreedToDrawOffer() {
 		commander.agreeToDrawOffer();
+	}
+
+	@Override
+	public void setOpponent( Player opponent ) {
+		this.opponent = opponent;
 	}
 
 	/**

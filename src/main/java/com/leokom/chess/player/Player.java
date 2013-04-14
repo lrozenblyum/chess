@@ -18,4 +18,11 @@ public interface Player extends NeedToGoListener, DrawOfferedListener, ResignLis
 	void run();
 
 	void opponentAgreedToDrawOffer();
+
+	//TODO: this method is extracted because we need
+	//to set up bidirectional connection
+	//think about better solution
+	//(this is not good because player without opponent is in
+	//half-constructed state)
+	void setOpponent( Player opponent );
 }

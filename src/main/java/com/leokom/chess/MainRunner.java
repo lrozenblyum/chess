@@ -3,7 +3,6 @@ package com.leokom.chess;
 
 import com.leokom.chess.player.DrawOfferedListener;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.NeedToGoListener;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
 
@@ -24,7 +23,9 @@ public final class MainRunner {
 		final Player winboardPlayer = WinboardFactory.getPlayer();
 
 		//this is the real 'brains'
-		final Player enginePlayer = new EnginePlayer( winboardPlayer );
+		final EnginePlayer enginePlayer = new EnginePlayer();
+		enginePlayer.setOpponent( winboardPlayer );
+		winboardPlayer.setOpponent( enginePlayer );
 
 		winboardPlayer.onOpponentOfferedDraw( new DrawOfferedListener() {
 			@Override
@@ -41,11 +42,16 @@ public final class MainRunner {
 	private static class EnginePlayer implements Player {
 		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 		private int moveNumber;
-		private final Player opponent;
+		private Player opponent;
 
-		public EnginePlayer( Player opponent ) {
-			this.opponent = opponent;
+		public EnginePlayer() {
 			moveNumber = 0;
+		}
+
+		//TODO: asymmetric setter to have possibility one player to another
+		@Override
+		public void setOpponent( Player opponent ) {
+			this.opponent = opponent;
 		}
 
 		@Override
