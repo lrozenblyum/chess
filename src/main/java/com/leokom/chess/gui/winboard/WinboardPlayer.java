@@ -2,7 +2,6 @@ package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.player.DrawOfferedListener;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.NeedToGoListener;
 import org.apache.log4j.Logger;
 
 /**
@@ -12,7 +11,6 @@ import org.apache.log4j.Logger;
  * Date-time: 20.08.12 19:28
  */
 public class WinboardPlayer implements Player {
-	private NeedToGoListener needToGoListener;
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private final WinboardCommander commander;
 	private boolean needQuit = false;
@@ -45,15 +43,14 @@ public class WinboardPlayer implements Player {
 		commander.onUserMove( new UserMoveListener() {
 			@Override
 			public void execute( String move ) {
-				//TODO: prove this parameter passing
-				needToGoListener.opponentMoved( move );
+				//TODO: execute the move on common internal board
 			}
 		} );
 
 		commander.onGo( new GoListener() {
 			@Override
 			public void execute() {
-				needToGoListener.opponentMoved( null );
+				//TODO: tell another player to go
 			}
 		} );
 
