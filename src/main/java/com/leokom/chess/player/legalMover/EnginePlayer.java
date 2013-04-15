@@ -50,7 +50,7 @@ public class EnginePlayer implements Player {
 
 	@Override
 	public void opponentAgreedToDrawOffer() {
-		//To change body of implemented methods use File | Settings | File Templates.
+		logger.info( "Opponent agreed to draw offer" );
 	}
 
 	/**
@@ -63,6 +63,6 @@ public class EnginePlayer implements Player {
 
 	@Override
 	public void opponentResigned() {
-		//To change body of implemented methods use File | Settings | File Templates.
+		logger.info( "Opponent resigned" );
 	}
 }
