@@ -4,7 +4,13 @@ import com.leokom.chess.player.Player;
 import org.apache.log4j.Logger;
 
 /**
- * Central entry point to Winboard processing.
+ * 'Thin' player.
+ * Implementation of the Player interface
+ * that is used to fit generic chess processing purposes.
+ * It adapts the huge Winboard interface to the Player interface.
+ * The main processing is done on the Winboard-side
+ * (on which a real human or some engine could be playing)
+ *
  * Singleton to prohibit irregularities
  * Author: Leonid
  * Date-time: 20.08.12 19:28
