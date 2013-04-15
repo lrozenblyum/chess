@@ -6,7 +6,7 @@ package com.leokom.chess.player;
  * (independent of the fact the player is represented by a chess engine,
  * a human or a winboard-protocol )
  */
-public interface Player extends NeedToGoListener, DrawOfferedListener, ResignListener {
+public interface Player extends DrawOfferedListener, ResignListener {
 	//may create attach - now it's over-projecting - 1 is OK
 
 	/* The 'on' listeners
@@ -25,4 +25,12 @@ public interface Player extends NeedToGoListener, DrawOfferedListener, ResignLis
 	//(this is not good because player without opponent is in
 	//half-constructed state)
 	void setOpponent( Player opponent );
+
+	/**
+	 * React on another player's move
+	 * If it's null - means it's our first move
+	 * which we must execute
+	 * @param opponentMove move received from the opponent, or null
+	 */
+	void opponentMoved( String opponentMove );
 }
