@@ -6,7 +6,7 @@ package com.leokom.chess.player;
  * (independent of the fact the player is represented by a chess engine,
  * a human or a winboard-protocol )
  */
-public interface Player extends ResignListener {
+public interface Player {
 	//TODO: think if it's player's property
 	void run();
 
@@ -20,6 +20,7 @@ public interface Player extends ResignListener {
 	 * @param opponentMove move received from the opponent, or null
 	 */
 	void opponentMoved( String opponentMove );
+	void opponentResigned();
 
 	//TODO: this method is extracted because we need
 	//to set up bidirectional connection
@@ -27,4 +28,5 @@ public interface Player extends ResignListener {
 	//(this is not good because player without opponent is in
 	//half-constructed state)
 	void setOpponent( Player opponent );
+
 }
