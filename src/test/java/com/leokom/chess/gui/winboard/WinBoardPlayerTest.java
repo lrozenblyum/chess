@@ -31,6 +31,8 @@ public class WinBoardPlayerTest {
 
 		executeOfferDrawListener( commander ).when( commander ).processInputFromServer();
 
+		commander.processInputFromServer();
+
 		verify( opponent ).opponentOfferedDraw();
 	}
 
