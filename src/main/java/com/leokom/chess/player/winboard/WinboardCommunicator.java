@@ -29,11 +29,14 @@ class WinboardCommunicator implements Communicator {
 	private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
-     * Create the winboard-commander with injected dependencies
-     * @param inputStream
-     * @param outputStream
-     */
-    public WinboardCommunicator( InputStream inputStream, PrintStream outputStream ) {
+     * Create the winboard-commander with default dependencies
+	 * We don't need extra flexibility of injecting in/out streams
+	 * till really proved by tests
+	 */
+    public WinboardCommunicator() {
+		final InputStream inputStream = System.in;
+		final PrintStream outputStream = System.out;
+
 		final InputStreamReader streamReader;
 		try {
 			streamReader = new InputStreamReader( inputStream, INPUT_ENCODING );

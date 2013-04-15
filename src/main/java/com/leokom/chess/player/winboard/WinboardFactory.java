@@ -26,7 +26,7 @@ public final class WinboardFactory {
 		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardPlayer
 
 		//TODO: implement some singleton policy?
-		final WinboardCommunicator communicator = new WinboardCommunicator( System.in, System.out );
+		final WinboardCommunicator communicator = new WinboardCommunicator();
 		return new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
 	}
 }
