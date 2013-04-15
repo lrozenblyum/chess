@@ -1,6 +1,5 @@
 package com.leokom.chess.gui.winboard;
 
-import com.leokom.chess.player.DrawOfferedListener;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 
