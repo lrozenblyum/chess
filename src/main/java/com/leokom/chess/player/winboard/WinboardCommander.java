@@ -1,4 +1,4 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
 /**
  * Low-level Winboard-commands for some abstraction and easier testing.

@@ -1,6 +1,5 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
-import com.leokom.chess.gui.Communicator;
 import org.junit.Before;
 import org.junit.Test;
 

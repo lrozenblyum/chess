@@ -1,6 +1,4 @@
-package com.leokom.chess.gui.winboard;
-
-import com.leokom.chess.gui.Communicator;
+package com.leokom.chess.player.winboard;
 
 import java.util.HashMap;
 import java.util.Map;

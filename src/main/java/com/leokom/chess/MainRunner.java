@@ -2,7 +2,7 @@ package com.leokom.chess;
 
 
 import com.leokom.chess.player.Player;
-import com.leokom.chess.gui.winboard.WinboardFactory;
+import com.leokom.chess.player.winboard.WinboardFactory;
 import com.leokom.chess.player.legalMover.EnginePlayer;
 import org.apache.log4j.Logger;
 

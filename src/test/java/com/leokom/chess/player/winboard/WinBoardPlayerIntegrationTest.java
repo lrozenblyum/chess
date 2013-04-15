@@ -1,4 +1,4 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.player.Player;
 import org.junit.Test;
