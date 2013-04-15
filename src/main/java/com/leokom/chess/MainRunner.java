@@ -20,7 +20,7 @@ public final class MainRunner {
 		logger.info( "Starting the chess..." );
 
 		//the player must be just a thin client over Winboard
-		final Player winboardPlayer = WinboardPlayer.getPlayer();
+		final Player winboardPlayer = WinboardPlayer.create();
 
 		//this is the real 'brains'
 		final EnginePlayer enginePlayer = new EnginePlayer();
