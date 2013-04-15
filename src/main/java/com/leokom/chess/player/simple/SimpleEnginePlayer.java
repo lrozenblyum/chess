@@ -1,6 +1,5 @@
 package com.leokom.chess.player.simple;
 
-import com.leokom.chess.MainRunner;
 import com.leokom.chess.player.Player;
 import org.apache.log4j.Logger;
 
