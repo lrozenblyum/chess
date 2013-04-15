@@ -1,20 +1,24 @@
-package com.leokom.chess.player.legalMover;
+package com.leokom.chess.player.simple;
 
 import com.leokom.chess.MainRunner;
 import com.leokom.chess.player.Player;
 import org.apache.log4j.Logger;
 
 /**
+ * Run just 2 moves for white
+ * Always agree to draw.
+ * Resign on the 3'd move
+ *
 * Author: Leonid
 * Date-time: 15.04.13 22:26
 */
-public class EnginePlayer implements Player {
+public class SimpleEnginePlayer implements Player {
 	//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 	private int moveNumber;
 	private Player opponent;
 	private final Logger logger = Logger.getLogger( this.getClass() );
 
-	public EnginePlayer() {
+	public SimpleEnginePlayer() {
 		moveNumber = 0;
 	}
 
