@@ -53,9 +53,6 @@ public class WinBoardPlayerIntegrationTest {
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
 		final WinboardPlayer player = new WinboardPlayer( commander );
 
-		final DrawOfferedListener listenerToCall = mock( DrawOfferedListener.class );
-		player.onOpponentOfferedDraw( listenerToCall );
-
 		//low-level
 		when( communicator.receive() ).thenReturn( "usermove e2e4" );
 		//mid-level processing
