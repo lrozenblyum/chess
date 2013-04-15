@@ -1,7 +1,6 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.player.Player;
-import com.leokom.chess.gui.Communicator;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
@@ -21,6 +20,20 @@ import static org.mockito.Mockito.*;
 public class WinBoardPlayerTest {
 	private static final int PROTOCOL_VERSION = 2; //any??
 	private static final int WAIT_TILL_QUIT = 5000;
+
+	@Test
+	public void offerDrawTransmittedToTheOpponent() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		executeOfferDrawListener( commander ).when( commander ).processInputFromServer();
+
+		commander.processInputFromServer();
+
+		verify( opponent ).opponentOfferedDraw();
+	}
 
 	//this test should emulate WinBoard behaviour and analyze our reaction on it.
 	//in theory in future we could extract some Winboard emulator
@@ -97,6 +110,20 @@ public class WinBoardPlayerTest {
 		executeQuitListener( commander ).when( commander ).processInputFromServer();
 
 		winboardPlayer.run();
+	}
+
+	//TODO: very similar to executeQuitListener...
+	private static Stubber executeOfferDrawListener( WinboardCommander commander ) {
+		final ArgumentCaptor< OfferDrawListener > offerDrawListener = ArgumentCaptor.forClass( OfferDrawListener.class );
+		verify( commander ).onOfferDraw( offerDrawListener.capture() );
+
+		return doAnswer( new Answer() {
+			@Override
+			public Object answer( InvocationOnMock invocationOnMock ) throws Throwable {
+				offerDrawListener.getValue().execute();
+				return null; //just for compiler... due to generic Answer interface
+			}
+		} );
 	}
 
 	private static Stubber executeQuitListener( WinboardCommander commander ) {

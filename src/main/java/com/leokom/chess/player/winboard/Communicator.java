@@ -1,4 +1,4 @@
-package com.leokom.chess.gui;
+package com.leokom.chess.player.winboard;
 
 /**
  * Encapsulate possibility to send and receive commands
@@ -8,7 +8,7 @@ package com.leokom.chess.gui;
  * Author: Leonid
  * Date-time: 20.08.12 16:09
  */
-public interface Communicator {
+interface Communicator {
     /**
      * Send a command to the server
      * @param command command to be sent

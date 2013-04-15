@@ -1,10 +1,9 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.player.DrawOfferedListener;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.NeedToGoListener;
-import com.leokom.chess.gui.winboard.WinboardFactory;
+import com.leokom.chess.player.simple.SimpleEnginePlayer;
+import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
 
 /**
@@ -20,55 +19,20 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		//the player is technically the brains of our Chess software
-		final Player player = WinboardFactory.getPlayer();
+		final Player winboardPlayer = WinboardPlayer.create();
+		final Player enginePlayer = new SimpleEnginePlayer();
+		//TODO: this double setting
+		//indicates we need some master Game object
+		//that will combine them together
+		enginePlayer.setOpponent( winboardPlayer );
+		winboardPlayer.setOpponent( enginePlayer );
 
-		final NeedToGoListener onMoveNeedToGoListener = new MoveListener( player );
-
-		player.onOpponentMoved( onMoveNeedToGoListener );
-		player.onOpponentOfferedDraw( new DrawOfferedListener() {
-			@Override
-			public void opponentOfferedDraw() {
-				player.opponentAgreedToDrawOffer();
-			}
-		} );
-		//it's main loop
-		player.run();
+		//TODO: it's main loop - which definitely looks out of
+		//symmetry and players equality
+		winboardPlayer.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
 
-	/**
-	 * Basic implementation of 'on move allowed'
-	 */
-	private static class MoveListener implements NeedToGoListener {
-		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
-		private int moveNumber;
-		private final Player opponent;
-
-		public MoveListener( Player opponent ) {
-			this.opponent = opponent;
-			moveNumber = 0;
-		}
-
-		@Override
-		public void opponentMoved( String opponentMove ) {
-			moveNumber++;
-			logger.info( "Detected allowance to go. Move number = " + moveNumber );
-			switch ( moveNumber ) {
-				case 1:
-					opponent.opponentMoved( "e2e4" );
-					break;
-				case 2:
-					opponent.opponentMoved( "d2d4" );
-					//NOTE: interesting to implement - how much do we need to wait for result?
-					//NOTE2: it's not recommended way to offer draw after the move.
-					opponent.opponentOfferedDraw();
-					break;
-				default:
-					opponent.opponentResigned();
-			}
-		}
-	}
 }
 

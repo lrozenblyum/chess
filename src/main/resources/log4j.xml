@@ -9,6 +9,8 @@
 		</layout>
 	</appender>
 
+    <!-- We must guarantee NO logging will be done to CONSOLE
+     as it may damage WinBoard -->
 	<root>
 		<priority value = "debug" />
 		<appender-ref ref = "fileApp" />
