@@ -19,13 +19,14 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		//the player must be just a thin client over Winboard
 		final Player winboardPlayer = WinboardPlayer.create();
-
-		//this is the real 'brains'
-		final EnginePlayer enginePlayer = new EnginePlayer();
+		final Player enginePlayer = new EnginePlayer();
+		//TODO: this double setting
+		//indicates we need some master Game object
+		//that will combine them together
 		enginePlayer.setOpponent( winboardPlayer );
 		winboardPlayer.setOpponent( enginePlayer );
+
 		//TODO: it's main loop - which definitely looks out of
 		//symmetry and players equality
 		winboardPlayer.run();
