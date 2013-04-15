@@ -66,6 +66,13 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
+		commander.onOfferDraw( new OfferDrawListener() {
+			@Override
+			public void execute() {
+
+			}
+		} );
+
 		//critically important to send this sequence at the start
 		//to ensure the Winboard won't ignore our 'setfeature' commands
 		//set feature commands must be sent in response to protover
