@@ -2,8 +2,8 @@ package com.leokom.chess;
 
 
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.winboard.WinboardFactory;
 import com.leokom.chess.player.legalMover.EnginePlayer;
+import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
 
 /**
@@ -20,7 +20,7 @@ public final class MainRunner {
 		logger.info( "Starting the chess..." );
 
 		//the player must be just a thin client over Winboard
-		final Player winboardPlayer = WinboardFactory.getPlayer();
+		final Player winboardPlayer = WinboardPlayer.getPlayer();
 
 		//this is the real 'brains'
 		final EnginePlayer enginePlayer = new EnginePlayer();
