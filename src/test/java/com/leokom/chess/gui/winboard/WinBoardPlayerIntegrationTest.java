@@ -1,6 +1,7 @@
 package com.leokom.chess.gui.winboard;
 
 import com.leokom.chess.player.DrawOfferedListener;
+import com.leokom.chess.player.Player;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
@@ -52,6 +53,7 @@ public class WinBoardPlayerIntegrationTest {
 
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
 		final WinboardPlayer player = new WinboardPlayer( commander );
+		player.setOpponent( mock( Player.class ) );
 
 		//low-level
 		when( communicator.receive() ).thenReturn( "usermove e2e4" );
