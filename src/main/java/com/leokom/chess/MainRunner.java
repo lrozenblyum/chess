@@ -25,7 +25,8 @@ public final class MainRunner {
 		final EnginePlayer enginePlayer = new EnginePlayer();
 		enginePlayer.setOpponent( winboardPlayer );
 		winboardPlayer.setOpponent( enginePlayer );
-		//it's main loop
+		//it's main loop - which definitely looks out of
+		//symmetry and players equality
 		winboardPlayer.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
