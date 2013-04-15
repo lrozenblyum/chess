@@ -24,8 +24,8 @@ class WinboardCommunicator implements Communicator {
 	 * US-ASCII is 7-bit latin charset
 	 */
 	private static final String INPUT_ENCODING = "US-ASCII";
-	private BufferedReader reader;
-    private PrintStream outputStream;
+	private final BufferedReader reader;
+    private final PrintStream outputStream;
 	private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
