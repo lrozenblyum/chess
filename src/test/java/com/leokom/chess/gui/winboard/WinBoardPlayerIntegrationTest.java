@@ -35,16 +35,15 @@ public class WinBoardPlayerIntegrationTest {
 
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
 		final WinboardPlayer player = new WinboardPlayer( commander );
-
-		final DrawOfferedListener listenerToCall = mock( DrawOfferedListener.class );
-		player.onOpponentOfferedDraw( listenerToCall );
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
 
 		//low-level
 		when( communicator.receive() ).thenReturn( "draw" );
 		//mid-level processing
 		commander.processInputFromServer();
 		//top-level component has set up the commander's listener correctly
-		verify( listenerToCall ).opponentOfferedDraw();
+		verify( opponent ).opponentOfferedDraw();
 	}
 
 	@Test

@@ -26,13 +26,6 @@ public final class MainRunner {
 		final EnginePlayer enginePlayer = new EnginePlayer();
 		enginePlayer.setOpponent( winboardPlayer );
 		winboardPlayer.setOpponent( enginePlayer );
-
-		winboardPlayer.onOpponentOfferedDraw( new DrawOfferedListener() {
-			@Override
-			public void opponentOfferedDraw() {
-				winboardPlayer.opponentAgreedToDrawOffer();
-			}
-		} );
 		//it's main loop
 		winboardPlayer.run();
 
@@ -71,11 +64,6 @@ public final class MainRunner {
 				default:
 					opponent.opponentResigned();
 			}
-		}
-
-		@Override
-		public void onOpponentOfferedDraw( DrawOfferedListener listener ) {
-			//To change body of implemented methods use File | Settings | File Templates.
 		}
 
 		@Override

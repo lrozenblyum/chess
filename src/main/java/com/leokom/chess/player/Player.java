@@ -7,12 +7,7 @@ package com.leokom.chess.player;
  * a human or a winboard-protocol )
  */
 public interface Player extends DrawOfferedListener, ResignListener {
-	//may create attach - now it's over-projecting - 1 is OK
 
-	/* The 'on' listeners
-	 * represent the part of player that may be taught */
-
-	void onOpponentOfferedDraw( DrawOfferedListener listener );
 
 	//TODO: think if it's player's property
 	void run();

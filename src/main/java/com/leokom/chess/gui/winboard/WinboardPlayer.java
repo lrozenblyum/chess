@@ -92,17 +92,6 @@ public class WinboardPlayer implements Player {
 		}
 	}
 
-	@Override
-	public void onOpponentOfferedDraw( final DrawOfferedListener listener ) {
-		//low-level interface adapting to the high-level
-		commander.onOfferDraw( new OfferDrawListener() {
-			@Override
-			public void execute() {
-				listener.opponentOfferedDraw();
-			}
-		} );
-	}
-
 	//listener to another player's move
 	@Override
 	public void opponentMoved( String opponentMove ) {
