@@ -1,7 +1,6 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.player.DrawOfferedListener;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.gui.winboard.WinboardFactory;
 import org.apache.log4j.Logger;
@@ -76,9 +75,12 @@ public final class MainRunner {
 			//To change body of implemented methods use File | Settings | File Templates.
 		}
 
+		/**
+		 * Simplest possible strategy - agree to the draw offer
+		 */
 		@Override
 		public void opponentOfferedDraw() {
-			//To change body of implemented methods use File | Settings | File Templates.
+			opponent.opponentAgreedToDrawOffer();
 		}
 
 		@Override
