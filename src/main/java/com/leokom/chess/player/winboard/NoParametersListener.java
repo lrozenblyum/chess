@@ -1,4 +1,4 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
 /**
  * Ensure no-parameter winboard listeners share this common interface

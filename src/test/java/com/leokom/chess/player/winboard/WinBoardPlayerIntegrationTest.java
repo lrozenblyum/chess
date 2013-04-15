@@ -1,6 +1,6 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
-import com.leokom.chess.player.DrawOfferedListener;
+import com.leokom.chess.player.Player;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
@@ -34,15 +34,29 @@ public class WinBoardPlayerIntegrationTest {
 
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
 		final WinboardPlayer player = new WinboardPlayer( commander );
-
-		final DrawOfferedListener listenerToCall = mock( DrawOfferedListener.class );
-		player.onOpponentOfferedDraw( listenerToCall );
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
 
 		//low-level
 		when( communicator.receive() ).thenReturn( "draw" );
 		//mid-level processing
 		commander.processInputFromServer();
 		//top-level component has set up the commander's listener correctly
-		verify( listenerToCall ).opponentOfferedDraw();
+		verify( opponent ).opponentOfferedDraw();
+	}
+
+	@Test
+	public void userMoveNoException() {
+		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
+
+		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		player.setOpponent( mock( Player.class ) );
+
+		//low-level
+		when( communicator.receive() ).thenReturn( "usermove e2e4" );
+		//mid-level processing
+		commander.processInputFromServer();
+		//no exceptions expected
 	}
 }

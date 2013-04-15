@@ -1,4 +1,4 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
 /**
  * <MOVE> means the move in coordinate notation (4 characters,

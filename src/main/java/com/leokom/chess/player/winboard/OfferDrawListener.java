@@ -1,4 +1,4 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
 /**
  * The engine's opponent offers the engine a draw.

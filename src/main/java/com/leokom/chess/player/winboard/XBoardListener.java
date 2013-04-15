@@ -1,4 +1,4 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
 /**
  * This command will be sent once immediately after your engine process is started.

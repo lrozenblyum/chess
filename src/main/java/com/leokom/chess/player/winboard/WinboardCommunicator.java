@@ -1,6 +1,5 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
-import com.leokom.chess.gui.Communicator;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -30,11 +29,18 @@ class WinboardCommunicator implements Communicator {
 	private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
-     * Create the winboard-commander with injected dependencies
-     * @param inputStream
-     * @param outputStream
-     */
-    public WinboardCommunicator( InputStream inputStream, PrintStream outputStream ) {
+     * Create the winboard-commander with default dependencies
+	 * We don't need extra flexibility of injecting in/out streams
+	 * till really proved by tests
+	 */
+    public WinboardCommunicator() {
+		//TODO: if in any application place we'll use System.out.println or System.in.read
+		//this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
+		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardPlayer
+
+		final InputStream inputStream = System.in;
+		final PrintStream outputStream = System.out;
+
 		final InputStreamReader streamReader;
 		try {
 			streamReader = new InputStreamReader( inputStream, INPUT_ENCODING );
