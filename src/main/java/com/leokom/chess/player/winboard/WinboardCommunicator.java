@@ -38,9 +38,11 @@ class WinboardCommunicator implements Communicator {
 		//this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
 		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardPlayer
 
-		final InputStream inputStream = System.in;
-		final PrintStream outputStream = System.out;
+		this.reader = getReaderFromStream( System.in );
+		this.outputStream = System.out;
+    }
 
+	private static BufferedReader getReaderFromStream( InputStream inputStream ) {
 		final InputStreamReader streamReader;
 		try {
 			streamReader = new InputStreamReader( inputStream, INPUT_ENCODING );
@@ -51,11 +53,10 @@ class WinboardCommunicator implements Communicator {
 			throw instantiationError;
 		}
 		//TODO: think about buffers, they're not recommended to use
-		this.reader = new BufferedReader( streamReader );
-        this.outputStream = outputStream;
-    }
+		return new BufferedReader( streamReader );
+	}
 
-    @Override
+	@Override
     public void send( String command ) {
 		logger.info( "Sent: " + command );
         outputStream.println( command );
