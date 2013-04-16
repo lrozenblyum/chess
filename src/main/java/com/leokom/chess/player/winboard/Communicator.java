@@ -1,14 +1,14 @@
-package com.leokom.chess.gui;
+package com.leokom.chess.player.winboard;
 
 /**
  * Encapsulate possibility to send and receive commands
- * to some external 'server' (inspired by wish to make it test-coverable
+ * to some external 'server' (inspired by wish to make it test-controlled
  * sending and receiving commands to the Winboard interface)
  *
  * Author: Leonid
  * Date-time: 20.08.12 16:09
  */
-public interface Commander {
+interface Communicator {
     /**
      * Send a command to the server
      * @param command command to be sent

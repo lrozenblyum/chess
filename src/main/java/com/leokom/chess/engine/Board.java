@@ -10,12 +10,18 @@ final class Board {
 	//however need to rethink this approach...
 	private Board() {}
 
-	static final int MINIMAL_RANK = 1; //by FIDE
-	static final int MAXIMAL_RANK = 8; //by FIDE
+	/**
+	 * Minimal rank from FIDE rules
+	 */
+	static final int MINIMAL_RANK = 1;
+	/**
+	 * Maximal rank from FIDE rules
+	 */
+	static final int MAXIMAL_RANK = 8;
 
 	/**
-	 * Depends on format e2
-	 * @param square
+	 * Get file where square is situated
+	 * @param square square in format 'e2'
 	 * @return file of square
 	 */
 	static String fileOfSquare( String square ) {

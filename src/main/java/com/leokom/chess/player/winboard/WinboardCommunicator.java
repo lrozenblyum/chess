@@ -1,6 +1,5 @@
-package com.leokom.chess.gui.winboard;
+package com.leokom.chess.player.winboard;
 
-import com.leokom.chess.gui.Commander;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -11,25 +10,39 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 /**
+ * Low-level communication engine with some Winboard 'server'
+ * By Winboard server I mean the GUI implementing Winboard protocol
+ *
+ * This low-level communicator simply sends and receives commands
+ * But doesn't do any sophisticated processing.
  * Author: Leonid
  * Date-time: 20.08.12 16:13
  */
-class WinboardCommander implements Commander {
+class WinboardCommunicator implements Communicator {
 	/**
 	 * I don't set up UTF-8 since specification says we'll get only latin characters and digits
 	 * US-ASCII is 7-bit latin charset
 	 */
 	private static final String INPUT_ENCODING = "US-ASCII";
-	private BufferedReader reader;
-    private PrintStream outputStream;
+	private final BufferedReader reader;
+    private final PrintStream outputStream;
 	private Logger logger = Logger.getLogger( this.getClass() );
 
     /**
-     * Create the winboard-commander with injected dependencies
-     * @param inputStream
-     * @param outputStream
-     */
-    public WinboardCommander( InputStream inputStream, PrintStream outputStream ) {
+     * Create the winboard-commander with default dependencies
+	 * We don't need extra flexibility of injecting in/out streams
+	 * till really proved by tests
+	 */
+    public WinboardCommunicator() {
+		//TODO: if in any application place we'll use System.out.println or System.in.read
+		//this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
+		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardPlayer
+
+		this.reader = getReaderFromStream( System.in );
+		this.outputStream = System.out;
+    }
+
+	private static BufferedReader getReaderFromStream( InputStream inputStream ) {
 		final InputStreamReader streamReader;
 		try {
 			streamReader = new InputStreamReader( inputStream, INPUT_ENCODING );
@@ -40,12 +53,11 @@ class WinboardCommander implements Commander {
 			throw instantiationError;
 		}
 		//TODO: think about buffers, they're not recommended to use
-		this.reader = new BufferedReader( streamReader );
-        this.outputStream = outputStream;
-    }
+		return new BufferedReader( streamReader );
+	}
 
-    @Override
-    public void send(String command) {
+	@Override
+    public void send( String command ) {
 		logger.info( "Sent: " + command );
         outputStream.println( command );
     }
@@ -56,7 +68,8 @@ class WinboardCommander implements Commander {
 			final String line = reader.readLine();
 			logger.info( "Received: " + line );
 			return line;
-        } catch ( IOException e ) { //avoid propagating internal exception to signature
+        } catch ( IOException e ) {
+			//avoid propagating internal exception to the method signature
             throw new RuntimeException( e );
         }
     }

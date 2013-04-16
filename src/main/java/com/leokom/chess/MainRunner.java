@@ -1,9 +1,9 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.gui.Listener;
-import com.leokom.chess.gui.Controller;
-import com.leokom.chess.gui.winboard.WinboardFactory;
+import com.leokom.chess.player.Player;
+import com.leokom.chess.player.simple.SimpleEnginePlayer;
+import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
 
 /**
@@ -19,48 +19,20 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		final Controller controller = WinboardFactory.getController();
+		final Player winboardPlayer = WinboardPlayer.create();
+		final Player enginePlayer = new SimpleEnginePlayer();
+		//TODO: this double setting
+		//indicates we need some master Game object
+		//that will combine them together
+		enginePlayer.setOpponent( winboardPlayer );
+		winboardPlayer.setOpponent( enginePlayer );
 
-		final Listener onMoveListener = new MoveListener( controller );
-
-		controller.setOnMoveListener( onMoveListener );
-		//it's main loop
-		controller.run();
+		//TODO: it's main loop - which definitely looks out of
+		//symmetry and players equality
+		winboardPlayer.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
 
-	/**
-	 * Basic implementation of 'on move allowed'
-	 */
-	private static class MoveListener implements Listener {
-		//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
-		private int moveNumber;
-		private final Controller controller;
-
-		public MoveListener( Controller controller ) {
-			this.controller = controller;
-			moveNumber = 0;
-		}
-
-		@Override
-		public void onCommandReceived() {
-			moveNumber++;
-			logger.info( "Detected allowance to go. Move number = " + moveNumber );
-			switch ( moveNumber ) {
-				case 1:
-					controller.send( "move e2e4" );
-					break;
-				case 2:
-					controller.send( "move d2d4" );
-					//NOTE: interesting to implement - how much do we need to wait for result?
-					//NOTE2: it's not recommended way to offer draw after the move.
-					controller.send( "offer draw" );
-					break;
-				default:
-					controller.send( "resign" );
-			}
-		}
-	}
 }
 

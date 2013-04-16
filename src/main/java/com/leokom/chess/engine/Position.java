@@ -22,18 +22,17 @@ public class Position {
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
+
+	private static final String QUEEN = "Q";
+	private static final String ROOK = "R";
+	//NOTE: this name MUSTN'T be confused with anything religious.
+	// It's just a common name for the piece which e.g. in Russian has name слон ('elephant')
+	private static final String BISHOP = "B";
+	private static final String KNIGHT = "N";
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< String > PIECES_TO_PROMOTE_FROM_PAWN =
-			Collections.unmodifiableSet(
-				new HashSet< String >(
-					Arrays.asList(
-						"Q", //queen
-						"R", //rook
-						"B", //bishop. NOTICE: this name MUSTN'T be confused with anything religious.
-							// It's just a common name for the piece which e.g. in Russian has name слон ('elephant')
-						"N" //knight
-			)
-		)
+		Collections.unmodifiableSet(
+			new HashSet< String >( Arrays.asList( QUEEN, ROOK,	BISHOP, KNIGHT ) )
 	);
 
 	/**
