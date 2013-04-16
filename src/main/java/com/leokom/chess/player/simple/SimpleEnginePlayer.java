@@ -33,17 +33,34 @@ public class SimpleEnginePlayer implements Player {
 		logger.info( "Move number = " + moveNumber );
 		switch ( moveNumber ) {
 			case 1:
-				opponent.opponentMoved( "e2e4" );
+				moveTo( "e2e4" );
 				break;
 			case 2:
-				opponent.opponentMoved( "d2d4" );
+				moveTo( "d2d4" );
 				//NOTE: interesting to implement - how much do we need to wait for result?
 				//NOTE2: it's not recommended way to offer draw after the move.
-				opponent.opponentOfferedDraw();
+				offerDraw();
 				break;
 			default:
-				opponent.opponentResigned();
+				resign();
 		}
+	}
+
+	private void offerDraw() {
+		opponent.opponentOfferedDraw();
+	}
+
+	private void resign() {
+		opponent.opponentResigned();
+	}
+
+	/**
+	 * Execute the move
+	 * @param move move in some supported notation (TO BE DEFINED)
+	 */
+	private void moveTo( String move ) {
+		//hiding complexity of opponent.opponentMoved call
+		opponent.opponentMoved( move );
 	}
 
 	@Override
