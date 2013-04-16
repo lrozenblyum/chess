@@ -332,11 +332,11 @@ public class Position {
 	}
 
 	/**
-	 * If previous move was done by pawn (double-step_ from initial position
+	 * If previous move was done by pawn (double-step from initial position)
 	 * returns the file of movement, otherwise null
 	 * @return possible en passant file if double-move done
 	 */
-	public String getPossibleEnPassantFile() {
+	String getPossibleEnPassantFile() {
 		return this.enPassantFile;
 	}
 }
