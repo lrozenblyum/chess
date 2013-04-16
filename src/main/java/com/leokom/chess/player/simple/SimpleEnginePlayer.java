@@ -30,7 +30,7 @@ public class SimpleEnginePlayer implements Player {
 	@Override
 	public void opponentMoved( String opponentMove ) {
 		moveNumber++;
-		logger.info( "Detected allowance to go. Move number = " + moveNumber );
+		logger.info( "Move number = " + moveNumber );
 		switch ( moveNumber ) {
 			case 1:
 				opponent.opponentMoved( "e2e4" );
