@@ -12,7 +12,6 @@ import static com.leokom.chess.engine.Side.*;
  * Date-time: 28.09.12 22:09
  */
 public class PositionPromoteTest {
-	@Ignore( "till we start implementing promotion" )
 	@Test
 	public void toQueen() {
 		Position position = new Position( null );

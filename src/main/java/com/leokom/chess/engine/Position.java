@@ -315,11 +315,12 @@ public class Position {
 	/**
 	 * Check if the position has a pawn on square provided
 	 * with needed side
-	 * @param square
+	 *
 	 * @param side
+	 * @param square
 	 * @return true iff such pawn is present
 	 */
-	boolean hasPawn( String square, Side side ) {
+	boolean hasPawn( Side side, String square ) {
 		return isOccupiedBy( square, side );
 	}
 

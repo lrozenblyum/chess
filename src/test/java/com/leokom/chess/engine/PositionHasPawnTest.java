@@ -22,8 +22,8 @@ public class PositionHasPawnTest {
 	@Test
 	public void noPawn() {
 		final String anySquare = "a2";
-		assertFalse( position.hasPawn( anySquare, Side.WHITE ) );
-		assertFalse( position.hasPawn( anySquare, Side.BLACK ) );
+		assertFalse( position.hasPawn( Side.WHITE, anySquare ) );
+		assertFalse( position.hasPawn( Side.BLACK, anySquare ) );
 	}
 
 	@Test
@@ -31,7 +31,7 @@ public class PositionHasPawnTest {
 		final String square = "g6";
 		final Side side = Side.WHITE;
 		position.addPawn( side, square );
-		assertTrue( position.hasPawn( square, side ) );
+		assertTrue( position.hasPawn( side, square ) );
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class PositionHasPawnTest {
 		final Side anySide = Side.WHITE;
 		position.addPawn( anySide, anySquare );
 
-		assertFalse( position.hasPawn( anySquare, anySide.opposite() ) );
+		assertFalse( position.hasPawn( anySide.opposite(), anySquare ) );
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class PositionHasPawnTest {
 		final String square = "a2";
 		final Side side = Side.WHITE;
 		position.addPawn( side, square );
-		assertTrue( position.hasPawn( square, side ) );
+		assertTrue( position.hasPawn( side, square ) );
 	}
 
 	@Test
@@ -56,7 +56,7 @@ public class PositionHasPawnTest {
 		final String square = "c4";
 		final Side side = Side.BLACK;
 		position.addPawn( side, square );
-		assertTrue( position.hasPawn( square, side ) );
+		assertTrue( position.hasPawn( side, square ) );
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class PositionHasPawnTest {
 		final String square = "a8"; //any
 		final Side side = Side.BLACK; //any
 		position.addQueen( side, square );
-		assertFalse( position.hasPawn( square, side ) );
+		assertFalse( position.hasPawn( side, square ) );
 	}
 
 	@Test
