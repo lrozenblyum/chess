@@ -37,12 +37,6 @@ public final class PositionAsserts {
 		assertTrue( "The square must be empty: " + square, position.isEmptySquare( square ) );
 	}
 
-	/**
-	 * Assert that position has a pawn on the square
-	 * @param position
-	 * @param square
-	 * @param side
-	 */
 	static void assertHasPawn( Position position, String square, Side side ) {
 		assertTrue( "Pawn of " + side + " is expected to be on square: " + square,
 				position.hasPawn( side, square ) );
