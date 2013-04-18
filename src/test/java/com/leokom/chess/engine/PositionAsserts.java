@@ -46,12 +46,12 @@ public final class PositionAsserts {
 	 * Check that inside the position, starting from initial field,
 	 * we can legally reach EVERY reachableSquares (and ONLY them)
 	 * (basing on position's feedback)
-	 * @param position
-	 * @param initialField
-	 * @param reachableSquares
+	 * @param position position to validate
+	 * @param initialField field to check moves from
+	 * @param expectedReachableSquares exact squares that must be reachable
 	 */
-	static void assertAllowedMoves( Position position, String initialField, String... reachableSquares ) {
+	static void assertAllowedMoves( Position position, String initialField, String... expectedReachableSquares ) {
 		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( new HashSet<String>( Arrays.asList( reachableSquares ) ), squares );
+		assertEquals( new HashSet<String>( Arrays.asList( expectedReachableSquares ) ), squares );
 	}
 }
