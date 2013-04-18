@@ -64,7 +64,7 @@ public class PositionHasPawnTest {
 		final String square = "a8"; //any
 		final Side side = Side.BLACK; //any
 		position.addQueen( square );
-		assertFalse( position.hasQueen( square, side ) );
+		assertFalse( position.hasPawn( square, side ) );
 	}
 
 	//TODO: when new pieces are introduced:
