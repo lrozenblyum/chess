@@ -229,7 +229,8 @@ public class Position {
 	 * (means NOT occupied or occupied by the opposite side)
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
-		return ( squaresOccupied.get( square ) != null ) &&( squaresOccupied.get( square ) == side );
+		//if not found is null -> null != side
+		return squaresOccupied.get( square ) == side;
 	}
 
 	private static int getDoubleMoveRank( Side side ) {
