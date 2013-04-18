@@ -341,4 +341,11 @@ public class Position {
 	String getPossibleEnPassantFile() {
 		return this.enPassantFile;
 	}
+
+	public void addQueen( String square ) {
+	}
+
+	public boolean hasQueen( String square, Side side ) {
+		return false;
+	}
 }
