@@ -67,6 +67,14 @@ public class PositionHasPawnTest {
 		assertFalse( position.hasPawn( square, side ) );
 	}
 
+	@Test
+	public void addedQueenFound() {
+		final String square = "c1"; //any
+		final Side side = Side.WHITE; //any
+		position.addQueen( square );
+		assertTrue( position.hasQueen( square, side ) );
+	}
+
 	//TODO: when new pieces are introduced:
 	//add asserts that if we add such a piece on a square,
 	//hasPawn will return FALSE!

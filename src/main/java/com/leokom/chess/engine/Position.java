@@ -346,6 +346,6 @@ public class Position {
 	}
 
 	public boolean hasQueen( String square, Side side ) {
-		return false;
+		return true;
 	}
 }
