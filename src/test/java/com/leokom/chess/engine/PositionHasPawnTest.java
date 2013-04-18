@@ -63,7 +63,7 @@ public class PositionHasPawnTest {
 	public void addedQueenNoHasPawn() {
 		final String square = "a8"; //any
 		final Side side = Side.BLACK; //any
-		position.addQueen( square );
+		position.addQueen( side, square );
 		assertFalse( position.hasPawn( square, side ) );
 	}
 
@@ -71,15 +71,23 @@ public class PositionHasPawnTest {
 	public void addedQueenFound() {
 		final String square = "c1"; //any
 		final Side side = Side.WHITE; //any
-		position.addQueen( square );
-		assertTrue( position.hasQueen( square, side ) );
+		position.addQueen( side, square );
+		assertTrue( position.hasQueen( side, square ) );
 	}
 
 	@Test
 	public void absentQueenNotFound(){
 		final String square = "b4"; //any
 		final Side side = Side.BLACK; //any
-		assertFalse( position.hasQueen( square, side ) );
+		assertFalse( position.hasQueen( side, square ) );
+	}
+
+	@Test
+	public void queenOfOppositeSideNotFound() {
+		final String square = "c1"; //any
+		final Side side = Side.WHITE; //any
+		position.addQueen( side, square );
+		assertFalse( position.hasQueen( side.opposite(), square ) );
 	}
 
 	//TODO: when new pieces are introduced:

@@ -342,12 +342,12 @@ public class Position {
 		return this.enPassantFile;
 	}
 
-	private boolean queenAdded = false;
-	public void addQueen( String square ) {
-		queenAdded = true;
+	private Set<Side> addedQueens = new HashSet<Side>();
+	public void addQueen( Side side, String square ) {
+		addedQueens.add( side );
 	}
 
-	public boolean hasQueen( String square, Side side ) {
-		return queenAdded;
+	public boolean hasQueen( Side side, String square ) {
+		return addedQueens.contains( side );
 	}
 }
