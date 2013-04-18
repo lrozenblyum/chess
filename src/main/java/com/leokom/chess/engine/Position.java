@@ -38,7 +38,7 @@ public class Position {
 	/**
 	 * square -> side
 	 */
-	private final Map< String, Side > squaresOccupied = new HashMap<String, Side>();
+	private final Map< String, Side > squaresOccupiedByPawn = new HashMap<String, Side>();
 
 	private final String enPassantFile;
 
@@ -56,7 +56,7 @@ public class Position {
 	 */
 	public void addPawn( Side side, String square ) {
 		//TODO: what if the square is already occupied?
-		squaresOccupied.put( square, side );
+		squaresOccupiedByPawn.put( square, side );
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class Position {
 		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
-		final Side side = squaresOccupied.get( square );
+		final Side side = squaresOccupiedByPawn.get( square );
 
 		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
 		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
@@ -230,7 +230,7 @@ public class Position {
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
 		//if not found is null -> null != side
-		return squaresOccupied.get( square ) == side;
+		return squaresOccupiedByPawn.get( square ) == side;
 	}
 
 	private static int getDoubleMoveRank( Side side ) {
@@ -254,7 +254,7 @@ public class Position {
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
 
-		final Collection<String> copySet = new HashSet<String>( squaresOccupied.keySet() );
+		final Collection<String> copySet = new HashSet<String>( squaresOccupiedByPawn.keySet() );
 		copySet.remove( squareFrom );
 
 		//en passant capture requires extra processing
@@ -266,13 +266,13 @@ public class Position {
 
 		if ( !copySet.isEmpty() ) {
 			for ( final String busySquare : copySet ) {
-				result.addPawn( squaresOccupied.get( busySquare ), busySquare );
+				result.addPawn( squaresOccupiedByPawn.get( busySquare ), busySquare );
 			}
 		}
 
 		//basing on current overwriting effect (must be the last),
 		//to capture...
-		result.addPawn( squaresOccupied.get( squareFrom ), squareTo );
+		result.addPawn( squaresOccupiedByPawn.get( squareFrom ), squareTo );
 
 		return result;
 	}
@@ -287,7 +287,7 @@ public class Position {
 	private String getEnPassantCapturedPieceSquare( String squareFrom, String squareTo ) {
 		//rank only from which a pawn can execute en passant move
 		//(it's equal to rank where the opposite piece being captured is on)
-		int enPassantPossibleRank = getEnPassantPossibleRank( squaresOccupied.get( squareFrom ) );
+		int enPassantPossibleRank = getEnPassantPossibleRank( squaresOccupiedByPawn.get( squareFrom ) );
 
 		if ( this.enPassantFile != null &&
 			rankOfSquare( squareFrom ) == enPassantPossibleRank &&
@@ -305,7 +305,7 @@ public class Position {
 	 * @return possible en passant file (null if impossible)
 	 */
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
-		final Side side = squaresOccupied.get( squareFrom );
+		final Side side = squaresOccupiedByPawn.get( squareFrom );
 
 		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
 				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
@@ -332,7 +332,7 @@ public class Position {
 	 * @return true if square is empty
 	 */
 	boolean isEmptySquare( String square ) {
-		return squaresOccupied.get( square ) == null;
+		return squaresOccupiedByPawn.get( square ) == null;
 	}
 
 	/**
