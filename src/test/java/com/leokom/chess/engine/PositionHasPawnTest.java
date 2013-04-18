@@ -90,6 +90,15 @@ public class PositionHasPawnTest {
 		assertFalse( position.hasQueen( side.opposite(), square ) );
 	}
 
+	@Test
+	public void differentSquareOfQueenNotFound() {
+		final String square = "b4"; //any
+		final String anotherSquare = "c1";
+		final Side side = Side.BLACK; //any
+		position.addQueen( side, square );
+		assertFalse( position.hasQueen( side, anotherSquare ) );
+	}
+
 	//TODO: when new pieces are introduced:
 	//add asserts that if we add such a piece on a square,
 	//hasPawn will return FALSE!
