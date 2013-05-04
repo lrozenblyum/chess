@@ -1,6 +1,5 @@
 package com.leokom.chess.engine;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.leokom.chess.engine.PositionAsserts.assertEmptySquare;
