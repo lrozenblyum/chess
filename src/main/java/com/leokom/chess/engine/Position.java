@@ -238,29 +238,30 @@ public class Position {
 	}
 
 	/**
-	 * Perform move from squareFrom to squareTo
+	 * Perform move from squareFrom to move
 	 * We guarantee returning a new position instead of
 	 * modifying the current one.
 	 *
 	 * The implementation should execute the move provided, guaranteeing that unaffected
 	 * pieces must be left on the same place
 	 * (NOTE: unaffected is not so easy as can be imagined, e.g. when we move en passant the piece we capture
-	 * IS affected! However it's not related to squareFrom and squareTo)
-	 * @param squareFrom
-	 * @param squareTo
+	 * IS affected! However it's not related to squareFrom and move)
+	 * @param squareFrom square where the piece being moved exists BEFORE the move
+	 * @param move either simply destination square (e.g. 'e4')
+	 *             or destination square with capture info (e.g. 'h8Q')
 	 * @return new position, which is received from current by doing 1 move
 	 */
-	public Position move( String squareFrom, String squareTo ) {
-		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
+	public Position move( String squareFrom, String move ) {
+		final String newEnPassantFile = getNewEnPassantFile( squareFrom, move );
 		final Position result = new Position( newEnPassantFile );
 
 
 		final Side movingSide = squaresOccupiedByPawn.get( squareFrom );
 
-		if ( squareTo.endsWith( "Q" ) ) {
+		if ( move.endsWith( "Q" ) ) {
 			result.addQueen(
 				movingSide,
-				squareTo.substring( 0, 2 ) );  //depending on format 'h8Q'
+				move.substring( 0, 2 ) );  //depending on format 'h8Q'
 		}
 
 		final Collection<String> copySet = new HashSet<String>( squaresOccupiedByPawn.keySet() );
@@ -268,7 +269,7 @@ public class Position {
 
 		//en passant capture requires extra processing
 		//because we capture a piece not being on the target square
-		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, squareTo );
+		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, move );
 		if ( enPassantCapturedPawnSquare != null ) {
 			copySet.remove( enPassantCapturedPawnSquare );
 		}
@@ -281,7 +282,7 @@ public class Position {
 
 		//basing on current overwriting effect (must be the last),
 		//to capture...
-		result.addPawn( movingSide, squareTo );
+		result.addPawn( movingSide, move );
 
 		return result;
 	}
