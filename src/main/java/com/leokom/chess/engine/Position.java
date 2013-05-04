@@ -38,7 +38,10 @@ public class Position {
 	/**
 	 * square -> side
 	 */
-	private final Map< String, Side > squaresOccupiedByPawn = new HashMap<String, Side>();
+	private final Map< String, Side > pawns = new HashMap<String, Side>();
+
+	private final Map< String, Side > queens = new HashMap<String, Side>();
+
 
 	private final String enPassantFile;
 
@@ -56,7 +59,7 @@ public class Position {
 	 */
 	public void addPawn( Side side, String square ) {
 		//TODO: what if the square is already occupied?
-		squaresOccupiedByPawn.put( square, side );
+		pawns.put( square, side );
 	}
 
 	/**
@@ -80,7 +83,7 @@ public class Position {
 		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
-		final Side side = squaresOccupiedByPawn.get( square );
+		final Side side = pawns.get( square );
 
 		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
 		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
@@ -230,7 +233,7 @@ public class Position {
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
 		//if not found is null -> null != side
-		return squaresOccupiedByPawn.get( square ) == side;
+		return pawns.get( square ) == side;
 	}
 
 	private static int getDoubleMoveRank( Side side ) {
@@ -256,7 +259,7 @@ public class Position {
 		final Position result = new Position( newEnPassantFile );
 
 
-		final Side movingSide = squaresOccupiedByPawn.get( squareFrom );
+		final Side movingSide = pawns.get( squareFrom );
 
 		if ( move.endsWith( "Q" ) ) {
 			result.addQueen(
@@ -264,7 +267,7 @@ public class Position {
 				move.substring( 0, 2 ) );  //depending on format 'h8Q'
 		}
 
-		final Collection<String> copySet = new HashSet<String>( squaresOccupiedByPawn.keySet() );
+		final Collection<String> copySet = new HashSet<String>( pawns.keySet() );
 		copySet.remove( squareFrom );
 
 		//en passant capture requires extra processing
@@ -276,7 +279,7 @@ public class Position {
 
 		if ( !copySet.isEmpty() ) {
 			for ( final String busySquare : copySet ) {
-				result.addPawn( squaresOccupiedByPawn.get( busySquare ), busySquare );
+				result.addPawn( pawns.get( busySquare ), busySquare );
 			}
 		}
 
@@ -297,7 +300,7 @@ public class Position {
 	private String getEnPassantCapturedPieceSquare( String squareFrom, String squareTo ) {
 		//rank only from which a pawn can execute en passant move
 		//(it's equal to rank where the opposite piece being captured is on)
-		int enPassantPossibleRank = getEnPassantPossibleRank( squaresOccupiedByPawn.get( squareFrom ) );
+		int enPassantPossibleRank = getEnPassantPossibleRank( pawns.get( squareFrom ) );
 
 		if ( this.enPassantFile != null &&
 			rankOfSquare( squareFrom ) == enPassantPossibleRank &&
@@ -315,7 +318,7 @@ public class Position {
 	 * @return possible en passant file (null if impossible)
 	 */
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
-		final Side side = squaresOccupiedByPawn.get( squareFrom );
+		final Side side = pawns.get( squareFrom );
 
 		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
 				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
@@ -342,7 +345,7 @@ public class Position {
 	 * @return true if square is empty
 	 */
 	boolean isEmptySquare( String square ) {
-		return squaresOccupiedByPawn.get( square ) == null;
+		return pawns.get( square ) == null;
 	}
 
 	/**
@@ -354,25 +357,24 @@ public class Position {
 		return this.enPassantFile;
 	}
 
-	private Map< String, Side > addedQueens = new HashMap<String, Side>();
 	public void addQueen( Side side, String square ) {
-		addedQueens.put( square, side );
+		queens.put( square, side );
 	}
 
 	public boolean hasQueen( Side side, String square ) {
-		return addedQueens.get( square ) == side;
+		return queens.get( square ) == side;
 	}
 
 	//currently for tests only...
 	@Override
 	public String toString() {
 		String wholePicture = "";
-		for( String square : squaresOccupiedByPawn.keySet() ) {
-			wholePicture += "\nPawn: " + square + ":" + squaresOccupiedByPawn.get( square );
+		for( String square : pawns.keySet() ) {
+			wholePicture += "\nPawn: " + square + ":" + pawns.get( square );
 		}
 
-		for ( String square : addedQueens.keySet() ) {
-			wholePicture += "\nQueen: " + square + ":" + addedQueens.get( square );
+		for ( String square : queens.keySet() ) {
+			wholePicture += "\nQueen: " + square + ":" + queens.get( square );
 		}
 
 		return wholePicture;
