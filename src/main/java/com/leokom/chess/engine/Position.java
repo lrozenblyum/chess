@@ -58,8 +58,17 @@ public class Position {
 	 * @param square
 	 */
 	public void addPawn( Side side, String square ) {
+		if ( !isSquareValid( square ) ) {
+			throw new IllegalArgumentException( "Wrong destination square: " + square );
+		}
 		//TODO: what if the square is already occupied?
 		pawns.put( square, side );
+	}
+
+	private static final int VALID_SQUARE_LENGTH = 2;
+	//may add some char/int validations. So far length is enough
+	private boolean isSquareValid( String square ) {
+		return square.length() == VALID_SQUARE_LENGTH;
 	}
 
 	/**

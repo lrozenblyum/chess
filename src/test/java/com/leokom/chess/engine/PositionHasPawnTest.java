@@ -99,6 +99,11 @@ public class PositionHasPawnTest {
 		assertFalse( position.hasQueen( side, anotherSquare ) );
 	}
 
+	@Test( expected = IllegalArgumentException.class )
+	public void cannotAddPawnToWrongSquare() {
+		position.addPawn( Side.WHITE, "h8Q" );
+	}
+
 	//TODO: when new pieces are introduced:
 	//add asserts that if we add such a piece on a square,
 	//hasPawn will return FALSE!
