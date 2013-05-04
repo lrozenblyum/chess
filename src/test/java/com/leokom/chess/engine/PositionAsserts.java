@@ -29,8 +29,10 @@ public final class PositionAsserts {
 	}
 
 	private static void assertHasQueen( Position position, String square, Side side ) {
-		assertTrue( "Queen of " + side + " is expected to be on square: " + square,
-				position.hasQueen( side, square ) );
+		assertTrue(
+			"Queen of " + side + " is expected to be on square: " + square +
+			" Whole position is: " + position,
+			position.hasQueen( side, square ) );
 	}
 
 	static void assertEmptySquare( Position position, String square ) {

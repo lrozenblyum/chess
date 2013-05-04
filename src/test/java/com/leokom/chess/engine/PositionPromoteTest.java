@@ -29,7 +29,17 @@ public class PositionPromoteTest {
 
 		Position newPosition = position.move( "a7", "a8Q" );
 		assertEmptySquare( newPosition, "a7" );
-		assertHasPiece( newPosition, PieceType.QUEEN, Side.WHITE, "a8" );
+		assertHasPiece( newPosition, PieceType.QUEEN, WHITE, "a8" );
 
+	}
+
+	@Test
+	public void toQueenBlack() {
+		Position position = new Position( null ); //any en passant...
+		position.addPawn( BLACK, "b2" );
+
+		Position newPosition = position.move( "b2", "b1Q" );
+		assertEmptySquare( newPosition, "b2" );
+		assertHasPiece( newPosition, PieceType.QUEEN, BLACK, "b1" );
 	}
 }

@@ -253,8 +253,13 @@ public class Position {
 	public Position move( String squareFrom, String squareTo ) {
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
+
+
+		final Side movingSide = squaresOccupiedByPawn.get( squareFrom );
 		if ( squareTo.endsWith( "Q" ) ) {
-			result.addQueen( Side.WHITE, Board.fileOfSquare( squareFrom ) + WHITE_PAWN_PROMOTION_RANK );
+			result.addQueen(
+				movingSide,
+				Board.fileOfSquare( squareFrom ) + getPromotionRank( movingSide ) );
 		}
 
 		final Collection<String> copySet = new HashSet<String>( squaresOccupiedByPawn.keySet() );
@@ -275,7 +280,7 @@ public class Position {
 
 		//basing on current overwriting effect (must be the last),
 		//to capture...
-		result.addPawn( squaresOccupiedByPawn.get( squareFrom ), squareTo );
+		result.addPawn( movingSide, squareTo );
 
 		return result;
 	}
@@ -354,5 +359,20 @@ public class Position {
 
 	public boolean hasQueen( Side side, String square ) {
 		return addedQueens.get( square ) == side;
+	}
+
+	//currently for tests only...
+	@Override
+	public String toString() {
+		String wholePicture = "";
+		for( String square : squaresOccupiedByPawn.keySet() ) {
+			wholePicture += "\nPawn: " + square + ":" + squaresOccupiedByPawn.get( square );
+		}
+
+		for ( String square : addedQueens.keySet() ) {
+			wholePicture += "\nQueen: " + square + ":" + addedQueens.get( square );
+		}
+
+		return wholePicture;
 	}
 }
