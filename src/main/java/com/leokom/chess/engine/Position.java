@@ -254,7 +254,7 @@ public class Position {
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
 		if ( squareTo.endsWith( "Q" ) ) {
-			result.addQueen( Side.WHITE, Board.fileOfSquare( squareFrom ) + 8 );
+			result.addQueen( Side.WHITE, Board.fileOfSquare( squareFrom ) + WHITE_PAWN_PROMOTION_RANK );
 		}
 
 		final Collection<String> copySet = new HashSet<String>( squaresOccupiedByPawn.keySet() );
