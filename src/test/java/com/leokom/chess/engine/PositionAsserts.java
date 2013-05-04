@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -41,6 +42,11 @@ public final class PositionAsserts {
 
 	static void assertHasPawn( Position position, String square, Side side ) {
 		assertTrue( "Pawn of " + side + " is expected to be on square: " + square,
+				position.hasPawn( side, square ) );
+	}
+
+	static void assertHasNoPawn( Position position, String square, Side side ) {
+		assertFalse( "Pawn of " + side + " is NOT expected to be on square: " + square,
 				position.hasPawn( side, square ) );
 	}
 
