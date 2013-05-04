@@ -253,8 +253,8 @@ public class Position {
 	public Position move( String squareFrom, String squareTo ) {
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
-		if ( squareTo.equals( "c8Q" ) ) {
-			result.addQueen( Side.WHITE, "c8" );
+		if ( squareTo.endsWith( "Q" ) ) {
+			result.addQueen( Side.WHITE, Board.fileOfSquare( squareFrom ) + 8 );
 		}
 
 		final Collection<String> copySet = new HashSet<String>( squaresOccupiedByPawn.keySet() );

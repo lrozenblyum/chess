@@ -21,4 +21,15 @@ public class PositionPromoteTest {
 		assertEmptySquare( newPosition, "c7" );
 		assertHasPiece( newPosition, PieceType.QUEEN, Side.WHITE, "c8" );
 	}
+
+	@Test
+	public void toQueenAnotherFile(){
+		Position position = new Position( null ); //any en passant...
+		position.addPawn( WHITE, "a7" );
+
+		Position newPosition = position.move( "a7", "a8Q" );
+		assertEmptySquare( newPosition, "a7" );
+		assertHasPiece( newPosition, PieceType.QUEEN, Side.WHITE, "a8" );
+
+	}
 }
