@@ -274,6 +274,7 @@ public class Position {
 			result.addQueen(
 				movingSide,
 				move.substring( 0, 2 ) );  //depending on format 'h8Q'
+			return result;
 		}
 
 		final Collection<String> copySet = new HashSet<String>( pawns.keySet() );
