@@ -270,7 +270,7 @@ public class Position {
 
 		final Side movingSide = pawns.get( squareFrom );
 
-		if ( move.endsWith( "Q" ) ) {
+		if ( isPromotion( move ) ) {
 			result.addQueen(
 				movingSide,
 				move.substring( 0, 2 ) );  //depending on format 'h8Q'
@@ -300,6 +300,10 @@ public class Position {
 		return result;
 	}
 
+	private boolean isPromotion( String move ) {
+		return move.endsWith( "Q" );
+	}
+
 	/**
 	 * Get square where the en-passant captured piece is on
 	 * (null if we are not doing en passant)
@@ -324,14 +328,19 @@ public class Position {
 	 * Get a file for new position, for which the next move could be en passant
 	 * (if possible)
 	 * @param squareFrom square from which the piece is going to move
-	 * @param squareTo square to which the piece is going to move
+	 * @param move square to which the piece is going to move OR square+promotion...
 	 * @return possible en passant file (null if impossible)
 	 */
-	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
+	private String getNewEnPassantFile( String squareFrom, String move ) {
+		//promotional move doesn't create en passant possibility
+		if ( isPromotion( move ) ) {
+			return null;
+		}
+
 		final Side side = pawns.get( squareFrom );
 
 		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
-				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
+				rankOfSquare( move ) == getDoubleMoveRank( side ) ?
 				fileOfSquare( squareFrom ) : null;
 	}
 
