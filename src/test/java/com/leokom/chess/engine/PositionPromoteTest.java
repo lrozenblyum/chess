@@ -41,4 +41,20 @@ public class PositionPromoteTest {
 		assertEmptySquare( newPosition, "b2" );
 		assertHasPiece( newPosition, PieceType.QUEEN, BLACK, "b1" );
 	}
+
+	@Test
+	public void captureLeftSide() {
+		Position position = new Position( null );
+		position.addPawn( Side.WHITE, "h7" );
+
+		//the only piece I can capture of the opposite side on the 8'th rank
+		//is queen... pawn cannot exist there. other pieces haven't been introduced
+		//into the game yet
+		position.addQueen( Side.BLACK, "g8" );
+
+		Position newPosition = position.move( "h7", "g8Q" );
+
+		assertEmptySquare( newPosition, "h7" );
+		assertHasPiece( newPosition, PieceType.QUEEN, WHITE, "g8" );
+	}
 }

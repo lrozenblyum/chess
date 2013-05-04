@@ -256,10 +256,11 @@ public class Position {
 
 
 		final Side movingSide = squaresOccupiedByPawn.get( squareFrom );
+
 		if ( squareTo.endsWith( "Q" ) ) {
 			result.addQueen(
 				movingSide,
-				Board.fileOfSquare( squareFrom ) + getPromotionRank( movingSide ) );
+				squareTo.substring( 0, 2 ) );  //depending on format 'h8Q'
 		}
 
 		final Collection<String> copySet = new HashSet<String>( squaresOccupiedByPawn.keySet() );
