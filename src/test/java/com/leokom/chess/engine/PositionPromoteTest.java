@@ -2,9 +2,7 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
-import static com.leokom.chess.engine.PositionAsserts.assertEmptySquare;
-import static com.leokom.chess.engine.PositionAsserts.assertHasNoPawn;
-import static com.leokom.chess.engine.PositionAsserts.assertHasPiece;
+import static com.leokom.chess.engine.PositionAsserts.*;
 import static com.leokom.chess.engine.Side.*;
 
 /**
@@ -60,5 +58,20 @@ public class PositionPromoteTest {
 		assertHasPiece( newPosition, PieceType.QUEEN, WHITE, "g8" );
 		assertHasNoPawn( newPosition, "g8", WHITE );
 		assertHasNoPawn( newPosition, "h8", WHITE );
+	}
+
+	@Test
+	public void promotionLeavesRestOfPositionUntouched() {
+		Position position = new Position( null );
+		position.addPawn( WHITE, "a7" );
+		position.addPawn( WHITE, "c5" );
+		position.addQueen( BLACK, "h4" );
+		position.addPawn( BLACK, "d5" );
+
+		Position newPosition = position.move( "a7", "a8Q" );
+
+		assertHasPawn( newPosition, "d5", BLACK );
+		assertHasPiece( newPosition, PieceType.QUEEN, BLACK, "h4" );
+		assertHasPawn( newPosition, "c5", WHITE );
 	}
 }
