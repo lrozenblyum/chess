@@ -379,7 +379,7 @@ public class Position {
 	 * @return true if square is empty
 	 */
 	boolean isEmptySquare( String square ) {
-		return pawns.get( square ) == null;
+		return pawns.get( square ) == null && queens.get( square ) == null;
 	}
 
 	/**
