@@ -274,7 +274,6 @@ public class Position {
 			result.addQueen(
 				movingSide,
 				move.substring( 0, 2 ) );  //depending on format 'h8Q'
-			return result;
 		}
 
 		final Collection<String> copySet = new HashSet<String>( pawns.keySet() );
@@ -295,7 +294,9 @@ public class Position {
 
 		//basing on current overwriting effect (must be the last),
 		//to capture...
-		result.addPawn( movingSide, move );
+		if ( !isPromotion( move ) ) {
+			result.addPawn( movingSide, move );
+		}
 
 		return result;
 	}
