@@ -271,6 +271,19 @@ public class PositionPawnTest {
 				"e8Q", "e8N", "e8R", "e8B" );
 	}
 
+	//TODO; instead of this test may extend addCapturable
+	//to support Random pieces... But I'm not sure
+	//I need Random at all.
+	@Test
+	public void promotionCanCaptureOppositeQueen() {
+		position.addQueen( Side.BLACK, "d8" );
+
+		testPawn( position, "e7", Side.WHITE,
+				"e8Q", "e8N", "e8R", "e8B",
+				"d8Q", "d8N", "d8R", "d8B" );
+	}
+
+
 	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
 	//since it won't be created by 'addCapturable'
 	//look through other tests to check this
