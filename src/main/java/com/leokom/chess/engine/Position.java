@@ -279,24 +279,25 @@ public class Position {
 			result.addQueen( movingSide, squareTo );
 		}
 
-		final Collection<String> copySet = new HashSet<String>( pawns.keySet() );
-		copySet.remove( squareFrom );
+		final Collection<String> pawnsToCopy = new HashSet<String>( pawns.keySet() );
+		pawnsToCopy.remove( squareFrom );
 
 		//en passant capture requires extra processing
 		//because we capture a piece not being on the target square
 		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, move );
 		if ( enPassantCapturedPawnSquare != null ) {
-			copySet.remove( enPassantCapturedPawnSquare );
+			pawnsToCopy.remove( enPassantCapturedPawnSquare );
 		}
 
-		if ( !copySet.isEmpty() ) {
-			for ( final String busySquare : copySet ) {
+		if ( !pawnsToCopy.isEmpty() ) {
+			for ( final String busySquare : pawnsToCopy ) {
 				result.addPawn( pawns.get( busySquare ), busySquare );
 			}
 		}
 
 		//will work till we implement queens move...
-		for ( String queen : queens.keySet() ) {
+		final Set<String> queensToCopy = queens.keySet(); //TODO: need copy?
+		for ( String queen : queensToCopy ) {
 			//TODO: this if looks ugly - just
 			//to prevent very specific case:
 			//promotion with capture of opposite queen
