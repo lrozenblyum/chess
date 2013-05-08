@@ -315,7 +315,7 @@ public class Position {
 		return result;
 	}
 
-	private boolean isPromotion( String move ) {
+	private static boolean isPromotion( String move ) {
 		return move.endsWith( "Q" );
 	}
 
