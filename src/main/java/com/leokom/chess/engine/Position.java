@@ -264,16 +264,19 @@ public class Position {
 	 * @return new position, which is received from current by doing 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
-		final String newEnPassantFile = getNewEnPassantFile( squareFrom, move );
-		final Position result = new Position( newEnPassantFile );
+		//depending on format 'h8Q'
+		final String squareTo =
+				isPromotion( move ) ?
+						move.substring( 0, 2 ) :
+						move;
 
+		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
+		final Position result = new Position( newEnPassantFile );
 
 		final Side movingSide = pawns.get( squareFrom );
 
 		if ( isPromotion( move ) ) {
-			result.addQueen(
-				movingSide,
-				move.substring( 0, 2 ) );  //depending on format 'h8Q'
+			result.addQueen( movingSide, squareTo );
 		}
 
 		final Collection<String> copySet = new HashSet<String>( pawns.keySet() );
@@ -292,10 +295,20 @@ public class Position {
 			}
 		}
 
+		//will work till we implement queens move...
+		for ( String queen : queens.keySet() ) {
+			//TODO: this if looks ugly - just
+			//to prevent very specific case:
+			//promotion with capture of opposite queen
+			if ( !queen.equals( squareTo ) ) {
+				result.addQueen( queens.get( queen ), queen );
+			}
+		}
+
 		//basing on current overwriting effect (must be the last),
 		//to capture...
 		if ( !isPromotion( move ) ) {
-			result.addPawn( movingSide, move );
+			result.addPawn( movingSide, squareTo );
 		}
 
 		return result;
