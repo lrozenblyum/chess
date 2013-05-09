@@ -340,22 +340,17 @@ public class Position {
 	}
 
 	/**
-	 * Get a file for new position, for which the next move could be en passant
+	 * Get a file for new position, for which the next squareTo could be en passant
 	 * (if possible)
-	 * @param squareFrom square from which the piece is going to move
-	 * @param move square to which the piece is going to move OR square+promotion...
+	 * @param squareFrom square from which the piece is going to squareTo
+	 * @param squareTo square to which the piece is going to squareTo
 	 * @return possible en passant file (null if impossible)
 	 */
-	private String getNewEnPassantFile( String squareFrom, String move ) {
-		//promotional move doesn't create en passant possibility
-		if ( isPromotion( move ) ) {
-			return null;
-		}
-
+	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = pawns.get( squareFrom );
 
 		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
-				rankOfSquare( move ) == getDoubleMoveRank( side ) ?
+				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
 				fileOfSquare( squareFrom ) : null;
 	}
 
