@@ -242,7 +242,7 @@ public class Position {
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
 		//if not found is null -> null != side
-		return pawns.get( square ) == side;
+		return hasPawn( side, square ) || queens.get( square ) == side;
 	}
 
 	private static int getDoubleMoveRank( Side side ) {
@@ -368,7 +368,7 @@ public class Position {
 	 * @return true iff such pawn is present
 	 */
 	boolean hasPawn( Side side, String square ) {
-		return isOccupiedBy( square, side );
+		return pawns.get( square ) == side;
 	}
 
 	//TODO: if this method is used in real production code
