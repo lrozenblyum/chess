@@ -250,18 +250,18 @@ public class Position {
 	}
 
 	/**
-	 * Perform move from squareFrom to move
+	 * Make move from squareFrom
 	 * We guarantee returning a new position instead of
 	 * modifying the current one.
 	 *
 	 * The implementation should execute the move provided, guaranteeing that unaffected
-	 * pieces must be left on the same place
+	 * pieces must be kept on the same place
 	 * (NOTE: unaffected is not so easy as can be imagined, e.g. when we move en passant the piece we capture
 	 * IS affected! However it's not related to squareFrom and move)
 	 * @param squareFrom square where the piece being moved exists BEFORE the move
 	 * @param move either simply destination square (e.g. 'e4')
 	 *             or destination square with capture info (e.g. 'h8Q')
-	 * @return new position, which is received from current by doing 1 move
+	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
 		//depending on format 'h8Q'
