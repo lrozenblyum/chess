@@ -283,6 +283,13 @@ public class PositionPawnTest {
 				"d8Q", "d8N", "d8R", "d8B" );
 	}
 
+	@Test
+	public void pawnCapturesQueen() {
+		position.addQueen( Side.WHITE, "c4" );
+		testPawn( position, "d5", Side.BLACK,
+				"d4", "c4" );
+	}
+
 
 	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
 	//since it won't be created by 'addCapturable'
