@@ -346,6 +346,8 @@ public class Position {
 	 * @param squareTo square to which the piece is going to squareTo
 	 * @return possible en passant file (null if impossible)
 	 */
+	//TODO: when we'll implement other pieces moves - this must be executed
+	//only for pawns!
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = pawns.get( squareFrom );
 
