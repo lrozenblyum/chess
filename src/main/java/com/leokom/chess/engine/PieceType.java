@@ -11,5 +11,11 @@ public enum PieceType {
 	 * in team with other pawns and pieces could be very powerful
 	 * It also could be promoted to other pieces except King
 	 */
-	PAWN
+	PAWN,
+
+	/**
+	 * The piece that is considered to be the strongest in most cases.
+	 * However the game may continue without it (in contrary to game without king)
+	 */
+	QUEEN
 }
