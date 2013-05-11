@@ -129,6 +129,13 @@ public class Position {
 			}
 		}
 
+		for ( String potentialMoveDestination : result ) {
+			if ( isOccupiedBy( potentialMoveDestination, side ) ) {
+				//TODO: safe to do this in for block??
+				result.remove( potentialMoveDestination );
+			}
+		}
+
 		return result;
 	}
 
