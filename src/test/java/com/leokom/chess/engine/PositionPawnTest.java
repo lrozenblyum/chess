@@ -302,6 +302,12 @@ public class PositionPawnTest {
 		testPawn( position, "d6", Side.BLACK );
 	}
 
+	@Test
+	public void opponentPawnBlocksMoving() {
+		position.addPawn( Side.BLACK, "c7" );
+		testPawn( position, "c6", Side.WHITE );
+	}
+
 	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
 	//since it won't be created by 'addCapturable'
 	//look through other tests to check this
