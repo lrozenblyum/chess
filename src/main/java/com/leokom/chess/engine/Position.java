@@ -134,7 +134,7 @@ public class Position {
 		for ( String potentialMoveDestination : result ) {
 			//pawn cannot move to occupied square
 			//if file is different - it's capture and should be allowed
-			final boolean isMoveForward = fileOfSquare( potentialMoveDestination ).equals( fileOfSquare( square ) );
+			final boolean isMoveForward = sameFile( potentialMoveDestination, square );
 			if ( isMoveForward && isOccupied( potentialMoveDestination ) ) {
 				busySquares.add( potentialMoveDestination );
 			}
