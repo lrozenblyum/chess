@@ -296,6 +296,12 @@ public class PositionPawnTest {
 		testPawn( position, "d6", Side.BLACK );
 	}
 
+	@Test
+	public void ownQueenBlocksMovingForward() {
+		position.addQueen( Side.BLACK, "d5" );
+		testPawn( position, "d6", Side.BLACK );
+	}
+
 	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
 	//since it won't be created by 'addCapturable'
 	//look through other tests to check this
