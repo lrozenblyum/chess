@@ -314,6 +314,12 @@ public class PositionPawnTest {
 		testPawn( position, "e2", Side.WHITE, "e3" );
 	}
 
+	@Test
+	public void doubleMoveImpossibleFirstBusy() {
+		position.addPawn( Side.BLACK, "e3" );
+		testPawn( position, "e2", Side.WHITE );
+	}
+
 	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
 	//since it won't be created by 'addCapturable'
 	//look through other tests to check this
