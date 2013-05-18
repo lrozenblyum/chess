@@ -129,12 +129,18 @@ public class Position {
 			}
 		}
 
+
+		Set< String > busySquares = new HashSet<String>();
 		for ( String potentialMoveDestination : result ) {
-			if ( isOccupiedBy( potentialMoveDestination, side ) ) {
-				//TODO: safe to do this in for block??
-				result.remove( potentialMoveDestination );
+			//pawn cannot move to occupied square
+			//if file is different - it's capture and should be allowed
+			final boolean isMoveForward = fileOfSquare( potentialMoveDestination ).equals( fileOfSquare( square ) );
+			if ( isMoveForward && isOccupied( potentialMoveDestination ) ) {
+				busySquares.add( potentialMoveDestination );
 			}
 		}
+
+		result.removeAll( busySquares );
 
 		return result;
 	}
@@ -250,6 +256,10 @@ public class Position {
 	private boolean isOccupiedBy( String square, Side side ) {
 		//if not found is null -> null != side
 		return hasPawn( side, square ) || queens.get( square ) == side;
+	}
+
+	private boolean isOccupied( String square ) {
+		return isOccupiedBy( square, Side.BLACK ) || isOccupiedBy( square, Side.WHITE );
 	}
 
 	private static int getDoubleMoveRank( Side side ) {
