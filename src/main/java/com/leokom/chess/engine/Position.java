@@ -97,7 +97,7 @@ public class Position {
 		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
-		final Side side = pawns.get( square );
+		final Side side = getPawnsSide( square );
 
 		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
 		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
@@ -154,7 +154,7 @@ public class Position {
 			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getInitialRank( side )
-				&& isOccupied( file + intermediateRank ) ) {
+				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
 
 				disallowedMoves.add( potentialMove );
 			}
@@ -162,6 +162,10 @@ public class Position {
 
 		result.removeAll( disallowedMoves );
 		return result;
+	}
+
+	private Side getPawnsSide( String square ) {
+		return pawns.get( square );
 	}
 
 	/**
@@ -315,7 +319,7 @@ public class Position {
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
 
-		final Side movingSide = pawns.get( squareFrom );
+		final Side movingSide = getPawnsSide( squareFrom );
 
 		if ( isPromotion( move ) ) {
 			result.addQueen( movingSide, squareTo );
@@ -333,7 +337,7 @@ public class Position {
 
 		if ( !pawnsToCopy.isEmpty() ) {
 			for ( final String busySquare : pawnsToCopy ) {
-				result.addPawn( pawns.get( busySquare ), busySquare );
+				result.addPawn( getPawnsSide( busySquare ), busySquare );
 			}
 		}
 
@@ -383,7 +387,7 @@ public class Position {
 	private String getEnPassantCapturedPieceSquare( String squareFrom, String squareTo ) {
 		//rank only from which a pawn can execute en passant move
 		//(it's equal to rank where the opposite piece being captured is on)
-		int enPassantPossibleRank = getEnPassantPossibleRank( pawns.get( squareFrom ) );
+		int enPassantPossibleRank = getEnPassantPossibleRank( getPawnsSide( squareFrom ) );
 
 		if ( this.enPassantFile != null &&
 			rankOfSquare( squareFrom ) == enPassantPossibleRank &&
@@ -403,7 +407,7 @@ public class Position {
 	//TODO: when we'll implement other pieces moves - this must be executed
 	//only for pawns!
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
-		final Side side = pawns.get( squareFrom );
+		final Side side = getPawnsSide( squareFrom );
 
 		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
 				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
@@ -419,7 +423,7 @@ public class Position {
 	 * @return true iff such pawn is present
 	 */
 	boolean hasPawn( Side side, String square ) {
-		return pawns.get( square ) == side;
+		return getPawnsSide( square ) == side;
 	}
 
 	//TODO: if this method is used in real production code
@@ -430,7 +434,7 @@ public class Position {
 	 * @return true if square is empty
 	 */
 	boolean isEmptySquare( String square ) {
-		return pawns.get( square ) == null && queens.get( square ) == null;
+		return getPawnsSide( square ) == null && queens.get( square ) == null;
 	}
 
 	/**
@@ -455,7 +459,7 @@ public class Position {
 	public String toString() {
 		String wholePicture = "";
 		for( String square : pawns.keySet() ) {
-			wholePicture += "\nPawn: " + square + ":" + pawns.get( square );
+			wholePicture += "\nPawn: " + square + ":" + getPawnsSide( square );
 		}
 
 		for ( String square : queens.keySet() ) {
