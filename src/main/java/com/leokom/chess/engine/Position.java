@@ -324,35 +324,23 @@ public class Position {
 
 		final Side movingSide = getSide( squareFrom );
 
-		if ( isPromotion( move ) ) {
-			result.addQueen( movingSide, squareTo );
+		//cloning position
+		for ( String square : pieces.keySet() ) {
+			//looks safe as both keys and pieces are IMMUTABLE
+			result.pieces.put( square, pieces.get( square ) );
 		}
 
-		final Collection<String> pawnsToCopy = getAll( PieceType.PAWN );
-		pawnsToCopy.remove( squareFrom );
+		result.pieces.remove( squareFrom );
 
 		//en passant capture requires extra processing
 		//because we capture a piece not being on the target square
 		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, move );
 		if ( enPassantCapturedPawnSquare != null ) {
-			pawnsToCopy.remove( enPassantCapturedPawnSquare );
+			result.pieces.remove( enPassantCapturedPawnSquare );
 		}
 
-		if ( !pawnsToCopy.isEmpty() ) {
-			for ( final String busySquare : pawnsToCopy ) {
-				result.addPawn( getSide( busySquare ), busySquare );
-			}
-		}
-
-		//will work till we implement queens move...
-		final Set<String> queensToCopy = getAll( PieceType.QUEEN );
-		for ( String queen : queensToCopy ) {
-			//TODO: this if looks ugly - just
-			//to prevent very specific case:
-			//promotion with capture of opposite queen
-			if ( !queen.equals( squareTo ) ) {
-				result.addQueen( getSide( queen ), queen );
-			}
+		if ( isPromotion( move ) ) {
+			result.addQueen( movingSide, squareTo );
 		}
 
 		//basing on current overwriting effect (must be the last),
