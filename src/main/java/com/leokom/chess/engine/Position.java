@@ -41,12 +41,9 @@ public class Position {
 	 */
 	private static final int PROMOTION_MOVE_SIZE = 3;
 
-	/**
-	 * square -> side
-	 */
-	private final Map< String, Side > pawns = new HashMap<String, Side>();
-
 	private final Map< String, Side > queens = new HashMap<String, Side>();
+
+	private final Map< String, Piece > pieces = new HashMap<String, Piece>();
 
 
 	private final String enPassantFile;
@@ -68,7 +65,7 @@ public class Position {
 			throw new IllegalArgumentException( "Wrong destination square: " + square );
 		}
 		//TODO: what if the square is already occupied?
-		pawns.put( square, side );
+		pieces.put( square, new Piece( PieceType.PAWN, side ) );
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
@@ -181,7 +178,14 @@ public class Position {
 	}
 
 	private Side getPawnsSide( String square ) {
-		return pawns.get( square );
+		final Piece piece = pieces.get( square );
+		if ( piece == null ) {
+			return null; //TODO: correct? Some code relied on this.
+		}
+		if ( piece.getPieceType() != PieceType.PAWN ) {
+			throw new IllegalArgumentException( "Square doesn't contain pawn: " + square );
+		}
+		return piece.getSide();
 	}
 
 	/**
@@ -342,7 +346,7 @@ public class Position {
 			result.addQueen( movingSide, squareTo );
 		}
 
-		final Collection<String> pawnsToCopy = new HashSet<String>( pawns.keySet() );
+		final Collection<String> pawnsToCopy = getAllPawns();
 		pawnsToCopy.remove( squareFrom );
 
 		//en passant capture requires extra processing
@@ -376,6 +380,17 @@ public class Position {
 		}
 
 		return result;
+	}
+
+	private Set< String > getAllPawns() {
+		Set< String > pawnSquares = new HashSet<String>();
+		for ( String square : pieces.keySet() ) {
+			if ( pieces.get( square ).getPieceType() == PieceType.PAWN ) {
+				pawnSquares.add( square );
+			}
+		}
+
+		return pawnSquares;
 	}
 
 	/**
@@ -475,14 +490,9 @@ public class Position {
 	@Override
 	public String toString() {
 		String wholePicture = "";
-		for( String square : pawns.keySet() ) {
-			wholePicture += "\nPawn: " + square + ":" + getPawnsSide( square );
+		for( String square : pieces.keySet() ) {
+			wholePicture += pieces.get( square );
 		}
-
-		for ( String square : queens.keySet() ) {
-			wholePicture += "\nQueen: " + square + ":" + queens.get( square );
-		}
-
 		return wholePicture;
 	}
 }
