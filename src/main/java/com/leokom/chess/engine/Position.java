@@ -134,9 +134,20 @@ public class Position {
 			}
 		}
 
+		result.removeAll( getImpossibleMovesForPawn( result, square ) );
+		return result;
+	}
 
+	/**
+	 * Get set of moves from initial potentialPawnMoves
+	 * that aren't allowed according to chess rules
+	 * @param potentialPawnMoves moves that were detected as potential possibilities
+	 * @param square current pawn position
+	 * @return set of moves to be removed
+	 */
+	private Set<String> getImpossibleMovesForPawn( Set<String> potentialPawnMoves, String square ) {
 		Set< String > disallowedMoves = new HashSet<String>();
-		for ( String potentialMove : result ) {
+		for ( String potentialMove : potentialPawnMoves ) {
 			String destinationSquare = getDestinationSquare( potentialMove );
 
 			//pawn cannot move to occupied square
@@ -150,7 +161,7 @@ public class Position {
 				disallowedMoves.add( potentialMove );
 			}
 
-			// does it look logical? 2+4-->3, 7+5-->6
+			Side side = getPawnsSide( square );
 			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getInitialRank( side )
@@ -159,9 +170,7 @@ public class Position {
 				disallowedMoves.add( potentialMove );
 			}
 		}
-
-		result.removeAll( disallowedMoves );
-		return result;
+		return disallowedMoves;
 	}
 
 	private Side getPawnsSide( String square ) {
@@ -174,6 +183,7 @@ public class Position {
 	 * @return rank
 	 */
 	private static int getPawnDoubleMoveIntermediateRank( Side side ) {
+		// does it look logical? 2+4-->3, 7+5-->6
 		return ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
 	}
 
