@@ -316,7 +316,6 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
-		//depending on format 'h8Q'
 		final String squareTo = getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
@@ -341,11 +340,8 @@ public class Position {
 
 		if ( isPromotion( move ) ) {
 			result.addQueen( movingSide, squareTo );
-		}
-
-		//basing on current overwriting effect (must be the last),
-		//to capture...
-		if ( !isPromotion( move ) ) {
+		} else {
+			//if it's capture - also ok - as it overwrites....
 			result.addPawn( movingSide, squareTo );
 		}
 
