@@ -41,4 +41,14 @@ final class Board {
 	static String fileToRight( String file ) {
 		return String.valueOf( (char) ( file.charAt( 0 ) + 1 ) );
 	}
+
+	/**
+	 *
+	 * @param firstSquare
+	 * @param secondSquare
+	 * @return true if squares are on the same file
+	 */
+	static boolean sameFile( String firstSquare, String secondSquare ) {
+		return fileOfSquare( firstSquare ).equals( fileOfSquare( secondSquare ) );
+	}
 }

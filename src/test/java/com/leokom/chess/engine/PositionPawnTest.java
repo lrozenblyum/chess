@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.leokom.chess.engine.PawnUtils.testPawn;
+import static com.leokom.chess.engine.PositionUtils.addAny;
 import static com.leokom.chess.engine.PositionUtils.addCapturable;
 
 /**
@@ -290,6 +291,41 @@ public class PositionPawnTest {
 				"d4", "c4" );
 	}
 
+	@Test
+	public void ownPawnBlocksMovingForward() {
+		position.addPawn( Side.BLACK, "d5" );
+		testPawn( position, "d6", Side.BLACK );
+	}
+
+	@Test
+	public void ownQueenBlocksMovingForward() {
+		position.addQueen( Side.BLACK, "d5" );
+		testPawn( position, "d6", Side.BLACK );
+	}
+
+	@Test
+	public void opponentPawnBlocksMoving() {
+		position.addPawn( Side.BLACK, "c7" );
+		testPawn( position, "c6", Side.WHITE );
+	}
+
+	@Test
+	public void doubleMoveImpossibleSecondBusy() {
+		position.addPawn( Side.BLACK, "e4" );
+		testPawn( position, "e2", Side.WHITE, "e3" );
+	}
+
+	@Test
+	public void doubleMoveImpossibleFirstBusy() {
+		position.addPawn( Side.BLACK, "e3" );
+		testPawn( position, "e2", Side.WHITE );
+	}
+
+	@Test
+	public void doubleMoveBlackImpossibleFirstBusy() {
+		position.addPawn( Side.BLACK, "h6" );
+		testPawn( position, "h7", Side.BLACK );
+	}
 
 	//TODO: while it's not very obvious... it doesn't check if won't capture OUR KING
 	//since it won't be created by 'addCapturable'
@@ -300,5 +336,11 @@ public class PositionPawnTest {
 		addCapturable( position, Side.WHITE, "d8" );
 
 		testPawn( position, "e7", Side.WHITE, "e8Q", "e8N", "e8R", "e8B" );
+	}
+
+	@Test
+	public void promotionCannotGoIfBlocked() {
+		position.addQueen( Side.WHITE, "a8" ); //any side...
+		testPawn( position, "a7", Side.WHITE );
 	}
 }
