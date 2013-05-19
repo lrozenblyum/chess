@@ -36,6 +36,11 @@ public class Position {
 	);
 
 	/**
+	 * Size of promotion move (e.g. "h1Q")
+	 */
+	private static final int PROMOTION_MOVE_SIZE = 3;
+
+	/**
 	 * square -> side
 	 */
 	private final Map< String, Side > pawns = new HashMap<String, Side>();
@@ -131,22 +136,24 @@ public class Position {
 
 
 		Set< String > disallowedMoves = new HashSet<String>();
-		for ( String potentialMoveDestination : result ) {
+		for ( String potentialMove : result ) {
+			String destinationSquare = getDestinationSquare( potentialMove );
+
 			//pawn cannot move to occupied square
 			//if file is different - it's capture and should be allowed
-			final boolean isMoveForward = sameFile( potentialMoveDestination, square );
-			if ( isMoveForward && isOccupied( potentialMoveDestination ) ) {
-				disallowedMoves.add( potentialMoveDestination );
+			final boolean isMoveForward = sameFile( destinationSquare, square );
+			if ( isMoveForward && isOccupied( destinationSquare ) ) {
+				disallowedMoves.add( potentialMove );
 			}
 
 			// does it look logical? 2+4-->3, 7+5-->6
 			int intermediateRank = ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
 			if ( isMoveForward &&
-				rankOfSquare( potentialMoveDestination ) == getDoubleMoveRank( side ) &&
+				rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getInitialRank( side )
 				&& isOccupied( file + intermediateRank ) ) {
 
-				disallowedMoves.add( potentialMoveDestination );
+				disallowedMoves.add( potentialMove );
 			}
 		}
 
@@ -291,10 +298,7 @@ public class Position {
 	 */
 	public Position move( String squareFrom, String move ) {
 		//depending on format 'h8Q'
-		final String squareTo =
-				isPromotion( move ) ?
-						move.substring( 0, 2 ) :
-						move;
+		final String squareTo = getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 		final Position result = new Position( newEnPassantFile );
@@ -341,8 +345,20 @@ public class Position {
 		return result;
 	}
 
+	/**
+	 * Get destination square from the move
+	 *
+	 * @param move in format like e2 or f1Q
+	 * @return destination square (e2 or f1 correspondingly)
+	 */
+	private String getDestinationSquare( String move ) {
+		return isPromotion( move ) ?
+				move.substring( 0, 2 ) :
+				move;
+	}
+
 	private static boolean isPromotion( String move ) {
-		return move.endsWith( "Q" );
+		return move.length() == PROMOTION_MOVE_SIZE;
 	}
 
 	/**
