@@ -308,7 +308,7 @@ public class Position {
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
 		//if not found is null -> null != side
-		return hasPawn( side, square ) || queens.get( square ) == side;
+		return hasPawn( side, square ) || hasQueen( side, square );
 	}
 
 	private boolean isOccupied( String square ) {
