@@ -348,17 +348,6 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getAll( PieceType pieceType ) {
-		Set< String > pieceSquares = new HashSet<String>();
-		for ( String square : pieces.keySet() ) {
-			if ( pieces.get( square ).getPieceType() == pieceType ) {
-				pieceSquares.add( square );
-			}
-		}
-
-		return pieceSquares;
-	}
-
 	/**
 	 * Get destination square from the move
 	 *
