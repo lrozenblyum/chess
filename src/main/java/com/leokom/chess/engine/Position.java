@@ -296,14 +296,15 @@ public class Position {
 
 	/**
 	 * Check if square provided is occupied by the side
-	 * @param square
-	 * @param side
+	 * @param square square to be validated
+	 * @param side side which is desired to be
 	 * @return true if square is occupied by the side, false otherwise
 	 * (means NOT occupied or occupied by the opposite side)
 	 */
 	private boolean isOccupiedBy( String square, Side side ) {
 		//if not found is null -> null != side
-		return hasPawn( side, square ) || hasQueen( side, square );
+		final Piece piece = pieces.get( square );
+		return piece != null && piece.getSide() == side;
 	}
 
 	private boolean isOccupied( String square ) {
