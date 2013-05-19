@@ -142,14 +142,17 @@ public class Position {
 			//pawn cannot move to occupied square
 			//if file is different - it's capture and should be allowed
 			final boolean isMoveForward = sameFile( destinationSquare, square );
-			if ( isMoveForward && isOccupied( destinationSquare ) ) {
+			if ( !isMoveForward ) {
+				continue;
+			}
+
+			if ( isOccupied( destinationSquare ) ) {
 				disallowedMoves.add( potentialMove );
 			}
 
 			// does it look logical? 2+4-->3, 7+5-->6
 			int intermediateRank = ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
-			if ( isMoveForward &&
-				rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
+			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getInitialRank( side )
 				&& isOccupied( file + intermediateRank ) ) {
 
