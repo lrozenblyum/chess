@@ -1,7 +1,7 @@
 package com.leokom.chess.engine;
 
 /**
- * Represent single piece of some specific side
+ * Represent single IMMUTABLE piece of some specific side
  * (e.g. white rook, black pawn)
  */
 class Piece {
