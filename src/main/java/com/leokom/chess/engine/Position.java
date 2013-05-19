@@ -151,7 +151,7 @@ public class Position {
 			}
 
 			// does it look logical? 2+4-->3, 7+5-->6
-			int intermediateRank = ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
+			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getInitialRank( side )
 				&& isOccupied( file + intermediateRank ) ) {
@@ -162,6 +162,15 @@ public class Position {
 
 		result.removeAll( disallowedMoves );
 		return result;
+	}
+
+	/**
+	 * Get rank of pawn's double move intermediate square
+	 * @param side side of pawn
+	 * @return rank
+	 */
+	private static int getPawnDoubleMoveIntermediateRank( Side side ) {
+		return ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
 	}
 
 	/**
