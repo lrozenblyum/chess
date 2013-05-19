@@ -51,20 +51,6 @@ public class Position {
 		this.enPassantFile = enPassantFile;
 	}
 
-
-	/**
-	 * Add a pawn to the position
-	 * @param side
-	 * @param square
-	 */
-	public void addPawn( Side side, String square ) {
-		if ( !isSquareValid( square ) ) {
-			throw new IllegalArgumentException( "Wrong destination square: " + square );
-		}
-		//TODO: what if the square is already occupied?
-		pieces.put( square, new Piece( PieceType.PAWN, side ) );
-	}
-
 	private static final int VALID_SQUARE_LENGTH = 2;
 	//may add some char/int validations. So far length is enough
 	private boolean isSquareValid( String square ) {
@@ -330,7 +316,6 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
-		//depending on format 'h8Q'
 		final String squareTo = getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
@@ -338,55 +323,29 @@ public class Position {
 
 		final Side movingSide = getSide( squareFrom );
 
-		if ( isPromotion( move ) ) {
-			result.addQueen( movingSide, squareTo );
+		//cloning position
+		for ( String square : pieces.keySet() ) {
+			//looks safe as both keys and pieces are IMMUTABLE
+			result.pieces.put( square, pieces.get( square ) );
 		}
 
-		final Collection<String> pawnsToCopy = getAll( PieceType.PAWN );
-		pawnsToCopy.remove( squareFrom );
+		result.pieces.remove( squareFrom );
 
 		//en passant capture requires extra processing
 		//because we capture a piece not being on the target square
 		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, move );
 		if ( enPassantCapturedPawnSquare != null ) {
-			pawnsToCopy.remove( enPassantCapturedPawnSquare );
+			result.pieces.remove( enPassantCapturedPawnSquare );
 		}
 
-		if ( !pawnsToCopy.isEmpty() ) {
-			for ( final String busySquare : pawnsToCopy ) {
-				result.addPawn( getSide( busySquare ), busySquare );
-			}
-		}
-
-		//will work till we implement queens move...
-		final Set<String> queensToCopy = getAll( PieceType.QUEEN );
-		for ( String queen : queensToCopy ) {
-			//TODO: this if looks ugly - just
-			//to prevent very specific case:
-			//promotion with capture of opposite queen
-			if ( !queen.equals( squareTo ) ) {
-				result.addQueen( getSide( queen ), queen );
-			}
-		}
-
-		//basing on current overwriting effect (must be the last),
-		//to capture...
-		if ( !isPromotion( move ) ) {
+		if ( isPromotion( move ) ) {
+			result.addQueen( movingSide, squareTo );
+		} else {
+			//if it's capture - also ok - as it overwrites....
 			result.addPawn( movingSide, squareTo );
 		}
 
 		return result;
-	}
-
-	private Set< String > getAll( PieceType pieceType ) {
-		Set< String > pieceSquares = new HashSet<String>();
-		for ( String square : pieces.keySet() ) {
-			if ( pieces.get( square ).getPieceType() == pieceType ) {
-				pieceSquares.add( square );
-			}
-		}
-
-		return pieceSquares;
 	}
 
 	/**
@@ -462,8 +421,20 @@ public class Position {
 		return this.enPassantFile;
 	}
 
+	void addPawn( Side side, String square ) {
+		add( side, square, PieceType.PAWN );
+	}
+
 	void addQueen( Side side, String square ) {
-		pieces.put( square, new Piece( PieceType.QUEEN, side ) );
+		add( side, square, PieceType.QUEEN );
+	}
+
+	private void add( Side side, String square, PieceType pieceType ) {
+		if ( !isSquareValid( square ) ) {
+			throw new IllegalArgumentException( "Wrong destination square: " + square );
+		}
+
+		pieces.put( square, new Piece( pieceType, side ) );
 	}
 
 	boolean hasQueen( Side side, String square ) {
