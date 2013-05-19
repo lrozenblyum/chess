@@ -138,10 +138,18 @@ public class Position {
 			if ( isMoveForward && isOccupied( potentialMoveDestination ) ) {
 				busySquares.add( potentialMoveDestination );
 			}
+
+			if ( isMoveForward &&
+				rankOfSquare( potentialMoveDestination ) == 4 &&
+				rankOfSquare( square ) == 2
+				&& isOccupied( file + "3" ) ) {
+
+				busySquares.add( potentialMoveDestination );
+
+			}
 		}
 
 		result.removeAll( busySquares );
-
 		return result;
 	}
 
