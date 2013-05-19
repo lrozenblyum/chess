@@ -139,10 +139,11 @@ public class Position {
 				busySquares.add( potentialMoveDestination );
 			}
 
+			int intermediateRank = ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
 			if ( isMoveForward &&
-				rankOfSquare( potentialMoveDestination ) == 4 &&
-				rankOfSquare( square ) == 2
-				&& isOccupied( file + "3" ) ) {
+				rankOfSquare( potentialMoveDestination ) == getDoubleMoveRank( side ) &&
+				rankOfSquare( square ) == getInitialRank( side )
+				&& isOccupied( file + intermediateRank ) ) {
 
 				busySquares.add( potentialMoveDestination );
 
