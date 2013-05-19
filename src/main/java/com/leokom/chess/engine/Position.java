@@ -3,6 +3,7 @@ package com.leokom.chess.engine;
 import java.util.*;
 
 import static com.leokom.chess.engine.Board.*;
+import static com.leokom.chess.engine.HorizontalDirection.*;
 
 /**
  * Current position on-board (probably with some historical data...)
@@ -99,18 +100,18 @@ public class Position {
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = getPawnsSide( square );
 
-		final String rightCaptureSquare = fileToRight( file ) + getNextRank( rank, side );
-		final String leftCaptureSquare = fileToLeft( file ) + getNextRank( rank, side );
+		final String rightCaptureSquare = fileTo( file, RIGHT ) + getNextRank( rank, side );
+		final String leftCaptureSquare = fileTo( file, LEFT ) + getNextRank( rank, side );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
 			if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, fileToRight( file ), side );
+				addPromotionResult( result, fileTo( file, RIGHT ), side );
 			}
 
 			if ( isOccupiedBy( leftCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, fileToLeft( file ), side );
+				addPromotionResult( result, fileTo( file, LEFT ), side );
 			}
 		}
 		else {
@@ -126,11 +127,11 @@ public class Position {
 		}
 
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
-			if ( enPassantFile.equals( fileToRight( file ) ) ) {
-				result.add( fileToRight( file ) + getNextRank( rank, side ) );
+			if ( enPassantFile.equals( fileTo( file, RIGHT ) ) ) {
+				result.add( fileTo( file, RIGHT ) + getNextRank( rank, side ) );
 			}
-			else if ( enPassantFile.equals( fileToLeft( file ) ) ){
-				result.add( fileToLeft( file ) + getNextRank( rank, side ) );
+			else if ( enPassantFile.equals( fileTo( file, LEFT ) ) ) {
+				result.add( fileTo( file, LEFT ) + getNextRank( rank, side ) );
 			}
 		}
 
