@@ -100,9 +100,6 @@ public class Position {
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = getPawnsSide( square );
 
-		final String rightCaptureSquare = getPawnCaptureSquare( square, RIGHT );
-		final String leftCaptureSquare = getPawnCaptureSquare( square, LEFT );
-
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
