@@ -126,11 +126,10 @@ public class Position {
 		}
 
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
-			if ( enPassantFile.equals( fileTo( file, RIGHT ) ) ) {
-				result.add( fileTo( file, RIGHT ) + getNextRank( rank, side ) );
-			}
-			else if ( enPassantFile.equals( fileTo( file, LEFT ) ) ) {
-				result.add( fileTo( file, LEFT ) + getNextRank( rank, side ) );
+			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
+				if ( enPassantFile.equals( fileTo( file, direction ) ) ) {
+					result.add( fileTo( file, direction ) + getNextRank( rank, side ) );
+				}
 			}
 		}
 
