@@ -130,27 +130,27 @@ public class Position {
 		}
 
 
-		Set< String > busySquares = new HashSet<String>();
+		Set< String > disallowedMoves = new HashSet<String>();
 		for ( String potentialMoveDestination : result ) {
 			//pawn cannot move to occupied square
 			//if file is different - it's capture and should be allowed
 			final boolean isMoveForward = sameFile( potentialMoveDestination, square );
 			if ( isMoveForward && isOccupied( potentialMoveDestination ) ) {
-				busySquares.add( potentialMoveDestination );
+				disallowedMoves.add( potentialMoveDestination );
 			}
 
+			// does it look logical? 2+4-->3, 7+5-->6
 			int intermediateRank = ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
 			if ( isMoveForward &&
 				rankOfSquare( potentialMoveDestination ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getInitialRank( side )
 				&& isOccupied( file + intermediateRank ) ) {
 
-				busySquares.add( potentialMoveDestination );
-
+				disallowedMoves.add( potentialMoveDestination );
 			}
 		}
 
-		result.removeAll( busySquares );
+		result.removeAll( disallowedMoves );
 		return result;
 	}
 
