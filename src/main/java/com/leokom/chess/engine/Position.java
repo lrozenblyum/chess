@@ -106,12 +106,11 @@ public class Position {
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
-			if ( isOccupiedBy( rightCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, fileTo( file, RIGHT ), side );
-			}
-
-			if ( isOccupiedBy( leftCaptureSquare, side.opposite() ) ) {
-				addPromotionResult( result, fileTo( file, LEFT ), side );
+			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
+				String captureSquare = getPawnCaptureSquare( square, direction );
+				if ( isOccupiedBy( captureSquare, side.opposite() ) ) {
+					addPromotionResult( result, fileTo( file, direction ), side );
+				}
 			}
 		}
 		else {
