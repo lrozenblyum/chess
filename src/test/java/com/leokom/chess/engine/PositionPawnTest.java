@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.leokom.chess.engine.PawnUtils.testPawn;
+import static com.leokom.chess.engine.PositionUtils.addAny;
 import static com.leokom.chess.engine.PositionUtils.addCapturable;
 
 /**
@@ -335,5 +336,11 @@ public class PositionPawnTest {
 		addCapturable( position, Side.WHITE, "d8" );
 
 		testPawn( position, "e7", Side.WHITE, "e8Q", "e8N", "e8R", "e8B" );
+	}
+
+	@Test
+	public void promotionCannotGoIfBlocked() {
+		position.addQueen( Side.WHITE, "a8" ); //any side...
+		testPawn( position, "a7", Side.WHITE );
 	}
 }
