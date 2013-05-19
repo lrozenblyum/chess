@@ -33,13 +33,16 @@ final class Board {
 		return Integer.valueOf( String.valueOf( square.charAt( 1 ) ));
 	}
 
-	static String fileToLeft( String file ) {
-		//TODO: UGLY construction, need better!
-		return String.valueOf( (char) ( file.charAt( 0 ) - 1 ) );
-	}
-
-	static String fileToRight( String file ) {
-		return String.valueOf( (char) ( file.charAt( 0 ) + 1 ) );
+	static String fileTo( String file, HorizontalDirection direction ) {
+		switch ( direction ) {
+			case LEFT:
+				//TODO: UGLY construction, need better!
+				return String.valueOf( (char) ( file.charAt( 0 ) - 1 ) );
+			case RIGHT:
+				return String.valueOf( (char) ( file.charAt( 0 ) + 1 ) );
+			default:
+				throw new IllegalArgumentException( "Direction is not supported: " + direction );
+		}
 	}
 
 	/**
