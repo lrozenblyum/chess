@@ -51,20 +51,6 @@ public class Position {
 		this.enPassantFile = enPassantFile;
 	}
 
-
-	/**
-	 * Add a pawn to the position
-	 * @param side
-	 * @param square
-	 */
-	public void addPawn( Side side, String square ) {
-		if ( !isSquareValid( square ) ) {
-			throw new IllegalArgumentException( "Wrong destination square: " + square );
-		}
-		//TODO: what if the square is already occupied?
-		pieces.put( square, new Piece( PieceType.PAWN, side ) );
-	}
-
 	private static final int VALID_SQUARE_LENGTH = 2;
 	//may add some char/int validations. So far length is enough
 	private boolean isSquareValid( String square ) {
@@ -462,8 +448,20 @@ public class Position {
 		return this.enPassantFile;
 	}
 
+	void addPawn( Side side, String square ) {
+		add( side, square, PieceType.PAWN );
+	}
+
 	void addQueen( Side side, String square ) {
-		pieces.put( square, new Piece( PieceType.QUEEN, side ) );
+		add( side, square, PieceType.QUEEN );
+	}
+
+	private void add( Side side, String square, PieceType pieceType ) {
+		if ( !isSquareValid( square ) ) {
+			throw new IllegalArgumentException( "Wrong destination square: " + square );
+		}
+
+		pieces.put( square, new Piece( pieceType, side ) );
 	}
 
 	boolean hasQueen( Side side, String square ) {
