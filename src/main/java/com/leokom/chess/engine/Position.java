@@ -100,8 +100,8 @@ public class Position {
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = getPawnsSide( square );
 
-		final String rightCaptureSquare = fileTo( file, RIGHT ) + getNextRank( rank, side );
-		final String leftCaptureSquare = fileTo( file, LEFT ) + getNextRank( rank, side );
+		final String rightCaptureSquare = getPawnCaptureSquare( square, RIGHT );
+		final String leftCaptureSquare = getPawnCaptureSquare( square, LEFT );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
@@ -137,6 +137,14 @@ public class Position {
 
 		result.removeAll( getImpossibleMovesForPawn( result, square ) );
 		return result;
+	}
+
+	private String getPawnCaptureSquare( String pawnSquare, HorizontalDirection direction ) {
+		final String file = fileOfSquare( pawnSquare );
+		final int rank = rankOfSquare( pawnSquare );
+		final Side side = getPawnsSide( pawnSquare );
+
+		return fileTo( file, direction ) + getNextRank( rank, side );
 	}
 
 	/**
