@@ -462,23 +462,13 @@ public class Position {
 		return this.enPassantFile;
 	}
 
-	public void addQueen( Side side, String square ) {
+	void addQueen( Side side, String square ) {
 		pieces.put( square, new Piece( PieceType.QUEEN, side ) );
 	}
 
-	public boolean hasQueen( Side side, String square ) {
-		final PieceType pieceType = PieceType.QUEEN;
-
-		return hasPiece( side, square, pieceType );
+	boolean hasQueen( Side side, String square ) {
+		return hasPiece( side, square, PieceType.QUEEN );
 	}
-
-	private boolean hasPiece( Side side, String square, PieceType pieceType ) {
-		final Piece piece = pieces.get( square );
-		return piece != null &&
-				piece.getPieceType() == pieceType &&
-				side == piece.getSide();
-	}
-
 
 	/**
 	 * Check if the position has a pawn on square provided
@@ -491,6 +481,14 @@ public class Position {
 	boolean hasPawn( Side side, String square ) {
 		return hasPiece( side, square, PieceType.PAWN );
 	}
+
+	private boolean hasPiece( Side side, String square, PieceType pieceType ) {
+		final Piece piece = pieces.get( square );
+		return piece != null &&
+				piece.getPieceType() == pieceType &&
+				side == piece.getSide();
+	}
+
 
 	//currently for tests only...
 	@Override
