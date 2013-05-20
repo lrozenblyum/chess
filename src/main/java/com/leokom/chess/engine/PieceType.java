@@ -14,13 +14,17 @@ public enum PieceType {
 	PAWN( "" ),
 
 	/**
-	 * Chess rules 3.6.
-	 * The knight may move to one of the squares nearest to that on which it stands but not on the same rank, file or diagonal.
+	 * 3.6. The knight may move to one of the squares nearest to that on which it stands but not on the same rank, file or diagonal.
 	 */
 	KNIGHT ( "N" ),
 
 	/**
-	 * The rook may move to any square along the file or the rank on which it stands
+	 * 3.2. The bishop may move to any square along a diagonal on which it stands.
+	 */
+	BISHOP( "B" ),
+
+	/**
+	 * 3.3 The rook may move to any square along the file or the rank on which it stands
 	 * See also king description (when available)
 	 * for castling
 	 */

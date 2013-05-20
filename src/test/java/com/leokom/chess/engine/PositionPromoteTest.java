@@ -95,4 +95,14 @@ public class PositionPromoteTest {
 		assertEmptySquare( newPosition, "g2" );
 		assertHasPiece( newPosition, PieceType.ROOK, Side.BLACK, "g1" );
 	}
+
+	@Test
+	public void promoteToBishop() {
+		Position position = new Position( null );
+		position.addPawn( BLACK, "c2" );
+
+		Position newPosition = position.move( "c2", "c1B" );
+		assertEmptySquare( newPosition, "c2" );
+		assertHasPiece( newPosition, PieceType.BISHOP, Side.BLACK, "c1" );
+	}
 }
