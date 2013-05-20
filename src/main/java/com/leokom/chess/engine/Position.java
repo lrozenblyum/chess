@@ -22,18 +22,12 @@ public class Position {
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
-
-	private static final String QUEEN = "Q";
-	private static final String ROOK = "R";
-	//NOTE: this name MUSTN'T be confused with anything religious.
-	// It's just a common name for the piece which e.g. in Russian has name слон ('elephant')
-	private static final String BISHOP = "B";
-	private static final String KNIGHT = "N";
 	//TODO: read carefully if this set is thread-safe
-	private static final Set< String > PIECES_TO_PROMOTE_FROM_PAWN =
-		Collections.unmodifiableSet(
-			new HashSet< String >( Arrays.asList( QUEEN, ROOK,	BISHOP, KNIGHT ) )
-	);
+	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
+		Collections.unmodifiableSet( EnumSet.of(
+				PieceType.QUEEN, PieceType.ROOK,
+				PieceType.KNIGHT, PieceType.BISHOP ) );
+
 
 	/**
 	 * Size of promotion move (e.g. "h1Q")
@@ -263,8 +257,8 @@ public class Position {
 	 * @param side side of pawn
 	 */
 	private static void addPromotionResult( Set<String> result, String file, Side side ) {
-		for ( String pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-			result.add( file + getPromotionRank( side ) + pieceToPromote );
+		for ( PieceType pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
+			result.add( file + getPromotionRank( side ) + pieceToPromote.getNotation() );
 		}
 	}
 
@@ -339,7 +333,10 @@ public class Position {
 		}
 
 		if ( isPromotion( move ) ) {
-			result.addQueen( movingSide, squareTo );
+			//depends on 3-char format
+			String promotionNotation = move.substring( 2 );
+			PieceType pieceType = PieceType.byNotation( promotionNotation );
+			result.pieces.put( squareTo, new Piece( pieceType, movingSide ) );
 		} else {
 			//if it's capture - also ok - as it overwrites....
 			result.addPawn( movingSide, squareTo );
@@ -429,7 +426,7 @@ public class Position {
 		add( side, square, PieceType.QUEEN );
 	}
 
-	private void add( Side side, String square, PieceType pieceType ) {
+	void add( Side side, String square, PieceType pieceType ) {
 		if ( !isSquareValid( square ) ) {
 			throw new IllegalArgumentException( "Wrong destination square: " + square );
 		}
@@ -453,7 +450,7 @@ public class Position {
 		return hasPiece( side, square, PieceType.PAWN );
 	}
 
-	private boolean hasPiece( Side side, String square, PieceType pieceType ) {
+	boolean hasPiece( Side side, String square, PieceType pieceType ) {
 		final Piece piece = pieces.get( square );
 		return piece != null &&
 				piece.getPieceType() == pieceType &&
