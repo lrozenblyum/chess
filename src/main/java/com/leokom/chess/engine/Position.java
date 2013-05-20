@@ -432,7 +432,7 @@ public class Position {
 		add( side, square, PieceType.QUEEN );
 	}
 
-	private void add( Side side, String square, PieceType pieceType ) {
+	void add( Side side, String square, PieceType pieceType ) {
 		if ( !isSquareValid( square ) ) {
 			throw new IllegalArgumentException( "Wrong destination square: " + square );
 		}
