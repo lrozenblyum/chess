@@ -11,17 +11,37 @@ public enum PieceType {
 	 * in team with other pawns and pieces could be very powerful
 	 * It also could be promoted to other pieces except King
 	 */
-	PAWN,
+	PAWN( "" ),
 
 	/**
 	 * Chess rules 3.6.
 	 * The knight may move to one of the squares nearest to that on which it stands but not on the same rank, file or diagonal.
 	 */
-	KNIGHT,
+	KNIGHT ( "N" ),
 
 	/**
 	 * The piece that is considered to be the strongest in most cases.
 	 * However the game may continue without it (in contrary to game without king)
 	 */
-	QUEEN
+	QUEEN ( "Q" );
+
+	private final String notation;
+
+	/**
+	 * Create piece type with internal standardized string notation
+	 * @param notation string notation for the piece
+	 */
+	PieceType( String notation ) {
+		this.notation = notation;
+	}
+
+	static PieceType byNotation( String notation ) {
+		for ( PieceType pieceType : values() ) {
+			if ( pieceType.notation.equals( notation ) ) {
+				return pieceType;
+			}
+		}
+
+		throw new IllegalArgumentException( "No piece type is known for notation: " + notation );
+	}
 }

@@ -339,12 +339,10 @@ public class Position {
 		}
 
 		if ( isPromotion( move ) ) {
-			if ( move.endsWith( "Q" ) ) {
-				result.addQueen( movingSide, squareTo );
-			}
-			else if ( move.endsWith( "N" ) ) {
-				result.pieces.put( squareTo, new Piece( PieceType.KNIGHT, movingSide ) );
-			}
+			//depends on 3-char format
+			String promotionNotation = move.substring( 2 );
+			PieceType pieceType = PieceType.byNotation( promotionNotation );
+			result.pieces.put( squareTo, new Piece( pieceType, movingSide ) );
 		} else {
 			//if it's capture - also ok - as it overwrites....
 			result.addPawn( movingSide, squareTo );
