@@ -1,6 +1,5 @@
 package com.leokom.chess.engine;
 
-import com.sun.xml.internal.messaging.saaj.util.TeeInputStream;
 import org.junit.Test;
 
 /**
