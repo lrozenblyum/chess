@@ -11,11 +11,56 @@ public enum PieceType {
 	 * in team with other pawns and pieces could be very powerful
 	 * It also could be promoted to other pieces except King
 	 */
-	PAWN,
+	PAWN( "" ),
 
 	/**
+	 * 3.6. The knight may move to one of the squares nearest to that on which it stands but not on the same rank, file or diagonal.
+	 */
+	KNIGHT ( "N" ),
+
+	/**
+	 * 3.2. The bishop may move to any square along a diagonal on which it stands.
+	 */
+	//NOTE: this name MUSTN'T be confused with anything religious.
+	// It's just a common name for the piece which e.g. in Russian has name слон ('elephant')
+	BISHOP( "B" ),
+
+	/**
+	 * 3.3 The rook may move to any square along the file or the rank on which it stands
+	 * See also king description (when available)
+	 * for castling
+	 */
+	ROOK( "R" ),
+
+	/**
+	 * 3.4 The queen may move to any square along the file, the rank or a diagonal on which it stands.
+	 *
 	 * The piece that is considered to be the strongest in most cases.
 	 * However the game may continue without it (in contrary to game without king)
 	 */
-	QUEEN
+	QUEEN ( "Q" );
+
+	private final String notation;
+
+	/**
+	 * Create piece type with internal standardized string notation
+	 * @param notation string notation for the piece
+	 */
+	PieceType( String notation ) {
+		this.notation = notation;
+	}
+
+	static PieceType byNotation( String notation ) {
+		for ( PieceType pieceType : values() ) {
+			if ( pieceType.notation.equals( notation ) ) {
+				return pieceType;
+			}
+		}
+
+		throw new IllegalArgumentException( "No piece type is known for notation: " + notation );
+	}
+
+	String getNotation() {
+		return notation;
+	}
 }

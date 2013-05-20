@@ -17,23 +17,9 @@ public final class PositionAsserts {
 	private PositionAsserts() {}
 
 	static void assertHasPiece( Position position, PieceType pieceType, Side side, String square ) {
-		switch ( pieceType ) {
-			case PAWN:
-				assertHasPawn( position, square, side );
-				return;
-			case QUEEN:
-				assertHasQueen( position, square, side );
-				return;
-			default:
-				throw new IllegalArgumentException( "Piece type is not supported yet: " + pieceType );
-		}
-	}
-
-	private static void assertHasQueen( Position position, String square, Side side ) {
-		assertTrue(
-			"Queen of " + side + " is expected to be on square: " + square +
-			" Whole position is: " + position,
-			position.hasQueen( side, square ) );
+		assertTrue( pieceType +
+				" of " + side + " is expected to be on square: " + square,
+				position.hasPiece( side, square, pieceType ) );
 	}
 
 	static void assertEmptySquare( Position position, String square ) {
