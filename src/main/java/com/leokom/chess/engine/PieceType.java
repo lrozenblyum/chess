@@ -21,6 +21,8 @@ public enum PieceType {
 	/**
 	 * 3.2. The bishop may move to any square along a diagonal on which it stands.
 	 */
+	//NOTE: this name MUSTN'T be confused with anything religious.
+	// It's just a common name for the piece which e.g. in Russian has name слон ('elephant')
 	BISHOP( "B" ),
 
 	/**
@@ -56,5 +58,9 @@ public enum PieceType {
 		}
 
 		throw new IllegalArgumentException( "No piece type is known for notation: " + notation );
+	}
+
+	String getNotation() {
+		return notation;
 	}
 }
