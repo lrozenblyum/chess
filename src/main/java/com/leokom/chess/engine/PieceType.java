@@ -14,6 +14,12 @@ public enum PieceType {
 	PAWN,
 
 	/**
+	 * Chess rules 3.6.
+	 * The knight may move to one of the squares nearest to that on which it stands but not on the same rank, file or diagonal.
+	 */
+	KNIGHT,
+
+	/**
 	 * The piece that is considered to be the strongest in most cases.
 	 * However the game may continue without it (in contrary to game without king)
 	 */

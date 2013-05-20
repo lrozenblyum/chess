@@ -74,4 +74,14 @@ public class PositionPromoteTest {
 		assertHasPiece( newPosition, PieceType.QUEEN, BLACK, "h4" );
 		assertHasPawn( newPosition, "c5", WHITE );
 	}
+
+	@Test
+	public void promoteToKnight() {
+		Position position = new Position( null );
+		position.addPawn( WHITE, "a7" );
+
+		Position newPosition = position.move( "a7", "a8N" );
+		assertEmptySquare( newPosition, "a7" );
+		assertHasPiece( newPosition, PieceType.KNIGHT, Side.WHITE, "a8" );
+	}
 }

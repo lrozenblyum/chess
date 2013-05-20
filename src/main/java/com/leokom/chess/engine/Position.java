@@ -453,7 +453,7 @@ public class Position {
 		return hasPiece( side, square, PieceType.PAWN );
 	}
 
-	private boolean hasPiece( Side side, String square, PieceType pieceType ) {
+	boolean hasPiece( Side side, String square, PieceType pieceType ) {
 		final Piece piece = pieces.get( square );
 		return piece != null &&
 				piece.getPieceType() == pieceType &&
