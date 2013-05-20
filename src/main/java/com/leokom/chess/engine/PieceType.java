@@ -20,6 +20,13 @@ public enum PieceType {
 	KNIGHT ( "N" ),
 
 	/**
+	 * The rook may move to any square along the file or the rank on which it stands
+	 * See also king description (when available)
+	 * for castling
+	 */
+	ROOK( "R" ),
+
+	/**
 	 * The piece that is considered to be the strongest in most cases.
 	 * However the game may continue without it (in contrary to game without king)
 	 */
