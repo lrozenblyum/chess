@@ -31,6 +31,8 @@ public enum PieceType {
 	ROOK( "R" ),
 
 	/**
+	 * 3.4 The queen may move to any square along the file, the rank or a diagonal on which it stands.
+	 *
 	 * The piece that is considered to be the strongest in most cases.
 	 * However the game may continue without it (in contrary to game without king)
 	 */
