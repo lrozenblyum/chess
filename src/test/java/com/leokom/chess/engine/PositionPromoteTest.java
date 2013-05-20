@@ -57,7 +57,7 @@ public class PositionPromoteTest {
 		assertEmptySquare( newPosition, "h7" );
 		assertHasPiece( newPosition, PieceType.QUEEN, WHITE, "g8" );
 		assertHasNoPawn( newPosition, "g8", WHITE );
-		assertHasNoPawn( newPosition, "h8", WHITE );
+		assertEmptySquare( newPosition, "h8" );
 	}
 
 	@Test
