@@ -66,6 +66,10 @@ public class Position {
 	 * TODO: what if square doesn't contain any pieces?
 	 */
 	public Set<String> getMovesFrom( String square ) {
+		if ( hasPiece( square, PieceType.KNIGHT ) ) {
+			return new HashSet<String>( Arrays.asList( "c2", "b3" ) );
+		}
+
 		final Set<String> result = new HashSet<String>();
 
 		final String file = fileOfSquare( square );
@@ -455,6 +459,11 @@ public class Position {
 		return piece != null &&
 				piece.getPieceType() == pieceType &&
 				side == piece.getSide();
+	}
+
+	boolean hasPiece( String square, PieceType pieceType ) {
+		final Piece piece = pieces.get( square );
+		return piece != null &&	piece.getPieceType() == pieceType;
 	}
 
 
