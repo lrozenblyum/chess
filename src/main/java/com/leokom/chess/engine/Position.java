@@ -67,21 +67,7 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		if ( hasPiece( square, PieceType.KNIGHT ) ) {
-			int [] reachableRanks =
-				rankOfSquare( square ) == 1 ?
-				new int [] { 2, 3 } :
-				new int [] { 7, 6 };
-
-			String [] reachableFiles =
-					fileOfSquare( square ).equals( "a" ) ?
-					new String[] { "c", "b" } :
-					new String[] { "f", "g" };
-
-			Set< String > result = new HashSet<String>();
-			for ( int reachableCellIndex = 0; reachableCellIndex < reachableRanks.length; reachableCellIndex++ ) {
-				result.add( reachableFiles[ reachableCellIndex ] + reachableRanks[ reachableCellIndex ] );
-			}
-			return result;
+			return getKnightMoves( square );
 		}
 
 		final Set<String> result = new HashSet<String>();
@@ -126,6 +112,24 @@ public class Position {
 		}
 
 		result.removeAll( getImpossibleMovesForPawn( result, square ) );
+		return result;
+	}
+
+	private Set<String> getKnightMoves( String square ) {
+		int [] reachableRanks =
+			rankOfSquare( square ) == 1 ?
+			new int [] { 2, 3 } :
+			new int [] { 7, 6 };
+
+		String [] reachableFiles =
+				fileOfSquare( square ).equals( "a" ) ?
+				new String[] { "c", "b" } :
+				new String[] { "f", "g" };
+
+		Set< String > result = new HashSet<String>();
+		for ( int reachableCellIndex = 0; reachableCellIndex < reachableRanks.length; reachableCellIndex++ ) {
+			result.add( reachableFiles[ reachableCellIndex ] + reachableRanks[ reachableCellIndex ] );
+		}
 		return result;
 	}
 
