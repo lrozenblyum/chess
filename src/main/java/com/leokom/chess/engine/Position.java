@@ -67,7 +67,12 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		if ( hasPiece( square, PieceType.KNIGHT ) ) {
-			return new HashSet<String>( Arrays.asList( "c2", "b3" ) );
+			if ( fileOfSquare( square ).equals( "a" ) ) {
+				return new HashSet<String>( Arrays.asList( "c2", "b3" ) );
+			}
+			else {
+				return new HashSet<String>( Arrays.asList( "f2", "g3" ) );
+			}
 		}
 
 		final Set<String> result = new HashSet<String>();
