@@ -33,4 +33,13 @@ public class PositionKnightMovesTest {
 		PositionAsserts.assertAllowedMoves(
 				position, "a8", "b6", "c7" );
 	}
+
+	@Test
+	public void threeDestinations() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "b1", "a3", "c3", "d2" );
+	}
 }
