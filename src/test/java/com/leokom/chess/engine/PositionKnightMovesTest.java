@@ -24,4 +24,13 @@ public class PositionKnightMovesTest {
 		PositionAsserts.assertAllowedMoves(
 				position, "h1", "g3", "f2" );
 	}
+
+	@Test
+	public void anotherRank() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a8", PieceType.KNIGHT );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a8", "b6", "c7" );
+	}
 }
