@@ -67,12 +67,9 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		if ( hasPiece( square, PieceType.KNIGHT ) ) {
-			if ( fileOfSquare( square ).equals( "a" ) ) {
-				return new HashSet<String>( Arrays.asList( "c2", "b3" ) );
-			}
-			else {
-				return new HashSet<String>( Arrays.asList( "f2", "g3" ) );
-			}
+			return ( fileOfSquare( square ).equals( "a" ) ) ?
+					 set( "c2", "b3" ) :
+					 set( "f2", "g3" );
 		}
 
 		final Set<String> result = new HashSet<String>();
@@ -118,6 +115,11 @@ public class Position {
 
 		result.removeAll( getImpossibleMovesForPawn( result, square ) );
 		return result;
+	}
+
+	//TODO: any similar utility in Java standard classes?
+	private static HashSet<String> set( String... params ) {
+		return new HashSet<String>( Arrays.asList( params ) );
 	}
 
 	private String getPawnCaptureSquare( String pawnSquare, HorizontalDirection direction ) {
