@@ -67,9 +67,21 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		if ( hasPiece( square, PieceType.KNIGHT ) ) {
-			return ( fileOfSquare( square ).equals( "a" ) ) ?
-					 set( "c2", "b3" ) :
-					 set( "f2", "g3" );
+			int [] reachableRanks =
+				rankOfSquare( square ) == 1 ?
+				new int [] { 2, 3 } :
+				new int [] { 7, 6 };
+
+			String [] reachableFiles =
+					fileOfSquare( square ).equals( "a" ) ?
+					new String[] { "c", "b" } :
+					new String[] { "f", "g" };
+
+			Set< String > result = new HashSet<String>();
+			for ( int reachableCellIndex = 0; reachableCellIndex < reachableRanks.length; reachableCellIndex++ ) {
+				result.add( reachableFiles[ reachableCellIndex ] + reachableRanks[ reachableCellIndex ] );
+			}
+			return result;
 		}
 
 		final Set<String> result = new HashSet<String>();
