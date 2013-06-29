@@ -39,6 +39,17 @@ public class PositionKnightMovesTest {
 	}
 
 	@Test
+	public void canCapture() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "a1", PieceType.KNIGHT );
+
+		position.add( Side.WHITE, "b3", PieceType.PAWN ); //any except king
+
+
+		PositionAsserts.assertAllowedMoves( position, "a1", "b3", "c2" );
+	}
+
+	@Test
 	public void knightMovesAnotherSquare() {
 		Position position = new Position( null );
 		position.add( Side.BLACK, "h1", PieceType.KNIGHT );

@@ -135,15 +135,16 @@ public class Position {
 			}
 		}
 
-		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves ) );
+		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
 
 		return knightMoves;
 	}
 
-	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves ) {
+	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves, Side knightSide ) {
 		Set< String > result = new HashSet<String>();
 		for ( String potentialKnightMove : potentialKnightMoves ) {
-			if ( isOccupied( potentialKnightMove ) ) {
+			//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
+			if ( isOccupiedBy( potentialKnightMove, knightSide ) ) {
 				result.add( potentialKnightMove );
 			}
 		}
