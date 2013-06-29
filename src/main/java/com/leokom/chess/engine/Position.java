@@ -342,7 +342,7 @@ public class Position {
 	 */
 	public Position move( String squareFrom, String move ) {
 		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
-			final Position position = new Position( null );
+			final Position position = new Position( "a" );
 			cloneAndRemove( position, squareFrom );
 
 			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
