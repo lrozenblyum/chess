@@ -22,6 +22,17 @@ public class Position {
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
+	private static final Map< Side, Integer > PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
+		put( Side.WHITE, WHITE_PAWN_INITIAL_RANK );
+		put( Side.BLACK, BLACK_PAWN_INITIAL_RANK );
+	}};
+
+	//TODO: thread-safety for read-only purposes?
+	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
+		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
+		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
+	}};
+
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
 		Collections.unmodifiableSet( EnumSet.of(
@@ -66,6 +77,14 @@ public class Position {
 	 * TODO: what if square doesn't contain any pieces?
 	 */
 	public Set<String> getMovesFrom( String square ) {
+		if ( hasPiece( square, PieceType.KNIGHT ) ) {
+			return getKnightMoves( square );
+		}
+
+		return getPawnMoves( square );
+	}
+
+	private Set<String> getPawnMoves( String square ) {
 		final Set<String> result = new HashSet<String>();
 
 		final String file = fileOfSquare( square );
@@ -85,8 +104,8 @@ public class Position {
 			}
 		}
 		else {
-			result.add( file + getNextRank( rank, side ) );
-			if ( rank == getInitialRank( side ) ) {
+			result.add( file + getPawnNextRank( rank, side ) );
+			if ( rank == getPawnInitialRank( side ) ) {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
 
@@ -102,7 +121,7 @@ public class Position {
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
 			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
 				if ( enPassantFile.equals( fileTo( file, direction ) ) ) {
-					result.add( fileTo( file, direction ) + getNextRank( rank, side ) );
+					result.add( fileTo( file, direction ) + getPawnNextRank( rank, side ) );
 				}
 			}
 		}
@@ -111,12 +130,49 @@ public class Position {
 		return result;
 	}
 
+	private Set<String> getKnightMoves( String square ) {
+		//shifts pairs: horizontal and vertical shift
+		//they will be combined with all possible vertical/horizontal directions
+		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
+
+		Set< String > knightMoves = new HashSet<String>();
+		for ( int [] shiftPair : shifts ) {
+			for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+				for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
+					final String destination = Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
+							verticalDirection, shiftPair[ 1 ] );
+
+					//can be null when outside the board
+					if ( destination != null ) {
+						knightMoves.add( destination );
+					}
+				}
+			}
+		}
+
+		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
+
+		return knightMoves;
+	}
+
+	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves, Side knightSide ) {
+		Set< String > result = new HashSet<String>();
+		for ( String potentialKnightMove : potentialKnightMoves ) {
+			//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
+			if ( isOccupiedBy( potentialKnightMove, knightSide ) ) {
+				result.add( potentialKnightMove );
+			}
+		}
+
+		return result;
+	}
+
 	private String getPawnCaptureSquare( String pawnSquare, HorizontalDirection direction ) {
 		final String file = fileOfSquare( pawnSquare );
 		final int rank = rankOfSquare( pawnSquare );
 		final Side side = getSide( pawnSquare );
 
-		return fileTo( file, direction ) + getNextRank( rank, side );
+		return fileTo( file, direction ) + getPawnNextRank( rank, side );
 	}
 
 	/**
@@ -145,7 +201,7 @@ public class Position {
 			Side side = getSide( square );
 			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
-				rankOfSquare( square ) == getInitialRank( side )
+				rankOfSquare( square ) == getPawnInitialRank( side )
 				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
 
 				disallowedMoves.add( potentialMove );
@@ -170,7 +226,7 @@ public class Position {
 	 */
 	private static int getPawnDoubleMoveIntermediateRank( Side side ) {
 		// does it look logical? 2+4-->3, 7+5-->6
-		return ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
+		return ( getDoubleMoveRank( side ) + getPawnInitialRank( side ) ) /2;
 	}
 
 	/**
@@ -184,16 +240,8 @@ public class Position {
 		return getDoubleMoveRank( side.opposite() );
 	}
 
-	//TODO: the switches are smell about inheritance for PawnMovement!
-	private static int getInitialRank( Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return WHITE_PAWN_INITIAL_RANK;
-			case BLACK:
-				return BLACK_PAWN_INITIAL_RANK;
-			default:
-				return sideNotSupported( side );
-		}
+	private static int getPawnInitialRank( Side side ) {
+		return PAWN_INITIAL_RANKS.get( side );
 	}
 
 	/**
@@ -202,26 +250,22 @@ public class Position {
 	 * @param side pawn side
 	 * @return pawn rank
 	 */
-	private static int getNextRank( int pawnRank, Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return pawnRank + 1;
-			case BLACK:
-				return pawnRank - 1;
-			default:
-				return sideNotSupported( side );
-		}
+	private static int getPawnNextRank( int pawnRank, Side side ) {
+		VerticalDirection direction = getPawnMovementDirection( side );
+		return Board.rankTo( pawnRank, direction );
 	}
 
-	private static int getPreviousRank( int pawnRank, Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return pawnRank - 1;
-			case BLACK:
-				return pawnRank + 1;
-			default:
-				return sideNotSupported( side );
-		}
+	private static VerticalDirection getPawnMovementDirection( Side side ) {
+		return side == Side.WHITE ?
+		VerticalDirection.UP :
+		VerticalDirection.DOWN;
+	}
+
+	private static int getPawnPreviousRank( int pawnRank, Side side ) {
+		VerticalDirection direction =
+			getPawnMovementDirection( side ).opposite();
+
+		return Board.rankTo( pawnRank, direction );
 	}
 
 	/**
@@ -229,24 +273,11 @@ public class Position {
 	 * @return rank from which next pawn move can reach promotion rank
 	 */
 	private static int getRankBeforePromotion( Side side ) {
-		return getPreviousRank( getPromotionRank( side ), side );
+		return getPawnPreviousRank( getPromotionRank( side ), side );
 	}
 
 	private static int getPromotionRank( Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return WHITE_PAWN_PROMOTION_RANK;
-			case BLACK:
-				return BLACK_PAWN_PROMOTION_RANK;
-			default:
-				return sideNotSupported( side );
-		}
-	}
-
-	//TODO: boring check just for compiler, better choices?
-
-	private static int sideNotSupported( Side side ) {
-		throw new IllegalArgumentException( "Side is not supported: " + side );
+		return PAWN_PROMOTION_RANKS.get( side );
 	}
 
 	/**
@@ -292,7 +323,7 @@ public class Position {
 	}
 
 	private static int getDoubleMoveRank( Side side ) {
-		return getNextRank( getNextRank( getInitialRank( side ), side ), side );
+		return getPawnNextRank( getPawnNextRank( getPawnInitialRank( side ), side ), side );
 	}
 
 	/**
@@ -310,20 +341,24 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
+		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
+			//after moving everything except a pawn
+			//the flag about en passant possibility must be cleared
+			final String newEnPassantFile = null;
+			final Position position = new Position( newEnPassantFile );
+			cloneAndRemove( position, squareFrom );
+
+			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
+
+			return position;
+		}
+
 		final String squareTo = getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
+
 		final Position result = new Position( newEnPassantFile );
-
-		final Side movingSide = getSide( squareFrom );
-
-		//cloning position
-		for ( String square : pieces.keySet() ) {
-			//looks safe as both keys and pieces are IMMUTABLE
-			result.pieces.put( square, pieces.get( square ) );
-		}
-
-		result.pieces.remove( squareFrom );
+		cloneAndRemove( result, squareFrom );
 
 		//en passant capture requires extra processing
 		//because we capture a piece not being on the target square
@@ -331,6 +366,8 @@ public class Position {
 		if ( enPassantCapturedPawnSquare != null ) {
 			result.pieces.remove( enPassantCapturedPawnSquare );
 		}
+
+		final Side movingSide = getSide( squareFrom );
 
 		if ( isPromotion( move ) ) {
 			//depends on 3-char format
@@ -343,6 +380,21 @@ public class Position {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Clone position.
+	 * Remove the piece from the initial square
+	 * @param position source of cloning
+	 * @param squareFrom will be empty
+	 */
+	private void cloneAndRemove( Position position, String squareFrom ) {
+		//cloning position
+		for ( String square : pieces.keySet() ) {
+			//looks safe as both keys and pieces are IMMUTABLE
+			position.pieces.put( square, pieces.get( square ) );
+		}
+		position.pieces.remove( squareFrom );
 	}
 
 	/**
@@ -393,7 +445,7 @@ public class Position {
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = getSide( squareFrom );
 
-		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
+		return rankOfSquare( squareFrom ) == getPawnInitialRank( side ) &&
 				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
 				fileOfSquare( squareFrom ) : null;
 	}
@@ -455,6 +507,11 @@ public class Position {
 		return piece != null &&
 				piece.getPieceType() == pieceType &&
 				side == piece.getSide();
+	}
+
+	boolean hasPiece( String square, PieceType pieceType ) {
+		final Piece piece = pieces.get( square );
+		return piece != null &&	piece.getPieceType() == pieceType;
 	}
 
 

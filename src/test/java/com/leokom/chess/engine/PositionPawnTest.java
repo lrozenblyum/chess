@@ -88,6 +88,17 @@ public class PositionPawnTest {
 	}
 
 	@Test
+	public void pawnCanCaptureKnight() {
+		final String sourceSquare = "d6";
+		final String victimSquare = "c7";
+
+		position.add( Side.BLACK, victimSquare, PieceType.KNIGHT );
+
+		testPawn( position, sourceSquare, Side.WHITE, "d7", victimSquare );
+	}
+
+
+	@Test
 	public void leftCaptureImpossibleWhitePiece() {
 		final String sourceSquare = "e6";
 		final String victimSquareFailed = "d7";
