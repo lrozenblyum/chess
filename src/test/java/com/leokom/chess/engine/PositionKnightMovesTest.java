@@ -17,6 +17,17 @@ public class PositionKnightMovesTest {
 	}
 
 	@Test
+	public void cannotMoveIfOccupiedByMyColour() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.KNIGHT );
+
+		position.add( Side.WHITE, "b3", PieceType.PAWN ); //any!
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1", "c2" );
+	}
+
+	@Test
 	public void knightMovesAnotherSquare() {
 		Position position = new Position( null );
 		position.add( Side.BLACK, "h1", PieceType.KNIGHT );
