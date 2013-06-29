@@ -17,4 +17,15 @@ public class PositionKnightMovementTest {
 		PositionAsserts.assertHasPiece( newPosition, PieceType.KNIGHT, Side.WHITE, "c3" );
 
 	}
+
+	@Test
+	public void blackMove() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
+
+		final Position newPosition = position.move( "b1", "c3" );
+
+		PositionAsserts.assertHasPiece( newPosition, PieceType.KNIGHT, Side.BLACK, "c3" );
+
+	}
 }

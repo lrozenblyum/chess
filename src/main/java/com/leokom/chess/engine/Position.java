@@ -343,7 +343,7 @@ public class Position {
 	public Position move( String squareFrom, String move ) {
 		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
 			final Position position = new Position( null );
-			position.add( Side.WHITE, move, PieceType.KNIGHT );
+			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
 			return position;
 
 		}
