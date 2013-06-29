@@ -349,6 +349,7 @@ public class Position {
 				//looks safe as both keys and pieces are IMMUTABLE
 				position.pieces.put( square, pieces.get( square ) );
 			}
+			position.pieces.remove( squareFrom );
 			return position;
 
 		}

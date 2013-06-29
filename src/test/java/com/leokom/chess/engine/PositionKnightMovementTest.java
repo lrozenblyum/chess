@@ -42,4 +42,15 @@ public class PositionKnightMovementTest {
 		PositionAsserts.assertHasPiece( newPosition, PieceType.PAWN, Side.BLACK, "a2" );
 
 	}
+
+	@Test
+	public void movingKnightRemoved() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
+
+		final Position newPosition = position.move( "b1", "a3" );
+
+		PositionAsserts.assertEmptySquare( newPosition, "b1" );
+
+	}
 }
