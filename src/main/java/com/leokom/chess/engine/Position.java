@@ -116,6 +116,8 @@ public class Position {
 	}
 
 	private Set<String> getKnightMoves( String square ) {
+		//shifts pairs: horizontal and vertical shift
+		//they will be combined with all possible vertical/horizontal directions
 		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
 
 		Set< String > result = new HashSet<String>();
