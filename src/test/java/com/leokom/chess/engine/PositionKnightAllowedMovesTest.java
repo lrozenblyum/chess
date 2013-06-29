@@ -6,7 +6,7 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 21.05.13 22:07
  */
-public class PositionKnightMovesTest {
+public class PositionKnightAllowedMovesTest {
 	@Test
 	public void knightMovesSquare() {
 		Position position = new Position( null );
