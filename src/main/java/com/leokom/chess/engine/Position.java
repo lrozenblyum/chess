@@ -344,6 +344,11 @@ public class Position {
 		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
 			final Position position = new Position( null );
 			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
+			//cloning position
+			for ( String square : pieces.keySet() ) {
+				//looks safe as both keys and pieces are IMMUTABLE
+				position.pieces.put( square, pieces.get( square ) );
+			}
 			return position;
 
 		}
