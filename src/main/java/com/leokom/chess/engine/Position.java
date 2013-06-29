@@ -116,20 +116,23 @@ public class Position {
 	}
 
 	private Set<String> getKnightMoves( String square ) {
-		int [] reachableRanks =
-			rankOfSquare( square ) == 1 ?
-			new int [] { 2, 3 } :
-			new int [] { 7, 6 };
-
-		String [] reachableFiles =
-				fileOfSquare( square ).equals( "a" ) ?
-				new String[] { "c", "b" } :
-				new String[] { "f", "g" };
+		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
 
 		Set< String > result = new HashSet<String>();
-		for ( int reachableCellIndex = 0; reachableCellIndex < reachableRanks.length; reachableCellIndex++ ) {
-			result.add( reachableFiles[ reachableCellIndex ] + reachableRanks[ reachableCellIndex ] );
+		for ( int [] shiftPair : shifts ) {
+			for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+				for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
+					final String destination = Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
+							verticalDirection, shiftPair[ 1 ] );
+
+					//can be null when outside the board
+					if ( destination != null ) {
+						result.add( destination );
+					}
+				}
+			}
 		}
+
 		return result;
 	}
 
