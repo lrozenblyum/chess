@@ -2,6 +2,8 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Author: Leonid
  * Date-time: 29.06.13 17:36
@@ -51,6 +53,23 @@ public class PositionKnightMovementTest {
 		final Position newPosition = position.move( "b1", "a3" );
 
 		PositionAsserts.assertEmptySquare( newPosition, "b1" );
+
+	}
+
+	@Test
+	public void enPassantPossibilityClearance() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "h1", PieceType.KNIGHT );
+
+		position.add( Side.WHITE, "a2", PieceType.PAWN );
+
+		Position afterPawnMove = position.move( "a2", "a4" );
+		//this assert is just to ensure previous conditions are ok
+		assertEquals( "a", afterPawnMove.getPossibleEnPassantFile() );
+
+		final Position afterKnightMove = afterPawnMove.move( "h1", "g3" );
+
+		org.junit.Assert.assertNull( afterKnightMove.getPossibleEnPassantFile() );
 
 	}
 }

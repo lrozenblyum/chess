@@ -342,7 +342,10 @@ public class Position {
 	 */
 	public Position move( String squareFrom, String move ) {
 		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
-			final Position position = new Position( "a" );
+			//after moving everything except a pawn
+			//the flag about en passant possibility must be cleared
+			final String newEnPassantFile = null;
+			final Position position = new Position( newEnPassantFile );
 			cloneAndRemove( position, squareFrom );
 
 			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
