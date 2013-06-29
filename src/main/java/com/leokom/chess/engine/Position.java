@@ -22,6 +22,11 @@ public class Position {
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
+	private static final Map< Side, Integer > INITIAL_RANKS = new HashMap<Side, Integer>() { {
+		put( Side.WHITE, WHITE_PAWN_INITIAL_RANK );
+		put( Side.BLACK, BLACK_PAWN_INITIAL_RANK );
+	}};
+
 	//TODO: thread-safety for read-only purposes?
 	private static final Map< Side, Integer > PROMOTION_RANKS = new HashMap<Side, Integer>() { {
 		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
@@ -240,16 +245,8 @@ public class Position {
 		return getDoubleMoveRank( side.opposite() );
 	}
 
-	//TODO: the switches are smell about inheritance for PawnMovement!
 	private static int getInitialRank( Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return WHITE_PAWN_INITIAL_RANK;
-			case BLACK:
-				return BLACK_PAWN_INITIAL_RANK;
-			default:
-				return sideNotSupported( side );
-		}
+		return INITIAL_RANKS.get( side );
 	}
 
 	/**
@@ -286,12 +283,6 @@ public class Position {
 
 	private static int getPromotionRank( Side side ) {
 		return PROMOTION_RANKS.get( side );
-	}
-
-	//TODO: boring check just for compiler, better choices?
-
-	private static int sideNotSupported( Side side ) {
-		throw new IllegalArgumentException( "Side is not supported: " + side );
 	}
 
 	/**
