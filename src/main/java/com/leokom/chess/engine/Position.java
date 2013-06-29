@@ -22,13 +22,13 @@ public class Position {
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
-	private static final Map< Side, Integer > INITIAL_RANKS = new HashMap<Side, Integer>() { {
+	private static final Map< Side, Integer > PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
 		put( Side.WHITE, WHITE_PAWN_INITIAL_RANK );
 		put( Side.BLACK, BLACK_PAWN_INITIAL_RANK );
 	}};
 
 	//TODO: thread-safety for read-only purposes?
-	private static final Map< Side, Integer > PROMOTION_RANKS = new HashMap<Side, Integer>() { {
+	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
 		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
 		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
 	}};
@@ -104,8 +104,8 @@ public class Position {
 			}
 		}
 		else {
-			result.add( file + getNextRank( rank, side ) );
-			if ( rank == getInitialRank( side ) ) {
+			result.add( file + getPawnNextRank( rank, side ) );
+			if ( rank == getPawnInitialRank( side ) ) {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
 
@@ -121,7 +121,7 @@ public class Position {
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
 			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
 				if ( enPassantFile.equals( fileTo( file, direction ) ) ) {
-					result.add( fileTo( file, direction ) + getNextRank( rank, side ) );
+					result.add( fileTo( file, direction ) + getPawnNextRank( rank, side ) );
 				}
 			}
 		}
@@ -172,7 +172,7 @@ public class Position {
 		final int rank = rankOfSquare( pawnSquare );
 		final Side side = getSide( pawnSquare );
 
-		return fileTo( file, direction ) + getNextRank( rank, side );
+		return fileTo( file, direction ) + getPawnNextRank( rank, side );
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class Position {
 			Side side = getSide( square );
 			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
-				rankOfSquare( square ) == getInitialRank( side )
+				rankOfSquare( square ) == getPawnInitialRank( side )
 				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
 
 				disallowedMoves.add( potentialMove );
@@ -226,7 +226,7 @@ public class Position {
 	 */
 	private static int getPawnDoubleMoveIntermediateRank( Side side ) {
 		// does it look logical? 2+4-->3, 7+5-->6
-		return ( getDoubleMoveRank( side ) + getInitialRank( side ) ) /2;
+		return ( getDoubleMoveRank( side ) + getPawnInitialRank( side ) ) /2;
 	}
 
 	/**
@@ -240,8 +240,8 @@ public class Position {
 		return getDoubleMoveRank( side.opposite() );
 	}
 
-	private static int getInitialRank( Side side ) {
-		return INITIAL_RANKS.get( side );
+	private static int getPawnInitialRank( Side side ) {
+		return PAWN_INITIAL_RANKS.get( side );
 	}
 
 	/**
@@ -250,7 +250,7 @@ public class Position {
 	 * @param side pawn side
 	 * @return pawn rank
 	 */
-	private static int getNextRank( int pawnRank, Side side ) {
+	private static int getPawnNextRank( int pawnRank, Side side ) {
 		VerticalDirection direction = getPawnMovementDirection( side );
 		return Board.rankTo( pawnRank, direction );
 	}
@@ -261,7 +261,7 @@ public class Position {
 		VerticalDirection.DOWN;
 	}
 
-	private static int getPreviousRank( int pawnRank, Side side ) {
+	private static int getPawnPreviousRank( int pawnRank, Side side ) {
 		VerticalDirection direction =
 			getPawnMovementDirection( side ).opposite();
 
@@ -273,11 +273,11 @@ public class Position {
 	 * @return rank from which next pawn move can reach promotion rank
 	 */
 	private static int getRankBeforePromotion( Side side ) {
-		return getPreviousRank( getPromotionRank( side ), side );
+		return getPawnPreviousRank( getPromotionRank( side ), side );
 	}
 
 	private static int getPromotionRank( Side side ) {
-		return PROMOTION_RANKS.get( side );
+		return PAWN_PROMOTION_RANKS.get( side );
 	}
 
 	/**
@@ -323,7 +323,7 @@ public class Position {
 	}
 
 	private static int getDoubleMoveRank( Side side ) {
-		return getNextRank( getNextRank( getInitialRank( side ), side ), side );
+		return getPawnNextRank( getPawnNextRank( getPawnInitialRank( side ), side ), side );
 	}
 
 	/**
@@ -424,7 +424,7 @@ public class Position {
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = getSide( squareFrom );
 
-		return rankOfSquare( squareFrom ) == getInitialRank( side ) &&
+		return rankOfSquare( squareFrom ) == getPawnInitialRank( side ) &&
 				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
 				fileOfSquare( squareFrom ) : null;
 	}
