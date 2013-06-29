@@ -86,6 +86,10 @@ final class Board {
 			rank - verticalShift;
 	}
 
+	static int rankTo( int rank, VerticalDirection verticalDirection ) {
+		return rankTo( rank, verticalDirection, 1 );
+	}
+
 	/**
 	 *
 	 * @param firstSquare
