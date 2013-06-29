@@ -6,6 +6,10 @@ package com.leokom.chess.engine;
  * Date-time: 15.09.12 18:48
  */
 final class Board {
+
+	private static final char MINIMAL_FILE = 'a';
+	private static final char MAXIMAL_FILE = 'h';
+
 	//so far it's not intended to create the boards,
 	//however need to rethink this approach...
 	private Board() {}
@@ -57,15 +61,22 @@ final class Board {
 		int destinationRank = rankTo( rank, verticalDirection, verticalShift );
 
 		//validity check
-		if ( destinationFile.charAt( 0 ) >= 'a' && destinationFile.charAt( 0 ) <= 'h' &&
-			destinationRank >= 1 && destinationRank <= 8 ) {
-
+		if ( isFileValid( destinationFile ) && isRankValid( destinationRank ) ) {
 			return destinationFile + destinationRank;
 		}
 		else {
 			//TODO: maybe introduce some class Square, with Null object instance?
 			return null;
 		}
+	}
+
+	private static boolean isRankValid( int destinationRank ) {
+		return destinationRank >= MINIMAL_RANK && destinationRank <= MAXIMAL_RANK;
+	}
+
+	private static boolean isFileValid( String file ) {
+		//TODO: is character order guaranteed in Java for such comparisons?
+		return file.charAt( 0 ) >= MINIMAL_FILE && file.charAt( 0 ) <= MAXIMAL_FILE;
 	}
 
 	private static int rankTo( int rank, VerticalDirection verticalDirection, int verticalShift ) {
