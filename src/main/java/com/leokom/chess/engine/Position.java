@@ -70,6 +70,10 @@ public class Position {
 			return getKnightMoves( square );
 		}
 
+		return getPawnMoves( square );
+	}
+
+	private Set<String> getPawnMoves( String square ) {
 		final Set<String> result = new HashSet<String>();
 
 		final String file = fileOfSquare( square );
