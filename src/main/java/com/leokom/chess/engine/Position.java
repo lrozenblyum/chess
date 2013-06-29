@@ -341,6 +341,13 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
+		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
+			final Position position = new Position( null );
+			position.add( Side.WHITE, move, PieceType.KNIGHT );
+			return position;
+
+		}
+
 		final String squareTo = getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
