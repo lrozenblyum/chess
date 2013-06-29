@@ -120,7 +120,7 @@ public class Position {
 		//they will be combined with all possible vertical/horizontal directions
 		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
 
-		Set< String > result = new HashSet<String>();
+		Set< String > knightMoves = new HashSet<String>();
 		for ( int [] shiftPair : shifts ) {
 			for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 				for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
@@ -129,9 +129,22 @@ public class Position {
 
 					//can be null when outside the board
 					if ( destination != null ) {
-						result.add( destination );
+						knightMoves.add( destination );
 					}
 				}
+			}
+		}
+
+		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves ) );
+
+		return knightMoves;
+	}
+
+	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves ) {
+		Set< String > result = new HashSet<String>();
+		for ( String potentialKnightMove : potentialKnightMoves ) {
+			if ( isOccupied( potentialKnightMove ) ) {
+				result.add( potentialKnightMove );
 			}
 		}
 
