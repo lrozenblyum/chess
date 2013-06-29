@@ -343,31 +343,19 @@ public class Position {
 	public Position move( String squareFrom, String move ) {
 		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
 			final Position position = new Position( null );
-			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
-			//cloning position
-			for ( String square : pieces.keySet() ) {
-				//looks safe as both keys and pieces are IMMUTABLE
-				position.pieces.put( square, pieces.get( square ) );
-			}
-			position.pieces.remove( squareFrom );
-			return position;
+			cloneAndRemove( position, squareFrom );
 
+			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
+
+			return position;
 		}
 
 		final String squareTo = getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
+
 		final Position result = new Position( newEnPassantFile );
-
-		final Side movingSide = getSide( squareFrom );
-
-		//cloning position
-		for ( String square : pieces.keySet() ) {
-			//looks safe as both keys and pieces are IMMUTABLE
-			result.pieces.put( square, pieces.get( square ) );
-		}
-
-		result.pieces.remove( squareFrom );
+		cloneAndRemove( result, squareFrom );
 
 		//en passant capture requires extra processing
 		//because we capture a piece not being on the target square
@@ -375,6 +363,8 @@ public class Position {
 		if ( enPassantCapturedPawnSquare != null ) {
 			result.pieces.remove( enPassantCapturedPawnSquare );
 		}
+
+		final Side movingSide = getSide( squareFrom );
 
 		if ( isPromotion( move ) ) {
 			//depends on 3-char format
@@ -387,6 +377,21 @@ public class Position {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Clone position.
+	 * Remove the piece from the initial square
+	 * @param position source of cloning
+	 * @param squareFrom will be empty
+	 */
+	private void cloneAndRemove( Position position, String squareFrom ) {
+		//cloning position
+		for ( String square : pieces.keySet() ) {
+			//looks safe as both keys and pieces are IMMUTABLE
+			position.pieces.put( square, pieces.get( square ) );
+		}
+		position.pieces.remove( squareFrom );
 	}
 
 	/**
