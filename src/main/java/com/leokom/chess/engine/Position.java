@@ -518,10 +518,10 @@ public class Position {
 	//currently for tests only...
 	@Override
 	public String toString() {
-		String wholePicture = "";
+		StringBuilder builder = new StringBuilder();
 		for( String square : pieces.keySet() ) {
-			wholePicture += pieces.get( square );
+			builder.append( pieces.get( square ) );
 		}
-		return wholePicture;
+		return builder.toString();
 	}
 }
