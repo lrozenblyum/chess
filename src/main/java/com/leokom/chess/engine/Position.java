@@ -22,6 +22,12 @@ public class Position {
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
+	//TODO: thread-safety for read-only purposes?
+	private static final Map< Side, Integer > PROMOTION_RANKS = new HashMap<Side, Integer>() { {
+		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
+		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
+	}};
+
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
 		Collections.unmodifiableSet( EnumSet.of(
@@ -279,14 +285,7 @@ public class Position {
 	}
 
 	private static int getPromotionRank( Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return WHITE_PAWN_PROMOTION_RANK;
-			case BLACK:
-				return BLACK_PAWN_PROMOTION_RANK;
-			default:
-				return sideNotSupported( side );
-		}
+		return PROMOTION_RANKS.get( side );
 	}
 
 	//TODO: boring check just for compiler, better choices?
