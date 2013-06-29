@@ -253,18 +253,19 @@ public class Position {
 	 * @return pawn rank
 	 */
 	private static int getNextRank( int pawnRank, Side side ) {
-		VerticalDirection direction =
-			side == Side.WHITE ?
-			VerticalDirection.UP :
-			VerticalDirection.DOWN;
+		VerticalDirection direction = getPawnMovementDirection( side );
 		return Board.rankTo( pawnRank, direction );
+	}
+
+	private static VerticalDirection getPawnMovementDirection( Side side ) {
+		return side == Side.WHITE ?
+		VerticalDirection.UP :
+		VerticalDirection.DOWN;
 	}
 
 	private static int getPreviousRank( int pawnRank, Side side ) {
 		VerticalDirection direction =
-				side == Side.WHITE ?
-				VerticalDirection.DOWN :
-				VerticalDirection.UP;
+			getPawnMovementDirection( side ).opposite();
 
 		return Board.rankTo( pawnRank, direction );
 	}
