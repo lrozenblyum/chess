@@ -167,11 +167,6 @@ public class Position {
 		return result;
 	}
 
-	//TODO: any similar utility in Java standard classes?
-	private static HashSet<String> set( String... params ) {
-		return new HashSet<String>( Arrays.asList( params ) );
-	}
-
 	private String getPawnCaptureSquare( String pawnSquare, HorizontalDirection direction ) {
 		final String file = fileOfSquare( pawnSquare );
 		final int rank = rankOfSquare( pawnSquare );
