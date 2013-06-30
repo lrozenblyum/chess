@@ -92,14 +92,16 @@ public class Position {
 		Set< String > result = new HashSet<String>();
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
-			String topDiagonalSquare = Board.squareTo(
-					square, horizontalDirection, 1, VerticalDirection.UP, 1 );
+			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
+				String topDiagonalSquare = Board.squareTo(
+						square, horizontalDirection, 1, verticalDirection, 1 );
 
-			//null means: unreachable square reached
-			while ( topDiagonalSquare != null ) {
-				result.add( topDiagonalSquare );
-				topDiagonalSquare = Board.squareTo(
-						topDiagonalSquare, horizontalDirection, 1, VerticalDirection.UP, 1 );
+				//null means: unreachable square reached
+				while ( topDiagonalSquare != null ) {
+					result.add( topDiagonalSquare );
+					topDiagonalSquare = Board.squareTo(
+							topDiagonalSquare, horizontalDirection, 1, verticalDirection, 1 );
+				}
 			}
 		}
 
