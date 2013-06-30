@@ -91,22 +91,16 @@ public class Position {
 	private Set< String > getBishopMoves( String square ) {
 		Set< String > result = new HashSet<String>();
 
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+			String topDiagonalSquare = Board.squareTo(
+					square, horizontalDirection, 1, VerticalDirection.UP, 1 );
 
-		String rightTopDiagonalSquare = Board.squareTo(
-			square, HorizontalDirection.RIGHT, 1, VerticalDirection.UP, 1 );
-
-		//null means: unreachable square reached
-		while ( rightTopDiagonalSquare != null ) {
-			result.add( rightTopDiagonalSquare );
-			rightTopDiagonalSquare = Board.squareTo(
-					rightTopDiagonalSquare, HorizontalDirection.RIGHT, 1, VerticalDirection.UP, 1 );
-		}
-
-		String leftTopDiagonalSquare = Board.squareTo( square, HorizontalDirection.LEFT, 1, VerticalDirection.UP, 1 );
-		while ( leftTopDiagonalSquare != null ) {
-			result.add( leftTopDiagonalSquare );
-			leftTopDiagonalSquare = Board.squareTo(
-					leftTopDiagonalSquare, HorizontalDirection.LEFT, 1, VerticalDirection.UP, 1 );
+			//null means: unreachable square reached
+			while ( topDiagonalSquare != null ) {
+				result.add( topDiagonalSquare );
+				topDiagonalSquare = Board.squareTo(
+						topDiagonalSquare, horizontalDirection, 1, VerticalDirection.UP, 1 );
+			}
 		}
 
 		return result;
