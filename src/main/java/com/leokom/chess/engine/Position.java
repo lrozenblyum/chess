@@ -89,6 +89,7 @@ public class Position {
 	}
 
 	private Set< String > getBishopMoves( String square ) {
+
 		Set< String > result = new HashSet<String>();
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
@@ -101,6 +102,12 @@ public class Position {
 				while ( diagonalSquare != null && !isOccupied( diagonalSquare ) ) {
 					result.add( diagonalSquare );
 					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
+				}
+
+				//not null means we stopped due to a blocking piece
+				if ( diagonalSquare != null &&
+					isOccupiedBy( diagonalSquare, getSide( square ).opposite() ) ) {
+					result.add( diagonalSquare );
 				}
 			}
 		}
