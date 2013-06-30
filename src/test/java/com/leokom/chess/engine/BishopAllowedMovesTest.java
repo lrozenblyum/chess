@@ -26,4 +26,15 @@ public class BishopAllowedMovesTest {
 				position, "b1",
 				"a2", "c2", "d3", "e4", "f5", "g6","h7" );
 	}
+
+	@Test
+	public void centralPoint() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "d4", PieceType.BISHOP );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "d4",
+				"e5", "f6", "g7", "h8", "c4", "d3","c2", "b1",
+				"c6", "b7", "a8", "e3", "f2", "g1" );
+	}
 }
