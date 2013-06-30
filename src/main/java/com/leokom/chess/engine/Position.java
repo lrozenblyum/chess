@@ -93,14 +93,14 @@ public class Position {
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				String topDiagonalSquare = Board.squareTo(
-						square, horizontalDirection, 1, verticalDirection, 1 );
+				//squares to move on each inner while loop step
+				final int squaresDiagonally = 1;
+				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection, squaresDiagonally );
 
 				//null means: unreachable square reached
-				while ( topDiagonalSquare != null ) {
-					result.add( topDiagonalSquare );
-					topDiagonalSquare = Board.squareTo(
-							topDiagonalSquare, horizontalDirection, 1, verticalDirection, 1 );
+				while ( diagonalSquare != null ) {
+					result.add( diagonalSquare );
+					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
 				}
 			}
 		}
