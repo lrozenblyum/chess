@@ -543,12 +543,6 @@ public class Position {
 				side == piece.getSide();
 	}
 
-	boolean hasPiece( String square, PieceType pieceType ) {
-		final Piece piece = pieces.get( square );
-		return piece != null &&	piece.getPieceType() == pieceType;
-	}
-
-
 	//currently for tests only...
 	@Override
 	public String toString() {
