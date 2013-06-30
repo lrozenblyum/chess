@@ -1,6 +1,7 @@
 package com.leokom.chess.engine;
 
 /**
+ * Direction on the board, from White player view
  * Author: Leonid
  * Date-time: 29.06.13 16:20
  */
