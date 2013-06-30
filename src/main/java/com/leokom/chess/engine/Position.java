@@ -77,11 +77,45 @@ public class Position {
 	 * TODO: what if square doesn't contain any pieces?
 	 */
 	public Set<String> getMovesFrom( String square ) {
-		if ( hasPiece( square, PieceType.KNIGHT ) ) {
-			return getKnightMoves( square );
+		switch ( pieces.get( square ).getPieceType() ) {
+			case KNIGHT:
+				return getKnightMoves( square );
+			case BISHOP:
+				return getBishopMoves( square );
+			//in principle may extract the pawn separately
+			//and default: throw exception
+			//however this default will be uncovered
+			default:
+				return getPawnMoves( square );
+
+		}
+	}
+
+	private Set< String > getBishopMoves( String square ) {
+
+		Set< String > result = new HashSet<String>();
+
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
+				//squares to move on each inner while loop step
+				final int squaresDiagonally = 1;
+				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection, squaresDiagonally );
+
+				//null means: reached end of the board
+				while ( diagonalSquare != null && !isOccupied( diagonalSquare ) ) {
+					result.add( diagonalSquare );
+					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
+				}
+
+				//not null means we stopped due to a blocking piece
+				if ( diagonalSquare != null &&
+					isOccupiedBy( diagonalSquare, getSide( square ).opposite() ) ) {
+					result.add( diagonalSquare );
+				}
+			}
 		}
 
-		return getPawnMoves( square );
+		return result;
 	}
 
 	private Set<String> getPawnMoves( String square ) {
@@ -341,16 +375,19 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
-		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
-			//after moving everything except a pawn
-			//the flag about en passant possibility must be cleared
-			final String newEnPassantFile = null;
-			final Position position = new Position( newEnPassantFile );
-			cloneAndRemove( position, squareFrom );
+		final PieceType pieceType = pieces.get( squareFrom ).getPieceType();
+		switch ( pieceType ) {
+			case KNIGHT:
+			case BISHOP:
+				//after moving everything except a pawn
+				//the flag about en passant possibility must be cleared
+				final String newEnPassantFile = null;
+				final Position position = new Position( newEnPassantFile );
+				cloneAndRemove( position, squareFrom );
 
-			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
+				position.add( getSide( squareFrom ), move, pieceType );
 
-			return position;
+				return position;
 		}
 
 		final String squareTo = getDestinationSquare( move );
@@ -372,8 +409,8 @@ public class Position {
 		if ( isPromotion( move ) ) {
 			//depends on 3-char format
 			String promotionNotation = move.substring( 2 );
-			PieceType pieceType = PieceType.byNotation( promotionNotation );
-			result.pieces.put( squareTo, new Piece( pieceType, movingSide ) );
+			PieceType promotedPieceType = PieceType.byNotation( promotionNotation );
+			result.pieces.put( squareTo, new Piece( promotedPieceType, movingSide ) );
 		} else {
 			//if it's capture - also ok - as it overwrites....
 			result.addPawn( movingSide, squareTo );
@@ -508,12 +545,6 @@ public class Position {
 				piece.getPieceType() == pieceType &&
 				side == piece.getSide();
 	}
-
-	boolean hasPiece( String square, PieceType pieceType ) {
-		final Piece piece = pieces.get( square );
-		return piece != null &&	piece.getPieceType() == pieceType;
-	}
-
 
 	//currently for tests only...
 	@Override
