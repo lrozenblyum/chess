@@ -101,6 +101,14 @@ public class Position {
 			rightTopDiagonalSquare = Board.squareTo(
 					rightTopDiagonalSquare, HorizontalDirection.RIGHT, 1, VerticalDirection.UP, 1 );
 		}
+
+		String leftTopDiagonalSquare = Board.squareTo( square, HorizontalDirection.LEFT, 1, VerticalDirection.UP, 1 );
+		while ( leftTopDiagonalSquare != null ) {
+			result.add( leftTopDiagonalSquare );
+			leftTopDiagonalSquare = Board.squareTo(
+					leftTopDiagonalSquare, HorizontalDirection.LEFT, 1, VerticalDirection.UP, 1 );
+		}
+
 		return result;
 	}
 

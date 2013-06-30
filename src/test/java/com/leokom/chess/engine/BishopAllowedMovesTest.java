@@ -13,6 +13,17 @@ public class BishopAllowedMovesTest {
 		position.add( Side.WHITE, "a1", PieceType.BISHOP );
 
 		PositionAsserts.assertAllowedMoves(
-				position, "a1", "b2", "c3", "d4", "e5", "f6", "g7","h8" );
+				position, "a1",
+				"b2", "c3", "d4", "e5", "f6", "g7","h8" );
+	}
+
+	@Test
+	public void fromB1() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "b1", PieceType.BISHOP );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "b1",
+				"a2", "c2", "d3", "e4", "f5", "g6","h7" );
 	}
 }
