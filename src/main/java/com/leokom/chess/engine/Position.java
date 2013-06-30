@@ -77,15 +77,18 @@ public class Position {
 	 * TODO: what if square doesn't contain any pieces?
 	 */
 	public Set<String> getMovesFrom( String square ) {
-		if ( hasPiece( square, PieceType.KNIGHT ) ) {
-			return getKnightMoves( square );
-		}
+		switch ( pieces.get( square ).getPieceType() ) {
+			case KNIGHT:
+				return getKnightMoves( square );
+			case BISHOP:
+				return getBishopMoves( square );
+			//in principle may extract the pawn separately
+			//and default: throw exception
+			//however this default will be uncovered
+			default:
+				return getPawnMoves( square );
 
-		if ( hasPiece( square, PieceType.BISHOP ) ) {
-			return getBishopMoves( square );
 		}
-
-		return getPawnMoves( square );
 	}
 
 	private Set< String > getBishopMoves( String square ) {
