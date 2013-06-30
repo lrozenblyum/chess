@@ -99,4 +99,9 @@ final class Board {
 	static boolean sameFile( String firstSquare, String secondSquare ) {
 		return fileOfSquare( firstSquare ).equals( fileOfSquare( secondSquare ) );
 	}
+
+	static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
+		return Board.squareTo(
+				square, horizontalDirection, squaresDiagonally, verticalDirection, squaresDiagonally );
+	}
 }
