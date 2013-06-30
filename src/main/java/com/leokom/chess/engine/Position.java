@@ -81,7 +81,27 @@ public class Position {
 			return getKnightMoves( square );
 		}
 
+		if ( hasPiece( square, PieceType.BISHOP ) ) {
+			return getBishopMoves( square );
+		}
+
 		return getPawnMoves( square );
+	}
+
+	private Set< String > getBishopMoves( String square ) {
+		Set< String > result = new HashSet<String>();
+
+
+		String rightTopDiagonalSquare = Board.squareTo(
+			square, HorizontalDirection.RIGHT, 1, VerticalDirection.UP, 1 );
+
+		//null means: unreachable square reached
+		while ( rightTopDiagonalSquare != null ) {
+			result.add( rightTopDiagonalSquare );
+			rightTopDiagonalSquare = Board.squareTo(
+					rightTopDiagonalSquare, HorizontalDirection.RIGHT, 1, VerticalDirection.UP, 1 );
+		}
+		return result;
 	}
 
 	private Set<String> getPawnMoves( String square ) {
