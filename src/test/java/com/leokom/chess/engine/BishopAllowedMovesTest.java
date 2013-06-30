@@ -49,4 +49,16 @@ public class BishopAllowedMovesTest {
 				position, "a1",
 				"b2" );
 	}
+
+	@Test
+	public void canCapture() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.BISHOP );
+
+		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //any
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"b2", "c3" );
+	}
 }
