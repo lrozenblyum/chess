@@ -375,16 +375,19 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
-		if ( pieces.get( squareFrom ).getPieceType() == PieceType.KNIGHT ) {
-			//after moving everything except a pawn
-			//the flag about en passant possibility must be cleared
-			final String newEnPassantFile = null;
-			final Position position = new Position( newEnPassantFile );
-			cloneAndRemove( position, squareFrom );
+		final PieceType pieceType = pieces.get( squareFrom ).getPieceType();
+		switch ( pieceType ) {
+			case KNIGHT:
+			case BISHOP:
+				//after moving everything except a pawn
+				//the flag about en passant possibility must be cleared
+				final String newEnPassantFile = null;
+				final Position position = new Position( newEnPassantFile );
+				cloneAndRemove( position, squareFrom );
 
-			position.add( getSide( squareFrom ), move, PieceType.KNIGHT );
+				position.add( getSide( squareFrom ), move, pieceType );
 
-			return position;
+				return position;
 		}
 
 		final String squareTo = getDestinationSquare( move );
@@ -406,8 +409,8 @@ public class Position {
 		if ( isPromotion( move ) ) {
 			//depends on 3-char format
 			String promotionNotation = move.substring( 2 );
-			PieceType pieceType = PieceType.byNotation( promotionNotation );
-			result.pieces.put( squareTo, new Piece( pieceType, movingSide ) );
+			PieceType promotedPieceType = PieceType.byNotation( promotionNotation );
+			result.pieces.put( squareTo, new Piece( promotedPieceType, movingSide ) );
 		} else {
 			//if it's capture - also ok - as it overwrites....
 			result.addPawn( movingSide, squareTo );
