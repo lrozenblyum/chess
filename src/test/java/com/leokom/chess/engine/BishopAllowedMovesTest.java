@@ -37,4 +37,16 @@ public class BishopAllowedMovesTest {
 				"e5", "f6", "g7", "h8", "c3", "b2","a1",
 				"c5", "b6", "a7", "e3", "f2", "g1" );
 	}
+
+	@Test
+	public void cannotMoveOverIntervening() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.BISHOP );
+
+		position.add( Side.WHITE, "c3", PieceType.KNIGHT ); //any
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"b2" );
+	}
 }
