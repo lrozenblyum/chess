@@ -97,7 +97,7 @@ public class Position {
 				final int squaresDiagonally = 1;
 				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection, squaresDiagonally );
 
-				//null means: unreachable square reached
+				//null means: reached end of the board
 				while ( diagonalSquare != null ) {
 					result.add( diagonalSquare );
 					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
