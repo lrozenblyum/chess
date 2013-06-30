@@ -82,6 +82,8 @@ public class Position {
 				return getKnightMoves( square );
 			case BISHOP:
 				return getBishopMoves( square );
+			case ROOK:
+				return getRookMoves( square );
 			//in principle may extract the pawn separately
 			//and default: throw exception
 			//however this default will be uncovered
@@ -89,6 +91,26 @@ public class Position {
 				return getPawnMoves( square );
 
 		}
+	}
+
+	private Set< String > getRookMoves( String square ) {
+		Set< String > result = new HashSet<String>();
+
+		String toTop = squareTo( square, HorizontalDirection.LEFT //TODO: not applicable since it's 0 shift
+				,0,
+				VerticalDirection.UP,
+				1 );
+		while ( toTop != null ) {
+			result.add( toTop );
+			toTop = squareTo( toTop, HorizontalDirection.LEFT //TODO: not applicable since it's 0 shift
+					,0,
+					VerticalDirection.UP,
+					1 );
+		}
+
+		//TODO: implement moving to right
+
+		return result;
 	}
 
 	private Set< String > getBishopMoves( String square ) {
