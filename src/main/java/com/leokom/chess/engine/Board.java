@@ -78,6 +78,16 @@ final class Board {
 		return squareTo( square, HorizontalDirection.LEFT, 0, verticalDirection, 1 ); //interm. 2 params are unimportant
 	}
 
+	static String squareTo( String square, Direction direction ) {
+		switch ( direction ) {
+			case UP: return squareTo( square, VerticalDirection.UP );
+			case DOWN: return squareTo( square, VerticalDirection.DOWN );
+			case LEFT: return squareTo( square, HorizontalDirection.LEFT );
+			case RIGHT: return squareTo( square, HorizontalDirection.RIGHT );
+			default: throw new IllegalArgumentException( "Unsupported direction: " + direction );
+		}
+	}
+
 
 	private static boolean isRankValid( int destinationRank ) {
 		return destinationRank >= MINIMAL_RANK && destinationRank <= MAXIMAL_RANK;
