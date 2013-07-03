@@ -110,6 +110,18 @@ public class Position {
 
 		//TODO: implement moving to right
 
+		String toRight = squareTo( square, HorizontalDirection.RIGHT
+				,1,
+				VerticalDirection.UP,  //TODO: not applicable since it's 0 shift
+				0 );
+		while ( toRight != null ) {
+			result.add( toRight );
+			toRight = squareTo( toRight, HorizontalDirection.RIGHT
+					,1,
+					VerticalDirection.UP,  //TODO: not applicable since it's 0 shift
+					0 );
+		}
+
 		return result;
 	}
 
