@@ -18,4 +18,16 @@ public class RookAllowedMovesTest {
 			"a2", "a3", "a4", "a5", "a6", "a7", "a8",
 			"b1", "c1", "d1", "e1", "f1", "g1", "h1" );
 	}
+
+	@Test
+	public void e4() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e4", PieceType.ROOK );
+
+		PositionAsserts.assertAllowedMoves(
+				position,
+				"e4",
+				"e1", "e2", "e3", "e5", "e6", "e7", "e8",
+				"a4", "b4", "c4", "d4", "f4", "g4", "h4" );
+	}
 }
