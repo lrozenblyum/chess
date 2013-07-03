@@ -108,6 +108,16 @@ public class Position {
 			result.add( runToRightSquare );
 		}
 
+		String runToBottomSquare = square;
+		while ( ( runToBottomSquare = squareTo( runToBottomSquare, VerticalDirection.DOWN ) ) != null )  {
+			result.add( runToBottomSquare );
+		}
+
+		String runToLeftSquare = square;
+		while ( ( runToLeftSquare = squareTo( runToLeftSquare, HorizontalDirection.LEFT ) ) != null )  {
+			result.add( runToLeftSquare );
+		}
+
 		return result;
 	}
 
