@@ -70,6 +70,15 @@ final class Board {
 		}
 	}
 
+	static String squareTo( String square, HorizontalDirection horizontalDirection ) {
+		return squareTo( square, horizontalDirection, 1, VerticalDirection.UP, 0 ); //last 2 params are unimportant
+	}
+
+	static String squareTo( String square, VerticalDirection verticalDirection ) {
+		return squareTo( square, HorizontalDirection.LEFT, 0, verticalDirection, 1 ); //interm. 2 params are unimportant
+	}
+
+
 	private static boolean isRankValid( int destinationRank ) {
 		return destinationRank >= MINIMAL_RANK && destinationRank <= MAXIMAL_RANK;
 	}

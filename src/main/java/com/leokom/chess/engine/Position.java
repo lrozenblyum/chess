@@ -96,30 +96,17 @@ public class Position {
 	private Set< String > getRookMoves( String square ) {
 		Set< String > result = new HashSet<String>();
 
-		String toTop = squareTo( square, HorizontalDirection.LEFT //TODO: not applicable since it's 0 shift
-				,0,
-				VerticalDirection.UP,
-				1 );
+		String toTop = squareTo( square, VerticalDirection.UP );
+
 		while ( toTop != null ) {
 			result.add( toTop );
-			toTop = squareTo( toTop, HorizontalDirection.LEFT //TODO: not applicable since it's 0 shift
-					,0,
-					VerticalDirection.UP,
-					1 );
+			toTop = squareTo( toTop, VerticalDirection.UP );
 		}
 
-		//TODO: implement moving to right
-
-		String toRight = squareTo( square, HorizontalDirection.RIGHT
-				,1,
-				VerticalDirection.UP,  //TODO: not applicable since it's 0 shift
-				0 );
+		String toRight = squareTo( square, HorizontalDirection.RIGHT );
 		while ( toRight != null ) {
 			result.add( toRight );
-			toRight = squareTo( toRight, HorizontalDirection.RIGHT
-					,1,
-					VerticalDirection.UP,  //TODO: not applicable since it's 0 shift
-					0 );
+			toRight = squareTo( toRight, HorizontalDirection.RIGHT );
 		}
 
 		return result;
