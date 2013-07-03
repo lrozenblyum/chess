@@ -30,4 +30,17 @@ public class RookAllowedMovesTest {
 				"e1", "e2", "e3", "e5", "e6", "e7", "e8",
 				"a4", "b4", "c4", "d4", "f4", "g4", "h4" );
 	}
+
+	@Test
+	public void blockedPieces() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.ROOK );
+		position.add( Side.WHITE, "a3", PieceType.BISHOP ); //any
+
+		PositionAsserts.assertAllowedMoves(
+				position,
+				"a1",
+				"a2",
+				"b1", "c1", "d1", "e1", "f1", "g1", "h1" );
+	}
 }
