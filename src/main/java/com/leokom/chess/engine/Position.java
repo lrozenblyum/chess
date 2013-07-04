@@ -404,6 +404,7 @@ public class Position {
 		switch ( pieceType ) {
 			case KNIGHT:
 			case BISHOP:
+			case ROOK:
 				//after moving everything except a pawn
 				//the flag about en passant possibility must be cleared
 				final String newEnPassantFile = null;
