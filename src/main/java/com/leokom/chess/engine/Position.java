@@ -94,17 +94,20 @@ public class Position {
 	}
 
 	private Set< String > getRookMoves( String square ) {
+		final Side currentSide = pieces.get( square ).getSide();
+
 		Set< String > result = new HashSet<String>();
 
 		for ( Direction direction : Direction.values() ) {
 			String runningSquare = square;
 			//left to right calculation logic?... Too complex it becomes
 			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null &&
-					pieces.get( runningSquare ) == null )  {
+					isEmptySquare( runningSquare ) )  {
 				result.add( runningSquare );
 			}
 
-			if ( pieces.get( runningSquare ) != null && pieces.get( runningSquare ).getSide() == pieces.get( square ).getSide().opposite() ) {
+			if ( isOccupied( runningSquare ) &&
+				pieces.get( runningSquare ).getSide() == currentSide.opposite() ) {
 				//capture
 				result.add( runningSquare );
 			}
