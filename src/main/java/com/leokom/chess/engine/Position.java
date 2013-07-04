@@ -103,6 +103,11 @@ public class Position {
 					pieces.get( runningSquare ) == null )  {
 				result.add( runningSquare );
 			}
+
+			if ( pieces.get( runningSquare ) != null && pieces.get( runningSquare ).getSide() == pieces.get( square ).getSide().opposite() ) {
+				//capture
+				result.add( runningSquare );
+			}
 		}
 
 		return result;
