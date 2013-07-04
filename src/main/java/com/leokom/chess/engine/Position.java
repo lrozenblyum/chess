@@ -98,7 +98,9 @@ public class Position {
 
 		for ( Direction direction : Direction.values() ) {
 			String runningSquare = square;
-			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null )  {
+			//left to right calculation logic?... Too complex it becomes
+			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null &&
+					pieces.get( runningSquare ) == null )  {
 				result.add( runningSquare );
 			}
 		}
