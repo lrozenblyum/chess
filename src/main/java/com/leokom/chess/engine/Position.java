@@ -127,7 +127,7 @@ public class Position {
 				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection, squaresDiagonally );
 
 				//null means: reached end of the board
-				while ( diagonalSquare != null && !isOccupied( diagonalSquare ) ) {
+				while ( diagonalSquare != null && isEmptySquare( diagonalSquare ) ) {
 					result.add( diagonalSquare );
 					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
 				}
