@@ -82,6 +82,8 @@ public class Position {
 				return getKnightMoves( square );
 			case BISHOP:
 				return getBishopMoves( square );
+			case ROOK:
+				return getRookMoves( square );
 			//in principle may extract the pawn separately
 			//and default: throw exception
 			//however this default will be uncovered
@@ -89,6 +91,29 @@ public class Position {
 				return getPawnMoves( square );
 
 		}
+	}
+
+	private Set< String > getRookMoves( String square ) {
+		final Side currentSide = pieces.get( square ).getSide();
+
+		Set< String > result = new HashSet<String>();
+
+		for ( Direction direction : Direction.values() ) {
+			String runningSquare = square;
+			//left to right calculation logic?... Too complex it becomes
+			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null &&
+					isEmptySquare( runningSquare ) )  {
+				result.add( runningSquare );
+			}
+
+			if ( isOccupied( runningSquare ) &&
+				pieces.get( runningSquare ).getSide() == currentSide.opposite() ) {
+				//capture
+				result.add( runningSquare );
+			}
+		}
+
+		return result;
 	}
 
 	private Set< String > getBishopMoves( String square ) {
@@ -102,7 +127,7 @@ public class Position {
 				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection, squaresDiagonally );
 
 				//null means: reached end of the board
-				while ( diagonalSquare != null && !isOccupied( diagonalSquare ) ) {
+				while ( diagonalSquare != null && isEmptySquare( diagonalSquare ) ) {
 					result.add( diagonalSquare );
 					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
 				}
@@ -379,6 +404,7 @@ public class Position {
 		switch ( pieceType ) {
 			case KNIGHT:
 			case BISHOP:
+			case ROOK:
 				//after moving everything except a pawn
 				//the flag about en passant possibility must be cleared
 				final String newEnPassantFile = null;
