@@ -43,4 +43,20 @@ public class RookAllowedMovesTest {
 				"a2",
 				"b1", "c1", "d1", "e1", "f1", "g1", "h1" );
 	}
+
+	@Test
+	public void blockAndCapture() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "b1", PieceType.ROOK );
+
+		position.add( Side.WHITE, "b2", PieceType.BISHOP ); //any -> block
+		position.add( Side.BLACK, "a1", PieceType.KNIGHT ); //any capturable
+		position.add( Side.BLACK, "c1", PieceType.BISHOP );
+
+
+		PositionAsserts.assertAllowedMoves(
+				position,
+				"b1",
+				"a1", "c1" );
+	}
 }
