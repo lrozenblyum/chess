@@ -286,7 +286,7 @@ public class Position {
 		return disallowedMoves;
 	}
 
-	private Side getSide( String square ) {
+	Side getSide( String square ) {
 		final Piece piece = pieces.get( square );
 		if ( piece == null ) {
 			//TODO: correct? Some code relied on this.
@@ -312,11 +312,11 @@ public class Position {
 	 * @param side
 	 * @return rank with en passant possibility
 	 */
-	private static int getEnPassantPossibleRank( Side side ) {
+	static int getEnPassantPossibleRank( Side side ) {
 		return getDoubleMoveRank( side.opposite() );
 	}
 
-	private static int getPawnInitialRank( Side side ) {
+	static int getPawnInitialRank( Side side ) {
 		return PAWN_INITIAL_RANKS.get( side );
 	}
 
@@ -398,7 +398,7 @@ public class Position {
 		return isOccupiedBy( square, Side.BLACK ) || isOccupiedBy( square, Side.WHITE );
 	}
 
-	private static int getDoubleMoveRank( Side side ) {
+	static int getDoubleMoveRank( Side side ) {
 		return getPawnNextRank( getPawnNextRank( getPawnInitialRank( side ), side ), side );
 	}
 
@@ -417,69 +417,14 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
-		final PieceType pieceType = getPieceType( squareFrom );
-		switch ( pieceType ) {
-			case KNIGHT:
-			case BISHOP:
-			case ROOK:
-			case QUEEN:
-				//after moving everything except a pawn
-				//the flag about en passant possibility must be cleared
-				final String newEnPassantFile = null;
-				final Position position = new Position( newEnPassantFile );
-				cloneAndRemove( position, squareFrom );
-
-				position.add( getSide( squareFrom ), move, pieceType );
-
-				return position;
-		}
-
-		final String squareTo = getDestinationSquare( move );
-
-		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
-
-		final Position result = new Position( newEnPassantFile );
-		cloneAndRemove( result, squareFrom );
-
-		//en passant capture requires extra processing
-		//because we capture a piece not being on the target square
-		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, move );
-		if ( enPassantCapturedPawnSquare != null ) {
-			result.removePiece( enPassantCapturedPawnSquare );
-		}
-
-		final Side movingSide = getSide( squareFrom );
-
-		if ( isPromotion( move ) ) {
-			//depends on 3-char format
-			String promotionNotation = move.substring( 2 );
-			PieceType promotedPieceType = PieceType.byNotation( promotionNotation );
-			result.add( movingSide, squareTo, promotedPieceType );
-		} else {
-			//if it's capture - also ok - as it overwrites....
-			result.addPawn( movingSide, squareTo );
-		}
-
-		return result;
+		return new PositionGenerator( this ).generate( squareFrom, move );
 	}
 
-	private PieceType getPieceType( String squareFrom ) {
+	PieceType getPieceType( String squareFrom ) {
 		return pieces.get( squareFrom ).getPieceType();
 	}
 
-	/**
-	 * Clone position.
-	 * Remove the piece from the initial square
-	 * @param position source of cloning
-	 * @param squareFrom will be empty
-	 */
-	private void cloneAndRemove( Position position, String squareFrom ) {
-		copyPieces( position );
-
-		position.removePiece( squareFrom );
-	}
-
-	private void copyPieces( Position position ) {
+	void copyPiecesInto( Position position ) {
 		//cloning position
 		for ( String square : pieces.keySet() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
@@ -493,52 +438,20 @@ public class Position {
 	 * @param move in format like e2 or f1Q
 	 * @return destination square (e2 or f1 correspondingly)
 	 */
-	private String getDestinationSquare( String move ) {
+	//TODO: not related to this class responsibility.
+	//it's just move parser...
+	static String getDestinationSquare( String move ) {
 		return isPromotion( move ) ?
 				move.substring( 0, 2 ) :
 				move;
 	}
 
-	private static boolean isPromotion( String move ) {
+	//TODO: looks like not directly related to this
+	//class responsibility
+	static boolean isPromotion( String move ) {
 		return move.length() == PROMOTION_MOVE_SIZE;
 	}
 
-	/**
-	 * Get square where the en-passant captured piece is on
-	 * (null if we are not doing en passant)
-	 * @param squareFrom initial pawns square
-	 * @param squareTo target pawn square
-	 * @return en-passant captured piece's square (or null)
-	 */
-	private String getEnPassantCapturedPieceSquare( String squareFrom, String squareTo ) {
-		//rank only from which a pawn can execute en passant move
-		//(it's equal to rank where the opposite piece being captured is on)
-		int enPassantPossibleRank = getEnPassantPossibleRank( getSide( squareFrom ) );
-
-		if ( this.enPassantFile != null &&
-			rankOfSquare( squareFrom ) == enPassantPossibleRank &&
-			this.enPassantFile.equals( fileOfSquare( squareTo ))) {
-			return this.enPassantFile + enPassantPossibleRank;
-		}
-		return null;
-	}
-
-	/**
-	 * Get a file for new position, for which the next squareTo could be en passant
-	 * (if possible)
-	 * @param squareFrom square from which the piece is going to squareTo
-	 * @param squareTo square to which the piece is going to squareTo
-	 * @return possible en passant file (null if impossible)
-	 */
-	//TODO: when we'll implement other pieces moves - this must be executed
-	//only for pawns!
-	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
-		final Side side = getSide( squareFrom );
-
-		return rankOfSquare( squareFrom ) == getPawnInitialRank( side ) &&
-				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
-				fileOfSquare( squareFrom ) : null;
-	}
 
 	//TODO: if this method is used in real production code
 	//it probably requires test coverage. Now it's for tests only
@@ -613,7 +526,7 @@ public class Position {
 		return builder.toString();
 	}
 
-	private void removePiece( String square ) {
+	void removePiece( String square ) {
 		pieces.remove( square );
 	}
 }
