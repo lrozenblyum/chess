@@ -78,7 +78,7 @@ public class Position {
 	 * Should we return empty set, null or throw an exception?
 	 */
 	public Set<String> getMovesFrom( String square ) {
-		switch ( pieces.get( square ).getPieceType() ) {
+		switch ( getPieceType( square ) ) {
 			case KNIGHT:
 				return getKnightMoves( square );
 			case BISHOP:
@@ -417,7 +417,7 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( String squareFrom, String move ) {
-		final PieceType pieceType = pieces.get( squareFrom ).getPieceType();
+		final PieceType pieceType = getPieceType( squareFrom );
 		switch ( pieceType ) {
 			case KNIGHT:
 			case BISHOP:
@@ -461,6 +461,10 @@ public class Position {
 		}
 
 		return result;
+	}
+
+	private PieceType getPieceType( String squareFrom ) {
+		return pieces.get( squareFrom ).getPieceType();
 	}
 
 	/**
