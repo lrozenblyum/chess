@@ -9,7 +9,7 @@ import static com.leokom.chess.engine.Side.*;
  * Author: Leonid
  * Date-time: 28.09.12 22:09
  */
-public class PositionPromoteTest {
+public class PawnPromoteNewPositionTest {
 	@Test
 	public void toQueen() {
 		Position position = new Position( null );

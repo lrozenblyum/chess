@@ -8,7 +8,7 @@ import static com.leokom.chess.engine.Side.*;
  * Author: Leonid
  * Date-time: 18.09.12 21:50
  */
-public class PositionEnPassantNewTest {
+public class PawnEnPassantNewPositionTest {
 	@Test
 	public void enPassantLeft() {
 		Position position = new Position( "d" );
