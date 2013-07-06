@@ -103,7 +103,7 @@ public class Position {
 		final Set<String> rookMoves = getRookMoves( square );
 		final Set< String > bishopMoves = getBishopMoves( square );
 		final Set< String > result = new HashSet<String>();
-		//TODO: some guawa/collectionutils for simpplification?
+		//TODO: some Guava/CollectionUtils for simplification?
 		result.addAll( rookMoves );
 		result.addAll( bishopMoves );
 
