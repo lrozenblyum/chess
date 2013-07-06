@@ -75,6 +75,7 @@ public class Position {
 	 * if we promoted to Knight)
 	 *
 	 * TODO: what if square doesn't contain any pieces?
+	 * Should we return empty set, null or throw an exception?
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		switch ( pieces.get( square ).getPieceType() ) {

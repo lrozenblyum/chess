@@ -18,4 +18,26 @@ public class QueenAllowedMovesTest {
 			"h2", "h3", "h4", "h5", "h6", "h7", "h8",
 			"g2", "f3", "e4", "d5", "c6", "b7", "a8" );
 	}
+
+	@Test
+	public void centerBlocksAndCaptures() {
+		Position position = new Position( null );
+		position.addQueen( Side.WHITE, "c4" );
+
+		position.addQueen( Side.WHITE, "d4" );
+		position.addQueen( Side.WHITE, "d5" );
+		position.addQueen( Side.WHITE, "b5" );
+
+		position.addQueen( Side.BLACK, "c5" );
+		position.addQueen( Side.BLACK, "b5" );
+		position.addQueen( Side.BLACK, "b4" );
+		position.addQueen( Side.BLACK, "b3" );
+		position.addQueen( Side.BLACK, "c3" );
+		position.addQueen( Side.BLACK, "d3" );
+
+
+		PositionAsserts.assertAllowedMoves(
+				position, "c4",
+				"c5", "b5", "b4", "b3", "c3", "d3" );
+	}
 }
