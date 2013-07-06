@@ -84,6 +84,8 @@ public class Position {
 				return getBishopMoves( square );
 			case ROOK:
 				return getRookMoves( square );
+			case QUEEN:
+				return getQueenMoves( square );
 			//in principle may extract the pawn separately
 			//and default: throw exception
 			//however this default will be uncovered
@@ -91,6 +93,20 @@ public class Position {
 				return getPawnMoves( square );
 
 		}
+	}
+
+	private Set<String> getQueenMoves( String square ) {
+		//TODO: this works in assumption
+		//that rook's castling is NOT included into
+		//getRookMoves. Castling is considered as King's move
+		final Set<String> rookMoves = getRookMoves( square );
+		final Set< String > bishopMoves = getBishopMoves( square );
+		final Set< String > result = new HashSet<String>();
+		//TODO: some guawa/collectionutils for simpplification?
+		result.addAll( rookMoves );
+		result.addAll( bishopMoves );
+
+		return result;
 	}
 
 	private Set< String > getRookMoves( String square ) {
