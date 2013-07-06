@@ -185,7 +185,9 @@ public class Position {
 
 			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
 				String captureSquare = getPawnCaptureSquare( square, direction );
-				addIfOccupiedBy( result, captureSquare, side.opposite() );
+				if ( isOccupiedBy( captureSquare, side.opposite() ) ) {
+					result.add( captureSquare );
+				}
 			}
 		}
 
@@ -361,18 +363,6 @@ public class Position {
 	private static void addPromotionResult( Set<String> result, String file, Side side ) {
 		for ( PieceType pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
 			result.add( file + getPromotionRank( side ) + pieceToPromote.getNotation() );
-		}
-	}
-
-	/**
-	 * Add the square to result IFF it's occupied by the side provided!
-	 * @param result
-	 * @param square
-	 * @param side
-	 */
-	private void addIfOccupiedBy( Set<String> result, String square, Side side ) {
-		if ( isOccupiedBy( square, side ) ) {
-			result.add( square );
 		}
 	}
 
