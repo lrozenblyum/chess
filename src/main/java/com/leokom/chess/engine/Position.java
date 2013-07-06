@@ -40,11 +40,6 @@ public class Position {
 				PieceType.KNIGHT, PieceType.BISHOP ) );
 
 
-	/**
-	 * Size of promotion move (e.g. "h1Q")
-	 */
-	private static final int PROMOTION_MOVE_SIZE = 3;
-
 	//all pieces currently present on the board
 	private final Map< String, Piece > pieces = new HashMap<String, Piece>();
 
@@ -261,7 +256,7 @@ public class Position {
 	private Set<String> getImpossibleMovesForPawn( Set<String> potentialPawnMoves, String square ) {
 		Set< String > disallowedMoves = new HashSet<String>();
 		for ( String potentialMove : potentialPawnMoves ) {
-			String destinationSquare = getDestinationSquare( potentialMove );
+			String destinationSquare = Move.getDestinationSquare( potentialMove );
 
 			//pawn cannot move to occupied square
 			//if file is different - it's capture and should be allowed
@@ -430,26 +425,6 @@ public class Position {
 			//looks safe as both keys and pieces are IMMUTABLE
 			position.pieces.put( square, pieces.get( square ) );
 		}
-	}
-
-	/**
-	 * Get destination square from the move
-	 *
-	 * @param move in format like e2 or f1Q
-	 * @return destination square (e2 or f1 correspondingly)
-	 */
-	//TODO: not related to this class responsibility.
-	//it's just move parser...
-	static String getDestinationSquare( String move ) {
-		return isPromotion( move ) ?
-				move.substring( 0, 2 ) :
-				move;
-	}
-
-	//TODO: looks like not directly related to this
-	//class responsibility
-	static boolean isPromotion( String move ) {
-		return move.length() == PROMOTION_MOVE_SIZE;
 	}
 
 	/**
