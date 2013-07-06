@@ -119,7 +119,7 @@ public class Position {
 			}
 
 			if ( isOccupied( runningSquare ) &&
-				pieces.get( runningSquare ).getSide() == currentSide.opposite() ) {
+				isOccupiedBy( runningSquare, currentSide.opposite() ) ) {
 				//capture
 				result.add( runningSquare );
 			}
