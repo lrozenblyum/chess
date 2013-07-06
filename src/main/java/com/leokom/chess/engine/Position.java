@@ -445,7 +445,7 @@ public class Position {
 		//because we capture a piece not being on the target square
 		final String enPassantCapturedPawnSquare = getEnPassantCapturedPieceSquare( squareFrom, move );
 		if ( enPassantCapturedPawnSquare != null ) {
-			result.pieces.remove( enPassantCapturedPawnSquare );
+			result.removePiece( enPassantCapturedPawnSquare );
 		}
 
 		final Side movingSide = getSide( squareFrom );
@@ -470,12 +470,17 @@ public class Position {
 	 * @param squareFrom will be empty
 	 */
 	private void cloneAndRemove( Position position, String squareFrom ) {
+		copyPieces( position );
+
+		position.removePiece( squareFrom );
+	}
+
+	private void copyPieces( Position position ) {
 		//cloning position
 		for ( String square : pieces.keySet() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
 			position.pieces.put( square, pieces.get( square ) );
 		}
-		position.pieces.remove( squareFrom );
 	}
 
 	/**
@@ -602,5 +607,9 @@ public class Position {
 			builder.append( pieces.get( square ) );
 		}
 		return builder.toString();
+	}
+
+	private void removePiece( String square ) {
+		pieces.remove( square );
 	}
 }
