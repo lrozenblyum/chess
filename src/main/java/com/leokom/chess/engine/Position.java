@@ -454,7 +454,7 @@ public class Position {
 			//depends on 3-char format
 			String promotionNotation = move.substring( 2 );
 			PieceType promotedPieceType = PieceType.byNotation( promotionNotation );
-			result.pieces.put( squareTo, new Piece( promotedPieceType, movingSide ) );
+			result.add( movingSide, squareTo, promotedPieceType );
 		} else {
 			//if it's capture - also ok - as it overwrites....
 			result.addPawn( movingSide, squareTo );
