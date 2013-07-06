@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
  * Author: Leonid
  * Date-time: 29.06.13 17:36
  */
-public class PositionKnightMovementTest {
+public class KnightNewPositionTest {
 	@Test
 	public void simpleMove() {
 		Position position = new Position( null );
