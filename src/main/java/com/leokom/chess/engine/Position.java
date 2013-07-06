@@ -380,7 +380,7 @@ public class Position {
 	}
 
 	private boolean isOccupied( String square ) {
-		return isOccupiedBy( square, Side.BLACK ) || isOccupiedBy( square, Side.WHITE );
+		return !isEmptySquare( square );
 	}
 
 	static int getDoubleMoveRank( Side side ) {
