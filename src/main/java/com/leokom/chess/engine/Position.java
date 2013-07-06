@@ -590,6 +590,10 @@ public class Position {
 				side == piece.getSide();
 	}
 
+	Piece getPiece( String square ) {
+		return pieces.get( square );
+	}
+
 	//currently for tests only...
 	@Override
 	public String toString() {

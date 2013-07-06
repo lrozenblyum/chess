@@ -19,8 +19,7 @@ public final class PositionAsserts {
 	static void assertHasPiece( Position position, PieceType pieceType, Side side, String square ) {
 		assertTrue( pieceType +
 				" of " + side + " is expected to be on square: " + square +
-				//TODO: need more details about the busy square
-				". Actually the square " + ( position.isEmptySquare( square ) ? " is empty " : " is busy " ),
+				". Actually the square " + ( position.isEmptySquare( square ) ? " is empty " : " has " + position.getPiece( square ) ),
 				position.hasPiece( side, square, pieceType ) );
 	}
 
