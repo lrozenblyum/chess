@@ -34,7 +34,7 @@ final class PositionGenerator {
 				return position;
 		}
 
-		final String squareTo = getDestinationSquare( move );
+		final String squareTo = Move.getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 
@@ -50,7 +50,7 @@ final class PositionGenerator {
 
 		final Side movingSide = source.getSide( squareFrom );
 
-		if ( isPromotion( move ) ) {
+		if ( Move.isPromotion( move ) ) {
 			//depends on 3-char format
 			String promotionNotation = move.substring( 2 );
 			PieceType promotedPieceType = PieceType.byNotation( promotionNotation );
