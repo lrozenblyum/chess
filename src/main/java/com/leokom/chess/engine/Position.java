@@ -75,6 +75,7 @@ public class Position {
 	 * if we promoted to Knight)
 	 *
 	 * TODO: what if square doesn't contain any pieces?
+	 * Should we return empty set, null or throw an exception?
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		switch ( pieces.get( square ).getPieceType() ) {
@@ -84,6 +85,8 @@ public class Position {
 				return getBishopMoves( square );
 			case ROOK:
 				return getRookMoves( square );
+			case QUEEN:
+				return getQueenMoves( square );
 			//in principle may extract the pawn separately
 			//and default: throw exception
 			//however this default will be uncovered
@@ -91,6 +94,20 @@ public class Position {
 				return getPawnMoves( square );
 
 		}
+	}
+
+	private Set<String> getQueenMoves( String square ) {
+		//TODO: this works in assumption
+		//that rook's castling is NOT included into
+		//getRookMoves. Castling is considered as King's move
+		final Set<String> rookMoves = getRookMoves( square );
+		final Set< String > bishopMoves = getBishopMoves( square );
+		final Set< String > result = new HashSet<String>();
+		//TODO: some Guava/CollectionUtils for simplification?
+		result.addAll( rookMoves );
+		result.addAll( bishopMoves );
+
+		return result;
 	}
 
 	private Set< String > getRookMoves( String square ) {
@@ -405,6 +422,7 @@ public class Position {
 			case KNIGHT:
 			case BISHOP:
 			case ROOK:
+			case QUEEN:
 				//after moving everything except a pawn
 				//the flag about en passant possibility must be cleared
 				final String newEnPassantFile = null;
@@ -570,6 +588,10 @@ public class Position {
 		return piece != null &&
 				piece.getPieceType() == pieceType &&
 				side == piece.getSide();
+	}
+
+	Piece getPiece( String square ) {
+		return pieces.get( square );
 	}
 
 	//currently for tests only...
