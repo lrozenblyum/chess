@@ -452,9 +452,6 @@ public class Position {
 		return move.length() == PROMOTION_MOVE_SIZE;
 	}
 
-
-	//TODO: if this method is used in real production code
-	//it probably requires test coverage. Now it's for tests only
 	/**
 	 * Check if square is empty (not occupied by any piece)
 	 * @param square square to check
