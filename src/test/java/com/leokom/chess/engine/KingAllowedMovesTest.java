@@ -18,4 +18,16 @@ public class KingAllowedMovesTest {
 				"b1", "a2", "b2"
 		);
 	}
+
+	@Test
+	public void h8() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position,
+				"h8",
+				"h7", "g7", "g8"
+		);
+	}
 }
