@@ -1,8 +1,11 @@
 package com.leokom.chess.engine;
 
+import com.leokom.chess.utils.CollectionUtils;
+
 import java.util.*;
 
 import static com.leokom.chess.engine.Board.*;
+import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 
 /**
  * Current position on-board (probably with some historical data...)
@@ -101,8 +104,7 @@ public class Position {
 		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.UP, 1 ) );
 		addIfNotNull( result, squareTo( square, VerticalDirection.UP ) );
 		addIfNotNull( result, squareTo( square, HorizontalDirection.RIGHT ) );
-
-		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.DOWN, 1 ) );
+        addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.DOWN, 1 ) );
 		addIfNotNull( result, squareTo( square, VerticalDirection.DOWN ) );
 		addIfNotNull( result, squareTo( square, HorizontalDirection.LEFT ) );
 		return result;
@@ -233,7 +235,7 @@ public class Position {
 							verticalDirection, shiftPair[ 1 ] );
 
 					//can be null when outside the board
-					addIfNotNull( knightMoves, destination );
+					CollectionUtils.addIfNotNull( knightMoves, destination );
 				}
 			}
 		}
@@ -241,13 +243,6 @@ public class Position {
 		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
 
 		return knightMoves;
-	}
-
-	//TODO: reuse some library for this?
-	private static < T > void addIfNotNull( Collection< T > collection, T toAdd ) {
-		if ( toAdd != null ) {
-			collection.add( toAdd );
-		}
 	}
 
 	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves, Side knightSide ) {
