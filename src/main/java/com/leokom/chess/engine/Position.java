@@ -98,9 +98,13 @@ public class Position {
 		//is similar to Queen (in part of all directions)
 		//could we reuse queen's movement?
 		Set< String > result = new HashSet<String>();
-		result.add( squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.UP, 1 ) );
-		result.add( squareTo( square, VerticalDirection.UP ) );
-		result.add( squareTo( square, HorizontalDirection.RIGHT ) );
+		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.UP, 1 ) );
+		addIfNotNull( result, squareTo( square, VerticalDirection.UP ) );
+		addIfNotNull( result, squareTo( square, HorizontalDirection.RIGHT ) );
+
+		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.DOWN, 1 ) );
+		addIfNotNull( result, squareTo( square, VerticalDirection.DOWN ) );
+		addIfNotNull( result, squareTo( square, HorizontalDirection.LEFT ) );
 		return result;
 	}
 
@@ -229,9 +233,7 @@ public class Position {
 							verticalDirection, shiftPair[ 1 ] );
 
 					//can be null when outside the board
-					if ( destination != null ) {
-						knightMoves.add( destination );
-					}
+					addIfNotNull( knightMoves, destination );
 				}
 			}
 		}
@@ -239,6 +241,13 @@ public class Position {
 		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
 
 		return knightMoves;
+	}
+
+	//TODO: reuse some library for this?
+	private static < T > void addIfNotNull( Collection< T > collection, T toAdd ) {
+		if ( toAdd != null ) {
+			collection.add( toAdd );
+		}
 	}
 
 	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves, Side knightSide ) {
