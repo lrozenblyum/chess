@@ -82,6 +82,8 @@ public class Position {
 				return getRookMoves( square );
 			case QUEEN:
 				return getQueenMoves( square );
+			case KING:
+				return getKingMoves( square );
 			//in principle may extract the pawn separately
 			//and default: throw exception
 			//however this default will be uncovered
@@ -89,6 +91,17 @@ public class Position {
 				return getPawnMoves( square );
 
 		}
+	}
+
+	private Set<String> getKingMoves( String square ) {
+		//TODO: think, King's movement
+		//is similar to Queen (in part of all directions)
+		//could we reuse queen's movement?
+		Set< String > result = new HashSet<String>();
+		result.add( squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.UP, 1 ) );
+		result.add( squareTo( square, VerticalDirection.UP ) );
+		result.add( squareTo( square, HorizontalDirection.RIGHT ) );
+		return result;
 	}
 
 	private Set<String> getQueenMoves( String square ) {
