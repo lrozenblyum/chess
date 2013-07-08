@@ -101,14 +101,16 @@ public class Position {
 		//is similar to Queen (in part of all directions)
 		//could we reuse queen's movement?
 		Set< String > result = new HashSet<String>();
-		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.UP ) );
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
+				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
+			}
+		}
+
 		addIfNotNull( result, squareTo( square, VerticalDirection.UP ) );
 		addIfNotNull( result, squareTo( square, HorizontalDirection.RIGHT ) );
-        addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.DOWN ) );
 		addIfNotNull( result, squareTo( square, VerticalDirection.DOWN ) );
 		addIfNotNull( result, squareTo( square, HorizontalDirection.LEFT ) );
-		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.DOWN ) );
-		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.UP ) );
 		return result;
 	}
 
