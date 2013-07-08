@@ -87,11 +87,11 @@ public class Position {
 				return getQueenMoves( square );
 			case KING:
 				return getKingMoves( square );
-			//in principle may extract the pawn separately
-			//and default: throw exception
-			//however this default will be uncovered
-			default:
+			case PAWN:
 				return getPawnMoves( square );
+			default:
+				//cannot cover?
+				throw new IllegalArgumentException( "Unsupported piece type: " + getPieceType( square ) );
 
 		}
 	}
