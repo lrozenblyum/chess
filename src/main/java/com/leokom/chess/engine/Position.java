@@ -115,6 +115,15 @@ public class Position {
 			addIfNotNull( result, squareTo( square, direction ) );
 		}
 
+		Set< String > toRemove = new HashSet<String>();
+		for ( String potentialSquare : result ) {
+			if ( isOccupied( potentialSquare ) ) {
+				toRemove.add( potentialSquare );
+			}
+		}
+
+		result.removeAll( toRemove );
+
 		return result;
 	}
 
