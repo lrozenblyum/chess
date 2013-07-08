@@ -115,9 +115,11 @@ public class Position {
 			addIfNotNull( result, squareTo( square, direction ) );
 		}
 
+		Side ourSide = getSide( square );
 		Set< String > toRemove = new HashSet<String>();
 		for ( String potentialSquare : result ) {
-			if ( isOccupied( potentialSquare ) ) {
+			//if occupied by another side - can capture
+			if ( isOccupiedBy( potentialSquare, ourSide ) ) {
 				toRemove.add( potentialSquare );
 			}
 		}
