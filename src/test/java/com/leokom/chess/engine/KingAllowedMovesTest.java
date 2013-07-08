@@ -56,4 +56,19 @@ public class KingAllowedMovesTest {
 				"d4", "f4"
 		);
 	}
+
+	@Test
+	public void cannotMoveOnBlockedSquare() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.WHITE, "b1", PieceType.QUEEN );
+		position.add( Side.WHITE, "a2", PieceType.KNIGHT );
+
+		PositionAsserts.assertAllowedMoves(
+				position,
+				"a1",
+				"b2"
+		);
+	}
 }
