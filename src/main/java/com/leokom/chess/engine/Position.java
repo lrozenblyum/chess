@@ -107,6 +107,7 @@ public class Position {
         addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.DOWN, 1 ) );
 		addIfNotNull( result, squareTo( square, VerticalDirection.DOWN ) );
 		addIfNotNull( result, squareTo( square, HorizontalDirection.LEFT ) );
+		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.DOWN, 1 ) );
 		return result;
 	}
 
