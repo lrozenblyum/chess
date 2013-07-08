@@ -100,17 +100,21 @@ public class Position {
 		//TODO: think, King's movement
 		//is similar to Queen (in part of all directions)
 		//could we reuse queen's movement?
+
 		Set< String > result = new HashSet<String>();
+
+		//diagonally
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
 				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
 			}
 		}
 
-		addIfNotNull( result, squareTo( square, VerticalDirection.UP ) );
-		addIfNotNull( result, squareTo( square, HorizontalDirection.RIGHT ) );
-		addIfNotNull( result, squareTo( square, VerticalDirection.DOWN ) );
-		addIfNotNull( result, squareTo( square, HorizontalDirection.LEFT ) );
+		//left/right/top/bottom
+		for ( Direction direction : Direction.values() ) {
+			addIfNotNull( result, squareTo( square, direction ) );
+		}
+
 		return result;
 	}
 
