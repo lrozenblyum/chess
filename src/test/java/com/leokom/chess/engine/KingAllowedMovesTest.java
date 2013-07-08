@@ -71,4 +71,19 @@ public class KingAllowedMovesTest {
 				"b2"
 		);
 	}
+
+	@Test
+	public void canCapture() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "b1", PieceType.QUEEN );
+		position.add( Side.BLACK, "a2", PieceType.KNIGHT );
+
+		PositionAsserts.assertAllowedMoves(
+				position,
+				"a1",
+				"b2", "a2", "b1"
+		);
+	}
 }
