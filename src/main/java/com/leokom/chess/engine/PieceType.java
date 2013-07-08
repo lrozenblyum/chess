@@ -38,7 +38,14 @@ public enum PieceType {
 	 * The piece that is considered to be the strongest in most cases.
 	 * However the game may continue without it (in contrary to game without king)
 	 */
-	QUEEN ( "Q" );
+	QUEEN ( "Q" ),
+
+	/**
+	 * The most important piece in the game.
+	 *
+	 * 5.1. a) The game is won by the player who has checkmated his opponent’s king
+	 */
+	KING( "K" );
 
 	private final String notation;
 
