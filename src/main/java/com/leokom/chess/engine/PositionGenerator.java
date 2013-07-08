@@ -23,6 +23,7 @@ final class PositionGenerator {
 			case BISHOP:
 			case ROOK:
 			case QUEEN:
+			case KING:
 				//after moving everything except a pawn
 				//the flag about en passant possibility must be cleared
 				final String newEnPassantFile = null;

@@ -1,8 +1,11 @@
 package com.leokom.chess.engine;
 
+import com.leokom.chess.utils.CollectionUtils;
+
 import java.util.*;
 
 import static com.leokom.chess.engine.Board.*;
+import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 
 /**
  * Current position on-board (probably with some historical data...)
@@ -82,13 +85,48 @@ public class Position {
 				return getRookMoves( square );
 			case QUEEN:
 				return getQueenMoves( square );
-			//in principle may extract the pawn separately
-			//and default: throw exception
-			//however this default will be uncovered
-			default:
+			case KING:
+				return getKingMoves( square );
+			case PAWN:
 				return getPawnMoves( square );
+			default:
+				//cannot cover?
+				throw new IllegalArgumentException( "Unsupported piece type: " + getPieceType( square ) );
 
 		}
+	}
+
+	private Set<String> getKingMoves( String square ) {
+		//TODO: think, King's movement
+		//is similar to Queen (in part of all directions)
+		//could we reuse queen's movement?
+
+		Set< String > result = new HashSet<String>();
+
+		//diagonally
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
+				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
+			}
+		}
+
+		//left/right/top/bottom
+		for ( Direction direction : Direction.values() ) {
+			addIfNotNull( result, squareTo( square, direction ) );
+		}
+
+		Side ourSide = getSide( square );
+		Set< String > toRemove = new HashSet<String>();
+		for ( String potentialSquare : result ) {
+			//if occupied by another side - can capture
+			if ( isOccupiedBy( potentialSquare, ourSide ) ) {
+				toRemove.add( potentialSquare );
+			}
+		}
+
+		result.removeAll( toRemove );
+
+		return result;
 	}
 
 	private Set<String> getQueenMoves( String square ) {
@@ -134,14 +172,12 @@ public class Position {
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				//squares to move on each inner while loop step
-				final int squaresDiagonally = 1;
-				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection, squaresDiagonally );
+				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection );
 
 				//null means: reached end of the board
 				while ( diagonalSquare != null && isEmptySquare( diagonalSquare ) ) {
 					result.add( diagonalSquare );
-					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
+					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection );
 				}
 
 				//not null means we stopped due to a blocking piece
@@ -216,9 +252,7 @@ public class Position {
 							verticalDirection, shiftPair[ 1 ] );
 
 					//can be null when outside the board
-					if ( destination != null ) {
-						knightMoves.add( destination );
-					}
+					CollectionUtils.addIfNotNull( knightMoves, destination );
 				}
 			}
 		}
