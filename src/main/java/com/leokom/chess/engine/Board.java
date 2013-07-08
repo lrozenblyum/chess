@@ -121,8 +121,12 @@ final class Board {
 		return fileOfSquare( firstSquare ).equals( fileOfSquare( secondSquare ) );
 	}
 
-	static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
+	private static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
 		return Board.squareTo(
 				square, horizontalDirection, squaresDiagonally, verticalDirection, squaresDiagonally );
+	}
+
+	static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection ) {
+		return squareDiagonally( square,horizontalDirection, verticalDirection, 1 );
 	}
 }

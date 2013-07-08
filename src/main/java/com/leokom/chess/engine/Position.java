@@ -101,13 +101,13 @@ public class Position {
 		//is similar to Queen (in part of all directions)
 		//could we reuse queen's movement?
 		Set< String > result = new HashSet<String>();
-		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.UP, 1 ) );
+		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.UP ) );
 		addIfNotNull( result, squareTo( square, VerticalDirection.UP ) );
 		addIfNotNull( result, squareTo( square, HorizontalDirection.RIGHT ) );
-        addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.DOWN, 1 ) );
+        addIfNotNull( result, squareDiagonally( square, HorizontalDirection.LEFT, VerticalDirection.DOWN ) );
 		addIfNotNull( result, squareTo( square, VerticalDirection.DOWN ) );
 		addIfNotNull( result, squareTo( square, HorizontalDirection.LEFT ) );
-		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.DOWN, 1 ) );
+		addIfNotNull( result, squareDiagonally( square, HorizontalDirection.RIGHT, VerticalDirection.DOWN ) );
 		return result;
 	}
 
@@ -154,14 +154,12 @@ public class Position {
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				//squares to move on each inner while loop step
-				final int squaresDiagonally = 1;
-				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection, squaresDiagonally );
+				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection );
 
 				//null means: reached end of the board
 				while ( diagonalSquare != null && isEmptySquare( diagonalSquare ) ) {
 					result.add( diagonalSquare );
-					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection, squaresDiagonally );
+					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection );
 				}
 
 				//not null means we stopped due to a blocking piece
