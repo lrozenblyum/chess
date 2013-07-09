@@ -247,13 +247,13 @@ public class Position {
 				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
 					result.add( attackedSquare );
 				}
-			}
-		}
 
-		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
-			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
-				if ( enPassantFile.equals( fileTo( file, direction ) ) ) {
-					result.add( squareDiagonally( square, direction, getPawnMovementDirection( side ) ) );
+				//3.7 d. A pawn attacking a square crossed by an opponent’s pawn which has advanced two squares
+				// in one move from its original square may capture this opponent’s pawn
+				// as though the latter had been moved only one square
+				if ( enPassantFile != null &&
+					attackedSquare.equals( enPassantFile + getPawnDoubleMoveIntermediateRank( side.opposite() ) )) {
+					result.add( attackedSquare );
 				}
 			}
 		}
