@@ -126,6 +126,15 @@ public class Position {
 
 		result.removeAll( toRemove );
 
+		//removing attack targets.
+		for ( String chessSquare : pieces.keySet() ) {
+			//TODO: maybe implement equals in Piece class? Need also hashCode then...
+			if ( pieces.get( chessSquare ).getSide() == ourSide.opposite() &&
+					pieces.get( chessSquare ).getPieceType() == PieceType.PAWN ) {
+				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
+			}
+		}
+
 		return result;
 	}
 
@@ -191,6 +200,20 @@ public class Position {
 		return result;
 	}
 
+	//NOTE: from point of view of en passant we
+	//still have the square diagonally-front attacked
+	private Set< String > getSquaresAttackedByPawn( String square ) {
+		Set< String > result = new HashSet<String>();
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+			final Side side = getSide( square );
+
+			final String attackedSquare = squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
+
+			addIfNotNull( result, attackedSquare );
+		}
+		return result;
+	}
+
 	private Set<String> getPawnMoves( String square ) {
 		final Set<String> result = new HashSet<String>();
 
@@ -203,10 +226,10 @@ public class Position {
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
-			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
-				String captureSquare = getPawnCaptureSquare( square, direction );
-				if ( isOccupiedBy( captureSquare, side.opposite() ) ) {
-					addPromotionResult( result, fileTo( file, direction ), side );
+			final Set<String> attacked = getSquaresAttackedByPawn( square );
+			for ( String attackedSquare : attacked ) {
+				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
+					addPromotionResult( result, fileOfSquare( attackedSquare ), side );
 				}
 			}
 		}
@@ -216,21 +239,18 @@ public class Position {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
 
-			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
-			//because it simply cannot find 'i' file result - it's null... I don't like such side effects
-
-			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
-				String captureSquare = getPawnCaptureSquare( square, direction );
-				if ( isOccupiedBy( captureSquare, side.opposite() ) ) {
-					result.add( captureSquare );
+			final Set<String> attacked = getSquaresAttackedByPawn( square );
+			for ( String attackedSquare : attacked ) {
+				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
+					result.add( attackedSquare );
 				}
-			}
-		}
 
-		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
-			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
-				if ( enPassantFile.equals( fileTo( file, direction ) ) ) {
-					result.add( fileTo( file, direction ) + getPawnNextRank( rank, side ) );
+				//3.7 d. A pawn attacking a square crossed by an opponent’s pawn which has advanced two squares
+				// in one move from its original square may capture this opponent’s pawn
+				// as though the latter had been moved only one square
+				if ( enPassantFile != null &&
+					attackedSquare.equals( enPassantFile + getPawnDoubleMoveIntermediateRank( side.opposite() ) )) {
+					result.add( attackedSquare );
 				}
 			}
 		}
@@ -272,14 +292,6 @@ public class Position {
 		}
 
 		return result;
-	}
-
-	private String getPawnCaptureSquare( String pawnSquare, HorizontalDirection direction ) {
-		final String file = fileOfSquare( pawnSquare );
-		final int rank = rankOfSquare( pawnSquare );
-		final Side side = getSide( pawnSquare );
-
-		return fileTo( file, direction ) + getPawnNextRank( rank, side );
 	}
 
 	/**
