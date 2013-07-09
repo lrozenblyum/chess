@@ -237,10 +237,10 @@ public class Position {
 			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
 			//because it simply cannot find 'i' file result - it's null... I don't like such side effects
 
-			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
-				String captureSquare = getPawnCaptureSquare( square, direction );
-				if ( isOccupiedBy( captureSquare, side.opposite() ) ) {
-					result.add( captureSquare );
+			final Set<String> attacked = getSquaresAttackedByPawn( square );
+			for ( String attackedSquare : attacked ) {
+				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
+					result.add( attackedSquare );
 				}
 			}
 		}
