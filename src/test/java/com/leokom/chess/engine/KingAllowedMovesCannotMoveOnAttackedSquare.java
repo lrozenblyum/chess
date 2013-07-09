@@ -20,4 +20,15 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 			"a2", "a4", "b4", "b2" );
 
 	}
+
+	@Test
+	public void withPawnPromotion() {
+		Position position = new Position( null );
+		position.addPawn( Side.BLACK, "h2" ); //may be promoted to h1 or capture g1
+		position.add( Side.WHITE, "f1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "f1",
+				"e1", "e2", "f2", "g2" ); //but not g1
+	}
 }
