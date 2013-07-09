@@ -200,11 +200,16 @@ public class Position {
 		return result;
 	}
 
+	//NOTE: from point of view of en passant we
+	//still have the square diagonally-front attacked
 	private Set< String > getSquaresAttackedByPawn( String square ) {
 		Set< String > result = new HashSet<String>();
-		for ( HorizontalDirection direction : HorizontalDirection.values() ) {
-			String captureSquare = getPawnCaptureSquare( square, direction );
-			result.add( captureSquare );
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+			final Side side = getSide( square );
+
+			final String attackedSquare = squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
+
+			result.add( attackedSquare );
 		}
 		return result;
 	}
@@ -290,14 +295,6 @@ public class Position {
 		}
 
 		return result;
-	}
-
-	private String getPawnCaptureSquare( String pawnSquare, HorizontalDirection direction ) {
-		final String file = fileOfSquare( pawnSquare );
-		final int rank = rankOfSquare( pawnSquare );
-		final Side side = getSide( pawnSquare );
-
-		return fileTo( file, direction ) + getPawnNextRank( rank, side );
 	}
 
 	/**
