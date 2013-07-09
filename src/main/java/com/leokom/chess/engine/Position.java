@@ -126,6 +126,15 @@ public class Position {
 
 		result.removeAll( toRemove );
 
+		//removing attack targets.
+		for ( String chessSquare : pieces.keySet() ) {
+			//TODO: maybe implement equals in Piece class? Need also hashCode then...
+			if ( pieces.get( chessSquare ).getSide() == ourSide.opposite() &&
+					pieces.get( chessSquare ).getPieceType() == PieceType.PAWN ) {
+				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
+			}
+		}
+
 		return result;
 	}
 
@@ -188,6 +197,15 @@ public class Position {
 			}
 		}
 
+		return result;
+	}
+
+	private Set< String > getSquaresAttackedByPawn( String square ) {
+		Set< String > result = new HashSet<String>();
+		for ( HorizontalDirection direction : HorizontalDirection.values() ) {
+			String captureSquare = getPawnCaptureSquare( square, direction );
+			result.add( captureSquare );
+		}
 		return result;
 	}
 
