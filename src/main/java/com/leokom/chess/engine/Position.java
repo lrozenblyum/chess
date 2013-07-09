@@ -253,7 +253,7 @@ public class Position {
 		if ( enPassantFile != null && rank == getEnPassantPossibleRank( side ) ) {
 			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
 				if ( enPassantFile.equals( fileTo( file, direction ) ) ) {
-					result.add( fileTo( file, direction ) + getPawnNextRank( rank, side ) );
+					result.add( squareDiagonally( square, direction, getPawnMovementDirection( side ) ) );
 				}
 			}
 		}
