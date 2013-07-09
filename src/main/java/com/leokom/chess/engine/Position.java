@@ -221,10 +221,10 @@ public class Position {
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
-			for ( HorizontalDirection direction : HorizontalDirection.values() ) {
-				String captureSquare = getPawnCaptureSquare( square, direction );
-				if ( isOccupiedBy( captureSquare, side.opposite() ) ) {
-					addPromotionResult( result, fileTo( file, direction ), side );
+			final Set<String> attacked = getSquaresAttackedByPawn( square );
+			for ( String attackedSquare : attacked ) {
+				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
+					addPromotionResult( result, fileOfSquare( attackedSquare ), side );
 				}
 			}
 		}
