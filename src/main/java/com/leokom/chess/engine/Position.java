@@ -209,7 +209,7 @@ public class Position {
 
 			final String attackedSquare = squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
 
-			result.add( attackedSquare );
+			addIfNotNull( result, attackedSquare );
 		}
 		return result;
 	}
@@ -238,9 +238,6 @@ public class Position {
 			if ( rank == getPawnInitialRank( side ) ) {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
-
-			//TODO: need to check if we're NOT at a/h files, however test shows it's NOT Needed
-			//because it simply cannot find 'i' file result - it's null... I don't like such side effects
 
 			final Set<String> attacked = getSquaresAttackedByPawn( square );
 			for ( String attackedSquare : attacked ) {
