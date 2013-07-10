@@ -68,4 +68,16 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "a1"
 				, "b2");
 	}
+
+	@Test
+	public void knightAndPawnAttackNoWay() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //controls b1, a2
+		position.add( Side.BLACK, "a3", PieceType.PAWN ); //controls b2
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1" );
+	}
 }
