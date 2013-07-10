@@ -308,9 +308,9 @@ public class Position {
 	//TODO: it's very generic - since the rule 3.1 is common. Could we reuse it?
 	private Set< String > getSquaresOccupiedByOurSide( Set<String> potentialMoves, Side ourSide ) {
 		Set< String > result = new HashSet<String>();
-		for ( String potentialKnightMove : potentialMoves ) {
-			if ( isOccupiedBy( potentialKnightMove, ourSide ) ) {
-				result.add( potentialKnightMove );
+		for ( String potentialMove : potentialMoves ) {
+			if ( isOccupiedBy( potentialMove, ourSide ) ) {
+				result.add( potentialMove );
 			}
 		}
 
