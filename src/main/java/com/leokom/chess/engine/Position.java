@@ -128,14 +128,18 @@ public class Position {
 
 		//removing attack targets.
 		for ( String chessSquare : pieces.keySet() ) {
-			//TODO: maybe implement equals in Piece class? Need also hashCode then...
-			if ( pieces.get( chessSquare ).getSide() == ourSide.opposite() &&
-					pieces.get( chessSquare ).getPieceType() == PieceType.PAWN ) {
+			//TODO: may use guava to filter out needed squares....
+
+			//only the opposite side pieces are the attackers
+			if ( pieces.get( chessSquare ).getSide() == ourSide ) {
+				continue;
+			}
+
+			if ( pieces.get( chessSquare ).getPieceType() == PieceType.PAWN ) {
 				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
 			}
 
-			if ( pieces.get( chessSquare ).getPieceType() == PieceType.KNIGHT &&
-					pieces.get( chessSquare ).getSide() == ourSide.opposite() ) {
+			if ( pieces.get( chessSquare ).getPieceType() == PieceType.KNIGHT ) {
 				result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
 			}
 		}
