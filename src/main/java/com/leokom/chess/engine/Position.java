@@ -78,7 +78,7 @@ public class Position {
 	public Set<String> getMovesFrom( String square ) {
 		switch ( getPieceType( square ) ) {
 			case KNIGHT:
-				return getSquaresAttackedByKnight( square );
+				return getKnightMoves( square );
 			case BISHOP:
 				return getBishopMoves( square );
 			case ROOK:
@@ -153,12 +153,10 @@ public class Position {
 		return result;
 	}
 
-	private Collection< String > getKnightMoves( String chessSquare ) {
-		//symmetrical solution with pawn: getting moves calls
-		//getting attacked squares
-
-		//in principle from Knight perspective there is no difference
-		return getSquaresAttackedByKnight( chessSquare );
+	private Set< String > getKnightMoves( String square ) {
+		final Set<String> knightMoves = getSquaresAttackedByKnight( square );
+		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
+		return knightMoves;
 	}
 
 	private Set<String> getQueenMoves( String square ) {
@@ -300,7 +298,7 @@ public class Position {
 			}
 		}
 
-		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
+
 
 		return knightMoves;
 	}
