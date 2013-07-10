@@ -130,12 +130,13 @@ public class Position {
 
 		final Map<String, PieceType> opponentPieces = getOpponentPieces( ourSide );
 		for ( String chessSquare : opponentPieces.keySet() ) {
-			if ( opponentPieces.get( chessSquare ) == PieceType.PAWN ) {
-				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
-			}
-
-			if ( opponentPieces.get( chessSquare ) == PieceType.KNIGHT ) {
-				result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
+			switch ( opponentPieces.get( chessSquare ) ) {
+				case PAWN:
+					result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
+					break;
+				case KNIGHT:
+					result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
+					break;
 			}
 		}
 
