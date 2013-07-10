@@ -134,8 +134,8 @@ public class Position {
 				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
 			}
 
-			//TODO: add side condition when required by tests
-			if ( pieces.get( chessSquare ).getPieceType() == PieceType.KNIGHT ) {
+			if ( pieces.get( chessSquare ).getPieceType() == PieceType.KNIGHT &&
+					pieces.get( chessSquare ).getSide() == ourSide.opposite() ) {
 				result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
 			}
 		}
