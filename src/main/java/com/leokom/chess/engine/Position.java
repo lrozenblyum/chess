@@ -127,15 +127,38 @@ public class Position {
 		result.removeAll( toRemove );
 
 		//removing attack targets.
-		for ( String chessSquare : pieces.keySet() ) {
-			//TODO: maybe implement equals in Piece class? Need also hashCode then...
-			if ( pieces.get( chessSquare ).getSide() == ourSide.opposite() &&
-					pieces.get( chessSquare ).getPieceType() == PieceType.PAWN ) {
-				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
+
+		final Map<String, PieceType> opponentPieces = getOpponentPieces( ourSide );
+		for ( String chessSquare : opponentPieces.keySet() ) {
+			switch ( opponentPieces.get( chessSquare ) ) {
+				case PAWN:
+					result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
+					break;
+				case KNIGHT:
+					result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
+					break;
 			}
 		}
 
 		return result;
+	}
+
+	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {
+		Map< String, PieceType > result = new HashMap<String, PieceType>();
+		for( String square : pieces.keySet() ) {
+			if ( pieces.get( square ).getSide() == ourSide.opposite() ) {
+				result.put( square, pieces.get( square ).getPieceType() );
+			}
+		}
+
+		return result;
+	}
+
+	private Set< String > getKnightMoves( String square ) {
+		final Set<String> knightMoves = getSquaresAttackedByKnight( square );
+		//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
+		knightMoves.removeAll( getSquaresOccupiedByOurSide( knightMoves, getSide( square ) ) );
+		return knightMoves;
 	}
 
 	private Set<String> getQueenMoves( String square ) {
@@ -259,7 +282,7 @@ public class Position {
 		return result;
 	}
 
-	private Set<String> getKnightMoves( String square ) {
+	private Set<String> getSquaresAttackedByKnight( String square ) {
 		//shifts pairs: horizontal and vertical shift
 		//they will be combined with all possible vertical/horizontal directions
 		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
@@ -277,17 +300,17 @@ public class Position {
 			}
 		}
 
-		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
+
 
 		return knightMoves;
 	}
 
-	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves, Side knightSide ) {
+	//TODO: it's very generic - since the rule 3.1 is common. Could we reuse it?
+	private Set< String > getSquaresOccupiedByOurSide( Set<String> potentialMoves, Side ourSide ) {
 		Set< String > result = new HashSet<String>();
-		for ( String potentialKnightMove : potentialKnightMoves ) {
-			//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
-			if ( isOccupiedBy( potentialKnightMove, knightSide ) ) {
-				result.add( potentialKnightMove );
+		for ( String potentialMove : potentialMoves ) {
+			if ( isOccupiedBy( potentialMove, ourSide ) ) {
+				result.add( potentialMove );
 			}
 		}
 
