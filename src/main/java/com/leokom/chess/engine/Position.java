@@ -127,20 +127,26 @@ public class Position {
 		result.removeAll( toRemove );
 
 		//removing attack targets.
-		for ( String chessSquare : pieces.keySet() ) {
-			//TODO: may use guava to filter out needed squares....
 
-			//only the opposite side pieces are the attackers
-			if ( pieces.get( chessSquare ).getSide() == ourSide ) {
-				continue;
-			}
-
-			if ( pieces.get( chessSquare ).getPieceType() == PieceType.PAWN ) {
+		final Map<String, PieceType> opponentPieces = getOpponentPieces( ourSide );
+		for ( String chessSquare : opponentPieces.keySet() ) {
+			if ( opponentPieces.get( chessSquare ) == PieceType.PAWN ) {
 				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
 			}
 
-			if ( pieces.get( chessSquare ).getPieceType() == PieceType.KNIGHT ) {
+			if ( opponentPieces.get( chessSquare ) == PieceType.KNIGHT ) {
 				result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
+			}
+		}
+
+		return result;
+	}
+
+	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {
+		Map< String, PieceType > result = new HashMap<String, PieceType>();
+		for( String square : pieces.keySet() ) {
+			if ( pieces.get( square ).getSide() == ourSide.opposite() ) {
+				result.put( square, pieces.get( square ).getPieceType() );
 			}
 		}
 
