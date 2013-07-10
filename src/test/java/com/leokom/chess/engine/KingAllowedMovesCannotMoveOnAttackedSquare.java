@@ -31,4 +31,53 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "f1",
 				"e1", "e2", "f2", "g2" ); //but not g1
 	}
+
+	@Test
+	public void knightAttacked() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //controls b1, a2
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"b2" );
+	}
+
+	@Test
+	public void ourSideKnightIsNotAttacker() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "c3", PieceType.KNIGHT ); //controls b1, a2
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"b2", "b1", "a2" );
+	}
+
+	@Test
+	public void knightAndPawnAttack() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //controls b1, a2
+		position.add( Side.BLACK, "a2", PieceType.PAWN ); //controls b1
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1"
+				, "b2");
+	}
+
+	@Test
+	public void knightAndPawnAttackNoWay() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //controls b1, a2
+		position.add( Side.BLACK, "a3", PieceType.PAWN ); //controls b2
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1" );
+	}
 }
