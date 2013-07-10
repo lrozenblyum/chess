@@ -302,6 +302,7 @@ public class Position {
 		return knightMoves;
 	}
 
+	//TODO: it's very generic - since the rule 3.1 is common. Could we reuse it?
 	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves, Side knightSide ) {
 		Set< String > result = new HashSet<String>();
 		for ( String potentialKnightMove : potentialKnightMoves ) {
