@@ -78,7 +78,7 @@ public class Position {
 	public Set<String> getMovesFrom( String square ) {
 		switch ( getPieceType( square ) ) {
 			case KNIGHT:
-				return getKnightMoves( square );
+				return getSquaresAttackedByKnight( square );
 			case BISHOP:
 				return getBishopMoves( square );
 			case ROOK:
@@ -153,9 +153,12 @@ public class Position {
 		return result;
 	}
 
-	private Collection<String> getSquaresAttackedByKnight( String chessSquare ) {
-		//TODO: maybe vice versa - let getKingMoves call this method to be symmetrical with pawn?
-		return getKnightMoves( chessSquare );
+	private Collection< String > getKnightMoves( String chessSquare ) {
+		//symmetrical solution with pawn: getting moves calls
+		//getting attacked squares
+
+		//in principle from Knight perspective there is no difference
+		return getSquaresAttackedByKnight( chessSquare );
 	}
 
 	private Set<String> getQueenMoves( String square ) {
@@ -279,7 +282,7 @@ public class Position {
 		return result;
 	}
 
-	private Set<String> getKnightMoves( String square ) {
+	private Set<String> getSquaresAttackedByKnight( String square ) {
 		//shifts pairs: horizontal and vertical shift
 		//they will be combined with all possible vertical/horizontal directions
 		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
