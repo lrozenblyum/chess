@@ -41,6 +41,6 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 
 		PositionAsserts.assertAllowedMoves(
 				position, "a1",
-				"a2" );
+				"b2" );
 	}
 }

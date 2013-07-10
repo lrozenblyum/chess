@@ -133,9 +133,19 @@ public class Position {
 					pieces.get( chessSquare ).getPieceType() == PieceType.PAWN ) {
 				result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
 			}
+
+			//TODO: add side condition when required by tests
+			if ( pieces.get( chessSquare ).getPieceType() == PieceType.KNIGHT ) {
+				result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
+			}
 		}
 
 		return result;
+	}
+
+	private Collection<String> getSquaresAttackedByKnight( String chessSquare ) {
+		//TODO: maybe vice versa - let getKingMoves call this method to be symmetrical with pawn?
+		return getKnightMoves( chessSquare );
 	}
 
 	private Set<String> getQueenMoves( String square ) {
