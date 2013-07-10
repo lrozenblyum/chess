@@ -155,7 +155,8 @@ public class Position {
 
 	private Set< String > getKnightMoves( String square ) {
 		final Set<String> knightMoves = getSquaresAttackedByKnight( square );
-		knightMoves.removeAll( getImpossibleKnightMoves( knightMoves, getSide( square ) ) );
+		//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
+		knightMoves.removeAll( getSquaresOccupiedByOurSide( knightMoves, getSide( square ) ) );
 		return knightMoves;
 	}
 
@@ -304,11 +305,10 @@ public class Position {
 	}
 
 	//TODO: it's very generic - since the rule 3.1 is common. Could we reuse it?
-	private Set< String > getImpossibleKnightMoves( Set< String > potentialKnightMoves, Side knightSide ) {
+	private Set< String > getSquaresOccupiedByOurSide( Set<String> potentialMoves, Side ourSide ) {
 		Set< String > result = new HashSet<String>();
-		for ( String potentialKnightMove : potentialKnightMoves ) {
-			//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
-			if ( isOccupiedBy( potentialKnightMove, knightSide ) ) {
+		for ( String potentialKnightMove : potentialMoves ) {
+			if ( isOccupiedBy( potentialKnightMove, ourSide ) ) {
 				result.add( potentialKnightMove );
 			}
 		}
