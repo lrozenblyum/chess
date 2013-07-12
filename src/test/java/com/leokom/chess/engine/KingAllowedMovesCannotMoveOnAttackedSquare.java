@@ -106,4 +106,17 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "h8",
 				"g7", "h7" ); //cannot capture the protected rook, but can capture the protector: pawn
 	}
+
+	@Test
+	public void bishopProtected() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "c3", PieceType.BISHOP ); //controls b2, a1
+
+
+		position.add( Side.BLACK, "a2", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a2",
+				"a3", "b1", "b3" );
+	}
 }
