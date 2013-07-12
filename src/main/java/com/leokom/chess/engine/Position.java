@@ -128,24 +128,29 @@ public class Position {
 
 		//removing attack targets.
 
-		final Map<String, PieceType> opponentPieces = getOpponentPieces( ourSide );
-		for ( String chessSquare : opponentPieces.keySet() ) {
-			switch ( opponentPieces.get( chessSquare ) ) {
-				case PAWN:
-					result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
-					break;
-				case KNIGHT:
-					result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
-					break;
-				case BISHOP:
-					result.removeAll( getSquaresAttackedByBishop( chessSquare ) );
-					break;
-				case ROOK:
-					result.removeAll( getSquaresAttackedByRook( chessSquare ) );
-			}
+		final Set< String > opponentPieces = getOpponentPieces( ourSide );
+		for ( String chessSquare : opponentPieces ) {
+			result.removeAll( getSquaresAttackedFromSquare( chessSquare ) );
 		}
 
 		return result;
+	}
+
+	private Set< String > getSquaresAttackedFromSquare( String chessSquare ) {
+		//assuming square is occupied...
+		switch ( pieces.get( chessSquare ).getPieceType() ) {
+			case PAWN:
+				return getSquaresAttackedByPawn( chessSquare );
+			case KNIGHT:
+				return getSquaresAttackedByKnight( chessSquare );
+			case BISHOP:
+				return getSquaresAttackedByBishop( chessSquare );
+			case ROOK:
+				return getSquaresAttackedByRook( chessSquare );
+		 	default:
+				//NOTE: throwing an exception so far breaks other tests
+				return new HashSet<String>();
+		}
 	}
 
 	private Set<String> getSquaresAttackedByRook( String square ) {
@@ -167,11 +172,11 @@ public class Position {
 		return result;
 	}
 
-	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {
-		Map< String, PieceType > result = new HashMap<String, PieceType>();
+	private Set< String > getOpponentPieces( Side ourSide ) {
+		Set< String > result = new HashSet< String >();
 		for( String square : pieces.keySet() ) {
 			if ( pieces.get( square ).getSide() == ourSide.opposite() ) {
-				result.put( square, pieces.get( square ).getPieceType() );
+				result.add( square );
 			}
 		}
 
