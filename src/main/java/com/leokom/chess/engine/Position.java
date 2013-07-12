@@ -217,17 +217,14 @@ public class Position {
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection );
-
-				//null means: reached end of the board
-				while ( diagonalSquare != null && isEmptySquare( diagonalSquare ) ) {
-					result.add( diagonalSquare );
-					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection );
+				String movingSquare = square;
+				do {
+					movingSquare = squareDiagonally( movingSquare, horizontalDirection, verticalDirection );
+					//null means end of table reached and will break the loop
+					addIfNotNull( result, movingSquare );
 				}
-
-				if ( diagonalSquare != null ) {  //means reached blocked piece
-					result.add( diagonalSquare );
-				}
+				//the loop will include first busy square on its way to the result
+				while ( movingSquare != null && isEmptySquare( movingSquare ) );
 			}
 		}
 		return result;
