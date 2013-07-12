@@ -158,4 +158,18 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "a1",
 				"b1" ); //2 is protected
 	}
+
+	@Test
+	public void integrationOfRookAndPawn() {  //they greatly reduce king's possibilities
+		Position position = new Position( null );
+		position.add( Side.WHITE, "g8", PieceType.ROOK );
+		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the rook
+
+		position.add( Side.BLACK, "f8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "f8",
+				"e7", "f7" );
+	}
+
 }
