@@ -148,8 +148,23 @@ public class Position {
 		return result;
 	}
 
-	private Set<String> getSquaresAttackedByRook( String chessSquare ) {
-		return getRookMoves( chessSquare );
+	private Set<String> getSquaresAttackedByRook( String square ) {
+		Set< String > result = new HashSet<String>();
+
+		for ( Direction direction : Direction.values() ) {
+			String runningSquare = square;
+			//left to right calculation logic?... Too complex it becomes
+			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null &&
+					isEmptySquare( runningSquare ) )  {
+				result.add( runningSquare );
+			}
+
+			if ( runningSquare != null ) {
+				result.add( runningSquare );
+			}
+		}
+
+		return result;
 	}
 
 	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {
@@ -170,6 +185,14 @@ public class Position {
 		return knightMoves;
 	}
 
+
+	private Set< String > getRookMoves( String square ) {
+		final Set<String> result = getSquaresAttackedByRook( square );
+		//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
+		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
+		return result;
+	}
+
 	private Set<String> getQueenMoves( String square ) {
 		//TODO: this works in assumption
 		//that rook's castling is NOT included into
@@ -184,28 +207,6 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getRookMoves( String square ) {
-		final Side currentSide = pieces.get( square ).getSide();
-
-		Set< String > result = new HashSet<String>();
-
-		for ( Direction direction : Direction.values() ) {
-			String runningSquare = square;
-			//left to right calculation logic?... Too complex it becomes
-			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null &&
-					isEmptySquare( runningSquare ) )  {
-				result.add( runningSquare );
-			}
-
-			if ( isOccupied( runningSquare ) &&
-				isOccupiedBy( runningSquare, currentSide.opposite() ) ) {
-				//capture
-				result.add( runningSquare );
-			}
-		}
-
-		return result;
-	}
 
 	private Set< String > getBishopMoves( String square ) {
 		Set< String > result = getSquaresAttackedByBishop( square );
