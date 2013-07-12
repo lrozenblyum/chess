@@ -119,4 +119,18 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "a2",
 				"a3", "b1", "b3" );
 	}
+
+	@Test
+	public void bishopProtectedCannotCapture() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "c3", PieceType.BISHOP ); //controls b2, a1
+		position.add( Side.WHITE, "a1", PieceType.BISHOP ); //controls b2, a1
+
+
+		position.add( Side.BLACK, "a2", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a2",
+				"a3", "b1", "b3" );
+	}
 }
