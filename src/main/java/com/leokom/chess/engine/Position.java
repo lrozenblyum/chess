@@ -137,6 +137,9 @@ public class Position {
 				case KNIGHT:
 					result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
 					break;
+				case BISHOP:
+					result.removeAll( getSquaresAttackedByBishop( chessSquare ) );
+					break;
 			}
 		}
 
@@ -199,27 +202,31 @@ public class Position {
 	}
 
 	private Set< String > getBishopMoves( String square ) {
+		Set< String > result = getSquaresAttackedByBishop( square );
 
+		//it might be not very efficient since only the 'end' squares
+		//must be checked like it was before
+		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
+		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
+
+		return result;
+	}
+
+	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<String>();
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				String diagonalSquare = squareDiagonally( square, horizontalDirection, verticalDirection );
-
-				//null means: reached end of the board
-				while ( diagonalSquare != null && isEmptySquare( diagonalSquare ) ) {
-					result.add( diagonalSquare );
-					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection );
+				String movingSquare = square;
+				do {
+					movingSquare = squareDiagonally( movingSquare, horizontalDirection, verticalDirection );
+					//null means end of table reached and will break the loop
+					addIfNotNull( result, movingSquare );
 				}
-
-				//not null means we stopped due to a blocking piece
-				if ( diagonalSquare != null &&
-					isOccupiedBy( diagonalSquare, getSide( square ).opposite() ) ) {
-					result.add( diagonalSquare );
-				}
+				//the loop will include first busy square on its way to the result
+				while ( movingSquare != null && isEmptySquare( movingSquare ) );
 			}
 		}
-
 		return result;
 	}
 
