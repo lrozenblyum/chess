@@ -146,10 +146,6 @@ public class Position {
 		return result;
 	}
 
-	private Collection<String> getSquaresAttackedByBishop( String chessSquare ) {
-		return getBishopMoves( chessSquare );
-	}
-
 	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {
 		Map< String, PieceType > result = new HashMap<String, PieceType>();
 		for( String square : pieces.keySet() ) {
@@ -206,7 +202,17 @@ public class Position {
 	}
 
 	private Set< String > getBishopMoves( String square ) {
+		Set< String > result = getSquaresAttackedByBishop( square );
 
+		//it might be not very efficient since only the 'end' squares
+		//must be checked like it was before
+		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
+		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
+
+		return result;
+	}
+
+	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<String>();
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
@@ -219,14 +225,11 @@ public class Position {
 					diagonalSquare = squareDiagonally( diagonalSquare, horizontalDirection, verticalDirection );
 				}
 
-				//not null means we stopped due to a blocking piece
-				if ( diagonalSquare != null &&
-					isOccupiedBy( diagonalSquare, getSide( square ).opposite() ) ) {
+				if ( diagonalSquare != null ) {  //means reached blocked piece
 					result.add( diagonalSquare );
 				}
 			}
 		}
-
 		return result;
 	}
 
