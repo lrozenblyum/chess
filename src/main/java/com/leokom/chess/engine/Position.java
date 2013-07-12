@@ -137,10 +137,17 @@ public class Position {
 				case KNIGHT:
 					result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
 					break;
+				case BISHOP:
+					result.removeAll( getSquaresAttackedByBishop( chessSquare ) );
+					break;
 			}
 		}
 
 		return result;
+	}
+
+	private Collection<String> getSquaresAttackedByBishop( String chessSquare ) {
+		return getBishopMoves( chessSquare );
 	}
 
 	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {
