@@ -194,6 +194,17 @@ public class Position {
 		return result;
 	}
 
+	private Set< String > getBishopMoves( String square ) {
+		Set< String > result = getSquaresAttackedByBishop( square );
+
+		//it might be not very efficient since only the 'end' squares
+		//must be checked like it was before
+		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
+		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
+
+		return result;
+	}
+
 	private Set<String> getQueenMoves( String square ) {
 		//TODO: this works in assumption
 		//that rook's castling is NOT included into
@@ -208,17 +219,6 @@ public class Position {
 		return result;
 	}
 
-
-	private Set< String > getBishopMoves( String square ) {
-		Set< String > result = getSquaresAttackedByBishop( square );
-
-		//it might be not very efficient since only the 'end' squares
-		//must be checked like it was before
-		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
-		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
-
-		return result;
-	}
 
 	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<String>();
