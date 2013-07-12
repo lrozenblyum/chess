@@ -158,15 +158,11 @@ public class Position {
 
 		for ( Direction direction : Direction.values() ) {
 			String runningSquare = square;
-			//left to right calculation logic?... Too complex it becomes
-			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null &&
-					isEmptySquare( runningSquare ) )  {
-				result.add( runningSquare );
-			}
 
-			if ( runningSquare != null ) {
-				result.add( runningSquare );
-			}
+			do {
+				runningSquare = squareTo( runningSquare, direction );
+				addIfNotNull( result, runningSquare );
+			} while ( runningSquare != null && isEmptySquare( runningSquare ) );
 		}
 
 		return result;
