@@ -145,4 +145,17 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "a1",
 				"a2" ); //b is protected
 	}
+
+	@Test
+	public void rookProtectsOwnPiece() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "b3", PieceType.ROOK ); //controls file b, rank 3
+		position.add( Side.WHITE, "b1", PieceType.PAWN );
+
+		position.add( Side.BLACK, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"a2" ); //b is protected
+	}
 }
