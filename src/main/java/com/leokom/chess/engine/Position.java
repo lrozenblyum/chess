@@ -140,10 +140,16 @@ public class Position {
 				case BISHOP:
 					result.removeAll( getSquaresAttackedByBishop( chessSquare ) );
 					break;
+				case ROOK:
+					result.removeAll( getSquaresAttackedByRook( chessSquare ) );
 			}
 		}
 
 		return result;
+	}
+
+	private Set<String> getSquaresAttackedByRook( String chessSquare ) {
+		return getRookMoves( chessSquare );
 	}
 
 	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {

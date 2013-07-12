@@ -84,14 +84,14 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 	@Test
 	public void cannotCaptureIfControlledByPawn() {
 		Position position = new Position( null );
-		position.add( Side.WHITE, "g8", PieceType.ROOK );
-		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the rook
+		position.add( Side.WHITE, "g7", PieceType.PAWN );
+		position.add( Side.WHITE, "h6", PieceType.PAWN ); //protects the pawn
 
-		position.add( Side.BLACK, "f8", PieceType.KING );
+		position.add( Side.BLACK, "f7", PieceType.KING );
 
 		PositionAsserts.assertAllowedMoves(
-				position, "f8",
-				"e8", "e7", "f7", "g7" ); //but not protected g8
+				position, "f7",
+				"g8", "e8", "e7", "e6", "f6", "g6" ); //but not protected g7
 	}
 
 	@Test
