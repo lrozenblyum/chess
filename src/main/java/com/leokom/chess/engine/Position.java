@@ -116,41 +116,76 @@ public class Position {
 		}
 
 		Side ourSide = getSide( square );
-		Set< String > toRemove = new HashSet<String>();
-		for ( String potentialSquare : result ) {
-			//if occupied by another side - can capture
-			if ( isOccupiedBy( potentialSquare, ourSide ) ) {
-				toRemove.add( potentialSquare );
-			}
-		}
 
-		result.removeAll( toRemove );
+		result.removeAll( getSquaresOccupiedBy( result, ourSide ) );
 
 		//removing attack targets.
 
-		final Map<String, PieceType> opponentPieces = getOpponentPieces( ourSide );
-		for ( String chessSquare : opponentPieces.keySet() ) {
-			switch ( opponentPieces.get( chessSquare ) ) {
-				case PAWN:
-					result.removeAll( getSquaresAttackedByPawn( chessSquare ) );
-					break;
-				case KNIGHT:
-					result.removeAll( getSquaresAttackedByKnight( chessSquare ) );
-					break;
-				case BISHOP:
-					result.removeAll( getSquaresAttackedByBishop( chessSquare ) );
-					break;
+		Set< String > squaresWhereKingWillBeAttacked = new HashSet<String>();
+		for ( String potentialMove : result ) {
+			//will work in assumption that .move isn't validating!
+			final Position potentialNewPosition = this.move( square, potentialMove );
+
+			//they  may differ from move to move, e.g. when King performs a capture!
+			//TODO: technically I can't find currently a test case that will be red
+			//if I move the opponentPieces getting outside the loop (just from current position).
+			//So theoretically it might be a performance improvement
+			//the reason is that if we capture by king,
+			//getting attacked squares from that square will get other squares, but not that one
+			//where king resides
+			//however I don't want to introduce this bad dependency on the side effect
+			final Set< String > opponentPieces = potentialNewPosition.getOpponentPieces( ourSide );
+
+			for ( String opponentPiece : opponentPieces ) {
+				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
+					squaresWhereKingWillBeAttacked.add( potentialMove );
+					break; //even may break the outer loop
+				}
 			}
+		}
+
+		result.removeAll( squaresWhereKingWillBeAttacked );
+
+		return result;
+	}
+
+	private Set< String > getSquaresAttackedFromSquare( String chessSquare ) {
+		//assuming square is occupied...
+		switch ( pieces.get( chessSquare ).getPieceType() ) {
+			case PAWN:
+				return getSquaresAttackedByPawn( chessSquare );
+			case KNIGHT:
+				return getSquaresAttackedByKnight( chessSquare );
+			case BISHOP:
+				return getSquaresAttackedByBishop( chessSquare );
+			case ROOK:
+				return getSquaresAttackedByRook( chessSquare );
+		 	default:
+				//NOTE: throwing an exception so far breaks other tests
+				return new HashSet<String>();
+		}
+	}
+
+	private Set<String> getSquaresAttackedByRook( String square ) {
+		Set< String > result = new HashSet<String>();
+
+		for ( Direction direction : Direction.values() ) {
+			String runningSquare = square;
+
+			do {
+				runningSquare = squareTo( runningSquare, direction );
+				addIfNotNull( result, runningSquare );
+			} while ( runningSquare != null && isEmptySquare( runningSquare ) );
 		}
 
 		return result;
 	}
 
-	private Map< String, PieceType > getOpponentPieces( Side ourSide ) {
-		Map< String, PieceType > result = new HashMap<String, PieceType>();
+	private Set< String > getOpponentPieces( Side ourSide ) {
+		Set< String > result = new HashSet< String >();
 		for( String square : pieces.keySet() ) {
 			if ( pieces.get( square ).getSide() == ourSide.opposite() ) {
-				result.put( square, pieces.get( square ).getPieceType() );
+				result.add( square );
 			}
 		}
 
@@ -159,9 +194,26 @@ public class Position {
 
 	private Set< String > getKnightMoves( String square ) {
 		final Set<String> knightMoves = getSquaresAttackedByKnight( square );
-		//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
-		knightMoves.removeAll( getSquaresOccupiedByOurSide( knightMoves, getSide( square ) ) );
+		knightMoves.removeAll( getSquaresOccupiedBy( knightMoves, getSide( square ) ) );
 		return knightMoves;
+	}
+
+
+	private Set< String > getRookMoves( String square ) {
+		final Set<String> result = getSquaresAttackedByRook( square );
+		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
+		return result;
+	}
+
+	private Set< String > getBishopMoves( String square ) {
+		Set< String > result = getSquaresAttackedByBishop( square );
+
+		//it might be not very efficient since only the 'end' squares
+		//must be checked like it was before
+		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
+		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
+
+		return result;
 	}
 
 	private Set<String> getQueenMoves( String square ) {
@@ -178,39 +230,6 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getRookMoves( String square ) {
-		final Side currentSide = pieces.get( square ).getSide();
-
-		Set< String > result = new HashSet<String>();
-
-		for ( Direction direction : Direction.values() ) {
-			String runningSquare = square;
-			//left to right calculation logic?... Too complex it becomes
-			while ( ( runningSquare = squareTo( runningSquare, direction ) ) != null &&
-					isEmptySquare( runningSquare ) )  {
-				result.add( runningSquare );
-			}
-
-			if ( isOccupied( runningSquare ) &&
-				isOccupiedBy( runningSquare, currentSide.opposite() ) ) {
-				//capture
-				result.add( runningSquare );
-			}
-		}
-
-		return result;
-	}
-
-	private Set< String > getBishopMoves( String square ) {
-		Set< String > result = getSquaresAttackedByBishop( square );
-
-		//it might be not very efficient since only the 'end' squares
-		//must be checked like it was before
-		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
-		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
-
-		return result;
-	}
 
 	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<String>();
@@ -312,8 +331,9 @@ public class Position {
 		return knightMoves;
 	}
 
-	//TODO: it's very generic - since the rule 3.1 is common. Could we reuse it?
-	private Set< String > getSquaresOccupiedByOurSide( Set<String> potentialMoves, Side ourSide ) {
+	//useful method to implement 3.1 rule of FIDE
+	//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
+	private Set< String > getSquaresOccupiedBy( Set<String> potentialMoves, Side ourSide ) {
 		Set< String > result = new HashSet<String>();
 		for ( String potentialMove : potentialMoves ) {
 			if ( isOccupiedBy( potentialMove, ourSide ) ) {
