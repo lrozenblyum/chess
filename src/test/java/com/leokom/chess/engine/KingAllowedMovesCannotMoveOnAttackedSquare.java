@@ -262,4 +262,19 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				"g8", "g7", "h7"
 		);
 	}
+
+	@Test
+	public void kingCannotMeetAKing() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "c1", PieceType.KING );
+
+
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"a2" //b1, b2 are controlled by the opponent's king
+		);
+	}
 }
