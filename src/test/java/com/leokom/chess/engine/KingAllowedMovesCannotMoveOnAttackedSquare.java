@@ -248,4 +248,18 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "h8"
 				 ); //g is under queen's control, h7 as well
 	}
+
+	@Test
+	public void ownQueenIsNotAProblem() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "g8", PieceType.KNIGHT );
+
+		position.add( Side.BLACK, "g6", PieceType.QUEEN ); //own queen
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "h8",
+				"g8", "g7", "h7"
+		);
+	}
 }
