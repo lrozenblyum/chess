@@ -17,4 +17,16 @@ public class KingNewPositionTest {
 		PositionAsserts.assertEmptySquare( newPosition, "e1" );
 		PositionAsserts.assertHasPiece( newPosition,PieceType.KING, Side.WHITE, "d1" );
 	}
+
+	@Test
+	public void capture() {
+		Position position = new Position( null );
+
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.BLACK, "d1", PieceType.QUEEN );
+
+		final Position newPosition = position.move( "e1", "d1" );
+		PositionAsserts.assertEmptySquare( newPosition, "e1" );
+		PositionAsserts.assertHasPiece( newPosition,PieceType.KING, Side.WHITE, "d1" );
+	}
 }
