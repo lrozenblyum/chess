@@ -128,10 +128,23 @@ public class Position {
 
 		//removing attack targets.
 
-		final Set< String > opponentPieces = getOpponentPieces( ourSide );
-		for ( String chessSquare : opponentPieces ) {
-			result.removeAll( getSquaresAttackedFromSquare( chessSquare ) );
+		Set< String > squaresWhereKingWillBeAttacked = new HashSet<String>();
+		for ( String potentialMove : result ) {
+			//will work in assumption that .move isn't validating!
+			final Position potentialNewPosition = this.move( square, potentialMove );
+
+			//they  may differ from move to move, e.g. when King performs a capture!
+			final Set< String > opponentPieces = potentialNewPosition.getOpponentPieces( ourSide );
+
+			for ( String opponentPiece : opponentPieces ) {
+				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
+					squaresWhereKingWillBeAttacked.add( potentialMove );
+					break; //even may break the outer loop
+				}
+			}
 		}
+
+		result.removeAll( squaresWhereKingWillBeAttacked );
 
 		return result;
 	}
