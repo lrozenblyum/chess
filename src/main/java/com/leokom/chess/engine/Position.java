@@ -149,28 +149,28 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getSquaresAttackedFromSquare( String chessSquare ) {
+	private Set< String > getSquaresAttackedFromSquare( String square ) {
 		//assuming square is occupied...
-		switch ( pieces.get( chessSquare ).getPieceType() ) {
+		switch ( pieces.get( square ).getPieceType() ) {
 			case PAWN:
-				return getSquaresAttackedByPawn( chessSquare );
+				return getSquaresAttackedByPawn( square );
 			case KNIGHT:
-				return getSquaresAttackedByKnight( chessSquare );
+				return getSquaresAttackedByKnight( square );
 			case BISHOP:
-				return getSquaresAttackedByBishop( chessSquare );
+				return getSquaresAttackedByBishop( square );
 			case ROOK:
-				return getSquaresAttackedByRook( chessSquare );
+				return getSquaresAttackedByRook( square );
 			case QUEEN:
-				return getSquaresAttackedByQueen( chessSquare );
+				return getSquaresAttackedByQueen( square );
 		 	default:
 				//NOTE: throwing an exception so far breaks other tests
 				return new HashSet<String>();
 		}
 	}
 
-	private Set<String> getSquaresAttackedByQueen( String chessSquare ) {
-		final Set<String> result = getSquaresAttackedByBishop( chessSquare );
-		result.addAll( getSquaresAttackedByRook( chessSquare ) );
+	private Set<String> getSquaresAttackedByQueen( String square ) {
+		final Set<String> result = getSquaresAttackedByBishop( square );
+		result.addAll( getSquaresAttackedByRook( square ) );
 		return result;
 	}
 
