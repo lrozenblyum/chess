@@ -97,8 +97,8 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 	@Test
 	public void canCaptureAPawnThatControlsOtherPiece() {
 		Position position = new Position( null );
-		position.add( Side.WHITE, "g8", PieceType.QUEEN );
-		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the queen
+		position.add( Side.WHITE, "g8", PieceType.KNIGHT );
+		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the knight
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
 

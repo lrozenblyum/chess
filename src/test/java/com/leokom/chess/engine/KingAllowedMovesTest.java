@@ -77,7 +77,7 @@ public class KingAllowedMovesTest {
 		Position position = new Position( null );
 		position.add( Side.WHITE, "a1", PieceType.KING );
 
-		position.add( Side.BLACK, "b1", PieceType.QUEEN );
+		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
 		position.add( Side.BLACK, "a2", PieceType.KNIGHT );
 
 		PositionAsserts.assertAllowedMoves(

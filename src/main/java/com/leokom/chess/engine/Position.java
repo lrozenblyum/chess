@@ -160,10 +160,16 @@ public class Position {
 				return getSquaresAttackedByBishop( chessSquare );
 			case ROOK:
 				return getSquaresAttackedByRook( chessSquare );
+			case QUEEN:
+				return getSquaresAttackedByQueen( chessSquare );
 		 	default:
 				//NOTE: throwing an exception so far breaks other tests
 				return new HashSet<String>();
 		}
+	}
+
+	private Set<String> getSquaresAttackedByQueen( String chessSquare ) {
+		return getSquaresAttackedByBishop( chessSquare );
 	}
 
 	private Set<String> getSquaresAttackedByRook( String square ) {
