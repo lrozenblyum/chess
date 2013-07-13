@@ -222,4 +222,30 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "h8",
 				"h7" ); //g is under queen's control
 	}
+
+	@Test
+	public void queenProtectsFromCapture() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "g5", PieceType.QUEEN );
+		position.add( Side.WHITE, "g8", PieceType.KNIGHT ); //protected
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "h8",
+				"h7" ); //g is under queen's control
+	}
+
+	@Test
+	public void queenProtectsFromCaptureNoWayForKing() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "g6", PieceType.QUEEN );
+		position.add( Side.WHITE, "g8", PieceType.KNIGHT ); //protected
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "h8"
+				 ); //g is under queen's control, h7 as well
+	}
 }
