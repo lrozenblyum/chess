@@ -139,7 +139,7 @@ public class Position {
 			for ( String opponentPiece : opponentPieces ) {
 				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
 					squaresWhereKingWillBeAttacked.add( potentialMove );
-					break; //even may break the outer loop
+					break;
 				}
 			}
 		}
@@ -149,21 +149,29 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getSquaresAttackedFromSquare( String chessSquare ) {
+	private Set< String > getSquaresAttackedFromSquare( String square ) {
 		//assuming square is occupied...
-		switch ( pieces.get( chessSquare ).getPieceType() ) {
+		switch ( pieces.get( square ).getPieceType() ) {
 			case PAWN:
-				return getSquaresAttackedByPawn( chessSquare );
+				return getSquaresAttackedByPawn( square );
 			case KNIGHT:
-				return getSquaresAttackedByKnight( chessSquare );
+				return getSquaresAttackedByKnight( square );
 			case BISHOP:
-				return getSquaresAttackedByBishop( chessSquare );
+				return getSquaresAttackedByBishop( square );
 			case ROOK:
-				return getSquaresAttackedByRook( chessSquare );
+				return getSquaresAttackedByRook( square );
+			case QUEEN:
+				return getSquaresAttackedByQueen( square );
 		 	default:
 				//NOTE: throwing an exception so far breaks other tests
 				return new HashSet<String>();
 		}
+	}
+
+	private Set<String> getSquaresAttackedByQueen( String square ) {
+		final Set<String> result = getSquaresAttackedByBishop( square );
+		result.addAll( getSquaresAttackedByRook( square ) );
+		return result;
 	}
 
 	private Set<String> getSquaresAttackedByRook( String square ) {
@@ -216,17 +224,17 @@ public class Position {
 		return result;
 	}
 
+	//this method can be formed either as:
+	//rook moves+bishop moves
+	//or ( rook attacked + bishop attacked ) - (busy by our pieces)
 	private Set<String> getQueenMoves( String square ) {
 		//TODO: this works in assumption
 		//that rook's castling is NOT included into
 		//getRookMoves. Castling is considered as King's move
-		final Set<String> rookMoves = getRookMoves( square );
-		final Set< String > bishopMoves = getBishopMoves( square );
-		final Set< String > result = new HashSet<String>();
-		//TODO: some Guava/CollectionUtils for simplification?
-		result.addAll( rookMoves );
-		result.addAll( bishopMoves );
 
+		//TODO: some Guava/CollectionUtils for simplification?
+		final Set< String > result = getRookMoves( square );
+		result.addAll( getBishopMoves( square ) );
 		return result;
 	}
 
