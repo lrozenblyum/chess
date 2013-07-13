@@ -97,23 +97,7 @@ public class Position {
 	}
 
 	private Set<String> getKingMoves( String square ) {
-		//TODO: think, King's movement
-		//is similar to Queen (in part of all directions)
-		//could we reuse queen's movement?
-
-		Set< String > result = new HashSet<String>();
-
-		//diagonally
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
-			}
-		}
-
-		//left/right/top/bottom
-		for ( Direction direction : Direction.values() ) {
-			addIfNotNull( result, squareTo( square, direction ) );
-		}
+		Set< String > result = getSquaresAttackedByKing( square );
 
 		Side ourSide = getSide( square );
 
@@ -162,10 +146,32 @@ public class Position {
 				return getSquaresAttackedByRook( square );
 			case QUEEN:
 				return getSquaresAttackedByQueen( square );
+			case KING:
+				return getSquaresAttackedByKing( square );
 		 	default:
-				//NOTE: throwing an exception so far breaks other tests
-				return new HashSet<String>();
+				//TODO: unreachable code so far? How to improve?
+				throw new IllegalArgumentException( "Piece type is invalid: " + pieces.get( square ).getPieceType() );
 		}
+	}
+
+	private Set<String> getSquaresAttackedByKing( String square ) {
+		//TODO: this is similar to Queen (in part of all directions)
+		//could we reuse queen's movement?
+		Set< String > result = new HashSet<String>();
+
+		//diagonally
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
+				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
+			}
+		}
+
+		//left/right/top/bottom
+		for ( Direction direction : Direction.values() ) {
+			addIfNotNull( result, squareTo( square, direction ) );
+		}
+
+		return result;
 	}
 
 	private Set<String> getSquaresAttackedByQueen( String square ) {
