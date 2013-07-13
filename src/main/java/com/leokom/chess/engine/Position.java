@@ -134,6 +134,13 @@ public class Position {
 			final Position potentialNewPosition = this.move( square, potentialMove );
 
 			//they  may differ from move to move, e.g. when King performs a capture!
+			//TODO: technically I can't find currently a test case that will be red
+			//if I move the opponentPieces getting outside the loop (just from current position).
+			//So theoretically it might be a performance improvement
+			//the reason is that if we capture by king,
+			//getting attacked squares from that square will get other squares, but not that one
+			//where king resides
+			//however I don't want to introduce this bad dependency on the side effect
 			final Set< String > opponentPieces = potentialNewPosition.getOpponentPieces( ourSide );
 
 			for ( String opponentPiece : opponentPieces ) {
