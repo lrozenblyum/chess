@@ -116,15 +116,8 @@ public class Position {
 		}
 
 		Side ourSide = getSide( square );
-		Set< String > toRemove = new HashSet<String>();
-		for ( String potentialSquare : result ) {
-			//if occupied by another side - can capture
-			if ( isOccupiedBy( potentialSquare, ourSide ) ) {
-				toRemove.add( potentialSquare );
-			}
-		}
 
-		result.removeAll( toRemove );
+		result.removeAll( getSquaresOccupiedByOurSide( result, ourSide ) );
 
 		//removing attack targets.
 
