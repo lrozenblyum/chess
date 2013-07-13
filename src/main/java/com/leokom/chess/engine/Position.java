@@ -139,7 +139,7 @@ public class Position {
 			for ( String opponentPiece : opponentPieces ) {
 				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
 					squaresWhereKingWillBeAttacked.add( potentialMove );
-					break; //even may break the outer loop
+					break;
 				}
 			}
 		}
