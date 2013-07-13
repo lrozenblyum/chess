@@ -224,17 +224,17 @@ public class Position {
 		return result;
 	}
 
+	//this method can be formed either as:
+	//rook moves+bishop moves
+	//or ( rook attacked + bishop attacked ) - (busy by our pieces)
 	private Set<String> getQueenMoves( String square ) {
 		//TODO: this works in assumption
 		//that rook's castling is NOT included into
 		//getRookMoves. Castling is considered as King's move
-		final Set<String> rookMoves = getRookMoves( square );
-		final Set< String > bishopMoves = getBishopMoves( square );
-		final Set< String > result = new HashSet<String>();
-		//TODO: some Guava/CollectionUtils for simplification?
-		result.addAll( rookMoves );
-		result.addAll( bishopMoves );
 
+		//TODO: some Guava/CollectionUtils for simplification?
+		final Set< String > result = getRookMoves( square );
+		result.addAll( getBishopMoves( square ) );
 		return result;
 	}
 
