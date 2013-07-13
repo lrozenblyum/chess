@@ -211,5 +211,15 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				"h7", "g8" ); //g7 is under check
 	}
 
+	@Test
+	public void queenAttackedVertically() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "g5", PieceType.QUEEN );
 
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "h8",
+				"h7" ); //g is under queen's control
+	}
 }
