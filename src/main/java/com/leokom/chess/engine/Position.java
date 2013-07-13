@@ -117,7 +117,7 @@ public class Position {
 
 		Side ourSide = getSide( square );
 
-		result.removeAll( getSquaresOccupiedByOurSide( result, ourSide ) );
+		result.removeAll( getSquaresOccupiedBy( result, ourSide ) );
 
 		//removing attack targets.
 
@@ -194,16 +194,14 @@ public class Position {
 
 	private Set< String > getKnightMoves( String square ) {
 		final Set<String> knightMoves = getSquaresAttackedByKnight( square );
-		//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
-		knightMoves.removeAll( getSquaresOccupiedByOurSide( knightMoves, getSide( square ) ) );
+		knightMoves.removeAll( getSquaresOccupiedBy( knightMoves, getSide( square ) ) );
 		return knightMoves;
 	}
 
 
 	private Set< String > getRookMoves( String square ) {
 		final Set<String> result = getSquaresAttackedByRook( square );
-		//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
-		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
+		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
 		return result;
 	}
 
@@ -213,7 +211,7 @@ public class Position {
 		//it might be not very efficient since only the 'end' squares
 		//must be checked like it was before
 		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
-		result.removeAll( getSquaresOccupiedByOurSide( result, getSide( square ) ) );
+		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
 
 		return result;
 	}
@@ -333,8 +331,9 @@ public class Position {
 		return knightMoves;
 	}
 
-	//TODO: it's very generic - since the rule 3.1 is common. Could we reuse it?
-	private Set< String > getSquaresOccupiedByOurSide( Set<String> potentialMoves, Side ourSide ) {
+	//useful method to implement 3.1 rule of FIDE
+	//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
+	private Set< String > getSquaresOccupiedBy( Set<String> potentialMoves, Side ourSide ) {
 		Set< String > result = new HashSet<String>();
 		for ( String potentialMove : potentialMoves ) {
 			if ( isOccupiedBy( potentialMove, ourSide ) ) {
