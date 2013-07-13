@@ -159,6 +159,9 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				"b1" ); //2 is protected
 	}
 
+	//this scenario describes an important case:
+	//the king tries to move to a square that WAS NOT initially attacked (because king itself prevented the attack)
+	//but now it's attacked. FIDE rules have some ambiguity in 3.8 (solved completely in 3.9)
 	@Test
 	public void integrationOfRookAndPawn() {  //they greatly reduce king's possibilities
 		Position position = new Position( null );
