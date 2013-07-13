@@ -175,4 +175,28 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				"e7", "f7" );
 	}
 
+	@Test
+	public void bishopAttackFromCheckToCheck() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "f6", PieceType.BISHOP );
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "h8",
+				"h7", "g8" ); //g7 is under check
+	}
+
+	@Test
+	public void bishopAttackFromCheckToCheckCanCapture() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "f6", PieceType.BISHOP );
+
+		position.add( Side.BLACK, "g7", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "g7",
+				"f6", "f7", "f8", "g8", "g6", "h6", "h7" ); //h8 is under check
+	}
+
 }
