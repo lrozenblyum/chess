@@ -84,14 +84,14 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 	@Test
 	public void cannotCaptureIfControlledByPawn() {
 		Position position = new Position( null );
-		position.add( Side.WHITE, "g8", PieceType.ROOK );
-		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the rook
+		position.add( Side.WHITE, "g7", PieceType.PAWN );
+		position.add( Side.WHITE, "h6", PieceType.PAWN ); //protects the pawn
 
-		position.add( Side.BLACK, "f8", PieceType.KING );
+		position.add( Side.BLACK, "f7", PieceType.KING );
 
 		PositionAsserts.assertAllowedMoves(
-				position, "f8",
-				"e8", "e7", "f7", "g7" ); //but not protected g8
+				position, "f7",
+				"g8", "e8", "e7", "e6", "f6", "g6" ); //but not protected g7
 	}
 
 	@Test
@@ -133,4 +133,70 @@ public class KingAllowedMovesCannotMoveOnAttackedSquare {
 				position, "a2",
 				"a3", "b1", "b3" );
 	}
+
+	@Test
+	public void rookControl() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "b3", PieceType.ROOK ); //controls file b, rank 3
+
+		position.add( Side.BLACK, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"a2" ); //b is protected
+	}
+
+	@Test
+	public void rookProtectsOwnPiece() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "c2", PieceType.ROOK );
+		position.add( Side.WHITE, "a2", PieceType.PAWN );
+
+		position.add( Side.BLACK, "a1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "a1",
+				"b1" ); //2 is protected
+	}
+
+	//this scenario describes an important case:
+	//the king tries to move to a square that WAS NOT initially attacked (because king itself prevented the attack)
+	//but now it's attacked. FIDE rules have some ambiguity in 3.8 (solved completely in 3.9)
+	@Test
+	public void integrationOfRookAndPawn() {  //they greatly reduce king's possibilities
+		Position position = new Position( null );
+		position.add( Side.WHITE, "g8", PieceType.ROOK );
+		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the rook
+
+		position.add( Side.BLACK, "f8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "f8",
+				"e7", "f7" );
+	}
+
+	@Test
+	public void bishopAttackFromCheckToCheck() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "f6", PieceType.BISHOP );
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "h8",
+				"h7", "g8" ); //g7 is under check
+	}
+
+	@Test
+	public void bishopAttackFromCheckToCheckCanCapture() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "f6", PieceType.BISHOP );
+
+		position.add( Side.BLACK, "g7", PieceType.KING );
+
+		PositionAsserts.assertAllowedMoves(
+				position, "g7",
+				"f6", "f7", "f8", "g8", "g6", "h6", "h7" ); //h8 is under check
+	}
+
 }
