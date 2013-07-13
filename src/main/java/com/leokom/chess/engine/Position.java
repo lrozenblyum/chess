@@ -169,7 +169,9 @@ public class Position {
 	}
 
 	private Set<String> getSquaresAttackedByQueen( String chessSquare ) {
-		return getSquaresAttackedByBishop( chessSquare );
+		final Set<String> result = getSquaresAttackedByBishop( chessSquare );
+		result.addAll( getSquaresAttackedByRook( chessSquare ) );
+		return result;
 	}
 
 	private Set<String> getSquaresAttackedByRook( String square ) {
