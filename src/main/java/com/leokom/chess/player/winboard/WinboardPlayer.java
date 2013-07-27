@@ -78,6 +78,13 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
+		commander.onResign( new ResignListener() {
+			@Override
+			public void execute() {
+				opponent.opponentResigned();
+			}
+		} );
+
 		//critically important to send this sequence at the start
 		//to ensure the Winboard won't ignore our 'setfeature' commands
 		//set feature commands must be sent in response to protover
