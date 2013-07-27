@@ -101,6 +101,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void onResign( ResignListener listener ) {
+
+	}
+
+	@Override
 	public void onXBoard( XBoardListener listener ) {
 		listenersWithoutParams.put( "xboard", listener );
 	}

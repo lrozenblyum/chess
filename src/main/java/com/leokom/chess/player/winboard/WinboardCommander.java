@@ -42,4 +42,6 @@ interface WinboardCommander {
 	void onGo( GoListener listener );
 	void onUserMove( UserMoveListener listener );
 	void onOfferDraw( OfferDrawListener listener );
+
+	void onResign( ResignListener listener );
 }

@@ -36,6 +36,19 @@ public class WinBoardCommanderReceiveTest {
 		verify( listener ).execute();
 	}
 
+	@Test
+	public void opponentResigns() {
+		Communicator communicator = getReceiveCommunicator( "result 1-0 {Black resigns}" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+
+		final ResignListener listener = mock( ResignListener.class );
+		commander.onResign( listener );
+
+		commander.processInputFromServer();
+
+		verify( listener ).execute();
+	}
+
 	//TODO: I implement only simple test for usermove for 2 reasons:
 	//1. I want to check if pitest finds it
 	@Test
