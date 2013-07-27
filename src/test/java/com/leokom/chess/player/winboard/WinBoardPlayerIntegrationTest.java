@@ -46,6 +46,26 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	@Test
+	public void resignListenerCalled() {
+		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
+
+		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		//low-level
+
+		//TODO: it's too implementation-specific, isn't it?
+
+		when( communicator.receive() ).thenReturn( "result 1-0 {Black resigns}" );
+		//mid-level processing
+		commander.processInputFromServer();
+		//top-level component has set up the commander's listener correctly
+		verify( opponent ).opponentResigned();
+	}
+
+	@Test
 	public void userMoveNoException() {
 		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
 
