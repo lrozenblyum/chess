@@ -103,6 +103,14 @@ class WinboardCommanderImpl implements WinboardCommander {
 	@Override
 	public void onResign( ResignListener listener ) {
 		//TODO: real hard-coding of Black resignation.
+
+		//"result RESULT {COMMENT}"
+		//"The COMMENT string is purely a human-readable comment; its content is unspecified and subject to change."
+		//TODO: really bad - no normal indication of RESIGN event??
+
+		//looks not good:
+		//"If you won but did not just play a mate, your opponent must have resigned or forfeited."
+
 		listenersWithoutParams.put( "result 1-0 {Black resigns}", listener );
 	}
 
