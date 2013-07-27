@@ -102,7 +102,8 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void onResign( ResignListener listener ) {
-
+		//TODO: real hard-coding of Black resignation.
+		listenersWithoutParams.put( "result 1-0 {Black resigns}", listener );
 	}
 
 	@Override
