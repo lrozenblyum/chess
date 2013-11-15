@@ -44,7 +44,7 @@ public class Position {
 
 
 	//all pieces currently present on the board
-	private final Map< String, Piece > pieces = new HashMap<String, Piece>();
+	private final Map< String, Piece > pieces = new HashMap<>();
 
 	private final String enPassantFile;
 
@@ -105,7 +105,7 @@ public class Position {
 
 		//removing attack targets.
 
-		Set< String > squaresWhereKingWillBeAttacked = new HashSet<String>();
+		Set< String > squaresWhereKingWillBeAttacked = new HashSet<>();
 		for ( String potentialMove : result ) {
 			//will work in assumption that .move isn't validating!
 			final Position potentialNewPosition = this.move( square, potentialMove );
@@ -157,7 +157,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByKing( String square ) {
 		//TODO: this is similar to Queen (in part of all directions)
 		//could we reuse queen's movement?
-		Set< String > result = new HashSet<String>();
+		Set< String > result = new HashSet<>();
 
 		//diagonally
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
@@ -181,7 +181,7 @@ public class Position {
 	}
 
 	private Set<String> getSquaresAttackedByRook( String square ) {
-		Set< String > result = new HashSet<String>();
+		Set< String > result = new HashSet<>();
 
 		for ( Direction direction : Direction.values() ) {
 			String runningSquare = square;
@@ -196,7 +196,7 @@ public class Position {
 	}
 
 	private Set< String > getOpponentPieces( Side ourSide ) {
-		Set< String > result = new HashSet< String >();
+		Set< String > result = new HashSet<>();
 		for( String square : pieces.keySet() ) {
 			if ( pieces.get( square ).getSide() == ourSide.opposite() ) {
 				result.add( square );
@@ -246,7 +246,7 @@ public class Position {
 
 
 	private Set<String> getSquaresAttackedByBishop( String square ) {
-		Set< String > result = new HashSet<String>();
+		Set< String > result = new HashSet<>();
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
@@ -266,7 +266,7 @@ public class Position {
 	//NOTE: from point of view of en passant we
 	//still have the square diagonally-front attacked
 	private Set< String > getSquaresAttackedByPawn( String square ) {
-		Set< String > result = new HashSet<String>();
+		Set< String > result = new HashSet<>();
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 			final Side side = getSide( square );
 
@@ -278,7 +278,7 @@ public class Position {
 	}
 
 	private Set<String> getPawnMoves( String square ) {
-		final Set<String> result = new HashSet<String>();
+		final Set<String> result = new HashSet<>();
 
 		final String file = fileOfSquare( square );
 		final int rank = rankOfSquare( square );
@@ -327,7 +327,7 @@ public class Position {
 		//they will be combined with all possible vertical/horizontal directions
 		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
 
-		Set< String > knightMoves = new HashSet<String>();
+		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
 			for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
 				for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
@@ -348,7 +348,7 @@ public class Position {
 	//useful method to implement 3.1 rule of FIDE
 	//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
 	private Set< String > getSquaresOccupiedBy( Set<String> potentialMoves, Side ourSide ) {
-		Set< String > result = new HashSet<String>();
+		Set< String > result = new HashSet<>();
 		for ( String potentialMove : potentialMoves ) {
 			if ( isOccupiedBy( potentialMove, ourSide ) ) {
 				result.add( potentialMove );
@@ -366,7 +366,7 @@ public class Position {
 	 * @return set of moves to be removed
 	 */
 	private Set<String> getImpossibleMovesForPawn( Set<String> potentialPawnMoves, String square ) {
-		Set< String > disallowedMoves = new HashSet<String>();
+		Set< String > disallowedMoves = new HashSet<>();
 		for ( String potentialMove : potentialPawnMoves ) {
 			String destinationSquare = Move.getDestinationSquare( potentialMove );
 

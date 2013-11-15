@@ -47,6 +47,6 @@ public final class PositionAsserts {
 	 */
 	static void assertAllowedMoves( Position position, String initialField, String... expectedReachableSquares ) {
 		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( new HashSet<String>( Arrays.asList( expectedReachableSquares ) ), squares );
+		assertEquals( new HashSet<>( Arrays.asList( expectedReachableSquares ) ), squares );
 	}
 }

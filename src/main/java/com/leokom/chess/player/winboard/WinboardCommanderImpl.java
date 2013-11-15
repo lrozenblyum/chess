@@ -21,9 +21,9 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	//we could use adapters
 	//but now I directly force the listeners to extend the interface
-	private final Map<String, NoParametersListener> listenersWithoutParams = new HashMap<String, NoParametersListener>();
-	private final Map<String, StringParameterListener> stringParameterListeners = new HashMap<String, StringParameterListener>();
-	private final Map<String, IntParameterListener> intParameterListeners = new HashMap<String, IntParameterListener>();
+	private final Map<String, NoParametersListener> listenersWithoutParams = new HashMap<>();
+	private final Map<String, StringParameterListener> stringParameterListeners = new HashMap<>();
+	private final Map<String, IntParameterListener> intParameterListeners = new HashMap<>();
 
 	/**
 	 * Create the commander, with communicator injected
