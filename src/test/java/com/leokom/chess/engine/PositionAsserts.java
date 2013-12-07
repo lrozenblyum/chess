@@ -24,7 +24,7 @@ public final class PositionAsserts {
 	}
 
 	static void assertEmptySquare( Position position, String square ) {
-		assertTrue( "The square must be empty: " + square, position.isEmptySquare( square ) );
+		assertTrue( "The square must be empty: " + square + "; actually contains: " + position.getPiece( square ), position.isEmptySquare( square ) );
 	}
 
 	static void assertHasPawn( Position position, String square, Side side ) {
