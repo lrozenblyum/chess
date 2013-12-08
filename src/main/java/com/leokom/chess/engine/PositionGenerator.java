@@ -16,6 +16,12 @@ final class PositionGenerator {
 		this.source = source;
 	}
 
+	/**
+	 * This method itself is a NON-validating generator
+	 * @param squareFrom source of the move
+	 * @param move move to be executed by the piece on squareFrom
+	 * @return new position, after move from squareFrom
+	 */
 	Position generate( String squareFrom, String move ) {
 		final PieceType pieceType = source.getPieceType( squareFrom );
 		switch ( pieceType ) {
