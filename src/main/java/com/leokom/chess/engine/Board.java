@@ -71,8 +71,11 @@ final class Board {
 	}
 
 	static String squareTo( String square, HorizontalDirection horizontalDirection ) {
-		//the last 2 params are unimportant. Need to improve
-		return squareTo( square, horizontalDirection, 1, VerticalDirection.UP, 0 );
+		return squareTo( square, horizontalDirection, 1 );
+	}
+
+	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontaShift ) {
+		return squareTo( square, horizontalDirection, horizontaShift, VerticalDirection.UP, 0 );
 	}
 
 	static String squareTo( String square, VerticalDirection verticalDirection ) {
