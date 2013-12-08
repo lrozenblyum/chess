@@ -23,12 +23,24 @@ final class PositionGenerator {
 			case BISHOP:
 			case ROOK:
 			case QUEEN:
-			case KING:
 				return processMoveWithoutSideEffects( squareFrom, move );
+			case KING:
+				return processKingMove( squareFrom, move );
 
 		}
 
 		return processPawnMove( squareFrom, move );
+	}
+
+	private Position processKingMove( String squareFrom, String move ) {
+		Position newPosition = processMoveWithoutSideEffects( squareFrom, move );
+
+		if ( move.equals( "g1" ) ) {
+			newPosition.removePiece( "h1" );
+			newPosition.add( Side.WHITE, "f1", PieceType.ROOK );
+		}
+
+		return newPosition;
 	}
 
 	private Position processPawnMove( String squareFrom, String move ) {
