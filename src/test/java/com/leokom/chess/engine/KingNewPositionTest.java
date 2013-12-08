@@ -66,6 +66,23 @@ public class KingNewPositionTest {
 	}
 
 	@Test
+	public void blackCastlingQueenSide() {
+		Position position = new Position( null );
+
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+
+		//target of King is unambiguously defining the type of its move
+		final Position newPosition = position.move( "e8", "c8" );
+
+		PositionAsserts.assertHasPiece( newPosition, PieceType.KING, Side.BLACK, "g8" );
+		PositionAsserts.assertEmptySquare( newPosition, "c8" );
+
+		PositionAsserts.assertHasPiece( newPosition, PieceType.ROOK, Side.BLACK, "f8" );
+		PositionAsserts.assertEmptySquare( newPosition, "d8" );
+	}
+
+	@Test
 	public void whitef1g1NonCastling() {
 		Position position = new Position( null );
 
