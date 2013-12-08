@@ -75,11 +75,11 @@ public class KingNewPositionTest {
 		//target of King is unambiguously defining the type of its move
 		final Position newPosition = position.move( "e8", "c8" );
 
-		PositionAsserts.assertHasPiece( newPosition, PieceType.KING, Side.BLACK, "g8" );
-		PositionAsserts.assertEmptySquare( newPosition, "c8" );
+		PositionAsserts.assertHasPiece( newPosition, PieceType.KING, Side.BLACK, "c8" );
+		PositionAsserts.assertEmptySquare( newPosition, "e8" );
 
-		PositionAsserts.assertHasPiece( newPosition, PieceType.ROOK, Side.BLACK, "f8" );
-		PositionAsserts.assertEmptySquare( newPosition, "d8" );
+		PositionAsserts.assertHasPiece( newPosition, PieceType.ROOK, Side.BLACK, "d8" );
+		PositionAsserts.assertEmptySquare( newPosition, "a8" );
 	}
 
 	@Test

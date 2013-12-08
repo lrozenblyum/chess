@@ -54,7 +54,7 @@ final class PositionGenerator {
 		}
 
 		if ( squareFrom.equals( "e8" ) && move.equals( "c8" ) ) {
-			newPosition.removePiece( "e8" );
+			newPosition.removePiece( "a8" );
 			newPosition.add( Side.BLACK, "d8", PieceType.ROOK );
 		}
 
