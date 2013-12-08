@@ -41,9 +41,18 @@ final class PositionGenerator {
 	private Position processKingMove( String squareFrom, String move ) {
 		Position newPosition = processMoveWithoutSideEffects( squareFrom, move );
 
+		//since we're NOT validating move possibility, e1-g1 for King means only one:
+		//white castling king-side
 		if ( squareFrom.equals( "e1" ) && move.equals( "g1" ) ) {
 			newPosition.removePiece( "h1" );
 			newPosition.add( Side.WHITE, "f1", PieceType.ROOK );
+		}
+
+		//since we're NOT validating move possibility, e1-c1 for King means only one:
+		//white castling queen-side
+		if ( squareFrom.equals( "e1" ) && move.equals( "c1" ) ) {
+			newPosition.removePiece( "a1" );
+			newPosition.add( Side.WHITE, "d1", PieceType.ROOK );
 		}
 
 		return newPosition;

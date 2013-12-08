@@ -62,4 +62,21 @@ public class KingNewPositionTest {
 		PositionAsserts.assertEmptySquare( newPosition, "f1" );
 		PositionAsserts.assertEmptySquare( newPosition, "h1" );
 	}
+
+	@Test
+	public void whiteLongCastling() {
+		Position position = new Position( null );
+
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "a1", PieceType.ROOK );
+
+		//target of King is unambiguously defining the type of its move
+		final Position newPosition = position.move( "e1", "c1" );
+
+		PositionAsserts.assertHasPiece( newPosition, PieceType.KING, Side.WHITE, "c1" );
+		PositionAsserts.assertEmptySquare( newPosition, "e1" );
+
+		PositionAsserts.assertHasPiece( newPosition, PieceType.ROOK, Side.WHITE, "d1" );
+		PositionAsserts.assertEmptySquare( newPosition, "a1" );
+	}
 }
