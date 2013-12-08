@@ -48,6 +48,11 @@ final class PositionGenerator {
 			newPosition.add( Side.WHITE, "f1", PieceType.ROOK );
 		}
 
+		if ( squareFrom.equals( "e8" ) && move.equals( "g8" ) ) {
+			newPosition.removePiece( "h8" );
+			newPosition.add( Side.BLACK, "f8", PieceType.ROOK );
+		}
+
 		//since we're NOT validating move possibility, e1-c1 for King means only one:
 		//white castling queen-side
 		if ( squareFrom.equals( "e1" ) && move.equals( "c1" ) ) {
