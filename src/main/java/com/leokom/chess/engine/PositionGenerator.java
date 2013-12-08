@@ -35,7 +35,7 @@ final class PositionGenerator {
 	private Position processKingMove( String squareFrom, String move ) {
 		Position newPosition = processMoveWithoutSideEffects( squareFrom, move );
 
-		if ( move.equals( "g1" ) ) {
+		if ( squareFrom.equals( "e1" ) && move.equals( "g1" ) ) {
 			newPosition.removePiece( "h1" );
 			newPosition.add( Side.WHITE, "f1", PieceType.ROOK );
 		}
