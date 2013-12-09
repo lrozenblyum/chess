@@ -16,6 +16,12 @@ final class PositionGenerator {
 		this.source = source;
 	}
 
+	/**
+	 * This method itself is a NON-validating generator
+	 * @param squareFrom source of the move
+	 * @param move move to be executed by the piece on squareFrom
+	 * @return new position, after move from squareFrom
+	 */
 	Position generate( String squareFrom, String move ) {
 		final PieceType pieceType = source.getPieceType( squareFrom );
 		switch ( pieceType ) {
@@ -23,18 +29,45 @@ final class PositionGenerator {
 			case BISHOP:
 			case ROOK:
 			case QUEEN:
+				return processMoveWithoutSideEffects( squareFrom, move );
 			case KING:
-				//after moving everything except a pawn
-				//the flag about en passant possibility must be cleared
-				final String newEnPassantFile = null;
-				final Position position = new Position( newEnPassantFile );
-				cloneAndRemove( position, squareFrom );
+				return processKingMove( squareFrom, move );
 
-				position.add( source.getSide( squareFrom ), move, pieceType );
-
-				return position;
 		}
 
+		return processPawnMove( squareFrom, move );
+	}
+
+	private Position processKingMove( String squareFrom, String move ) {
+		Position newPosition = processMoveWithoutSideEffects( squareFrom, move );
+
+		//since we're NOT validating move possibility, e1-g1 for King means only one:
+		//white castling king-side
+		final boolean isCastlingKingSide =
+				( squareFrom.equals( "e1" ) && move.equals( "g1" ) ) ||
+				( squareFrom.equals( "e8" ) && move.equals( "g8" ) );
+
+		if ( isCastlingKingSide ) {
+			int rank = Board.rankOfSquare( squareFrom );
+			//rook movement
+			newPosition.moveUnconditionally( "h" + rank, "f" + rank );
+		}
+
+		//since we're NOT validating move possibility, e1-c1 for King means only one:
+		//white castling queen-side
+		final boolean isCastlingQueenSide =
+			( squareFrom.equals( "e8" ) && move.equals( "c8" ) ) ||
+			( squareFrom.equals( "e1" ) && move.equals( "c1" ) );
+
+		if ( isCastlingQueenSide ) {
+			int rank = Board.rankOfSquare( squareFrom );
+			newPosition.moveUnconditionally( "a" + rank, "d" + rank );
+		}
+
+		return newPosition;
+	}
+
+	private Position processPawnMove( String squareFrom, String move ) {
 		final String squareTo = Move.getDestinationSquare( move );
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
@@ -62,6 +95,28 @@ final class PositionGenerator {
 		}
 
 		return result;
+	}
+
+	/**
+	 * Generate new position from current position, not assuming any side effects
+	 * The piece is just moved from current square to the destination.
+	 *
+	 * En passant possibility is cleared (it's not pawn)
+	 *
+	 * @param squareFrom square from
+	 * @param move move to execute (actually here it's just a square...)
+	 * @return new position
+	 */
+	private Position processMoveWithoutSideEffects( String squareFrom, String move ) {
+		//after moving everything except a pawn
+		//the flag about en passant possibility must be cleared
+		final String newEnPassantFile = null;
+		final Position position = new Position( newEnPassantFile );
+		cloneAndRemove( position, squareFrom );
+
+		position.add( source.getSide( squareFrom ), move, source.getPieceType( squareFrom ) );
+
+		return position;
 	}
 
 	/**

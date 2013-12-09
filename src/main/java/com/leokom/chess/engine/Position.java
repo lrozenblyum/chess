@@ -601,4 +601,14 @@ public class Position {
 	void removePiece( String square ) {
 		pieces.remove( square );
 	}
+
+	/**
+	 * Mechanically move piece unconditionally (non-validating)
+	 * from from to to
+	 */
+	void moveUnconditionally( String from, String to ) {
+		Piece piece = getPiece( from );
+		removePiece( from );
+		add( piece.getSide(), to, piece.getPieceType() );
+	}
 }
