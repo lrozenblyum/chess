@@ -44,25 +44,21 @@ final class PositionGenerator {
 		//since we're NOT validating move possibility, e1-g1 for King means only one:
 		//white castling king-side
 		if ( squareFrom.equals( "e1" ) && move.equals( "g1" ) ) {
-			newPosition.removePiece( "h1" );
-			newPosition.add( Side.WHITE, "f1", PieceType.ROOK );
+			newPosition.moveUnconditionally( "h1", "f1" );
 		}
 
 		if ( squareFrom.equals( "e8" ) && move.equals( "g8" ) ) {
-			newPosition.removePiece( "h8" );
-			newPosition.add( Side.BLACK, "f8", PieceType.ROOK );
+			newPosition.moveUnconditionally( "h8", "f8" );
 		}
 
 		if ( squareFrom.equals( "e8" ) && move.equals( "c8" ) ) {
-			newPosition.removePiece( "a8" );
-			newPosition.add( Side.BLACK, "d8", PieceType.ROOK );
+			newPosition.moveUnconditionally( "a8", "d8" );
 		}
 
 		//since we're NOT validating move possibility, e1-c1 for King means only one:
 		//white castling queen-side
 		if ( squareFrom.equals( "e1" ) && move.equals( "c1" ) ) {
-			newPosition.removePiece( "a1" );
-			newPosition.add( Side.WHITE, "d1", PieceType.ROOK );
+			newPosition.moveUnconditionally( "a1", "d1" );
 		}
 
 		return newPosition;
