@@ -43,22 +43,25 @@ final class PositionGenerator {
 
 		//since we're NOT validating move possibility, e1-g1 for King means only one:
 		//white castling king-side
-		if ( squareFrom.equals( "e1" ) && move.equals( "g1" ) ) {
-			newPosition.moveUnconditionally( "h1", "f1" );
-		}
+		final boolean isCastlingKingSide =
+				( squareFrom.equals( "e1" ) && move.equals( "g1" ) ) ||
+				( squareFrom.equals( "e8" ) && move.equals( "g8" ) );
 
-		if ( squareFrom.equals( "e8" ) && move.equals( "g8" ) ) {
-			newPosition.moveUnconditionally( "h8", "f8" );
-		}
-
-		if ( squareFrom.equals( "e8" ) && move.equals( "c8" ) ) {
-			newPosition.moveUnconditionally( "a8", "d8" );
+		if ( isCastlingKingSide ) {
+			int rank = Board.rankOfSquare( squareFrom );
+			//rook movement
+			newPosition.moveUnconditionally( "h" + rank, "f" + rank );
 		}
 
 		//since we're NOT validating move possibility, e1-c1 for King means only one:
 		//white castling queen-side
-		if ( squareFrom.equals( "e1" ) && move.equals( "c1" ) ) {
-			newPosition.moveUnconditionally( "a1", "d1" );
+		final boolean isCastlingQueenSide =
+			( squareFrom.equals( "e8" ) && move.equals( "c8" ) ) ||
+			( squareFrom.equals( "e1" ) && move.equals( "c1" ) );
+
+		if ( isCastlingQueenSide ) {
+			int rank = Board.rankOfSquare( squareFrom );
+			newPosition.moveUnconditionally( "a" + rank, "d" + rank );
 		}
 
 		return newPosition;
