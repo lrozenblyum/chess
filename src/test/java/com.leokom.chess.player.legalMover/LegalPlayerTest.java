@@ -40,4 +40,24 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( "a1-a2" );
 	}
 
+	//assuming playing as white...   (still!)
+	//I'm not ready to triangulate the sides change
+	@Test
+	public void legalPlayerExecutesSingleAllowedMoveTriangulate() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		Position position = new Position( null );
+		position.add( Side.WHITE, "h8", PieceType.KING );
+		position.add( Side.BLACK, "g5", PieceType.KING );
+
+		//TODO: what's the format of the move we support currently?
+		player.opponentMoved( "g5-g6" );
+		//leaving for whites only single move:
+		//a1-a2
+
+		verify( opponent ).opponentMoved( "h8-g8" );
+	}
 }
