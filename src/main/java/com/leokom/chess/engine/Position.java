@@ -553,7 +553,10 @@ public class Position {
 		add( side, square, PieceType.QUEEN );
 	}
 
-	void add( Side side, String square, PieceType pieceType ) {
+	//TODO: temporary public
+	//need better solution (like PositionBuilder?)
+	//to avoid outside position change!!
+	public void add( Side side, String square, PieceType pieceType ) {
 		if ( !isSquareValid( square ) ) {
 			throw new IllegalArgumentException( "Wrong destination square: " + square );
 		}

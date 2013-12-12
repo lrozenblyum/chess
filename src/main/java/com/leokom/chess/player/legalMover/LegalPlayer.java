@@ -7,6 +7,8 @@ import com.leokom.chess.player.Player;
  * Date-time: 09.12.13 22:02
  */
 public class LegalPlayer implements Player {
+	private Player opponent;
+
 	@Override
 	public void run() {
 
@@ -24,7 +26,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentMoved( String opponentMove ) {
-
+		opponent.opponentMoved( "a1-a2" );
 	}
 
 	@Override
@@ -34,6 +36,6 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void setOpponent( Player opponent ) {
-
+		this.opponent = opponent;
 	}
 }
