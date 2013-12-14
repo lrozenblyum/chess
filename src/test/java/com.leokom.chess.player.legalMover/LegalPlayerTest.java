@@ -32,7 +32,15 @@ public class LegalPlayerTest {
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c2", PieceType.KING );
 
+		player.setPosition( position );
+
 		//TODO: what's the format of the move we support currently?
+
+		//TODO: it's overhead but in current architecture
+		//the only way to inform another player about a move
+		//is as a reaction to 'opponentMoved'
+
+
 		player.opponentMoved( "c2-c1" );
 		//leaving for whites only single move:
 		//a1-a2
@@ -53,10 +61,12 @@ public class LegalPlayerTest {
 		position.add( Side.WHITE, "h8", PieceType.KING );
 		position.add( Side.BLACK, "g5", PieceType.KING );
 
+		player.setPosition( position );
+
 		//TODO: what's the format of the move we support currently?
+		//TODO: overhead (see another test for description)
 		player.opponentMoved( "g5-g6" );
 		//leaving for whites only single move:
-		//a1-a2
 
 		verify( opponent ).opponentMoved( "h8-g8" );
 	}
