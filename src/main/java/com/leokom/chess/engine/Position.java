@@ -615,7 +615,14 @@ public class Position {
 		add( piece.getSide(), to, piece.getPieceType() );
 	}
 
-	public List< String[] > getMoves( Side side ) {
-		return null;
+	//TODO: probably moving side must be a part of the position itself
+	//TODO: return result is better to be some class or Set of classes
+	//to be decided what's better representation for moves.
+	public Set< String[] > getMoves( Side side ) {
+		final Set<String[]> result = new HashSet<>();
+
+		result.add( new String[]{ "a1", "a2" } );
+
+		return result;
 	}
 }
