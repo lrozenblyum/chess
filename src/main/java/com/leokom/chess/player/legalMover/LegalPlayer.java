@@ -1,7 +1,10 @@
 package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+
+import java.util.List;
 
 /**
  * Author: Leonid
@@ -31,6 +34,7 @@ public class LegalPlayer implements Player {
 		final String[] moveParts = opponentMove.split( "-" );
 		position = position.move( moveParts[ 0 ], moveParts[ 1 ] );
 
+		List< String[] > moves = position.getMoves( Side.WHITE );
 
 		opponent.opponentMoved( "a1-a2" );
 	}

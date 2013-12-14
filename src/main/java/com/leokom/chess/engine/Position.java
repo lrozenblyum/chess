@@ -614,4 +614,8 @@ public class Position {
 		removePiece( from );
 		add( piece.getSide(), to, piece.getPieceType() );
 	}
+
+	public List< String[] > getMoves( Side side ) {
+		return null;
+	}
 }
