@@ -621,7 +621,14 @@ public class Position {
 	public Set< String[] > getMoves( Side side ) {
 		final Set<String[]> result = new HashSet<>();
 
-		result.add( new String[]{ "a1", "a2" } );
+		//TODO: illogical method call
+		final Set<String> squares = getOpponentPieces( Side.BLACK );
+		for ( String square : squares ) {
+			final Set<String> moves = getMovesFrom( square );
+			for ( String move : moves ) {
+				result.add( new String[] { square, move } );
+			}
+		}
 
 		return result;
 	}

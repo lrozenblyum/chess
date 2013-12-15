@@ -22,4 +22,19 @@ public class PositionAllowedMovesTest {
 		final String[] move = moves.iterator().next();
 		assertArrayEquals( move, new String []{ "a1", "a2" } );
 	}
+
+	@Test
+	public void simplePositionNoMoves() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "b1", PieceType.BISHOP ); //any?
+		position.add( Side.BLACK, "a2", PieceType.PAWN ); //any?
+		position.add( Side.BLACK, "b2", PieceType.PAWN ); //any?
+		position.add( Side.BLACK, "c1", PieceType.KING );
+
+		Set< String[] > moves = position.getMoves( Side.WHITE );
+
+		assertEquals( 0, moves.size() );
+	}
 }
