@@ -118,7 +118,7 @@ public class Position {
 			//getting attacked squares from that square will get other squares, but not that one
 			//where king resides
 			//however I don't want to introduce this bad dependency on the side effect
-			final Set< String > opponentPieces = potentialNewPosition.getOpponentPieces( ourSide );
+			final Set< String > opponentPieces = potentialNewPosition.getSquaresOccupiedByOpponent( ourSide );
 
 			for ( String opponentPiece : opponentPieces ) {
 				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
@@ -195,10 +195,14 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getOpponentPieces( Side ourSide ) {
+	private Set< String > getSquaresOccupiedByOpponent( Side ourSide ) {
+		return getSquaresOccupiedBySide( ourSide.opposite() );
+	}
+
+	private Set<String> getSquaresOccupiedBySide( Side neededSide ) {
 		Set< String > result = new HashSet<>();
 		for( String square : pieces.keySet() ) {
-			if ( pieces.get( square ).getSide() == ourSide.opposite() ) {
+			if ( pieces.get( square ).getSide() == neededSide ) {
 				result.add( square );
 			}
 		}
@@ -621,8 +625,7 @@ public class Position {
 	public Set< String[] > getMoves( Side side ) {
 		final Set<String[]> result = new HashSet<>();
 
-		//TODO: illogical method call
-		final Set<String> squares = getOpponentPieces( Side.BLACK );
+		final Set<String> squares = getSquaresOccupiedBySide( Side.WHITE );
 		for ( String square : squares ) {
 			final Set<String> moves = getMovesFrom( square );
 			for ( String move : moves ) {
