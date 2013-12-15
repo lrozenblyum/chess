@@ -4,7 +4,6 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 
-import java.util.List;
 import java.util.Set;
 
 /**
