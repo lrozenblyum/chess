@@ -37,7 +37,11 @@ public class LegalPlayer implements Player {
 
 		Set< String[] > moves = position.getMoves( Side.WHITE );
 
-		opponent.opponentMoved( "a1-a2" );
+		//TODO: if empty set
+		String[] possibleMove = moves.iterator().next();
+
+		opponent.opponentMoved( possibleMove[ 0 ] + "-" + possibleMove[ 1 ] );
+		//TODO: update position when proved need
 	}
 
 	@Override
