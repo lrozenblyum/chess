@@ -625,7 +625,7 @@ public class Position {
 	public Set< String[] > getMoves( Side side ) {
 		final Set<String[]> result = new HashSet<>();
 
-		final Set<String> squares = getSquaresOccupiedBySide( Side.WHITE );
+		final Set<String> squares = getSquaresOccupiedBySide( side );
 		for ( String square : squares ) {
 			final Set<String> moves = getMovesFrom( square );
 			for ( String move : moves ) {

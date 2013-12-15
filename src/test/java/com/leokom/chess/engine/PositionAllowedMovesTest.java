@@ -23,6 +23,19 @@ public class PositionAllowedMovesTest {
 		assertArrayEquals( move, new String []{ "a1", "a2" } );
 	}
 
+	@Test //same test as previous but changing colours
+	public void simplePositionTriangulateByColor() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+		position.add( Side.WHITE, "c1", PieceType.KING );
+
+		Set< String[] > moves = position.getMoves( Side.BLACK );
+
+		assertEquals( 1, moves.size() );
+		final String[] move = moves.iterator().next();
+		assertArrayEquals( move, new String []{ "a1", "a2" } );
+	}
+
 	@Test
 	public void simplePositionNoMoves() {
 		Position position = new Position( null );
