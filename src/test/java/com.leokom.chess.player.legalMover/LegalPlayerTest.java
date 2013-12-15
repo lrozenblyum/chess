@@ -45,7 +45,7 @@ public class LegalPlayerTest {
 		//leaving for whites only single move:
 		//a1-a2
 
-		verify( opponent ).opponentMoved( "a1-a2" );
+		verify( opponent ).opponentMoved( "a1a2" );
 	}
 
 	//assuming playing as white...   (still!)
@@ -68,6 +68,6 @@ public class LegalPlayerTest {
 		player.opponentMoved( "g5-g6" );
 		//leaving for whites only single move:
 
-		verify( opponent ).opponentMoved( "h8-g8" );
+		verify( opponent ).opponentMoved( "h8g8" );
 	}
 }

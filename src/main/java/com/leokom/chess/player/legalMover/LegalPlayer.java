@@ -39,7 +39,7 @@ public class LegalPlayer implements Player {
 		//TODO: if empty set
 		String[] possibleMove = moves.iterator().next();
 
-		opponent.opponentMoved( possibleMove[ 0 ] + "-" + possibleMove[ 1 ] );
+		opponent.opponentMoved( possibleMove[ 0 ] + possibleMove[ 1 ] );
 		//TODO: update position when proved need
 	}
 
