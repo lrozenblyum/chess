@@ -31,8 +31,11 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentMoved( String opponentMove ) {
-		final String[] moveParts = opponentMove.split( "-" );
-		position = position.move( moveParts[ 0 ], moveParts[ 1 ] );
+		//TODO: null is a hidden ugly way to say 'it's our first move now'
+		if ( opponentMove != null ) {
+			final String[] moveParts = opponentMove.split( "-" );
+			position = position.move( moveParts[ 0 ], moveParts[ 1 ] );
+		}
 
 		Set< String[] > moves = position.getMoves( Side.WHITE );
 

@@ -70,4 +70,23 @@ public class LegalPlayerTest {
 
 		verify( opponent ).opponentMoved( "h8g8" );
 	}
+
+	@Test
+	public void legalPlayerCanMoveFirst() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		Position position = new Position( null );
+		position.add( Side.WHITE, "h8", PieceType.KING );
+		position.add( Side.BLACK, "g6", PieceType.KING );
+
+		player.setPosition( position );
+
+		//TODO: ugly way to say: it's your first move now!
+		player.opponentMoved( null );
+
+		verify( opponent ).opponentMoved( "h8g8" );
+	}
 }
