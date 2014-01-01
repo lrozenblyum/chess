@@ -6,6 +6,8 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -99,6 +101,7 @@ public class LegalPlayerTest {
 
 		player.opponentMoved( null ); //our first move!
 
-		//expectation: no exceptions. Exceptions still exist.
+		//first check that at least some move is done.
+		verify( opponent ).opponentMoved( anyString() );
 	}
 }

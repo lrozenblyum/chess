@@ -1,5 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
+import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
@@ -12,7 +13,13 @@ import java.util.Set;
  */
 public class LegalPlayer implements Player {
 	private Player opponent;
-	private Position position = new Position( null );
+	private Position position = getInitialPosition();
+
+	private static Position getInitialPosition() {
+		final Position result = new Position( null );
+		result.add( Side.WHITE, "e2", PieceType.PAWN );
+		return result;
+	}
 
 	@Override
 	public void run() {
