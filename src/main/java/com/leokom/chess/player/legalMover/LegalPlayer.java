@@ -40,8 +40,12 @@ public class LegalPlayer implements Player {
 	public void opponentMoved( String opponentMove ) {
 		//TODO: null is a hidden ugly way to say 'it's our first move now'
 		if ( opponentMove != null ) {
-			final String[] moveParts = opponentMove.split( "-" );
-			position = position.move( moveParts[ 0 ], moveParts[ 1 ] );
+			//TODO: hard dependency on NOT-INTERNAL format (Winboard?)
+			//TODO: castling etc will cause crash here?
+			String source = opponentMove.substring( 0, 2 );
+			String destination = opponentMove.substring( 2, 4 );
+
+			position = position.move( source, destination );
 		}
 
 		Set< String[] > moves = position.getMoves( Side.WHITE );

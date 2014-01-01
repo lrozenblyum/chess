@@ -36,14 +36,12 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		//TODO: what's the format of the move we support currently?
-
 		//TODO: it's overhead but in current architecture
 		//the only way to inform another player about a move
 		//is as a reaction to 'opponentMoved'
 
 
-		player.opponentMoved( "c2-c1" );
+		player.opponentMoved( "c2c1" );
 		//leaving for whites only single move:
 		//a1-a2
 
@@ -65,9 +63,8 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		//TODO: what's the format of the move we support currently?
 		//TODO: overhead (see another test for description)
-		player.opponentMoved( "g5-g6" );
+		player.opponentMoved( "g5g6" );
 		//leaving for whites only single move:
 
 		verify( opponent ).opponentMoved( "h8g8" );
@@ -104,4 +101,6 @@ public class LegalPlayerTest {
 		//first check that at least some move is done.
 		verify( opponent ).opponentMoved( anyString() );
 	}
+
+	//TODO: format issues: we support now Winboard format which isn't fine?
 }
