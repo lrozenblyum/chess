@@ -89,4 +89,16 @@ public class LegalPlayerTest {
 
 		verify( opponent ).opponentMoved( "h8g8" );
 	}
+
+	@Test
+	public void initialPositionPossibleMovement() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		player.opponentMoved( null ); //our first move!
+
+		//expectation: no exceptions. Exceptions still exist.
+	}
 }

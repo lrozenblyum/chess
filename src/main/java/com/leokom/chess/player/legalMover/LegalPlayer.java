@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class LegalPlayer implements Player {
 	private Player opponent;
-	private Position position;
+	private Position position = new Position( null );
 
 	@Override
 	public void run() {
@@ -39,11 +39,15 @@ public class LegalPlayer implements Player {
 
 		Set< String[] > moves = position.getMoves( Side.WHITE );
 
-		//TODO: if empty set
-		String[] possibleMove = moves.iterator().next();
+		//TODO: if empty set it means the game has been finished (what's the result?)
+		if ( !moves.isEmpty() ) {
+			String[] possibleMove = moves.iterator().next();
 
-		opponent.opponentMoved( possibleMove[ 0 ] + possibleMove[ 1 ] );
-		//TODO: update position when proved need
+			opponent.opponentMoved( possibleMove[ 0 ] + possibleMove[ 1 ] );
+			//TODO: update position when proved need
+		}
+		//TODO: else?
+
 	}
 
 	@Override
