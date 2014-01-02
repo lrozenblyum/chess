@@ -7,8 +7,8 @@ package com.leokom.chess.engine;
  */
 final class Board {
 
-	private static final char MINIMAL_FILE = 'a';
-	private static final char MAXIMAL_FILE = 'h';
+	static final char MINIMAL_FILE = 'a';
+	static final char MAXIMAL_FILE = 'h';
 
 	//so far it's not intended to create the boards,
 	//however need to rethink this approach...

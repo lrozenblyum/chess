@@ -62,9 +62,12 @@ public class Position {
 	 */
 	public static Position getInitialPosition() {
 		final Position result = new Position( null );
-		result.add( Side.WHITE, "e2", PieceType.PAWN );
-		result.add( Side.BLACK, "d7", PieceType.PAWN );
-		result.add( Side.BLACK, "e7", PieceType.PAWN );
+
+		for ( char file = MINIMAL_FILE; file <= MAXIMAL_FILE; file++ ) {
+			for ( Side side : Side.values() ) {
+				result.add( side, String.valueOf( file ) + PAWN_INITIAL_RANKS.get( side ), PieceType.PAWN );
+			}
+		}
 		return result;
 	}
 
