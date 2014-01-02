@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 
 /**
@@ -115,6 +114,10 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( anyString() );
 
 		player.opponentMoved( "e7e5" );
+
+		//hmm twice because Mockito adds the invocation count
+		//another option is reset call which is not recommended.
+		verify( opponent, times( 2 ) ).opponentMoved( anyString() );
 	}
 
 	//TODO: format issues: we support now Winboard format which isn't fine?
