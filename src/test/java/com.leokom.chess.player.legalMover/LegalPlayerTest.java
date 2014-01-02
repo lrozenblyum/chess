@@ -120,5 +120,16 @@ public class LegalPlayerTest {
 		verify( opponent, times( 2 ) ).opponentMoved( anyString() );
 	}
 
+	@Test
+	public void secondMoveTriangulate() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		player.opponentMoved( null ); //our first move!
+		player.opponentMoved( "d7d5" );
+	}
+
 	//TODO: format issues: we support now Winboard format which isn't fine?
 }

@@ -18,6 +18,7 @@ public class LegalPlayer implements Player {
 	private static Position getInitialPosition() {
 		final Position result = new Position( null );
 		result.add( Side.WHITE, "e2", PieceType.PAWN );
+		result.add( Side.BLACK, "d7", PieceType.PAWN );
 		result.add( Side.BLACK, "e7", PieceType.PAWN );
 		return result;
 	}
