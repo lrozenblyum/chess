@@ -30,6 +30,13 @@ public class Position {
 		put( Side.BLACK, BLACK_PAWN_INITIAL_RANK );
 	}};
 
+	private static final int WHITE_NOT_PAWN_INITIAL_RANK = 1;
+	private static final int BLACK_NOT_PAWN_INITIAL_RANK = 8;
+	private static final Map< Side, Integer > NOT_PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
+		put( Side.WHITE, WHITE_NOT_PAWN_INITIAL_RANK );
+		put( Side.BLACK, BLACK_NOT_PAWN_INITIAL_RANK );
+	}};
+
 	//TODO: thread-safety for read-only purposes?
 	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
 		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
@@ -68,6 +75,15 @@ public class Position {
 				result.add( side, String.valueOf( file ) + PAWN_INITIAL_RANKS.get( side ), PieceType.PAWN );
 			}
 		}
+
+		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
+
+		for ( Side side: Side.values() ) {
+			 for ( String knightFile : initialKnightFiles ) {
+				 result.add( side, knightFile + NOT_PAWN_INITIAL_RANKS.get( side ), PieceType.KNIGHT );
+			 }
+		}
+
 		return result;
 	}
 

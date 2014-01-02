@@ -131,6 +131,17 @@ public class LegalPlayerTest {
 		player.opponentMoved( "d7d5" );
 	}
 
+	@Test
+	public void noCrashAfterKnightMove() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		player.opponentMoved( null ); //our first move!
+		player.opponentMoved( "g8f6" );
+	}
+
 	//leave just h8, h7 as a space for the King
 	@Test
 	public void proveNeedToUpdatePositionAfterOurMove() {

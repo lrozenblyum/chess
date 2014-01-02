@@ -22,4 +22,15 @@ public class PositionInitialTest {
 
 		assertTrue( initial.hasPawn( Side.BLACK, "h7" ) );
 	}
+
+	@Test
+	public void knights() {
+		final Position initial = Position.getInitialPosition();
+
+		assertTrue( initial.hasPiece( Side.BLACK, "g8", PieceType.KNIGHT ) );
+		assertTrue( initial.hasPiece( Side.BLACK, "b8", PieceType.KNIGHT ) );
+
+		assertTrue( initial.hasPiece( Side.WHITE, "b1", PieceType.KNIGHT ) );
+		assertTrue( initial.hasPiece( Side.WHITE, "g1", PieceType.KNIGHT ) );
+	}
 }
