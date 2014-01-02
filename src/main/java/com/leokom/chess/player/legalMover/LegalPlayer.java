@@ -47,8 +47,11 @@ public class LegalPlayer implements Player {
 		if ( !moves.isEmpty() ) {
 			String[] possibleMove = moves.iterator().next();
 
-			opponent.opponentMoved( possibleMove[ 0 ] + possibleMove[ 1 ] );
-			//TODO: update position when proved need
+			final String from = possibleMove[ 0 ];
+			final String to = possibleMove[ 1 ];
+			opponent.opponentMoved( from + to );
+
+			position = position.move( from, to );
 		}
 		//TODO: else?
 

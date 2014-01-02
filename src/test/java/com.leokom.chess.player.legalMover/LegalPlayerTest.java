@@ -131,5 +131,37 @@ public class LegalPlayerTest {
 		player.opponentMoved( "d7d5" );
 	}
 
+	//leave just h8, h7 as a space for the King
+	@Test
+	public void proveNeedToUpdatePositionAfterOurMove() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		final Position position = new Position( null );
+
+		//white King surrounded
+		position.add( Side.WHITE, "h8", PieceType.KING );
+		position.add( Side.BLACK, "g8", PieceType.KNIGHT ); //protects h6
+		position.add( Side.BLACK, "f8", PieceType.ROOK ); //protects g8
+
+		position.add( Side.BLACK, "a6", PieceType.ROOK ); //protects g6
+
+		position.add( Side.BLACK, "h6", PieceType.BISHOP ); //protects g7
+
+		position.add( Side.BLACK, "a1", PieceType.KING );
+
+		player.setPosition( position );
+
+		player.opponentMoved( null );
+		verify( opponent ).opponentMoved( "h8h7" );
+
+		reset( opponent ); //NOT recommended by Mockito
+		player.opponentMoved( "a1a2" );
+
+		verify( opponent ).opponentMoved( "h7h8" );
+	}
+
 	//TODO: format issues: we support now Winboard format which isn't fine?
 }
