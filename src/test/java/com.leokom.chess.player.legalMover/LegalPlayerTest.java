@@ -102,5 +102,20 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( anyString() );
 	}
 
+	@Test
+	public void secondMoveCanAlsoBeDone() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		player.opponentMoved( null ); //our first move!
+
+		//first check that at least some move is done.
+		verify( opponent ).opponentMoved( anyString() );
+
+		player.opponentMoved( "e7e5" );
+	}
+
 	//TODO: format issues: we support now Winboard format which isn't fine?
 }
