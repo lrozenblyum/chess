@@ -2,6 +2,7 @@ package com.leokom.chess;
 
 
 import com.leokom.chess.player.Player;
+import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
@@ -20,7 +21,7 @@ public final class MainRunner {
 		logger.info( "Starting the chess..." );
 
 		final Player winboardPlayer = WinboardPlayer.create();
-		final Player enginePlayer = new SimpleEnginePlayer();
+		final Player enginePlayer = new LegalPlayer();
 		//TODO: this double setting
 		//indicates we need some master Game object
 		//that will combine them together

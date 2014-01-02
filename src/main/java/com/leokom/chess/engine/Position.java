@@ -55,6 +55,19 @@ public class Position {
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
+
+	/**
+	 * Get instance of initial chess position
+	 * @return initial chess position
+	 */
+	public static Position getInitialPosition() {
+		final Position result = new Position( null );
+		result.add( Side.WHITE, "e2", PieceType.PAWN );
+		result.add( Side.BLACK, "d7", PieceType.PAWN );
+		result.add( Side.BLACK, "e7", PieceType.PAWN );
+		return result;
+	}
+
 	//may add some char/int validations. So far length is enough
 	private boolean isSquareValid( String square ) {
 		return square.length() == VALID_SQUARE_LENGTH;
