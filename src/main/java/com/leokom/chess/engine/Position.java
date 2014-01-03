@@ -70,17 +70,15 @@ public class Position {
 	public static Position getInitialPosition() {
 		final Position result = new Position( null );
 
-		for ( char file = MINIMAL_FILE; file <= MAXIMAL_FILE; file++ ) {
-			for ( Side side : Side.values() ) {
-				result.add( side, String.valueOf( file ) + PAWN_INITIAL_RANKS.get( side ), PieceType.PAWN );
-			}
-		}
-
 		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
 		final String initialKingFile = "e";
 
 		for ( Side side: Side.values() ) {
+			for ( char file = MINIMAL_FILE; file <= MAXIMAL_FILE; file++ ) {
+				result.add( side, String.valueOf( file ) + PAWN_INITIAL_RANKS.get( side ), PieceType.PAWN );
+			}
+
 			final int rank = NOT_PAWN_INITIAL_RANKS.get( side );
 
 			for ( String rookFile : initialRookFiles ) {
@@ -92,8 +90,6 @@ public class Position {
 			}
 
 			result.add( side, initialKingFile + rank, PieceType.KING );
-
-
 		}
 
 		return result;
