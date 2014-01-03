@@ -77,11 +77,18 @@ public class Position {
 		}
 
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
+		final String initialKingFile = "e";
 
 		for ( Side side: Side.values() ) {
-			 for ( String knightFile : initialKnightFiles ) {
-				 result.add( side, knightFile + NOT_PAWN_INITIAL_RANKS.get( side ), PieceType.KNIGHT );
-			 }
+			final int rank = NOT_PAWN_INITIAL_RANKS.get( side );
+
+			//knights
+			for ( String knightFile : initialKnightFiles ) {
+				result.add( side, knightFile + rank, PieceType.KNIGHT );
+			}
+
+			//king
+			result.add( side, initialKingFile + rank, PieceType.KING );
 		}
 
 		return result;

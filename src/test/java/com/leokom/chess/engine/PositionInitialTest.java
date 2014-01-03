@@ -33,4 +33,12 @@ public class PositionInitialTest {
 		assertTrue( initial.hasPiece( Side.WHITE, "b1", PieceType.KNIGHT ) );
 		assertTrue( initial.hasPiece( Side.WHITE, "g1", PieceType.KNIGHT ) );
 	}
+
+	@Test
+	public void kings() {
+		final Position initial = Position.getInitialPosition();
+
+		assertTrue( initial.hasPiece( Side.BLACK, "e8", PieceType.KING ) );
+		assertTrue( initial.hasPiece( Side.WHITE, "e1", PieceType.KING ) );
+	}
 }
