@@ -73,6 +73,7 @@ public class Position {
 		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
 		final Set< String > initialBishopFiles = new HashSet<>( Arrays.asList( "c", "f" ) );
+		final String initialQueenFile = "d";
 		final String initialKingFile = "e";
 
 		for ( Side side: Side.values() ) {
@@ -94,6 +95,7 @@ public class Position {
 				result.add( side, knightFile + rank, PieceType.KNIGHT );
 			}
 
+			result.add( side, initialQueenFile + rank, PieceType.QUEEN );
 			result.add( side, initialKingFile + rank, PieceType.KING );
 		}
 
