@@ -49,4 +49,12 @@ public class PositionInitialTest {
 		assertTrue( initial.hasPiece( Side.WHITE, "a1", PieceType.ROOK ) );
 		assertTrue( initial.hasPiece( Side.BLACK, "h8", PieceType.ROOK ) );
 	}
+
+	@Test
+	public void bishops() {
+		final Position initial = Position.getInitialPosition();
+
+		assertTrue( initial.hasPiece( Side.WHITE, "c1", PieceType.BISHOP ) );
+		assertTrue( initial.hasPiece( Side.BLACK, "f8", PieceType.BISHOP ) );
+	}
 }
