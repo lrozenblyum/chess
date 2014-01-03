@@ -41,4 +41,12 @@ public class PositionInitialTest {
 		assertTrue( initial.hasPiece( Side.BLACK, "e8", PieceType.KING ) );
 		assertTrue( initial.hasPiece( Side.WHITE, "e1", PieceType.KING ) );
 	}
+
+	@Test
+	public void rooks() {
+		final Position initial = Position.getInitialPosition();
+
+		assertTrue( initial.hasPiece( Side.WHITE, "a1", PieceType.ROOK ) );
+		assertTrue( initial.hasPiece( Side.BLACK, "h8", PieceType.ROOK ) );
+	}
 }

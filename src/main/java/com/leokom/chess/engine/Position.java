@@ -76,19 +76,24 @@ public class Position {
 			}
 		}
 
+		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
 		final String initialKingFile = "e";
 
 		for ( Side side: Side.values() ) {
 			final int rank = NOT_PAWN_INITIAL_RANKS.get( side );
 
-			//knights
+			for ( String rookFile : initialRookFiles ) {
+				result.add( side, rookFile + rank, PieceType.ROOK );
+			}
+
 			for ( String knightFile : initialKnightFiles ) {
 				result.add( side, knightFile + rank, PieceType.KNIGHT );
 			}
 
-			//king
 			result.add( side, initialKingFile + rank, PieceType.KING );
+
+
 		}
 
 		return result;
