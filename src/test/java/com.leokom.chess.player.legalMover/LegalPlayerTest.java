@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 public class LegalPlayerTest {
 	@Test
 	public void legalPlayerCreation() {
-		new LegalPlayer();
+		new LegalPlayer( Side.WHITE );
 	}
 
 	@Test
@@ -26,7 +26,7 @@ public class LegalPlayerTest {
 		Player opponent = mock( Player.class );
 
 		//assuming playing as white...
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		Position position = new Position( null );
@@ -53,7 +53,7 @@ public class LegalPlayerTest {
 	public void legalPlayerExecutesSingleAllowedMoveTriangulate() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		Position position = new Position( null );
@@ -73,7 +73,7 @@ public class LegalPlayerTest {
 	public void legalPlayerCanMoveFirst() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		Position position = new Position( null );
@@ -92,7 +92,7 @@ public class LegalPlayerTest {
 	public void initialPositionPossibleMovement() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		player.opponentMoved( null ); //our first move!
@@ -105,7 +105,7 @@ public class LegalPlayerTest {
 	public void secondMoveCanAlsoBeDone() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		player.opponentMoved( null ); //our first move!
@@ -124,7 +124,7 @@ public class LegalPlayerTest {
 	public void secondMoveTriangulate() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		player.opponentMoved( null ); //our first move!
@@ -135,7 +135,7 @@ public class LegalPlayerTest {
 	public void noCrashAfterKnightMove() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		player.opponentMoved( null ); //our first move!
@@ -147,7 +147,7 @@ public class LegalPlayerTest {
 	public void proveNeedToUpdatePositionAfterOurMove() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
 		final Position position = new Position( null );
@@ -172,6 +172,25 @@ public class LegalPlayerTest {
 		player.opponentMoved( "a1a2" );
 
 		verify( opponent ).opponentMoved( "h7h8" );
+	}
+
+	@Test
+	public void blackMoving() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer( Side.BLACK );
+		player.setOpponent( opponent );
+
+		final Position position = new Position( null );
+
+		position.add( Side.WHITE, "c1", PieceType.KING );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+
+		player.setPosition( position );
+
+		player.opponentMoved( null ); //force our move
+
+		verify( opponent ).opponentMoved( "a1a2" ); //proving the only move of blacks
 	}
 
 	//TODO: format issues: we support now Winboard format which isn't fine?

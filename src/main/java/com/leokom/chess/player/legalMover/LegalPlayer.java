@@ -11,8 +11,17 @@ import java.util.Set;
  * Date-time: 09.12.13 22:02
  */
 public class LegalPlayer implements Player {
+	private final Side side;
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
+
+	/**
+	 * Create player that will play for the side
+	 * @param side who we play for?
+	 */
+	public LegalPlayer( Side side ) {
+		this.side = side;
+	}
 
 	@Override
 	public void run() {
@@ -41,7 +50,7 @@ public class LegalPlayer implements Player {
 			position = position.move( source, destination );
 		}
 
-		Set< String[] > moves = position.getMoves( Side.WHITE );
+		Set< String[] > moves = position.getMoves( side );
 
 		//TODO: if empty set it means the game has been finished (what's the result?)
 		if ( !moves.isEmpty() ) {
