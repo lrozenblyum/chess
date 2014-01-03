@@ -3,7 +3,6 @@ package com.leokom.chess;
 
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
-import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
 
