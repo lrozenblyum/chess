@@ -18,11 +18,11 @@ public class CheckTest {
 		Position position = new Position( null );
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
-		position.add( Side.WHITE, "a2", PieceType.ROOK ); //cannot move it!
+		position.add( Side.WHITE, "a2", PieceType.ROOK );
 		position.add( Side.BLACK, "a3", PieceType.ROOK );
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
 
-		assertNoAllowedMoves( position, "a2" );
+		assertAllowedMoves( position, "a2", "a3" ); //cannot move horizontally
 	}
 }

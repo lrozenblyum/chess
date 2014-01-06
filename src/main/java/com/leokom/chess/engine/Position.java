@@ -267,7 +267,61 @@ public class Position {
 	private Set< String > getRookMoves( String square ) {
 		final Set<String> result = getSquaresAttackedByRook( square );
 		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
+		
+		result.removeAll( getSquaresThatExposeOurKingToCheck( square, result ) );
+		
 		return result;
+	}
+
+	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoveDestinations ) {
+		Set< String > result = new HashSet<>();
+		//TODO: probably not relevant for castling, promotion,... etc
+		for ( String destination : potentialMoveDestinations ) {
+			final Position possiblePosition = this.move( square, destination );
+			if ( possiblePosition.isKingInCheck( getSide( square ) ) ) {
+				result.add( destination );
+			}
+
+		}
+
+		return result;
+	}
+
+	//TODO: side must be part of Position, isn't it?
+	private boolean isKingInCheck( Side side ) {
+
+		final String kingSquare = findKing( side );
+		//TODO: impossible in real chess, possible in our tests...
+
+		if ( kingSquare == null ) {
+			return false;
+		}
+
+
+		return getSquaresAttackedByOpponent( side ).contains( kingSquare );
+	}
+
+	private String findKing( Side side ) {
+		for ( String square : pieces.keySet() ) {
+			if ( ( pieces.get( square ).getPieceType() == PieceType.KING ) &&
+			pieces.get( square ).getSide() == side ) {
+				return square;
+			}
+		}
+
+		//TODO: impossible in real chess, possible in our tests...
+		return null;
+	}
+
+	private Set<String> getSquaresAttackedByOpponent( Side side ) {
+		final Set<String> squaresOccupiedByOpponent = getSquaresOccupiedByOpponent( side );
+
+		Set< String > squaresAttackedByOpponent = new HashSet<>();
+
+		for ( String opponentSquare : squaresOccupiedByOpponent ) {
+			squaresAttackedByOpponent.addAll( getSquaresAttackedFromSquare( opponentSquare ) );
+		}
+		return squaresAttackedByOpponent;
 	}
 
 	private Set< String > getBishopMoves( String square ) {
