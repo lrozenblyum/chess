@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Set;
 
 import static com.leokom.chess.engine.PositionAsserts.assertAllowedMoves;
+import static com.leokom.chess.engine.PositionAsserts.assertNoAllowedMoves;
 
 
 /**
@@ -22,6 +23,6 @@ public class CheckTest {
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
 
-		assertAllowedMoves( position, "a2" );
+		assertNoAllowedMoves( position, "a2" );
 	}
 }

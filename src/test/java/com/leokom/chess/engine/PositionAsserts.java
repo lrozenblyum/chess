@@ -49,4 +49,14 @@ public final class PositionAsserts {
 		Set<String> squares = position.getMovesFrom( initialField );
 		assertEquals( new HashSet<>( Arrays.asList( expectedReachableSquares ) ), squares );
 	}
+
+	/**
+	 * Check that inside the position
+	 * there are NO legal moves from the square
+	 * @param position
+	 * @param square
+	 */
+	static void assertNoAllowedMoves( Position position, String square ) {
+		assertAllowedMoves( position, square );
+	}
 }
