@@ -25,4 +25,17 @@ public class CheckTest {
 
 		assertAllowedMoves( position, "a2", "a3" ); //cannot move horizontally
 	}
+
+	@Test
+	public void cannotExposeKingToCheckTriangulate() {
+		Position position = new Position( null );
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+		position.add( Side.WHITE, "a2", PieceType.BISHOP );
+		position.add( Side.BLACK, "a3", PieceType.ROOK );
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		assertAllowedMoves( position, "a2" );
+	}
 }

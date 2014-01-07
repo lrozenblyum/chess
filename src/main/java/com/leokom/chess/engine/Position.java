@@ -123,6 +123,15 @@ public class Position {
 	 * Should we return empty set, null or throw an exception?
 	 */
 	public Set<String> getMovesFrom( String square ) {
+		final Set<String> potentialMoves = getPotentialMoves( square );
+		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
+		return potentialMoves;
+	}
+
+	//artificial method born due to need to exclude
+	//some moves from pool of the 'potential moves'
+	//due to king check conditions
+	private Set<String> getPotentialMoves( String square ) {
 		switch ( getPieceType( square ) ) {
 			case KNIGHT:
 				return getKnightMoves( square );
@@ -267,9 +276,7 @@ public class Position {
 	private Set< String > getRookMoves( String square ) {
 		final Set<String> result = getSquaresAttackedByRook( square );
 		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
-		
-		result.removeAll( getSquaresThatExposeOurKingToCheck( square, result ) );
-		
+
 		return result;
 	}
 
