@@ -11,6 +11,7 @@ import java.util.Set;
  * Date-time: 09.12.13 22:02
  */
 public class LegalPlayer implements Player {
+	private static final int PROMOTION_MOVE_LENGTH = 3;
 	private final Side side;
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
@@ -45,7 +46,16 @@ public class LegalPlayer implements Player {
 			//TODO: hard dependency on NOT-INTERNAL format (Winboard?)
 			//TODO: castling etc will cause crash here?
 			String source = opponentMove.substring( 0, 2 );
-			String destination = opponentMove.substring( 2, 4 );
+			String destination = opponentMove.substring( 2 );
+
+			if ( destination.length() == PROMOTION_MOVE_LENGTH ) {
+				destination = destination.substring( 0, 2 ) +
+					//uppercase is intended by our internal format
+					//(like d8Q)
+
+					//lowercase comes from Winboard (hard-dependency...)
+					destination.substring( 2 ).toUpperCase();
+			}
 
 			position = position.move( source, destination );
 		}
