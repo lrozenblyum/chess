@@ -68,4 +68,19 @@ public class CheckTest {
 		assertEquals( "h2", singleMove [ 0 ] );
 		assertEquals( "g2", singleMove [ 1 ] );
 	}
+
+	//even if such pieces are constrained from moving to that square because they would then leave or place their own king in check
+	@Test
+	public void checkEvenIfCannotMove() {
+		Position position = new Position( null );
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+		position.add( Side.WHITE, "a3", PieceType.ROOK );
+
+		//checking white king but cannot move itself due to exposing black king to check
+		position.add( Side.BLACK, "c3", PieceType.BISHOP );
+		position.add( Side.BLACK, "d3", PieceType.KING );
+
+		assertAllowedMoves( position, "a3", "c3" ); //cannot move b3 and a file
+	}
 }
