@@ -6,6 +6,7 @@ import java.util.Set;
 
 import static com.leokom.chess.engine.PositionAsserts.assertAllowedMoves;
 import static com.leokom.chess.engine.PositionAsserts.assertNoAllowedMoves;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -49,5 +50,22 @@ public class CheckTest {
 		position.add( Side.WHITE, "a2", PieceType.QUEEN ); //or rook
 
 		assertNoAllowedMoves( position, "f2" );
+	}
+
+	//more integration test - checking whole board moves
+	@Test
+	public void cannotLeaveKingInCheck() {
+		Position position = new Position( null );
+
+		position.add( Side.BLACK, "h2", PieceType.KING );
+		position.add( Side.WHITE, "g2", PieceType.QUEEN );
+		position.add( Side.BLACK, "a1", PieceType.QUEEN );
+
+
+		final Set<String[]> moves = position.getMoves( Side.BLACK );
+		assertEquals( 1, moves.size() );
+		final String[] singleMove = moves.iterator().next();
+		assertEquals( "h2", singleMove [ 0 ] );
+		assertEquals( "g2", singleMove [ 1 ] );
 	}
 }
