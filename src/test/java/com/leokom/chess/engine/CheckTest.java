@@ -36,6 +36,18 @@ public class CheckTest {
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
 
-		assertAllowedMoves( position, "a2" );
+		assertNoAllowedMoves( position, "a2" );
+	}
+
+	@Test
+	public void promotionCannotExposeKingToCheck() {
+		Position position = new Position( null );
+
+		position.add( Side.BLACK, "h2", PieceType.KING );
+		position.add( Side.BLACK, "f2", PieceType.PAWN );
+
+		position.add( Side.WHITE, "a2", PieceType.QUEEN ); //or rook
+
+		assertNoAllowedMoves( position, "f2" );
 	}
 }

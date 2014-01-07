@@ -280,15 +280,14 @@ public class Position {
 		return result;
 	}
 
-	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoveDestinations ) {
+	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
 		Set< String > result = new HashSet<>();
-		//TODO: probably not relevant for castling, promotion,... etc
-		for ( String destination : potentialMoveDestinations ) {
-			final Position possiblePosition = this.move( square, destination );
+		//TODO: castling might be not covered - need to proof when castling is allowed
+		for ( String move : potentialMoves ) {
+			final Position possiblePosition = this.move( square, move );
 			if ( possiblePosition.isKingInCheck( getSide( square ) ) ) {
-				result.add( destination );
+				result.add( move );
 			}
-
 		}
 
 		return result;
