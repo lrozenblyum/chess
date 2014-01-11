@@ -74,8 +74,8 @@ final class Board {
 		return squareTo( square, horizontalDirection, 1 );
 	}
 
-	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontaShift ) {
-		return squareTo( square, horizontalDirection, horizontaShift, VerticalDirection.UP, 0 );
+	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift ) {
+		return squareTo( square, horizontalDirection, horizontalShift, VerticalDirection.UP, 0 );
 	}
 
 	static String squareTo( String square, VerticalDirection verticalDirection ) {
