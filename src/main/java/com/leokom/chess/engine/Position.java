@@ -17,31 +17,18 @@ import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
-	private static final int WHITE_PAWN_INITIAL_RANK = 2;
-	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
-
-	private static final Map< Side, Integer > PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
-		put( Side.WHITE, WHITE_PAWN_INITIAL_RANK );
-		put( Side.BLACK, BLACK_PAWN_INITIAL_RANK );
-	}};
-
-	private static final int WHITE_NOT_PAWN_INITIAL_RANK = 1;
-	private static final int BLACK_NOT_PAWN_INITIAL_RANK = 8;
-	private static final Map< Side, Integer > NOT_PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
-		put( Side.WHITE, WHITE_NOT_PAWN_INITIAL_RANK );
-		put( Side.BLACK, BLACK_NOT_PAWN_INITIAL_RANK );
-	}};
-
 	//TODO: thread-safety for read-only purposes?
 	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
 		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
 		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
 	}};
+
+
 
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
@@ -68,38 +55,7 @@ public class Position {
 	 * @return initial chess position
 	 */
 	public static Position getInitialPosition() {
-		final Position result = new Position( null );
-
-		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
-		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
-		final Set< String > initialBishopFiles = new HashSet<>( Arrays.asList( "c", "f" ) );
-		final String initialQueenFile = "d";
-		final String initialKingFile = "e";
-
-		for ( Side side: Side.values() ) {
-			for ( char file = MINIMAL_FILE; file <= MAXIMAL_FILE; file++ ) {
-				result.add( side, String.valueOf( file ) + PAWN_INITIAL_RANKS.get( side ), PieceType.PAWN );
-			}
-
-			final int rank = NOT_PAWN_INITIAL_RANKS.get( side );
-
-			for ( String rookFile : initialRookFiles ) {
-				result.add( side, rookFile + rank, PieceType.ROOK );
-			}
-
-			for ( String bishopFile : initialBishopFiles ) {
-				result.add( side, bishopFile + rank, PieceType.BISHOP );
-			}
-
-			for ( String knightFile : initialKnightFiles ) {
-				result.add( side, knightFile + rank, PieceType.KNIGHT );
-			}
-
-			result.add( side, initialQueenFile + rank, PieceType.QUEEN );
-			result.add( side, initialKingFile + rank, PieceType.KING );
-		}
-
-		return result;
+		return InitialPosition.generate();
 	}
 
 	//may add some char/int validations. So far length is enough
@@ -409,7 +365,7 @@ public class Position {
 		}
 		else {
 			result.add( file + getPawnNextRank( rank, side ) );
-			if ( rank == getPawnInitialRank( side ) ) {
+			if ( rank == InitialPosition.getPawnInitialRank( side ) ) {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
 
@@ -495,7 +451,7 @@ public class Position {
 			Side side = getSide( square );
 			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
-				rankOfSquare( square ) == getPawnInitialRank( side )
+				rankOfSquare( square ) == InitialPosition.getPawnInitialRank( side )
 				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
 
 				disallowedMoves.add( potentialMove );
@@ -520,7 +476,7 @@ public class Position {
 	 */
 	private static int getPawnDoubleMoveIntermediateRank( Side side ) {
 		// does it look logical? 2+4-->3, 7+5-->6
-		return ( getDoubleMoveRank( side ) + getPawnInitialRank( side ) ) /2;
+		return ( getDoubleMoveRank( side ) + InitialPosition.getPawnInitialRank( side ) ) /2;
 	}
 
 	/**
@@ -532,10 +488,6 @@ public class Position {
 	 */
 	static int getEnPassantPossibleRank( Side side ) {
 		return getDoubleMoveRank( side.opposite() );
-	}
-
-	static int getPawnInitialRank( Side side ) {
-		return PAWN_INITIAL_RANKS.get( side );
 	}
 
 	/**
@@ -605,7 +557,7 @@ public class Position {
 	}
 
 	static int getDoubleMoveRank( Side side ) {
-		return getPawnNextRank( getPawnNextRank( getPawnInitialRank( side ), side ), side );
+		return getPawnNextRank( getPawnNextRank( InitialPosition.getPawnInitialRank( side ), side ), side );
 	}
 
 	/**

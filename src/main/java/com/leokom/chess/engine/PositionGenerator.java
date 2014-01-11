@@ -6,6 +6,9 @@ import static com.leokom.chess.engine.Position.*;
 
 /**
  * Create new positions after moves
+ * @see InitialPosition#generate() for the way to generate
+ * the initial position
+ *
  * Author: Leonid
  * Date-time: 06.07.13 22:16
  */
@@ -163,7 +166,7 @@ final class PositionGenerator {
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = source.getSide( squareFrom );
 
-		return rankOfSquare( squareFrom ) == getPawnInitialRank( side ) &&
+		return rankOfSquare( squareFrom ) == InitialPosition.getPawnInitialRank( side ) &&
 				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
 				fileOfSquare( squareFrom ) : null;
 	}
