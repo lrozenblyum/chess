@@ -20,7 +20,7 @@ public class PositionAllowedMovesTest {
 
 		assertEquals( 1, moves.size() );
 		final String[] move = moves.iterator().next();
-		assertArrayEquals( move, new String []{ "a1", "a2" } );
+		assertArrayEquals( new String[]{ "a1", "a2" }, move );
 	}
 
 	@Test //same test as previous but changing colours
@@ -33,7 +33,7 @@ public class PositionAllowedMovesTest {
 
 		assertEquals( 1, moves.size() );
 		final String[] move = moves.iterator().next();
-		assertArrayEquals( move, new String []{ "a1", "a2" } );
+		assertArrayEquals( new String[]{ "a1", "a2" }, move );
 	}
 
 	@Test
