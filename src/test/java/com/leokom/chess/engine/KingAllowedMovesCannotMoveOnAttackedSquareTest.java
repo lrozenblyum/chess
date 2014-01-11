@@ -8,7 +8,7 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 09.07.13 22:17
  */
-public class KingAllowedMovesCannotMoveOnAttackedSquare {
+public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 	@Test
 	public void withPawnNotPromotion() {
 		Position position = new Position( null );
