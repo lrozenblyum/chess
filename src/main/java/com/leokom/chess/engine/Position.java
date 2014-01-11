@@ -5,6 +5,7 @@ import com.leokom.chess.utils.CollectionUtils;
 import java.util.*;
 
 import static com.leokom.chess.engine.Board.*;
+import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
 import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 
 /**
@@ -365,7 +366,7 @@ public class Position {
 		}
 		else {
 			result.add( file + getPawnNextRank( rank, side ) );
-			if ( rank == InitialPosition.getPawnInitialRank( side ) ) {
+			if ( rank == getPawnInitialRank( side ) ) {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
 
@@ -451,7 +452,7 @@ public class Position {
 			Side side = getSide( square );
 			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
-				rankOfSquare( square ) == InitialPosition.getPawnInitialRank( side )
+				rankOfSquare( square ) == getPawnInitialRank( side )
 				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
 
 				disallowedMoves.add( potentialMove );
@@ -476,7 +477,7 @@ public class Position {
 	 */
 	private static int getPawnDoubleMoveIntermediateRank( Side side ) {
 		// does it look logical? 2+4-->3, 7+5-->6
-		return ( getDoubleMoveRank( side ) + InitialPosition.getPawnInitialRank( side ) ) /2;
+		return ( getDoubleMoveRank( side ) + getPawnInitialRank( side ) ) /2;
 	}
 
 	/**
@@ -557,7 +558,7 @@ public class Position {
 	}
 
 	static int getDoubleMoveRank( Side side ) {
-		return getPawnNextRank( getPawnNextRank( InitialPosition.getPawnInitialRank( side ), side ), side );
+		return getPawnNextRank( getPawnNextRank( getPawnInitialRank( side ), side ), side );
 	}
 
 	/**
