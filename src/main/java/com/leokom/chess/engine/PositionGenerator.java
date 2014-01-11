@@ -32,10 +32,11 @@ final class PositionGenerator {
 				return processMoveWithoutSideEffects( squareFrom, move );
 			case KING:
 				return processKingMove( squareFrom, move );
-
+			case PAWN:
+				return processPawnMove( squareFrom, move );
+			default:
+				throw new IllegalArgumentException( "There are no other chess pieces. Received: " + pieceType );
 		}
-
-		return processPawnMove( squareFrom, move );
 	}
 
 	private Position processKingMove( String squareFrom, String move ) {
