@@ -119,7 +119,7 @@ public class WinBoardPlayerTest {
 
 		return doAnswer( new Answer() {
 			@Override
-			public Object answer( InvocationOnMock invocationOnMock ) throws Throwable {
+			public Object answer( InvocationOnMock invocationOnMock ) {
 				offerDrawListener.getValue().execute();
 				return null; //just for compiler... due to generic Answer interface
 			}
