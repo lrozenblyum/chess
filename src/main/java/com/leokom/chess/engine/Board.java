@@ -121,7 +121,7 @@ final class Board {
 	}
 
 	private static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
-		return Board.squareTo(
+		return squareTo(
 				square, horizontalDirection, squaresDiagonally, verticalDirection, squaresDiagonally );
 	}
 
