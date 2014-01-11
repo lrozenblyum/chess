@@ -436,7 +436,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByKnight( String square ) {
 		//shifts pairs: horizontal and vertical shift
 		//they will be combined with all possible vertical/horizontal directions
-		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
+		int [][] shifts = { {1, 2}, {2, 1} };
 
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
