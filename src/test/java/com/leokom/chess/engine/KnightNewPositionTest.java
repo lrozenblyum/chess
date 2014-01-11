@@ -1,5 +1,6 @@
 package com.leokom.chess.engine;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -69,7 +70,7 @@ public class KnightNewPositionTest {
 
 		final Position afterKnightMove = afterPawnMove.move( "h1", "g3" );
 
-		org.junit.Assert.assertNull( afterKnightMove.getPossibleEnPassantFile() );
+		Assert.assertNull( afterKnightMove.getPossibleEnPassantFile() );
 
 	}
 }
