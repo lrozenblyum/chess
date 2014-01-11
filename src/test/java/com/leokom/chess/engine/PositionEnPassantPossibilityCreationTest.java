@@ -12,8 +12,6 @@ import static org.junit.Assert.assertNull;
  * Date-time: 11.09.12 22:28
  */
 public class PositionEnPassantPossibilityCreationTest {
-	//file that gives en passant right
-	private static final String fileMovedBefore = "c"; //any!
 	private Position position;
 
 	@Before

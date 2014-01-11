@@ -37,10 +37,6 @@ final class Board {
 		return Integer.valueOf( String.valueOf( square.charAt( 1 ) ));
 	}
 
-	static String fileTo( String file, HorizontalDirection direction ) {
-		return fileTo( file, direction, 1 );
-	}
-
 	private static String fileTo( String file, HorizontalDirection direction, int shift ) {
 		switch ( direction ) {
 			case LEFT:
