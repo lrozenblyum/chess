@@ -9,6 +9,7 @@ import static com.leokom.chess.engine.Board.MINIMAL_FILE;
  * Knowledge about the initial chess position might be received here
  */
 final class InitialPosition {
+	private InitialPosition() {}
 
 	private static final int WHITE_PAWN_INITIAL_RANK = 2;
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
