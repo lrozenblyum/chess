@@ -6,8 +6,6 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 
