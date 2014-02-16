@@ -49,4 +49,11 @@ public final class PositionAsserts {
 		Set<String> squares = position.getMovesFrom( initialField );
 		assertEquals( new HashSet<>( Arrays.asList( expectedReachableSquares ) ), squares );
 	}
+
+	static void assertAllowedMovesInclude( Position position, String initialField, String targetToBeIncluded ) {
+		Set<String> squares = position.getMovesFrom( initialField );
+		assertTrue(
+			"Allowed moves must include : " + targetToBeIncluded + "; actually: " + squares,
+			squares.contains( targetToBeIncluded ) );
+	}
 }
