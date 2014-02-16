@@ -18,4 +18,15 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesInclude(
 				position, "e1", "g1" );
 	}
+
+	@Test
+	public void castlingIsAllowedBlack() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+
+		position.add( Side.BLACK, "h8", PieceType.ROOK );
+
+		PositionAsserts.assertAllowedMovesInclude(
+				position, "e8", "g8" );
+	}
 }
