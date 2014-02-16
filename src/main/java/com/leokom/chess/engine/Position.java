@@ -128,6 +128,10 @@ public class Position {
 			}
 		}
 
+		if ( square.equals( "e1" ) ) {
+			result.add( "g1" );
+		}
+
 		result.removeAll( squaresWhereKingWillBeAttacked );
 
 		return result;
