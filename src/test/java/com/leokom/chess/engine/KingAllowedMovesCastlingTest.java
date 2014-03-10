@@ -1,6 +1,5 @@
 package com.leokom.chess.engine;
 
-import javafx.geometry.Pos;
 import org.junit.Test;
 
 /**
