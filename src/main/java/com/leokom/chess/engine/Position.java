@@ -141,12 +141,9 @@ public class Position {
 			}
 		}
 
-		if ( square.equals( "e1" ) ) {
-			result.add( "g1" );
-		}
-
-		if ( square.equals( "e8" ) ) {
-			result.add( "g8" );
+		int rankWhereCastlingIsPossible = InitialPosition.getNotPawnInitialRank( ourSide );
+		if ( square.equals( "e" + rankWhereCastlingIsPossible ) ) {
+			result.add( "g" + rankWhereCastlingIsPossible );
 		}
 
 		result.removeAll( squaresWhereKingWillBeAttacked );
