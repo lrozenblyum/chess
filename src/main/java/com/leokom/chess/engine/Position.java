@@ -132,6 +132,10 @@ public class Position {
 			result.add( "g1" );
 		}
 
+		if ( square.equals( "e8" ) ) {
+			result.add( "g8" );
+		}
+
 		result.removeAll( squaresWhereKingWillBeAttacked );
 
 		return result;
