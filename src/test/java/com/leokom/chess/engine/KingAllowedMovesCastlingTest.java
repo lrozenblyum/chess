@@ -28,4 +28,15 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesInclude(
 				position, "e8", "g8" );
 	}
+
+	@Test
+	public void castlingQueenSide() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+
+		PositionAsserts.assertAllowedMovesInclude(
+				position, "e8", "c8" );
+	}
 }
