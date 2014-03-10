@@ -6,6 +6,9 @@ import static com.leokom.chess.engine.Position.*;
 
 /**
  * Create new positions after moves
+ * @see InitialPosition#generate() for the way to generate
+ * the initial position
+ *
  * Author: Leonid
  * Date-time: 06.07.13 22:16
  */
@@ -32,10 +35,11 @@ final class PositionGenerator {
 				return processMoveWithoutSideEffects( squareFrom, move );
 			case KING:
 				return processKingMove( squareFrom, move );
-
+			case PAWN:
+				return processPawnMove( squareFrom, move );
+			default:
+				throw new IllegalArgumentException( "There are no other chess pieces. Received: " + pieceType );
 		}
-
-		return processPawnMove( squareFrom, move );
 	}
 
 	private Position processKingMove( String squareFrom, String move ) {
@@ -162,7 +166,7 @@ final class PositionGenerator {
 	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = source.getSide( squareFrom );
 
-		return rankOfSquare( squareFrom ) == getPawnInitialRank( side ) &&
+		return rankOfSquare( squareFrom ) == InitialPosition.getPawnInitialRank( side ) &&
 				rankOfSquare( squareTo ) == getDoubleMoveRank( side ) ?
 				fileOfSquare( squareFrom ) : null;
 	}

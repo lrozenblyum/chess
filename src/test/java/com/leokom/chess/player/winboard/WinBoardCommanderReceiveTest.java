@@ -2,7 +2,6 @@ package com.leokom.chess.player.winboard;
 
 import org.junit.Test;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
 /**

@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static com.leokom.chess.engine.PawnUtils.testPawn;
-import static com.leokom.chess.engine.PositionUtils.addAny;
 import static com.leokom.chess.engine.PositionUtils.addCapturable;
 
 /**

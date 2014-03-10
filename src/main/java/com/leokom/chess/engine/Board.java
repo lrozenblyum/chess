@@ -7,8 +7,8 @@ package com.leokom.chess.engine;
  */
 final class Board {
 
-	private static final char MINIMAL_FILE = 'a';
-	private static final char MAXIMAL_FILE = 'h';
+	static final char MINIMAL_FILE = 'a';
+	static final char MAXIMAL_FILE = 'h';
 
 	//so far it's not intended to create the boards,
 	//however need to rethink this approach...
@@ -35,10 +35,6 @@ final class Board {
 	static Integer rankOfSquare( String square ) {
 		//this internal conversion is needed because char itself has its
 		return Integer.valueOf( String.valueOf( square.charAt( 1 ) ));
-	}
-
-	static String fileTo( String file, HorizontalDirection direction ) {
-		return fileTo( file, direction, 1 );
 	}
 
 	private static String fileTo( String file, HorizontalDirection direction, int shift ) {
@@ -74,8 +70,8 @@ final class Board {
 		return squareTo( square, horizontalDirection, 1 );
 	}
 
-	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontaShift ) {
-		return squareTo( square, horizontalDirection, horizontaShift, VerticalDirection.UP, 0 );
+	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift ) {
+		return squareTo( square, horizontalDirection, horizontalShift, VerticalDirection.UP, 0 );
 	}
 
 	static String squareTo( String square, VerticalDirection verticalDirection ) {
@@ -125,7 +121,7 @@ final class Board {
 	}
 
 	private static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
-		return Board.squareTo(
+		return squareTo(
 				square, horizontalDirection, squaresDiagonally, verticalDirection, squaresDiagonally );
 	}
 

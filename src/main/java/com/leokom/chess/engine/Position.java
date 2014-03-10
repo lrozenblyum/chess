@@ -5,6 +5,7 @@ import com.leokom.chess.utils.CollectionUtils;
 import java.util.*;
 
 import static com.leokom.chess.engine.Board.*;
+import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
 import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 
 /**
@@ -17,24 +18,18 @@ import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
-	private static final int WHITE_PAWN_INITIAL_RANK = 2;
-	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
-
-	private static final Map< Side, Integer > PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
-		put( Side.WHITE, WHITE_PAWN_INITIAL_RANK );
-		put( Side.BLACK, BLACK_PAWN_INITIAL_RANK );
-	}};
-
 	//TODO: thread-safety for read-only purposes?
 	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
 		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
 		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
 	}};
+
+
 
 	//TODO: read carefully if this set is thread-safe
 	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
@@ -55,6 +50,15 @@ public class Position {
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
+
+	/**
+	 * Get instance of initial chess position
+	 * @return initial chess position
+	 */
+	public static Position getInitialPosition() {
+		return InitialPosition.generate();
+	}
+
 	//may add some char/int validations. So far length is enough
 	private boolean isSquareValid( String square ) {
 		return square.length() == VALID_SQUARE_LENGTH;
@@ -76,6 +80,15 @@ public class Position {
 	 * Should we return empty set, null or throw an exception?
 	 */
 	public Set<String> getMovesFrom( String square ) {
+		final Set<String> potentialMoves = getPotentialMoves( square );
+		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
+		return potentialMoves;
+	}
+
+	//artificial method born due to need to exclude
+	//some moves from pool of the 'potential moves'
+	//due to king check conditions
+	private Set<String> getPotentialMoves( String square ) {
 		switch ( getPieceType( square ) ) {
 			case KNIGHT:
 				return getKnightMoves( square );
@@ -118,7 +131,7 @@ public class Position {
 			//getting attacked squares from that square will get other squares, but not that one
 			//where king resides
 			//however I don't want to introduce this bad dependency on the side effect
-			final Set< String > opponentPieces = potentialNewPosition.getOpponentPieces( ourSide );
+			final Set< String > opponentPieces = potentialNewPosition.getSquaresOccupiedByOpponent( ourSide );
 
 			for ( String opponentPiece : opponentPieces ) {
 				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
@@ -203,10 +216,14 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getOpponentPieces( Side ourSide ) {
+	private Set< String > getSquaresOccupiedByOpponent( Side ourSide ) {
+		return getSquaresOccupiedBySide( ourSide.opposite() );
+	}
+
+	private Set<String> getSquaresOccupiedBySide( Side neededSide ) {
 		Set< String > result = new HashSet<>();
 		for( String square : pieces.keySet() ) {
-			if ( pieces.get( square ).getSide() == ourSide.opposite() ) {
+			if ( pieces.get( square ).getSide() == neededSide ) {
 				result.add( square );
 			}
 		}
@@ -224,7 +241,58 @@ public class Position {
 	private Set< String > getRookMoves( String square ) {
 		final Set<String> result = getSquaresAttackedByRook( square );
 		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
+
 		return result;
+	}
+
+	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
+		Set< String > result = new HashSet<>();
+		//TODO: castling might be not covered - need to proof when castling is allowed
+		for ( String move : potentialMoves ) {
+			final Position possiblePosition = this.move( square, move );
+			if ( possiblePosition.isKingInCheck( getSide( square ) ) ) {
+				result.add( move );
+			}
+		}
+
+		return result;
+	}
+
+	//TODO: side must be part of Position, isn't it?
+	private boolean isKingInCheck( Side side ) {
+
+		final String kingSquare = findKing( side );
+		//TODO: impossible in real chess, possible in our tests...
+
+		if ( kingSquare == null ) {
+			return false;
+		}
+
+
+		return getSquaresAttackedByOpponent( side ).contains( kingSquare );
+	}
+
+	private String findKing( Side side ) {
+		for ( String square : pieces.keySet() ) {
+			if ( ( pieces.get( square ).getPieceType() == PieceType.KING ) &&
+			pieces.get( square ).getSide() == side ) {
+				return square;
+			}
+		}
+
+		//TODO: impossible in real chess, possible in our tests...
+		return null;
+	}
+
+	private Set<String> getSquaresAttackedByOpponent( Side side ) {
+		final Set<String> squaresOccupiedByOpponent = getSquaresOccupiedByOpponent( side );
+
+		Set< String > squaresAttackedByOpponent = new HashSet<>();
+
+		for ( String opponentSquare : squaresOccupiedByOpponent ) {
+			squaresAttackedByOpponent.addAll( getSquaresAttackedFromSquare( opponentSquare ) );
+		}
+		return squaresAttackedByOpponent;
 	}
 
 	private Set< String > getBishopMoves( String square ) {
@@ -333,7 +401,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByKnight( String square ) {
 		//shifts pairs: horizontal and vertical shift
 		//they will be combined with all possible vertical/horizontal directions
-		int [][] shifts = new int[][] { {1, 2}, {2, 1} };
+		int [][] shifts = { {1, 2}, {2, 1} };
 
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
@@ -429,10 +497,6 @@ public class Position {
 	 */
 	static int getEnPassantPossibleRank( Side side ) {
 		return getDoubleMoveRank( side.opposite() );
-	}
-
-	static int getPawnInitialRank( Side side ) {
-		return PAWN_INITIAL_RANKS.get( side );
 	}
 
 	/**
@@ -561,7 +625,10 @@ public class Position {
 		add( side, square, PieceType.QUEEN );
 	}
 
-	void add( Side side, String square, PieceType pieceType ) {
+	//TODO: temporary public
+	//need better solution (like PositionBuilder?)
+	//to avoid outside position change!!
+	public void add( Side side, String square, PieceType pieceType ) {
 		if ( !isSquareValid( square ) ) {
 			throw new IllegalArgumentException( "Wrong destination square: " + square );
 		}
@@ -618,5 +685,22 @@ public class Position {
 		Piece piece = getPiece( from );
 		removePiece( from );
 		add( piece.getSide(), to, piece.getPieceType() );
+	}
+
+	//TODO: probably moving side must be a part of the position itself
+	//TODO: return result is better to be some class or Set of classes
+	//to be decided what's better representation for moves.
+	public Set< String[] > getMoves( Side side ) {
+		final Set<String[]> result = new HashSet<>();
+
+		final Set<String> squares = getSquaresOccupiedBySide( side );
+		for ( String square : squares ) {
+			final Set<String> moves = getMovesFrom( square );
+			for ( String move : moves ) {
+				result.add( new String[] { square, move } );
+			}
+		}
+
+		return result;
 	}
 }
