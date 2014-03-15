@@ -142,7 +142,9 @@ public class Position {
 		}
 
 		int rankWhereCastlingIsPossible = InitialPosition.getNotPawnInitialRank( ourSide );
-		if ( square.equals( "e" + rankWhereCastlingIsPossible ) ) {
+		if ( square.equals( "e" + rankWhereCastlingIsPossible ) &&
+			//TODO: extend this condition : must be rook that hasn't yet moved etc
+			 isOccupiedBy( "h" + rankWhereCastlingIsPossible, ourSide ) ) {
 			result.add( "g" + rankWhereCastlingIsPossible );
 		}
 
