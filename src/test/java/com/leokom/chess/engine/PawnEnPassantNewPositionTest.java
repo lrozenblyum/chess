@@ -1,8 +1,11 @@
 package com.leokom.chess.engine;
 
 import org.junit.Test;
-import static com.leokom.chess.engine.PositionAsserts.*;
-import static com.leokom.chess.engine.Side.*;
+
+import static com.leokom.chess.engine.PositionAsserts.assertEmptySquare;
+import static com.leokom.chess.engine.PositionAsserts.assertHasPawn;
+import static com.leokom.chess.engine.Side.BLACK;
+import static com.leokom.chess.engine.Side.WHITE;
 
 /**
  * Author: Leonid

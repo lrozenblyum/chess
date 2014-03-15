@@ -1,9 +1,11 @@
 package com.leokom.chess.engine;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.util.Set;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Author: Leonid

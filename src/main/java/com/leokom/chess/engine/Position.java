@@ -141,6 +141,20 @@ public class Position {
 			}
 		}
 
+		int castlingRank = InitialPosition.getNotPawnInitialRank( ourSide );
+		if ( square.equals( "e" + castlingRank ) ) {
+			//TODO: extend this condition : must be rook that hasn't yet moved etc
+			if ( isOccupiedBy( "h" + castlingRank, ourSide ) ) {
+				result.add( "g" + castlingRank );
+			}
+
+			if ( isOccupiedBy( "a" + castlingRank, ourSide ) ) {
+				result.add( "c" + castlingRank );
+			}
+		}
+
+
+
 		result.removeAll( squaresWhereKingWillBeAttacked );
 
 		return result;

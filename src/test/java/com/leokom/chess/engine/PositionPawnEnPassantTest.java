@@ -1,6 +1,7 @@
 package com.leokom.chess.engine;
 
 import org.junit.Test;
+
 import static com.leokom.chess.engine.PawnUtils.testPawn;
 
 /**

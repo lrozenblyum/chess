@@ -3,10 +3,11 @@ package com.leokom.chess.engine;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.leokom.chess.engine.PositionUtils.addCapturable;
-import static org.junit.Assert.*;
-import static com.leokom.chess.engine.PositionUtils.addAny;
 import static com.leokom.chess.engine.PositionAsserts.*;
+import static com.leokom.chess.engine.PositionUtils.addAny;
+import static com.leokom.chess.engine.PositionUtils.addCapturable;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * Generate positions by legal pawn moves using the initial position

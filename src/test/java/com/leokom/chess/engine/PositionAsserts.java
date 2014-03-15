@@ -4,9 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Validate position status
@@ -58,5 +56,12 @@ public final class PositionAsserts {
 	 */
 	static void assertNoAllowedMoves( Position position, String square ) {
 		assertAllowedMoves( position, square );
+	}
+
+	static void assertAllowedMovesInclude( Position position, String initialField, String targetToBeIncluded ) {
+		Set<String> squares = position.getMovesFrom( initialField );
+		assertTrue(
+			"Allowed moves must include : " + targetToBeIncluded + "; actually: " + squares,
+			squares.contains( targetToBeIncluded ) );
 	}
 }
