@@ -64,4 +64,11 @@ public final class PositionAsserts {
 			"Allowed moves must include : " + targetToBeIncluded + "; actually: " + squares,
 			squares.contains( targetToBeIncluded ) );
 	}
+
+	static void assertAllowedMovesOmit( Position position, String initialField, String targetToBeIncluded ) {
+		Set<String> squares = position.getMovesFrom( initialField );
+		assertFalse(
+				"Allowed moves must NOT include : " + targetToBeIncluded + "; actually: " + squares,
+				squares.contains( targetToBeIncluded ) );
+	}
 }

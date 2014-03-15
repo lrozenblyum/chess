@@ -39,4 +39,26 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesInclude(
 				position, "e8", "c8" );
 	}
+
+	@Test
+	public void rightToCastlingIsLostIfKingMoved() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		position.move( "e1", "e2" );
+		position.move( "h8", "h7" ); //any valid black move
+
+		position.move( "e2", "e1" );
+		position.move( "h7", "h8" ); //any valid black move
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e1", "g1" );
+	}
+
+	//TODO: extra test: PERMANENTLY lost right to castle (check 1 more move)
+	//TODO: extra test: no castling possible after castling
+
 }
