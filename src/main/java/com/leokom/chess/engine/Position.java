@@ -141,15 +141,15 @@ public class Position {
 			}
 		}
 
-		int rankWhereCastlingIsPossible = InitialPosition.getNotPawnInitialRank( ourSide );
-		if ( square.equals( "e" + rankWhereCastlingIsPossible ) ) {
+		int castlingRank = InitialPosition.getNotPawnInitialRank( ourSide );
+		if ( square.equals( "e" + castlingRank ) ) {
 			//TODO: extend this condition : must be rook that hasn't yet moved etc
-			if ( isOccupiedBy( "h" + rankWhereCastlingIsPossible, ourSide ) ) {
-				result.add( "g" + rankWhereCastlingIsPossible );
+			if ( isOccupiedBy( "h" + castlingRank, ourSide ) ) {
+				result.add( "g" + castlingRank );
 			}
 
-			if ( isOccupiedBy( "a" + rankWhereCastlingIsPossible, ourSide ) ) {
-				result.add( "c" + rankWhereCastlingIsPossible );
+			if ( isOccupiedBy( "a" + castlingRank, ourSide ) ) {
+				result.add( "c" + castlingRank );
 			}
 		}
 
