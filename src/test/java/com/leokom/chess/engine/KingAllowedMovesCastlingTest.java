@@ -95,6 +95,30 @@ public class KingAllowedMovesCastlingTest {
 				newPosition, "e1", "g1" );
 	}
 
-	//TODO: extra test: no castling possible after castling
+	@Test //not just one move lost
+	public void castlingIsImpossibleAfterCastling() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+		position.add( Side.WHITE, "a2", PieceType.PAWN );
 
+		position.add( Side.BLACK, "a8", PieceType.KING );
+
+		Position newPosition = position
+				.move( "e1", "g1" ) //castle
+				.move( "a8", "a7" ) //any valid black move
+				.move( "f1", "f2" ) //rook movement started
+				.move( "a7", "a8" ) //any valid black move
+				.move( "f2", "h2" ) //regrouping rook to initial position
+				.move( "a8", "a7" )
+				.move( "h2", "h1" ) //rook is on the base
+				.move( "a7", "a8" )
+				.move( "g1", "f1" ) //regrouping king
+				.move( "a8", "a7" ) //any valid black move
+				.move( "f1", "e1" ) //king is on the base
+				.move( "a7", "a8" );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				newPosition, "e1", "g1" );
+	}
 }
