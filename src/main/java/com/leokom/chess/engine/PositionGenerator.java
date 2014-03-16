@@ -47,7 +47,16 @@ final class PositionGenerator {
 		final Position result = processMoveWithoutSideEffects( squareFrom, move );
 		//TODO: do I need setting this flag after castling?
 		//for consistency: yes, for algorithm: no
-		result.setHasRookMoved( this.source.getSide( squareFrom ) );
+
+		//TODO: technically it will do excessive 'again' setting (not harmful)
+		//if the rook has already moved
+		if ( Board.fileOfSquare( squareFrom ).equals( "a" ) ) {
+			result.setHasARookMoved( this.source.getSide( squareFrom ) );
+		}
+
+		if ( Board.fileOfSquare( squareFrom ).equals( "h" ) ) {
+			result.setHasHRookMoved( this.source.getSide( squareFrom ) );
+		}
 		return result;
 	}
 

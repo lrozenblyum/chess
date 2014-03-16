@@ -55,7 +55,12 @@ public class Position {
 		put( Side.BLACK, false );
 	}};
 
-	private Map< Side, Boolean > hasRookMoved = new HashMap< Side, Boolean >() {{
+	private Map< Side, Boolean > hasARookMoved = new HashMap< Side, Boolean >() {{
+		put( Side.WHITE, false );
+		put( Side.BLACK, false );
+	}};
+
+	private Map< Side, Boolean > hasHRookMoved = new HashMap< Side, Boolean >() {{
 		put( Side.WHITE, false );
 		put( Side.BLACK, false );
 	}};
@@ -64,9 +69,14 @@ public class Position {
 		this.hasKingMoved.put( side, true );
 	}
 
-	void setHasRookMoved( Side side ) {
-		this.hasRookMoved.put( side, true );
+	void setHasARookMoved( Side side ) {
+		this.hasARookMoved.put( side, true );
 	}
+
+	void setHasHRookMoved( Side side ) {
+		this.hasHRookMoved.put( side, true );
+	}
+
 
 	//temporary state in game (which could change)
 	private final String enPassantFile;
@@ -187,15 +197,15 @@ public class Position {
 	private Set<String> generatePossibleCastlingDestinations( String square ) {
 		Set< String > result = new HashSet<>();
 		Side side = getSide( square );
-		if ( !hasKingMoved.get( side ) && !hasRookMoved.get( side ) ) {
+		if ( !hasKingMoved.get( side ) ) {
 			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
 			if ( square.equals( "e" + castlingRank ) ) {
-				//TODO: extend this condition : must be rook that hasn't yet moved etc
-				if ( isOccupiedBy( "h" + castlingRank, side ) ) {
+				//TODO: the first condition is excessive - second covers it
+				if ( isOccupiedBy( "h" + castlingRank, side ) && !hasHRookMoved.get( side ) ) {
 					result.add( "g" + castlingRank );
 				}
 
-				if ( isOccupiedBy( "a" + castlingRank, side ) ) {
+				if ( isOccupiedBy( "a" + castlingRank, side ) && !hasARookMoved.get( side ) ) {
 					result.add( "c" + castlingRank );
 				}
 			}
@@ -657,8 +667,12 @@ public class Position {
 			position.hasKingMoved.put( side, this.hasKingMoved.get( side ) );
 		}
 
-		for ( Side side : this.hasRookMoved.keySet() ) {
-			position.hasRookMoved.put( side, this.hasRookMoved.get( side ) );
+		for ( Side side : this.hasARookMoved.keySet() ) {
+			position.hasARookMoved.put( side, this.hasARookMoved.get( side ) );
+		}
+
+		for ( Side side : this.hasHRookMoved.keySet() ) {
+			position.hasHRookMoved.put( side, this.hasHRookMoved.get( side ) );
 		}
 	}
 
