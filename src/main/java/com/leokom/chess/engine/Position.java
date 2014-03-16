@@ -196,7 +196,14 @@ public class Position {
 
 	private Set<String> generatePossibleCastlingDestinations( String square ) {
 		Set< String > result = new HashSet<>();
+
 		Side side = getSide( square );
+
+		//cannot castle if under check
+		if ( isKingInCheck( side ) ) {
+			return result;
+		}
+
 		if ( !hasKingMoved.get( side ) ) {
 			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
 			if ( square.equals( "e" + castlingRank ) ) {
