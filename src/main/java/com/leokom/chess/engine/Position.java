@@ -195,7 +195,8 @@ public class Position {
 			final String kingSideRookFile = "h";
 			if ( isOccupiedBy( kingSideRookFile + castlingRank, side ) &&
 				!hasHRookMoved.get( side ) &&
-				!isSquareAttacked( side, "f" + castlingRank )) {
+				!isSquareAttacked( side, "f" + castlingRank ) &&
+				isFreeRankBetween( kingFile, kingSideRookFile, castlingRank )) {
 				result.add( "g" + castlingRank );
 			}
 

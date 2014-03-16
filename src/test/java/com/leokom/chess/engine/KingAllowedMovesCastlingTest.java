@@ -313,4 +313,19 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesOmit(
 				position, "e1", "c1" );
 	}
+
+	@Test
+	public void opponentPieceInMiddlePreventsCastling() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "f1", PieceType.KNIGHT );
+
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e1", "g1" );
+	}
 }
