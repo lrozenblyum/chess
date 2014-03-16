@@ -41,6 +41,22 @@ public class Position {
 	//all pieces currently present on the board
 	private final Map< String, Piece > pieces = new HashMap<>();
 
+	//historical state of the Game:
+
+	//permanent state (which cannot change till the end of game
+
+	//experiment: instead of exposing it via constructor,
+	//(constructor is annoying when we don't need the field)
+	//expose package-private setter
+
+	//explicitly setting initial state for clarity
+	private boolean hasKingMoved = false;
+
+	void setHasKingMoved( boolean hasKingMoved ) {
+		this.hasKingMoved = hasKingMoved;
+	}
+
+	//temporary state in game (which could change)
 	private final String enPassantFile;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
@@ -141,15 +157,17 @@ public class Position {
 			}
 		}
 
-		int castlingRank = InitialPosition.getNotPawnInitialRank( ourSide );
-		if ( square.equals( "e" + castlingRank ) ) {
-			//TODO: extend this condition : must be rook that hasn't yet moved etc
-			if ( isOccupiedBy( "h" + castlingRank, ourSide ) ) {
-				result.add( "g" + castlingRank );
-			}
+		if ( !hasKingMoved ) {
+			int castlingRank = InitialPosition.getNotPawnInitialRank( ourSide );
+			if ( square.equals( "e" + castlingRank ) ) {
+				//TODO: extend this condition : must be rook that hasn't yet moved etc
+				if ( isOccupiedBy( "h" + castlingRank, ourSide ) ) {
+					result.add( "g" + castlingRank );
+				}
 
-			if ( isOccupiedBy( "a" + castlingRank, ourSide ) ) {
-				result.add( "c" + castlingRank );
+				if ( isOccupiedBy( "a" + castlingRank, ourSide ) ) {
+					result.add( "c" + castlingRank );
+				}
 			}
 		}
 
