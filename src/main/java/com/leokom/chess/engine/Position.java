@@ -208,11 +208,14 @@ public class Position {
 			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
 			if ( square.equals( "e" + castlingRank ) ) {
 				//TODO: the first condition is excessive - second covers it
-				if ( isOccupiedBy( "h" + castlingRank, side ) && !hasHRookMoved.get( side ) ) {
+				if ( isOccupiedBy( "h" + castlingRank, side ) &&
+					!hasHRookMoved.get( side ) &&
+					!isSquareAttacked( side, "f" + castlingRank )) {
 					result.add( "g" + castlingRank );
 				}
 
-				if ( isOccupiedBy( "a" + castlingRank, side ) && !hasARookMoved.get( side ) ) {
+				if ( isOccupiedBy( "a" + castlingRank, side ) &&
+					!hasARookMoved.get( side )  ) {
 					result.add( "c" + castlingRank );
 				}
 			}
@@ -334,8 +337,13 @@ public class Position {
 			return false;
 		}
 
+		return isSquareAttacked( side, kingSquare );
+	}
 
-		return getSquaresAttackedByOpponent( side ).contains( kingSquare );
+	//we specify OUR side here because square might be empty
+	//so we might check only potential attack
+	private boolean isSquareAttacked( Side side, String square ) {
+		return getSquaresAttackedByOpponent( side ).contains( square );
 	}
 
 	private String findKing( Side side ) {

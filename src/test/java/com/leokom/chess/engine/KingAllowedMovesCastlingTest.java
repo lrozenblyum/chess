@@ -260,7 +260,7 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesOmit(
 				position, "e8", "g8" );
 
-		PositionAsserts.assertAllowedMovesOmit(
+		PositionAsserts.assertAllowedMovesInclude(
 				position, "e8", "c8" );
 	}
 }
