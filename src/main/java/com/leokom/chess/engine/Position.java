@@ -64,6 +64,14 @@ public class Position {
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
+
+	/**
+	 * Create position.
+	 * By default king's right to castle is NOT lost (king and rooks
+	 * are considered to be not have moved before) which might be inconsistent with actual position
+	 *
+	 * @param enPassantFile
+	 */
 	public Position( String enPassantFile ) {
 		this.enPassantFile = enPassantFile;
 	}
