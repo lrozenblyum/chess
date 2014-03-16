@@ -284,4 +284,19 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesOmit(
 				position, "e8", "c8" );
 	}
+
+	@Test
+	public void cannotCastleIfExposeKingToCheck() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "a8", PieceType.KING );
+
+		//controls g1
+		position.add( Side.BLACK, "h2", PieceType.BISHOP );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e1", "g1" );
+	}
 }
