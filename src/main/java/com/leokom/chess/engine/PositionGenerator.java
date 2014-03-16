@@ -30,9 +30,10 @@ final class PositionGenerator {
 		switch ( pieceType ) {
 			case KNIGHT:
 			case BISHOP:
-			case ROOK:
 			case QUEEN:
 				return processMoveWithoutSideEffects( squareFrom, move );
+			case ROOK:
+				return processRookMove( squareFrom, move );
 			case KING:
 				return processKingMove( squareFrom, move );
 			case PAWN:
@@ -40,6 +41,23 @@ final class PositionGenerator {
 			default:
 				throw new IllegalArgumentException( "There are no other chess pieces. Received: " + pieceType );
 		}
+	}
+
+	private Position processRookMove( String squareFrom, String move ) {
+		final Position result = processMoveWithoutSideEffects( squareFrom, move );
+		//TODO: do I need setting this flag after castling?
+		//for consistency: yes, for algorithm: no
+
+		//TODO: technically it will do excessive 'again' setting (not harmful)
+		//if the rook has already moved
+		if ( Board.fileOfSquare( squareFrom ).equals( "a" ) ) {
+			result.setHasARookMoved( this.source.getSide( squareFrom ) );
+		}
+
+		if ( Board.fileOfSquare( squareFrom ).equals( "h" ) ) {
+			result.setHasHRookMoved( this.source.getSide( squareFrom ) );
+		}
+		return result;
 	}
 
 	private Position processKingMove( String squareFrom, String move ) {
@@ -68,6 +86,7 @@ final class PositionGenerator {
 			newPosition.moveUnconditionally( "a" + rank, "d" + rank );
 		}
 
+		newPosition.setHasKingMoved( this.source.getSide( squareFrom ) );
 		return newPosition;
 	}
 
