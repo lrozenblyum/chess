@@ -158,9 +158,7 @@ public class Position {
 	private Set<String> getKingMoves( String square ) {
 		Set< String > result = getSquaresAttackedByKing( square );
 
-		Side ourSide = getSide( square );
-
-		result.removeAll( getSquaresOccupiedBy( result, ourSide ) );
+		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
 
 		result.addAll( generatePossibleCastlingDestinations( square ) );
 
