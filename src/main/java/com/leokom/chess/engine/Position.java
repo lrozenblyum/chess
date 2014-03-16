@@ -162,34 +162,10 @@ public class Position {
 
 		result.removeAll( getSquaresOccupiedBy( result, ourSide ) );
 
-		//removing attack targets.
-
-		Set< String > squaresWhereKingWillBeAttacked = new HashSet<>();
-		for ( String potentialMove : result ) {
-			//will work in assumption that .move isn't validating!
-			final Position potentialNewPosition = this.move( square, potentialMove );
-
-			//they  may differ from move to move, e.g. when King performs a capture!
-			//TODO: technically I can't find currently a test case that will be red
-			//if I move the opponentPieces getting outside the loop (just from current position).
-			//So theoretically it might be a performance improvement
-			//the reason is that if we capture by king,
-			//getting attacked squares from that square will get other squares, but not that one
-			//where king resides
-			//however I don't want to introduce this bad dependency on the side effect
-			final Set< String > opponentPieces = potentialNewPosition.getSquaresOccupiedByOpponent( ourSide );
-
-			for ( String opponentPiece : opponentPieces ) {
-				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
-					squaresWhereKingWillBeAttacked.add( potentialMove );
-					break;
-				}
-			}
-		}
-
 		result.addAll( generatePossibleCastlingDestinations( square ) );
 
-		result.removeAll( squaresWhereKingWillBeAttacked );
+		//squares where king will be attacked WILL be removed in generic handler
+		//to satisfy general rule : no move can expose king to check
 
 		return result;
 	}
@@ -324,8 +300,11 @@ public class Position {
 
 	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
 		Set< String > result = new HashSet<>();
-		//TODO: castling might be not covered - need to proof when castling is allowed
+
+		//castling is also covered fine here
 		for ( String move : potentialMoves ) {
+
+			//works in assumption move is NON-validating
 			final Position possiblePosition = this.move( square, move );
 			if ( possiblePosition.isKingInCheck( getSide( square ) ) ) {
 				result.add( move );
