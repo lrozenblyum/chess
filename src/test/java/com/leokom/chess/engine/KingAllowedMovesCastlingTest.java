@@ -46,13 +46,13 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 
-		position.add( Side.BLACK, "h8", PieceType.KING );
+		position.add( Side.BLACK, "a8", PieceType.KING );
 
 		Position newPosition = position
 			.move( "e1", "e2" )
-			.move( "h8", "h7" ) //any valid black move
+			.move( "a8", "a7" ) //any valid black move
 			.move( "e2", "e1" )
-			.move( "h7", "h8" ); //any valid black move
+			.move( "a7", "a8" ); //any valid black move
 
 		PositionAsserts.assertAllowedMovesOmit(
 				newPosition, "e1", "g1" );
@@ -81,15 +81,15 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 		position.add( Side.WHITE, "a2", PieceType.PAWN );
 
-		position.add( Side.BLACK, "h8", PieceType.KING );
+		position.add( Side.BLACK, "a8", PieceType.KING );
 
 		Position newPosition = position
 				.move( "e1", "e2" )
-				.move( "h8", "h7" ) //any valid black move
+				.move( "a8", "a7" ) //any valid black move
 				.move( "e2", "e1" )
-				.move( "h7", "h8" ) //any valid black move
+				.move( "a7", "a8" ) //any valid black move
 				.move( "a2", "a4" ) //non-king, non-rook related move
-				.move( "h8", "h7" ); //any valid black move
+				.move( "a8", "a7" ); //any valid black move
 
 		PositionAsserts.assertAllowedMovesOmit(
 				newPosition, "e1", "g1" );
