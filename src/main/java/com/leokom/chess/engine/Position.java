@@ -55,8 +55,17 @@ public class Position {
 		put( Side.BLACK, false );
 	}};
 
+	private Map< Side, Boolean > hasRookMoved = new HashMap< Side, Boolean >() {{
+		put( Side.WHITE, false );
+		put( Side.BLACK, false );
+	}};
+
 	void setHasKingMoved( Side side ) {
 		this.hasKingMoved.put( side, true );
+	}
+
+	void setHasRookMoved( Side side ) {
+		this.hasRookMoved.put( side, true );
 	}
 
 	//temporary state in game (which could change)
@@ -178,7 +187,7 @@ public class Position {
 	private Set<String> generatePossibleCastlingDestinations( String square ) {
 		Set< String > result = new HashSet<>();
 		Side side = getSide( square );
-		if ( !hasKingMoved.get( side ) ) {
+		if ( !hasKingMoved.get( side ) && !hasRookMoved.get( side ) ) {
 			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
 			if ( square.equals( "e" + castlingRank ) ) {
 				//TODO: extend this condition : must be rook that hasn't yet moved etc
@@ -646,6 +655,10 @@ public class Position {
 		//cloning the state!
 		for ( Side side : this.hasKingMoved.keySet() ) {
 			position.hasKingMoved.put( side, this.hasKingMoved.get( side ) );
+		}
+
+		for ( Side side : this.hasRookMoved.keySet() ) {
+			position.hasRookMoved.put( side, this.hasRookMoved.get( side ) );
 		}
 	}
 
