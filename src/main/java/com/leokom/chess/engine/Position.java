@@ -199,28 +199,32 @@ public class Position {
 
 		Side side = getSide( square );
 
+		//cannot castle if king has already moved
+		if ( hasKingMoved.get( side ) ) {
+			return result;
+		}
+
 		//cannot castle if under check
 		if ( isKingInCheck( side ) ) {
 			return result;
 		}
 
-		if ( !hasKingMoved.get( side ) ) {
-			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
-			if ( square.equals( "e" + castlingRank ) ) {
-				//TODO: the first condition is excessive - second covers it
-				if ( isOccupiedBy( "h" + castlingRank, side ) &&
-					!hasHRookMoved.get( side ) &&
-					!isSquareAttacked( side, "f" + castlingRank )) {
-					result.add( "g" + castlingRank );
-				}
+		int castlingRank = InitialPosition.getNotPawnInitialRank( side );
+		if ( square.equals( "e" + castlingRank ) ) {
+			//TODO: the first condition is excessive - second covers it
+			if ( isOccupiedBy( "h" + castlingRank, side ) &&
+				!hasHRookMoved.get( side ) &&
+				!isSquareAttacked( side, "f" + castlingRank )) {
+				result.add( "g" + castlingRank );
+			}
 
-				if ( isOccupiedBy( "a" + castlingRank, side ) &&
-					!hasARookMoved.get( side ) &&
-					!isSquareAttacked( side, "d" + castlingRank )) {
-					result.add( "c" + castlingRank );
-				}
+			if ( isOccupiedBy( "a" + castlingRank, side ) &&
+				!hasARookMoved.get( side ) &&
+				!isSquareAttacked( side, "d" + castlingRank )) {
+				result.add( "c" + castlingRank );
 			}
 		}
+
 		return result;
 	}
 
