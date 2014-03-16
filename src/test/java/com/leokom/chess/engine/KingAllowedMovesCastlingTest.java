@@ -48,14 +48,14 @@ public class KingAllowedMovesCastlingTest {
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
 
-		position.move( "e1", "e2" );
-		position.move( "h8", "h7" ); //any valid black move
-
-		position.move( "e2", "e1" );
-		position.move( "h7", "h8" ); //any valid black move
+		Position newPosition = position
+			.move( "e1", "e2" )
+			.move( "h8", "h7" ) //any valid black move
+			.move( "e2", "e1" )
+			.move( "h7", "h8" ); //any valid black move
 
 		PositionAsserts.assertAllowedMovesOmit(
-				position, "e1", "g1" );
+				newPosition, "e1", "g1" );
 	}
 
 	//TODO: extra test: PERMANENTLY lost right to castle (check 1 more move)
