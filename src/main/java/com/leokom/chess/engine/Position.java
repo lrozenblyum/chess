@@ -210,6 +210,9 @@ public class Position {
 		}
 
 		int castlingRank = InitialPosition.getNotPawnInitialRank( side );
+
+		//TODO: this condition as also covered by hasKingMoved
+		//but we need to keep that flag in synchronous-state
 		if ( square.equals( "e" + castlingRank ) ) {
 			//TODO: the first condition is excessive - second covers it
 			if ( isOccupiedBy( "h" + castlingRank, side ) &&
