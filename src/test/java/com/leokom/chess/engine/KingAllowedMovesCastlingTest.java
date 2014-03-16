@@ -145,6 +145,7 @@ public class KingAllowedMovesCastlingTest {
 	public void castlingRightNotLostWithAnotherRook() {
 		Position position = new Position( null );
 
+		position.add( Side.WHITE, "h3", PieceType.PAWN );
 		position.add( Side.WHITE, "h1", PieceType.KING );
 
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
@@ -157,5 +158,31 @@ public class KingAllowedMovesCastlingTest {
 
 		PositionAsserts.assertAllowedMovesInclude(
 				newPosition, "e8", "g8" );
+	}
+
+	@Test
+	public void bothRooksMovedCannotCastle() {
+		Position position = new Position( null );
+
+		position.add( Side.WHITE, "h3", PieceType.PAWN );
+		position.add( Side.WHITE, "h1", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "h8", PieceType.ROOK );
+
+		Position newPosition = position
+				.move( "a8", "a7" )
+				.move( "h1", "h2" )
+				.move( "h8", "h5" )
+				.move( "h2", "h1" )
+				.move( "a7", "a8" )
+				.move( "h1", "h2" );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				newPosition, "e8", "g8" );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				newPosition, "e8", "c8" );
 	}
 }
