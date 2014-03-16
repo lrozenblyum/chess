@@ -215,7 +215,8 @@ public class Position {
 				}
 
 				if ( isOccupiedBy( "a" + castlingRank, side ) &&
-					!hasARookMoved.get( side )  ) {
+					!hasARookMoved.get( side ) &&
+					!isSquareAttacked( side, "d" + castlingRank )) {
 					result.add( "c" + castlingRank );
 				}
 			}
