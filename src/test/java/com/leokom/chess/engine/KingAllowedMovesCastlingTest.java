@@ -121,4 +121,23 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesOmit(
 				newPosition, "e1", "g1" );
 	}
+
+	@Test
+	public void castlingRightLostIfRookMoved() {
+		Position position = new Position( null );
+
+		position.add( Side.WHITE, "h1", PieceType.KING );
+
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+
+		Position newPosition = position
+			.move( "a8", "a7" ) //castle
+			.move( "h1", "h2" ) //any valid white move
+			.move( "a7", "a8" )
+			.move( "h2", "h1" );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				newPosition, "e8", "c8" );
+	}
 }
