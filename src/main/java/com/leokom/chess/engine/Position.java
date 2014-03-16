@@ -41,6 +41,25 @@ public class Position {
 	//all pieces currently present on the board
 	private final Map< String, Piece > pieces = new HashMap<>();
 
+	//historical state of the Game:
+
+	//permanent state (which cannot change till the end of game
+
+	//experiment: instead of exposing it via constructor,
+	//(constructor is annoying when we don't need the field)
+	//expose package-private setter
+
+	//explicitly setting initial state for clarity
+	private Map< Side, Boolean > hasKingMoved = new HashMap< Side, Boolean >() {{
+		put( Side.WHITE, false );
+		put( Side.BLACK, false );
+	}};
+
+	void setHasKingMoved( Side side ) {
+		this.hasKingMoved.put( side, true );
+	}
+
+	//temporary state in game (which could change)
 	private final String enPassantFile;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
@@ -141,22 +160,29 @@ public class Position {
 			}
 		}
 
-		int castlingRank = InitialPosition.getNotPawnInitialRank( ourSide );
-		if ( square.equals( "e" + castlingRank ) ) {
-			//TODO: extend this condition : must be rook that hasn't yet moved etc
-			if ( isOccupiedBy( "h" + castlingRank, ourSide ) ) {
-				result.add( "g" + castlingRank );
-			}
-
-			if ( isOccupiedBy( "a" + castlingRank, ourSide ) ) {
-				result.add( "c" + castlingRank );
-			}
-		}
-
-
+		result.addAll( generatePossibleCastlingDestinations( square ) );
 
 		result.removeAll( squaresWhereKingWillBeAttacked );
 
+		return result;
+	}
+
+	private Set<String> generatePossibleCastlingDestinations( String square ) {
+		Set< String > result = new HashSet<>();
+		Side side = getSide( square );
+		if ( !hasKingMoved.get( side ) ) {
+			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
+			if ( square.equals( "e" + castlingRank ) ) {
+				//TODO: extend this condition : must be rook that hasn't yet moved etc
+				if ( isOccupiedBy( "h" + castlingRank, side ) ) {
+					result.add( "g" + castlingRank );
+				}
+
+				if ( isOccupiedBy( "a" + castlingRank, side ) ) {
+					result.add( "c" + castlingRank );
+				}
+			}
+		}
 		return result;
 	}
 
@@ -597,11 +623,21 @@ public class Position {
 		return pieces.get( squareFrom ).getPieceType();
 	}
 
+	/**
+	 * Copy pieces from current position to the destination
+	 * Copy state (like info if the king has moved)
+	 * @param position destination position
+	 */
 	void copyPiecesInto( Position position ) {
 		//cloning position
 		for ( String square : pieces.keySet() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
 			position.pieces.put( square, pieces.get( square ) );
+		}
+
+		//cloning the state!
+		for ( Side side : this.hasKingMoved.keySet() ) {
+			position.hasKingMoved.put( side, this.hasKingMoved.get( side ) );
 		}
 	}
 

@@ -68,6 +68,7 @@ final class PositionGenerator {
 			newPosition.moveUnconditionally( "a" + rank, "d" + rank );
 		}
 
+		newPosition.setHasKingMoved( this.source.getSide( squareFrom ) );
 		return newPosition;
 	}
 
