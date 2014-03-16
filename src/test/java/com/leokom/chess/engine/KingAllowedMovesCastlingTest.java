@@ -202,4 +202,23 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesOmit(
 				newPosition, "e8", "c8" );
 	}
+
+	@Test
+	public void preventTemporaryCastlingIfAttacked() {
+		Position position = new Position( null );
+
+		//attacking the black king
+		position.add( Side.WHITE, "e1", PieceType.ROOK );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "h8", PieceType.ROOK );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "g8" );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "c8" );
+	}
 }
