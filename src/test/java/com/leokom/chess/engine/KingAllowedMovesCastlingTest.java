@@ -58,6 +58,22 @@ public class KingAllowedMovesCastlingTest {
 				newPosition, "e1", "g1" );
 	}
 
+	@Test
+	public void rightToCastlingNoInfluenceToOppositeSide() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+
+		Position newPosition = position
+				.move( "e1", "g1" ); //castling
+
+		PositionAsserts.assertAllowedMovesInclude(
+				newPosition, "e8", "c8" );
+	}
+
 	//TODO: extra test: PERMANENTLY lost right to castle (check 1 more move)
 	//TODO: extra test: no castling possible after castling
 

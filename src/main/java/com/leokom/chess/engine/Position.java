@@ -50,10 +50,13 @@ public class Position {
 	//expose package-private setter
 
 	//explicitly setting initial state for clarity
-	private boolean hasKingMoved = false;
+	private Map< Side, Boolean > hasKingMoved = new HashMap< Side, Boolean >() {{
+		put( Side.WHITE, false );
+		put( Side.BLACK, false );
+	}};
 
-	void setHasKingMoved( boolean hasKingMoved ) {
-		this.hasKingMoved = hasKingMoved;
+	void setHasKingMoved( Side side ) {
+		this.hasKingMoved.put( side, true );
 	}
 
 	//temporary state in game (which could change)
@@ -167,7 +170,7 @@ public class Position {
 	private Set<String> generatePossibleCastlingDestinations( String square ) {
 		Set< String > result = new HashSet<>();
 		Side side = getSide( square );
-		if ( !hasKingMoved ) {
+		if ( !hasKingMoved.get( side ) ) {
 			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
 			if ( square.equals( "e" + castlingRank ) ) {
 				//TODO: extend this condition : must be rook that hasn't yet moved etc
@@ -620,11 +623,21 @@ public class Position {
 		return pieces.get( squareFrom ).getPieceType();
 	}
 
+	/**
+	 * Copy pieces from current position to the destination
+	 * Copy state (like info if the king has moved)
+	 * @param position destination position
+	 */
 	void copyPiecesInto( Position position ) {
 		//cloning position
 		for ( String square : pieces.keySet() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
 			position.pieces.put( square, pieces.get( square ) );
+		}
+
+		//cloning the state!
+		for ( Side side : this.hasKingMoved.keySet() ) {
+			position.hasKingMoved.put( side, this.hasKingMoved.get( side ) );
 		}
 	}
 
