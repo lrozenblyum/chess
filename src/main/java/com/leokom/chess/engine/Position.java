@@ -157,24 +157,29 @@ public class Position {
 			}
 		}
 
+		result.addAll( generatePossibleCastlingDestinations( square ) );
+
+		result.removeAll( squaresWhereKingWillBeAttacked );
+
+		return result;
+	}
+
+	private Set<String> generatePossibleCastlingDestinations( String square ) {
+		Set< String > result = new HashSet<>();
+		Side side = getSide( square );
 		if ( !hasKingMoved ) {
-			int castlingRank = InitialPosition.getNotPawnInitialRank( ourSide );
+			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
 			if ( square.equals( "e" + castlingRank ) ) {
 				//TODO: extend this condition : must be rook that hasn't yet moved etc
-				if ( isOccupiedBy( "h" + castlingRank, ourSide ) ) {
+				if ( isOccupiedBy( "h" + castlingRank, side ) ) {
 					result.add( "g" + castlingRank );
 				}
 
-				if ( isOccupiedBy( "a" + castlingRank, ourSide ) ) {
+				if ( isOccupiedBy( "a" + castlingRank, side ) ) {
 					result.add( "c" + castlingRank );
 				}
 			}
 		}
-
-
-
-		result.removeAll( squaresWhereKingWillBeAttacked );
-
 		return result;
 	}
 
