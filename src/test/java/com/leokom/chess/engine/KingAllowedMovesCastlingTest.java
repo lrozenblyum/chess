@@ -243,4 +243,24 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesInclude(
 				newPosition, "e8", "c8" );
 	}
+
+	@Test
+	public void preventCastlingIfCrossSquareAttacked() {
+		Position position = new Position( null );
+
+		//attacking rank f
+		position.add( Side.WHITE, "f1", PieceType.ROOK );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "h8", PieceType.ROOK );
+
+		//f is crossed
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "g8" );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "c8" );
+	}
 }
