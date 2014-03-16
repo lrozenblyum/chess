@@ -158,59 +158,79 @@ public class Position {
 	private Set<String> getKingMoves( String square ) {
 		Set< String > result = getSquaresAttackedByKing( square );
 
-		Side ourSide = getSide( square );
-
-		result.removeAll( getSquaresOccupiedBy( result, ourSide ) );
-
-		//removing attack targets.
-
-		Set< String > squaresWhereKingWillBeAttacked = new HashSet<>();
-		for ( String potentialMove : result ) {
-			//will work in assumption that .move isn't validating!
-			final Position potentialNewPosition = this.move( square, potentialMove );
-
-			//they  may differ from move to move, e.g. when King performs a capture!
-			//TODO: technically I can't find currently a test case that will be red
-			//if I move the opponentPieces getting outside the loop (just from current position).
-			//So theoretically it might be a performance improvement
-			//the reason is that if we capture by king,
-			//getting attacked squares from that square will get other squares, but not that one
-			//where king resides
-			//however I don't want to introduce this bad dependency on the side effect
-			final Set< String > opponentPieces = potentialNewPosition.getSquaresOccupiedByOpponent( ourSide );
-
-			for ( String opponentPiece : opponentPieces ) {
-				if ( potentialNewPosition.getSquaresAttackedFromSquare( opponentPiece ).contains( potentialMove ) ) {
-					squaresWhereKingWillBeAttacked.add( potentialMove );
-					break;
-				}
-			}
-		}
+		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
 
 		result.addAll( generatePossibleCastlingDestinations( square ) );
 
-		result.removeAll( squaresWhereKingWillBeAttacked );
+		//squares where king will be attacked WILL be removed in generic handler
+		//to satisfy general rule : no move can expose king to check
 
 		return result;
 	}
 
 	private Set<String> generatePossibleCastlingDestinations( String square ) {
 		Set< String > result = new HashSet<>();
-		Side side = getSide( square );
-		if ( !hasKingMoved.get( side ) ) {
-			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
-			if ( square.equals( "e" + castlingRank ) ) {
-				//TODO: the first condition is excessive - second covers it
-				if ( isOccupiedBy( "h" + castlingRank, side ) && !hasHRookMoved.get( side ) ) {
-					result.add( "g" + castlingRank );
-				}
 
-				if ( isOccupiedBy( "a" + castlingRank, side ) && !hasARookMoved.get( side ) ) {
-					result.add( "c" + castlingRank );
-				}
+		Side side = getSide( square );
+
+		//cannot castle if king has already moved
+		if ( hasKingMoved.get( side ) ) {
+			return result;
+		}
+
+		//cannot castle if under check
+		if ( isKingInCheck( side ) ) {
+			return result;
+		}
+
+		int castlingRank = InitialPosition.getNotPawnInitialRank( side );
+
+		//TODO: this condition as also covered by hasKingMoved
+		//but we need to keep that flag in synchronous-state
+		final String kingFile = "e";
+		if ( square.equals( kingFile + castlingRank ) ) {
+			//TODO: the first condition is excessive - second covers it
+			final String kingSideRookFile = "h";
+			if ( isOccupiedBy( kingSideRookFile + castlingRank, side ) &&
+				!hasHRookMoved.get( side ) &&
+				!isSquareAttacked( side, "f" + castlingRank ) &&
+				isFreeRankBetween( kingFile, kingSideRookFile, castlingRank )) {
+				result.add( "g" + castlingRank );
+			}
+
+			final String queenSideRookFile = "a";
+			if ( isOccupiedBy( queenSideRookFile + castlingRank, side ) &&
+				!hasARookMoved.get( side ) &&
+				!isSquareAttacked( side, "d" + castlingRank ) &&
+				isFreeRankBetween( queenSideRookFile, kingFile, castlingRank )) {
+				result.add( "c" + castlingRank );
 			}
 		}
+
 		return result;
+	}
+
+	/**
+	 * Check if all squares between leftFile and rankFile (exclusive) on the rank are free
+	 * Return
+	 * @param leftFile left outer border file
+	 * @param rightFile right outer border file
+	 * @param rank rank where to check squares
+	 * @return true if all middle squares are free
+	 */
+	private boolean isFreeRankBetween( String leftFile, String rightFile, int rank ) {
+		String leftBorderSquare = leftFile + rank;
+		String rightBorderSquare = rightFile + rank;
+
+		for ( String movingSquare = Board.squareTo( leftBorderSquare, HorizontalDirection.RIGHT );
+			!movingSquare.equals( rightBorderSquare );
+			movingSquare = Board.squareTo( movingSquare, HorizontalDirection.RIGHT ) ) {
+			if ( isOccupied( movingSquare ) ) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	private Set< String > getSquaresAttackedFromSquare( String square ) {
@@ -306,8 +326,11 @@ public class Position {
 
 	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
 		Set< String > result = new HashSet<>();
-		//TODO: castling might be not covered - need to proof when castling is allowed
+
+		//castling is also covered fine here
 		for ( String move : potentialMoves ) {
+
+			//works in assumption move is NON-validating
 			final Position possiblePosition = this.move( square, move );
 			if ( possiblePosition.isKingInCheck( getSide( square ) ) ) {
 				result.add( move );
@@ -327,8 +350,13 @@ public class Position {
 			return false;
 		}
 
+		return isSquareAttacked( side, kingSquare );
+	}
 
-		return getSquaresAttackedByOpponent( side ).contains( kingSquare );
+	//we specify OUR side here because square might be empty
+	//so we might check only potential attack
+	private boolean isSquareAttacked( Side side, String square ) {
+		return getSquaresAttackedByOpponent( side ).contains( square );
 	}
 
 	private String findKing( Side side ) {

@@ -202,4 +202,145 @@ public class KingAllowedMovesCastlingTest {
 		PositionAsserts.assertAllowedMovesOmit(
 				newPosition, "e8", "c8" );
 	}
+
+	@Test
+	public void preventTemporaryCastlingIfAttacked() {
+		Position position = new Position( null );
+
+		//attacking the black king
+		position.add( Side.WHITE, "e1", PieceType.ROOK );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "h8", PieceType.ROOK );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "g8" );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "c8" );
+	}
+
+	@Test
+	public void checkIsJustTemporaryPrevention() {
+		Position position = new Position( null );
+
+		//attacking the black king
+		position.add( Side.WHITE, "e1", PieceType.ROOK );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "h7", PieceType.ROOK );
+
+		//blocking check
+		Position newPosition = position
+				.move( "h7", "e7" )
+				.move( "e1", "e2" ); //non-check move
+
+
+		PositionAsserts.assertAllowedMovesInclude(
+				newPosition, "e8", "c8" );
+	}
+
+	@Test
+	public void preventCastlingIfCrossSquareAttacked() {
+		Position position = new Position( null );
+
+		//attacking rank f
+		position.add( Side.WHITE, "f1", PieceType.ROOK );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "h8", PieceType.ROOK );
+
+		//f is crossed
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "g8" );
+
+		PositionAsserts.assertAllowedMovesInclude(
+				position, "e8", "c8" );
+	}
+
+	@Test
+	public void preventCastlingIfCrossSquareAttackedQueenSide() {
+		Position position = new Position( null );
+
+		//attacking rank d
+		position.add( Side.WHITE, "d1", PieceType.QUEEN );
+		position.add( Side.WHITE, "a1", PieceType.KING );
+
+		position.add( Side.BLACK, "a8", PieceType.ROOK );
+		position.add( Side.BLACK, "e8", PieceType.KING );
+		position.add( Side.BLACK, "h8", PieceType.ROOK );
+
+
+		PositionAsserts.assertAllowedMovesInclude(
+				position, "e8", "g8" );
+
+		//d is crossed
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e8", "c8" );
+	}
+
+	@Test
+	public void cannotCastleIfExposeKingToCheck() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "a8", PieceType.KING );
+
+		//controls g1
+		position.add( Side.BLACK, "h2", PieceType.BISHOP );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e1", "g1" );
+	}
+
+	@Test
+	public void ourPieceInMiddlePreventsCastling() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "a1", PieceType.ROOK );
+		position.add( Side.WHITE, "b1", PieceType.KNIGHT );
+
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e1", "c1" );
+	}
+
+	@Test
+	public void opponentPieceInMiddlePreventsCastling() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "f1", PieceType.KNIGHT );
+
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e1", "g1" );
+	}
+
+	@Test //cannot capture by castling
+	public void pieceAtCastlingTargetPrevents() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "g1", PieceType.KNIGHT );
+
+
+		position.add( Side.BLACK, "h8", PieceType.KING );
+
+		PositionAsserts.assertAllowedMovesOmit(
+				position, "e1", "g1" );
+	}
 }
