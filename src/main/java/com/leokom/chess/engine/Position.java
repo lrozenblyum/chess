@@ -55,15 +55,42 @@ public class Position {
 		put( Side.BLACK, false );
 	}};
 
+	private Map< Side, Boolean > hasARookMoved = new HashMap< Side, Boolean >() {{
+		put( Side.WHITE, false );
+		put( Side.BLACK, false );
+	}};
+
+	private Map< Side, Boolean > hasHRookMoved = new HashMap< Side, Boolean >() {{
+		put( Side.WHITE, false );
+		put( Side.BLACK, false );
+	}};
+
 	void setHasKingMoved( Side side ) {
 		this.hasKingMoved.put( side, true );
 	}
+
+	void setHasARookMoved( Side side ) {
+		this.hasARookMoved.put( side, true );
+	}
+
+	void setHasHRookMoved( Side side ) {
+		this.hasHRookMoved.put( side, true );
+	}
+
 
 	//temporary state in game (which could change)
 	private final String enPassantFile;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
+
+	/**
+	 * Create position.
+	 * By default king's right to castle is NOT lost (king and rooks
+	 * are considered to be not have moved before) which might be inconsistent with actual position
+	 *
+	 * @param enPassantFile
+	 */
 	public Position( String enPassantFile ) {
 		this.enPassantFile = enPassantFile;
 	}
@@ -173,12 +200,12 @@ public class Position {
 		if ( !hasKingMoved.get( side ) ) {
 			int castlingRank = InitialPosition.getNotPawnInitialRank( side );
 			if ( square.equals( "e" + castlingRank ) ) {
-				//TODO: extend this condition : must be rook that hasn't yet moved etc
-				if ( isOccupiedBy( "h" + castlingRank, side ) ) {
+				//TODO: the first condition is excessive - second covers it
+				if ( isOccupiedBy( "h" + castlingRank, side ) && !hasHRookMoved.get( side ) ) {
 					result.add( "g" + castlingRank );
 				}
 
-				if ( isOccupiedBy( "a" + castlingRank, side ) ) {
+				if ( isOccupiedBy( "a" + castlingRank, side ) && !hasARookMoved.get( side ) ) {
 					result.add( "c" + castlingRank );
 				}
 			}
@@ -638,6 +665,14 @@ public class Position {
 		//cloning the state!
 		for ( Side side : this.hasKingMoved.keySet() ) {
 			position.hasKingMoved.put( side, this.hasKingMoved.get( side ) );
+		}
+
+		for ( Side side : this.hasARookMoved.keySet() ) {
+			position.hasARookMoved.put( side, this.hasARookMoved.get( side ) );
+		}
+
+		for ( Side side : this.hasHRookMoved.keySet() ) {
+			position.hasHRookMoved.put( side, this.hasHRookMoved.get( side ) );
 		}
 	}
 
