@@ -132,9 +132,8 @@ final class PositionGenerator {
 	 */
 	private Position processMoveWithoutSideEffects( String squareFrom, String move ) {
 		//after moving everything except a pawn
-		//the flag about en passant possibility must be cleared
-		final String newEnPassantFile = null;
-		final Position position = new Position( newEnPassantFile );
+		//we clear the flag about en passant possibility
+		final Position position = new Position( null );
 		cloneAndRemove( position, squareFrom );
 
 		position.add( source.getSide( squareFrom ), move, source.getPieceType( squareFrom ) );
