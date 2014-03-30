@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact name="Chess:jar">
-    <output-path>E:/Games/WinBoard-4.6.2/LeokomChess</output-path>
+    <output-path>E:/Games/WinBoard-4.7.3/LeokomChess</output-path>
     <root id="root">
       <element id="archive" name="Chess.jar">
         <element id="directory" name="META-INF">
