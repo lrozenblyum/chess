@@ -166,7 +166,7 @@ public class WinboardPlayer implements Player {
 		@Override
 		public void execute( String move ) {
 			if ( move.length() == PROMOTION_MOVE_LENGTH ) {
-				move = move.substring( 0, 4 ) + move.substring( 4 ).toUpperCase();
+				move = move.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + move.substring( PROMOTION_MOVE_LENGTH - 1 ).toUpperCase();
 			}
 
 			opponent.opponentMoved( move );
