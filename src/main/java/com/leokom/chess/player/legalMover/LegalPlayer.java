@@ -43,19 +43,8 @@ public class LegalPlayer implements Player {
 	public void opponentMoved( String opponentMove ) {
 		//TODO: null is a hidden ugly way to say 'it's our first move now'
 		if ( opponentMove != null ) {
-			//TODO: hard dependency on NOT-INTERNAL format (Winboard?)
-			//TODO: castling etc will cause crash here?
 			String source = opponentMove.substring( 0, 2 );
 			String destination = opponentMove.substring( 2 );
-
-			if ( destination.length() == PROMOTION_MOVE_LENGTH ) {
-				destination = destination.substring( 0, 2 ) +
-					//uppercase is intended by our internal format
-					//(like d8Q)
-
-					//lowercase comes from Winboard (hard-dependency...)
-					destination.substring( 2 ).toUpperCase();
-			}
 
 			position = position.move( source, destination );
 		}
