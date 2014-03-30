@@ -79,4 +79,19 @@ public class WinBoardPlayerIntegrationTest {
 		commander.processInputFromServer();
 		//no exceptions expected
 	}
+
+ 	@Test
+	public void promotionCorrectlyTranslatedToCommonStandard() {
+		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
+		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		Player opponent = mock( Player.class );
+
+		player.setOpponent( opponent );
+
+		when( communicator.receive() ).thenReturn( "usermove f7g8q" );
+
+		commander.processInputFromServer();
+		verify( opponent ).opponentMoved( "f7g8Q" );
+	}
 }

@@ -191,30 +191,6 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( "a1a2" ); //proving the only move of blacks
 	}
 
-	@Test
-	public void promotionWithCheckCausesActions() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer( Side.BLACK );
-		player.setOpponent( opponent );
-
-		final Position position = new Position( null );
-
-		position.add( Side.BLACK, "h8", PieceType.KING );
-
-
-		position.add( Side.WHITE, "a1", PieceType.KING );
-		position.add( Side.WHITE, "f7", PieceType.PAWN );
-		position.add( Side.BLACK, "g8", PieceType.ROOK );
-
-		player.setPosition( position );
-
-		//TODO: huge dependency on WinBoard format
-		player.opponentMoved( "f7g8q" );
-
-		//this move could be accidentally  done... But it's important to be done to move away from check
-		verify( opponent ).opponentMoved( "h8g8" );
-	}
 
 	//TODO: format issues: we support now Winboard format which isn't fine?
 }
