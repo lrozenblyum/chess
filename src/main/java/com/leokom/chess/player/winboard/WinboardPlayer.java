@@ -16,6 +16,9 @@ import org.apache.log4j.Logger;
  * Date-time: 20.08.12 19:28
  */
 public class WinboardPlayer implements Player {
+	//like e7e8q
+	private static final int PROMOTION_MOVE_LENGTH = 5;
+
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private final WinboardCommander commander;
 	private boolean needQuit = false;
@@ -115,10 +118,25 @@ public class WinboardPlayer implements Player {
 		}
 	}
 
-	//listener to another player's move
+	/**
+	 * Translate Player format of move to Winboard-client
+	 *
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void opponentMoved( String opponentMove ) {
-		commander.opponentMoved( opponentMove );
+		String translatedMove = opponentMove;
+		if ( isPromotion( translatedMove ) ) {
+			translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + opponentMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
+		}
+
+		commander.opponentMoved( translatedMove );
+	}
+
+	private boolean isPromotion( String move ) {
+		//well it depends on fact that Player and Winboard promotion length is the same
+		//so far so good
+		return move.length() == PROMOTION_MOVE_LENGTH;
 	}
 
 	@Override
@@ -151,8 +169,6 @@ public class WinboardPlayer implements Player {
 	}
 
 	private class WinboardUserMoveListener implements UserMoveListener {
-		//like e7e8q
-		private static final int PROMOTION_MOVE_LENGTH = 5;
 
 		/**
 		 * Convert Winboard move to Chess move
@@ -165,11 +181,12 @@ public class WinboardPlayer implements Player {
 		 */
 		@Override
 		public void execute( String move ) {
-			if ( move.length() == PROMOTION_MOVE_LENGTH ) {
-				move = move.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + move.substring( PROMOTION_MOVE_LENGTH - 1 ).toUpperCase();
+			String translatedMove = move;
+			if ( isPromotion( move ) ) {
+				translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toUpperCase();
 			}
 
-			opponent.opponentMoved( move );
+			opponent.opponentMoved( translatedMove );
 		}
 	}
 }
