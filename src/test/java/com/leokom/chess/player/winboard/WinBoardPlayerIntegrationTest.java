@@ -2,6 +2,7 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.player.Player;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -80,11 +81,34 @@ public class WinBoardPlayerIntegrationTest {
 		//no exceptions expected
 	}
 
+	//Winboard -> Player
  	@Test
 	public void promotionCorrectlyTranslatedToCommonStandard() {
 
 		assertTranslationOfReceivedCommandToMoveForOpponent(
 				"usermove f7g8q", "f7g8Q" );
+	}
+
+	//Player -> Winboard
+	@Test
+	public void promotionCorrectlyTranslatedFromCommonStandard() {
+		assertTranslationOfCommandFromPlayerToWinboardClient(
+				"f7f8Q", "move f7f8q" );
+	}
+
+	private void assertTranslationOfCommandFromPlayerToWinboardClient( String playerMove, String commandSentToWinboardClient ) {
+		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
+		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+
+		//TODO: I don't like this reset, but player sends several commands
+		//like set features etc, how to do better?
+		Mockito.reset( communicator );
+
+		player.opponentMoved( playerMove );
+
+
+		verify( communicator ).send( commandSentToWinboardClient );
 	}
 
 	private void assertTranslationOfReceivedCommandToMoveForOpponent( String winboardReceivedMessage, String moveSentToOpponent ) {
