@@ -11,7 +11,6 @@ import java.util.Set;
  * Date-time: 09.12.13 22:02
  */
 public class LegalPlayer implements Player {
-	private static final int PROMOTION_MOVE_LENGTH = 3;
 	private final Side side;
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
