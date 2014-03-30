@@ -156,6 +156,11 @@ public class WinboardPlayer implements Player {
 
 		/**
 		 * Convert Winboard move to Chess move
+		 * Winboard format :
+		 * Normal moves: e2e4
+		 * Pawn promotion: e7e8q
+		 * Castling: e1g1, e1c1, e8g8, e8c8
+		 *
 		 * @param move move received from Winboard
 		 */
 		@Override

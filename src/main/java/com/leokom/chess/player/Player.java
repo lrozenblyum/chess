@@ -18,6 +18,11 @@ public interface Player {
 	 * If it's null - means it's our first move
 	 * which we must execute
 	 * @param opponentMove move received from the opponent, or null
+	 *
+	 * Move must be specified via notation (case-sensitive!) specified by examples:
+	 * Normal move: e2e4
+	 * Pawn promotion: e7e8Q
+	 * Castling: e1g1
 	 */
 	void opponentMoved( String opponentMove );
 	void opponentResigned();
