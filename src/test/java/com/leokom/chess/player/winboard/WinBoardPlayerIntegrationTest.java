@@ -82,6 +82,12 @@ public class WinBoardPlayerIntegrationTest {
 
  	@Test
 	public void promotionCorrectlyTranslatedToCommonStandard() {
+
+		assertTranslationOfReceivedCommandToMoveForOpponent(
+				"usermove f7g8q", "f7g8Q" );
+	}
+
+	private void assertTranslationOfReceivedCommandToMoveForOpponent( String winboardReceivedMessage, String moveSentToOpponent ) {
 		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
 		final WinboardPlayer player = new WinboardPlayer( commander );
@@ -89,9 +95,10 @@ public class WinBoardPlayerIntegrationTest {
 
 		player.setOpponent( opponent );
 
-		when( communicator.receive() ).thenReturn( "usermove f7g8q" );
+		when( communicator.receive() ).thenReturn( winboardReceivedMessage );
 
 		commander.processInputFromServer();
-		verify( opponent ).opponentMoved( "f7g8Q" );
+
+		verify( opponent ).opponentMoved( moveSentToOpponent );
 	}
 }
