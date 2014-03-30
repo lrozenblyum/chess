@@ -46,12 +46,7 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
-		commander.onUserMove( new UserMoveListener() {
-			@Override
-			public void execute( String move ) {
-				opponent.opponentMoved( move );
-			}
-		} );
+		commander.onUserMove( new WinboardUserMoveListener() );
 
 		commander.onGo( new GoListener() {
 			@Override
@@ -153,5 +148,23 @@ public class WinboardPlayer implements Player {
 	 */
 	boolean needShuttingDown() {
 		return needQuit;
+	}
+
+	private class WinboardUserMoveListener implements UserMoveListener {
+		//like e7e8q
+		private static final int PROMOTION_MOVE_LENGTH = 5;
+
+		/**
+		 * Convert Winboard move to Chess move
+		 * @param move move received from Winboard
+		 */
+		@Override
+		public void execute( String move ) {
+			if ( move.length() == PROMOTION_MOVE_LENGTH ) {
+				move = move.substring( 0, 4 ) + move.substring( 4 ).toUpperCase();
+			}
+
+			opponent.opponentMoved( move );
+		}
 	}
 }
