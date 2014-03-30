@@ -12,7 +12,7 @@ import java.util.Set;
 public final class Lrozenblyum extends AbstractEngine {
 
   private Position position = Position.getInitialPosition();
-  private GenericColor sideToMove = GenericColor.WHITE;
+  private Side sideToMove = Side.WHITE;
 
   public static void main(String[] args) {
     new Lrozenblyum().run();
@@ -94,12 +94,13 @@ public final class Lrozenblyum extends AbstractEngine {
       }
     }
 
-    sideToMove = command.board.getActiveColor();
+    sideToMove = command.board.getActiveColor() == GenericColor.WHITE ? Side.WHITE : Side.BLACK;
 
     for (GenericMove genericMove : command.moves) {
       position = position.move(
           genericMove.from.toString(),
-          genericMove.to.toString() + (genericMove.promotion == null ? "" : genericMove.promotion.toString()));
+          genericMove.to.toString() + (genericMove.promotion == null ? "" : genericMove.promotion.toCharAlgebraic()));
+      sideToMove = sideToMove == Side.WHITE ? Side.BLACK : Side.WHITE;
     }
   }
 
@@ -107,7 +108,7 @@ public final class Lrozenblyum extends AbstractEngine {
   public void receive(EngineStartCalculatingCommand command) {
     new EngineStopCalculatingCommand().accept(this);
 
-    Set<String[]> moves = position.getMoves(sideToMove == GenericColor.WHITE ? Side.WHITE : Side.BLACK);
+    Set<String[]> moves = position.getMoves(sideToMove);
     if (!moves.isEmpty()) {
       String[] possibleMove = moves.iterator().next();
 
