@@ -96,6 +96,18 @@ public class WinBoardPlayerIntegrationTest {
 				"f7f8Q", "move f7f8q" );
 	}
 
+	@Test
+	public void castlingCorrectlyTranslatedToPlayer() {
+		assertTranslationOfReceivedCommandToMoveForOpponent(
+				"usermove e1g1", "e1g1" );
+	}
+
+	@Test
+	public void castlingCorrectlyTranslatedToWinboardClient() {
+		assertTranslationOfCommandFromPlayerToWinboardClient(
+				"e8c8", "move e8c8" );
+	}
+
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( String playerMove, String commandSentToWinboardClient ) {
 		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
