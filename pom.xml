@@ -8,6 +8,13 @@
     <artifactId>Chess</artifactId>
     <version>1.1-SNAPSHOT</version>
 
+    <repositories>
+        <repository>
+            <id>maven.fluxchess.com</id>
+            <url>http://maven.fluxchess.com/release</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>log4j</groupId>
@@ -26,6 +33,20 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fluxchess</groupId>
+            <artifactId>jcpi</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fluxchess</groupId>
+            <artifactId>jcpi</artifactId>
+            <version>1.4.0</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
