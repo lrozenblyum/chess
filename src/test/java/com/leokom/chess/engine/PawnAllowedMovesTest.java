@@ -11,7 +11,7 @@ import static com.leokom.chess.engine.PositionUtils.addCapturable;
  * Author: Leonid
  * Date-time: 21.08.12 15:55
  */
-public class PositionPawnTest {
+public class PawnAllowedMovesTest {
 	private Position position;
 
 	@Before

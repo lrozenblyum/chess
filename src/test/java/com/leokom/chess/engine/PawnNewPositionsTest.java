@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotSame;
  * Author: Leonid
  * Date-time: 31.08.12 22:05
  */
-public class PositionPawnNewPositionsTest {
+public class PawnNewPositionsTest {
 	private Position position;
 
 	@Before

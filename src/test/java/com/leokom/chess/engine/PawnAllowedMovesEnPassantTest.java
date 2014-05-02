@@ -9,7 +9,7 @@ import static com.leokom.chess.engine.PawnUtils.testPawn;
  * Author: Leonid
  * Date-time: 29.08.12 22:20
  */
-public class PositionPawnEnPassantTest {
+public class PawnAllowedMovesEnPassantTest {
 
 	/*
 	position looks like en passant, but this pawns structure

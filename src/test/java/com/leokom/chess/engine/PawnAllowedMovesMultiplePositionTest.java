@@ -6,12 +6,12 @@ import static com.leokom.chess.engine.PawnUtils.testPawn;
 
 /**
  * Idea of class - thorough testing of some cases by looping over different positions
- * (in contrary to @see PositionPawnTest)
+ * (in contrary to @see PawnAllowedMovesTest)
  *
  * Author: Leonid
  * Date-time: 28.08.12 21:14
  */
-public class PositionPawnMultiplePositionTest {
+public class PawnAllowedMovesMultiplePositionTest {
 
 	/**
 	 * FIDE 3.7b
