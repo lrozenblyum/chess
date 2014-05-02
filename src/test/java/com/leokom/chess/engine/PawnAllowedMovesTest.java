@@ -349,8 +349,15 @@ public class PawnAllowedMovesTest {
 	}
 
 	@Test
-	public void promotionCannotGoIfBlocked() {
-		position.addQueen( Side.WHITE, "a8" ); //any side...
+	public void promotionCannotGoIfBlockedByOurSide() {
+		position.addQueen( Side.WHITE, "a8" );
 		testPawn( position, "a7", Side.WHITE );
 	}
+
+	@Test
+	public void promotionCannotGoIfBlockedByOpponent() {
+		position.addQueen( Side.BLACK, "a8" );
+		testPawn( position, "a7", Side.WHITE );
+	}
+
 }
