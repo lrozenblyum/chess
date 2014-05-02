@@ -127,21 +127,26 @@ public class Position {
 	 */
 	public Set<String> getMovesFrom( String square ) {
 		final Set<String> potentialMoves = getPotentialMoves( square );
+
+		//3.1 It is not permitted to move a piece to a square occupied by a piece of the same colour.
+		potentialMoves.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
+
 		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
+
 		return potentialMoves;
 	}
 
 	//artificial method born due to need to exclude
 	//some moves from pool of the 'potential moves'
-	//due to king check conditions
+	//due to king check conditions and 'cannot move to occupied by our side square'
 	private Set<String> getPotentialMoves( String square ) {
 		switch ( getPieceType( square ) ) {
 			case KNIGHT:
-				return getKnightMoves( square );
+				return getSquaresAttackedByKnight( square );
 			case BISHOP:
-				return getBishopMoves( square );
+				return getSquaresAttackedByBishop( square );
 			case ROOK:
-				return getRookMoves( square );
+				return getSquaresAttackedByRook( square );
 			case QUEEN:
 				return getQueenMoves( square );
 			case KING:
@@ -310,20 +315,6 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getKnightMoves( String square ) {
-		final Set<String> knightMoves = getSquaresAttackedByKnight( square );
-		knightMoves.removeAll( getSquaresOccupiedBy( knightMoves, getSide( square ) ) );
-		return knightMoves;
-	}
-
-
-	private Set< String > getRookMoves( String square ) {
-		final Set<String> result = getSquaresAttackedByRook( square );
-		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
-
-		return result;
-	}
-
 	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
 		Set< String > result = new HashSet<>();
 
@@ -382,17 +373,6 @@ public class Position {
 		return squaresAttackedByOpponent;
 	}
 
-	private Set< String > getBishopMoves( String square ) {
-		Set< String > result = getSquaresAttackedByBishop( square );
-
-		//it might be not very efficient since only the 'end' squares
-		//must be checked like it was before
-		//but I shouldn't increase complexity by cost of performance (theoretical) improvement
-		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
-
-		return result;
-	}
-
 	//this method can be formed either as:
 	//rook moves+bishop moves
 	//or ( rook attacked + bishop attacked ) - (busy by our pieces)
@@ -402,8 +382,8 @@ public class Position {
 		//getRookMoves. Castling is considered as King's move
 
 		//TODO: some Guava/CollectionUtils for simplification?
-		final Set< String > result = getRookMoves( square );
-		result.addAll( getBishopMoves( square ) );
+		final Set< String > result = getSquaresAttackedByRook( square );
+		result.addAll( getSquaresAttackedByBishop( square ) );
 		return result;
 	}
 
@@ -540,6 +520,7 @@ public class Position {
 				continue;
 			}
 
+			//probably it's already double-checked in common block of code
 			if ( isOccupied( destinationSquare ) ) {
 				disallowedMoves.add( potentialMove );
 			}
