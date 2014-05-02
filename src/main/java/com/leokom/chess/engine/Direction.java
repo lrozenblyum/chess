@@ -5,7 +5,7 @@ package com.leokom.chess.engine;
  * Author: Leonid
  * Date-time: 03.07.13 22:45
  */
-public enum Direction {
+enum Direction {
 	UP,
 	DOWN,
 	LEFT,
