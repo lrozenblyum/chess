@@ -6,6 +6,7 @@ import static com.leokom.chess.engine.PositionAsserts.assertEmptySquare;
 import static com.leokom.chess.engine.PositionAsserts.assertHasPawn;
 import static com.leokom.chess.engine.Side.BLACK;
 import static com.leokom.chess.engine.Side.WHITE;
+import static org.junit.Assert.assertNull;
 
 /**
  * Author: Leonid
@@ -21,6 +22,8 @@ public class PawnEnPassantNewPositionTest {
 
 		Position newPosition = position.move( "e5", "d6" );
 
+		//en passant right now is absent
+		assertNull( newPosition.getPossibleEnPassantFile() );
 		assertEmptySquare( newPosition, "e5" );
 		assertHasPawn( newPosition, "d6", WHITE );
 		assertEmptySquare( newPosition, "d5" );
@@ -35,6 +38,9 @@ public class PawnEnPassantNewPositionTest {
 
 		Position newPosition = position.move( "f5", "e6" );
 
+		//en passant right now is absent
+		assertNull( newPosition.getPossibleEnPassantFile() );
+
 		assertEmptySquare( newPosition, "f5" );
 		assertHasPawn( newPosition, "e6", WHITE );
 		assertEmptySquare( newPosition, "e5" );
@@ -48,6 +54,9 @@ public class PawnEnPassantNewPositionTest {
 		position.addPawn( WHITE, "f5" );
 
 		Position newPosition = position.move( "f5", "g6" );
+
+		//en passant right now is absent
+		assertNull( newPosition.getPossibleEnPassantFile() );
 
 		assertEmptySquare( newPosition, "f5" );
 		assertEmptySquare( newPosition, "g5" );
@@ -87,6 +96,9 @@ public class PawnEnPassantNewPositionTest {
 
 		position.addPawn( BLACK, "b4" );
 		Position newPosition = position.move( "b4", "c3" );
+
+		//en passant right now is absent
+		assertNull( newPosition.getPossibleEnPassantFile() );
 
 		assertEmptySquare( newPosition, "b4" );
 		assertHasPawn( newPosition, "c3", BLACK );
