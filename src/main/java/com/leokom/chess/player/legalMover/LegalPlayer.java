@@ -61,6 +61,7 @@ public class LegalPlayer implements Player {
 			//updating internal representation of current position according to our move
 			position = position.move( from, to );
 			getLogger().info( this.side + " : Moved " + from + " : " + to );
+			getLogger().info( "New position : " + position );
 
 			opponent.opponentMoved( from + to );
 		}
