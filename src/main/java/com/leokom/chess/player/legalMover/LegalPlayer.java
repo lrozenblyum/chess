@@ -3,6 +3,7 @@ package com.leokom.chess.player.legalMover;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import org.apache.log4j.Logger;
 
 import java.util.Set;
 
@@ -61,6 +62,8 @@ public class LegalPlayer implements Player {
 
 			//updating internal representation of current position according to our move
 			position = position.move( from, to );
+
+			Logger.getLogger( this.getClass() ).info( "Moved " + from + " : " + to );
 		}
 		//TODO: else?
 
