@@ -5,6 +5,8 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
 
@@ -170,6 +172,46 @@ public class LegalPlayerTest {
 		player.opponentMoved( "a1a2" );
 
 		verify( opponent ).opponentMoved( "h7h8" );
+	}
+
+	//let another player respond immediately inside reaction to our move
+	@Test
+	public void proveNeedToUpdatePositionAfterOurMoveInRecursiveCase() {
+		Player opponent = mock( Player.class );
+
+		final LegalPlayer player = new LegalPlayer( Side.WHITE );
+		player.setOpponent( opponent );
+
+		final Position position = new Position( null );
+
+		//white King surrounded
+		position.add( Side.WHITE, "h8", PieceType.KING );
+		position.add( Side.BLACK, "g8", PieceType.KNIGHT ); //protects h6
+		position.add( Side.BLACK, "f8", PieceType.ROOK ); //protects g8
+
+		position.add( Side.BLACK, "a6", PieceType.ROOK ); //protects g6
+
+		position.add( Side.BLACK, "h6", PieceType.BISHOP ); //protects g7
+
+		position.add( Side.BLACK, "a1", PieceType.KING );
+
+		player.setPosition( position );
+
+		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( "h8h7" );
+
+		player.opponentMoved( null ); //results in LegalPlayer h8h7
+
+		verify( opponent ).opponentMoved( "h7h8" );
+	}
+
+	private Answer getAnswerToH8H7( final LegalPlayer player ) {
+		return new Answer() {
+			@Override
+			public Object answer( InvocationOnMock invocationOnMock ) throws Throwable {
+				player.opponentMoved( "a1a2" );
+				return null;
+			}
+		};
 	}
 
 	@Test

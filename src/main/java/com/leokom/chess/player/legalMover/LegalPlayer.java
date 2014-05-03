@@ -58,12 +58,12 @@ public class LegalPlayer implements Player {
 
 			final String from = possibleMove[ 0 ];
 			final String to = possibleMove[ 1 ];
-			opponent.opponentMoved( from + to );
 
 			//updating internal representation of current position according to our move
 			position = position.move( from, to );
-
 			Logger.getLogger( this.getClass() ).info( "Moved " + from + " : " + to );
+
+			opponent.opponentMoved( from + to );
 		}
 		//TODO: else?
 
