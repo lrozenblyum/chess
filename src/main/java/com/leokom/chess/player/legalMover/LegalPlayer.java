@@ -45,6 +45,7 @@ public class LegalPlayer implements Player {
 			String source = opponentMove.substring( 0, 2 );
 			String destination = opponentMove.substring( 2 );
 
+			//updating internal representation of our position according to the opponent's move
 			position = position.move( source, destination );
 		}
 
@@ -58,6 +59,7 @@ public class LegalPlayer implements Player {
 			final String to = possibleMove[ 1 ];
 			opponent.opponentMoved( from + to );
 
+			//updating internal representation of current position according to our move
 			position = position.move( from, to );
 		}
 		//TODO: else?
