@@ -52,7 +52,6 @@ public class LegalPlayer implements Player {
 
 		Set< String[] > moves = position.getMoves( side );
 
-		//TODO: if empty set it means the game has been finished (what's the result?)
 		if ( !moves.isEmpty() ) {
 			String[] possibleMove = moves.iterator().next();
 
@@ -61,12 +60,18 @@ public class LegalPlayer implements Player {
 
 			//updating internal representation of current position according to our move
 			position = position.move( from, to );
-			Logger.getLogger( this.getClass() ).info( "Moved " + from + " : " + to );
+			getLogger().info( this.side + " : Moved " + from + " : " + to );
 
 			opponent.opponentMoved( from + to );
 		}
-		//TODO: else?
+		else {
+			getLogger().info( "Final state detected" );
+			//TODO: if empty set it means the game has been finished (what's the result?)
+		}
+	}
 
+	private Logger getLogger() {
+		return Logger.getLogger( this.getClass() );
 	}
 
 	@Override
