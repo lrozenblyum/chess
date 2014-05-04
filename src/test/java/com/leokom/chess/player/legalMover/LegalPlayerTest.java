@@ -207,7 +207,7 @@ public class LegalPlayerTest {
 	private Answer getAnswerToH8H7( final LegalPlayer player ) {
 		return new Answer() {
 			@Override
-			public Object answer( InvocationOnMock invocationOnMock ) throws Throwable {
+			public Object answer( InvocationOnMock invocationOnMock ) {
 				player.opponentMoved( "a1a2" );
 				return null;
 			}
