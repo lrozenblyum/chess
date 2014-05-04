@@ -3,6 +3,7 @@ package com.leokom.chess.player.legalMover;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import org.apache.log4j.Logger;
 
 import java.util.Set;
 
@@ -45,23 +46,33 @@ public class LegalPlayer implements Player {
 			String source = opponentMove.substring( 0, 2 );
 			String destination = opponentMove.substring( 2 );
 
+			//updating internal representation of our position according to the opponent's move
 			position = position.move( source, destination );
 		}
 
 		Set< String[] > moves = position.getMoves( side );
 
-		//TODO: if empty set it means the game has been finished (what's the result?)
 		if ( !moves.isEmpty() ) {
 			String[] possibleMove = moves.iterator().next();
 
 			final String from = possibleMove[ 0 ];
 			final String to = possibleMove[ 1 ];
-			opponent.opponentMoved( from + to );
 
+			//updating internal representation of current position according to our move
 			position = position.move( from, to );
-		}
-		//TODO: else?
+			getLogger().info( this.side + " : Moved " + from + " : " + to );
+			getLogger().info( "New position : " + position );
 
+			opponent.opponentMoved( from + to );
+		}
+		else {
+			getLogger().info( "Final state detected" );
+			//TODO: if empty set it means the game has been finished (what's the result?)
+		}
+	}
+
+	private Logger getLogger() {
+		return Logger.getLogger( this.getClass() );
 	}
 
 	@Override

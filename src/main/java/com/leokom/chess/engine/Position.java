@@ -754,7 +754,10 @@ public class Position {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		for( String square : pieces.keySet() ) {
-			builder.append( pieces.get( square ) );
+			builder
+				.append( square )
+				.append ( ":" )
+				.append( pieces.get( square ) );
 		}
 		return builder.toString();
 	}
