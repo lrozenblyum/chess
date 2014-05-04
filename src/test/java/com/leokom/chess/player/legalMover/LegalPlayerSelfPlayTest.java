@@ -4,19 +4,21 @@ import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Author: Leonid
  * Date-time: 02.05.14 18:35
  */
+@Ignore( "Till we decide what to do with potentially infinite game (stack overflow) " )
 public class LegalPlayerSelfPlayTest {
 	//finite time of game finish (practically till July2014 FIDE rules in action
 	//the infinite game is possible)
-
 	// no exceptions
-
 	//too complex so far. Trying a simpler way.
+
+
 	@Test
 	public void twoLegalPlayers() {
 		Player legalPlayerWhite = new LegalPlayer( Side.WHITE );
