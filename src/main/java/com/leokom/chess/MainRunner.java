@@ -3,6 +3,7 @@ package com.leokom.chess;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
@@ -38,6 +39,11 @@ public final class MainRunner {
 	}
 
 	static Player createPlayer( Side side ) {
+		final String engineName = System.getProperty( "black" );
+		if ( "LegalPlayer".equals( engineName ) ) {
+			return new LegalPlayer( side );
+		}
+
 		return new SimpleEnginePlayer( side );
 	}
 
