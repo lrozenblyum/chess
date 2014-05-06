@@ -23,18 +23,22 @@ public final class MainRunner {
 		final Player winboardPlayer = WinboardPlayer.create();
 		//TODO: WinBoard player or better our 'engine'
 		//should be able to select side for the LegalPlayer
-		final Player enginePlayer = new SimpleEnginePlayer( Side.BLACK );
+		final Player blackPlayer = createBlackPlayer();
 		//TODO: this double setting
 		//indicates we need some master Game object
 		//that will combine them together
-		enginePlayer.setOpponent( winboardPlayer );
-		winboardPlayer.setOpponent( enginePlayer );
+		blackPlayer.setOpponent( winboardPlayer );
+		winboardPlayer.setOpponent( blackPlayer );
 
 		//TODO: it's main loop - which definitely looks out of
 		//symmetry and players equality
 		winboardPlayer.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
+	}
+
+	private static Player createBlackPlayer() {
+		return new SimpleEnginePlayer( Side.BLACK );
 	}
 
 }
