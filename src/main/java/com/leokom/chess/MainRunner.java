@@ -3,7 +3,7 @@ package com.leokom.chess;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legalMover.LegalPlayer;
+import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
 
@@ -23,7 +23,7 @@ public final class MainRunner {
 		final Player winboardPlayer = WinboardPlayer.create();
 		//TODO: WinBoard player or better our 'engine'
 		//should be able to select side for the LegalPlayer
-		final Player enginePlayer = new LegalPlayer( Side.BLACK );
+		final Player enginePlayer = new SimpleEnginePlayer( Side.BLACK );
 		//TODO: this double setting
 		//indicates we need some master Game object
 		//that will combine them together

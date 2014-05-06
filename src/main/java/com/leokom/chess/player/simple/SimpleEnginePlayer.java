@@ -1,10 +1,11 @@
 package com.leokom.chess.player.simple;
 
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.log4j.Logger;
 
 /**
- * Run just 2 moves for white
+ * Run just 2 moves for white/black (central pawns)
  * Always agree to draw.
  * Resign on the 3'd move
  *
@@ -17,8 +18,14 @@ public class SimpleEnginePlayer implements Player {
 	private Player opponent;
 	private final Logger logger = Logger.getLogger( this.getClass() );
 
-	public SimpleEnginePlayer() {
+	private final int rankFrom;
+	private final int rankTo;
+
+	public SimpleEnginePlayer( Side side ) {
 		moveNumber = 0;
+
+		rankFrom = side == Side.WHITE ? 2 : 7;
+		rankTo = side == Side.WHITE ? 4 : 5;
 	}
 
 	//TODO: asymmetric setter to have possibility one player to another
@@ -29,14 +36,16 @@ public class SimpleEnginePlayer implements Player {
 
 	@Override
 	public void opponentMoved( String opponentMove ) {
+
+
 		moveNumber++;
 		logger.info( "Move number = " + moveNumber );
 		switch ( moveNumber ) {
 			case 1:
-				moveTo( "e2e4" );
+				moveTo( "e" + rankFrom + "e" + rankTo );
 				break;
 			case 2:
-				moveTo( "d2d4" );
+				moveTo( "d" + rankFrom + "d" + rankTo );
 				//NOTE: interesting to implement - how much do we need to wait for result?
 				//NOTE2: it's not recommended way to offer draw after the move.
 				offerDraw();
