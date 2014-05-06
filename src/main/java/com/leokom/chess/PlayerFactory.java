@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  * Author: Leonid
  * Date-time: 06.05.14 22:45
  */
-public class PlayerFactory {
+class PlayerFactory {
 	private static Logger logger = Logger.getLogger( PlayerFactory.class );
 
 	/**
