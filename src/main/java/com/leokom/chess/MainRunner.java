@@ -23,7 +23,7 @@ public final class MainRunner {
 		final Player winboardPlayer = WinboardPlayer.create();
 		//TODO: WinBoard player or better our 'engine'
 		//should be able to select side for the LegalPlayer
-		final Player blackPlayer = createBlackPlayer();
+		final Player blackPlayer = createPlayer( Side.BLACK );
 		//TODO: this double setting
 		//indicates we need some master Game object
 		//that will combine them together
@@ -37,8 +37,8 @@ public final class MainRunner {
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
 
-	private static Player createBlackPlayer() {
-		return new SimpleEnginePlayer( Side.BLACK );
+	private static Player createPlayer( Side side ) {
+		return new SimpleEnginePlayer( side );
 	}
 
 }
