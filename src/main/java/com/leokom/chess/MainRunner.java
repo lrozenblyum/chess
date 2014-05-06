@@ -37,7 +37,7 @@ public final class MainRunner {
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
 
-	private static Player createPlayer( Side side ) {
+	static Player createPlayer( Side side ) {
 		return new SimpleEnginePlayer( side );
 	}
 
