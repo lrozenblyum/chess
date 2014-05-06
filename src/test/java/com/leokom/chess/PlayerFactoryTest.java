@@ -39,5 +39,11 @@ public class PlayerFactoryTest {
 		assertTrue( player instanceof LegalPlayer );
 	}
 
+	@Test
+	public void legalSelectedWhite() {
+		System.setProperty( "white", "LegalPlayer" );
 
+		final Player player = PlayerFactory.createPlayer( Side.WHITE );
+		assertTrue( player instanceof LegalPlayer );
+	}
 }
