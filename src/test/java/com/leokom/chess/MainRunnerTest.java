@@ -4,6 +4,7 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.simple.SimpleEnginePlayer;
+import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +19,14 @@ public class MainRunnerTest {
 
 	@Test
 	public void noSystemPropertiesDefaultPlayer() {
-		final Player player = MainRunner.createPlayer( Side.WHITE );
+		final Player player = MainRunner.createPlayer( Side.BLACK );
 		assertTrue( player instanceof SimpleEnginePlayer );
+	}
+
+	@Test
+	public void noSystemPropertiesDefaultPlayerWhite() {
+		final Player player = MainRunner.createPlayer( Side.WHITE );
+		assertTrue( player instanceof WinboardPlayer );
 	}
 
 	@Test
@@ -29,4 +36,6 @@ public class MainRunnerTest {
 		final Player player = MainRunner.createPlayer( Side.BLACK );
 		assertTrue( player instanceof LegalPlayer );
 	}
+
+
 }

@@ -38,7 +38,21 @@ public final class MainRunner {
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
 
+	/**
+	 * Create player for the side
+	 * Basing on defaults or system properties.
+	 * Defaults :
+	 * WHITE: Winboard
+	 * BLACK: SimpleEngine
+	 *
+	 * @param side side to create
+	 * @return new instance of a player
+	 */
 	static Player createPlayer( Side side ) {
+		if ( side == Side.WHITE ) {
+			return WinboardPlayer.create();
+		}
+
 		final String engineName = System.getProperty( "black" );
 		logger.info( "Engine from system properties: " + engineName );
 		if ( "LegalPlayer".equals( engineName ) ) {
