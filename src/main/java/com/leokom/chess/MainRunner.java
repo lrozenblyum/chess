@@ -40,10 +40,12 @@ public final class MainRunner {
 
 	static Player createPlayer( Side side ) {
 		final String engineName = System.getProperty( "black" );
+		logger.info( "Engine from system properties: " + engineName );
 		if ( "LegalPlayer".equals( engineName ) ) {
 			return new LegalPlayer( side );
 		}
 
+		logger.info( "Selecting default engine" );
 		return new SimpleEnginePlayer( side );
 	}
 
