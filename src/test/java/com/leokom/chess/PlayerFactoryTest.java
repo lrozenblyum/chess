@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MainRunnerTest {
+public class PlayerFactoryTest {
 	//ensure one test has no influence on another
 	@Before
 	public void clearSystemProperties() {
@@ -19,13 +19,13 @@ public class MainRunnerTest {
 
 	@Test
 	public void noSystemPropertiesDefaultPlayer() {
-		final Player player = MainRunner.createPlayer( Side.BLACK );
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertTrue( player instanceof SimpleEnginePlayer );
 	}
 
 	@Test
 	public void noSystemPropertiesDefaultPlayerWhite() {
-		final Player player = MainRunner.createPlayer( Side.WHITE );
+		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertTrue( player instanceof WinboardPlayer );
 	}
 
@@ -33,7 +33,7 @@ public class MainRunnerTest {
 	public void legalSelected() {
 		System.setProperty( "black", "LegalPlayer" );
 
-		final Player player = MainRunner.createPlayer( Side.BLACK );
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertTrue( player instanceof LegalPlayer );
 	}
 
