@@ -50,6 +50,7 @@ class PlayerFactory {
 		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
 
 		if ( engineName == null ) {
+			logger.info( "No selection done. Selecting default player" );
 			return getDefaultPlayer( side );
 		}
 
@@ -61,6 +62,7 @@ class PlayerFactory {
 			case "WinboardPlayer":
 				return WinboardPlayer.create();
 			default:
+				logger.warn( "Unsupported option specified. Selecting default player" );
 				return getDefaultPlayer( side );
 		}
 	}
