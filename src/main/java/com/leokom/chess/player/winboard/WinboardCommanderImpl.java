@@ -126,6 +126,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void processInputFromServer() {
+		//TODO: potential null from communicator is not processed yet
 		final String receivedCommand = communicator.receive();
 
 		for ( String command : listenersWithoutParams.keySet() ) {
