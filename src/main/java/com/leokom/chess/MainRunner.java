@@ -19,8 +19,6 @@ public final class MainRunner {
 		logger.info( "Starting the chess..." );
 
 		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
-		//TODO: WinBoard player or better our 'engine'
-		//should be able to select side for the LegalPlayer
 		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
 		//TODO: this double setting
 		//indicates we need some master Game object
