@@ -28,6 +28,11 @@ class PlayerFactory {
 	 */
 	static Player createPlayer( Side side ) {
 		if ( side == Side.WHITE ) {
+			final String engineName = System.getProperty( "white" );
+			if ( "LegalPlayer".equals( engineName ) ) {
+				return new LegalPlayer( side );
+			}
+
 			return WinboardPlayer.create();
 		}
 
