@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 * Date-time: 15.04.13 22:26
 */
 public class SimpleEnginePlayer implements Player {
+	private final Side side;
 	//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 	private int moveNumber;
 	private Player opponent;
@@ -24,6 +25,7 @@ public class SimpleEnginePlayer implements Player {
 	public SimpleEnginePlayer( Side side ) {
 		moveNumber = 0;
 
+		this.side = side;
 		rankFrom = side == Side.WHITE ? 2 : 7;
 		rankTo = side == Side.WHITE ? 4 : 5;
 	}
@@ -74,7 +76,9 @@ public class SimpleEnginePlayer implements Player {
 
 	@Override
 	public void run() {
-		throw new UnsupportedOperationException( "Definitely it's a sign 'run' must be removed from this interface" );
+		if ( side == Side.WHITE ) {
+			opponentMoved( null );
+		}
 	}
 
 	@Override
