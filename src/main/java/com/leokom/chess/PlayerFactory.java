@@ -33,6 +33,14 @@ class PlayerFactory {
 	 * WHITE: Winboard
 	 * BLACK: SimpleEngine
 	 *
+	 * There are practical important limitations (not yet validated):
+	 *
+	 * Winboard vs Winboard game has no practical use (both will work with System.out)
+	 * Winboard vs any other engine that uses System.out has no practical use (UCI?)
+	 *
+	 * LegalPlayer vs LegalPlayer is possible but can lead to StackOverflow due to
+	 * no limits on move amount and single-threaded model of execution
+	 *
 	 * @param side side to create
 	 * @return new instance of a player
 	 */
