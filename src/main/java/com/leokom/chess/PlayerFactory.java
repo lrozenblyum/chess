@@ -7,6 +7,9 @@ import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Create players for the chess game
  *
@@ -15,6 +18,13 @@ import org.apache.log4j.Logger;
  */
 class PlayerFactory {
 	private static Logger logger = Logger.getLogger( PlayerFactory.class );
+
+	//side -> name of system property that specifies player for the side
+	private static final Map< Side, String > SYSTEM_PROPERTIES =
+		new HashMap< Side, String >() {{
+			put( Side.WHITE, "white" );
+			put( Side.BLACK, "black" );
+		}};
 
 	/**
 	 * Create player for the side
@@ -27,22 +37,18 @@ class PlayerFactory {
 	 * @return new instance of a player
 	 */
 	static Player createPlayer( Side side ) {
-		if ( side == Side.WHITE ) {
-			final String engineName = System.getProperty( "white" );
-			if ( "LegalPlayer".equals( engineName ) ) {
-				return new LegalPlayer( side );
-			}
+		final String engineName = System.getProperty( SYSTEM_PROPERTIES.get( side ) );
 
-			return WinboardPlayer.create();
-		}
+		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
 
-		final String engineName = System.getProperty( "black" );
-		logger.info( "Engine from system properties: " + engineName );
 		if ( "LegalPlayer".equals( engineName ) ) {
 			return new LegalPlayer( side );
 		}
 
-		logger.info( "Selecting default engine" );
-		return new SimpleEnginePlayer( side );
+		logger.info( "Selecting default engine for Side = " + side );
+		return
+			side == Side.WHITE ?
+			WinboardPlayer.create() :
+			new SimpleEnginePlayer( side );
 	}
 }
