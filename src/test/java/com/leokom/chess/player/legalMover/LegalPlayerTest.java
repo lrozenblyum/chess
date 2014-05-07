@@ -70,6 +70,30 @@ public class LegalPlayerTest {
 	}
 
 	@Test
+	public void legalPlayerCanMoveFirstAfterRun() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		player.setOpponent( opponent );
+
+		player.run();
+
+		verify( opponent ).opponentMoved( anyString() );
+	}
+
+	@Test
+	public void legalPlayerNoMovingFirstIfBlack() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer( Side.BLACK );
+		player.setOpponent( opponent );
+
+		player.run();
+
+		verify( opponent, never() ).opponentMoved( anyString() );
+	}
+
+	@Test
 	public void legalPlayerCanMoveFirst() {
 		Player opponent = mock( Player.class );
 

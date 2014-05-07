@@ -26,7 +26,10 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void run() {
-
+		//if we are white -> enforce moving!
+		if ( side == Side.WHITE ) {
+			opponentMoved( null );
+		}
 	}
 
 	@Override

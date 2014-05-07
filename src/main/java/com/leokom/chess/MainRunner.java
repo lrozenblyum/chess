@@ -18,19 +18,19 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		final Player winboardPlayer = PlayerFactory.createPlayer( Side.WHITE );
+		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
 		//TODO: WinBoard player or better our 'engine'
 		//should be able to select side for the LegalPlayer
 		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
 		//TODO: this double setting
 		//indicates we need some master Game object
 		//that will combine them together
-		blackPlayer.setOpponent( winboardPlayer );
-		winboardPlayer.setOpponent( blackPlayer );
+		blackPlayer.setOpponent( whitePlayer );
+		whitePlayer.setOpponent( blackPlayer );
 
 		//TODO: it's main loop - which definitely looks out of
 		//symmetry and players equality
-		winboardPlayer.run();
+		whitePlayer.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
