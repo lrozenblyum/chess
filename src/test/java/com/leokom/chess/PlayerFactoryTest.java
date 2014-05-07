@@ -26,6 +26,14 @@ public class PlayerFactoryTest {
 	}
 
 	@Test
+	public void canSelectSimpleEngineForWhite() {
+		System.setProperty( "white", "SimpleEnginePlayer" );
+
+		final Player player = PlayerFactory.createPlayer( Side.WHITE );
+		assertTrue( player instanceof SimpleEnginePlayer );
+	}
+
+	@Test
 	public void noSystemPropertiesDefaultPlayerWhite() {
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertTrue( player instanceof WinboardPlayer );

@@ -41,14 +41,26 @@ class PlayerFactory {
 
 		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
 
-		if ( "LegalPlayer".equals( engineName ) ) {
-			return new LegalPlayer( side );
+		if ( engineName == null ) {
+			return getDefaultPlayer( side );
 		}
 
+		switch ( engineName ) {
+			case "LegalPlayer":
+				return new LegalPlayer( side );
+			case "SimpleEnginePlayer":
+				return new SimpleEnginePlayer( side );
+
+			default:
+				return getDefaultPlayer( side );
+		}
+	}
+
+	private static Player getDefaultPlayer( Side side ) {
 		logger.info( "Selecting default engine for Side = " + side );
 		return
 			side == Side.WHITE ?
-			WinboardPlayer.create() :
-			new SimpleEnginePlayer( side );
+				WinboardPlayer.create() :
+				new SimpleEnginePlayer( side );
 	}
 }
