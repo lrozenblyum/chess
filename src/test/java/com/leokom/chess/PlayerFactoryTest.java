@@ -34,6 +34,14 @@ public class PlayerFactoryTest {
 	}
 
 	@Test
+	public void canSelectWinboardForBlack() {
+		System.setProperty( "black", "WinboardPlayer" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertTrue( player instanceof WinboardPlayer );
+	}
+
+	@Test
 	public void noSystemPropertiesDefaultPlayerWhite() {
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertTrue( player instanceof WinboardPlayer );

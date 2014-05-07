@@ -50,7 +50,8 @@ class PlayerFactory {
 				return new LegalPlayer( side );
 			case "SimpleEnginePlayer":
 				return new SimpleEnginePlayer( side );
-
+			case "WinboardPlayer":
+				return WinboardPlayer.create();
 			default:
 				return getDefaultPlayer( side );
 		}
