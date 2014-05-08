@@ -3,8 +3,6 @@ package com.leokom.chess;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legalMover.LegalPlayer;
-import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.log4j.Logger;
 
 /**
@@ -17,22 +15,52 @@ public final class MainRunner {
 
 	private static final Logger logger = Logger.getLogger( MainRunner.class );
 
+	/**
+	 * Start whole chess program
+	 * @param args currently unused.
+	 *
+	 * The parameters are provided via easier-to-use Java system properties way.
+	 * <p>
+	 * Supported parameters:
+	 *             <ul>
+	 *             <li>-Dwhite=<code>engineName</code></li>
+	 *             <li>-Dblack=<code>engineName</code></li>
+	 *             </ul>
+	 *
+	 * <code>engineName</code> could be any of:
+	 *             <ul>
+	 *             <li>Winboard</li>
+	 *             <li>SimpleEngine</li>
+	 *             <li>Legal</li>
+	 *             </ul>
+	 *
+	 * Default players:
+	 *             <ul>
+	 *             <li>-Dwhite=Winboard</li>
+	 *             <li>-Dblack=SimpleEngine</li>
+	 *             </ul>
+	 *
+	 * Not supported player combinations:
+	 *             <ul>
+	 *                 <li>Winboard vs Winboard (has no sense as 2 thin clients for UI?)</li>
+	 *                 <li>Winboard playing black (temporarily till <a target="_blank" href="https://github.com/lrozenblyum/chess/issues/120">#120</a> implemented)</li>
+	 *             </ul>
+	 * </p>
+	 */
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
-		final Player winboardPlayer = WinboardPlayer.create();
-		//TODO: WinBoard player or better our 'engine'
-		//should be able to select side for the LegalPlayer
-		final Player enginePlayer = new LegalPlayer( Side.BLACK );
-		//TODO: this double setting
-		//indicates we need some master Game object
-		//that will combine them together
-		enginePlayer.setOpponent( winboardPlayer );
-		winboardPlayer.setOpponent( enginePlayer );
+		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
+		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
+		//setting opponents for symmetry. Technically it's possible
+		// for one set to make a back reference
+		blackPlayer.setOpponent( whitePlayer );
+		whitePlayer.setOpponent( blackPlayer );
 
-		//TODO: it's main loop - which definitely looks out of
+		//TODO: it's main loop (for Winboard) &
+		//"kicking" for other engines to force their first white move - which definitely looks out of
 		//symmetry and players equality
-		winboardPlayer.run();
+		whitePlayer.run();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}
