@@ -55,11 +55,11 @@ class PlayerFactory {
 		}
 
 		switch ( engineName ) {
-			case "LegalPlayer":
+			case "Legal":
 				return new LegalPlayer( side );
-			case "SimpleEnginePlayer":
+			case "SimpleEngine":
 				return new SimpleEnginePlayer( side );
-			case "WinboardPlayer":
+			case "Winboard":
 				return WinboardPlayer.create();
 			default:
 				logger.warn( "Unsupported option specified. Selecting default player" );

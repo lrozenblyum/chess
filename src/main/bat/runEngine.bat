@@ -3,7 +3,7 @@ rem this directory must be synchronous with jar destination
 rem I use the Winboard installation sub-dir for simplicity
 SET RUNNABLE_JAR_DIRECTORY=E:\Games\WinBoard-4.7.3\LeokomChess
 SET RUN_JAR_PATH=%RUNNABLE_JAR_DIRECTORY%\Chess.jar
-SET RUN_OPTIONS=-Dblack=LegalPlayer
+SET RUN_OPTIONS=-Dblack=Legal
 
 rem to turn on debug mode add -debug
 rem it will create winboard debug log
