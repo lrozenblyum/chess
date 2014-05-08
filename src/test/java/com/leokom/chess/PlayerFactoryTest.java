@@ -27,7 +27,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void canSelectSimpleEngineForWhite() {
-		System.setProperty( "white", "SimpleEnginePlayer" );
+		System.setProperty( "white", "SimpleEngine" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertTrue( player instanceof SimpleEnginePlayer );
@@ -35,7 +35,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void canSelectWinboardForBlack() {
-		System.setProperty( "black", "WinboardPlayer" );
+		System.setProperty( "black", "Winboard" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertTrue( player instanceof WinboardPlayer );
@@ -49,7 +49,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void legalSelected() {
-		System.setProperty( "black", "LegalPlayer" );
+		System.setProperty( "black", "Legal" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertTrue( player instanceof LegalPlayer );
@@ -57,7 +57,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void legalSelectedWhite() {
-		System.setProperty( "white", "LegalPlayer" );
+		System.setProperty( "white", "Legal" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertTrue( player instanceof LegalPlayer );
