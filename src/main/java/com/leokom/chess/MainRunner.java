@@ -15,6 +15,38 @@ public final class MainRunner {
 
 	private static final Logger logger = Logger.getLogger( MainRunner.class );
 
+	/**
+	 * Start whole chess program
+	 * @param args currently unused.
+	 *
+	 * The parameters are provided via easier-to-use Java system properties way.
+	 * <p>
+	 * Supported parameters:
+	 *             <ul>
+	 *             <li>-Dwhite=<code>engineName</code></li>
+	 *             <li>-Dblack=<code>engineName</code></li>
+	 *             </ul>
+	 *
+	 * <code>engineName</code> could be any of:
+	 *             <ul>
+	 *             <li>Winboard</li>
+	 *             <li>SimpleEngine</li>
+	 *             <li>Legal</li>
+	 *             </ul>
+	 *
+	 * Default players:
+	 *             <ul>
+	 *             <li>-Dwhite=Winboard</li>
+	 *             <li>-Dblack=SimpleEngine</li>
+	 *             </ul>
+	 *
+	 * Not supported player combinations:
+	 *             <ul>
+	 *                 <li>Winboard vs Winboard (has no sense as 2 thin clients for UI?)</li>
+	 *                 <li>Winboard playing black (temporarily till <a target="_blank" href="https://github.com/lrozenblyum/chess/issues/120">#120</a> implemented)</li>
+	 *             </ul>
+	 * </p>
+	 */
 	public static void main( String[] args ) {
 		logger.info( "Starting the chess..." );
 
