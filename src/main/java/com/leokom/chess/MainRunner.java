@@ -57,7 +57,8 @@ public final class MainRunner {
 		blackPlayer.setOpponent( whitePlayer );
 		whitePlayer.setOpponent( blackPlayer );
 
-		//TODO: it's main loop - which definitely looks out of
+		//TODO: it's main loop (for Winboard) &
+		//"kicking" for other engines to force their first white move - which definitely looks out of
 		//symmetry and players equality
 		whitePlayer.run();
 
