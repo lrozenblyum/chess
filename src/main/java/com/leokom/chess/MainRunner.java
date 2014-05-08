@@ -20,9 +20,8 @@ public final class MainRunner {
 
 		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
 		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
-		//TODO: this double setting
-		//indicates we need some master Game object
-		//that will combine them together
+		//setting opponents for symmetry. Technically it's possible
+		// for one set to make a back reference
 		blackPlayer.setOpponent( whitePlayer );
 		whitePlayer.setOpponent( blackPlayer );
 
