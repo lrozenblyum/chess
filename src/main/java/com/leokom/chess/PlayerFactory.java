@@ -16,7 +16,9 @@ import java.util.Map;
  * Author: Leonid
  * Date-time: 06.05.14 22:45
  */
-class PlayerFactory {
+final class PlayerFactory {
+	private PlayerFactory() {}
+
 	private static Logger logger = Logger.getLogger( PlayerFactory.class );
 
 	//side -> name of system property that specifies player for the side
