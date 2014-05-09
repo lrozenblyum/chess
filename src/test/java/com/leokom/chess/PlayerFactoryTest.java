@@ -17,6 +17,7 @@ public class PlayerFactoryTest {
 	@After
 	public void clearSystemProperties() {
 		System.clearProperty( "black" );
+		System.clearProperty( "white" );
 	}
 
 	@Test
