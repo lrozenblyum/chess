@@ -5,13 +5,33 @@ import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import static org.junit.Assert.*;
 
 public class PlayerFactoryTest {
+	private static String whiteProperty;
+	private static String blackProperty;
+
+	@BeforeClass
+	public static void preserveSystemProperties() {
+		whiteProperty = System.getProperty( "white" );
+		blackProperty = System.getProperty( "black" );
+	}
+
+	@AfterClass
+	public static void restoreSystemProperties() {
+		//if any of them is null, @After method already cleared it.
+		//setting null value of system property causes NPE
+		if ( whiteProperty != null ) {
+			System.setProperty( "white", whiteProperty );
+		}
+
+		if ( blackProperty != null ) {
+			System.setProperty( "black", blackProperty );
+		}
+	}
+
 	//ensure one test has no influence on another
 	@Before
 	@After
