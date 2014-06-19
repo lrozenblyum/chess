@@ -1,4 +1,4 @@
-package com.leokom.chess;
+package com.leokom.chess.player.uci;
 
 import com.fluxchess.jcpi.AbstractEngine;
 import com.fluxchess.jcpi.commands.*;
@@ -9,13 +9,13 @@ import com.leokom.chess.engine.Side;
 
 import java.util.Set;
 
-public final class Lrozenblyum extends AbstractEngine {
+public final class UciPlayer extends AbstractEngine {
 
   private Position position = Position.getInitialPosition();
   private Side sideToMove = Side.WHITE;
 
   public static void main(String[] args) {
-    new Lrozenblyum().run();
+    new UciPlayer().run();
   }
 
   @Override
@@ -28,7 +28,7 @@ public final class Lrozenblyum extends AbstractEngine {
     new EngineStopCalculatingCommand().accept(this);
 
     ProtocolInitializeAnswerCommand answerCommand = new ProtocolInitializeAnswerCommand(
-        "Lrozenblyum 1.1", "Leonid Rozenblyum"
+        "UciPlayer 1.1", "Leonid Rozenblyum"
     );
 
     getProtocol().send(answerCommand);
