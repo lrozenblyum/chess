@@ -66,7 +66,7 @@
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>0.29</version>
+                <version>1.0.0</version>
                 <configuration>
                   <targetClasses>
                     <param>com.leokom.chess.*</param>
@@ -74,6 +74,11 @@
                   <targetTests>
                     <param>com.leokom.chess.*</param>
                   </targetTests>
+
+                    <!-- XML is required for pitest plugin in SonarQube (default is HTML) -->
+                    <outputFormats>
+                        <outputFormat>XML</outputFormat>
+                    </outputFormats>
                 </configuration>
               </plugin>
         </plugins>
@@ -115,11 +120,7 @@
 	</profiles>
 
 
-
     <properties>
-        <!-- TODO: can this be configured with the pitest-maven plugin itself? -->
-        <sonar.pitest.mode>active</sonar.pitest.mode>
-
         <!-- Preventing [WARNING] Using platform encoding to copy filtered resources -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
