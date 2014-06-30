@@ -661,7 +661,7 @@ public class Position {
 		return this.move( move.getFrom(), move.getTo() );
 	}
 
-	PieceType getPieceType( String squareFrom ) {
+	public PieceType getPieceType( String squareFrom ) {
 		return pieces.get( squareFrom ).getPieceType();
 	}
 
