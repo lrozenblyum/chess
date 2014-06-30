@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.util.Set;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -18,11 +17,11 @@ public class PositionAllowedMovesTest {
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c1", PieceType.KING );
 
-		Set< String[] > moves = position.getMoves( Side.WHITE );
+		Set< Move > moves = position.getMoves( Side.WHITE );
 
 		assertEquals( 1, moves.size() );
-		final String[] move = moves.iterator().next();
-		assertArrayEquals( new String[]{ "a1", "a2" }, move );
+		final Move move = moves.iterator().next();
+		assertEquals( new Move( "a1", "a2" ), move );
 	}
 
 	@Test //same test as previous but changing colours
@@ -31,11 +30,11 @@ public class PositionAllowedMovesTest {
 		position.add( Side.BLACK, "a1", PieceType.KING );
 		position.add( Side.WHITE, "c1", PieceType.KING );
 
-		Set< String[] > moves = position.getMoves( Side.BLACK );
+		Set< Move > moves = position.getMoves( Side.BLACK );
 
 		assertEquals( 1, moves.size() );
-		final String[] move = moves.iterator().next();
-		assertArrayEquals( new String[]{ "a1", "a2" }, move );
+		final Move move = moves.iterator().next();
+		assertEquals( new Move( "a1", "a2" ), move );
 	}
 
 	@Test
@@ -48,7 +47,7 @@ public class PositionAllowedMovesTest {
 		position.add( Side.BLACK, "b2", PieceType.PAWN ); //any?
 		position.add( Side.BLACK, "c1", PieceType.KING );
 
-		Set< String[] > moves = position.getMoves( Side.WHITE );
+		Set< Move > moves = position.getMoves( Side.WHITE );
 
 		assertEquals( 0, moves.size() );
 	}

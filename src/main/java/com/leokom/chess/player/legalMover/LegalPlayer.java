@@ -1,5 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
+import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
@@ -53,13 +54,13 @@ public class LegalPlayer implements Player {
 			position = position.move( source, destination );
 		}
 
-		Set< String[] > moves = position.getMoves( side );
+		Set< Move > moves = position.getMoves( side );
 
 		if ( !moves.isEmpty() ) {
-			String[] possibleMove = moves.iterator().next();
+			Move possibleMove = moves.iterator().next();
 
-			final String from = possibleMove[ 0 ];
-			final String to = possibleMove[ 1 ];
+			final String from = possibleMove.getFrom();
+			final String to = possibleMove.getTo();
 
 			//updating internal representation of current position according to our move
 			position = position.move( from, to );

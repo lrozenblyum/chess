@@ -3,6 +3,7 @@ package com.leokom.chess.player.uci;
 import com.fluxchess.jcpi.AbstractEngine;
 import com.fluxchess.jcpi.commands.*;
 import com.fluxchess.jcpi.models.*;
+import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
@@ -108,12 +109,12 @@ public final class UciPlayer extends AbstractEngine {
   public void receive(EngineStartCalculatingCommand command) {
     new EngineStopCalculatingCommand().accept(this);
 
-    Set<String[]> moves = position.getMoves(sideToMove);
+    Set<Move> moves = position.getMoves(sideToMove);
     if (!moves.isEmpty()) {
-      String[] possibleMove = moves.iterator().next();
+      Move possibleMove = moves.iterator().next();
 
-      final String from = possibleMove[0];
-      final String to = possibleMove[1];
+      final String from = possibleMove.getFrom();
+      final String to = possibleMove.getTo();
 
       GenericPosition fromSquare = GenericPosition.valueOf(from);
       GenericPosition toSquare;

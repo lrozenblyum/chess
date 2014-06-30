@@ -777,16 +777,15 @@ public class Position {
 	}
 
 	//TODO: probably moving side must be a part of the position itself
-	//TODO: return result is better to be some class or Set of classes
 	//to be decided what's better representation for moves.
-	public Set< String[] > getMoves( Side side ) {
-		final Set<String[]> result = new HashSet<>();
+	public Set< Move > getMoves( Side side ) {
+		final Set< Move > result = new HashSet<>();
 
 		final Set<String> squares = getSquaresOccupiedBySide( side );
 		for ( String square : squares ) {
 			final Set<String> moves = getMovesFrom( square );
 			for ( String move : moves ) {
-				result.add( new String[] { square, move } );
+				result.add( new Move( square, move  ) );
 			}
 		}
 

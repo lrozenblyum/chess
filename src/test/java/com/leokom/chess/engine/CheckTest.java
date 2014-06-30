@@ -62,11 +62,11 @@ public class CheckTest {
 		position.add( Side.BLACK, "a1", PieceType.QUEEN );
 
 
-		final Set<String[]> moves = position.getMoves( Side.BLACK );
+		final Set<Move> moves = position.getMoves( Side.BLACK );
 		assertEquals( 1, moves.size() );
-		final String[] singleMove = moves.iterator().next();
-		assertEquals( "h2", singleMove [ 0 ] );
-		assertEquals( "g2", singleMove [ 1 ] );
+		final Move singleMove = moves.iterator().next();
+		assertEquals( "h2", singleMove.getFrom() );
+		assertEquals( "g2", singleMove.getTo() );
 	}
 
 	//even if such pieces are constrained from moving to that square because they would then leave or place their own king in check
