@@ -66,6 +66,10 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void opponentMoved( String move ) {
+		//in our implementation we support the following part of specs:
+
+		//"For the actual move text from your chess engine (in place of MOVE above), your move should be either
+		//in coordinate notation (e.g., e2e4, e7e8q) with castling indicated by the King's two-square move (e.g., e1g1)"
 		this.communicator.send( "move " + move );
 	}
 
