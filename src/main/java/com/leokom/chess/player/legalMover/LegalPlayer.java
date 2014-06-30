@@ -124,9 +124,9 @@ public class LegalPlayer implements Player {
 	private Move getMoveWithMaxRating( Map< Move, Integer > moveValues ) {
 		int maxValue = ( Collections.max( moveValues.values() ));
 
-		for ( Move move : moveValues.keySet() ) {
-			if ( moveValues.get( move ) == maxValue ) {
-				return move;
+		for ( Map.Entry< Move, Integer > entry: moveValues.entrySet() ) {
+			if ( entry.getValue() == maxValue ) {
+				return entry.getKey();
 			}
 		}
 
