@@ -92,37 +92,52 @@ public class LegalPlayer implements Player {
 	 * @return best move according to current strategy
 	 */
 	private Move findBestMove( Set< Move > legalMoves ) {
+		Map< Move, Integer > moveRatings = new HashMap<>();
+		for ( Move move : legalMoves ) {
+			moveRatings.put( move, evaluateMove( move ) );
+		}
+
+		return getMoveWithMaxRating( moveRatings );
+	}
+
+	/**
+	 * Get 'rating' of a move
+	 * @param move move that we potentially could execute
+	 * @return currently int number which means 'BIGGER'='BETTER'
+	 */
+	private int evaluateMove( Move move ) {
+		//we don't need to know that we can execute other moves
+		//while evaluating a move, do we?
+		//so far no, but from human logic we need that possibility
+		//among 2 'equal' moves we would like to select according to some
+		//compare 1-to-another logic
+
+
 		//strategy : 'castling addicted player'
 		// avoid moving rook and king
 		//if it's not castling (I want to see castling)
 		//in principle after castling we could allow such moves
 
-		Map< Move, Integer > moveRatings = new HashMap<>();
-		for ( Move move : legalMoves ) {
-			int moveWeight = ACCEPTABLE_MOVE;
+		int moveWeight = ACCEPTABLE_MOVE;
 
-			if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
-				moveWeight = BAD_MOVE;
-			}
-
-			Set< Move > castlingMoves = new HashSet< Move >() {
-				{
-					add( new Move( "e1", "g1" ) );
-					add( new Move( "e1", "c1" ) );
-					add( new Move( "e8", "g8" ) );
-					add( new Move( "e8", "c8" ) );
-				}
-			};
-			if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
-				//REFACTOR: duplication with PositionGenerator to detect castling moves
-
-				moveWeight = castlingMoves.contains( move ) ? GOOD_MOVE : BAD_MOVE;
-			}
-
-			moveRatings.put( move, moveWeight );
+		if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
+			moveWeight = BAD_MOVE;
 		}
 
-		return getMoveWithMaxRating( moveRatings );
+		Set< Move > castlingMoves = new HashSet< Move >() {
+			{
+				add( new Move( "e1", "g1" ) );
+				add( new Move( "e1", "c1" ) );
+				add( new Move( "e8", "g8" ) );
+				add( new Move( "e8", "c8" ) );
+			}
+		};
+		if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
+			//REFACTOR: duplication with PositionGenerator to detect castling moves
+
+			moveWeight = castlingMoves.contains( move ) ? GOOD_MOVE : BAD_MOVE;
+		}
+		return moveWeight;
 	}
 
 	private Move getMoveWithMaxRating( Map< Move, Integer > moveValues ) {
