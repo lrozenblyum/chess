@@ -54,22 +54,38 @@ public class LegalPlayer implements Player {
 			position = position.move( new Move( source, destination ) );
 		}
 
-		Set< Move > moves = position.getMoves( side );
+		Set< Move > legalMoves = position.getMoves( side );
 
-		if ( !moves.isEmpty() ) {
-			Move move = moves.iterator().next();
+		if ( !legalMoves.isEmpty() ) {
+			Move move = findBestMove( legalMoves );
 
-			//updating internal representation of current position according to our move
-			position = position.move( move );
-			getLogger().info( this.side + " : Moved " + move );
-			getLogger().info( "New position : " + position );
+			updateInternalPositionPresentation( move );
 
-			opponent.opponentMoved( move.getFrom() + move.getTo() );
+			informOpponentAboutTheMove( move );
 		}
 		else {
 			getLogger().info( "Final state detected" );
 			//TODO: if empty set it means the game has been finished (what's the result?)
 		}
+	}
+
+	private void informOpponentAboutTheMove( Move move ) {
+		opponent.opponentMoved( move.getFrom() + move.getTo() );
+	}
+
+	//updating internal representation of current position according to our move
+	private void updateInternalPositionPresentation( Move move ) {
+		position = position.move( move );
+		getLogger().info( this.side + " : Moved " + move + "\nNew position : " + position );
+	}
+
+	/**
+	 *
+	 * @param legalMoves not-empty set of moves
+	 * @return best move according to current strategy
+	 */
+	private Move findBestMove( Set< Move > legalMoves ) {
+		return legalMoves.iterator().next();
 	}
 
 	private Logger getLogger() {
