@@ -6,6 +6,8 @@ package com.leokom.chess.engine;
  * Author: Leonid
  * Date-time: 06.07.13 22:38
  */
+//REFACTOR: use this class on all applicable layers
+//where pair of 'squareFrom, to' are used
 public final class Move {
 	/**
 	 * Size of promotion move (e.g. "h1Q")
