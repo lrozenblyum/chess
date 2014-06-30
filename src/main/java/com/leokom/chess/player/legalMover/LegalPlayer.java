@@ -51,23 +51,20 @@ public class LegalPlayer implements Player {
 			String destination = opponentMove.substring( 2 );
 
 			//updating internal representation of our position according to the opponent's move
-			position = position.move( source, destination );
+			position = position.move( new Move( source, destination ) );
 		}
 
 		Set< Move > moves = position.getMoves( side );
 
 		if ( !moves.isEmpty() ) {
-			Move possibleMove = moves.iterator().next();
-
-			final String from = possibleMove.getFrom();
-			final String to = possibleMove.getTo();
+			Move move = moves.iterator().next();
 
 			//updating internal representation of current position according to our move
-			position = position.move( from, to );
-			getLogger().info( this.side + " : Moved " + from + " : " + to );
+			position = position.move( move );
+			getLogger().info( this.side + " : Moved " + move );
 			getLogger().info( "New position : " + position );
 
-			opponent.opponentMoved( from + to );
+			opponent.opponentMoved( move.getFrom() + move.getTo() );
 		}
 		else {
 			getLogger().info( "Final state detected" );

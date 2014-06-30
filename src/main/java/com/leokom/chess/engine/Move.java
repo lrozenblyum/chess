@@ -60,6 +60,11 @@ public final class Move {
 		return 0;
 	}
 
+	@Override
+	public String toString() {
+		return from + " : " + to;
+	}
+
 	static boolean isPromotion( String move ) {
 		return move.length() == PROMOTION_MOVE_SIZE;
 	}

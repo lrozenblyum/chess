@@ -24,6 +24,7 @@ public interface Player {
 	 * Pawn promotion: e7e8Q
 	 * Castling: e1g1
 	 */
+	//REFACTOR: pass Move class instead of string?
 	void opponentMoved( String opponentMove );
 	void opponentResigned();
 
