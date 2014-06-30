@@ -80,6 +80,12 @@ public class LegalPlayer implements Player {
 		getLogger().info( this.side + " : Moved " + move + "\nNew position : " + position );
 	}
 
+	//we can also create some enum and use it instead of integers in data structures
+	//however so far it's simpler to have in so to reuse Collections.max etc
+	private static final int GOOD_MOVE = 2;
+	private static final int ACCEPTABLE_MOVE = 1;
+	private static final int BAD_MOVE = 0;
+
 	/**
 	 *
 	 * @param legalMoves not-empty set of moves
@@ -93,10 +99,10 @@ public class LegalPlayer implements Player {
 
 		Map< Move, Integer > moveRatings = new HashMap<>();
 		for ( Move move : legalMoves ) {
-			int moveWeight = 1; //some non-zero default
+			int moveWeight = ACCEPTABLE_MOVE;
 
 			if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
-				moveWeight = 0;
+				moveWeight = BAD_MOVE;
 			}
 
 			Set< Move > castlingMoves = new HashSet< Move >() {
@@ -110,9 +116,7 @@ public class LegalPlayer implements Player {
 			if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
 				//REFACTOR: duplication with PositionGenerator to detect castling moves
 
-				moveWeight = castlingMoves.contains( move ) ? 2 //bigger than default value
-						:
-						0; //avoid moving king if possible
+				moveWeight = castlingMoves.contains( move ) ? GOOD_MOVE : BAD_MOVE;
 			}
 
 			moveRatings.put( move, moveWeight );
