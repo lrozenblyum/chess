@@ -23,15 +23,14 @@ public class Position {
 	//(in theory it means possibility to extend for fields others than 8*8)
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
-	//TODO: thread-safety for read-only purposes?
+
+	//thread-safe for read usage, should we use some 'immutable map'?
 	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
 		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
 		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
 	}};
 
-
-
-	//TODO: read carefully if this set is thread-safe
+	//thread safe
 	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
 		Collections.unmodifiableSet( EnumSet.of(
 				PieceType.QUEEN, PieceType.ROOK,
