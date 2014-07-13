@@ -111,8 +111,10 @@ public class LegalPlayer implements Player {
 		//so far no, but from human logic we need that possibility
 		//among 2 'equal' moves we would like to select according to some
 		//compare 1-to-another logic
+		return getCastlingSafetyWeight( move );
+	}
 
-
+	private int getCastlingSafetyWeight( Move move ) {
 		//strategy : 'castling addicted player'
 		// avoid moving rook and king
 		//if it's not castling (I want to see castling)
