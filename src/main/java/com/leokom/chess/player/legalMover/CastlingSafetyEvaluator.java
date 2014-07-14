@@ -11,7 +11,7 @@ import java.util.Set;
  * Author: Leonid
  * Date-time: 14.07.14 22:58
  */
-public class CastlingSafetyEvaluator implements Evaluator {
+class CastlingSafetyEvaluator implements Evaluator {
 	//we can also create some enum and use it instead of integers in data structures
 	//however so far it's simpler to have in so to reuse Collections.max etc
 	private static final double GOOD_MOVE = 1;
