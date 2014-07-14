@@ -82,9 +82,9 @@ public class LegalPlayer implements Player {
 
 	//we can also create some enum and use it instead of integers in data structures
 	//however so far it's simpler to have in so to reuse Collections.max etc
-	private static final int GOOD_MOVE = 2;
-	private static final int ACCEPTABLE_MOVE = 1;
-	private static final int BAD_MOVE = 0;
+	private static final double GOOD_MOVE = 2;
+	private static final double ACCEPTABLE_MOVE = 1;
+	private static final double BAD_MOVE = 0;
 
 	/**
 	 *
@@ -92,7 +92,7 @@ public class LegalPlayer implements Player {
 	 * @return best move according to current strategy
 	 */
 	private Move findBestMove( Set< Move > legalMoves ) {
-		Map< Move, Integer > moveRatings = new HashMap<>();
+		Map< Move, Double > moveRatings = new HashMap<>();
 		for ( Move move : legalMoves ) {
 			moveRatings.put( move, evaluateMove( move ) );
 		}
@@ -103,9 +103,12 @@ public class LegalPlayer implements Player {
 	/**
 	 * Get 'rating' of a move
 	 * @param move move that we potentially could execute
-	 * @return currently int number which means 'BIGGER'='BETTER'
+	 * @return double number which means 'BIGGER'='BETTER'
+	 * in range [ 0, 1 ]
+	 * 0 is the least recommended move
+	 * 1 is the most recommended one
 	 */
-	private int evaluateMove( Move move ) {
+	private double evaluateMove( Move move ) {
 		//we don't need to know that we can execute other moves
 		//while evaluating a move, do we?
 		//so far no, but from human logic we need that possibility
@@ -114,13 +117,13 @@ public class LegalPlayer implements Player {
 		return getCastlingSafetyWeight( move );
 	}
 
-	private int getCastlingSafetyWeight( Move move ) {
+	private double getCastlingSafetyWeight( Move move ) {
 		//strategy : 'castling addicted player'
 		// avoid moving rook and king
 		//if it's not castling (I want to see castling)
 		//in principle after castling we could allow such moves
 
-		int moveWeight = ACCEPTABLE_MOVE;
+		double moveWeight = ACCEPTABLE_MOVE;
 
 		if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
 			moveWeight = BAD_MOVE;
@@ -142,10 +145,10 @@ public class LegalPlayer implements Player {
 		return moveWeight;
 	}
 
-	private Move getMoveWithMaxRating( Map< Move, Integer > moveValues ) {
-		int maxValue = ( Collections.max( moveValues.values() ));
+	private Move getMoveWithMaxRating( Map< Move, Double > moveValues ) {
+		double maxValue = ( Collections.max( moveValues.values() ));
 
-		for ( Map.Entry< Move, Integer > entry: moveValues.entrySet() ) {
+		for ( Map.Entry< Move, Double > entry: moveValues.entrySet() ) {
 			if ( entry.getValue() == maxValue ) {
 				return entry.getKey();
 			}
