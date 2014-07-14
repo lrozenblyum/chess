@@ -1,7 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
@@ -80,12 +79,6 @@ public class LegalPlayer implements Player {
 		getLogger().info( this.side + " : Moved " + move + "\nNew position : " + position );
 	}
 
-	//we can also create some enum and use it instead of integers in data structures
-	//however so far it's simpler to have in so to reuse Collections.max etc
-	private static final double GOOD_MOVE = 2;
-	private static final double ACCEPTABLE_MOVE = 1;
-	private static final double BAD_MOVE = 0;
-
 	/**
 	 *
 	 * @param legalMoves not-empty set of moves
@@ -100,49 +93,13 @@ public class LegalPlayer implements Player {
 		return getMoveWithMaxRating( moveRatings );
 	}
 
-	/**
-	 * Get 'rating' of a move
-	 * @param move move that we potentially could execute
-	 * @return double number which means 'BIGGER'='BETTER'
-	 * in range [ 0, 1 ]
-	 * 0 is the least recommended move
-	 * 1 is the most recommended one
-	 */
 	private double evaluateMove( Move move ) {
 		//we don't need to know that we can execute other moves
 		//while evaluating a move, do we?
 		//so far no, but from human logic we need that possibility
 		//among 2 'equal' moves we would like to select according to some
 		//compare 1-to-another logic
-		return getCastlingSafetyWeight( move );
-	}
-
-	private double getCastlingSafetyWeight( Move move ) {
-		//strategy : 'castling addicted player'
-		// avoid moving rook and king
-		//if it's not castling (I want to see castling)
-		//in principle after castling we could allow such moves
-
-		double moveWeight = ACCEPTABLE_MOVE;
-
-		if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
-			moveWeight = BAD_MOVE;
-		}
-
-		Set< Move > castlingMoves = new HashSet< Move >() {
-			{
-				add( new Move( "e1", "g1" ) );
-				add( new Move( "e1", "c1" ) );
-				add( new Move( "e8", "g8" ) );
-				add( new Move( "e8", "c8" ) );
-			}
-		};
-		if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
-			//REFACTOR: duplication with PositionGenerator to detect castling moves
-
-			moveWeight = castlingMoves.contains( move ) ? GOOD_MOVE : BAD_MOVE;
-		}
-		return moveWeight;
+		return new CastlingSafetyEvaluator().evaluateMove( position, move );
 	}
 
 	private Move getMoveWithMaxRating( Map< Move, Double > moveValues ) {
