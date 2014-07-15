@@ -1,7 +1,9 @@
 package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,9 +20,12 @@ public class CenterControlEvaluatorTest {
 	@Test
 	public void evaluateMove() {
 		Position position = new Position( null );
+		position.add( Side.WHITE, "c3", PieceType.KING );
 
-		Move centerControlMove = new Move( null, null );
-		Move notCenterControlMove = new Move( null, null );
+		//controls d5, d4
+		Move centerControlMove = new Move( "c3", "c4" );
+
+		Move notCenterControlMove = new Move( "c3", "b2" );
 
 		asserts.assertBetterMoveDetected( position, centerControlMove, notCenterControlMove );
 	}
