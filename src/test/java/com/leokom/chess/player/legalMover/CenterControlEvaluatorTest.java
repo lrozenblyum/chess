@@ -29,4 +29,17 @@ public class CenterControlEvaluatorTest {
 
 		asserts.assertFirstBetter( position, centerControlMove, notCenterControlMove );
 	}
+
+	@Test
+	public void blackKingToCenter() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "e7", PieceType.KING );
+
+		//controls d5, e5
+		Move centerControlMove = new Move( "e7", "e6" );
+
+		Move notCenterControlMove = new Move( "e7", "d7" );
+
+		asserts.assertFirstBetter( position, centerControlMove, notCenterControlMove );
+	}
 }

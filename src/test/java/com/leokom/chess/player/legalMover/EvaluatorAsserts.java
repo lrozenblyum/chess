@@ -20,7 +20,7 @@ public class EvaluatorAsserts {
 		double worseMoveEstimate = evaluator.evaluateMove( position, expectedWorse );
 
 		assertTrue(
-				String.format( "Better move must have higher rating. Expected better : %s -> %s, expected worse: %s -> %s ",
+				String.format( "%s -> %s must be better than %s -> %s ",
 						expectedBetter, betterMoveEstimate, expectedWorse, worseMoveEstimate ),
 				betterMoveEstimate > worseMoveEstimate );
 	}
