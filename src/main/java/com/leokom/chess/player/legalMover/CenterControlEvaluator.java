@@ -20,9 +20,10 @@ class CenterControlEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.getTo().equals( "b2" ) ) {
-			return 0;
+		final char targetRank = move.getTo().charAt( 1 );
+		if ( targetRank == '4' || targetRank == '6' ) {
+			return 1;
 		}
-		return 1;
+		return 0;
 	}
 }
