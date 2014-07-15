@@ -27,6 +27,6 @@ public class CenterControlEvaluatorTest {
 
 		Move notCenterControlMove = new Move( "c3", "b2" );
 
-		asserts.assertBetterMoveDetected( position, centerControlMove, notCenterControlMove );
+		asserts.assertFirstBetter( position, centerControlMove, notCenterControlMove );
 	}
 }

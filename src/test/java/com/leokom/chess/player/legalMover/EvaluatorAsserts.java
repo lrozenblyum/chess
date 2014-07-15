@@ -15,7 +15,7 @@ public class EvaluatorAsserts {
 	public EvaluatorAsserts( Evaluator evaluator ) {
 		this.evaluator = evaluator;
 	}
-	void assertBetterMoveDetected( Position position, Move expectedBetter, Move expectedWorse ) {
+	void assertFirstBetter( Position position, Move expectedBetter, Move expectedWorse ) {
 		double betterMoveEstimate = evaluator.evaluateMove( position, expectedBetter );
 		double worseMoveEstimate = evaluator.evaluateMove( position, expectedWorse );
 
