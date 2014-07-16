@@ -28,6 +28,7 @@ final class Board {
 	 * @param square square in format 'e2'
 	 * @return file of square
 	 */
+	//REFACTOR: char is better than String here I think
 	static String fileOfSquare( String square ) {
 		return String.valueOf( square.charAt( 0 ) );
 	}

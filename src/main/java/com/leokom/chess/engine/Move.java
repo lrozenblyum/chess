@@ -84,4 +84,8 @@ public final class Move {
 				move.substring( 0, 2 ) :
 				move;
 	}
+
+	public String getToFile() {
+		return Board.fileOfSquare( to );
+	}
 }

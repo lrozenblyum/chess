@@ -21,7 +21,9 @@ class CenterControlEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		final int targetRank = move.getToRank();
-		if ( targetRank == 4 || targetRank == 6 ) {
+		char toFile = move.getToFile().charAt( 0 );
+		if ( ( targetRank >= 4 && targetRank <= 6 )
+			&& ( toFile >= 'c' && toFile <= 'e'  ) ) {
 			return 1;
 		}
 		return 0;

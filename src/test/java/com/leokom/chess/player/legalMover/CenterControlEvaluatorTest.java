@@ -42,4 +42,15 @@ public class CenterControlEvaluatorTest {
 
 		asserts.assertFirstBetter( position, centerControlMove, notCenterControlMove );
 	}
+
+	@Test
+	public void kingNearCenterBetterThanToBorder() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "b5", PieceType.KING );
+
+		Move toCenter = new Move( "b5", "c5" );
+		Move toBorder = new Move( "b5", "a5" );
+
+		asserts.assertFirstBetter( position, toCenter, toBorder );
+	}
 }
