@@ -65,4 +65,16 @@ public class CenterControlEvaluatorTest {
 
 		asserts.assertFirstBetter( position, toCenter, toBorder );
 	}
+
+	@Test
+	public void f6AlsoGivesControl() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "f7", PieceType.KING );
+
+		//attacks d4
+		Move toCenter = new Move( "f7", "f6" );
+		Move toBorder = new Move( "f7", "g8" );
+
+		asserts.assertFirstBetter( position, toCenter, toBorder );
+	}
 }

@@ -23,7 +23,7 @@ class CenterControlEvaluator implements Evaluator {
 		final int targetRank = move.getToRank();
 		char toFile = move.getToFile().charAt( 0 );
 		if ( ( targetRank >= 3 && targetRank <= 6 )
-			&& ( toFile >= 'c' && toFile <= 'e'  ) ) {
+			&& ( toFile >= 'c' && toFile <= 'f'  ) ) {
 			return 1;
 		}
 		return 0;
