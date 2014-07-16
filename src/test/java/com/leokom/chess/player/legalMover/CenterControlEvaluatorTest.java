@@ -77,4 +77,15 @@ public class CenterControlEvaluatorTest {
 
 		asserts.assertFirstBetter( position, toCenter, toBorder );
 	}
+
+	@Test
+	public void rookTriangulate() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "f7", PieceType.KING );
+
+		Move toEFile = new Move( "f7", "e7" );
+		Move toSquareDrawnByKingInTestsAbove = new Move( "f7", "f6" );
+
+		asserts.assertFirstBetter( position, toEFile, toSquareDrawnByKingInTestsAbove );
+	}
 }
