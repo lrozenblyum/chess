@@ -22,7 +22,7 @@ class CenterControlEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final int targetRank = move.getToRank();
 		char toFile = move.getToFile().charAt( 0 );
-		if ( ( targetRank >= 4 && targetRank <= 6 )
+		if ( ( targetRank >= 3 && targetRank <= 6 )
 			&& ( toFile >= 'c' && toFile <= 'e'  ) ) {
 			return 1;
 		}

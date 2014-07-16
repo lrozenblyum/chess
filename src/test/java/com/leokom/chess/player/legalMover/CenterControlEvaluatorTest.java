@@ -53,4 +53,16 @@ public class CenterControlEvaluatorTest {
 
 		asserts.assertFirstBetter( position, toCenter, toBorder );
 	}
+
+	@Test
+	public void kingIsCoolAtC3() {
+		Position position = new Position( null );
+		position.add( Side.BLACK, "b3", PieceType.KING );
+
+		//attacks d4
+		Move toCenter = new Move( "b3", "c3" );
+		Move toBorder = new Move( "b3", "b2" );
+
+		asserts.assertFirstBetter( position, toCenter, toBorder );
+	}
 }
