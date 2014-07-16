@@ -20,6 +20,11 @@ class CenterControlEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		//TODO: if we're already in central square
+		//does it mean control now?
+		//e.g. Knight on e5 cannot attack e4, d4, d5
+		//but blocks the center
+
 		final int targetRank = move.getToRank();
 		char toFile = move.getToFile().charAt( 0 );
 		if ( ( targetRank >= 3 && targetRank <= 6 )
