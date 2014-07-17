@@ -31,6 +31,17 @@ public class CenterControlEvaluatorTest {
 	}
 
 	@Test
+	public void givenKnightShouldD5ProveImportance() {
+		Position position = new Position( null );
+		position.add( Side.WHITE, "a6", PieceType.KNIGHT );
+
+		Move toAttackD5 = new Move( "a6", "c7" );
+		Move toGoToBorder = new Move( "a6", "b8" );
+
+		asserts.assertFirstBetter( position, toAttackD5, toGoToBorder );
+	}
+
+	@Test
 	public void blackKingToCenter() {
 		Position position = new Position( null );
 		position.add( Side.BLACK, "e7", PieceType.KING );
@@ -81,7 +92,7 @@ public class CenterControlEvaluatorTest {
 	@Test
 	public void rookTriangulate() {
 		Position position = new Position( null );
-		position.add( Side.WHITE, "f7", PieceType.KING );
+		position.add( Side.WHITE, "f7", PieceType.ROOK );
 
 		Move toEFile = new Move( "f7", "e7" );
 		Move toSquareDrawnByKingInTestsAbove = new Move( "f7", "f6" );

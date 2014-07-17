@@ -372,6 +372,12 @@ public class Position {
 		return squaresAttackedByOpponent;
 	}
 
+	//convenient helper for players
+	//should we provide such services?
+	public Set< String > getSquaresAttackedBy( Side side ) {
+		return getSquaresAttackedByOpponent( side.opposite() );
+	}
+
 	//this method can be formed either as:
 	//rook moves+bishop moves
 	//or ( rook attacked + bishop attacked ) - (busy by our pieces)
@@ -536,7 +542,7 @@ public class Position {
 		return disallowedMoves;
 	}
 
-	Side getSide( String square ) {
+	public Side getSide( String square ) {
 		final Piece piece = pieces.get( square );
 		if ( piece == null ) {
 			//TODO: correct? Some code relied on this.
