@@ -40,7 +40,7 @@ public class LegalPlayerSelfPlayTest {
 		Player legalPlayerWhite = new LegalPlayer( Side.WHITE );
 		Player legalPlayerBlack = new LegalPlayer( Side.BLACK );
 
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c1", PieceType.KING );
 

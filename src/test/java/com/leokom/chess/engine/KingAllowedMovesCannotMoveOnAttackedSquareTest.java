@@ -11,7 +11,7 @@ import org.junit.Test;
 public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 	@Test
 	public void withPawnNotPromotion() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.addPawn( Side.WHITE, "a2" ); //attacks b3
 		position.add( Side.BLACK, "a3", PieceType.KING );
 
@@ -23,7 +23,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void withPawnPromotion() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.addPawn( Side.BLACK, "h2" ); //may be promoted to h1 or capture g1
 		position.add( Side.WHITE, "f1", PieceType.KING );
 
@@ -34,7 +34,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void knightAttacked() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //controls b1, a2
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
@@ -46,7 +46,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void ourSideKnightIsNotAttacker() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "c3", PieceType.KNIGHT ); //controls b1, a2
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
@@ -58,7 +58,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void knightAndPawnAttack() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //controls b1, a2
 		position.add( Side.BLACK, "a2", PieceType.PAWN ); //controls b1
 
@@ -71,7 +71,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void knightAndPawnAttackNoWay() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //controls b1, a2
 		position.add( Side.BLACK, "a3", PieceType.PAWN ); //controls b2
 
@@ -83,7 +83,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void cannotCaptureIfControlledByPawn() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "g7", PieceType.PAWN );
 		position.add( Side.WHITE, "h6", PieceType.PAWN ); //protects the pawn
 
@@ -96,7 +96,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void canCaptureAPawnThatControlsOtherPiece() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "g8", PieceType.KNIGHT );
 		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the knight
 
@@ -109,7 +109,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void bishopProtected() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "c3", PieceType.BISHOP ); //controls b2, a1
 
 
@@ -122,7 +122,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void bishopProtectedCannotCapture() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "c3", PieceType.BISHOP ); //controls b2, a1
 		position.add( Side.WHITE, "a1", PieceType.BISHOP ); //controls b2, a1
 
@@ -136,7 +136,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void rookControl() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "b3", PieceType.ROOK ); //controls file b, rank 3
 
 		position.add( Side.BLACK, "a1", PieceType.KING );
@@ -148,7 +148,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void rookProtectsOwnPiece() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "c2", PieceType.ROOK );
 		position.add( Side.WHITE, "a2", PieceType.PAWN );
 
@@ -164,7 +164,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 	//but now it's attacked. FIDE rules have some ambiguity in 3.8 (solved completely in 3.9)
 	@Test
 	public void integrationOfRookAndPawn() {  //they greatly reduce king's possibilities
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "g8", PieceType.ROOK );
 		position.add( Side.WHITE, "h7", PieceType.PAWN ); //protects the rook
 
@@ -177,7 +177,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void bishopAttackFromCheckToCheck() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "f6", PieceType.BISHOP );
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
@@ -189,7 +189,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void bishopAttackFromCheckToCheckCanCapture() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "f6", PieceType.BISHOP );
 
 		position.add( Side.BLACK, "g7", PieceType.KING );
@@ -201,7 +201,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void queenAttacked() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "f6", PieceType.QUEEN );
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
@@ -213,7 +213,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void queenAttackedVertically() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "g5", PieceType.QUEEN );
 
 		position.add( Side.BLACK, "h8", PieceType.KING );
@@ -225,7 +225,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void queenProtectsFromCapture() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "g5", PieceType.QUEEN );
 		position.add( Side.WHITE, "g8", PieceType.KNIGHT ); //protected
 
@@ -238,7 +238,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void queenProtectsFromCaptureNoWayForKing() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "g6", PieceType.QUEEN );
 		position.add( Side.WHITE, "g8", PieceType.KNIGHT ); //protected
 
@@ -251,7 +251,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void ownQueenIsNotAProblem() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "g8", PieceType.KNIGHT );
 
 		position.add( Side.BLACK, "g6", PieceType.QUEEN ); //own queen
@@ -265,7 +265,7 @@ public class KingAllowedMovesCannotMoveOnAttackedSquareTest {
 
 	@Test
 	public void kingCannotMeetAKing() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 
 		position.add( Side.BLACK, "c1", PieceType.KING );

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class PositionImmutabilityTest {
 	@Test
 	public void positionAfterMoveNotModified() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e2", PieceType.PAWN );
 		position.add( Side.WHITE, "d2", PieceType.PAWN );
 		position.add( Side.BLACK, "g2", PieceType.PAWN );
@@ -34,7 +34,7 @@ public class PositionImmutabilityTest {
 
 	@Test
 	public void positionEnPassantStatusClear() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e2", PieceType.PAWN );
 		position.add( Side.WHITE, "d2", PieceType.PAWN );
 		position.add( Side.BLACK, "g2", PieceType.PAWN );
@@ -51,7 +51,8 @@ public class PositionImmutabilityTest {
 
 	@Test
 	public void positionEnPassantStatusSet() {
-		Position position = new Position( "e" );
+		Position position = new Position();
+		position.setEnPassantFile( "e" );
 		position.add( Side.WHITE, "e4", PieceType.PAWN );
 		position.add( Side.WHITE, "d2", PieceType.PAWN );
 		position.add( Side.BLACK, "g4", PieceType.PAWN );

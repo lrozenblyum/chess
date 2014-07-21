@@ -9,7 +9,7 @@ import org.junit.Test;
 public class KingAllowedMovesCastlingTest {
 	@Test
 	public void castlingIsAllowed() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
@@ -20,7 +20,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void castlingIsAllowedBlack() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "e8", PieceType.KING );
 
 		position.add( Side.BLACK, "h8", PieceType.ROOK );
@@ -31,7 +31,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void castlingQueenSide() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "e8", PieceType.KING );
 
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
@@ -42,7 +42,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void rightToCastlingIsLostIfKingMoved() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 
@@ -60,7 +60,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void rightToCastlingNoInfluenceToOppositeSide() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 
@@ -76,7 +76,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test //not just one move lost
 	public void rightToCastlingIsLostPermanently() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 		position.add( Side.WHITE, "a2", PieceType.PAWN );
@@ -97,7 +97,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test //not just one move lost
 	public void castlingIsImpossibleAfterCastling() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 		position.add( Side.WHITE, "a2", PieceType.PAWN );
@@ -124,7 +124,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void castlingRightLostIfRookMoved() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "h1", PieceType.KING );
 
@@ -141,7 +141,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void castlingRightLostPermanentlyIfRookMoved() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "h1", PieceType.KING );
 
@@ -160,7 +160,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void castlingRightNotLostWithAnotherRook() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "h3", PieceType.PAWN );
 		position.add( Side.WHITE, "h1", PieceType.KING );
@@ -179,7 +179,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void bothRooksMovedCannotCastle() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "h3", PieceType.PAWN );
 		position.add( Side.WHITE, "h1", PieceType.KING );
@@ -205,7 +205,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void preventTemporaryCastlingIfAttacked() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		//attacking the black king
 		position.add( Side.WHITE, "e1", PieceType.ROOK );
@@ -224,7 +224,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void checkIsJustTemporaryPrevention() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		//attacking the black king
 		position.add( Side.WHITE, "e1", PieceType.ROOK );
@@ -246,7 +246,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void preventCastlingIfCrossSquareAttacked() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		//attacking rank f
 		position.add( Side.WHITE, "f1", PieceType.ROOK );
@@ -266,7 +266,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void preventCastlingIfCrossSquareAttackedQueenSide() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		//attacking rank d
 		position.add( Side.WHITE, "d1", PieceType.QUEEN );
@@ -287,7 +287,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void cannotCastleIfExposeKingToCheck() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 
@@ -302,7 +302,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void ourPieceInMiddlePreventsCastling() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "a1", PieceType.ROOK );
 		position.add( Side.WHITE, "b1", PieceType.KNIGHT );
@@ -316,7 +316,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test
 	public void opponentPieceInMiddlePreventsCastling() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 
@@ -331,7 +331,7 @@ public class KingAllowedMovesCastlingTest {
 
 	@Test //cannot capture by castling
 	public void pieceAtCastlingTargetPrevents() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 

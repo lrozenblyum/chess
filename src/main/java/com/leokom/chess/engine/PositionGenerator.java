@@ -95,7 +95,8 @@ final class PositionGenerator {
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 
-		final Position result = new Position( newEnPassantFile );
+		final Position result = new Position();
+		result.setEnPassantFile( newEnPassantFile );
 		cloneAndRemove( result, squareFrom );
 
 		//en passant capture requires extra processing
@@ -133,7 +134,7 @@ final class PositionGenerator {
 	private Position processMoveWithoutSideEffects( String squareFrom, String move ) {
 		//after moving everything except a pawn
 		//we clear the flag about en passant possibility
-		final Position position = new Position( null );
+		final Position position = new Position();
 		cloneAndRemove( position, squareFrom );
 
 		position.add( source.getSide( squareFrom ), move, source.getPieceType( squareFrom ) );

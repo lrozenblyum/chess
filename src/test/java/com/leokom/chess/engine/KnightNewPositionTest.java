@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class KnightNewPositionTest {
 	@Test
 	public void simpleMove() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "b1", PieceType.KNIGHT );
 
 		final Position newPosition = position.move( "b1", "c3" );
@@ -23,7 +23,7 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void blackMove() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
 
 		final Position newPosition = position.move( "b1", "c3" );
@@ -34,7 +34,7 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void otherPiecesRemain() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
 		position.add( Side.BLACK, "a2", PieceType.PAWN );
 
@@ -48,7 +48,7 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void movingKnightRemoved() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
 
 		final Position newPosition = position.move( "b1", "a3" );
@@ -59,7 +59,7 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void enPassantPossibilityClearance() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "h1", PieceType.KNIGHT );
 
 		position.add( Side.WHITE, "a2", PieceType.PAWN );

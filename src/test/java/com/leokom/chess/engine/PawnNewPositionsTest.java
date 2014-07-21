@@ -19,7 +19,7 @@ public class PawnNewPositionsTest {
 
 	@Before
 	public void prepare() {
-		position = new Position( null );
+		position = new Position();
 	}
 
 	@Test

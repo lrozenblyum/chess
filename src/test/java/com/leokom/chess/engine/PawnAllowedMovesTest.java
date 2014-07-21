@@ -16,7 +16,7 @@ public class PawnAllowedMovesTest {
 
 	@Before
 	public void prepare() {
-		position = new Position( null );
+		position = new Position();
 	}
 
 	/**

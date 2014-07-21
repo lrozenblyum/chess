@@ -9,7 +9,7 @@ import org.junit.Test;
 public class BishopAllowedMovesTest {
 	@Test
 	public void simpleDiagonal() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.BISHOP );
 
 		PositionAsserts.assertAllowedMoves(
@@ -19,7 +19,7 @@ public class BishopAllowedMovesTest {
 
 	@Test
 	public void fromB1() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "b1", PieceType.BISHOP );
 
 		PositionAsserts.assertAllowedMoves(
@@ -29,7 +29,7 @@ public class BishopAllowedMovesTest {
 
 	@Test
 	public void centralPoint() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "d4", PieceType.BISHOP );
 
 		PositionAsserts.assertAllowedMoves(
@@ -40,7 +40,7 @@ public class BishopAllowedMovesTest {
 
 	@Test
 	public void cannotMoveOverIntervening() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.BISHOP );
 
 		position.add( Side.WHITE, "c3", PieceType.KNIGHT ); //any
@@ -52,7 +52,7 @@ public class BishopAllowedMovesTest {
 
 	@Test
 	public void canCapture() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.BISHOP );
 
 		position.add( Side.BLACK, "c3", PieceType.KNIGHT ); //any

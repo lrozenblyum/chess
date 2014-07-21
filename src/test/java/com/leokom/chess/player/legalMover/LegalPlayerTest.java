@@ -29,7 +29,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c2", PieceType.KING );
 
@@ -56,7 +56,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "h8", PieceType.KING );
 		position.add( Side.BLACK, "g5", PieceType.KING );
 
@@ -100,7 +100,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "h8", PieceType.KING );
 		position.add( Side.BLACK, "g6", PieceType.KING );
 
@@ -174,7 +174,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		final Position position = new Position( null );
+		final Position position = new Position();
 
 		//white King surrounded
 		position.add( Side.WHITE, "h8", PieceType.KING );
@@ -206,7 +206,7 @@ public class LegalPlayerTest {
 		final LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		final Position position = new Position( null );
+		final Position position = new Position();
 
 		//white King surrounded
 		position.add( Side.WHITE, "h8", PieceType.KING );
@@ -245,7 +245,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.BLACK );
 		player.setOpponent( opponent );
 
-		final Position position = new Position( null );
+		final Position position = new Position();
 
 		position.add( Side.WHITE, "c1", PieceType.KING );
 		position.add( Side.BLACK, "a1", PieceType.KING );

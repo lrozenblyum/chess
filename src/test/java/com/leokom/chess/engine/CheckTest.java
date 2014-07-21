@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class CheckTest {
 	@Test
 	public void cannotExposeKingToCheck() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.WHITE, "a2", PieceType.ROOK );
@@ -29,7 +29,7 @@ public class CheckTest {
 
 	@Test
 	public void cannotExposeKingToCheckTriangulate() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.WHITE, "a2", PieceType.BISHOP );
@@ -42,7 +42,7 @@ public class CheckTest {
 
 	@Test
 	public void promotionCannotExposeKingToCheck() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.BLACK, "h2", PieceType.KING );
 		position.add( Side.BLACK, "f2", PieceType.PAWN );
@@ -55,7 +55,7 @@ public class CheckTest {
 	//more integration test - checking whole board moves
 	@Test
 	public void cannotLeaveKingInCheck() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.BLACK, "h2", PieceType.KING );
 		position.add( Side.WHITE, "g2", PieceType.QUEEN );
@@ -72,7 +72,7 @@ public class CheckTest {
 	//even if such pieces are constrained from moving to that square because they would then leave or place their own king in check
 	@Test
 	public void checkEvenIfCannotMove() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.WHITE, "a3", PieceType.ROOK );

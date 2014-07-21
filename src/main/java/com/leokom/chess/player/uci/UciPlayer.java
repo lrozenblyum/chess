@@ -61,7 +61,7 @@ public final class UciPlayer extends AbstractEngine {
   public void receive(EngineAnalyzeCommand command) {
     new EngineStopCalculatingCommand().accept(this);
 
-    position = new Position(null);
+	  position = new Position();
 
     for (GenericPosition genericPosition : GenericPosition.values()) {
       GenericPiece genericPiece = command.board.getPiece(genericPosition);

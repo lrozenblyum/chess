@@ -19,7 +19,7 @@ public class CenterControlEvaluatorTest {
 
 	@Test
 	public void evaluateMove() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "c3", PieceType.KING );
 
 		//controls d5, d4
@@ -32,7 +32,7 @@ public class CenterControlEvaluatorTest {
 
 	@Test
 	public void givenKnightShouldD5ProveImportance() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a6", PieceType.KNIGHT );
 
 		Move toAttackD5 = new Move( "a6", "c7" );
@@ -43,7 +43,7 @@ public class CenterControlEvaluatorTest {
 
 	@Test
 	public void blackKingToCenter() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "e7", PieceType.KING );
 
 		//controls d5, e5
@@ -56,7 +56,7 @@ public class CenterControlEvaluatorTest {
 
 	@Test
 	public void kingNearCenterBetterThanToBorder() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "b5", PieceType.KING );
 
 		Move toCenter = new Move( "b5", "c5" );
@@ -67,7 +67,7 @@ public class CenterControlEvaluatorTest {
 
 	@Test
 	public void kingIsCoolAtC3() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "b3", PieceType.KING );
 
 		//attacks d4
@@ -79,7 +79,7 @@ public class CenterControlEvaluatorTest {
 
 	@Test
 	public void f6AlsoGivesControl() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "f7", PieceType.KING );
 
 		//attacks d4
@@ -91,7 +91,7 @@ public class CenterControlEvaluatorTest {
 
 	@Test
 	public void rookTriangulate() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "f7", PieceType.ROOK );
 
 		Move toEFile = new Move( "f7", "e7" );

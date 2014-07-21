@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class PositionAllowedMovesTest {
 	@Test
 	public void simplePositionSingleMove() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c1", PieceType.KING );
 
@@ -26,7 +26,7 @@ public class PositionAllowedMovesTest {
 
 	@Test //same test as previous but changing colours
 	public void simplePositionTriangulateByColor() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "a1", PieceType.KING );
 		position.add( Side.WHITE, "c1", PieceType.KING );
 
@@ -39,7 +39,7 @@ public class PositionAllowedMovesTest {
 
 	@Test
 	public void simplePositionNoMoves() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 
 		position.add( Side.BLACK, "b1", PieceType.BISHOP ); //any?

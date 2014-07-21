@@ -9,7 +9,7 @@ import org.junit.Test;
 public class KingAllowedMovesTest {
 	@Test
 	public void a1() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 
 		PositionAsserts.assertAllowedMoves(
@@ -21,7 +21,7 @@ public class KingAllowedMovesTest {
 
 	@Test
 	public void h8() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "h8", PieceType.KING );
 
 		PositionAsserts.assertAllowedMoves(
@@ -33,7 +33,7 @@ public class KingAllowedMovesTest {
 
 	@Test
 	public void a8() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "a8", PieceType.KING );
 
 		PositionAsserts.assertAllowedMoves(
@@ -45,7 +45,7 @@ public class KingAllowedMovesTest {
 
 	@Test
 	public void e4() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.BLACK, "e4", PieceType.KING );
 
 		PositionAsserts.assertAllowedMoves(
@@ -59,7 +59,7 @@ public class KingAllowedMovesTest {
 
 	@Test
 	public void cannotMoveOnBlockedSquare() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 
 		position.add( Side.WHITE, "b1", PieceType.QUEEN );
@@ -74,7 +74,7 @@ public class KingAllowedMovesTest {
 
 	@Test
 	public void canCapture() {
-		Position position = new Position( null );
+		Position position = new Position();
 		position.add( Side.WHITE, "a1", PieceType.KING );
 
 		position.add( Side.BLACK, "b1", PieceType.KNIGHT );

@@ -116,7 +116,7 @@ public class PawnAllowedMovesEnPassantTest {
 	}
 
 	private static Position createPositionWithoutEnPassantRight() {
-		return new Position( null );
+		return new Position();
 	}
 
 	/**
@@ -127,6 +127,8 @@ public class PawnAllowedMovesEnPassantTest {
 	 * @return
 	 */
 	private static Position createPositionWithEnPassantPossibility( String file ) {
-		return new Position( file );
+		final Position position = new Position();
+		position.setEnPassantFile( file );
+		return position;
 	}
 }

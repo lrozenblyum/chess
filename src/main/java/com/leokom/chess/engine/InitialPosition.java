@@ -37,7 +37,7 @@ final class InitialPosition {
 	}
 
 	static Position generate() {
-		final Position result = new Position( null );
+		final Position result = new Position();
 
 		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );

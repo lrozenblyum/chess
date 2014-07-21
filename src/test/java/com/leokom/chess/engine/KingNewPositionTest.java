@@ -9,7 +9,7 @@ import org.junit.Test;
 public class KingNewPositionTest {
 	@Test
 	public void kingCanMove() {
-		Position position = new Position( null );
+		Position position = new Position();
 		
 		position.add( Side.WHITE, "e1", PieceType.KING );
 
@@ -20,7 +20,7 @@ public class KingNewPositionTest {
 
 	@Test
 	public void capture() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.BLACK, "d1", PieceType.QUEEN );
@@ -32,7 +32,7 @@ public class KingNewPositionTest {
 
 	@Test
 	public void whiteShortCastling() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
@@ -50,7 +50,7 @@ public class KingNewPositionTest {
 
 	@Test
 	public void blackCastlingKingSide() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.BLACK, "e8", PieceType.KING );
 		position.add( Side.BLACK, "h8", PieceType.ROOK );
@@ -67,7 +67,7 @@ public class KingNewPositionTest {
 
 	@Test
 	public void blackCastlingQueenSide() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.BLACK, "e8", PieceType.KING );
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
@@ -84,7 +84,7 @@ public class KingNewPositionTest {
 
 	@Test
 	public void whitef1g1NonCastling() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "f1", PieceType.KING );
 
@@ -99,7 +99,7 @@ public class KingNewPositionTest {
 
 	@Test
 	public void whiteLongCastling() {
-		Position position = new Position( null );
+		Position position = new Position();
 
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "a1", PieceType.ROOK );

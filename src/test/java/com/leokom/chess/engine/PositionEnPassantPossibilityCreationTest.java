@@ -17,7 +17,7 @@ public class PositionEnPassantPossibilityCreationTest {
 	@Before
 	public void prepare() {
 		//TODO: this null is not important, "a" - "h" are also perfectly legal
-		position = new Position( null );
+		position = new Position();
 	}
 
 	@Test
@@ -87,7 +87,8 @@ public class PositionEnPassantPossibilityCreationTest {
 
 	@Test
 	public void flagIsNotPreservedNextMove() {
-		Position newPosition = new Position( "e" );
+		Position newPosition = new Position();
+		newPosition.setEnPassantFile( "e" );
 		newPosition.addPawn( Side.WHITE, "e4" );
 
 		newPosition.addPawn( Side.BLACK, "c7" ); //any

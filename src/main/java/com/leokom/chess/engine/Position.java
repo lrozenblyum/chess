@@ -76,22 +76,23 @@ public class Position {
 		this.hasHRookMoved.put( side, true );
 	}
 
+	void setEnPassantFile( String enPassantFile ) {	this.enPassantFile = enPassantFile; }
 
 	//temporary state in game (which could change)
-	private final String enPassantFile;
+	private String enPassantFile;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
 
 	/**
 	 * Create position.
+	 *
 	 * By default king's right to castle is NOT lost (king and rooks
 	 * are considered to be not have moved before) which might be inconsistent with actual position
 	 *
-	 * @param enPassantFile
+	 * By default en passant file is absent
 	 */
-	public Position( String enPassantFile ) {
-		this.enPassantFile = enPassantFile;
+	public Position() {
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
