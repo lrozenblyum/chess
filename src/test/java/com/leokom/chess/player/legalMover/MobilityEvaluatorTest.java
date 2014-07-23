@@ -29,4 +29,19 @@ public class MobilityEvaluatorTest {
 
 		new EvaluatorAsserts( evaluator ).assertFirstBetter( position, expectedBetter, expectedWorse );
 	}
+
+	@Test
+	public void shouldKingHaveMoreFreedom() {
+		Position position = new Position();
+		position.add( Side.BLACK, "f8", PieceType.KING );
+
+		position.add( Side.WHITE, "e8", PieceType.KNIGHT );
+		position.add( Side.WHITE, "f7", PieceType.QUEEN );
+		position.add( Side.WHITE, "e7", PieceType.PAWN );
+
+		Move expectedBetter = new Move( "f8", "g7" ); //can move to f8, g8, h8, h7, g6, f6
+		Move expectedWorse = new Move( "f8", "g8" ); //can move to f8, g7, h8, h7
+
+		new EvaluatorAsserts( evaluator ).assertFirstBetter( position, expectedBetter, expectedWorse );
+	}
 }

@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 
 /**
  * Author: Leonid
@@ -10,6 +11,10 @@ import com.leokom.chess.engine.Position;
 public class MobilityEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return move.getTo().equals( "d4" ) ? 1 : 0;
+		final Position target = position.move( move );
+
+		final Side ourSide = position.getSide( move.getFrom() );
+
+		return target.getMoves( ourSide ).size();
 	}
 }
