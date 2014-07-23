@@ -5,6 +5,9 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 
 /**
+ * If inside a position there is a bigger variety of moves
+ * we consider this as better
+ *
  * Author: Leonid
  * Date-time: 23.07.14 21:46
  */
