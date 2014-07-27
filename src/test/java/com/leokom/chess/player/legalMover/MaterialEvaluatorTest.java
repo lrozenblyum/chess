@@ -45,5 +45,19 @@ public class MaterialEvaluatorTest {
 				.assertFirstBetter( position, capture, justMove );
 	}
 
+	@Test
+	public void shouldPromotionGiveMaterialBenefit() {
+		Position position = new Position();
+		position.add( Side.WHITE, "e7", PieceType.PAWN );
+		position.add( Side.WHITE, "b2", PieceType.PAWN );
 
+		Move promotion = new Move( "e7", "e8B" );
+		Move justMove = new Move( "b2", "b3" );
+
+		new EvaluatorAsserts( evaluator )
+				.assertFirstBetter( position, promotion, justMove );
+
+	}
+
+	//TODO: promotion + capture is even better
 }
