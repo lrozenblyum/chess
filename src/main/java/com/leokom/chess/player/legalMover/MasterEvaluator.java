@@ -18,7 +18,11 @@ class MasterEvaluator implements Evaluator {
 		//so far no, but from human logic we need that possibility
 		//among 2 'equal' moves we would like to select according to some
 		//compare 1-to-another logic
-		List< Evaluator > evaluators = Arrays.asList( new CastlingSafetyEvaluator(), new CenterControlEvaluator(), new MobilityEvaluator() );
+		List< Evaluator > evaluators = Arrays.asList(
+			new CastlingSafetyEvaluator(),
+			new CenterControlEvaluator(),
+			new MobilityEvaluator(),
+			new MaterialEvaluator() );
 		double estimate = 0;
 		for ( Evaluator evaluator : evaluators ) {
 			// rather safe if all evaluators keep convention [0 , 1]
