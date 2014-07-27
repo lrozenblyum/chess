@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 
 /**
  * Evaluate material domination
@@ -14,6 +15,15 @@ import com.leokom.chess.engine.Position;
 public class MaterialEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return move.getTo().equals( "d5" ) ? 1 : 0;
+		final Position target = position.move( move );
+
+		Side ourSide = position.getSide( move.getFrom() );
+
+		//funny detection of capture
+		int squaresOccupiedByOpponentBeforeMove = position.getSquaresOccupiedBySide( ourSide.opposite() ).size();
+		int squaresOccupiedByOpponentAfterMove = target.getSquaresOccupiedBySide( ourSide.opposite() ).size();
+		boolean pieceCaptured = squaresOccupiedByOpponentAfterMove - squaresOccupiedByOpponentBeforeMove < 0;
+
+		return pieceCaptured ? 1 : 0;
 	}
 }

@@ -10,7 +10,7 @@ public enum Side {
 	/**
 	 * @return the opposite side to the current
 	 */
-	Side opposite() {
+	public Side opposite() {
 		return this == WHITE ? BLACK : WHITE;
 	}
 }

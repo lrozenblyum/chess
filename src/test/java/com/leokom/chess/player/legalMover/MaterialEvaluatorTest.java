@@ -32,4 +32,18 @@ public class MaterialEvaluatorTest {
 				.assertFirstBetter( position, capture, justMove );
 	}
 
+	@Test
+	public void unHardCodeD5() {
+		Position position = new Position();
+		position.add( Side.WHITE, "e4", PieceType.QUEEN );
+		position.add( Side.BLACK, "e8", PieceType.PAWN );
+
+		Move capture = new Move( "e4", "e8" );
+		Move justMove = new Move( "e4", "d5" );
+
+		new EvaluatorAsserts( evaluator )
+				.assertFirstBetter( position, capture, justMove );
+	}
+
+
 }

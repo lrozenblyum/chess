@@ -304,7 +304,7 @@ public class Position {
 		return getSquaresOccupiedBySide( ourSide.opposite() );
 	}
 
-	private Set<String> getSquaresOccupiedBySide( Side neededSide ) {
+	public Set<String> getSquaresOccupiedBySide( Side neededSide ) {
 		Set< String > result = new HashSet<>();
 		for( String square : pieces.keySet() ) {
 			if ( pieces.get( square ).getSide() == neededSide ) {
