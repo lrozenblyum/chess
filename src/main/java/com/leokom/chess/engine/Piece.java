@@ -4,7 +4,7 @@ package com.leokom.chess.engine;
  * Represent single IMMUTABLE piece of some specific side
  * (e.g. white rook, black pawn)
  */
-class Piece {
+public class Piece {
 	private final PieceType pieceType;
 	private final Side side;
 
@@ -13,11 +13,11 @@ class Piece {
 		this.side = side;
 	}
 
-	PieceType getPieceType() {
+	public PieceType getPieceType() {
 		return pieceType;
 	}
 
-	Side getSide() {
+	public Side getSide() {
 		return side;
 	}
 

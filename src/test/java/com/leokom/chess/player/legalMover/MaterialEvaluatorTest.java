@@ -59,5 +59,16 @@ public class MaterialEvaluatorTest {
 
 	}
 
-	//TODO: promotion + capture is even better
+	@Test
+	public void shouldPromotionToHigherPieceGiveMaterialBenefit() {
+		Position position = new Position();
+		position.add( Side.WHITE, "e7", PieceType.PAWN );
+
+		Move toBishop = new Move( "e7", "e8B" );
+		Move toQueen = new Move( "e7", "e8Q" );
+
+		new EvaluatorAsserts( evaluator )
+				.assertFirstBetter( position, toQueen, toBishop );
+
+	}
 }

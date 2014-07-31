@@ -803,4 +803,14 @@ public class Position {
 
 		return result;
 	}
+
+	public List<Piece> getPieces( Side side ) {
+		List< Piece > result = new ArrayList<>();
+		for ( String square : pieces.keySet() ) {
+			if ( pieces.get( square ).getSide() == side ) {
+				result.add( pieces.get( square ) );
+			}
+		}
+		return result;
+	}
 }
