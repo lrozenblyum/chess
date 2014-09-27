@@ -4,8 +4,6 @@ import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Stubber;
 
 import static org.junit.Assert.assertFalse;
@@ -117,12 +115,9 @@ public class WinBoardPlayerTest {
 		final ArgumentCaptor< OfferDrawListener > offerDrawListener = ArgumentCaptor.forClass( OfferDrawListener.class );
 		verify( commander ).onOfferDraw( offerDrawListener.capture() );
 
-		return doAnswer( new Answer() {
-			@Override
-			public Object answer( InvocationOnMock invocationOnMock ) {
-				offerDrawListener.getValue().execute();
-				return null; //just for compiler... due to generic Answer interface
-			}
+		return doAnswer( invocationOnMock -> {
+			offerDrawListener.getValue().execute();
+			return null; //just for compiler... due to generic Answer interface
 		} );
 	}
 
@@ -131,12 +126,9 @@ public class WinBoardPlayerTest {
 
 		verify( commander ).onQuit( quitListener.capture() );
 
-		return doAnswer( new Answer() {
-			@Override
-			public Object answer( InvocationOnMock invocationOnMock ) {
-				quitListener.getValue().execute();
-				return null;  //just for compiler... due to generic Answer interface
-			}
+		return doAnswer( invocationOnMock -> {
+			quitListener.getValue().execute();
+			return null;  //just for compiler... due to generic Answer interface
 		} );
 	}
 

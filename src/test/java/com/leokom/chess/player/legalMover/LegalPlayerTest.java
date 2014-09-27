@@ -5,7 +5,6 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
@@ -229,12 +228,9 @@ public class LegalPlayerTest {
 	}
 
 	private Answer getAnswerToH8H7( final LegalPlayer player ) {
-		return new Answer() {
-			@Override
-			public Object answer( InvocationOnMock invocationOnMock ) {
-				player.opponentMoved( "a1a2" );
-				return null;
-			}
+		return invocationOnMock -> {
+			player.opponentMoved( "a1a2" );
+			return null;
 		};
 	}
 
