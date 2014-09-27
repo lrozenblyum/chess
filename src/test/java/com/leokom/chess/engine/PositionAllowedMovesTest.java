@@ -11,6 +11,21 @@ import static org.junit.Assert.assertEquals;
  * Date-time: 14.12.13 14:01
  */
 public class PositionAllowedMovesTest {
+	// 1.2. ’capturing’ the opponent’s king .. not allowed
+
+	//technically in reality this might not happen
+	//opponent cannot leave its king under check
+	//anyway our chess engine mustn't act against rules even if opponent did
+	//even more - FIDE rules have an explicit statement about the king capture.
+	@Test
+	public void cannotCaptureKing() {
+		Position position = new Position();
+		position.add( Side.WHITE, "a1", PieceType.QUEEN );
+		position.add( Side.BLACK, "c1", PieceType.KING );
+
+		PositionAsserts.assertAllowedMovesOmit( position, "a1", "c1" );
+	}
+
 	@Test
 	public void simplePositionSingleMove() {
 		Position position = new Position();
