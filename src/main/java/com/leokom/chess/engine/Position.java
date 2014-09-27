@@ -3,6 +3,7 @@ package com.leokom.chess.engine;
 import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.leokom.chess.engine.Board.*;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
@@ -133,7 +134,19 @@ public class Position {
 
 		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
 
+		//1.2 ’capturing’ the opponent’s king ... not allowed
+		potentialMoves.removeAll( getCapturesOfKing( potentialMoves ) );
+
 		return potentialMoves;
+	}
+
+	private Collection< String > getCapturesOfKing( Set< String > potentialMoves ) {
+		//no need to filter explicitly by opponent's king
+		//anyway we couldn't move to a square occupied by OUR king
+		return potentialMoves.stream()
+			.filter( move ->
+				isOccupiedBy( Move.getDestinationSquare( move ), PieceType.KING )
+			).collect( Collectors.toList() );
 	}
 
 	//artificial method born due to need to exclude
@@ -633,6 +646,11 @@ public class Position {
 		//if not found is null -> null != side
 		final Piece piece = pieces.get( square );
 		return piece != null && piece.getSide() == side;
+	}
+
+	private boolean isOccupiedBy( String square, PieceType pieceType ) {
+		final Piece piece = pieces.get( square );
+		return piece != null && piece.getPieceType() == pieceType;
 	}
 
 	private boolean isOccupied( String square ) {
