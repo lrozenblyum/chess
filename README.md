@@ -14,6 +14,11 @@ The well-known GUI implementations are XBoard/Winboard.
 document http://home.hccnet.nl/h.g.muller/interfacing.txt
 * know about all chess rules (including ambiguities with the 3'd position repetition and insufficient material)
 * be able to choose at least random 'correct according to rules' move.
+*
+
+## Continuous Integration
+Public continuous integration is accessible via 
+https://travis-ci.org/lrozenblyum/chess/builds
 
 ## License
 The license is described in LICENSE file.
