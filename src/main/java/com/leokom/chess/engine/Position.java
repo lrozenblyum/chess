@@ -396,11 +396,12 @@ public class Position {
 	//rook moves+bishop moves
 	//or ( rook attacked + bishop attacked ) - (busy by our pieces)
 	private Set<String> getQueenMoves( String square ) {
-		//TODO: this works in assumption
-		//that rook's castling is NOT included into
-		//getRookMoves. Castling is considered as King's move
-
 		//TODO: some Guava/CollectionUtils for simplification?
+
+		//this works in assumption that rook's castling is NOT included into
+		//getRookMoves. Castling is considered as King's move
+		//however due to current notation for castling it's not harmful
+		//(we're not using 0-0 yet)
 		final Set< String > result = getSquaresAttackedByRook( square );
 		result.addAll( getSquaresAttackedByBishop( square ) );
 		return result;
