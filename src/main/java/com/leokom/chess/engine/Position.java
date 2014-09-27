@@ -348,13 +348,8 @@ public class Position {
 	private boolean isKingInCheck( Side side ) {
 
 		final String kingSquare = findKing( side );
-		//TODO: impossible in real chess, possible in our tests...
-
-		if ( kingSquare == null ) {
-			return false;
-		}
-
-		return isSquareAttacked( side, kingSquare );
+		//TODO: null is impossible in real chess, possible in our tests...
+		return kingSquare != null && isSquareAttacked( side, kingSquare );
 	}
 
 	//we specify OUR side here because square might be empty
