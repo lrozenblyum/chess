@@ -77,20 +77,15 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	@Override
-	public void run() {
-		if ( side == Side.WHITE ) {
-			opponentSuggestsMeStartGame();
-		}
-	}
-
-	@Override
 	public void opponentAgreedToDrawOffer() {
 		logger.info( "Opponent agreed to draw offer" );
 	}
 
 	@Override
 	public void opponentSuggestsMeStartGame() {
-		executeMove();
+		if ( side == Side.WHITE ) {
+			executeMove();
+		}
 	}
 
 	/**

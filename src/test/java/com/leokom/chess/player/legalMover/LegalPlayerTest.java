@@ -75,7 +75,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.run();
+		player.opponentSuggestsMeStartGame();
 
 		verify( opponent ).opponentMoved( anyString() );
 	}
@@ -87,7 +87,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.BLACK );
 		player.setOpponent( opponent );
 
-		player.run();
+		player.opponentSuggestsMeStartGame();
 
 		verify( opponent, never() ).opponentMoved( anyString() );
 	}
@@ -242,12 +242,12 @@ public class LegalPlayerTest {
 
 		final Position position = new Position();
 
-		position.add( Side.WHITE, "c1", PieceType.KING );
+		position.add( Side.WHITE, "d1", PieceType.KING );
 		position.add( Side.BLACK, "a1", PieceType.KING );
 
 		player.setPosition( position );
 
-		player.opponentSuggestsMeStartGame(); //force our move
+		player.opponentMoved( "d1c1" );
 
 		verify( opponent ).opponentMoved( "a1a2" ); //proving the only move of blacks
 	}

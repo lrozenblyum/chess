@@ -107,22 +107,17 @@ public class WinboardPlayer implements Player {
 
 	/**
 	 * Run main loop that works till winboard sends us termination signal
+	 *
+	 * Clearly indicates we support only white so far.
 	 */
 	@Override
-	public void run() {
+	public void opponentSuggestsMeStartGame() {
 		while( true ) {
 			commander.processInputFromServer();
 			if ( needQuit ) {
 				break;
 			}
 		}
-	}
-
-
-	@Override
-	public void opponentSuggestsMeStartGame() {
-		//we have never did anything special to handle this
-		//need to think about this
 	}
 
 	/**

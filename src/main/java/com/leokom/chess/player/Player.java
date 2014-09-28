@@ -7,17 +7,17 @@ package com.leokom.chess.player;
  * a human or a winboard-protocol )
  */
 public interface Player {
-	//TODO: think if it's player's property
-	void run();
-
 	void opponentOfferedDraw();
 	void opponentAgreedToDrawOffer();
 
 	/**
-	 * Previously implemented as opponentMoved(null)
-	 * REFACTOR? Somehow intersects with run() ?
+	 *
+	 * The method should be starting point to move for whites
+	 * Black player shouldn't react to this message (out of symmetry)
+	 *
 	 */
 	void opponentSuggestsMeStartGame();
+
 	/**
 	 * React on another player's move
 	 *

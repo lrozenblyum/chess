@@ -55,9 +55,9 @@ public class WinBoardPlayerTest {
 
 		WinboardCommander commander = new WinboardCommanderImpl( quitCommunicator );
 
-		WinboardPlayer controller = new WinboardPlayer(	commander );
+		WinboardPlayer player = new WinboardPlayer(	commander );
 
-		controller.run();
+		player.opponentSuggestsMeStartGame();
 	}
 
 	@Test
@@ -107,7 +107,7 @@ public class WinBoardPlayerTest {
 
 		executeQuitListener( commander ).when( commander ).processInputFromServer();
 
-		winboardPlayer.run();
+		winboardPlayer.opponentSuggestsMeStartGame();
 	}
 
 	//TODO: very similar to executeQuitListener...

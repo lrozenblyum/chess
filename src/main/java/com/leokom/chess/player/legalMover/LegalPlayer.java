@@ -26,14 +26,6 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void run() {
-		//if we are white -> enforce moving!
-		if ( side == Side.WHITE ) {
-			opponentSuggestsMeStartGame();
-		}
-	}
-
-	@Override
 	public void opponentOfferedDraw() {
 
 	}
@@ -45,7 +37,11 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartGame() {
-		executeMove();
+		//this side != BLACK validation must be a part of main-in-the-middle
+		//not throwing an exception due to test...
+		if ( side == Side.WHITE ) {
+			executeMove();
+		}
 	}
 
 	@Override
