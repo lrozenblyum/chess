@@ -20,6 +20,9 @@ document http://home.hccnet.nl/h.g.muller/interfacing.txt
 Public continuous integration is accessible via 
 https://travis-ci.org/lrozenblyum/chess/builds
 
+Current status of master branch: ![Status of master branch]
+(https://travis-ci.org/lrozenblyum/chess.svg?branch=master)
+
 ## License
 The license is described in LICENSE file.
 Please read it carefully before forking the repository.
