@@ -27,10 +27,7 @@ public class LegalPlayerSelfPlayTest {
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
 
-		//enforce game (strange way, yes?)!
-		legalPlayerWhite.opponentMoved( null );
-
-
+		legalPlayerWhite.opponentSuggestsMeStartGame();
 	}
 
 	//I've just set position but not injected it. Shouldn't have any influence !
@@ -47,6 +44,6 @@ public class LegalPlayerSelfPlayTest {
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
 
-		legalPlayerWhite.opponentMoved( null );
+		legalPlayerWhite.opponentSuggestsMeStartGame();
 	}
 }

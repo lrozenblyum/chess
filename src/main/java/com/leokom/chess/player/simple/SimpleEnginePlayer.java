@@ -38,8 +38,10 @@ public class SimpleEnginePlayer implements Player {
 
 	@Override
 	public void opponentMoved( String opponentMove ) {
+		executeMove();
+	}
 
-
+	private void executeMove() {
 		moveNumber++;
 		logger.info( "Move number = " + moveNumber );
 		switch ( moveNumber ) {
@@ -77,13 +79,18 @@ public class SimpleEnginePlayer implements Player {
 	@Override
 	public void run() {
 		if ( side == Side.WHITE ) {
-			opponentMoved( null );
+			opponentSuggestsMeStartGame();
 		}
 	}
 
 	@Override
 	public void opponentAgreedToDrawOffer() {
 		logger.info( "Opponent agreed to draw offer" );
+	}
+
+	@Override
+	public void opponentSuggestsMeStartGame() {
+		executeMove();
 	}
 
 	/**

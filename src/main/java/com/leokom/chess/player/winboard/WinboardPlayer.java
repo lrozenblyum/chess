@@ -118,6 +118,13 @@ public class WinboardPlayer implements Player {
 		}
 	}
 
+
+	@Override
+	public void opponentSuggestsMeStartGame() {
+		//we have never did anything special to handle this
+		//need to think about this
+	}
+
 	/**
 	 * Translate Player format of move to Winboard-client
 	 *

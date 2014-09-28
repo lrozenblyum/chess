@@ -14,10 +14,14 @@ public interface Player {
 	void opponentAgreedToDrawOffer();
 
 	/**
+	 * Previously implemented as opponentMoved(null)
+	 * REFACTOR? Somehow intersects with run() ?
+	 */
+	void opponentSuggestsMeStartGame();
+	/**
 	 * React on another player's move
-	 * If it's null - means it's our first move
-	 * which we must execute
-	 * @param opponentMove move received from the opponent, or null
+	 *
+	 * @param opponentMove move received from the opponent
 	 *
 	 * Move must be specified via notation (case-sensitive!) specified by examples:
 	 * Normal move: e2e4

@@ -105,8 +105,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		//TODO: ugly way to say: it's your first move now!
-		player.opponentMoved( null );
+		player.opponentSuggestsMeStartGame();
 
 		verify( opponent ).opponentMoved( "h8g8" );
 	}
@@ -118,7 +117,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentMoved( null ); //our first move!
+		player.opponentSuggestsMeStartGame(); //our first move!
 
 		//first check that at least some move is done.
 		verify( opponent ).opponentMoved( anyString() );
@@ -131,7 +130,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentMoved( null ); //our first move!
+		player.opponentSuggestsMeStartGame(); //our first move!
 
 		//first check that at least some move is done.
 		verify( opponent ).opponentMoved( anyString() );
@@ -150,7 +149,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentMoved( null ); //our first move!
+		player.opponentSuggestsMeStartGame();
 		player.opponentMoved( "d7d5" );
 	}
 
@@ -161,7 +160,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentMoved( null ); //our first move!
+		player.opponentSuggestsMeStartGame();
 		player.opponentMoved( "g8f6" );
 	}
 
@@ -188,7 +187,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		player.opponentMoved( null );
+		player.opponentSuggestsMeStartGame();
 		verify( opponent ).opponentMoved( "h8h7" );
 
 		reset( opponent ); //NOT recommended by Mockito
@@ -222,7 +221,7 @@ public class LegalPlayerTest {
 
 		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( "h8h7" );
 
-		player.opponentMoved( null ); //results in LegalPlayer h8h7
+		player.opponentSuggestsMeStartGame(); //results in LegalPlayer h8h7
 
 		verify( opponent ).opponentMoved( "h7h8" );
 	}
@@ -248,7 +247,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		player.opponentMoved( null ); //force our move
+		player.opponentSuggestsMeStartGame(); //force our move
 
 		verify( opponent ).opponentMoved( "a1a2" ); //proving the only move of blacks
 	}

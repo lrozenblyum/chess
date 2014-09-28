@@ -29,7 +29,7 @@ public class LegalPlayer implements Player {
 	public void run() {
 		//if we are white -> enforce moving!
 		if ( side == Side.WHITE ) {
-			opponentMoved( null );
+			opponentSuggestsMeStartGame();
 		}
 	}
 
@@ -44,16 +44,31 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentMoved( String opponentMove ) {
-		//TODO: null is a hidden ugly way to say 'it's our first move now'
-		if ( opponentMove != null ) {
-			String source = opponentMove.substring( 0, 2 );
-			String destination = opponentMove.substring( 2 );
+	public void opponentSuggestsMeStartGame() {
+		executeMove();
+	}
 
-			//updating internal representation of our position according to the opponent's move
-			position = position.move( new Move( source, destination ) );
+	@Override
+	public void opponentMoved( String opponentMove ) {
+		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
+		if ( opponentMove == null ) {
+			throw new IllegalArgumentException( "Wrong opponent move null" );
 		}
 
+		//updating internal representation of our position according to the opponent's move
+		updatePositionByOpponentMove( opponentMove );
+
+		executeMove();
+	}
+
+	private void updatePositionByOpponentMove( String opponentMove ) {
+		String source = opponentMove.substring( 0, 2 );
+		String destination = opponentMove.substring( 2 );
+
+		position = position.move( new Move( source, destination ) );
+	}
+
+	private void executeMove() {
 		Set< Move > legalMoves = position.getMoves( side );
 
 		if ( !legalMoves.isEmpty() ) {
