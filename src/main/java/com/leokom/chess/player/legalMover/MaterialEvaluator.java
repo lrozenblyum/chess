@@ -48,7 +48,7 @@ public class MaterialEvaluator implements Evaluator {
 	//and on assumption about 8 max promoted queens
 
 	//no pawns included here since they are 'promoted'
-	private static int MAXIMAL_VALUE =
+	private static final int MAXIMAL_VALUE =
 			VALUES.get( PieceType.KING ) +
 					8 * VALUES.get( PieceType.QUEEN ) +
 					2 * VALUES.get( PieceType.ROOK ) +
@@ -57,11 +57,11 @@ public class MaterialEvaluator implements Evaluator {
 
 	//technically it should be VALUE(KING)
 	//but to support 'invalid' positions we keep the lowest possible value
-	private static int MINIMAL_VALUE = 0;
+	private static final int MINIMAL_VALUE = 0;
 
 
-	private static int MAXIMAL_ADVANTAGE = MAXIMAL_VALUE - MINIMAL_VALUE;
-	private static int MINIMAL_ADVANTAGE = MINIMAL_VALUE - MAXIMAL_VALUE;
+	private static final int MAXIMAL_ADVANTAGE = MAXIMAL_VALUE - MINIMAL_VALUE;
+	private static final int MINIMAL_ADVANTAGE = MINIMAL_VALUE - MAXIMAL_VALUE;
 
 	//convert advantage [ MINIMAL_ADV..MAXIMAL_ADV ] to value [ 0..1 ]
 	private static double normalizeAdvantage( int materialAdvantage ) {
