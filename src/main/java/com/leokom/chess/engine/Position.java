@@ -685,6 +685,10 @@ public class Position {
 		return pieces.get( squareFrom ).getPieceType();
 	}
 
+	public boolean hasKingMoved( Side side ) {
+		return hasKingMoved.get( side );
+	}
+
 	/**
 	 * Copy pieces from current position to the destination
 	 * Copy state (like info if the king has moved)

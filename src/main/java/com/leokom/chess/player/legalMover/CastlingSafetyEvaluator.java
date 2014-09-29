@@ -20,6 +20,12 @@ class CastlingSafetyEvaluator implements Evaluator {
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		//if king has moved already - all other moves are fine
+		//they don't bring anything for castling safety
+		if ( position.hasKingMoved( position.getSide( move.getFrom() ) ) ) {
+			return ACCEPTABLE_MOVE;
+		}
+
 		//strategy : 'castling addicted player'
 		// avoid moving rook and king
 		//if it's not castling (I want to see castling)
