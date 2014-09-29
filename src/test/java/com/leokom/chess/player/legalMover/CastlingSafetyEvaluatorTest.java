@@ -31,5 +31,27 @@ public class CastlingSafetyEvaluatorTest {
 		asserts.assertFirstBetter( position, notKingMove, kingMove );
 	}
 
+	@Test
+	public void shouldRookMoveOKGivenCastlingDone() {
+		Position position = new Position();
+
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+		position.add( Side.BLACK, "a8", PieceType.KING );
+
+		position.add( Side.WHITE, "a1", PieceType.KNIGHT );
+
+		Position afterCastling = position
+			.move( "e1", "g1" )
+			.move( "a8", "b8" ); //any valid black move
+
+
+		Move rookMove = new Move( "f1", "f8" );
+
+		Move notRookMove = new Move( "a1", "b3" );
+
+		asserts.assertNoDifference( afterCastling, rookMove, notRookMove );
+	}
+
 
 }

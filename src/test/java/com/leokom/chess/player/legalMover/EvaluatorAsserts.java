@@ -15,6 +15,7 @@ public class EvaluatorAsserts {
 	public EvaluatorAsserts( Evaluator evaluator ) {
 		this.evaluator = evaluator;
 	}
+
 	void assertFirstBetter( Position position, Move expectedBetter, Move expectedWorse ) {
 		double betterMoveEstimate = evaluator.evaluateMove( position, expectedBetter );
 		double worseMoveEstimate = evaluator.evaluateMove( position, expectedWorse );
@@ -23,5 +24,15 @@ public class EvaluatorAsserts {
 				String.format( "%s -> %s must be better than %s -> %s ",
 						expectedBetter, betterMoveEstimate, expectedWorse, worseMoveEstimate ),
 				betterMoveEstimate > worseMoveEstimate );
+	}
+
+	void assertNoDifference( Position position, Move firstMove, Move secondMove ) {
+		double firstMoveEstimate = evaluator.evaluateMove( position, firstMove );
+		double secondMoveEstimate = evaluator.evaluateMove( position, secondMove );
+
+		assertTrue(
+				String.format( "%s -> %s must be equal to %s -> %s ",
+						firstMove, firstMoveEstimate, secondMove, secondMoveEstimate ),
+				firstMoveEstimate == secondMoveEstimate );
 	}
 }
