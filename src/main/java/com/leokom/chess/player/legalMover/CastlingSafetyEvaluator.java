@@ -18,6 +18,10 @@ class CastlingSafetyEvaluator implements Evaluator {
 	private static final double ACCEPTABLE_MOVE = 0.5;
 	private static final double BAD_MOVE = 0;
 
+	//further potential to improve the algorithm:
+	//if both rooks where not moving yet
+	//we can consider moving one of them as not very harmful
+	//while the second rook's move is more harmful
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		//if king has moved already - all other moves are fine
