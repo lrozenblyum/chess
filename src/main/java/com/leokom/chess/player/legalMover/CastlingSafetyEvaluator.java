@@ -3,6 +3,7 @@ package com.leokom.chess.player.legalMover;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,11 +23,23 @@ class CastlingSafetyEvaluator implements Evaluator {
 	//if both rooks where not moving yet
 	//we can consider moving one of them as not very harmful
 	//while the second rook's move is more harmful
+
+	//TODO: what might not be covered here is if rook has been captured
+	//so with that move castling is also impossible
+	//but has..RookMoved will return false so far
+	//should it be fixed on the Position level or here?
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		//if king has moved already - all other moves are fine
 		//they don't bring anything for castling safety
-		if ( position.hasKingMoved( position.getSide( move.getFrom() ) ) ) {
+		final Side side = position.getSide( move.getFrom() );
+
+		if ( position.hasKingMoved( side ) ) {
+			return ACCEPTABLE_MOVE;
+		}
+
+		//both rooks moved - no chance to castling
+		if ( position.hasARookMoved( side ) && position.hasHRookMoved( side ) ) {
 			return ACCEPTABLE_MOVE;
 		}
 

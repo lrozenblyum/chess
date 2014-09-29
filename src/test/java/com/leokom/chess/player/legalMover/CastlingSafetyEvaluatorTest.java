@@ -53,5 +53,30 @@ public class CastlingSafetyEvaluatorTest {
 		asserts.assertNoDifference( afterCastling, rookMove, notRookMove );
 	}
 
+	@Test
+	public void noProblemToMoveKingAfterBothRooksMoved() {
+		Position position = new Position();
+
+		position.add( Side.WHITE, "a1", PieceType.ROOK );
+		position.add( Side.WHITE, "e1", PieceType.KING );
+		position.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		position.add( Side.BLACK, "a8", PieceType.KING );
+
+		position.add( Side.WHITE, "d4", PieceType.KNIGHT );
+
+		Position afterBothRooksMoved = position
+				.move( "a1", "b1" )
+				.move( "a8", "b8" ) //any valid black move
+				.move( "h1", "h2" )
+				.move( "b8", "a8" );
+
+		Move kingMove = new Move( "e1", "e2" );
+
+		Move notKingMove = new Move( "d4", "e6" );
+
+		asserts.assertNoDifference( afterBothRooksMoved, kingMove, notKingMove );
+	}
+
 
 }

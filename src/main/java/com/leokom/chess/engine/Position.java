@@ -685,6 +685,14 @@ public class Position {
 		return pieces.get( squareFrom ).getPieceType();
 	}
 
+	public boolean hasARookMoved( Side side ) {
+		return hasARookMoved.get( side );
+	}
+
+	public boolean hasHRookMoved( Side side ) {
+		return hasHRookMoved.get( side );
+	}
+
 	public boolean hasKingMoved( Side side ) {
 		return hasKingMoved.get( side );
 	}
