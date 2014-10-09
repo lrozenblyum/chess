@@ -828,12 +828,6 @@ public class Position {
 	}
 
 	public List<Piece> getPieces( Side side ) {
-		List< Piece > result = new ArrayList<>();
-		for ( String square : pieces.keySet() ) {
-			if ( pieces.get( square ).getSide() == side ) {
-				result.add( pieces.get( square ) );
-			}
-		}
-		return result;
+		return pieces.values().stream().filter( piece -> piece.getSide() == side ).collect( Collectors.toList() );
 	}
 }
