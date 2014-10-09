@@ -3,8 +3,8 @@ package com.leokom.chess.player.legalMover;
 import com.leokom.chess.engine.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Evaluate material domination
@@ -21,8 +21,8 @@ public class MaterialEvaluator implements Evaluator {
 
 		Side ourSide = position.getSide( move.getFrom() );
 
-		List< Piece > ourPieces = target.getPieces( ourSide );
-		List< Piece > opponentPieces = target.getPieces( ourSide.opposite() );
+		Stream< Piece > ourPieces = target.getPieces( ourSide );
+		Stream< Piece > opponentPieces = target.getPieces( ourSide.opposite() );
 
 		int ourMaterialValue = value( ourPieces );
 		int opponentMaterialValue = value( opponentPieces );
@@ -69,8 +69,8 @@ public class MaterialEvaluator implements Evaluator {
 				(MAXIMAL_ADVANTAGE - MINIMAL_ADVANTAGE);
 	}
 
-	private static int value( List< Piece > pieces ) {
-		return pieces.stream()
+	private static int value( Stream< Piece > pieces ) {
+		return pieces
 				.mapToInt( piece -> VALUES.get( piece.getPieceType() ) )
 				.sum();
 	}

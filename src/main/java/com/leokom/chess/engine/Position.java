@@ -4,6 +4,7 @@ import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.leokom.chess.engine.Board.*;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
@@ -827,7 +828,7 @@ public class Position {
 		return result;
 	}
 
-	public List<Piece> getPieces( Side side ) {
-		return pieces.values().stream().filter( piece -> piece.getSide() == side ).collect( Collectors.toList() );
+	public Stream< Piece > getPieces( Side side ) {
+		return pieces.values().stream().filter( piece -> piece.getSide() == side );
 	}
 }
