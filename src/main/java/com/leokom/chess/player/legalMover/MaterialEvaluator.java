@@ -70,10 +70,8 @@ public class MaterialEvaluator implements Evaluator {
 	}
 
 	private static int value( List< Piece > pieces ) {
-		int sum = 0;
-		for ( Piece piece : pieces ) {
-			sum += VALUES.get( piece.getPieceType() );
-		}
-		return sum;
+		return pieces.stream()
+				.mapToInt( piece -> VALUES.get( piece.getPieceType() ) )
+				.sum();
 	}
 }
