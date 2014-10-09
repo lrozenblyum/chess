@@ -318,15 +318,8 @@ public class Position {
 		return getSquaresOccupiedBySide( ourSide.opposite() );
 	}
 
-	public Set<String> getSquaresOccupiedBySide( Side neededSide ) {
-		Set< String > result = new HashSet<>();
-		for( String square : pieces.keySet() ) {
-			if ( pieces.get( square ).getSide() == neededSide ) {
-				result.add( square );
-			}
-		}
-
-		return result;
+	private Set<String> getSquaresOccupiedBySide( Side neededSide ) {
+		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide ).collect( Collectors.toSet() );
 	}
 
 	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
