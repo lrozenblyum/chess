@@ -821,10 +821,7 @@ public class Position {
 
 		final Set<String> squares = getSquaresOccupiedBySide( side );
 		for ( String square : squares ) {
-			final Set<String> moves = getMovesFrom( square );
-			for ( String move : moves ) {
-				result.add( new Move( square, move  ) );
-			}
+			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( Collectors.toSet() ) );
 		}
 
 		return result;
