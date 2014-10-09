@@ -8,12 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CenterControlEvaluatorTest {
-	private CenterControlEvaluator evaluator;
 	private EvaluatorAsserts asserts;
 
 	@Before
 	public void prepare() {
-		evaluator = new CenterControlEvaluator();
+		CenterControlEvaluator evaluator = new CenterControlEvaluator();
 		asserts = new EvaluatorAsserts( evaluator );
 	}
 
