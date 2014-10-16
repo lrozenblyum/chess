@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import static com.leokom.chess.engine.Board.*;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
 import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Current position on-board (probably with some historical data...)
@@ -319,7 +320,7 @@ public class Position {
 	}
 
 	private Set<String> getSquaresOccupiedBySide( Side neededSide ) {
-		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide ).collect( Collectors.toSet() );
+		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide ).collect( toSet() );
 	}
 
 	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
@@ -500,14 +501,10 @@ public class Position {
 	//useful method to implement 3.1 rule of FIDE
 	//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
 	private Set< String > getSquaresOccupiedBy( Set<String> potentialMoves, Side ourSide ) {
-		Set< String > result = new HashSet<>();
-		for ( String potentialMove : potentialMoves ) {
-			if ( isOccupiedBy( potentialMove, ourSide ) ) {
-				result.add( potentialMove );
-			}
-		}
-
-		return result;
+		return
+			potentialMoves.stream()
+				.filter( move -> isOccupiedBy( move, ourSide ) )
+				.collect( toSet() );
 	}
 
 	/**
@@ -815,7 +812,7 @@ public class Position {
 
 		final Set<String> squares = getSquaresOccupiedBySide( side );
 		for ( String square : squares ) {
-			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( Collectors.toSet() ) );
+			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( toSet() ) );
 		}
 
 		return result;
