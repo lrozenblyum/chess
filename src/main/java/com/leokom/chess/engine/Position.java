@@ -178,8 +178,6 @@ public class Position {
 	private Set<String> getKingMoves( String square ) {
 		Set< String > result = getSquaresAttackedByKing( square );
 
-		result.removeAll( getSquaresOccupiedBy( result, getSide( square ) ) );
-
 		result.addAll( generatePossibleCastlingDestinations( square ) );
 
 		//squares where king will be attacked WILL be removed in generic handler
@@ -496,15 +494,6 @@ public class Position {
 
 
 		return knightMoves;
-	}
-
-	//useful method to implement 3.1 rule of FIDE
-	//3.1. It is not permitted to move a piece to a square occupied by a piece of the same colour
-	private Set< String > getSquaresOccupiedBy( Set<String> potentialMoves, Side ourSide ) {
-		return
-			potentialMoves.stream()
-				.filter( move -> isOccupiedBy( move, ourSide ) )
-				.collect( toSet() );
 	}
 
 	/**
