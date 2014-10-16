@@ -35,19 +35,9 @@ public class WinboardPlayer implements Player {
 	WinboardPlayer( WinboardCommander winboardCommander ) {
 		this.commander = winboardCommander;
 
-		commander.onXBoard( new XBoardListener() {
-			@Override
-			public void execute() {
-				logger.info( "Ready to work" );
-			}
-		} );
+		commander.onXBoard( () -> logger.info( "Ready to work" ) );
 
-		commander.onQuit( new QuitListener() {
-			@Override
-			public void execute() {
-				needQuit = true;
-			}
-		} );
+		commander.onQuit( () -> needQuit = true );
 
 		commander.onUserMove( new WinboardUserMoveListener() );
 
@@ -59,14 +49,11 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
-		commander.onProtover( new ProtoverListener() {
-			@Override
-			public void execute( int protocolVersion ) {
-				commander.enableUserMovePrefixes();
-				commander.finishInit();
+		commander.onProtover( protocolVersion -> {
+			commander.enableUserMovePrefixes();
+			commander.finishInit();
 
-				logger.info( "Protocol version detected = " + protocolVersion );
-			}
+			logger.info( "Protocol version detected = " + protocolVersion );
 		} );
 
 		commander.onOfferDraw( new OfferDrawListener() {
