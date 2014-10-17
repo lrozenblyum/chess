@@ -35,10 +35,6 @@ public final class Move {
 		return to;
 	}
 
-	public int getToRank() {
-		return Board.rankOfSquare( to );
-	}
-
 	/**
 	 * Usual equals for value object
 	 * @param object other move to compare this to
@@ -83,9 +79,5 @@ public final class Move {
 		return isPromotion( move ) ?
 				move.substring( 0, 2 ) :
 				move;
-	}
-
-	public String getToFile() {
-		return Board.fileOfSquare( to );
 	}
 }
