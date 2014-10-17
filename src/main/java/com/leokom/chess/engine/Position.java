@@ -313,10 +313,6 @@ public class Position {
 		return result;
 	}
 
-	private Set< String > getSquaresOccupiedByOpponent( Side ourSide ) {
-		return getSquaresOccupiedBySide( ourSide.opposite() );
-	}
-
 	private Set<String> getSquaresOccupiedBySide( Side neededSide ) {
 		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide ).collect( toSet() );
 	}
@@ -348,7 +344,7 @@ public class Position {
 	//we specify OUR side here because square might be empty
 	//so we might check only potential attack
 	private boolean isSquareAttacked( Side side, String square ) {
-		return getSquaresAttackedByOpponent( side ).contains( square );
+		return getSquaresAttackedBy( side.opposite() ).contains( square );
 	}
 
 	private String findKing( Side side ) {
@@ -363,21 +359,22 @@ public class Position {
 		return null;
 	}
 
-	private Set<String> getSquaresAttackedByOpponent( Side side ) {
-		final Set<String> squaresOccupiedByOpponent = getSquaresOccupiedByOpponent( side );
-
-		Set< String > squaresAttackedByOpponent = new HashSet<>();
-
-		for ( String opponentSquare : squaresOccupiedByOpponent ) {
-			squaresAttackedByOpponent.addAll( getSquaresAttackedFromSquare( opponentSquare ) );
-		}
-		return squaresAttackedByOpponent;
-	}
-
-	//convenient helper for players
-	//should we provide such services?
+	/**
+	 * Get squares that are controlled (attacked) by the given side
+	 * Both convenient for different Players implementations
+	 * and also used internally
+	 * @param side side of our interest
+	 * @return set of all squares occupied by the given side
+	 */
 	public Set< String > getSquaresAttackedBy( Side side ) {
-		return getSquaresAttackedByOpponent( side.opposite() );
+		final Set< String > squaresOccupied = getSquaresOccupiedBySide( side );
+
+		Set< String > result = new HashSet<>();
+
+		for ( String squareOccupied : squaresOccupied ) {
+			result.addAll( getSquaresAttackedFromSquare( squareOccupied ) );
+		}
+		return result;
 	}
 
 	//this method can be formed either as:
