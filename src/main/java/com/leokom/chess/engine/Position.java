@@ -532,13 +532,14 @@ public class Position {
 		return disallowedMoves;
 	}
 
+	/**
+	 * Get side that occupies the given square
+	 * @param square square to check
+	 * @return side if the square is occupied, null if it's free
+	 */
 	public Side getSide( String square ) {
 		final Piece piece = pieces.get( square );
-		if ( piece == null ) {
-			//TODO: correct? Some code relied on this.
-			return null;
-		}
-		return piece.getSide();
+		return ( piece == null ) ? null : piece.getSide();
 	}
 
 	/**
