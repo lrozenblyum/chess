@@ -348,15 +348,13 @@ public class Position {
 	}
 
 	private String findKing( Side side ) {
-		for ( String square : pieces.keySet() ) {
-			if ( ( pieces.get( square ).getPieceType() == PieceType.KING ) &&
-			pieces.get( square ).getSide() == side ) {
-				return square;
-			}
-		}
-
-		//TODO: impossible in real chess, possible in our tests...
-		return null;
+		//TODO: null is impossible in real chess, possible in our tests...
+		return pieces.entrySet().stream()
+			.filter( ( entry ) ->
+				entry.getValue().getPieceType() == PieceType.KING &&
+				entry.getValue().getSide() == side
+			)
+			.map( Map.Entry::getKey ).findFirst().orElse( null );
 	}
 
 	/**
