@@ -2,6 +2,11 @@ package com.leokom.chess.engine;
 
 /**
  * Represent single IMMUTABLE piece of some specific side
+ * REFACTOR: to fully featured value object:
+ * - no constructor but have some static returned valueOf
+ * (will allow huge memory economy)
+ * - equals & hashCode (will simplify e.g. search by king)
+ *
  * (e.g. white rook, black pawn)
  */
 public class Piece {
