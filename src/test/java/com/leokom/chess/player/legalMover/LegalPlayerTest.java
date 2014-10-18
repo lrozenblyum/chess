@@ -96,7 +96,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		player.opponentSuggestsMeStartNewGameWhite();
+		player.executeMove();
 
 		verify( opponent ).opponentMoved( "h8g8" );
 	}
@@ -178,7 +178,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		player.opponentSuggestsMeStartNewGameWhite();
+		player.executeMove();
 		verify( opponent ).opponentMoved( "h8h7" );
 
 		reset( opponent ); //NOT recommended by Mockito
@@ -212,7 +212,7 @@ public class LegalPlayerTest {
 
 		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( "h8h7" );
 
-		player.opponentSuggestsMeStartNewGameWhite(); //results in LegalPlayer h8h7
+		player.executeMove(); //results in LegalPlayer h8h7
 
 		verify( opponent ).opponentMoved( "h7h8" );
 	}

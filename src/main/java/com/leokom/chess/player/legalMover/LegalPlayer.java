@@ -63,7 +63,8 @@ public class LegalPlayer implements Player {
 		position = position.move( new Move( source, destination ) );
 	}
 
-	private void executeMove() {
+	//exposing package-private for tests
+	void executeMove() {
 		Set< Move > legalMoves = position.getMoves( side );
 
 		if ( !legalMoves.isEmpty() ) {
