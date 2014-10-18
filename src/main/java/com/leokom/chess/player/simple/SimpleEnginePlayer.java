@@ -83,6 +83,8 @@ public class SimpleEnginePlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartGame() {
+		//TODO: contradicts current understanding of interface
+		//of the method
 		if ( side == Side.WHITE ) {
 			executeMove();
 		}

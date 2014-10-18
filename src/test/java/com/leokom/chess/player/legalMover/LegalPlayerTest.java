@@ -81,18 +81,6 @@ public class LegalPlayerTest {
 	}
 
 	@Test
-	public void legalPlayerNoMovingFirstIfBlack() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer( Side.BLACK );
-		player.setOpponent( opponent );
-
-		player.opponentSuggestsMeStartGame();
-
-		verify( opponent, never() ).opponentMoved( anyString() );
-	}
-
-	@Test
 	public void legalPlayerCanMoveFirst() {
 		Player opponent = mock( Player.class );
 
@@ -250,6 +238,26 @@ public class LegalPlayerTest {
 		player.opponentMoved( "d1c1" );
 
 		verify( opponent ).opponentMoved( "a1a2" ); //proving the only move of blacks
+	}
+
+	//e.g. Winboard is WHITE initially (Legal = BLACK)
+	//WInboard suggests starting new game where LEGAL = WHITE, Winboard = BLACK
+	//we should reinstall state of the game
+	@Test
+	public void legalPlayerCanStartNewGameInMiddleOfExisting() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer( Side.BLACK );
+		player.setOpponent( opponent );
+
+		final Position position = new Position();
+		position.add( Side.WHITE, "d1", PieceType.KING );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+		player.setPosition( position );
+
+		player.opponentSuggestsMeStartGame();
+
+		verify( opponent ).opponentMoved( anyString() );
 	}
 
 
