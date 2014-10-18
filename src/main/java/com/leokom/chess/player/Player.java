@@ -18,7 +18,7 @@ public interface Player {
 	 * him start new game, and play white in this game.
 	 *
 	 */
-	void opponentSuggestsMeStartGame();
+	void opponentSuggestsMeStartNewGameWhite();
 
 	/**
 	 * React on another player's move

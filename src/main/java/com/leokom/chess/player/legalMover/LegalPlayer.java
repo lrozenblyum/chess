@@ -13,7 +13,7 @@ import java.util.*;
  * Date-time: 09.12.13 22:02
  */
 public class LegalPlayer implements Player {
-	private final Side side;
+	private Side side;
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
 
@@ -36,7 +36,10 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentSuggestsMeStartGame() {
+	public void opponentSuggestsMeStartNewGameWhite() {
+		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
+		side = Side.WHITE;
+		position = Position.getInitialPosition();
 		executeMove();
 	}
 
@@ -77,7 +80,7 @@ public class LegalPlayer implements Player {
 	}
 
 	private void informOpponentAboutTheMove( Move move ) {
-		opponent.opponentMoved( move.getFrom() + move.getTo() );
+		opponent.opponentMoved( move.toOldStringPresentation() );
 	}
 
 	//updating internal representation of current position according to our move
