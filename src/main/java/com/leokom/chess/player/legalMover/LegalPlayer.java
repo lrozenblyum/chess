@@ -44,7 +44,7 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentMoved( String opponentMove ) {
+	public void opponentMoved( Move opponentMove ) {
 		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
 		if ( opponentMove == null ) {
 			throw new IllegalArgumentException( "Wrong opponent move null" );
@@ -56,11 +56,8 @@ public class LegalPlayer implements Player {
 		executeMove();
 	}
 
-	private void updatePositionByOpponentMove( String opponentMove ) {
-		String source = opponentMove.substring( 0, 2 );
-		String destination = opponentMove.substring( 2 );
-
-		position = position.move( new Move( source, destination ) );
+	private void updatePositionByOpponentMove( Move opponentMove ) {
+		position = position.move( opponentMove );
 	}
 
 	//exposing package-private for tests

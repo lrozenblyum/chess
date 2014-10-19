@@ -115,10 +115,10 @@ public class WinboardPlayer implements Player {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void opponentMoved( String opponentMove ) {
-		String translatedMove = opponentMove;
-		if ( isPromotion( translatedMove ) ) {
-			translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + opponentMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
+	public void opponentMoved( Move opponentMove ) {
+		String translatedMove = opponentMove.toOldStringPresentation();
+		if ( opponentMove.isPromotion() ) {
+			translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
 		}
 
 		commander.opponentMoved( translatedMove );

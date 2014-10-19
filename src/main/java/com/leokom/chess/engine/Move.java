@@ -18,6 +18,14 @@ public final class Move {
 
 	/**
 	 * Create an 'act of moving'
+	 *
+	 * Move must be specified via notation (case-sensitive!) specified by examples:
+	 * (before space there is squareFrom parameter, after space moveDestination)
+	 *
+	 * Normal move: e2 e4
+	 * Pawn promotion: e7 e8Q
+	 * Castling: e1 g1
+	 *
 	 * @param squareFrom square like e6
 	 * @param moveDestination move destination like e8R or d7
 	 */
@@ -63,6 +71,10 @@ public final class Move {
 	@Override
 	public String toString() {
 		return from + " : " + to;
+	}
+
+	public boolean isPromotion() {
+		return isPromotion( to );
 	}
 
 	static boolean isPromotion( String move ) {

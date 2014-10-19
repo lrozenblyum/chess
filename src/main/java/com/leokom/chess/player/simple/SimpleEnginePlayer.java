@@ -38,7 +38,7 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	@Override
-	public void opponentMoved( String opponentMove ) {
+	public void opponentMoved( Move opponentMove ) {
 		executeMove();
 	}
 

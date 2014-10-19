@@ -26,26 +26,8 @@ public interface Player {
 	 * React on another player's move
 	 *
 	 * @param opponentMove move received from the opponent
-	 *
-	 * Move must be specified via notation (case-sensitive!) specified by examples:
-	 * Normal move: e2e4
-	 * Pawn promotion: e7e8Q
-	 * Castling: e1g1
-	 *
-	 * @deprecated Use #opponentMoved(Move) instead
 	 */
-	@Deprecated
-	void opponentMoved( String opponentMove );
-
-	/**
-	 * Trying Java8 feature of default implementation
-	 * to make refactoring of opponentMoved towards Move class
-	 * less painful
-	 * @param opponentMove opponent move
-	 */
-	default void opponentMoved( Move opponentMove ) {
-		opponentMoved( opponentMove.toOldStringPresentation() );
-	}
+	void opponentMoved( Move opponentMove );
 
 	void opponentResigned();
 
