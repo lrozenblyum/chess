@@ -94,7 +94,7 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void promotionCorrectlyTranslatedFromCommonStandard() {
 		assertTranslationOfCommandFromPlayerToWinboardClient(
-				"f7f8Q", "move f7f8q" );
+				new Move( "f7", "f8Q" ), "move f7f8q" );
 	}
 
 	@Test
@@ -106,10 +106,10 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void castlingCorrectlyTranslatedToWinboardClient() {
 		assertTranslationOfCommandFromPlayerToWinboardClient(
-				"e8c8", "move e8c8" );
+				new Move( "e8", "c8" ), "move e8c8" );
 	}
 
-	private void assertTranslationOfCommandFromPlayerToWinboardClient( String playerMove, String commandSentToWinboardClient ) {
+	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
 		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
 		final WinboardPlayer player = new WinboardPlayer( commander );
