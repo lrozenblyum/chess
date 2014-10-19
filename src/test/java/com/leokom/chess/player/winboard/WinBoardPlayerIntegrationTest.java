@@ -1,5 +1,6 @@
 package com.leokom.chess.player.winboard;
 
+import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -86,7 +87,7 @@ public class WinBoardPlayerIntegrationTest {
 	public void promotionCorrectlyTranslatedToCommonStandard() {
 
 		assertTranslationOfReceivedCommandToMoveForOpponent(
-				"usermove f7g8q", "f7g8Q" );
+				"usermove f7g8q", "f7", "g8Q" );
 	}
 
 	//Player -> Winboard
@@ -99,7 +100,7 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void castlingCorrectlyTranslatedToPlayer() {
 		assertTranslationOfReceivedCommandToMoveForOpponent(
-				"usermove e1g1", "e1g1" );
+				"usermove e1g1", "e1", "g1" );
 	}
 
 	@Test
@@ -123,7 +124,7 @@ public class WinBoardPlayerIntegrationTest {
 		verify( communicator ).send( commandSentToWinboardClient );
 	}
 
-	private void assertTranslationOfReceivedCommandToMoveForOpponent( String winboardReceivedMessage, String moveSentToOpponent ) {
+	private void assertTranslationOfReceivedCommandToMoveForOpponent( String winboardReceivedMessage, String squareFrom, String destination ) {
 		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
 		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
 		final WinboardPlayer player = new WinboardPlayer( commander );
@@ -135,6 +136,6 @@ public class WinBoardPlayerIntegrationTest {
 
 		commander.processInputFromServer();
 
-		verify( opponent ).opponentMoved( moveSentToOpponent );
+		verify( opponent ).opponentMoved( new Move( squareFrom, destination ) );
 	}
 }

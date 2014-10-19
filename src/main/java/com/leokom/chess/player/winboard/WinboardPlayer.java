@@ -1,5 +1,6 @@
 package com.leokom.chess.player.winboard;
 
+import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import org.apache.log4j.Logger;
 
@@ -18,6 +19,8 @@ import org.apache.log4j.Logger;
 public class WinboardPlayer implements Player {
 	//like e7e8q
 	private static final int PROMOTION_MOVE_LENGTH = 5;
+	//like e7
+	private static final int SQUARE_FROM_LENGTH = 2;
 
 	private Logger logger = Logger.getLogger( this.getClass() );
 	private final WinboardCommander commander;
@@ -174,7 +177,10 @@ public class WinboardPlayer implements Player {
 				translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toUpperCase();
 			}
 
-			opponent.opponentMoved( translatedMove );
+			String squareFrom = translatedMove.substring( 0, SQUARE_FROM_LENGTH );
+			String destination = translatedMove.substring( 2 );
+
+			opponent.opponentMoved( new Move( squareFrom, destination ) );
 		}
 	}
 }
