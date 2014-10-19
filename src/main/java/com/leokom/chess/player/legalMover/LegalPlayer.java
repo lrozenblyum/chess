@@ -81,7 +81,7 @@ public class LegalPlayer implements Player {
 	}
 
 	private void informOpponentAboutTheMove( Move move ) {
-		opponent.opponentMoved( move.toOldStringPresentation() );
+		opponent.opponentMoved( move );
 	}
 
 	//updating internal representation of current position according to our move

@@ -46,7 +46,7 @@ public class LegalPlayerTest {
 		//leaving for whites only single move:
 		//a1-a2
 
-		verify( opponent ).opponentMoved( "a1a2" );
+		verify( opponent ).opponentMoved( new Move( "a1", "a2" ) );
 	}
 
 	//assuming playing as white...   (still!)
@@ -68,7 +68,7 @@ public class LegalPlayerTest {
 		player.opponentMoved( "g5g6" );
 		//leaving for whites only single move:
 
-		verify( opponent ).opponentMoved( "h8g8" );
+		verify( opponent ).opponentMoved( new Move( "h8", "g8" ) );
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class LegalPlayerTest {
 
 		player.opponentSuggestsMeStartNewGameWhite();
 
-		verify( opponent ).opponentMoved( anyString() );
+		verify( opponent ).opponentMoved( any( Move.class ) );
 	}
 
 	@Test
@@ -98,7 +98,7 @@ public class LegalPlayerTest {
 
 		player.executeMove();
 
-		verify( opponent ).opponentMoved( "h8g8" );
+		verify( opponent ).opponentMoved( new Move( "h8", "g8" ) );
 	}
 
 	@Test
@@ -111,7 +111,7 @@ public class LegalPlayerTest {
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
 
 		//first check that at least some move is done.
-		verify( opponent ).opponentMoved( anyString() );
+		verify( opponent ).opponentMoved( any( Move.class ) );
 	}
 
 	@Test
@@ -124,13 +124,13 @@ public class LegalPlayerTest {
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
 
 		//first check that at least some move is done.
-		verify( opponent ).opponentMoved( anyString() );
+		verify( opponent ).opponentMoved( any( Move.class ) );
 
 		player.opponentMoved( "e7e5" );
 
 		//hmm twice because Mockito adds the invocation count
 		//another option is reset call which is not recommended.
-		verify( opponent, times( 2 ) ).opponentMoved( anyString() );
+		verify( opponent, times( 2 ) ).opponentMoved( any( Move.class ) );
 	}
 
 	@Test
@@ -179,12 +179,12 @@ public class LegalPlayerTest {
 		player.setPosition( position );
 
 		player.executeMove();
-		verify( opponent ).opponentMoved( "h8h7" );
+		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
 		reset( opponent ); //NOT recommended by Mockito
 		player.opponentMoved( "a1a2" );
 
-		verify( opponent ).opponentMoved( "h7h8" );
+		verify( opponent ).opponentMoved( new Move( "h7", "h8" ) );
 	}
 
 	//let another player respond immediately inside reaction to our move
@@ -214,7 +214,7 @@ public class LegalPlayerTest {
 
 		player.executeMove(); //results in LegalPlayer h8h7
 
-		verify( opponent ).opponentMoved( "h7h8" );
+		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 	}
 
 	private Answer getAnswerToH8H7( final LegalPlayer player ) {
@@ -240,7 +240,7 @@ public class LegalPlayerTest {
 
 		player.opponentMoved( "d1c1" );
 
-		verify( opponent ).opponentMoved( "a1a2" ); //proving the only move of blacks
+		verify( opponent ).opponentMoved( new Move( "a1", "a2" ) ); //proving the only move of blacks
 	}
 
 	//e.g. Winboard is WHITE initially (Legal = BLACK)
@@ -262,12 +262,11 @@ public class LegalPlayerTest {
 
 		player.opponentSuggestsMeStartNewGameWhite();
 
-		ArgumentCaptor<String> legalPlayerMove = ArgumentCaptor.forClass( String.class );
+		ArgumentCaptor<Move> legalPlayerMove = ArgumentCaptor.forClass( Move.class );
 		verify( opponent ).opponentMoved( legalPlayerMove.capture() );
 
 		assertTrue( "Legal player must play legally after switch of sides. Actual move: " + legalPlayerMove.getValue(),
 				Position.getInitialPosition().getMoves( Side.WHITE ).stream()
-				.map( Move::toOldStringPresentation )
 				.filter( stringMove ->
 						stringMove.equals( legalPlayerMove.getValue() ) )
 				.findAny().isPresent());
