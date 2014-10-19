@@ -324,7 +324,7 @@ public class Position {
 		for ( String move : potentialMoves ) {
 
 			//works in assumption move is NON-validating
-			final Position possiblePosition = this.move( square, move );
+			final Position possiblePosition = this.move( new Move( square, move ) );
 			if ( possiblePosition.isKingInCheck( getSide( square ) ) ) {
 				result.add( move );
 			}
@@ -635,9 +635,8 @@ public class Position {
 
 	/**
 	 *
-	 * @deprecated  use #move(Move)
+	 * use #move(Move)
 	 */
-	@Deprecated
 	public Position move( String squareFrom, String move ) {
 		return this.move( new Move( squareFrom, move ) );
 	}
