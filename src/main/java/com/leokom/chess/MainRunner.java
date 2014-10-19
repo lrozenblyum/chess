@@ -58,7 +58,7 @@ public final class MainRunner {
 		whitePlayer.setOpponent( blackPlayer );
 
 		//inform white that black is ready so you may start
-		whitePlayer.opponentSuggestsMeStartGame();
+		whitePlayer.opponentSuggestsMeStartNewGameWhite();
 
 		logger.info( "Chess are stopped. Bye-bye" );
 	}

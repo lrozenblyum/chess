@@ -13,7 +13,7 @@ import java.util.*;
  * Date-time: 09.12.13 22:02
  */
 public class LegalPlayer implements Player {
-	private final Side side;
+	private Side side;
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
 
@@ -36,12 +36,11 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentSuggestsMeStartGame() {
-		//this side != BLACK validation must be a part of main-in-the-middle
-		//not throwing an exception due to test...
-		if ( side == Side.WHITE ) {
-			executeMove();
-		}
+	public void opponentSuggestsMeStartNewGameWhite() {
+		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
+		side = Side.WHITE;
+		position = Position.getInitialPosition();
+		executeMove();
 	}
 
 	@Override
@@ -64,7 +63,8 @@ public class LegalPlayer implements Player {
 		position = position.move( new Move( source, destination ) );
 	}
 
-	private void executeMove() {
+	//exposing package-private for tests
+	void executeMove() {
 		Set< Move > legalMoves = position.getMoves( side );
 
 		if ( !legalMoves.isEmpty() ) {
@@ -81,7 +81,7 @@ public class LegalPlayer implements Player {
 	}
 
 	private void informOpponentAboutTheMove( Move move ) {
-		opponent.opponentMoved( move.getFrom() + move.getTo() );
+		opponent.opponentMoved( move.toOldStringPresentation() );
 	}
 
 	//updating internal representation of current position according to our move

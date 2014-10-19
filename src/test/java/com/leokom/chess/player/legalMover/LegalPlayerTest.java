@@ -1,12 +1,15 @@
 package com.leokom.chess.player.legalMover;
 
+import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 
@@ -75,21 +78,9 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentSuggestsMeStartGame();
+		player.opponentSuggestsMeStartNewGameWhite();
 
 		verify( opponent ).opponentMoved( anyString() );
-	}
-
-	@Test
-	public void legalPlayerNoMovingFirstIfBlack() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer( Side.BLACK );
-		player.setOpponent( opponent );
-
-		player.opponentSuggestsMeStartGame();
-
-		verify( opponent, never() ).opponentMoved( anyString() );
 	}
 
 	@Test
@@ -105,7 +96,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		player.opponentSuggestsMeStartGame();
+		player.executeMove();
 
 		verify( opponent ).opponentMoved( "h8g8" );
 	}
@@ -117,7 +108,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentSuggestsMeStartGame(); //our first move!
+		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
 
 		//first check that at least some move is done.
 		verify( opponent ).opponentMoved( anyString() );
@@ -130,7 +121,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentSuggestsMeStartGame(); //our first move!
+		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
 
 		//first check that at least some move is done.
 		verify( opponent ).opponentMoved( anyString() );
@@ -149,7 +140,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentSuggestsMeStartGame();
+		player.opponentSuggestsMeStartNewGameWhite();
 		player.opponentMoved( "d7d5" );
 	}
 
@@ -160,7 +151,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer( Side.WHITE );
 		player.setOpponent( opponent );
 
-		player.opponentSuggestsMeStartGame();
+		player.opponentSuggestsMeStartNewGameWhite();
 		player.opponentMoved( "g8f6" );
 	}
 
@@ -187,7 +178,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		player.opponentSuggestsMeStartGame();
+		player.executeMove();
 		verify( opponent ).opponentMoved( "h8h7" );
 
 		reset( opponent ); //NOT recommended by Mockito
@@ -221,7 +212,7 @@ public class LegalPlayerTest {
 
 		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( "h8h7" );
 
-		player.opponentSuggestsMeStartGame(); //results in LegalPlayer h8h7
+		player.executeMove(); //results in LegalPlayer h8h7
 
 		verify( opponent ).opponentMoved( "h7h8" );
 	}
@@ -250,6 +241,36 @@ public class LegalPlayerTest {
 		player.opponentMoved( "d1c1" );
 
 		verify( opponent ).opponentMoved( "a1a2" ); //proving the only move of blacks
+	}
+
+	//e.g. Winboard is WHITE initially (Legal = BLACK)
+	//WInboard suggests starting new game where LEGAL = WHITE, Winboard = BLACK
+	//we should reinstall state of the game
+	@Test
+	public void legalPlayerCanStartNewGameInMiddleOfExisting() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer( Side.BLACK );
+		player.setOpponent( opponent );
+
+		final Position position = new Position();
+		//pieces not on initial position to make sure no 'accident'
+		//correct move
+		position.add( Side.WHITE, "d1", PieceType.KING );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+		player.setPosition( position );
+
+		player.opponentSuggestsMeStartNewGameWhite();
+
+		ArgumentCaptor<String> legalPlayerMove = ArgumentCaptor.forClass( String.class );
+		verify( opponent ).opponentMoved( legalPlayerMove.capture() );
+
+		assertTrue( "Legal player must play legally after switch of sides. Actual move: " + legalPlayerMove.getValue(),
+				Position.getInitialPosition().getMoves( Side.WHITE ).stream()
+				.map( Move::toOldStringPresentation )
+				.filter( stringMove ->
+						stringMove.equals( legalPlayerMove.getValue() ) )
+				.findAny().isPresent());
 	}
 
 

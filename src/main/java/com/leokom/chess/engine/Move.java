@@ -80,4 +80,13 @@ public final class Move {
 				move.substring( 0, 2 ) :
 				move;
 	}
+
+	/**
+	 * Helper method to convert the move object to old 'conventional'
+	 * string presentation of the move
+	 * @return old conventional string presentation of the move
+	 */
+	public String toOldStringPresentation() {
+		return getFrom() + getTo();
+	}
 }

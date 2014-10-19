@@ -44,8 +44,7 @@ public class WinboardPlayer implements Player {
 		commander.onGo( new GoListener() {
 			@Override
 			public void execute() {
-				//TODO: ugly null, need separate method
-				opponent.opponentMoved( null );
+				opponent.opponentSuggestsMeStartNewGameWhite();
 			}
 		} );
 
@@ -98,7 +97,7 @@ public class WinboardPlayer implements Player {
 	 * Clearly indicates we support only white so far.
 	 */
 	@Override
-	public void opponentSuggestsMeStartGame() {
+	public void opponentSuggestsMeStartNewGameWhite() {
 		while( true ) {
 			commander.processInputFromServer();
 			if ( needQuit ) {

@@ -13,10 +13,12 @@ public interface Player {
 	/**
 	 *
 	 * The method should be starting point to move for whites
-	 * Black player shouldn't react to this message (out of symmetry)
+	 *
+	 * Black player should understand that the opponent suggests
+	 * him start new game, and play white in this game.
 	 *
 	 */
-	void opponentSuggestsMeStartGame();
+	void opponentSuggestsMeStartNewGameWhite();
 
 	/**
 	 * React on another player's move

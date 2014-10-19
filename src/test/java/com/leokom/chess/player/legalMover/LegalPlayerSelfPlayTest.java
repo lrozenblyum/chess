@@ -27,7 +27,7 @@ public class LegalPlayerSelfPlayTest {
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
 
-		legalPlayerWhite.opponentSuggestsMeStartGame();
+		legalPlayerWhite.opponentSuggestsMeStartNewGameWhite();
 	}
 
 	//I've just set position but not injected it. Shouldn't have any influence !
@@ -44,6 +44,6 @@ public class LegalPlayerSelfPlayTest {
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
 
-		legalPlayerWhite.opponentSuggestsMeStartGame();
+		legalPlayerWhite.opponentSuggestsMeStartNewGameWhite();
 	}
 }
