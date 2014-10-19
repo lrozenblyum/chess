@@ -634,11 +634,12 @@ public class Position {
 	}
 
 	/**
-	 * @see #move(Move)
-	 * TODO: should this be deprecated?
+	 *
+	 * @deprecated  use #move(Move)
 	 */
+	@Deprecated
 	public Position move( String squareFrom, String move ) {
-		return new PositionGenerator( this ).generate( squareFrom, move );
+		return this.move( new Move( squareFrom, move ) );
 	}
 
 	/**
@@ -654,7 +655,7 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( Move move ) {
-		return this.move( move.getFrom(), move.getTo() );
+		return new PositionGenerator( this ).generate( move );
 	}
 
 	public PieceType getPieceType( String squareFrom ) {

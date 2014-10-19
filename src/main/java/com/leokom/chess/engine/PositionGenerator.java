@@ -21,23 +21,24 @@ final class PositionGenerator {
 
 	/**
 	 * This method itself is a NON-validating generator
-	 * @param squareFrom source of the move
-	 * @param move move to be executed by the piece on squareFrom
+	 * @param move move to be executed
 	 * @return new position, after move from squareFrom
 	 */
-	Position generate( String squareFrom, String move ) {
+	Position generate( Move move ) {
+		String squareFrom = move.getFrom();
+		String moveTo = move.getTo();
 		final PieceType pieceType = source.getPieceType( squareFrom );
 		switch ( pieceType ) {
 			case KNIGHT:
 			case BISHOP:
 			case QUEEN:
-				return processMoveWithoutSideEffects( squareFrom, move );
+				return processMoveWithoutSideEffects( squareFrom, moveTo );
 			case ROOK:
-				return processRookMove( squareFrom, move );
+				return processRookMove( squareFrom, moveTo );
 			case KING:
-				return processKingMove( squareFrom, move );
+				return processKingMove( squareFrom, moveTo );
 			case PAWN:
-				return processPawnMove( squareFrom, move );
+				return processPawnMove( squareFrom, moveTo );
 			default:
 				throw new IllegalArgumentException( "There are no other chess pieces. Received: " + pieceType );
 		}
