@@ -1,5 +1,6 @@
 package com.leokom.chess.player.simple;
 
+import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.log4j.Logger;
@@ -46,10 +47,10 @@ public class SimpleEnginePlayer implements Player {
 		logger.info( "Move number = " + moveNumber );
 		switch ( moveNumber ) {
 			case 1:
-				moveTo( "e" + rankFrom + "e" + rankTo );
+				moveTo( new Move( "e" + rankFrom,  "e" + rankTo ) );
 				break;
 			case 2:
-				moveTo( "d" + rankFrom + "d" + rankTo );
+				moveTo( new Move( "d" + rankFrom, "d" + rankTo ) );
 				//NOTE: interesting to implement - how much do we need to wait for result?
 				//NOTE2: it's not recommended way to offer draw after the move.
 				offerDraw();
@@ -69,9 +70,9 @@ public class SimpleEnginePlayer implements Player {
 
 	/**
 	 * Execute the move
-	 * @param move move in some supported notation (TO BE DEFINED)
+	 * @param move move to do
 	 */
-	private void moveTo( String move ) {
+	private void moveTo( Move move ) {
 		//hiding complexity of opponent.opponentMoved call
 		opponent.opponentMoved( move );
 	}
