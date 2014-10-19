@@ -42,7 +42,7 @@ public class LegalPlayerTest {
 		//is as a reaction to 'opponentMoved'
 
 
-		player.opponentMoved( "c2c1" );
+		player.opponentMoved( new Move( "c2", "c1" ) );
 		//leaving for whites only single move:
 		//a1-a2
 
@@ -65,7 +65,7 @@ public class LegalPlayerTest {
 		player.setPosition( position );
 
 		//TODO: overhead (see another test for description)
-		player.opponentMoved( "g5g6" );
+		player.opponentMoved( new Move( "g5", "g6" ) );
 		//leaving for whites only single move:
 
 		verify( opponent ).opponentMoved( new Move( "h8", "g8" ) );
@@ -126,7 +126,7 @@ public class LegalPlayerTest {
 		//first check that at least some move is done.
 		verify( opponent ).opponentMoved( any( Move.class ) );
 
-		player.opponentMoved( "e7e5" );
+		player.opponentMoved( new Move( "e7", "e5" ) );
 
 		//hmm twice because Mockito adds the invocation count
 		//another option is reset call which is not recommended.
@@ -141,7 +141,7 @@ public class LegalPlayerTest {
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
-		player.opponentMoved( "d7d5" );
+		player.opponentMoved( new Move( "d7", "d5" ) );
 	}
 
 	@Test
@@ -152,7 +152,7 @@ public class LegalPlayerTest {
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
-		player.opponentMoved( "g8f6" );
+		player.opponentMoved( new Move( "g8", "f6" ) );
 	}
 
 	//leave just h8, h7 as a space for the King
@@ -182,7 +182,7 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
 		reset( opponent ); //NOT recommended by Mockito
-		player.opponentMoved( "a1a2" );
+		player.opponentMoved( new Move( "a1", "a2" ) );
 
 		verify( opponent ).opponentMoved( new Move( "h7", "h8" ) );
 	}
@@ -210,7 +210,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( "h8h7" );
+		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
 		player.executeMove(); //results in LegalPlayer h8h7
 
@@ -219,7 +219,7 @@ public class LegalPlayerTest {
 
 	private Answer getAnswerToH8H7( final LegalPlayer player ) {
 		return invocationOnMock -> {
-			player.opponentMoved( "a1a2" );
+			player.opponentMoved( new Move( "a1", "a2" ) );
 			return null;
 		};
 	}
@@ -238,7 +238,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		player.opponentMoved( "d1c1" );
+		player.opponentMoved( new Move( "d1", "c1" ) );
 
 		verify( opponent ).opponentMoved( new Move( "a1", "a2" ) ); //proving the only move of blacks
 	}
