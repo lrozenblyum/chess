@@ -30,4 +30,14 @@ public class ProtectionEvaluatorTest {
 		asserts.assertFirstBetter( position, protectingPawn, notProtectingPawn );
 	}
 
+	//backlog
+
+	// 1) protecting a piece by another piece better than not
+	// (even if no attack?
+	// Maybe fact of attack should increase value of protective moves?)
+
+	// 2) Protecting a more valuable piece is more important than less valuable
+	// 3) Protecting BY less valuable piece is better than BY more valuable
+	// 4) Double protection is better than single
+
 }
