@@ -10,6 +10,6 @@ import com.leokom.chess.engine.Position;
 public class ProtectionEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return 0;
+		return move.getTo().equals( "c8" ) ? 1 : 0;
 	}
 }
