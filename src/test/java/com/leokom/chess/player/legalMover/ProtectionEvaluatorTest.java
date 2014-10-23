@@ -30,7 +30,40 @@ public class ProtectionEvaluatorTest {
 		asserts.assertFirstBetter( position, protectingPawn, notProtectingPawn );
 	}
 
+	@Test
+	public void protectingTriangulate() {
+		Position position = new Position();
+		position.add( Side.WHITE, "a8", PieceType.QUEEN );
+		position.add( Side.WHITE, "c1", PieceType.KNIGHT );
+
+		Move protectingKnight = new Move( "a8", "a3" );
+		Move notProtectingKnight = new Move( "a8", "h8" );
+
+		asserts.assertFirstBetter( position, protectingKnight, notProtectingKnight );
+	}
+
 	//backlog
+
+	/*
+		Protection has 2 aspects:
+		a) tactical: act when your pieces are under attack
+		b) strategical: make the pieces protect each other even against further attacks
+
+		From visual POV it would be more interesting to implement a)
+		since it will look like smart behaviour of protection against direct attack.
+
+		Ways to protect a)
+		- go away from attack (but be careful not moving to attacked square)
+		- capture the attacker (but be careful - it might be protected)
+		- protect your piece (so you'll be able to capture the attacker next move
+		if the square isn't double-attacked)
+		- put another piece in front of yours (if the attacker is not king or knight)
+		(probably if it's less valuable piece)
+
+		2 first ways can be described in 'reduction of attacking index of opponent'
+		3'd way is more related to strategical protection (but anyway it's a way to act)
+		4'th way is a little bit similar to 1-2  (if we take piece value into account)
+	 */
 
 	// 1) protecting a piece by another piece better than not
 	// (even if no attack?
@@ -40,4 +73,8 @@ public class ProtectionEvaluatorTest {
 	// 3) Protecting BY less valuable piece is better than BY more valuable
 	// 4) Double protection is better than single
 
+
+	// 5) Protecting is backwards (against capture)
+	// and blocking (prevent attack by crossing)
+	//difference?
 }
