@@ -313,7 +313,7 @@ public class Position {
 		return result;
 	}
 
-	private Set<String> getSquaresOccupiedBySide( Side neededSide ) {
+	public Set<String> getSquaresOccupiedBySide( Side neededSide ) {
 		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide ).collect( toSet() );
 	}
 
