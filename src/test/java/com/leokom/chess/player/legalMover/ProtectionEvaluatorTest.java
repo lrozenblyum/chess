@@ -18,28 +18,18 @@ public class ProtectionEvaluatorTest {
 	}
 
 	@Test
-	public void protectingBetterThanNot() {
+	public void leaveAttackedSquare() {
 		Position position = new Position();
 		position.add( Side.WHITE, "h8", PieceType.ROOK );
-		position.add( Side.WHITE, "c1", PieceType.PAWN );
+		position.add( Side.WHITE, "c2", PieceType.PAWN );
 
-		Move protectingPawn = new Move( "h8", "c8" );
+		position.add( Side.BLACK, "g6", PieceType.KNIGHT ); //attacks the rook
 
-		Move notProtectingPawn = new Move( "h8", "h7" );
+		Move leavingAttackedSquare = new Move( "h8", "b8" );
 
-		asserts.assertFirstBetter( position, protectingPawn, notProtectingPawn );
-	}
+		Move stayingCalm = new Move( "c2", "c3" );
 
-	@Test
-	public void protectingTriangulate() {
-		Position position = new Position();
-		position.add( Side.WHITE, "a8", PieceType.QUEEN );
-		position.add( Side.WHITE, "c1", PieceType.KNIGHT );
-
-		Move protectingKnight = new Move( "a8", "a3" );
-		Move notProtectingKnight = new Move( "a8", "h8" );
-
-		asserts.assertFirstBetter( position, protectingKnight, notProtectingKnight );
+		asserts.assertFirstBetter( position, leavingAttackedSquare, stayingCalm );
 	}
 
 	//backlog
