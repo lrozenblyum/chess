@@ -22,6 +22,7 @@ class MasterEvaluator implements Evaluator {
 		evaluatorWeights.put( new CenterControlEvaluator(), 1.0 );
 		evaluatorWeights.put( new MobilityEvaluator(), 1.0 );
 		evaluatorWeights.put( new MaterialEvaluator(), 1.0 );
+		evaluatorWeights.put( new ProtectionEvaluator(), 1.0 );
 	}
 
 	@Override
