@@ -12,6 +12,9 @@ import java.util.Set;
  */
 public class ProtectionEvaluator implements Evaluator {
 
+	//actually much less possible (how many?)
+	private static final int MAX_ATTACKED_SQUARES = 64;
+
 	/**
 	 	Protection has 2 aspects:
 	 	a) tactical: act when your pieces are under attack
@@ -36,13 +39,18 @@ public class ProtectionEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Position targetPosition = position.move( move );
 		final Side ourSide = position.getSide( move.getFrom() );
+
+		final Set< String > squaresAttackedByOpponent = getPiecesAttackedByOpponent( targetPosition, ourSide );
+
+		return 1 - (float) squaresAttackedByOpponent.size() / MAX_ATTACKED_SQUARES;
+	}
+
+	//REFACTOR: too generic to encapsulate into Position?
+	private Set<String> getPiecesAttackedByOpponent( Position position, Side ourSide ) {
 		final Side opponentSide = ourSide.opposite();
-
-		Set<String> ourSquares = targetPosition.getSquaresOccupiedBySide( ourSide );
-		final boolean ourSideUnderAttack = targetPosition.getSquaresAttackedBy( opponentSide )
-				.stream()
-				.anyMatch( ourSquares::contains );
-
-		return ourSideUnderAttack ? 0 : 1;
+		Set<String> ourSquares = position.getSquaresOccupiedBySide( ourSide );
+		final Set<String> squaresAttackedByOpponent = position.getSquaresAttackedBy( opponentSide );
+		squaresAttackedByOpponent.retainAll( ourSquares );
+		return squaresAttackedByOpponent;
 	}
 }

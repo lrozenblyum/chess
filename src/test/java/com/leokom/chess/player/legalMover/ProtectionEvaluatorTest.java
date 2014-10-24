@@ -32,6 +32,24 @@ public class ProtectionEvaluatorTest {
 		asserts.assertFirstBetter( position, leavingAttackedSquare, stayingCalm );
 	}
 
+	@Test
+	public void doubleAttackMeansNeedToAct() {
+		Position position = new Position();
+		//attacks b3, d3
+		position.add( Side.WHITE, "c1", PieceType.KNIGHT );
+
+		position.add( Side.BLACK, "b3", PieceType.PAWN );
+		position.add( Side.BLACK, "d3", PieceType.PAWN );
+
+		position.add( Side.BLACK, "g1", PieceType.KING );
+
+		Move leaveOneOfAttacked = new Move( "b3", "b2" );
+		Move ignoreAttack = new Move( "g1", "h1" );
+
+		asserts.assertFirstBetter( position, leaveOneOfAttacked, ignoreAttack );
+	}
+
+
 	//backlog
 
 
