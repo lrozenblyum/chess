@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <File name="fileApp" fileName="file.log" append="true">
+            <PatternLayout pattern="%d{ISO8601} %5p %c{1}:%L - %m%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <!-- We must guarantee NO logging will be done to CONSOLE
+ as it may damage WinBoard -->
+        <Root level = "debug">
+            <AppenderRef ref = "fileApp" />
+        </Root>
+    </Loggers>
+</Configuration>
