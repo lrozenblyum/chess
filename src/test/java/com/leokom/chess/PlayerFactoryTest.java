@@ -7,7 +7,7 @@ import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.junit.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class PlayerFactoryTest {
 	private static String whiteProperty;

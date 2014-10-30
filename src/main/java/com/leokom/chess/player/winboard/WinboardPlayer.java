@@ -2,7 +2,8 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 'Thin' player.
@@ -22,7 +23,7 @@ public class WinboardPlayer implements Player {
 	//like e7
 	private static final int SQUARE_FROM_LENGTH = 2;
 
-	private Logger logger = Logger.getLogger( this.getClass() );
+	private Logger logger = LogManager.getLogger( this.getClass() );
 	private final WinboardCommander commander;
 	private boolean needQuit = false;
 	private Player opponent;

@@ -5,9 +5,7 @@ import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Check Winboard controller behaviour in combination with real
