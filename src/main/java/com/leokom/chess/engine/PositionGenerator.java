@@ -2,7 +2,8 @@ package com.leokom.chess.engine;
 
 import static com.leokom.chess.engine.Board.fileOfSquare;
 import static com.leokom.chess.engine.Board.rankOfSquare;
-import static com.leokom.chess.engine.Position.*;
+import static com.leokom.chess.engine.Position.getDoubleMoveRank;
+import static com.leokom.chess.engine.Position.getEnPassantPossibleRank;
 
 /**
  * Create new positions after moves

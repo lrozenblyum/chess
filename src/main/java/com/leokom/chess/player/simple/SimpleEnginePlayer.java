@@ -3,7 +3,8 @@ package com.leokom.chess.player.simple;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Run just 2 moves for white/black (central pawns)
@@ -18,7 +19,7 @@ public class SimpleEnginePlayer implements Player {
 	//TODO: this moveNumber is totally unreliable (after end-of-game it must be reset)
 	private int moveNumber;
 	private Player opponent;
-	private final Logger logger = Logger.getLogger( this.getClass() );
+	private final Logger logger = LogManager.getLogger( this.getClass() );
 
 	private final int rankFrom;
 	private final int rankTo;

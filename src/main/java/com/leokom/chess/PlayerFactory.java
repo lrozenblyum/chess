@@ -5,7 +5,8 @@ import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.simple.SimpleEnginePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Map;
 final class PlayerFactory {
 	private PlayerFactory() {}
 
-	private static Logger logger = Logger.getLogger( PlayerFactory.class );
+	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
 
 	//side -> name of system property that specifies player for the side
 	private static final Map< Side, String > SYSTEM_PROPERTIES =

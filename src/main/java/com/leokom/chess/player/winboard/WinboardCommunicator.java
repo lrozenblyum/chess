@@ -1,13 +1,9 @@
 package com.leokom.chess.player.winboard;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 /**
  * Low-level communication engine with some Winboard 'server'
@@ -26,7 +22,7 @@ class WinboardCommunicator implements Communicator {
 	private static final String INPUT_ENCODING = "US-ASCII";
 	private final BufferedReader reader;
     private final PrintStream outputStream;
-	private Logger logger = Logger.getLogger( this.getClass() );
+	private Logger logger = LogManager.getLogger( this.getClass() );
 
     /**
      * Create the winboard-commander with default dependencies

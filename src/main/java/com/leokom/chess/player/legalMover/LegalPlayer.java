@@ -4,9 +4,13 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Author: Leonid
@@ -117,7 +121,7 @@ public class LegalPlayer implements Player {
 	}
 
 	private Logger getLogger() {
-		return Logger.getLogger( this.getClass() );
+		return LogManager.getLogger( this.getClass() );
 	}
 
 	@Override
