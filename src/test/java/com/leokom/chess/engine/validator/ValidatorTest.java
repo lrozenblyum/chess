@@ -2,6 +2,7 @@ package com.leokom.chess.engine.validator;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.leokom.chess.player.PlayerTestUtils.tellOpponentAboutMove;
@@ -12,18 +13,24 @@ import static org.mockito.Mockito.*;
  * Date-time: 16.11.14 18:09
  */
 public class ValidatorTest {
-	//basic man-in-the middle requirement : pass through if it's valid
-	@Test
-	public void shouldPassMoveToOpponentGivenItsValid() {
-		Player white = mock( Player.class );
-		Player black = mock( Player.class );
+	private Player white;
+	private Player black;
+	private Validator validator;
 
-		Validator validator = new Validator( white, black );
+	@Before
+	public void prepare() {
+		white = mock( Player.class );
+		black = mock( Player.class );
+		validator = new Validator( white, black );
 
 		//injecting man-in-the-middle
 		white.setOpponent( validator );
 		black.setOpponent( validator );
+	}
 
+	//basic man-in-the middle requirement : pass through if it's valid
+	@Test
+	public void shouldPassMoveToOpponentGivenItsValid() {
 		tellOpponentAboutMove( validator, new Move( "e2", "e4" ) )
 		.when( white ).opponentSuggestsMeStartNewGameWhite();
 
@@ -34,15 +41,6 @@ public class ValidatorTest {
 
 	@Test
 	public void shouldReturnBlackAnswerToWhite() {
-		Player white = mock( Player.class );
-		Player black = mock( Player.class );
-
-		Validator validator = new Validator( white, black );
-
-		//injecting man-in-the-middle
-		white.setOpponent( validator );
-		black.setOpponent( validator );
-
 		tellOpponentAboutMove( validator, new Move( "e2", "e4" ) )
 		.when( white ).opponentSuggestsMeStartNewGameWhite();
 
