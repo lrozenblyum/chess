@@ -17,9 +17,11 @@ import com.leokom.chess.player.Player;
  *
  */
 public class Validator implements Player {
+	private final Player whitePlayer;
 	private final Player blackPlayer;
 
-	public Validator( Player black ) {
+	public Validator( Player white, Player black ) {
+		this.whitePlayer = white;
 		this.blackPlayer = black;
 	}
 
@@ -40,7 +42,9 @@ public class Validator implements Player {
 
 	@Override
 	public void opponentMoved( Move opponentMove ) {
+		//TODO: definitely strange fast implementation
 		blackPlayer.opponentMoved( opponentMove );
+		whitePlayer.opponentMoved( opponentMove );
 	}
 
 	@Override
