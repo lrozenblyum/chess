@@ -31,4 +31,28 @@ public class ValidatorTest {
 
 		verify( black ).opponentMoved( new Move( "e2", "e4" ) );
 	}
+
+	@Test
+	public void shouldReturnBlackAnswerToWhite() {
+		Player white = mock( Player.class );
+		Player black = mock( Player.class );
+
+		Validator validator = new Validator( black );
+
+		//injecting man-in-the-middle
+		white.setOpponent( validator );
+		black.setOpponent( validator );
+
+		doAnswer( (invocation) -> {
+			validator.opponentMoved( new Move( "e2", "e4" ) ); return null;
+		} ).when( white ).opponentSuggestsMeStartNewGameWhite();
+
+		doAnswer( (invocation) -> {
+			validator.opponentMoved( new Move( "e7", "e5" ) ); return null;
+		} ).when( black ).opponentMoved( new Move( "e2", "e4" ) );
+
+		white.opponentSuggestsMeStartNewGameWhite();
+
+		verify( white ).opponentMoved( new Move( "e7", "e5" ) );
+	}
 }
