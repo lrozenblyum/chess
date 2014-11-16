@@ -40,6 +40,16 @@ public class ValidatorTest {
 	}
 
 	@Test
+	public void shouldWhiteReceiveNoWrongMove() {
+		tellOpponentAboutMove( validator, new Move( "e2", "e4" ) )
+				.when( white ).opponentSuggestsMeStartNewGameWhite();
+
+		white.opponentSuggestsMeStartNewGameWhite();
+
+		verify( white, never() ).opponentMoved( new Move( "e2", "e4" ) );
+	}
+
+	@Test
 	public void shouldReturnBlackAnswerToWhite() {
 		tellOpponentAboutMove( validator, new Move( "e2", "e4" ) )
 		.when( white ).opponentSuggestsMeStartNewGameWhite();
@@ -51,4 +61,6 @@ public class ValidatorTest {
 
 		verify( white ).opponentMoved( new Move( "e7", "e5" ) );
 	}
+
+
 }
