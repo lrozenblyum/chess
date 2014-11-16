@@ -17,7 +17,7 @@ public class ValidatorTest {
 		Player white = mock( Player.class );
 		Player black = mock( Player.class );
 
-		Validator validator = new Validator();
+		Validator validator = new Validator( black );
 
 		//injecting man-in-the-middle
 		white.setOpponent( validator );
