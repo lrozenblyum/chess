@@ -5,9 +5,9 @@ import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import com.leokom.chess.player.PlayerTestUtils;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.stubbing.Answer;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -210,18 +210,11 @@ public class LegalPlayerTest {
 
 		player.setPosition( position );
 
-		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( new Move( "h8", "h7" ) );
+		PlayerTestUtils.tellOpponentAboutMove( player, new Move( "a1", "a2" ) ).when( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
 		player.executeMove(); //results in LegalPlayer h8h7
 
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
-	}
-
-	private Answer getAnswerToH8H7( final LegalPlayer player ) {
-		return invocationOnMock -> {
-			player.opponentMoved( new Move( "a1", "a2" ) );
-			return null;
-		};
 	}
 
 	@Test

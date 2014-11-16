@@ -4,6 +4,7 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 
+import static com.leokom.chess.player.PlayerTestUtils.tellOpponentAboutMove;
 import static org.mockito.Mockito.*;
 
 /**
@@ -23,9 +24,8 @@ public class ValidatorTest {
 		white.setOpponent( validator );
 		black.setOpponent( validator );
 
-		doAnswer( (invocation) -> {
-			validator.opponentMoved( new Move( "e2", "e4" ) ); return null;
-		} ).when( white ).opponentSuggestsMeStartNewGameWhite();
+		tellOpponentAboutMove( validator, new Move( "e2", "e4" ) )
+		.when( white ).opponentSuggestsMeStartNewGameWhite();
 
 		white.opponentSuggestsMeStartNewGameWhite();
 
@@ -43,13 +43,11 @@ public class ValidatorTest {
 		white.setOpponent( validator );
 		black.setOpponent( validator );
 
-		doAnswer( (invocation) -> {
-			validator.opponentMoved( new Move( "e2", "e4" ) ); return null;
-		} ).when( white ).opponentSuggestsMeStartNewGameWhite();
+		tellOpponentAboutMove( validator, new Move( "e2", "e4" ) )
+		.when( white ).opponentSuggestsMeStartNewGameWhite();
 
-		doAnswer( (invocation) -> {
-			validator.opponentMoved( new Move( "e7", "e5" ) ); return null;
-		} ).when( black ).opponentMoved( new Move( "e2", "e4" ) );
+		tellOpponentAboutMove( validator, new Move( "e7", "e5" ) )
+		.when( black ).opponentMoved( new Move( "e2", "e4" ) );
 
 		white.opponentSuggestsMeStartNewGameWhite();
 
