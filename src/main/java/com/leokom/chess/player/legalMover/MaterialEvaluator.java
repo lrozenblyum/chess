@@ -43,12 +43,16 @@ public class MaterialEvaluator implements Evaluator {
 		VALUES.put( PieceType.KING, 1000 );
 	}
 
+	static int getValue( PieceType pieceType ) {
+		return VALUES.get( pieceType );
+	}
+
 	//highly depends on actual values
 	//and on fact we evaluate queen higher than other pieces except king
 	//and on assumption about 8 max promoted queens
 
 	//no pawns included here since they are 'promoted'
-	private static final int MAXIMAL_VALUE =
+	static final int MAXIMAL_VALUE =
 			VALUES.get( PieceType.KING ) +
 					8 * VALUES.get( PieceType.QUEEN ) +
 					2 * VALUES.get( PieceType.ROOK ) +

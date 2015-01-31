@@ -67,7 +67,7 @@ public class ProtectionEvaluatorTest {
 
 
 	// 1) protecting a piece by another piece better than not
-	// a) reactive
+	// a) + reactive
 	// b) proactive - when no attack
 	// Maybe fact of attack should increase value of protective moves?)
 

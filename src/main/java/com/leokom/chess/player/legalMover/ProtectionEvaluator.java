@@ -11,10 +11,6 @@ import java.util.Set;
  * Date-time: 21.10.14 23:03
  */
 public class ProtectionEvaluator implements Evaluator {
-
-	//actually much less possible (how many?)
-	private static final int MAX_ATTACKED_SQUARES = 64;
-
 	/**
 	 	Protection has 2 aspects:
 	 	a) tactical: act when your pieces are under attack
@@ -40,9 +36,15 @@ public class ProtectionEvaluator implements Evaluator {
 		final Position targetPosition = position.move( move );
 		final Side ourSide = position.getSide( move.getFrom() );
 
-		final Set< String > squaresAttackedByOpponent = getPiecesAttackedByOpponent( targetPosition, ourSide );
+		final Set< String > ourSquaresAttackedByOpponent = getPiecesAttackedByOpponent( targetPosition, ourSide );
 
-		return 1 - (float) squaresAttackedByOpponent.size() / MAX_ATTACKED_SQUARES;
+		final int ourAttackedPiecesValue = ourSquaresAttackedByOpponent.stream()
+				.map( targetPosition::getPieceType )
+				//REFACTOR: probably bad dependency on another evaluator - extract common utility
+				.mapToInt( MaterialEvaluator::getValue )
+				.sum();
+
+		return 1 - (float) ourAttackedPiecesValue / MaterialEvaluator.MAXIMAL_VALUE;
 	}
 
 	//REFACTOR: too generic to encapsulate into Position?
