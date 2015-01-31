@@ -49,12 +49,26 @@ public class ProtectionEvaluatorTest {
 		asserts.assertFirstBetter( position, leaveOneOfAttacked, ignoreAttack );
 	}
 
+	@Test
+	public void reactiveProtectingBetterThanNot() {
+		Position position = new Position();
+		position.add( Side.WHITE, "a1", PieceType.QUEEN );
+
+		position.add( Side.BLACK, "h5", PieceType.KNIGHT );
+		position.add( Side.BLACK, "h8", PieceType.QUEEN );
+
+		Move knightProtectsQueen = new Move( "h5", "g7" );
+		Move noQueenProtection = new Move( "h5", "g2" );
+
+		asserts.assertFirstBetter( position, knightProtectsQueen, noQueenProtection );
+	}
 
 	//backlog
 
 
 	// 1) protecting a piece by another piece better than not
-	// (even if no attack?
+	// a) reactive
+	// b) proactive - when no attack
 	// Maybe fact of attack should increase value of protective moves?)
 
 	// 2) Protecting a more valuable piece is more important than less valuable
