@@ -125,6 +125,8 @@ public class Position {
 		//3.1 It is not permitted to move a piece to a square occupied by a piece of the same colour.
 		potentialMoves.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
 
+		// 3.9 'No piece can be moved that will ... expose the king of the same colour to check
+		//... or leave that king in check' is also covered here.
 		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
 
 		//1.2 ’capturing’ the opponent’s king ... not allowed
