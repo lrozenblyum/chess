@@ -52,31 +52,22 @@ public class Position {
 	//expose package-private setter
 
 	//explicitly setting initial state for clarity
-	private Map< Side, Boolean > hasKingMoved = new HashMap< Side, Boolean >() {{
-		put( Side.WHITE, false );
-		put( Side.BLACK, false );
-	}};
+	private Set< Side > hasKingMoved = new HashSet<>();
 
-	private Map< Side, Boolean > hasARookMoved = new HashMap< Side, Boolean >() {{
-		put( Side.WHITE, false );
-		put( Side.BLACK, false );
-	}};
+	private Set< Side > hasARookMoved = new HashSet<>();
 
-	private Map< Side, Boolean > hasHRookMoved = new HashMap< Side, Boolean >() {{
-		put( Side.WHITE, false );
-		put( Side.BLACK, false );
-	}};
+	private Set< Side > hasHRookMoved = new HashSet<>();
 
 	void setHasKingMoved( Side side ) {
-		this.hasKingMoved.put( side, true );
+		this.hasKingMoved.add( side );
 	}
 
 	void setHasARookMoved( Side side ) {
-		this.hasARookMoved.put( side, true );
+		this.hasARookMoved.add( side );
 	}
 
 	void setHasHRookMoved( Side side ) {
-		this.hasHRookMoved.put( side, true );
+		this.hasHRookMoved.add( side );
 	}
 
 	void setEnPassantFile( String enPassantFile ) {	this.enPassantFile = enPassantFile; }
@@ -192,7 +183,7 @@ public class Position {
 		Side side = getSide( square );
 
 		//cannot castle if king has already moved
-		if ( hasKingMoved.get( side ) ) {
+		if ( hasKingMoved.contains( side ) ) {
 			return result;
 		}
 
@@ -210,7 +201,7 @@ public class Position {
 			//TODO: the first condition is excessive - second covers it
 			final String kingSideRookFile = "h";
 			if ( isOccupiedBy( kingSideRookFile + castlingRank, side ) &&
-				!hasHRookMoved.get( side ) &&
+				!hasHRookMoved.contains( side ) &&
 				!isSquareAttacked( side, "f" + castlingRank ) &&
 				isFreeRankBetween( kingFile, kingSideRookFile, castlingRank )) {
 				result.add( "g" + castlingRank );
@@ -218,7 +209,7 @@ public class Position {
 
 			final String queenSideRookFile = "a";
 			if ( isOccupiedBy( queenSideRookFile + castlingRank, side ) &&
-				!hasARookMoved.get( side ) &&
+				!hasARookMoved.contains( side ) &&
 				!isSquareAttacked( side, "d" + castlingRank ) &&
 				isFreeRankBetween( queenSideRookFile, kingFile, castlingRank )) {
 				result.add( "c" + castlingRank );
@@ -664,15 +655,15 @@ public class Position {
 	}
 
 	public boolean hasARookMoved( Side side ) {
-		return hasARookMoved.get( side );
+		return hasARookMoved.contains( side );
 	}
 
 	public boolean hasHRookMoved( Side side ) {
-		return hasHRookMoved.get( side );
+		return hasHRookMoved.contains( side );
 	}
 
 	public boolean hasKingMoved( Side side ) {
-		return hasKingMoved.get( side );
+		return hasKingMoved.contains( side );
 	}
 
 	/**
@@ -688,17 +679,10 @@ public class Position {
 		}
 
 		//cloning the state!
-		for ( Side side : this.hasKingMoved.keySet() ) {
-			position.hasKingMoved.put( side, this.hasKingMoved.get( side ) );
-		}
-
-		for ( Side side : this.hasARookMoved.keySet() ) {
-			position.hasARookMoved.put( side, this.hasARookMoved.get( side ) );
-		}
-
-		for ( Side side : this.hasHRookMoved.keySet() ) {
-			position.hasHRookMoved.put( side, this.hasHRookMoved.get( side ) );
-		}
+		//Side is immutable, thus no extra safety measures are needed
+		position.hasKingMoved = new HashSet<>( this.hasKingMoved );
+		position.hasARookMoved = new HashSet<>( this.hasARookMoved );
+		position.hasHRookMoved = new HashSet<>( this.hasHRookMoved );
 	}
 
 	/**
