@@ -27,6 +27,18 @@ public class CheckTest {
 		assertAllowedMoves( position, "a2", "a3" ); //cannot move horizontally
 	}
 
+	//simple test to ensure 3.8 a) is fully covered
+	//'not attacked by one or more... opponent's pieces'
+	@Test
+	public void cannotExposeKingToOpponentKingAttack() {
+		Position position = new Position();
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+		position.add( Side.BLACK, "a3", PieceType.KING );
+
+		assertAllowedMoves( position, "a1", "b1" );
+	}
+
 	@Test
 	public void cannotExposeKingToCheckTriangulate() {
 		Position position = new Position();
