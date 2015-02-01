@@ -511,6 +511,8 @@ public class Position {
 			}
 
 			//probably it's already double-checked in common block of code
+			//it's good to have it here since common block of code doesn't check
+			//e8Q move correctness for moving to occupied plac
 			if ( isOccupied( destinationSquare ) ) {
 				disallowedMoves.add( potentialMove );
 			}

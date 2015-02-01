@@ -295,6 +295,13 @@ public class PawnAllowedMovesTest {
 	}
 
 	@Test
+	public void promotionCannotBeDoneWhenBlockedByOurPiece() {
+		position.addQueen( Side.WHITE, "e8" );
+
+		testPawn( position, "e7", Side.WHITE );
+	}
+
+	@Test
 	public void pawnCapturesQueen() {
 		position.addQueen( Side.WHITE, "c4" );
 		testPawn( position, "d5", Side.BLACK,
