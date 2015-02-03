@@ -18,7 +18,7 @@ import java.util.Set;
  * Kindly provided by https://github.com/fluxroot
  *
  */
-public final class UciCommander extends AbstractEngine {
+final class UciCommander extends AbstractEngine {
 
   private Position position = Position.getInitialPosition();
   private Side sideToMove = Side.WHITE;
