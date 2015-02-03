@@ -33,6 +33,7 @@ public final class MainRunner {
 	 *             <li>Winboard</li>
 	 *             <li>SimpleEngine</li>
 	 *             <li>Legal</li>
+	 *             <li>UCI</li>
 	 *             </ul>
 	 *
 	 * Default players:
@@ -45,6 +46,11 @@ public final class MainRunner {
 	 *             <ul>
 	 *                 <li>Winboard vs Winboard (has no sense as 2 thin clients for UI?)</li>
 	 *                 <li>Winboard playing black (temporarily till <a target="_blank" href="https://github.com/lrozenblyum/chess/issues/120">#120</a> implemented)</li>
+	 *             </ul>
+	 *
+	 * Low support exists now for such players:
+	 *             <ul>
+	 *             	<li>UCI</li>
 	 *             </ul>
 	 * </p>
 	 */

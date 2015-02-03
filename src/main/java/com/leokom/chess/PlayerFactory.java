@@ -4,6 +4,7 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.simple.SimpleEnginePlayer;
+import com.leokom.chess.player.uci.UciPlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,6 +65,8 @@ final class PlayerFactory {
 				return new SimpleEnginePlayer( side );
 			case "Winboard":
 				return WinboardPlayer.create();
+			case "UCI":
+				return UciPlayer.create();
 			default:
 				logger.warn( "Unsupported option specified. Selecting default player" );
 				return getDefaultPlayer( side );

@@ -1,145 +1,55 @@
 package com.leokom.chess.player.uci;
 
-import com.fluxchess.jcpi.AbstractEngine;
-import com.fluxchess.jcpi.commands.*;
-import com.fluxchess.jcpi.models.*;
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.player.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.Set;
+/**
+ * Integrating Uci Player according to the chess
+ * standards
+ *
+ * Author: Leonid
+ * Date-time: 03.02.15 22:13
+ */
+public class UciPlayer {
 
-public final class UciPlayer extends AbstractEngine {
 
-  private Position position = Position.getInitialPosition();
-  private Side sideToMove = Side.WHITE;
+	public static Player create() {
+		Logger logger = LogManager.getLogger( UciPlayer.class );
 
-  public static void main(String[] args) {
-    new UciPlayer().run();
-  }
+		logger.info( "Creating new UCI Player" );
 
-  @Override
-  protected void quit() {
-    new EngineStopCalculatingCommand().accept(this);
-  }
+		return new Player() {
+			@Override
+			public void opponentOfferedDraw() {
 
-  @Override
-  public void receive(EngineInitializeRequestCommand command) {
-    new EngineStopCalculatingCommand().accept(this);
+			}
 
-    ProtocolInitializeAnswerCommand answerCommand = new ProtocolInitializeAnswerCommand(
-        "UciPlayer 1.1", "Leonid Rozenblyum"
-    );
+			@Override
+			public void opponentAgreedToDrawOffer() {
 
-    getProtocol().send(answerCommand);
-  }
+			}
 
-  @Override
-  public void receive(EngineSetOptionCommand command) {
-    // TODO
-  }
+			@Override
+			public void opponentSuggestsMeStartNewGameWhite() {
 
-  @Override
-  public void receive(EngineDebugCommand command) {
-    // TODO
-  }
+			}
 
-  @Override
-  public void receive(EngineReadyRequestCommand command) {
-    getProtocol().send(new ProtocolReadyAnswerCommand(command.token));
-  }
+			@Override
+			public void opponentMoved( Move opponentMove ) {
 
-  @Override
-  public void receive(EngineNewGameCommand command) {
-    new EngineStopCalculatingCommand().accept(this);
+			}
 
-    position = Position.getInitialPosition();
-  }
+			@Override
+			public void opponentResigned() {
 
-  @Override
-  public void receive(EngineAnalyzeCommand command) {
-    new EngineStopCalculatingCommand().accept(this);
+			}
 
-	  position = new Position();
+			@Override
+			public void setOpponent( Player opponent ) {
 
-    for (GenericPosition genericPosition : GenericPosition.values()) {
-      GenericPiece genericPiece = command.board.getPiece(genericPosition);
-      if (genericPiece != null) {
-        Side side = genericPiece.color == GenericColor.WHITE ? Side.WHITE : Side.BLACK;
-        String square = genericPosition.toString();
-        PieceType pieceType;
-        switch (genericPiece.chessman) {
-          case PAWN:
-            pieceType = PieceType.PAWN;
-            break;
-          case KNIGHT:
-            pieceType = PieceType.KNIGHT;
-            break;
-          case BISHOP:
-            pieceType = PieceType.BISHOP;
-            break;
-          case ROOK:
-            pieceType = PieceType.ROOK;
-            break;
-          case QUEEN:
-            pieceType = PieceType.QUEEN;
-            break;
-          case KING:
-            pieceType = PieceType.KING;
-            break;
-          default:
-            throw new IllegalArgumentException();
-        }
-        position.add(side, square, pieceType);
-      }
-    }
-
-    sideToMove = command.board.getActiveColor() == GenericColor.WHITE ? Side.WHITE : Side.BLACK;
-
-    for (GenericMove genericMove : command.moves) {
-      position = position.move(
-          genericMove.from.toString(),
-          genericMove.to.toString() + (genericMove.promotion == null ? "" : genericMove.promotion.toCharAlgebraic()));
-      sideToMove = sideToMove == Side.WHITE ? Side.BLACK : Side.WHITE;
-    }
-  }
-
-  @Override
-  public void receive(EngineStartCalculatingCommand command) {
-    new EngineStopCalculatingCommand().accept(this);
-
-    Set<Move> moves = position.getMoves(sideToMove);
-    if (!moves.isEmpty()) {
-      Move possibleMove = moves.iterator().next();
-
-      final String from = possibleMove.getFrom();
-      final String to = possibleMove.getTo();
-
-      GenericPosition fromSquare = GenericPosition.valueOf(from);
-      GenericPosition toSquare;
-      GenericChessman promotion;
-      if (to.length() == 3) {
-        toSquare = GenericPosition.valueOf(to.substring(0, 2));
-        promotion = GenericChessman.valueOfPromotion(to.charAt(2));
-      } else {
-        toSquare = GenericPosition.valueOf(to);
-        promotion = null;
-      }
-
-      GenericMove genericMove = new GenericMove(fromSquare, toSquare, promotion);
-      getProtocol().send(new ProtocolBestMoveCommand(genericMove, null));
-    }
-  }
-
-  @Override
-  public void receive(EngineStopCalculatingCommand command) {
-    // TODO
-  }
-
-  @Override
-  public void receive(EnginePonderHitCommand command) {
-    // TODO
-  }
-
+			}
+		};
+	}
 }
