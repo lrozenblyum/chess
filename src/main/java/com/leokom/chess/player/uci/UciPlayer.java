@@ -12,44 +12,45 @@ import org.apache.logging.log4j.Logger;
  * Author: Leonid
  * Date-time: 03.02.15 22:13
  */
-public class UciPlayer {
-
+public class UciPlayer implements Player {
+	// hid constructor to have more control on creation
+	private UciPlayer() {}
 
 	public static Player create() {
 		Logger logger = LogManager.getLogger( UciPlayer.class );
 
 		logger.info( "Creating new UCI Player" );
 
-		return new Player() {
-			@Override
-			public void opponentOfferedDraw() {
+		return new UciPlayer();
+	}
 
-			}
+	@Override
+	public void opponentOfferedDraw() {
 
-			@Override
-			public void opponentAgreedToDrawOffer() {
+	}
 
-			}
+	@Override
+	public void opponentAgreedToDrawOffer() {
 
-			@Override
-			public void opponentSuggestsMeStartNewGameWhite() {
+	}
 
-			}
+	@Override
+	public void opponentSuggestsMeStartNewGameWhite() {
 
-			@Override
-			public void opponentMoved( Move opponentMove ) {
+	}
 
-			}
+	@Override
+	public void opponentMoved( Move opponentMove ) {
 
-			@Override
-			public void opponentResigned() {
+	}
 
-			}
+	@Override
+	public void opponentResigned() {
 
-			@Override
-			public void setOpponent( Player opponent ) {
+	}
 
-			}
-		};
+	@Override
+	public void setOpponent( Player opponent ) {
+
 	}
 }
