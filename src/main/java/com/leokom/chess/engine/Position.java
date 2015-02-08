@@ -107,6 +107,7 @@ public class Position {
 	/**
 	 * Get moves that are available from the square provided
 	 * @param square square currently in format like 'e2' (this we'll call further as 'canonical representation')
+	 *               PRE-CONDITION: there is some piece on the square.
 	 * @return not-null set of available moves from square (could be empty for sure)
 	 *
 	 * Move is now interpreted as following:
@@ -116,10 +117,8 @@ public class Position {
 	 * 2) square's canonical representation + upper-case of promoted piece from pawn (e.g. a8N -
 	 * if we promoted to Knight)
 	 *
-	 * TODO: what if square doesn't contain any pieces?
-	 * Should we return empty set, null or throw an exception?
 	 */
-	public Set<String> getMovesFrom( String square ) {
+	Set<String> getMovesFrom( String square ) {
 		final Set<String> potentialMoves = getPotentialMoves( square );
 
 		//3.1 It is not permitted to move a piece to a square occupied by a piece of the same colour.
