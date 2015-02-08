@@ -76,8 +76,9 @@ public class LegalPlayer implements Player {
 			informOpponentAboutTheMove( move );
 		}
 		else {
-			getLogger().info( "Final state detected" );
-			//TODO: if empty set it means the game has been finished (what's the result?)
+			getLogger().info( "We cannot execute any moves." +
+					" Final state has been detected." +
+					" Result will be based on Position information " );
 		}
 	}
 
