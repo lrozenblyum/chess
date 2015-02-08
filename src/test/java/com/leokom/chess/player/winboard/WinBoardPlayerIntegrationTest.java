@@ -5,6 +5,7 @@ import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
@@ -105,6 +106,23 @@ public class WinBoardPlayerIntegrationTest {
 	public void castlingCorrectlyTranslatedToWinboardClient() {
 		assertTranslationOfCommandFromPlayerToWinboardClient(
 				new Move( "e8", "c8" ), "move e8c8" );
+	}
+
+	@Test
+	public void checkmateFromPlayerToWinboard() {
+		//implementing fool's mate
+
+		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
+		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		fail( "Not implemented yet" );
+		//TODO:
+		//1. f3 e5
+		//2. g4?? Qh4#
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
