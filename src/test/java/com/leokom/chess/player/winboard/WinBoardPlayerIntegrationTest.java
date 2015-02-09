@@ -2,6 +2,7 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -18,23 +19,27 @@ import static org.mockito.Mockito.*;
  * Date-time: 10.11.12 22:03
  */
 public class WinBoardPlayerIntegrationTest {
+
+	private WinboardCommunicator communicator;
+	private WinboardCommander commander;
+	private WinboardPlayer player;
+
+	@Before
+	public void prepare() {
+		communicator = mock( WinboardCommunicator.class );
+		commander = new WinboardCommanderImpl( communicator );
+		player = new WinboardPlayer( commander );
+	}
+
 	@Test
 	public void switchesWinboardToSetUpMode() {
 		//The commander mock is actually EMULATOR OF Winboard behaviour!
-		WinboardCommunicator communicator = mock( WinboardCommunicator.class );
-
-		new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
-
 		verify( communicator ).send( "feature done=0" );
 	}
 
 
 	@Test
 	public void offerDrawListenerCalled() {
-		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
-
-		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
-		final WinboardPlayer player = new WinboardPlayer( commander );
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
 
@@ -48,10 +53,6 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void resignListenerCalled() {
-		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
-
-		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
-		final WinboardPlayer player = new WinboardPlayer( commander );
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
 
@@ -68,10 +69,6 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void userMoveNoException() {
-		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
-
-		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
-		final WinboardPlayer player = new WinboardPlayer( commander );
 		player.setOpponent( mock( Player.class ) );
 
 		//low-level
@@ -108,27 +105,21 @@ public class WinBoardPlayerIntegrationTest {
 				new Move( "e8", "c8" ), "move e8c8" );
 	}
 
+	//Winboard vs Player (White vs Black)
+	//1. f3 e5
+	//2. g4?? Qh4#
+	//need to inform UI that it lost (and Player won!)
 	@Test
 	public void checkmateFromPlayerToWinboard() {
 		//implementing fool's mate
-
-		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
-		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
-		final WinboardPlayer player = new WinboardPlayer( commander );
 
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
 
 		fail( "Not implemented yet" );
-		//TODO:
-		//1. f3 e5
-		//2. g4?? Qh4#
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
-		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
-		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
-		final WinboardPlayer player = new WinboardPlayer( commander );
 
 		//TODO: I don't like this reset, but player sends several commands
 		//like set features etc, how to do better?
@@ -141,9 +132,6 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	private void assertTranslationOfReceivedCommandToMoveForOpponent( String winboardReceivedMessage, String squareFrom, String destination ) {
-		final WinboardCommunicator communicator = mock( WinboardCommunicator.class );
-		final WinboardCommander commander = new WinboardCommanderImpl( communicator );
-		final WinboardPlayer player = new WinboardPlayer( commander );
 		Player opponent = mock( Player.class );
 
 		player.setOpponent( opponent );
