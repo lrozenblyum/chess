@@ -112,9 +112,12 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void checkmateFromPlayerToWinboard() {
 		//implementing fool's mate
-
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
+
+		player.opponentSuggestsMeStartNewGameWhite();
+
+
 
 		fail( "Not implemented yet" );
 	}
