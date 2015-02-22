@@ -160,6 +160,13 @@ public class WinboardPlayer implements Player {
 		return needQuit;
 	}
 
+	//currently : for tests to prevent infinite loop
+	//for future: maybe Resign/Win/Draw or other termination of game
+	//should lead to quit as well?
+	void applyShuttingDown() {
+		needQuit = true;
+	}
+
 	private class WinboardUserMoveListener implements UserMoveListener {
 
 		/**

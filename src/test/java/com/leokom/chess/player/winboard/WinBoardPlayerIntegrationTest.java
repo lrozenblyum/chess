@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
@@ -115,11 +114,14 @@ public class WinBoardPlayerIntegrationTest {
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
 
+		when( communicator.receive() ).thenReturn( "usermove f2f3" );
+		doAnswer( invocation -> { player.opponentMoved( new Move( "e7", "e5" ) ); return null; } )
+			.when( opponent ).opponentMoved( new Move( "f2", "f3" ) );
+		when( communicator.receive() ).thenReturn( "usermove g2g4" );
+		doAnswer( invocation -> { player.opponentMoved( new Move( "d8", "h4" ) ); player.applyShuttingDown(); return null; } )
+				.when( opponent ).opponentMoved( new Move( "g2", "g4" ) );
+
 		player.opponentSuggestsMeStartNewGameWhite();
-
-
-
-		fail( "Not implemented yet" );
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
