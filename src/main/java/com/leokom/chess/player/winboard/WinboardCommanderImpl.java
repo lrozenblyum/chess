@@ -71,6 +71,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 		//"For the actual move text from your chess engine (in place of MOVE above), your move should be either
 		//in coordinate notation (e.g., e2e4, e7e8q) with castling indicated by the King's two-square move (e.g., e1g1)"
 		this.communicator.send( "move " + move );
+		communicator.send( "0-1 {reason}" );
 	}
 
 	@Override

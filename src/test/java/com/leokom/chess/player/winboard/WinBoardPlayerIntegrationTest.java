@@ -122,6 +122,9 @@ public class WinBoardPlayerIntegrationTest {
 				.when( opponent ).opponentMoved( new Move( "g2", "g4" ) );
 
 		player.opponentSuggestsMeStartNewGameWhite();
+
+		//TODO: reason should be parametrized
+		verify( communicator, atLeastOnce() ).send( "0-1 {reason}" );
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
