@@ -125,6 +125,21 @@ public class WinBoardPlayerIntegrationTest {
 		verify( communicator, atLeastOnce() ).send( "0-1 {reason}" );
 	}
 
+	@Test
+	public void noCheckmateNoFalseInforming() {
+		//implementing fool's mate
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		new WinboardTestGameBuilder( player, communicator )
+				.move( new Move( "f2", "f3" ) )
+				.moveLast( new Move( "e7", "e5" ) )
+				.play();
+
+		//TODO: reason should be parametrized
+		verify( communicator, never() ).send( "0-1 {reason}" );
+	}
+
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
 
 		//TODO: I don't like this reset, but player sends several commands
