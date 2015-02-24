@@ -114,14 +114,12 @@ public class WinBoardPlayerIntegrationTest {
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
 
-		when( communicator.receive() ).thenReturn( "usermove f2f3" );
-		doAnswer( invocation -> { player.opponentMoved( new Move( "e7", "e5" ) ); return null; } )
-			.when( opponent ).opponentMoved( new Move( "f2", "f3" ) );
-		when( communicator.receive() ).thenReturn( "usermove g2g4" );
-		doAnswer( invocation -> { player.opponentMoved( new Move( "d8", "h4" ) ); player.applyShuttingDown(); return null; } )
-				.when( opponent ).opponentMoved( new Move( "g2", "g4" ) );
-
-		player.opponentSuggestsMeStartNewGameWhite();
+		new WinboardTestGameBuilder( player, communicator )
+		.move( new Move( "f2", "f3" ) )
+		.move( new Move( "e7", "e5" ) )
+		.move( new Move( "g2", "g4" ) )
+		.moveLast( new Move( "d8", "h4" ) )
+		.play();
 
 		//TODO: reason should be parametrized
 		verify( communicator, atLeastOnce() ).send( "0-1 {reason}" );
