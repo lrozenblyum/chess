@@ -9,4 +9,9 @@ public class PositionSideTest {
 	public void initialSide() {
 		assertEquals( Side.WHITE, Position.getInitialPosition().getSideToMove() );
 	}
+
+	@Test
+	public void sideAfterMove() {
+		assertEquals( Side.BLACK, Position.getInitialPosition().move( new Move( "e2", "e4" ) ).getSideToMove() );
+	}
 }

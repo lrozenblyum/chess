@@ -26,6 +26,12 @@ final class PositionGenerator {
 	 * @return new position, after move from squareFrom
 	 */
 	Position generate( Move move ) {
+		final Position newPosition = getNewPosition( move );
+		newPosition.setSideToMove( source.getSideToMove().opposite() );
+		return newPosition;
+	}
+
+	private Position getNewPosition( Move move ) {
 		String squareFrom = move.getFrom();
 		String moveTo = move.getTo();
 		final PieceType pieceType = source.getPieceType( squareFrom );

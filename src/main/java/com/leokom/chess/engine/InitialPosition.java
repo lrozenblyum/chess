@@ -68,6 +68,8 @@ final class InitialPosition {
 			result.add( side, initialKingFile + rank, PieceType.KING );
 		}
 
+		result.setSideToMove( Side.WHITE );
+
 		return result;
 	}
 }
