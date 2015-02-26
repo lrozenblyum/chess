@@ -19,7 +19,7 @@ public class PositionAllowedMovesTest {
 	//even more - FIDE rules have an explicit statement about the king capture.
 	@Test
 	public void cannotCaptureKing() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "a1", PieceType.QUEEN );
 		position.add( Side.BLACK, "c1", PieceType.KING );
 
@@ -28,11 +28,11 @@ public class PositionAllowedMovesTest {
 
 	@Test
 	public void simplePositionSingleMove() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c1", PieceType.KING );
 
-		Set< Move > moves = position.getMoves( Side.WHITE );
+		Set< Move > moves = position.getMoves();
 
 		assertEquals( 1, moves.size() );
 		final Move move = moves.iterator().next();
@@ -41,11 +41,11 @@ public class PositionAllowedMovesTest {
 
 	@Test //same test as previous but changing colours
 	public void simplePositionTriangulateByColor() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.add( Side.BLACK, "a1", PieceType.KING );
 		position.add( Side.WHITE, "c1", PieceType.KING );
 
-		Set< Move > moves = position.getMoves( Side.BLACK );
+		Set< Move > moves = position.getMoves();
 
 		assertEquals( 1, moves.size() );
 		final Move move = moves.iterator().next();
@@ -54,7 +54,7 @@ public class PositionAllowedMovesTest {
 
 	@Test
 	public void simplePositionNoMoves() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "a1", PieceType.KING );
 
 		position.add( Side.BLACK, "b1", PieceType.BISHOP ); //any?
@@ -62,7 +62,7 @@ public class PositionAllowedMovesTest {
 		position.add( Side.BLACK, "b2", PieceType.PAWN ); //any?
 		position.add( Side.BLACK, "c1", PieceType.KING );
 
-		Set< Move > moves = position.getMoves( Side.WHITE );
+		Set< Move > moves = position.getMoves();
 
 		assertEquals( 0, moves.size() );
 	}
