@@ -780,8 +780,13 @@ public class Position {
 		add( piece.getSide(), to, piece.getPieceType() );
 	}
 
-	//TODO: probably moving side must be a part of the position itself
-	//to be decided what's better representation for moves.
+	/**
+	 *
+	 * @param side
+	 * @deprecated use #getMoves() instead
+	 * @return
+	 */
+	@Deprecated
 	public Set< Move > getMoves( Side side ) {
 		final Set< Move > result = new HashSet<>();
 
@@ -791,6 +796,10 @@ public class Position {
 		}
 
 		return result;
+	}
+
+	public Set< Move > getMoves() {
+		return getMoves( sideToMove );
 	}
 
 	public Stream< Piece > getPieces( Side side ) {

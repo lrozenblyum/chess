@@ -2,7 +2,6 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,9 +33,6 @@ public class WinboardPlayer implements Player {
 	//the 'state' of game should be commonly shared
 	//for both players
 	private Position position = Position.getInitialPosition();
-
-	//TODO: encapsulate 'side to move' into Position
-	private Side side = Side.WHITE;
 
 	//TODO: THINK about consequences of:
 	//creating several instances of the controller (must be singleton)
@@ -133,11 +129,10 @@ public class WinboardPlayer implements Player {
 		}
 
 		position = position.move( opponentMove );
-		side = side.opposite();
 		commander.opponentMoved( translatedMove );
 
 		//TODO: position should return if it's winning etc
-		if ( position.getMoves( side ).isEmpty() ) {
+		if ( position.getMoves().isEmpty() ) {
 			commander.opponentWon();
 		}
 	}
@@ -207,7 +202,6 @@ public class WinboardPlayer implements Player {
 
 			final Move engineMove = new Move( squareFrom, destination );
 			position = position.move( engineMove );
-			side = side.opposite();
 			opponent.opponentMoved( engineMove );
 		}
 	}
