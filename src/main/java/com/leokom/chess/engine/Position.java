@@ -58,6 +58,8 @@ public class Position {
 
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
+	private Side sideToMove = Side.WHITE;
+
 	void setHasKingMoved( Side side ) {
 		this.hasKingMoved.add( side );
 	}
@@ -792,5 +794,9 @@ public class Position {
 
 	public Stream< Piece > getPieces( Side side ) {
 		return pieces.values().stream().filter( piece -> piece.getSide() == side );
+	}
+
+	public Side getSideToMove() {
+		return sideToMove;
 	}
 }
