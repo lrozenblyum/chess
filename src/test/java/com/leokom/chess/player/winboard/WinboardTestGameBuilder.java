@@ -22,7 +22,7 @@ public class WinboardTestGameBuilder {
 		this.player = player;
 		this.opponent =	mock( Player.class );
 
-		programCommunicator = when( communicator.receive() );
+		communicatorReceive = when( communicator.receive() );
 
 		player.setOpponent( opponent );
 	}
@@ -31,13 +31,13 @@ public class WinboardTestGameBuilder {
 	private Side sideToMove = Side.WHITE;
 
 	//Mockito feature to program consecutive calls
-	final OngoingStubbing<String> programCommunicator;
+	private OngoingStubbing<String> communicatorReceive;
 
 	//highly depends on knowledge that Winboard: White, opponent Black
 	public WinboardTestGameBuilder move( Move move ) {
 		switch ( sideToMove ) {
 		case WHITE:
-			programCommunicator.thenReturn( "usermove " + move.getFrom() + move.getTo() );
+			communicatorReceive = communicatorReceive.thenReturn( "usermove " + move.getFrom() + move.getTo() );
 			break;
 		case BLACK:
 			doAnswer( invocation -> { player.opponentMoved( move ); return null; } )

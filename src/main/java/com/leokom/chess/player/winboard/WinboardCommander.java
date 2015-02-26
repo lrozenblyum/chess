@@ -44,4 +44,9 @@ interface WinboardCommander {
 	void onOfferDraw( OfferDrawListener listener );
 
 	void onResign( ResignListener listener );
+
+	/**
+	 * Inform Winboard that opponent has won
+	 */
+	void opponentWon();
 }
