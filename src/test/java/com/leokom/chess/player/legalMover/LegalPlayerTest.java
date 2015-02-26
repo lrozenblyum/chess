@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class LegalPlayerTest {
 	@Test
 	public void legalPlayerCreation() {
-		new LegalPlayer( Side.WHITE );
+		new LegalPlayer();
 	}
 
 	@Test
@@ -28,10 +28,10 @@ public class LegalPlayerTest {
 		Player opponent = mock( Player.class );
 
 		//assuming playing as white...
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c2", PieceType.KING );
 
@@ -55,10 +55,10 @@ public class LegalPlayerTest {
 	public void legalPlayerExecutesSingleAllowedMoveTriangulate() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.add( Side.WHITE, "h8", PieceType.KING );
 		position.add( Side.BLACK, "g5", PieceType.KING );
 
@@ -75,7 +75,7 @@ public class LegalPlayerTest {
 	public void legalPlayerCanMoveFirstAfterRun() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -87,10 +87,10 @@ public class LegalPlayerTest {
 	public void legalPlayerCanMoveFirst() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "h8", PieceType.KING );
 		position.add( Side.BLACK, "g6", PieceType.KING );
 
@@ -105,7 +105,7 @@ public class LegalPlayerTest {
 	public void initialPositionPossibleMovement() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
@@ -118,7 +118,7 @@ public class LegalPlayerTest {
 	public void secondMoveCanAlsoBeDone() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
@@ -137,7 +137,7 @@ public class LegalPlayerTest {
 	public void secondMoveTriangulate() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -148,7 +148,7 @@ public class LegalPlayerTest {
 	public void noCrashAfterKnightMove() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -160,7 +160,7 @@ public class LegalPlayerTest {
 	public void proveNeedToUpdatePositionAfterOurMove() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.WHITE );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position();
@@ -192,10 +192,10 @@ public class LegalPlayerTest {
 	public void proveNeedToUpdatePositionAfterOurMoveInRecursiveCase() {
 		Player opponent = mock( Player.class );
 
-		final LegalPlayer player = new LegalPlayer( Side.WHITE );
+		final LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
-		final Position position = new Position();
+		final Position position = new Position( Side.WHITE );
 
 		//white King surrounded
 		position.add( Side.WHITE, "h8", PieceType.KING );
@@ -228,10 +228,10 @@ public class LegalPlayerTest {
 	public void blackMoving() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.BLACK );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
-		final Position position = new Position();
+		final Position position = new Position( Side.WHITE );
 
 		position.add( Side.WHITE, "d1", PieceType.KING );
 		position.add( Side.BLACK, "a1", PieceType.KING );
@@ -250,10 +250,10 @@ public class LegalPlayerTest {
 	public void legalPlayerCanStartNewGameInMiddleOfExisting() {
 		Player opponent = mock( Player.class );
 
-		LegalPlayer player = new LegalPlayer( Side.BLACK );
+		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
-		final Position position = new Position();
+		final Position position = new Position( Side.WHITE );
 		//pieces not on initial position to make sure no 'accident'
 		//correct move
 		position.add( Side.WHITE, "d1", PieceType.KING );
@@ -266,7 +266,7 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( legalPlayerMove.capture() );
 
 		assertTrue( "Legal player must play legally after switch of sides. Actual move: " + legalPlayerMove.getValue(),
-				Position.getInitialPosition().getMoves( Side.WHITE ).stream()
+				Position.getInitialPosition().getMoves().stream()
 				.filter( stringMove ->
 						stringMove.equals( legalPlayerMove.getValue() ) )
 				.findAny().isPresent());

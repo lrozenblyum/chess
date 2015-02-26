@@ -61,6 +61,7 @@ public class Position {
 	//TODO: this initialization to avoid NPE in OLD tests.
 	private Side sideToMove = Side.WHITE;
 
+
 	void setHasKingMoved( Side side ) {
 		this.hasKingMoved.add( side );
 	}
@@ -88,8 +89,14 @@ public class Position {
 	 * are considered to be not have moved before) which might be inconsistent with actual position
 	 *
 	 * By default en passant file is absent
+	 *
+	 * @deprecated Use Position( Side sideToMove ) instead
 	 */
 	public Position() {
+	}
+
+	public Position( Side sideToMove ) {
+		this.sideToMove = sideToMove;
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;

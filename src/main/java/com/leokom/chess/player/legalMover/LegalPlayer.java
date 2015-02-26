@@ -2,7 +2,6 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,16 +16,13 @@ import java.util.Set;
  * Date-time: 09.12.13 22:02
  */
 public class LegalPlayer implements Player {
-	private Side side;
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
 
 	/**
-	 * Create player that will play for the side
-	 * @param side who we play for?
+	 * Create player
 	 */
-	public LegalPlayer( Side side ) {
-		this.side = side;
+	public LegalPlayer() {
 	}
 
 	@Override
@@ -42,7 +38,6 @@ public class LegalPlayer implements Player {
 	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
 		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
-		side = Side.WHITE;
 		position = Position.getInitialPosition();
 		executeMove();
 	}
@@ -66,7 +61,7 @@ public class LegalPlayer implements Player {
 
 	//exposing package-private for tests
 	void executeMove() {
-		Set< Move > legalMoves = position.getMoves( side );
+		Set< Move > legalMoves = position.getMoves();
 
 		if ( !legalMoves.isEmpty() ) {
 			Move move = findBestMove( legalMoves );
@@ -88,8 +83,9 @@ public class LegalPlayer implements Player {
 
 	//updating internal representation of current position according to our move
 	private void updateInternalPositionPresentation( Move move ) {
+		getLogger().info( this.position.getSideToMove() + " : Moved " + move );
 		position = position.move( move );
-		getLogger().info( this.side + " : Moved " + move + "\nNew position : " + position );
+		getLogger().info( "\nNew position : " + position );
 	}
 
 	/**
