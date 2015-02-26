@@ -1,8 +1,7 @@
 package com.leokom.chess.engine;
 
+import org.junit.Assert;
 import org.junit.Test;
-
-import static junit.framework.Assert.assertTrue;
 
 /**
  * Author: Leonid
@@ -18,6 +17,6 @@ public class CheckmateTest {
 
 		final Position matePosition = position.move( new Move( "h3", "a3" ) );
 
-		assertTrue( matePosition.getMoves( Side.BLACK ).isEmpty() );
+		Assert.assertTrue( matePosition.getMoves( Side.BLACK ).isEmpty() );
 	}
 }
