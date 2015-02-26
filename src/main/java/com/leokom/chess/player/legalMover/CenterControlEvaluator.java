@@ -30,8 +30,7 @@ class CenterControlEvaluator implements Evaluator {
 		//e.g. Knight on e5 cannot attack e4, d4, d5
 		//but blocks the center
 
-
-		final Side ourSide = position.getSide( move.getFrom() );
+		final Side ourSide = position.getSideToMove();
 
 		final Position targetPosition = position.move( move );
 		//technically it's naive check - since the situation
