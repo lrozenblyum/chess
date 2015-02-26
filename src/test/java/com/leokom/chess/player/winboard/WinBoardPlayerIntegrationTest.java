@@ -122,7 +122,7 @@ public class WinBoardPlayerIntegrationTest {
 		.play();
 
 		//TODO: reason should be parametrized
-		verify( communicator, atLeastOnce() ).send( "0-1 {reason}" );
+		verify( communicator, atLeastOnce() ).send( "0-1 {LeokomChess reason}" );
 	}
 
 	@Test
@@ -137,7 +137,7 @@ public class WinBoardPlayerIntegrationTest {
 				.play();
 
 		//TODO: reason should be parametrized
-		verify( communicator, never() ).send( "0-1 {reason}" );
+		verify( communicator, never() ).send( "0-1 {LeokomChess reason}" );
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
