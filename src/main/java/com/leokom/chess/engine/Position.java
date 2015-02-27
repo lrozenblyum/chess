@@ -682,7 +682,7 @@ public class Position {
 	 * Copy state (like info if the king has moved)
 	 * @param position destination position
 	 */
-	void copyPiecesInto( Position position ) {
+	void copyStateTo( Position position ) {
 		//cloning position
 		for ( String square : pieces.keySet() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
@@ -694,6 +694,21 @@ public class Position {
 		position.hasKingMoved = new HashSet<>( this.hasKingMoved );
 		position.hasARookMoved = new HashSet<>( this.hasARookMoved );
 		position.hasHRookMoved = new HashSet<>( this.hasHRookMoved );
+	}
+
+	/**
+	 * Create 'mirror' position.
+	 * Since Position now encapsulates full game state
+	 * (including side to move)
+	 * this is the way to create the same position with a single difference
+	 * side to move is opposite
+	 *
+	 * @return mirror position
+	 */
+	public Position toMirror() {
+		Position position = new Position( this.sideToMove.opposite() );
+		copyStateTo( position );
+		return position;
 	}
 
 	/**
@@ -788,25 +803,20 @@ public class Position {
 	}
 
 	/**
-	 *
-	 * @param side
-	 * @deprecated use #getMoves() instead
-	 * @return
+	 * Get set of moves possible from the position.
+	 * Since it encapsulates side - the moves are collected
+	 * for #getSideToMove()
+	 * @return set of possible legal moves
 	 */
-	@Deprecated
-	public Set< Move > getMoves( Side side ) {
+	public Set< Move > getMoves() {
 		final Set< Move > result = new HashSet<>();
 
-		final Set<String> squares = getSquaresOccupiedBySide( side );
+		final Set<String> squares = getSquaresOccupiedBySide( sideToMove );
 		for ( String square : squares ) {
 			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( toSet() ) );
 		}
 
 		return result;
-	}
-
-	public Set< Move > getMoves() {
-		return getMoves( sideToMove );
 	}
 
 	public Stream< Piece > getPieces( Side side ) {

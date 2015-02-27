@@ -2,7 +2,6 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 
 /**
  * If inside a position there is a bigger variety of moves
@@ -29,9 +28,7 @@ public class MobilityEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Position target = position.move( move );
 
-		final Side ourSide = position.getSideToMove();
-
-		final int legalMoves = target.getMoves( ourSide ).size();
+		final int legalMoves = target.toMirror().getMoves().size();
 		return (double) legalMoves / MAXIMAL_POSSIBLE_MOVES;
 	}
 }

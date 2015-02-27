@@ -157,7 +157,7 @@ final class PositionGenerator {
 	 * @param squareFrom will be empty in the newPosition
 	 */
 	private void cloneAndRemove( Position newPosition, String squareFrom ) {
-		source.copyPiecesInto( newPosition );
+		source.copyStateTo( newPosition );
 
 		newPosition.removePiece( squareFrom );
 	}
