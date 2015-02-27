@@ -29,7 +29,7 @@ public class MobilityEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Position target = position.move( move );
 
-		final Side ourSide = position.getSide( move.getFrom() );
+		final Side ourSide = position.getSideToMove();
 
 		final int legalMoves = target.getMoves( ourSide ).size();
 		return (double) legalMoves / MAXIMAL_POSSIBLE_MOVES;

@@ -21,7 +21,7 @@ public class MobilityEvaluatorTest {
 
 	@Test
 	public void shouldQueenControlMore() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "a1", PieceType.QUEEN );
 
 		Move expectedBetter = new Move( "a1", "d4" ); //high mobility
@@ -32,7 +32,7 @@ public class MobilityEvaluatorTest {
 
 	@Test
 	public void shouldKingHaveMoreFreedom() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.add( Side.BLACK, "f8", PieceType.KING );
 
 		position.add( Side.WHITE, "e8", PieceType.KNIGHT );
