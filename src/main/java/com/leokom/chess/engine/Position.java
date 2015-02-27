@@ -12,10 +12,21 @@ import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 import static java.util.stream.Collectors.toSet;
 
 /**
- * Current position on-board (probably with some historical data...)
+ * Current position on-board
+ * It contains all game state that's important
+ * to take decisions about possible moves.
  *
- * I consider the position as immutable (however this vision may change
- * by taking into account historical data)
+ * Thus it contains historical data like
+ * <ul>
+ *     <li>Side that can execute a move right now</li>
+ *     <li>Has king moved?</li>
+ *     <li>Has rook moved?</li>
+ * </ul>
+ *
+ * The position SHOULD be immutable. This is a strict desired state
+ * of th class.
+ * Mutators that exist here MUST be moved to some 'position builder'
+ *
  *
  * Author: Leonid
  * Date-time: 21.08.12 15:55
