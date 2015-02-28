@@ -28,4 +28,9 @@ public class PositionBuilder {
 	public Position build() {
 		return position;
 	}
+
+	public PositionBuilder addPawn( Side side, String square ) {
+		position.addPawn( side, square );
+		return this;
+	}
 }
