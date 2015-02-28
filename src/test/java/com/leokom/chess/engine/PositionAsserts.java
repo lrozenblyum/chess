@@ -48,6 +48,12 @@ public final class PositionAsserts {
 		assertEquals( new HashSet<>( Arrays.asList( expectedReachableSquares ) ), squares );
 	}
 
+	static void assertAllowedMoves( PositionBuilder positionBuilder, String initialField, String... expectedReachableSquares ) {
+		final Position position = positionBuilder.setSideOf( initialField ).build();
+		Set<String> squares = position.getMovesFrom( initialField );
+		assertEquals( new HashSet<>( Arrays.asList( expectedReachableSquares ) ), squares );
+	}
+
 	/**
 	 * Check that inside the position
 	 * there are NO legal moves from the square
