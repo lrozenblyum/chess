@@ -37,7 +37,7 @@ final class InitialPosition {
 	}
 
 	static Position generate() {
-		final Position result = new Position();
+		final Position result = new Position( Side.WHITE );
 
 		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
@@ -67,8 +67,6 @@ final class InitialPosition {
 			result.add( side, initialQueenFile + rank, PieceType.QUEEN );
 			result.add( side, initialKingFile + rank, PieceType.KING );
 		}
-
-		result.setSideToMove( Side.WHITE );
 
 		return result;
 	}
