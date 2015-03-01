@@ -100,11 +100,8 @@ public class Position {
 	 *
 	 * By default en passant file is absent
 	 *
-	 * @deprecated Use Position( Side sideToMove ) instead
+	 * @param sideToMove side which turn will be now
 	 */
-	public Position() {
-	}
-
 	public Position( Side sideToMove ) {
 		this.sideToMove = sideToMove;
 	}

@@ -12,7 +12,9 @@ public class PositionBuilder {
 	final Position position;
 
 	public PositionBuilder() {
-		position = new Position();
+		//TODO: not the best decision to hard-code side here
+		//better delay position construction till build() method call
+		position = new Position( Side.WHITE );
 	}
 
 	public PositionBuilder add( Side side, String square, PieceType pieceType ) {
