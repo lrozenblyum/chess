@@ -73,7 +73,7 @@ public class LegalPlayer implements Player {
 		else {
 			getLogger().info( "We cannot execute any moves." +
 					" Final state has been detected." +
-					" Result will be based on Position information " );
+					" Winning side : " + position.getWinningSide() );
 		}
 	}
 
