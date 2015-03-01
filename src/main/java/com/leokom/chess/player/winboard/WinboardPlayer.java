@@ -41,11 +41,11 @@ public class WinboardPlayer implements Player {
 	private Position position = Position.getInitialPosition();
 
 	//TODO: THINK about consequences of:
-	//creating several instances of the controller (must be singleton)
+	//creating several instances of the player (must be singleton)
 	//calling run several times (from different threads)
 
 	/**
-	 * Create instance on Winboard controller.
+	 * Create instance on Winboard player.
 	 * @param winboardCommander instance of mid-level winboard-commander.
 	 */
 	WinboardPlayer( WinboardCommander winboardCommander ) {

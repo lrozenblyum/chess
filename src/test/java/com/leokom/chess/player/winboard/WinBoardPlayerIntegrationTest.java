@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.*;
 
 /**
- * Check Winboard controller behaviour in combination with real
+ * Check Winboard player behaviour in combination with real
  * commander
  *
  * The only thing we allow to mock here is low-level communicator

@@ -64,16 +64,16 @@ public class WinBoardPlayerTest {
 	public void quitCommandSwitchesShutdownNeed() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
-		WinboardPlayer controller = new WinboardPlayer(	commander );
+		WinboardPlayer player = new WinboardPlayer(	commander );
 		ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
 		verify( commander ).onQuit( quitListener.capture() );
 
-		assertFalse( controller.needShuttingDown() );
+		assertFalse( player.needShuttingDown() );
 
 		//correct quit listener must enable need of shutting down
 		quitListener.getValue().execute();
 
-		assertTrue( controller.needShuttingDown() );
+		assertTrue( player.needShuttingDown() );
 	}
 
 	/**
