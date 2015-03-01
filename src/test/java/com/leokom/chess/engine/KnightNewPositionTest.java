@@ -15,7 +15,7 @@ public class KnightNewPositionTest {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "b1", PieceType.KNIGHT );
 
-		final Position newPosition = position.build().move( "b1", "c3" );
+		final Position newPosition = position.move( "b1", "c3" );
 
 		PositionAsserts.assertHasPiece( newPosition, PieceType.KNIGHT, Side.WHITE, "c3" );
 

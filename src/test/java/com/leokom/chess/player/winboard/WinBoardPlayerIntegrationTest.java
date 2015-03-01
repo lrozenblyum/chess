@@ -84,7 +84,8 @@ public class WinBoardPlayerIntegrationTest {
  	@Test
 	public void promotionCorrectlyTranslatedToCommonStandard() {
 		PositionBuilder position = new PositionBuilder()
-				.addPawn( Side.WHITE, "f7" );
+				.addPawn( Side.WHITE, "f7" )
+				.setSideOf( "f7" );
 
 		player.setPosition( position.build() );
 
@@ -96,7 +97,8 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void promotionCorrectlyTranslatedFromCommonStandard() {
 		PositionBuilder position = new PositionBuilder()
-				.addPawn( Side.WHITE, "f7" );
+				.addPawn( Side.WHITE, "f7" )
+				.setSideOf( "f7" );
 
 		player.setPosition( position.build() );
 

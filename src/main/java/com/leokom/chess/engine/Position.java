@@ -69,8 +69,7 @@ public class Position {
 
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
-	//TODO: this initialization to avoid NPE in OLD tests.
-	private Side sideToMove = Side.WHITE;
+	private Side sideToMove;
 
 
 	void setHasKingMoved( Side side ) {

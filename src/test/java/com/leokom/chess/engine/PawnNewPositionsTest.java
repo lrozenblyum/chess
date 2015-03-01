@@ -28,7 +28,7 @@ public class PawnNewPositionsTest {
 		final String anyValidSquareToMove = "g4";
 		position.addPawn( Side.WHITE, anyInitialSquare );
 
-		Position newPosition = position.build().move( anyInitialSquare, anyValidSquareToMove );
+		Position newPosition = position.move( anyInitialSquare, anyValidSquareToMove );
 		assertNotNull( "New position must be not null", newPosition );
 		assertNotSame( newPosition, position );
 	}

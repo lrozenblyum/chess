@@ -47,7 +47,7 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 		position.add( Side.BLACK, "a8", PieceType.KING );
 
-		Position newPosition = position.build()
+		Position newPosition = position
 			.move( "e1", "e2" )
 			.move( "a8", "a7" ) //any valid black move
 			.move( "e2", "e1" )
@@ -66,8 +66,7 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.BLACK, "e8", PieceType.KING );
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
 
-		Position newPosition = position.build()
-				.move( "e1", "g1" ); //castling
+		Position newPosition = position.move( "e1", "g1" ); //castling
 
 		PositionAsserts.assertAllowedMovesInclude(
 				newPosition, "e8", "c8" );
@@ -82,7 +81,7 @@ public class KingAllowedMovesCastlingTest {
 
 		position.add( Side.BLACK, "a8", PieceType.KING );
 
-		Position newPosition = position.build()
+		Position newPosition = position
 				.move( "e1", "e2" )
 				.move( "a8", "a7" ) //any valid black move
 				.move( "e2", "e1" )
@@ -103,7 +102,7 @@ public class KingAllowedMovesCastlingTest {
 
 		position.add( Side.BLACK, "a8", PieceType.KING );
 
-		Position newPosition = position.build()
+		Position newPosition = position
 				.move( "e1", "g1" ) //castle
 				.move( "a8", "a7" ) //any valid black move
 				.move( "f1", "f2" ) //rook movement started
