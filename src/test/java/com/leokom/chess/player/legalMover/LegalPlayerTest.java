@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -163,7 +160,7 @@ public class LegalPlayerTest {
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
-		final Position position = new Position();
+		Position position = new Position( Side.WHITE );
 
 		//white King surrounded
 		position.add( Side.WHITE, "h8", PieceType.KING );

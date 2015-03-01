@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +18,7 @@ public class MaterialEvaluatorTest {
 
 	@Test
 	public void shouldCaptureBetter(){
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e4", PieceType.PAWN );
 		position.add( Side.BLACK, "d5", PieceType.PAWN );
 
@@ -34,7 +31,7 @@ public class MaterialEvaluatorTest {
 
 	@Test
 	public void unHardCodeD5() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e4", PieceType.QUEEN );
 		position.add( Side.BLACK, "e8", PieceType.PAWN );
 
@@ -47,7 +44,7 @@ public class MaterialEvaluatorTest {
 
 	@Test
 	public void shouldPromotionGiveMaterialBenefit() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e7", PieceType.PAWN );
 		position.add( Side.WHITE, "b2", PieceType.PAWN );
 
@@ -61,7 +58,7 @@ public class MaterialEvaluatorTest {
 
 	@Test
 	public void shouldPromotionToHigherPieceGiveMaterialBenefit() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e7", PieceType.PAWN );
 
 		Move toBishop = new Move( "e7", "e8B" );

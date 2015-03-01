@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +17,7 @@ public class MasterEvaluatorTest {
 	 */
 	@Test
 	public void beSmartALittle() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "g6", PieceType.QUEEN );
 		position.add( Side.BLACK, "g7", PieceType.PAWN );
 		//protects the pawn

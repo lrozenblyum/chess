@@ -13,7 +13,7 @@ import static com.leokom.chess.engine.Side.WHITE;
 public class PawnPromoteNewPositionTest {
 	@Test
 	public void toQueen() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( WHITE, "c7" );
 
 		Position newPosition = position.move( "c7", "c8Q" );
@@ -23,7 +23,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void toQueenAnotherFile(){
-		Position position = new Position(); //any en passant...
+		PositionBuilder position = new PositionBuilder(); //any en passant...
 		position.addPawn( WHITE, "a7" );
 
 		Position newPosition = position.move( "a7", "a8Q" );

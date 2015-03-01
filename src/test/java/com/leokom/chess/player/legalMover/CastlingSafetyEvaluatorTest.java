@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +16,7 @@ public class CastlingSafetyEvaluatorTest {
 
 	@Test
 	public void shouldKingMovementNotGoodInitially() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 		position.add( Side.WHITE, "c1", PieceType.BISHOP );
@@ -33,7 +30,7 @@ public class CastlingSafetyEvaluatorTest {
 
 	@Test
 	public void shouldRookMoveOKGivenCastlingDone() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
@@ -55,7 +52,7 @@ public class CastlingSafetyEvaluatorTest {
 
 	@Test
 	public void noProblemToMoveKingAfterBothRooksMoved() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 
 		position.add( Side.WHITE, "a1", PieceType.ROOK );
 		position.add( Side.WHITE, "e1", PieceType.KING );

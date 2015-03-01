@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +16,7 @@ public class ProtectionEvaluatorTest {
 
 	@Test
 	public void leaveAttackedSquare() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "h8", PieceType.ROOK );
 		position.add( Side.WHITE, "c2", PieceType.PAWN );
 
