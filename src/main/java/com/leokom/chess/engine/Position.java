@@ -848,4 +848,32 @@ public class Position {
 	void setSideToMove( Side sideToMove ) {
 		this.sideToMove = sideToMove;
 	}
+
+	/**
+	 * Check if position is terminal
+	 * (final, meaning end of game).
+	 * No more moves are legal from a terminal position
+	 *
+	 * @return true if position is terminal
+	 */
+	public boolean isTerminal() {
+		return getMoves().isEmpty();
+	}
+
+	/**
+	 * Get side that has won the game
+	 *
+	 * @return side that has won the game
+	 *
+	 * @throws java.lang.IllegalStateException when game is not finished yet
+	 */
+	public Side getWinningSide() {
+		if ( !isTerminal() ) {
+			throw new IllegalStateException( "Game has not yet finished" );
+		}
+
+		//funny easy implementation that takes into account
+		//just Checkmate possibility
+		return sideToMove.opposite();
+	}
 }

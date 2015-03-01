@@ -2,7 +2,6 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -139,8 +138,8 @@ public class WinboardPlayer implements Player {
 		commander.opponentMoved( translatedMove );
 
 		//TODO: position should return if it's winning etc
-		if ( position.getMoves().isEmpty() ) {
-			commander.checkmate( Side.BLACK );
+		if ( position.isTerminal() ) {
+			commander.checkmate( position.getWinningSide() );
 		}
 	}
 
@@ -211,8 +210,8 @@ public class WinboardPlayer implements Player {
 			position = position.move( engineMove );
 			opponent.opponentMoved( engineMove );
 
-			if ( position.getMoves().isEmpty() ) {
-				commander.checkmate( Side.WHITE );
+			if ( position.isTerminal() ) {
+				commander.checkmate( position.getWinningSide() );
 			}
 		}
 	}
