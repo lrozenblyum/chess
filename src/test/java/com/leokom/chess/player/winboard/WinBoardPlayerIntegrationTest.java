@@ -136,7 +136,7 @@ public class WinBoardPlayerIntegrationTest {
 				.moveLast( new Move( "d1", "h5" ) )
 				.play();
 
-		verify( communicator, atLeastOnce() ).send( "1-0 {LeokomChess reason}" );
+		verify( communicator, atLeastOnce() ).send( "1-0 {LeokomChess : checkmate}" );
 	}
 
 	//Winboard vs Player (White vs Black)
@@ -156,8 +156,7 @@ public class WinBoardPlayerIntegrationTest {
 		.moveLast( new Move( "d8", "h4" ) )
 		.play();
 
-		//TODO: reason should be parametrized
-		verify( communicator, atLeastOnce() ).send( "0-1 {LeokomChess reason}" );
+		verify( communicator, atLeastOnce() ).send( "0-1 {LeokomChess : checkmate}" );
 	}
 
 	@Test
@@ -172,7 +171,7 @@ public class WinBoardPlayerIntegrationTest {
 				.play();
 
 		//TODO: reason should be parametrized
-		verify( communicator, never() ).send( "0-1 {LeokomChess reason}" );
+		verify( communicator, never() ).send( "0-1 {LeokomChess : checkmate}" );
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
