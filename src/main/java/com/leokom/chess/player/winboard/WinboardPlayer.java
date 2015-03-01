@@ -48,7 +48,7 @@ public class WinboardPlayer implements Player {
 	 * Create instance on Winboard controller.
 	 * @param winboardCommander instance of mid-level winboard-commander.
 	 */
-	private WinboardPlayer( WinboardCommander winboardCommander ) {
+	WinboardPlayer( WinboardCommander winboardCommander ) {
 		this.commander = winboardCommander;
 
 		commander.onXBoard( () -> logger.info( "Ready to work" ) );
