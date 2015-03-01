@@ -50,8 +50,12 @@ public final class PositionAsserts {
 
 	static void assertAllowedMoves( PositionBuilder positionBuilder, String initialField, String... expectedReachableSquares ) {
 		final Position position = positionBuilder.setSideOf( initialField ).build();
-		Set<String> squares = position.getMovesFrom( initialField );
-		assertEquals( new HashSet<>( Arrays.asList( expectedReachableSquares ) ), squares );
+		assertAllowedMoves( position, initialField, expectedReachableSquares );
+	}
+
+	static void assertAllowedMovesInclude( PositionBuilder positionBuilder, String initialField, String targetToBeIncluded ) {
+		final Position position = positionBuilder.setSideOf( initialField ).build();
+		assertAllowedMovesInclude( position, initialField, targetToBeIncluded );
 	}
 
 	/**
@@ -69,6 +73,11 @@ public final class PositionAsserts {
 		assertTrue(
 			"Allowed moves must include : " + targetToBeIncluded + "; actually: " + squares,
 			squares.contains( targetToBeIncluded ) );
+	}
+
+	static void assertAllowedMovesOmit( PositionBuilder positionBuilder, String initialField, String targetToBeIncluded ) {
+		final Position position = positionBuilder.setSideOf( initialField ).build();
+		assertAllowedMovesOmit( position, initialField, targetToBeIncluded );
 	}
 
 	static void assertAllowedMovesOmit( Position position, String initialField, String targetToBeIncluded ) {
