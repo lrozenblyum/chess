@@ -122,6 +122,23 @@ public class WinBoardPlayerIntegrationTest {
 				new Move( "e8", "c8" ), "move e8c8" );
 	}
 
+	@Test
+	public void checkmateWhenWinboardWins() {
+		//implementing fool's mate
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		new WinboardTestGameBuilder( player, communicator )
+				.move( new Move( "e2", "e4" ) )
+				.move( new Move( "g7", "g5" ) )
+				.move( new Move( "b1", "c3" ) )
+				.move( new Move( "f7", "f5" ) )
+				.moveLast( new Move( "d1", "h5" ) )
+				.play();
+
+		verify( communicator, atLeastOnce() ).send( "1-0 {LeokomChess reason}" );
+	}
+
 	//Winboard vs Player (White vs Black)
 	//1. f3 e5
 	//2. g4?? Qh4#
