@@ -139,6 +139,13 @@ public class WinboardPlayer implements Player {
 		position = position.move( opponentMove );
 		commander.opponentMoved( translatedMove );
 
+		detectTerminalPosition();
+	}
+
+	/**
+	 * Inform Winboard UI if position is terminal
+	 */
+	private void detectTerminalPosition() {
 		if ( position.isTerminal() ) {
 			commander.checkmate( position.getWinningSide() );
 		}
@@ -203,9 +210,7 @@ public class WinboardPlayer implements Player {
 			final Move engineMove = new Move( squareFrom, destination );
 			position = position.move( engineMove );
 
-			if ( position.isTerminal() ) {
-				commander.checkmate( position.getWinningSide() );
-			}
+			detectTerminalPosition();
 
 			//important to call last
 			//so that we'll won't return recursively here in another move
