@@ -157,6 +157,7 @@ public class PawnNewPositionsTest {
 		Position newPosition = position.setSideOf( sourceSquare ).build().move( sourceSquare, targetSquare );
 		assertHasPawn( newPosition, targetSquare, movingSide );
 		assertEmptySquare( newPosition, sourceSquare );
+		org.junit.Assert.assertEquals( movingSide.opposite(), newPosition.getSideToMove() );
 	}
 
 	/**
@@ -175,6 +176,7 @@ public class PawnNewPositionsTest {
 
 		assertHasPawn( newPosition, squareToMove, side );
 		assertEmptySquare( newPosition, initialSquare );
+		org.junit.Assert.assertEquals( side.opposite(), newPosition.getSideToMove() );
 		return newPosition;
 	}
 }
