@@ -137,6 +137,7 @@ public class WinBoardPlayerIntegrationTest {
 				.play();
 
 		verify( communicator, atLeastOnce() ).send( "1-0 {LeokomChess : checkmate}" );
+		verify( communicator, never() ).send( "0-1 {LeokomChess : checkmate}" );
 	}
 
 	//Winboard vs Player (White vs Black)
@@ -157,6 +158,7 @@ public class WinBoardPlayerIntegrationTest {
 		.play();
 
 		verify( communicator, atLeastOnce() ).send( "0-1 {LeokomChess : checkmate}" );
+		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
 	}
 
 	@Test
