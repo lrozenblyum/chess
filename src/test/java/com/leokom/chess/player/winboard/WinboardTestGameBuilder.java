@@ -50,32 +50,9 @@ public class WinboardTestGameBuilder {
 		return this;
 	}
 
-	//not very 'nice' to force caller use this method
-	//but for now it's simpler than keeping more state in the builder
-	public WinboardTestGameBuilder moveLast( Move move ) {
-		switch ( sideToMove ) {
-			case WHITE:
-				communicatorReceive = communicatorReceive.
-						thenAnswer( invocation -> {
-							player.applyShuttingDown();
-							return "usermove " + move.getFrom() + move.getTo();
-						} )
-						.thenReturn( "" );
-
-				break;
-			case BLACK:
-				//ensure no infinite loop is continued after the last move
-				doAnswer( invocation -> { player.opponentMoved( move ); player.applyShuttingDown(); return null; } )
-						.when( opponent ).opponentMoved( lastMove );
-
-				communicatorReceive = communicatorReceive.thenReturn( "" );
-				break;
-		}
-
-		return this;
-	}
-
 	public void play() {
+		//ensure no infinite loop is continued after the last move
+		communicatorReceive = communicatorReceive.thenReturn( "quit" );
 		player.opponentSuggestsMeStartNewGameWhite();
 	}
 }

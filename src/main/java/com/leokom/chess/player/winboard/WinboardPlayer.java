@@ -53,6 +53,8 @@ public class WinboardPlayer implements Player {
 
 		commander.onXBoard( () -> logger.info( "Ready to work" ) );
 
+		//maybe Resign/Win/Draw or other termination of game
+		//should lead to quit as well?
 		commander.onQuit( () -> needQuit = true );
 
 		commander.onUserMove( new WinboardUserMoveListener() );
@@ -175,13 +177,6 @@ public class WinboardPlayer implements Player {
 	 */
 	boolean needShuttingDown() {
 		return needQuit;
-	}
-
-	//currently : for tests to prevent infinite loop
-	//for future: maybe Resign/Win/Draw or other termination of game
-	//should lead to quit as well?
-	void applyShuttingDown() {
-		needQuit = true;
 	}
 
 	private class WinboardUserMoveListener implements UserMoveListener {

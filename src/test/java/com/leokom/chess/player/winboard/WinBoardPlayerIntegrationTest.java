@@ -133,7 +133,7 @@ public class WinBoardPlayerIntegrationTest {
 				.move( new Move( "g7", "g5" ) )
 				.move( new Move( "b1", "c3" ) )
 				.move( new Move( "f7", "f5" ) )
-				.moveLast( new Move( "d1", "h5" ) )
+				.move( new Move( "d1", "h5" ) )
 				.play();
 
 		verify( communicator ).send( "1-0 {LeokomChess : checkmate}" );
@@ -154,7 +154,7 @@ public class WinBoardPlayerIntegrationTest {
 		.move( new Move( "f2", "f3" ) )
 		.move( new Move( "e7", "e5" ) )
 		.move( new Move( "g2", "g4" ) )
-		.moveLast( new Move( "d8", "h4" ) )
+		.move( new Move( "d8", "h4" ) )
 		.play();
 
 		verify( communicator ).send( "0-1 {LeokomChess : checkmate}" );
@@ -169,10 +169,9 @@ public class WinBoardPlayerIntegrationTest {
 
 		new WinboardTestGameBuilder( player, communicator )
 				.move( new Move( "f2", "f3" ) )
-				.moveLast( new Move( "e7", "e5" ) )
+				.move( new Move( "e7", "e5" ) )
 				.play();
 
-		//TODO: reason should be parametrized
 		verify( communicator, never() ).send( "0-1 {LeokomChess : checkmate}" );
 	}
 
