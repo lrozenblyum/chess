@@ -346,9 +346,7 @@ public class Position {
 		return result;
 	}
 
-	//TODO: side must be part of Position, isn't it?
 	private boolean isKingInCheck( Side side ) {
-
 		final String kingSquare = findKing( side );
 		//TODO: null is impossible in real chess, possible in our tests...
 		return kingSquare != null && isSquareAttacked( side, kingSquare );
