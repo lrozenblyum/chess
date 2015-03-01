@@ -97,7 +97,10 @@ final class PositionGenerator {
 
 		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 
-		final Position result = new Position();
+
+		final Side movingSide = source.getSideToMove();
+
+		final Position result = new Position( movingSide.opposite() );
 		result.setEnPassantFile( newEnPassantFile );
 		cloneAndRemove( result, squareFrom );
 
@@ -107,8 +110,6 @@ final class PositionGenerator {
 		if ( enPassantCapturedPawnSquare != null ) {
 			result.removePiece( enPassantCapturedPawnSquare );
 		}
-
-		final Side movingSide = source.getSide( squareFrom );
 
 		if ( Move.isPromotion( move ) ) {
 			//depends on 3-char format
@@ -135,8 +136,8 @@ final class PositionGenerator {
 	 */
 	private Position processMoveWithoutSideEffects( String squareFrom, String move ) {
 		//after moving everything except a pawn
-		//we clear the flag about en passant possibility
-		final Position position = new Position();
+		//we don't set (thus clearing) the flag about en passant possibility
+		final Position position = new Position( source.getSideToMove().opposite() );
 		cloneAndRemove( position, squareFrom );
 
 		position.add( source.getSide( squareFrom ), move, source.getPieceType( squareFrom ) );
@@ -151,7 +152,7 @@ final class PositionGenerator {
 	 * @param squareFrom will be empty in the newPosition
 	 */
 	private void cloneAndRemove( Position newPosition, String squareFrom ) {
-		source.copyPiecesInto( newPosition );
+		source.copyStateTo( newPosition );
 
 		newPosition.removePiece( squareFrom );
 	}

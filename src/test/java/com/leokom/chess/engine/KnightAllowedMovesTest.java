@@ -9,7 +9,7 @@ import org.junit.Test;
 public class KnightAllowedMovesTest {
 	@Test
 	public void knightMovesSquare() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "a1", PieceType.KNIGHT );
 
 		PositionAsserts.assertAllowedMoves(
@@ -18,7 +18,7 @@ public class KnightAllowedMovesTest {
 
 	@Test
 	public void cannotMoveIfOccupiedByMyColour() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "a1", PieceType.KNIGHT );
 
 		position.add( Side.WHITE, "b3", PieceType.PAWN ); //any!
@@ -29,7 +29,7 @@ public class KnightAllowedMovesTest {
 
 	@Test
 	public void cannotMoveIfOccupiedByMyColourTwo() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "a1", PieceType.KNIGHT );
 
 		position.add( Side.BLACK, "b3", PieceType.PAWN ); //any!
@@ -40,7 +40,7 @@ public class KnightAllowedMovesTest {
 
 	@Test
 	public void canCapture() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "a1", PieceType.KNIGHT );
 
 		position.add( Side.WHITE, "b3", PieceType.PAWN ); //any except king
@@ -51,7 +51,7 @@ public class KnightAllowedMovesTest {
 
 	@Test
 	public void knightMovesAnotherSquare() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "h1", PieceType.KNIGHT );
 
 		PositionAsserts.assertAllowedMoves(
@@ -60,7 +60,7 @@ public class KnightAllowedMovesTest {
 
 	@Test
 	public void anotherRank() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "a8", PieceType.KNIGHT );
 
 		PositionAsserts.assertAllowedMoves(
@@ -69,7 +69,7 @@ public class KnightAllowedMovesTest {
 
 	@Test
 	public void threeDestinations() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
 
 		PositionAsserts.assertAllowedMoves(
@@ -78,7 +78,7 @@ public class KnightAllowedMovesTest {
 
 	@Test
 	public void eightDestinations() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "f5", PieceType.KNIGHT );
 
 		PositionAsserts.assertAllowedMoves(

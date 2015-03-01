@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +16,7 @@ public class ProtectionEvaluatorTest {
 
 	@Test
 	public void leaveAttackedSquare() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "h8", PieceType.ROOK );
 		position.add( Side.WHITE, "c2", PieceType.PAWN );
 
@@ -34,7 +31,7 @@ public class ProtectionEvaluatorTest {
 
 	@Test
 	public void doubleAttackMeansNeedToAct() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		//attacks b3, d3
 		position.add( Side.WHITE, "c1", PieceType.KNIGHT );
 
@@ -51,7 +48,7 @@ public class ProtectionEvaluatorTest {
 
 	@Test
 	public void reactiveProtectingBetterThanNot() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.add( Side.WHITE, "a1", PieceType.QUEEN );
 
 		position.add( Side.BLACK, "h5", PieceType.KNIGHT );

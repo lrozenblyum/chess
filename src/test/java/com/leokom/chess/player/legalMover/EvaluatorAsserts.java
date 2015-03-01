@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.PositionBuilder;
 
 import static org.junit.Assert.assertTrue;
 
@@ -14,6 +15,10 @@ public class EvaluatorAsserts {
 
 	public EvaluatorAsserts( Evaluator evaluator ) {
 		this.evaluator = evaluator;
+	}
+
+	void assertFirstBetter( PositionBuilder position, Move expectedBetter, Move expectedWorse ) {
+		assertFirstBetter( position.setSideOf( expectedBetter.getFrom() ).build(), expectedBetter, expectedWorse );
 	}
 
 	void assertFirstBetter( Position position, Move expectedBetter, Move expectedWorse ) {

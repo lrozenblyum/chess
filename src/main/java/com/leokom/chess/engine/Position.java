@@ -12,10 +12,21 @@ import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 import static java.util.stream.Collectors.toSet;
 
 /**
- * Current position on-board (probably with some historical data...)
+ * Current position on-board
+ * It contains all game state that's important
+ * to take decisions about possible moves.
  *
- * I consider the position as immutable (however this vision may change
- * by taking into account historical data)
+ * Thus it contains historical data like
+ * <ul>
+ *     <li>Side that can execute a move right now</li>
+ *     <li>Has king moved?</li>
+ *     <li>Has rook moved?</li>
+ * </ul>
+ *
+ * The position SHOULD be immutable. This is a strict desired state
+ * of th class.
+ * Mutators that exist here MUST be moved to some 'position builder'
+ *
  *
  * Author: Leonid
  * Date-time: 21.08.12 15:55
@@ -58,6 +69,9 @@ public class Position {
 
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
+	private Side sideToMove;
+
+
 	void setHasKingMoved( Side side ) {
 		this.hasKingMoved.add( side );
 	}
@@ -85,8 +99,11 @@ public class Position {
 	 * are considered to be not have moved before) which might be inconsistent with actual position
 	 *
 	 * By default en passant file is absent
+	 *
+	 * @param sideToMove side which turn will be now
 	 */
-	public Position() {
+	public Position( Side sideToMove ) {
+		this.sideToMove = sideToMove;
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
@@ -107,6 +124,7 @@ public class Position {
 	/**
 	 * Get moves that are available from the square provided
 	 * @param square square currently in format like 'e2' (this we'll call further as 'canonical representation')
+	 *               PRE-CONDITION: there is some piece on the square.
 	 * @return not-null set of available moves from square (could be empty for sure)
 	 *
 	 * Move is now interpreted as following:
@@ -116,15 +134,15 @@ public class Position {
 	 * 2) square's canonical representation + upper-case of promoted piece from pawn (e.g. a8N -
 	 * if we promoted to Knight)
 	 *
-	 * TODO: what if square doesn't contain any pieces?
-	 * Should we return empty set, null or throw an exception?
 	 */
-	public Set<String> getMovesFrom( String square ) {
+	Set<String> getMovesFrom( String square ) {
 		final Set<String> potentialMoves = getPotentialMoves( square );
 
 		//3.1 It is not permitted to move a piece to a square occupied by a piece of the same colour.
 		potentialMoves.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
 
+		// 3.9 'No piece can be moved that will ... expose the king of the same colour to check
+		//... or leave that king in check' is also covered here.
 		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
 
 		//1.2 ’capturing’ the opponent’s king ... not allowed
@@ -324,9 +342,7 @@ public class Position {
 		return result;
 	}
 
-	//TODO: side must be part of Position, isn't it?
 	private boolean isKingInCheck( Side side ) {
-
 		final String kingSquare = findKing( side );
 		//TODO: null is impossible in real chess, possible in our tests...
 		return kingSquare != null && isSquareAttacked( side, kingSquare );
@@ -647,6 +663,15 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( Move move ) {
+		//TODO: think about better place for validation
+		if ( pieces.get( move.getFrom() ) == null ) {
+			throw new IllegalArgumentException( "Source square is empty : " + move.getFrom() );
+		}
+
+		if ( pieces.get( move.getFrom() ).getSide() != sideToMove ) {
+			throw new IllegalArgumentException( "Wrong side to move : " + move + ". Currently it's turn of " + sideToMove );
+		}
+
 		return new PositionGenerator( this ).generate( move );
 	}
 
@@ -671,7 +696,7 @@ public class Position {
 	 * Copy state (like info if the king has moved)
 	 * @param position destination position
 	 */
-	void copyPiecesInto( Position position ) {
+	void copyStateTo( Position position ) {
 		//cloning position
 		for ( String square : pieces.keySet() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
@@ -683,6 +708,21 @@ public class Position {
 		position.hasKingMoved = new HashSet<>( this.hasKingMoved );
 		position.hasARookMoved = new HashSet<>( this.hasARookMoved );
 		position.hasHRookMoved = new HashSet<>( this.hasHRookMoved );
+	}
+
+	/**
+	 * Create 'mirror' position.
+	 * Since Position now encapsulates full game state
+	 * (including side to move)
+	 * this is the way to create the same position with a single difference
+	 * side to move is opposite
+	 *
+	 * @return mirror position
+	 */
+	public Position toMirror() {
+		Position position = new Position( this.sideToMove.opposite() );
+		copyStateTo( position );
+		return position;
 	}
 
 	/**
@@ -776,12 +816,16 @@ public class Position {
 		add( piece.getSide(), to, piece.getPieceType() );
 	}
 
-	//TODO: probably moving side must be a part of the position itself
-	//to be decided what's better representation for moves.
-	public Set< Move > getMoves( Side side ) {
+	/**
+	 * Get set of moves possible from the position.
+	 * Since it encapsulates side - the moves are collected
+	 * for #getSideToMove()
+	 * @return set of possible legal moves
+	 */
+	public Set< Move > getMoves() {
 		final Set< Move > result = new HashSet<>();
 
-		final Set<String> squares = getSquaresOccupiedBySide( side );
+		final Set<String> squares = getSquaresOccupiedBySide( sideToMove );
 		for ( String square : squares ) {
 			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( toSet() ) );
 		}
@@ -791,5 +835,41 @@ public class Position {
 
 	public Stream< Piece > getPieces( Side side ) {
 		return pieces.values().stream().filter( piece -> piece.getSide() == side );
+	}
+
+	public Side getSideToMove() {
+		return sideToMove;
+	}
+
+	void setSideToMove( Side sideToMove ) {
+		this.sideToMove = sideToMove;
+	}
+
+	/**
+	 * Check if position is terminal
+	 * (final, meaning end of game).
+	 * No more moves are legal from a terminal position
+	 *
+	 * @return true if position is terminal
+	 */
+	public boolean isTerminal() {
+		return getMoves().isEmpty();
+	}
+
+	/**
+	 * Get side that has won the game
+	 *
+	 * @return side that has won the game
+	 *
+	 * @throws java.lang.IllegalStateException when game is not finished yet
+	 */
+	public Side getWinningSide() {
+		if ( !isTerminal() ) {
+			throw new IllegalStateException( "Game has not yet finished" );
+		}
+
+		//funny easy implementation that takes into account
+		//just Checkmate possibility
+		return sideToMove.opposite();
 	}
 }

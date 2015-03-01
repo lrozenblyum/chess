@@ -15,11 +15,11 @@ import static org.junit.Assert.assertNotSame;
  * Date-time: 31.08.12 22:05
  */
 public class PawnNewPositionsTest {
-	private Position position;
+	private PositionBuilder position;
 
 	@Before
 	public void prepare() {
-		position = new Position();
+		position = new PositionBuilder();
 	}
 
 	@Test
@@ -154,9 +154,10 @@ public class PawnNewPositionsTest {
 		position.addPawn( movingSide, sourceSquare );
 		addCapturable( position, sideToCapture, targetSquare );
 
-		Position newPosition = position.move( sourceSquare, targetSquare );
+		Position newPosition = position.setSideOf( sourceSquare ).build().move( sourceSquare, targetSquare );
 		assertHasPawn( newPosition, targetSquare, movingSide );
 		assertEmptySquare( newPosition, sourceSquare );
+		org.junit.Assert.assertEquals( movingSide.opposite(), newPosition.getSideToMove() );
 	}
 
 	/**
@@ -170,11 +171,12 @@ public class PawnNewPositionsTest {
 	 * @return newPosition for further asserts
 	 */
 	private Position assertPawnMovement( Side side, String initialSquare, String squareToMove ) {
-		position.addPawn( side, initialSquare );
-		Position newPosition = position.move( initialSquare, squareToMove );
+		position.addPawn( side, initialSquare ).setSideOf( initialSquare );
+		Position newPosition = position.build().move( initialSquare, squareToMove );
 
 		assertHasPawn( newPosition, squareToMove, side );
 		assertEmptySquare( newPosition, initialSquare );
+		org.junit.Assert.assertEquals( side.opposite(), newPosition.getSideToMove() );
 		return newPosition;
 	}
 }

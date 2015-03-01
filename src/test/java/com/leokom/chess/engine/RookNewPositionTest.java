@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 public class RookNewPositionTest {
 	@Test
 	public void moveRook() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.addQueen( Side.WHITE, "a1" );
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
 

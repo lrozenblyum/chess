@@ -19,7 +19,7 @@ public class MaterialEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Position target = position.move( move );
 
-		Side ourSide = position.getSide( move.getFrom() );
+		Side ourSide = position.getSideToMove();
 
 		Stream< Piece > ourPieces = target.getPieces( ourSide );
 		Stream< Piece > opponentPieces = target.getPieces( ourSide.opposite() );

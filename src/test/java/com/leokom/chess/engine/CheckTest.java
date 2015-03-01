@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class CheckTest {
 	@Test
 	public void cannotExposeKingToCheck() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.WHITE, "a2", PieceType.ROOK );
@@ -27,9 +27,21 @@ public class CheckTest {
 		assertAllowedMoves( position, "a2", "a3" ); //cannot move horizontally
 	}
 
+	//simple test to ensure 3.8 a) is fully covered
+	//'not attacked by one or more... opponent's pieces'
+	@Test
+	public void cannotExposeKingToOpponentKingAttack() {
+		Position position = new Position( Side.WHITE );
+
+		position.add( Side.WHITE, "a1", PieceType.KING );
+		position.add( Side.BLACK, "a3", PieceType.KING );
+
+		assertAllowedMoves( position, "a1", "b1" );
+	}
+
 	@Test
 	public void cannotExposeKingToCheckTriangulate() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.WHITE, "a2", PieceType.BISHOP );
@@ -42,7 +54,7 @@ public class CheckTest {
 
 	@Test
 	public void promotionCannotExposeKingToCheck() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 
 		position.add( Side.BLACK, "h2", PieceType.KING );
 		position.add( Side.BLACK, "f2", PieceType.PAWN );
@@ -55,14 +67,14 @@ public class CheckTest {
 	//more integration test - checking whole board moves
 	@Test
 	public void cannotLeaveKingInCheck() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 
 		position.add( Side.BLACK, "h2", PieceType.KING );
 		position.add( Side.WHITE, "g2", PieceType.QUEEN );
 		position.add( Side.BLACK, "a1", PieceType.QUEEN );
 
 
-		final Set<Move> moves = position.getMoves( Side.BLACK );
+		final Set<Move> moves = position.getMoves();
 		assertEquals( 1, moves.size() );
 		final Move singleMove = moves.iterator().next();
 		assertEquals( "h2", singleMove.getFrom() );
@@ -72,7 +84,7 @@ public class CheckTest {
 	//even if such pieces are constrained from moving to that square because they would then leave or place their own king in check
 	@Test
 	public void checkEvenIfCannotMove() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.WHITE, "a3", PieceType.ROOK );

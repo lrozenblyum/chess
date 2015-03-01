@@ -1,5 +1,7 @@
 package com.leokom.chess.player.winboard;
 
+import com.leokom.chess.engine.Side;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -119,6 +121,20 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void checkmate( Side winningSide ) {
+		String prefix = "";
+		switch ( winningSide ) {
+			case WHITE:
+				prefix = "1-0";
+				break;
+			case BLACK:
+				prefix = "0-1";
+				break;
+		}
+		communicator.send( prefix + " {LeokomChess : checkmate}" );
+	}
+
+	@Override
 	public void onXBoard( XBoardListener listener ) {
 		listenersWithoutParams.put( "xboard", listener );
 	}
@@ -130,8 +146,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void processInputFromServer() {
-		//TODO: potential null from communicator is not processed yet
 		final String receivedCommand = communicator.receive();
+		//server might send nothing. No problems.
+		if ( receivedCommand == null ) {
+			return;
+		}
 
 		for ( String command : listenersWithoutParams.keySet() ) {
 			if ( receivedCommand.equals( command ) ) {

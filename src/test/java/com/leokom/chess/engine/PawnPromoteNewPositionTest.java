@@ -13,7 +13,7 @@ import static com.leokom.chess.engine.Side.WHITE;
 public class PawnPromoteNewPositionTest {
 	@Test
 	public void toQueen() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( WHITE, "c7" );
 
 		Position newPosition = position.move( "c7", "c8Q" );
@@ -23,7 +23,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void toQueenAnotherFile(){
-		Position position = new Position(); //any en passant...
+		PositionBuilder position = new PositionBuilder(); //any en passant...
 		position.addPawn( WHITE, "a7" );
 
 		Position newPosition = position.move( "a7", "a8Q" );
@@ -34,7 +34,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void toQueenBlack() {
-		Position position = new Position(); //any en passant...
+		PositionBuilder position = new PositionBuilder(); //any en passant...
 		position.addPawn( BLACK, "b2" );
 
 		Position newPosition = position.move( "b2", "b1Q" );
@@ -45,7 +45,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void captureLeftSide() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( Side.WHITE, "h7" );
 
 		//the only piece I can capture of the opposite side on the 8'th rank
@@ -63,7 +63,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void promotionLeavesRestOfPositionUntouched() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( WHITE, "a7" );
 		position.addPawn( WHITE, "c5" );
 		position.addQueen( BLACK, "h4" );
@@ -78,7 +78,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void promoteToKnight() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( WHITE, "a7" );
 
 		Position newPosition = position.move( "a7", "a8N" );
@@ -89,7 +89,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void promoteToRook() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( BLACK, "g2" );
 
 		Position newPosition = position.move( "g2", "g1R" );
@@ -99,7 +99,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void promoteToBishop() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( BLACK, "c2" );
 
 		Position newPosition = position.move( "c2", "c1B" );
@@ -109,7 +109,7 @@ public class PawnPromoteNewPositionTest {
 
 	@Test
 	public void promoteWithCaptureToRook() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addPawn( WHITE, "g7" );
 		position.add( BLACK, "h8", PieceType.KNIGHT );
 

@@ -1,6 +1,7 @@
 package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +29,17 @@ public class WinboardPlayer implements Player {
 	private boolean needQuit = false;
 	private Player opponent;
 
+
+	//just for tests
+	void setPosition( Position position ) {
+		this.position = position;
+	}
+
+	//TODO: symptom of need to change architecture
+	//the 'state' of game should be commonly shared
+	//for both players
+	private Position position = Position.getInitialPosition();
+
 	//TODO: THINK about consequences of:
 	//creating several instances of the controller (must be singleton)
 	//calling run several times (from different threads)
@@ -41,6 +53,8 @@ public class WinboardPlayer implements Player {
 
 		commander.onXBoard( () -> logger.info( "Ready to work" ) );
 
+		//maybe Resign/Win/Draw or other termination of game
+		//should lead to quit as well?
 		commander.onQuit( () -> needQuit = true );
 
 		commander.onUserMove( new WinboardUserMoveListener() );
@@ -122,7 +136,19 @@ public class WinboardPlayer implements Player {
 			translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
 		}
 
+		position = position.move( opponentMove );
 		commander.opponentMoved( translatedMove );
+
+		detectTerminalPosition();
+	}
+
+	/**
+	 * Inform Winboard UI if position is terminal
+	 */
+	private void detectTerminalPosition() {
+		if ( position.isTerminal() ) {
+			commander.checkmate( position.getWinningSide() );
+		}
 	}
 
 	private boolean isPromotion( String move ) {
@@ -181,7 +207,16 @@ public class WinboardPlayer implements Player {
 			String squareFrom = translatedMove.substring( 0, SQUARE_FROM_LENGTH );
 			String destination = translatedMove.substring( 2 );
 
-			opponent.opponentMoved( new Move( squareFrom, destination ) );
+			final Move engineMove = new Move( squareFrom, destination );
+			position = position.move( engineMove );
+
+			detectTerminalPosition();
+
+			//important to call last
+			//so that we'll won't return recursively here in another move
+			//the same we did in LegalPlayer : first update OUR state
+			//only THEN inform the opponent!
+			opponent.opponentMoved( engineMove );
 		}
 	}
 }

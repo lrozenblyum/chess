@@ -14,6 +14,10 @@ final class PositionUtils {
 		position.addPawn( side, square );
 	}
 
+	static void addCapturable( PositionBuilder position, Side side, String square ) {
+		position.addPawn( side, square );
+	}
+
 	//TODO: extend when we introduce new pieces!
 
 	/**
@@ -26,6 +30,11 @@ final class PositionUtils {
 	 * @param square
 	 */
 	static PieceType addAny( Position position, Side side, String square ) {
+		position.addPawn( side, square );
+		return PieceType.PAWN;
+	}
+
+	static PieceType addAny( PositionBuilder position, Side side, String square ) {
 		position.addPawn( side, square );
 		return PieceType.PAWN;
 	}

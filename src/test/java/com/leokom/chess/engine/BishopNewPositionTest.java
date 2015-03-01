@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 public class BishopNewPositionTest {
 	@Test
 	public void moveBishop() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.addPawn( Side.WHITE, "a1" );
 		position.add( Side.BLACK, "h8", PieceType.BISHOP );
 

@@ -16,7 +16,8 @@ public class PositionHasPawnTest {
 
 	@Before
 	public void prepare() {
-		position = new Position();
+		//side doesn't matter here, right?
+		position = new Position( Side.WHITE );
 	}
 
 	@Test

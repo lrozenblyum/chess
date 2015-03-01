@@ -48,6 +48,16 @@ public final class PositionAsserts {
 		assertEquals( new HashSet<>( Arrays.asList( expectedReachableSquares ) ), squares );
 	}
 
+	static void assertAllowedMoves( PositionBuilder positionBuilder, String initialField, String... expectedReachableSquares ) {
+		final Position position = positionBuilder.setSideOf( initialField ).build();
+		assertAllowedMoves( position, initialField, expectedReachableSquares );
+	}
+
+	static void assertAllowedMovesInclude( PositionBuilder positionBuilder, String initialField, String targetToBeIncluded ) {
+		final Position position = positionBuilder.setSideOf( initialField ).build();
+		assertAllowedMovesInclude( position, initialField, targetToBeIncluded );
+	}
+
 	/**
 	 * Check that inside the position
 	 * there are NO legal moves from the square
@@ -63,6 +73,11 @@ public final class PositionAsserts {
 		assertTrue(
 			"Allowed moves must include : " + targetToBeIncluded + "; actually: " + squares,
 			squares.contains( targetToBeIncluded ) );
+	}
+
+	static void assertAllowedMovesOmit( PositionBuilder positionBuilder, String initialField, String targetToBeIncluded ) {
+		final Position position = positionBuilder.setSideOf( initialField ).build();
+		assertAllowedMovesOmit( position, initialField, targetToBeIncluded );
 	}
 
 	static void assertAllowedMovesOmit( Position position, String initialField, String targetToBeIncluded ) {

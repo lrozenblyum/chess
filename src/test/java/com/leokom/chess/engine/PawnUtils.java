@@ -20,4 +20,9 @@ final class PawnUtils {
 		position.addPawn( side, pawnPosition );
 		PositionAsserts.assertAllowedMoves( position, pawnPosition, allMoves );
 	}
+
+	static void testPawn( PositionBuilder positionBuilder, String pawnPosition, Side side, String... allMoves ) {
+		Position position = positionBuilder.addPawn( side, pawnPosition ).setSideOf( pawnPosition ).build();
+		PositionAsserts.assertAllowedMoves( position, pawnPosition, allMoves );
+	}
 }

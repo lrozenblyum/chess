@@ -21,8 +21,8 @@ public class LegalPlayerSelfPlayTest {
 
 	@Test
 	public void twoLegalPlayers() {
-		Player legalPlayerWhite = new LegalPlayer( Side.WHITE );
-		Player legalPlayerBlack = new LegalPlayer( Side.BLACK );
+		Player legalPlayerWhite = new LegalPlayer();
+		Player legalPlayerBlack = new LegalPlayer();
 
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
@@ -34,10 +34,10 @@ public class LegalPlayerSelfPlayTest {
 	//but it has.
 	@Test
 	public void twoLegalPlayersNotInjectedPositionStrangeInfluence() {
-		Player legalPlayerWhite = new LegalPlayer( Side.WHITE );
-		Player legalPlayerBlack = new LegalPlayer( Side.BLACK );
+		Player legalPlayerWhite = new LegalPlayer();
+		Player legalPlayerBlack = new LegalPlayer();
 
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c1", PieceType.KING );
 

@@ -1,5 +1,7 @@
 package com.leokom.chess.player.winboard;
 
+import com.leokom.chess.engine.Side;
+
 /**
  * Low-level Winboard-commands for some abstraction and easier testing.
  * The 'on' methods set up listeners to some events received from Winboard server
@@ -44,4 +46,10 @@ interface WinboardCommander {
 	void onOfferDraw( OfferDrawListener listener );
 
 	void onResign( ResignListener listener );
+
+	/**
+	 * Inform Winboard that the side has won by checkmate
+	 * @param side winning by checkmate side
+	 */
+	void checkmate( Side side );
 }

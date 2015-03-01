@@ -59,7 +59,7 @@ final class PlayerFactory {
 
 		switch ( engineName ) {
 			case "Legal":
-				return new LegalPlayer( side );
+				return new LegalPlayer();
 			case "SimpleEngine":
 				return new SimpleEnginePlayer( side );
 			case "Winboard":

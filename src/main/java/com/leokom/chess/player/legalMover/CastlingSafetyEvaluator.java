@@ -32,7 +32,7 @@ class CastlingSafetyEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		//if king has moved already - all other moves are fine
 		//they don't bring anything for castling safety
-		final Side side = position.getSide( move.getFrom() );
+		final Side side = position.getSideToMove();
 
 		if ( position.hasKingMoved( side ) ) {
 			return ACCEPTABLE_MOVE;

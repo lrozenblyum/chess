@@ -13,8 +13,6 @@ import java.util.Set;
 public final class UciPlayer extends AbstractEngine {
 
   private Position position = Position.getInitialPosition();
-  private Side sideToMove = Side.WHITE;
-
   public static void main(String[] args) {
     new UciPlayer().run();
   }
@@ -61,7 +59,7 @@ public final class UciPlayer extends AbstractEngine {
   public void receive(EngineAnalyzeCommand command) {
     new EngineStopCalculatingCommand().accept(this);
 
-	  position = new Position();
+	  position = new Position( command.board.getActiveColor() == GenericColor.WHITE ? Side.WHITE : Side.BLACK );
 
     for (GenericPosition genericPosition : GenericPosition.values()) {
       GenericPiece genericPiece = command.board.getPiece(genericPosition);
@@ -95,13 +93,11 @@ public final class UciPlayer extends AbstractEngine {
       }
     }
 
-    sideToMove = command.board.getActiveColor() == GenericColor.WHITE ? Side.WHITE : Side.BLACK;
 
     for (GenericMove genericMove : command.moves) {
       position = position.move(
           genericMove.from.toString(),
           genericMove.to.toString() + (genericMove.promotion == null ? "" : genericMove.promotion.toCharAlgebraic()));
-      sideToMove = sideToMove == Side.WHITE ? Side.BLACK : Side.WHITE;
     }
   }
 
@@ -109,7 +105,7 @@ public final class UciPlayer extends AbstractEngine {
   public void receive(EngineStartCalculatingCommand command) {
     new EngineStopCalculatingCommand().accept(this);
 
-    Set<Move> moves = position.getMoves(sideToMove);
+    Set<Move> moves = position.getMoves();
     if (!moves.isEmpty()) {
       Move possibleMove = moves.iterator().next();
 
