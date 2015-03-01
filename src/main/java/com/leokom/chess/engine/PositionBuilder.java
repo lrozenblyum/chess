@@ -9,7 +9,7 @@ package com.leokom.chess.engine;
  * Date-time: 28.02.15 22:05
  */
 public class PositionBuilder {
-	final Position position;
+	private final Position position;
 
 	public PositionBuilder() {
 		//TODO: not the best decision to hard-code side here
