@@ -137,7 +137,6 @@ public class WinboardPlayer implements Player {
 		position = position.move( opponentMove );
 		commander.opponentMoved( translatedMove );
 
-		//TODO: position should return if it's winning etc
 		if ( position.isTerminal() ) {
 			commander.checkmate( position.getWinningSide() );
 		}
@@ -208,11 +207,16 @@ public class WinboardPlayer implements Player {
 
 			final Move engineMove = new Move( squareFrom, destination );
 			position = position.move( engineMove );
-			opponent.opponentMoved( engineMove );
 
 			if ( position.isTerminal() ) {
 				commander.checkmate( position.getWinningSide() );
 			}
+
+			//important to call last
+			//so that we'll won't return recursively here in another move
+			//the same we did in LegalPlayer : first update OUR state
+			//only THEN inform the opponent!
+			opponent.opponentMoved( engineMove );
 		}
 	}
 }

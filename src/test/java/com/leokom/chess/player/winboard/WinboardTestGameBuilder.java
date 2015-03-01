@@ -59,19 +59,18 @@ public class WinboardTestGameBuilder {
 						thenAnswer( invocation -> {
 							player.applyShuttingDown();
 							return "usermove " + move.getFrom() + move.getTo();
-						} );
-						//thenReturn( "usermove " + move.getFrom() + move.getTo() );
+						} )
+						.thenReturn( "" );
 
 				break;
 			case BLACK:
 				//ensure no infinite loop is continued after the last move
 				doAnswer( invocation -> { player.opponentMoved( move ); player.applyShuttingDown(); return null; } )
 						.when( opponent ).opponentMoved( lastMove );
+
+				communicatorReceive = communicatorReceive.thenReturn( "" );
 				break;
-
 		}
-
-
 
 		return this;
 	}
