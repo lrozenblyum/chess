@@ -1,6 +1,9 @@
 package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.PieceType;
+import com.leokom.chess.engine.PositionBuilder;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,6 +83,10 @@ public class WinBoardPlayerIntegrationTest {
 	//Winboard -> Player
  	@Test
 	public void promotionCorrectlyTranslatedToCommonStandard() {
+		PositionBuilder position = new PositionBuilder()
+				.addPawn( Side.WHITE, "f7" );
+
+		player.setPosition( position.build() );
 
 		assertTranslationOfReceivedCommandToMoveForOpponent(
 				"usermove f7g8q", "f7", "g8Q" );
@@ -88,6 +95,11 @@ public class WinBoardPlayerIntegrationTest {
 	//Player -> Winboard
 	@Test
 	public void promotionCorrectlyTranslatedFromCommonStandard() {
+		PositionBuilder position = new PositionBuilder()
+				.addPawn( Side.WHITE, "f7" );
+
+		player.setPosition( position.build() );
+
 		assertTranslationOfCommandFromPlayerToWinboardClient(
 				new Move( "f7", "f8Q" ), "move f7f8q" );
 	}
@@ -100,6 +112,12 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void castlingCorrectlyTranslatedToWinboardClient() {
+		PositionBuilder position = new PositionBuilder()
+				.add( Side.BLACK, "e8", PieceType.KING )
+				.add( Side.BLACK, "a8", PieceType.ROOK );
+
+		player.setPosition( position.setSideOf( "e8" ).build() );
+
 		assertTranslationOfCommandFromPlayerToWinboardClient(
 				new Move( "e8", "c8" ), "move e8c8" );
 	}

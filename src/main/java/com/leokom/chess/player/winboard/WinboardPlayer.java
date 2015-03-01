@@ -29,6 +29,12 @@ public class WinboardPlayer implements Player {
 	private boolean needQuit = false;
 	private Player opponent;
 
+
+	//just for tests
+	void setPosition( Position position ) {
+		this.position = position;
+	}
+
 	//TODO: symptom of need to change architecture
 	//the 'state' of game should be commonly shared
 	//for both players
