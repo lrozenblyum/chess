@@ -19,15 +19,19 @@ class CastlingSafetyEvaluator implements Evaluator {
 	private static final double ACCEPTABLE_MOVE = 0.5;
 	private static final double BAD_MOVE = 0;
 
-	//further potential to improve the algorithm:
-	//if both rooks where not moving yet
-	//we can consider moving one of them as not very harmful
-	//while the second rook's move is more harmful
-
-	//TODO: what might not be covered here is if rook has been captured
-	//so with that move castling is also impossible
-	//but has..RookMoved will return false so far
-	//should it be fixed on the Position level or here?
+	/*
+	 * TODO: backlog
+	 * If rook is captured - don't think it would be possible
+	 * castling with it
+	 *
+	 * Moving a piece out between king & rook is good
+	 *
+	 * Moving a piece out between king & rook is even better
+	 * if it immediately gives space for castling
+	 *
+	 * Moving 1 rook is not so harmful if second one hasn't yet moved
+	 *
+	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		//if king has moved already - all other moves are fine
