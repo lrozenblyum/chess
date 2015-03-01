@@ -17,12 +17,17 @@ class MasterEvaluator implements Evaluator {
 	//compare 1-to-another logic
 
 	private Map< Evaluator, Double > evaluatorWeights = new HashMap<>();
+
+	private static final double HIGHEST_PRIORITY = 100.0;
+	private static final double NORMAL_PRIORITY = 1.0;
+
 	{
-		evaluatorWeights.put( new CastlingSafetyEvaluator(), 1.0 );
-		evaluatorWeights.put( new CenterControlEvaluator(), 1.0 );
-		evaluatorWeights.put( new MobilityEvaluator(), 1.0 );
-		evaluatorWeights.put( new MaterialEvaluator(), 1.0 );
-		evaluatorWeights.put( new ProtectionEvaluator(), 1.0 );
+		evaluatorWeights.put( new CheckmateEvaluator(), HIGHEST_PRIORITY );
+		evaluatorWeights.put( new CastlingSafetyEvaluator(), NORMAL_PRIORITY );
+		evaluatorWeights.put( new CenterControlEvaluator(), NORMAL_PRIORITY );
+		evaluatorWeights.put( new MobilityEvaluator(), NORMAL_PRIORITY );
+		evaluatorWeights.put( new MaterialEvaluator(), NORMAL_PRIORITY );
+		evaluatorWeights.put( new ProtectionEvaluator(), NORMAL_PRIORITY );
 	}
 
 	@Override
