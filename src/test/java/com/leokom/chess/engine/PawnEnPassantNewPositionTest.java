@@ -15,7 +15,7 @@ import static org.junit.Assert.assertNull;
 public class PawnEnPassantNewPositionTest {
 	@Test
 	public void enPassantLeft() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.setEnPassantFile( "d" );
 		position.addPawn( BLACK, "d5" );
 
@@ -32,7 +32,7 @@ public class PawnEnPassantNewPositionTest {
 
 	@Test
 	public void enPassantLeftTriangle() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.setEnPassantFile( "e" );
 
 		position.addPawn( BLACK, "e5" );
@@ -51,7 +51,7 @@ public class PawnEnPassantNewPositionTest {
 
 	@Test
 	public void right() {
-		Position position = new Position();
+		Position position = new Position( Side.WHITE );
 		position.setEnPassantFile( "g" );
 		position.addPawn( BLACK, "g5" );
 
@@ -69,7 +69,7 @@ public class PawnEnPassantNewPositionTest {
 
 	@Test
 	public void enPassantBlackLeft() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.setEnPassantFile( "a" );
 		position.addPawn( WHITE, "a4" );
 
@@ -83,7 +83,7 @@ public class PawnEnPassantNewPositionTest {
 
 	@Test
 	public void enPassantBlackTriangulate() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.setEnPassantFile( "g" );
 		position.addPawn( WHITE, "g4" );
 
@@ -97,7 +97,7 @@ public class PawnEnPassantNewPositionTest {
 
 	@Test
 	public void enPassantRightBlack() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.setEnPassantFile( "c" );
 		position.addPawn( WHITE, "c4" );
 

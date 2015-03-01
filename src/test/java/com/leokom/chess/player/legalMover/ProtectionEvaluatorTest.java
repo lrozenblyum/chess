@@ -34,7 +34,7 @@ public class ProtectionEvaluatorTest {
 
 	@Test
 	public void doubleAttackMeansNeedToAct() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		//attacks b3, d3
 		position.add( Side.WHITE, "c1", PieceType.KNIGHT );
 
@@ -51,7 +51,7 @@ public class ProtectionEvaluatorTest {
 
 	@Test
 	public void reactiveProtectingBetterThanNot() {
-		Position position = new Position();
+		Position position = new Position( Side.BLACK );
 		position.add( Side.WHITE, "a1", PieceType.QUEEN );
 
 		position.add( Side.BLACK, "h5", PieceType.KNIGHT );

@@ -33,4 +33,19 @@ public class PositionBuilder {
 		position.addPawn( side, square );
 		return this;
 	}
+
+	public PositionBuilder addQueen( Side side, String square ) {
+		position.addQueen( side, square );
+		return this;
+	}
+
+	public Position move( String from, String to ) {
+		setSideOf( from );
+		return position.move( from, to );
+	}
+
+	public PositionBuilder setEnPassantFile( String enPassantFile ) {
+		position.setEnPassantFile( enPassantFile );
+		return this;
+	}
 }

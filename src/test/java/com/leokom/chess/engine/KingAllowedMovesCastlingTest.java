@@ -130,7 +130,7 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.BLACK, "e8", PieceType.KING );
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
 
-		Position newPosition = position.build()
+		Position newPosition = position
 				.move( "a8", "a7" )
 				.move( "h1", "h2" ); //any valid white move
 
@@ -147,7 +147,7 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.BLACK, "e8", PieceType.KING );
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
 
-		Position newPosition = position.build()
+		Position newPosition = position.setSideOf( "a8" ).build()
 			.move( "a8", "a7" )
 			.move( "h1", "h2" ) //any valid white move
 			.move( "a7", "a8" )
@@ -168,7 +168,7 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.BLACK, "e8", PieceType.KING );
 		position.add( Side.BLACK, "h8", PieceType.ROOK );
 
-		Position newPosition = position.build()
+		Position newPosition = position.setSideOf( "a8" ).build()
 				.move( "a8", "a7" )
 				.move( "h1", "h2" ); //any valid white move
 
@@ -187,7 +187,7 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.BLACK, "e8", PieceType.KING );
 		position.add( Side.BLACK, "h8", PieceType.ROOK );
 
-		Position newPosition = position.build()
+		Position newPosition = position.setSideOf( "a8" ).build()
 				.move( "a8", "a7" )
 				.move( "h1", "h2" )
 				.move( "h8", "h5" )
@@ -234,7 +234,7 @@ public class KingAllowedMovesCastlingTest {
 		position.add( Side.BLACK, "h7", PieceType.ROOK );
 
 		//blocking check
-		Position newPosition = position.build()
+		Position newPosition = position.setSideOf( "h7" ).build()
 				.move( "h7", "e7" )
 				.move( "e1", "e2" ); //non-check move
 

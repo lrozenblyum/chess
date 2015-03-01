@@ -12,11 +12,11 @@ import static com.leokom.chess.engine.PositionUtils.addCapturable;
  * Date-time: 21.08.12 15:55
  */
 public class PawnAllowedMovesTest {
-	private Position position;
+	private PositionBuilder position;
 
 	@Before
 	public void prepare() {
-		position = new Position();
+		position = new PositionBuilder();
 	}
 
 	/**

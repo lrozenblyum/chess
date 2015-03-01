@@ -17,7 +17,7 @@ public class PawnAllowedMovesEnPassantTest {
 	*/
 	@Test
 	public void noEnPassantInSimilarPosition() {
-		Position position = createPositionWithoutEnPassantRight();
+		PositionBuilder position = createPositionWithoutEnPassantRight();
 
 		position.addPawn( Side.BLACK, "f5" );
 
@@ -26,7 +26,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void noEnPassantInSimilarPositionBlack() {
-		Position position = createPositionWithoutEnPassantRight();
+		PositionBuilder position = createPositionWithoutEnPassantRight();
 		position.addPawn( Side.WHITE, "c4" );
 
 		testPawn( position, "d4", Side.BLACK, "d3" );
@@ -35,7 +35,7 @@ public class PawnAllowedMovesEnPassantTest {
 	//both sides are on e, black had double move last
 	@Test
 	public void noEnPassantInSymmetricCase() {
-		Position position = createPositionWithEnPassantPossibility( "e" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "e" );
 		position.addPawn( Side.WHITE, "e4" );
 		position.addPawn( Side.BLACK, "e5" );
 
@@ -44,7 +44,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void twoSidedEnPassant() {
-		Position position = createPositionWithEnPassantPossibility( "c" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "c" );
 		position.addPawn( Side.BLACK, "c5" );
 
 		position.addPawn( Side.WHITE, "b5" );
@@ -56,7 +56,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void noEnPassantSymmetricWhite() {
-		Position position = createPositionWithEnPassantPossibility( "a" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "a" );
 		position.addPawn( Side.WHITE, "a4" );
 		position.addPawn( Side.BLACK, "a5" );
 
@@ -65,7 +65,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void enPassantInActionLeftSideCaptureBlack() {
-		Position position = createPositionWithEnPassantPossibility( "c" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "c" );
 		position.addPawn( Side.WHITE, "c4" );
 
 		testPawn( position, "d4", Side.BLACK, "d3", "c3" );
@@ -73,7 +73,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void enPassantInActionRightSideCaptureBlack() {
-		Position position = createPositionWithEnPassantPossibility( "g" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "g" );
 		position.addPawn( Side.WHITE, "g4" );
 
 		testPawn( position, "f4", Side.BLACK, "f3", "g3" );
@@ -81,7 +81,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void enPassantInActionRightSideCapture() {
-		Position position = createPositionWithEnPassantPossibility( "f" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "f" );
 
 		position.addPawn( Side.BLACK, "f5" );
 
@@ -91,7 +91,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void enPassantInActionLeftSideCapture() {
-		Position position = createPositionWithEnPassantPossibility( "c" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "c" );
 
 		position.addPawn( Side.BLACK, "c5" );
 
@@ -100,7 +100,7 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void enPassantInActionRightSideCaptureAnother() {
-		Position position = createPositionWithEnPassantPossibility( "g" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "g" );
 
 		position.addPawn( Side.BLACK, "g5" );
 
@@ -109,14 +109,14 @@ public class PawnAllowedMovesEnPassantTest {
 
 	@Test
 	public void enPassantInActionButNotWorksOnDifferentRank() {
-		Position position = createPositionWithEnPassantPossibility( "c" );
+		PositionBuilder position = createPositionWithEnPassantPossibility( "c" );
 		position.addPawn( Side.BLACK, "c5" );
 
 		testPawn( position, "f5", Side.WHITE, "f6" );
 	}
 
-	private static Position createPositionWithoutEnPassantRight() {
-		return new Position();
+	private static PositionBuilder createPositionWithoutEnPassantRight() {
+		return new PositionBuilder();
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class PawnAllowedMovesEnPassantTest {
 	 * @param file
 	 * @return
 	 */
-	private static Position createPositionWithEnPassantPossibility( String file ) {
-		final Position position = new Position();
+	private static PositionBuilder createPositionWithEnPassantPossibility( String file ) {
+		final PositionBuilder position = new PositionBuilder();
 		position.setEnPassantFile( file );
 		return position;
 	}

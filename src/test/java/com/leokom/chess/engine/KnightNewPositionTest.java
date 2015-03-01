@@ -12,10 +12,10 @@ import static org.junit.Assert.assertEquals;
 public class KnightNewPositionTest {
 	@Test
 	public void simpleMove() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "b1", PieceType.KNIGHT );
 
-		final Position newPosition = position.move( "b1", "c3" );
+		final Position newPosition = position.build().move( "b1", "c3" );
 
 		PositionAsserts.assertHasPiece( newPosition, PieceType.KNIGHT, Side.WHITE, "c3" );
 
@@ -23,10 +23,11 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void blackMove() {
-		Position position = new Position();
-		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
+		PositionBuilder position = new PositionBuilder()
+			.add( Side.BLACK, "b1", PieceType.KNIGHT )
+				.setSideOf( "b1" );
 
-		final Position newPosition = position.move( "b1", "c3" );
+		final Position newPosition = position.build().move( "b1", "c3" );
 
 		PositionAsserts.assertHasPiece( newPosition, PieceType.KNIGHT, Side.BLACK, "c3" );
 
@@ -34,11 +35,11 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void otherPiecesRemain() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
 		position.add( Side.BLACK, "a2", PieceType.PAWN );
 
-		final Position newPosition = position.move( "b1", "c3" );
+		final Position newPosition = position.setSideOf( "b1" ).build().move( "b1", "c3" );
 
 		PositionAsserts.assertHasPiece( newPosition, PieceType.KNIGHT, Side.BLACK, "c3" );
 
@@ -48,10 +49,10 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void movingKnightRemoved() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "b1", PieceType.KNIGHT );
 
-		final Position newPosition = position.move( "b1", "a3" );
+		final Position newPosition = position.setSideOf( "b1" ).build().move( "b1", "a3" );
 
 		PositionAsserts.assertEmptySquare( newPosition, "b1" );
 
@@ -59,12 +60,12 @@ public class KnightNewPositionTest {
 
 	@Test
 	public void enPassantPossibilityClearance() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "h1", PieceType.KNIGHT );
 
 		position.add( Side.WHITE, "a2", PieceType.PAWN );
 
-		Position afterPawnMove = position.move( "a2", "a4" );
+		Position afterPawnMove = position.setSideOf( "a2" ).build().move( "a2", "a4" );
 		//this assert is just to ensure previous conditions are ok
 		assertEquals( "a", afterPawnMove.getPossibleEnPassantFile() );
 

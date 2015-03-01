@@ -9,7 +9,7 @@ import org.junit.Test;
 public class RookAllowedMovesTest {
 	@Test
 	public void a1() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.BLACK, "a1", PieceType.ROOK );
 
 		PositionAsserts.assertAllowedMoves(
@@ -21,7 +21,7 @@ public class RookAllowedMovesTest {
 
 	@Test
 	public void e4() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e4", PieceType.ROOK );
 
 		PositionAsserts.assertAllowedMoves(
@@ -33,7 +33,7 @@ public class RookAllowedMovesTest {
 
 	@Test
 	public void blockedPieces() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "a1", PieceType.ROOK );
 		position.add( Side.WHITE, "a3", PieceType.BISHOP ); //any
 
@@ -46,7 +46,7 @@ public class RookAllowedMovesTest {
 
 	@Test
 	public void blockAndCapture() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "b1", PieceType.ROOK );
 
 		position.add( Side.WHITE, "b2", PieceType.BISHOP ); //any -> block

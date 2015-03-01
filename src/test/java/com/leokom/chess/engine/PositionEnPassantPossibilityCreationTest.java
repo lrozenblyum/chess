@@ -12,12 +12,11 @@ import static org.junit.Assert.assertNull;
  * Date-time: 11.09.12 22:28
  */
 public class PositionEnPassantPossibilityCreationTest {
-	private Position position;
+	private PositionBuilder position;
 
 	@Before
 	public void prepare() {
-		//TODO: this null is not important, "a" - "h" are also perfectly legal
-		position = new Position();
+		position = new PositionBuilder();
 	}
 
 	@Test
@@ -87,13 +86,12 @@ public class PositionEnPassantPossibilityCreationTest {
 
 	@Test
 	public void flagIsNotPreservedNextMove() {
-		Position newPosition = new Position();
-		newPosition.setEnPassantFile( "e" );
-		newPosition.addPawn( Side.WHITE, "e4" );
+		position.setEnPassantFile( "e" );
+		position.addPawn( Side.WHITE, "e4" );
 
-		newPosition.addPawn( Side.BLACK, "c7" ); //any
+		position.addPawn( Side.BLACK, "c7" ); //any
 		//any not double-pawn move
-		Position result = newPosition.move( "c7", "c6" );
+		Position result = position.move( "c7", "c6" );
 		assertNull( result.getPossibleEnPassantFile() );
 	}
 

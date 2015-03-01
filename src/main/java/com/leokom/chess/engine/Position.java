@@ -669,6 +669,11 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( Move move ) {
+		//TODO: think about better place for validation
+		if ( pieces.get( move.getFrom() ).getSide() != sideToMove ) {
+			throw new IllegalArgumentException( "Wrong move : " + move );
+		}
+
 		return new PositionGenerator( this ).generate( move );
 	}
 

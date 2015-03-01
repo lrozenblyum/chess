@@ -9,7 +9,7 @@ import org.junit.Test;
 public class QueenNewPositionTest {
 	@Test
 	public void queenMove() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addQueen( Side.BLACK, "a2" );
 
 		position.addPawn( Side.WHITE, "c4" );

@@ -9,7 +9,7 @@ import org.junit.Test;
 public class QueenAllowedMovesTest {
 	@Test
 	public void h1() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addQueen( Side.BLACK, "h1" );
 
 		PositionAsserts.assertAllowedMoves(
@@ -21,7 +21,7 @@ public class QueenAllowedMovesTest {
 
 	@Test
 	public void centerBlocksAndCaptures() {
-		Position position = new Position();
+		PositionBuilder position = new PositionBuilder();
 		position.addQueen( Side.WHITE, "c4" );
 
 		position.addQueen( Side.WHITE, "d4" );
