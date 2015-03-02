@@ -15,7 +15,8 @@ import java.util.Set;
 class CastlingSafetyEvaluator implements Evaluator {
 	//we can also create some enum and use it instead of integers in data structures
 	//however so far it's simpler to have in so to reuse Collections.max etc
-	private static final double GOOD_MOVE = 1;
+	private static final double BEST_MOVE = 1;
+	private static final double GOOD_MOVE = 0.75;
 	private static final double ACCEPTABLE_MOVE = 0.5;
 	private static final double BAD_MOVE = 0;
 
@@ -52,10 +53,8 @@ class CastlingSafetyEvaluator implements Evaluator {
 		//if it's not castling (I want to see castling)
 		//in principle after castling we could allow such moves
 
-		double moveWeight = ACCEPTABLE_MOVE;
-
 		if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
-			moveWeight = BAD_MOVE;
+			return BAD_MOVE;
 		}
 
 		Set< Move > castlingMoves = new HashSet< Move >() {
@@ -69,8 +68,34 @@ class CastlingSafetyEvaluator implements Evaluator {
 		if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
 			//REFACTOR: duplication with PositionGenerator to detect castling moves
 
-			moveWeight = castlingMoves.contains( move ) ? GOOD_MOVE : BAD_MOVE;
+			return castlingMoves.contains( move ) ? BEST_MOVE : BAD_MOVE;
 		}
-		return moveWeight;
+
+		int occupied = getOccupiedInBetween( position, side );
+		int occupiedAfterMove = getOccupiedInBetween( position.move( move ), side );
+
+		return occupiedAfterMove < occupied ? GOOD_MOVE : ACCEPTABLE_MOVE;
+	}
+
+	private int getOccupiedInBetween( Position position, Side side ) {
+		//collecting squares between king and not-moved rook
+
+		int rank = side == Side.WHITE ? 1 : 8;
+		Set< String > squaresInBetween = new HashSet<>();
+		if ( !position.hasARookMoved( side ) ) {
+			squaresInBetween.add( "b" + rank );
+			squaresInBetween.add( "c" + rank );
+			squaresInBetween.add( "d" + rank );
+		}
+
+		if ( !position.hasHRookMoved( side ) ) {
+			squaresInBetween.add( "f" + rank );
+			squaresInBetween.add( "g" + rank );
+		}
+
+		final Set<String> occupiedInBetween = position.getSquaresOccupiedBySide( side );
+		occupiedInBetween.retainAll( squaresInBetween );
+
+		return occupiedInBetween.size();
 	}
 }
