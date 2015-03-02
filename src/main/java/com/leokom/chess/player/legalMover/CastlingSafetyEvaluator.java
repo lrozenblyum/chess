@@ -18,16 +18,17 @@ class CastlingSafetyEvaluator implements Evaluator {
 	private static final double BEST_MOVE = 1;
 	private static final double GOOD_MOVE = 0.75;
 	private static final double ACCEPTABLE_MOVE = 0.5;
-	private static final double BAD_MOVE = 0;
+	private static final double BAD_MOVE = 0.25;
+	private static final double WORST_MOVE = 0;
 
 	/*
 	 * TODO: backlog
 	 * If rook is captured - don't think it would be possible
 	 * castling with it
 	 *
-	 * Moving a piece out between king & rook is good
+	 * + Moving a piece out between king & rook is good
 	 *
-	 * Moving a piece out between king & rook is even better
+	 * + Moving a piece out between king & rook is even better
 	 * if it immediately gives space for castling
 	 *
 	 * Moving 1 rook is not so harmful if second one hasn't yet moved
@@ -54,7 +55,7 @@ class CastlingSafetyEvaluator implements Evaluator {
 		//in principle after castling we could allow such moves
 
 		if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
-			return BAD_MOVE;
+			return WORST_MOVE;
 		}
 
 		Set< Move > castlingMoves = new HashSet< Move >() {
@@ -68,13 +69,14 @@ class CastlingSafetyEvaluator implements Evaluator {
 		if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
 			//REFACTOR: duplication with PositionGenerator to detect castling moves
 
-			return castlingMoves.contains( move ) ? BEST_MOVE : BAD_MOVE;
+			return castlingMoves.contains( move ) ? BEST_MOVE : WORST_MOVE;
 		}
 
 		int occupied = getOccupiedInBetween( position, side );
 		int occupiedAfterMove = getOccupiedInBetween( position.move( move ), side );
 
-		return occupiedAfterMove < occupied ? GOOD_MOVE : ACCEPTABLE_MOVE;
+		return occupiedAfterMove < occupied ? GOOD_MOVE :
+				occupiedAfterMove > occupied ? BAD_MOVE : ACCEPTABLE_MOVE;
 	}
 
 	private int getOccupiedInBetween( Position position, Side side ) {

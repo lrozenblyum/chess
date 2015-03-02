@@ -39,6 +39,19 @@ public class CastlingSafetyEvaluatorTest {
 	}
 
 	@Test
+	public void occupyingSpaceToPreventCastlingNotGood() {
+		final PositionBuilder position = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.ROOK )
+				.add( Side.WHITE, "e1", PieceType.KING )
+				.add( Side.WHITE, "d3", PieceType.KNIGHT );
+
+		Move noCastlingPrevention = new Move( "d3", "e5" );
+		Move preventCastlingByBlock = new Move( "d3", "c1" );
+
+		asserts.assertFirstBetter( position, noCastlingPrevention, preventCastlingByBlock );
+	}
+
+	@Test
 	public void shouldRookMoveOKGivenCastlingDone() {
 		PositionBuilder position = new PositionBuilder();
 
