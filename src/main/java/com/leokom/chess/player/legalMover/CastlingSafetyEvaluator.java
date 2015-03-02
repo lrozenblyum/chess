@@ -21,6 +21,31 @@ class CastlingSafetyEvaluator implements Evaluator {
 	private static final double BAD_MOVE = 0.25;
 	private static final double WORST_MOVE = 0;
 
+	private static final Set< Move > CASTLING_MOVES = new HashSet< Move >() {
+		{
+			add( new Move( "e1", "g1" ) );
+			add( new Move( "e1", "c1" ) );
+			add( new Move( "e8", "g8" ) );
+			add( new Move( "e8", "c8" ) );
+		}
+	};
+
+	private static final Set< String > FILES_IN_BETWEEN_QUEEN_SIDE = new HashSet< String >() {
+		{
+			add( "b" );
+			add( "c" );
+			add( "d" );
+		}
+	};
+
+	private static final Set< String > FILES_IN_BETWEEN_KING_SIDE = new HashSet< String >() {
+		{
+			add( "f" );
+			add( "g" );
+		}
+	};
+
+
 	/*
 	 * TODO: backlog
 	 * If rook is captured - don't think it would be possible
@@ -58,18 +83,9 @@ class CastlingSafetyEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		Set< Move > castlingMoves = new HashSet< Move >() {
-			{
-				add( new Move( "e1", "g1" ) );
-				add( new Move( "e1", "c1" ) );
-				add( new Move( "e8", "g8" ) );
-				add( new Move( "e8", "c8" ) );
-			}
-		};
 		if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
 			//REFACTOR: duplication with PositionGenerator to detect castling moves
-
-			return castlingMoves.contains( move ) ? BEST_MOVE : WORST_MOVE;
+			return CASTLING_MOVES.contains( move ) ? BEST_MOVE : WORST_MOVE;
 		}
 
 		int occupied = getOccupiedInBetween( position, side );
@@ -79,23 +95,28 @@ class CastlingSafetyEvaluator implements Evaluator {
 				occupiedAfterMove > occupied ? BAD_MOVE : ACCEPTABLE_MOVE;
 	}
 
+	/**
+	 * Collecting pieces between king and not-moved rook
+	 * @param position position
+	 * @param side side (important to inject to check state AFTER move)
+	 * @return amount of occupied squares between king & not-moved rook BY US
+	 * Since we're not taking into account opponents moves, we don't take his pieces into account
+	 *
+	 */
 	private int getOccupiedInBetween( Position position, Side side ) {
 		//collecting squares between king and not-moved rook
 
 		int rank = side == Side.WHITE ? 1 : 8;
 		Set< String > squaresInBetween = new HashSet<>();
 		if ( !position.hasARookMoved( side ) ) {
-			squaresInBetween.add( "b" + rank );
-			squaresInBetween.add( "c" + rank );
-			squaresInBetween.add( "d" + rank );
+			FILES_IN_BETWEEN_QUEEN_SIDE.forEach( file -> squaresInBetween.add( file + rank ) );
 		}
 
 		if ( !position.hasHRookMoved( side ) ) {
-			squaresInBetween.add( "f" + rank );
-			squaresInBetween.add( "g" + rank );
+			FILES_IN_BETWEEN_KING_SIDE.forEach( file -> squaresInBetween.add( file + rank ) );
 		}
 
-		final Set<String> occupiedInBetween = position.getSquaresOccupiedBySide( side );
+		final Set<String> occupiedInBetween = new HashSet<>( position.getSquaresOccupiedBySide( side ) );
 		occupiedInBetween.retainAll( squaresInBetween );
 
 		return occupiedInBetween.size();
