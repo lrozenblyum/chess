@@ -29,6 +29,16 @@ public class CastlingSafetyEvaluatorTest {
 	}
 
 	@Test
+	public void givingRoomForCastlingBetterThanNo() {
+		final Position position = Position.getInitialPosition();
+
+		Move giveSpaceForCastling = new Move( "b1", "c3" );
+		Move noSpaceForCastling = new Move( "a2", "a3" );
+
+		asserts.assertFirstBetter( position, giveSpaceForCastling, noSpaceForCastling );
+	}
+
+	@Test
 	public void shouldRookMoveOKGivenCastlingDone() {
 		PositionBuilder position = new PositionBuilder();
 
