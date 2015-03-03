@@ -4,6 +4,7 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
+import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -116,8 +117,8 @@ class CastlingSafetyEvaluator implements Evaluator {
 			FILES_IN_BETWEEN_KING_SIDE.forEach( file -> squaresInBetween.add( file + rank ) );
 		}
 
-		final Set<String> occupiedInBetween = new HashSet<>( position.getSquaresOccupiedBySide( side ) );
-		occupiedInBetween.retainAll( squaresInBetween );
+		final Set<String> occupiedInBetween =
+				CollectionUtils.intersect( position.getSquaresOccupiedBySide( side ), squaresInBetween );
 
 		return occupiedInBetween.size();
 	}

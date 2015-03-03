@@ -3,6 +3,7 @@ package com.leokom.chess.player.legalMover;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
+import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -41,8 +42,7 @@ class CenterControlEvaluator implements Evaluator {
 			"e5", "e4", "d4", "d5"
 		) );
 
-		final Set< String > intersection = new HashSet<>( squaresAttackedByUs );
-		intersection.retainAll( centerSquares );
+		final Set< String > intersection = CollectionUtils.intersect( squaresAttackedByUs, centerSquares );
 
 		return intersection.isEmpty() ? 0 : 1;
 	}

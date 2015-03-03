@@ -1,6 +1,8 @@
 package com.leokom.chess.utils;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Author: Leonid
@@ -15,5 +17,18 @@ public final class CollectionUtils {
 		if ( toAdd != null ) {
 			collection.add( toAdd );
 		}
+	}
+
+	/**
+	 * Return set that is intersection of the arguments
+	 * @param first first argument
+	 * @param second second argument
+	 * @param <T> generic type of data
+	 * @return intersection
+	 */
+	public static < T > Set< T > intersect( Set< T > first, Set< T > second ) {
+		Set< T > result = new HashSet<>( first );
+		result.retainAll( second );
+		return result;
 	}
 }
