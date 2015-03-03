@@ -47,7 +47,7 @@ public class ProtectionEvaluatorTest {
 	}
 
 	@Test
-	public void reactiveProtectingBetterThanNot() {
+	public void protectionByIntersection() {
 		Position position = new Position( Side.BLACK );
 		position.add( Side.WHITE, "a1", PieceType.QUEEN );
 
