@@ -75,7 +75,8 @@ public class MaterialEvaluator implements Evaluator {
 
 	private static int value( Stream< Piece > pieces ) {
 		return pieces
-				.mapToInt( piece -> VALUES.get( piece.getPieceType() ) )
+				.map( Piece::getPieceType )
+				.mapToInt( VALUES::get )
 				.sum();
 	}
 }
