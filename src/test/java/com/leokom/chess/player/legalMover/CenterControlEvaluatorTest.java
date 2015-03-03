@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -97,5 +94,19 @@ public class CenterControlEvaluatorTest {
 		Move toSquareDrawnByKingInTestsAbove = new Move( "f7", "f6" );
 
 		asserts.assertFirstBetter( position, toEFile, toSquareDrawnByKingInTestsAbove );
+	}
+
+	@Test
+	public void moreCenterSquaresControlled() {
+		PositionBuilder position = new PositionBuilder()
+				//controls e4
+				.add( Side.WHITE, "d3", PieceType.PAWN )
+				.add( Side.WHITE, "e2", PieceType.PAWN )
+				.add( Side.WHITE, "a2", PieceType.PAWN );
+
+		Move twoSquaresControlled = new Move( "e2", "e3" );
+		Move singleSquareControl = new Move( "a2", "a4" );
+
+		asserts.assertFirstBetter( position, twoSquaresControlled, singleSquareControl );
 	}
 }
