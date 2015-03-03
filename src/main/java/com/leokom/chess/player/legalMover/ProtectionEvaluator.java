@@ -38,13 +38,18 @@ public class ProtectionEvaluator implements Evaluator {
 
 		final Set< String > ourSquaresAttackedByOpponent = getPiecesAttackedByOpponent( targetPosition, ourSide );
 
-		final int ourAttackedPiecesValue = ourSquaresAttackedByOpponent.stream()
-				.map( targetPosition::getPieceType )
-				//REFACTOR: probably bad dependency on another evaluator - extract common utility
-				.mapToInt( MaterialEvaluator::getValue )
-				.sum();
+		// sum of piece values
+		// if a piece is protected - index of piece value is reduced
+		float opponentAttackIndex = 0;
+		for ( String ourAttackedSquare : ourSquaresAttackedByOpponent ) {
+			//REFACTOR: probably bad dependency on another evaluator - extract common utility
+			int pieceValue = MaterialEvaluator.getValue( targetPosition.getPieceType( ourAttackedSquare ) );
+			boolean hasProtection = targetPosition.getSquaresAttackedBy( ourSide ).contains( ourAttackedSquare );
 
-		return 1 - (float) ourAttackedPiecesValue / MaterialEvaluator.MAXIMAL_VALUE;
+			opponentAttackIndex += pieceValue / ( hasProtection ? 2.0 : 1.0 );
+		}
+
+		return 1 - opponentAttackIndex / MaterialEvaluator.MAXIMAL_VALUE;
 	}
 
 	//REFACTOR: too generic to encapsulate into Position?
