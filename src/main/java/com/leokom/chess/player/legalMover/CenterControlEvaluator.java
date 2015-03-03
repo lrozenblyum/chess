@@ -44,6 +44,6 @@ class CenterControlEvaluator implements Evaluator {
 
 		final Set< String > intersection = CollectionUtils.intersect( squaresAttackedByUs, centerSquares );
 
-		return intersection.isEmpty() ? 0 : 1;
+		return (float) intersection.size() / centerSquares.size();
 	}
 }
