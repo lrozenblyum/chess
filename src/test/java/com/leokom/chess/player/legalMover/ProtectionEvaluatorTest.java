@@ -55,9 +55,22 @@ public class ProtectionEvaluatorTest {
 		position.add( Side.BLACK, "h8", PieceType.QUEEN );
 
 		Move knightProtectsQueen = new Move( "h5", "g7" );
-		Move noQueenProtection = new Move( "h5", "g2" );
+		Move noQueenProtection = new Move( "h5", "g3" );
 
 		asserts.assertFirstBetter( position, knightProtectsQueen, noQueenProtection );
+	}
+
+	@Test
+	public void protectionByDefending() {
+		PositionBuilder position = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.QUEEN )
+				.add( Side.BLACK, "h4", PieceType.KNIGHT )
+				.add( Side.BLACK, "h8", PieceType.QUEEN );
+
+		Move knightDefendsQueen = new Move( "h4", "g6" );
+		Move noDefenseForQueen = new Move( "h4", "g2" );
+
+		asserts.assertFirstBetter( position, knightDefendsQueen, noDefenseForQueen );
 	}
 
 	//backlog
