@@ -13,6 +13,11 @@ public final class Move {
 	 * Size of promotion move (e.g. "h1Q")
 	 */
 	private static final int PROMOTION_MOVE_SIZE = 3;
+	//TODO: need better way to represent special moves
+	//especially to guarantee immutability and NOT equality
+	//to other special moves
+	//need also working 'equals'!
+	public static final Move RESIGN = new Move();
 	private final String from;
 	private final String to;
 
@@ -33,6 +38,12 @@ public final class Move {
 		//TODO: validate not null? correctness?
 		this.from = squareFrom;
 		this.to = moveDestination;
+	}
+
+	private Move() {
+		//TODO: ugly? This keeps them final
+		//but they're unneeded for us
+		this.from = this.to = "";
 	}
 
 	public String getFrom() {
