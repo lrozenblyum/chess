@@ -29,4 +29,14 @@ public class ResignTest {
 		Position positionAfterResign = position.move( Move.RESIGN );
 		assertTrue( positionAfterResign.hasPiece( Side.WHITE, "a1", PieceType.KING ) );
 	}
+
+	/**
+	 * Backlog
+	 * Generator
+	 * - correct winning side detection
+	 * - correct equals in Move
+	 *
+	 * Allowed moves detection:
+	 * - add it to allowed moves
+	 */
 }
