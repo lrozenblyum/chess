@@ -16,4 +16,17 @@ public class ResignTest {
 		final Position positionAfterResign = position.move( Move.RESIGN );
 		assertTrue( positionAfterResign.getMoves().isEmpty() );
 	}
+
+	@Test
+	public void positionAfterResignKeepsPieces() {
+		Position position = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.KING )
+				.add( Side.BLACK, "h7", PieceType.QUEEN )
+				.add( Side.BLACK, "h8", PieceType.KING )
+				.setSideOf( "a1" )
+				.build();
+
+		Position positionAfterResign = position.move( Move.RESIGN );
+		assertTrue( positionAfterResign.hasPiece( Side.WHITE, "a1", PieceType.KING ) );
+	}
 }

@@ -33,7 +33,11 @@ final class PositionGenerator {
 		if ( move == Move.RESIGN ) {
 			//TODO: technically side to move is useless for such terminal position?
 			//it indicates a side of possible move IF the position wouldn't be terminal
-			return new Position( source.getSideToMove().opposite() );
+			final Position result = new Position( source.getSideToMove().opposite() );
+			source.copyStateTo( result );
+			//TODO: should checkmate move also set this flag?
+			result.setTerminal( true );
+			return result;
 		}
 
 		if ( source.getPiece( move.getFrom() ) == null ) {

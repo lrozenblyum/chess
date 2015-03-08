@@ -70,6 +70,7 @@ public class Position {
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
 	private Side sideToMove;
+	private boolean terminal;
 
 
 	void setHasKingMoved( Side side ) {
@@ -815,6 +816,9 @@ public class Position {
 	 */
 	public Set< Move > getMoves() {
 		final Set< Move > result = new HashSet<>();
+		if ( terminal ) {
+			return result;
+		}
 
 		final Set<String> squares = getSquaresOccupiedBySide( sideToMove );
 		for ( String square : squares ) {
@@ -862,5 +866,9 @@ public class Position {
 		//funny easy implementation that takes into account
 		//just Checkmate possibility
 		return sideToMove.opposite();
+	}
+
+	void setTerminal( boolean terminal ) {
+		this.terminal = terminal;
 	}
 }
