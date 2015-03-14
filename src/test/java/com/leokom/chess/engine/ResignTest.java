@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Author: Leonid
@@ -43,6 +44,16 @@ public class ResignTest {
 				.move( new Move( "e2", "e4" ) )
 				.move( Move.RESIGN );
 		assertEquals( Side.WHITE, afterResign.getWinningSide() );
+	}
+
+	@Test
+	public void resignNotEqualsToOtherMove() {
+		assertNotEquals( Move.RESIGN, new Move( "e2", "e4" ) );
+	}
+
+	@Test
+	public void resignEqualsToItself() {
+		assertEquals( Move.RESIGN, Move.RESIGN );
 	}
 
 	/**
