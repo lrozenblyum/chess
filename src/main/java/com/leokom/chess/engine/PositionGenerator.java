@@ -36,9 +36,11 @@ final class PositionGenerator {
 			final Position result = new Position( source.getSideToMove().opposite() );
 			source.copyStateTo( result );
 			//TODO: should checkmate move also set this flag?
-			result.setTerminal( true );
+			result.setTerminal( source.getSideToMove().opposite() );
 			return result;
 		}
+
+
 
 		if ( source.getPiece( move.getFrom() ) == null ) {
 			throw new IllegalArgumentException( "Source square is empty : " + move.getFrom() );

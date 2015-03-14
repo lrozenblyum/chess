@@ -71,6 +71,7 @@ public class Position {
 
 	private Side sideToMove;
 	private boolean terminal;
+	private Side winningSide;
 
 
 	void setHasKingMoved( Side side ) {
@@ -863,12 +864,16 @@ public class Position {
 			throw new IllegalStateException( "Game has not yet finished" );
 		}
 
-		//funny easy implementation that takes into account
-		//just Checkmate possibility
-		return sideToMove.opposite();
+		//null is currently only after checkmate
+		return winningSide != null ? winningSide : sideToMove.opposite();
 	}
 
-	void setTerminal( boolean terminal ) {
-		this.terminal = terminal;
+	/**
+	 * Mark position as 'terminal'
+	 * @param winningSide side that has won the game
+	 */
+	void setTerminal( Side winningSide ) {
+		this.terminal = true;
+		this.winningSide = winningSide;
 	}
 }

@@ -3,6 +3,7 @@ package com.leokom.chess.engine;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertEquals;
 
 /**
  * Author: Leonid
@@ -30,10 +31,24 @@ public class ResignTest {
 		assertTrue( positionAfterResign.hasPiece( Side.WHITE, "a1", PieceType.KING ) );
 	}
 
+	@Test
+	public void winningSideDetection() {
+		final Position afterResign = Position.getInitialPosition().move( Move.RESIGN );
+		assertEquals( Side.BLACK, afterResign.getWinningSide() );
+	}
+
+	@Test
+	public void winningSideDetectionOpposite() {
+		final Position afterResign = Position.getInitialPosition()
+				.move( new Move( "e2", "e4" ) )
+				.move( Move.RESIGN );
+		assertEquals( Side.WHITE, afterResign.getWinningSide() );
+	}
+
 	/**
 	 * Backlog
 	 * Generator
-	 * - correct winning side detection
+	 * + correct winning side detection
 	 * - correct equals in Move
 	 *
 	 * Allowed moves detection:
