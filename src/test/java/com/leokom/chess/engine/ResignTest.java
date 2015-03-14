@@ -16,6 +16,7 @@ public class ResignTest {
 		Position position = Position.getInitialPosition();
 
 		final Position positionAfterResign = position.move( Move.RESIGN );
+		//implies 'no resign after resign'
 		assertTrue( positionAfterResign.getMoves().isEmpty() );
 	}
 
@@ -62,6 +63,17 @@ public class ResignTest {
 		PositionAsserts.assertAllowedMovesInclude( position, Move.RESIGN );
 	}
 
+	@Test
+	public void noResignAfterCheckmate() {
+		Position position =
+			Position.getInitialPosition()
+				.move( "f2", "f3" )
+				.move( "e7", "e5" )
+				.move( "g2", "g4" )
+				.move( "d8", "h4" );
+		assertTrue( position.getMoves().isEmpty() );
+	}
+
 	/**
 	 * Backlog
 	 * Generator
@@ -71,6 +83,6 @@ public class ResignTest {
 	 *
 	 * Allowed moves detection:
 	 * + add it to allowed moves
-	 * - only if non-terminal
+	 * + only if non-terminal
 	 */
 }
