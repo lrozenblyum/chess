@@ -79,7 +79,7 @@ public class ResignTest {
 	 * Generator
 	 * + correct winning side detection
 	 * + correct equals in Move
-	 * - correct toString?
+	 * + correct toString?
 	 *
 	 * Allowed moves detection:
 	 * + add it to allowed moves

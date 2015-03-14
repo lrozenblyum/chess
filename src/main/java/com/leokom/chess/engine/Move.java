@@ -97,7 +97,7 @@ public final class Move {
 
 	@Override
 	public String toString() {
-		return from + " : " + to;
+		return this == Move.RESIGN ? "RESIGN" : from + " : " + to;
 	}
 
 	public boolean isPromotion() {
