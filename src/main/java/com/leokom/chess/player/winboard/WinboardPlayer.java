@@ -131,14 +131,21 @@ public class WinboardPlayer implements Player {
 	 */
 	@Override
 	public void opponentMoved( Move opponentMove ) {
-		String translatedMove = opponentMove.toOldStringPresentation();
-		if ( opponentMove.isPromotion() ) {
-			translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
+		position = position.move( opponentMove );
+
+		if ( opponentMove == Move.RESIGN ) {
+			commander.resign();
+		}
+		else {
+			String translatedMove = opponentMove.toOldStringPresentation();
+			if ( opponentMove.isPromotion() ) {
+				translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
+			}
+
+			commander.opponentMoved( translatedMove );
 		}
 
-		position = position.move( opponentMove );
-		commander.opponentMoved( translatedMove );
-
+		//TODO: do we need this in case of resign? Looks excessive
 		detectTerminalPosition();
 	}
 

@@ -53,6 +53,21 @@ public class WinBoardPlayerIntegrationTest {
 		verify( opponent ).opponentOfferedDraw();
 	}
 
+	//resign
+	//If your engine wants to resign, it can send the command "resign". Alternatively, it can use the "RESULT
+	//{comment}" command if the string "resign" is included in the comment; for example "0-1 {White
+	//	resigns}". xboard relays the resignation to the user, the ICS, the other engine in Two Machines mode,
+	//and the PGN save file as required. Note that many interfaces work more smoothly if you resign before
+	//you move.
+	@Test
+	public void informWinboardAboutResign() {
+		//I'm choosing a more specific way to inform Winboard
+		//about resigning (string resign)
+
+		assertTranslationOfCommandFromPlayerToWinboardClient(
+				Move.RESIGN, "resign" );
+	}
+
 	@Test
 	public void resignListenerCalled() {
 		final Player opponent = mock( Player.class );
