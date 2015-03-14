@@ -31,4 +31,18 @@ public class CheckmateEvaluatorTest {
 		asserts.assertFirstBetter( builder, checkmateMove, notCheckmateMove );
 
 	}
+
+	@Test
+	public void resignIsWorseThanCheckmate() {
+		PositionBuilder builder = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.ROOK )
+				.add( Side.WHITE, "b7", PieceType.ROOK )
+				.add( Side.BLACK, "h8", PieceType.KING );
+
+
+		Move checkmateMove = new Move( "a1", "a8" );
+		Move resignMove = Move.RESIGN;
+
+		asserts.assertFirstBetter( builder, checkmateMove, resignMove );
+	}
 }

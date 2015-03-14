@@ -23,9 +23,14 @@ public class MobilityEvaluator implements Evaluator {
 
 	//TODO: calculate theoretical max. possible moves count in a position (9 promoted queens + all others? )
 	private static final int MAXIMAL_POSSIBLE_MOVES = 1000;
+	private static final double WORST_MOVE = 0.0;
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		if ( move.isSpecial() ) {
+			return WORST_MOVE;
+		}
+
 		final Position target = position.move( move );
 
 		final int legalMoves = target.toMirror().getMoves().size();

@@ -74,7 +74,7 @@ public class CheckTest {
 		position.add( Side.BLACK, "a1", PieceType.QUEEN );
 
 
-		final Set<Move> moves = position.getMoves();
+		final Set<Move> moves = position.getNormalMoves();
 		assertEquals( 1, moves.size() );
 		final Move singleMove = moves.iterator().next();
 		assertEquals( "h2", singleMove.getFrom() );

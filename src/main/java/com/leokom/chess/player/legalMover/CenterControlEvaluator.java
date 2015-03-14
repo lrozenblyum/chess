@@ -20,12 +20,18 @@ import java.util.Set;
  * Date-time: 14.07.14 23:11
  */
 class CenterControlEvaluator implements Evaluator {
+	private static final double WORST_MOVE = 0.0;
+
 	/**
 	 * {@inheritDoc}
 	 *
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		if ( move.isSpecial() ) {
+			return WORST_MOVE;
+		}
+
 		//TODO: if we're already in central square
 		//does it mean control now?
 		//e.g. Knight on e5 cannot attack e4, d4, d5

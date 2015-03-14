@@ -826,7 +826,20 @@ public class Position {
 			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( toSet() ) );
 		}
 
+		//resign is possible if there is at least one other move
+		//correct?
+		if ( !result.isEmpty() ) {
+			result.add( Move.RESIGN );
+		}
+
 		return result;
+	}
+
+	/**
+	 * @return legal non-special moves
+	 */
+	public Set< Move > getNormalMoves() {
+		return getMoves().stream().filter( move -> !move.isSpecial() ).collect( toSet() );
 	}
 
 	public Stream< Piece > getPieces( Side side ) {

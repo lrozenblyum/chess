@@ -56,13 +56,21 @@ public class ResignTest {
 		assertEquals( Move.RESIGN, Move.RESIGN );
 	}
 
+	@Test
+	public void resignIsPossibleForNonTerminal() {
+		Position position = Position.getInitialPosition();
+		PositionAsserts.assertAllowedMovesInclude( position, Move.RESIGN );
+	}
+
 	/**
 	 * Backlog
 	 * Generator
 	 * + correct winning side detection
-	 * - correct equals in Move
+	 * + correct equals in Move
+	 * - correct toString?
 	 *
 	 * Allowed moves detection:
-	 * - add it to allowed moves
+	 * + add it to allowed moves
+	 * - only if non-terminal
 	 */
 }
