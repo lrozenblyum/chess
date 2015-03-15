@@ -80,13 +80,6 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
-		commander.onResign( new ResignListener() {
-			@Override
-			public void execute() {
-				opponent.opponentResigned();
-			}
-		} );
-
 		commander.onGameOver( ( data ) -> {
 			logger.info( "Received game over. Extra data: " + data );
 			//game over is sent due to draw, checkmate, resign,...

@@ -36,16 +36,16 @@ public class WinBoardCommanderReceiveTest {
 	}
 
 	@Test
-	public void opponentResigns() {
+	public void opponentGameOver() {
 		Communicator communicator = getReceiveCommunicator( "result 1-0 {Black resigns}" );
 		WinboardCommander commander = new WinboardCommanderImpl( communicator );
 
-		final ResignListener listener = mock( ResignListener.class );
-		commander.onResign( listener );
+		final GameOverListener listener = mock( GameOverListener.class );
+		commander.onGameOver( listener );
 
 		commander.processInputFromServer();
 
-		verify( listener ).execute();
+		verify( listener ).execute( "1-0 {Black resigns}" );
 	}
 
 	//TODO: I implement only simple test for usermove for 2 reasons:

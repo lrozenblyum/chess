@@ -107,20 +107,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
-	public void onResign( ResignListener listener ) {
-		//TODO: real hard-coding of Black resignation.
-
-		//"result RESULT {COMMENT}"
-		//"The COMMENT string is purely a human-readable comment; its content is unspecified and subject to change."
-		//TODO: really bad - no normal indication of RESIGN event??
-
-		//looks not good:
-		//"If you won but did not just play a mate, your opponent must have resigned or forfeited."
-
-		listenersWithoutParams.put( "result 1-0 {Black resigns}", listener );
-	}
-
-	@Override
 	public void onGameOver( GameOverListener listener ) {
 		stringParameterListeners.put( "result", listener );
 	}
@@ -165,7 +151,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 		for ( String command : stringParameterListeners.keySet() ) {
 			if ( receivedCommand.startsWith( command ) ) {
-				stringParameterListeners.get( command ).execute( receivedCommand.split( " " )[ 1 ] );
+				//keeping everything after 1'st space
+				//good for commands like
+				//move e2e4
+				//result 0-1 {Black Wins}
+				stringParameterListeners.get( command ).execute( receivedCommand.substring( receivedCommand.indexOf( ' ' ) + 1 ));
 			}
 		}
 

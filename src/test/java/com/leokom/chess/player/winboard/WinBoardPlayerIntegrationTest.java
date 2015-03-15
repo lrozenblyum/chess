@@ -80,7 +80,7 @@ public class WinBoardPlayerIntegrationTest {
 		//mid-level processing
 		commander.processInputFromServer();
 		//top-level component has set up the commander's listener correctly
-		verify( opponent ).opponentResigned();
+		verify( opponent ).opponentMoved( Move.RESIGN );
 	}
 
 	@Test

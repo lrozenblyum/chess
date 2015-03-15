@@ -50,8 +50,5 @@ interface WinboardCommander {
 	void onUserMove( UserMoveListener listener );
 	void onOfferDraw( OfferDrawListener listener );
 
-	void onResign( ResignListener listener );
-
 	void onGameOver( GameOverListener listener );
-
 }
