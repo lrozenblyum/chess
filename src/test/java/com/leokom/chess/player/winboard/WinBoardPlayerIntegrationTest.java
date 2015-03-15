@@ -7,7 +7,6 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
@@ -215,14 +214,7 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
-
-		//TODO: I don't like this reset, but player sends several commands
-		//like set features etc, how to do better?
-		Mockito.reset( communicator );
-
 		player.opponentMoved( playerMove );
-
-
 		verify( communicator ).send( commandSentToWinboardClient );
 	}
 
