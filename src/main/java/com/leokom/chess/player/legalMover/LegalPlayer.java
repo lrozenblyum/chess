@@ -122,11 +122,6 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentResigned() {
-
-	}
-
-	@Override
 	public void setOpponent( Player opponent ) {
 		this.opponent = opponent;
 	}

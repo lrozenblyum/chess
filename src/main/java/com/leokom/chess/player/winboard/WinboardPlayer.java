@@ -175,11 +175,6 @@ public class WinboardPlayer implements Player {
 		commander.offerDraw();
 	}
 
-	@Override
-	public void opponentResigned() {
-		commander.resign();
-	}
-
 	//TODO: validate legality of this method call!
 	@Override
 	public void opponentAgreedToDrawOffer() {

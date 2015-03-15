@@ -40,12 +40,17 @@ public class SimpleEnginePlayer implements Player {
 
 	@Override
 	public void opponentMoved( Move opponentMove ) {
-		executeMove();
+		executeMove( opponentMove );
 	}
 
-	private void executeMove() {
+	private void executeMove( Move opponentMove ) {
 		moveNumber++;
 		logger.info( "Move number = " + moveNumber );
+		if ( opponentMove == Move.RESIGN ) {
+			logger.info( "Opponent resigned" );
+			return;
+		}
+
 		switch ( moveNumber ) {
 			case 1:
 				moveTo( new Move( "e" + rankFrom,  "e" + rankTo ) );
@@ -66,7 +71,7 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	private void resign() {
-		opponent.opponentResigned();
+		opponent.opponentMoved( Move.RESIGN );
 	}
 
 	/**
@@ -88,7 +93,7 @@ public class SimpleEnginePlayer implements Player {
 		//TODO: contradicts current understanding of interface
 		//of the method
 		if ( side == Side.WHITE ) {
-			executeMove();
+			executeMove( null );
 		}
 	}
 
@@ -98,10 +103,5 @@ public class SimpleEnginePlayer implements Player {
 	@Override
 	public void opponentOfferedDraw() {
 		opponent.opponentAgreedToDrawOffer();
-	}
-
-	@Override
-	public void opponentResigned() {
-		logger.info( "Opponent resigned" );
 	}
 }
