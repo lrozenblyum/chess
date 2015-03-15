@@ -58,4 +58,8 @@ public class WinboardTestGameBuilder {
 		communicatorReceive = communicatorReceive.thenReturn( "quit" );
 		player.opponentSuggestsMeStartNewGameWhite();
 	}
+
+	public Player getOpponent() {
+		return opponent;
+	}
 }

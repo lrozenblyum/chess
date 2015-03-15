@@ -47,6 +47,8 @@ interface WinboardCommander {
 
 	void onResign( ResignListener listener );
 
+	void onGameOver( ResignListener listener );
+
 	/**
 	 * Inform Winboard that the side has won by checkmate
 	 * @param side winning by checkmate side

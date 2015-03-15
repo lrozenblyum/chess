@@ -121,6 +121,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void onGameOver( ResignListener listener ) {
+		listenersWithoutParams.put( "result 0-1 {Impl.specific reason}", listener );
+	}
+
+	@Override
 	public void checkmate( Side winningSide ) {
 		String prefix = "";
 		switch ( winningSide ) {

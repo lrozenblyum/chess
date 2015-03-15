@@ -87,6 +87,8 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
+		commander.onGameOver( () -> opponent.opponentMoved( Move.RESIGN ) );
+
 		//critically important to send this sequence at the start
 		//to ensure the Winboard won't ignore our 'setfeature' commands
 		//set feature commands must be sent in response to protover

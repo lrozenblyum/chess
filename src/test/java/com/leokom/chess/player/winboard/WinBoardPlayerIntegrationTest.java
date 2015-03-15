@@ -143,8 +143,6 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void checkmateWhenWinboardWins() {
 		//implementing fool's mate
-		final Player opponent = mock( Player.class );
-		player.setOpponent( opponent );
 
 		new WinboardTestGameBuilder( player, communicator )
 				.move( new Move( "e2", "e4" ) )
@@ -165,8 +163,6 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void checkmateFromPlayerToWinboard() {
 		//implementing fool's mate
-		final Player opponent = mock( Player.class );
-		player.setOpponent( opponent );
 
 		new WinboardTestGameBuilder( player, communicator )
 		.move( new Move( "f2", "f3" ) )
@@ -181,9 +177,6 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void resignFromPlayerToWinboard() {
-		final Player opponent = mock( Player.class );
-		player.setOpponent( opponent );
-
 		new WinboardTestGameBuilder( player, communicator )
 				.move( new Move( "f2", "f3" ) )
 				.move( new Move( "e7", "e5" ) )
@@ -197,16 +190,14 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void resignFromWinboardToPlayer() {
-		final Player opponent = mock( Player.class );
-		player.setOpponent( opponent );
-
-		new WinboardTestGameBuilder( player, communicator )
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+				builder
 				.move( new Move( "f2", "f3" ) )
 				.move( new Move( "e7", "e5" ) )
 				.move( Move.RESIGN )
 				.play();
 
-		verify( opponent ).opponentMoved( Move.RESIGN );
+		verify( builder.getOpponent() ).opponentMoved( Move.RESIGN );
 	}
 
 	@Test
