@@ -1,7 +1,10 @@
 package com.leokom.chess.engine;
 
 /**
- * Value object representing act of moving
+ * Value object representing act of moving.
+ * It encapsulates both moves that cause changes on-board
+ * and acts that cause some other changes in game situation
+ * like Resign.
  *
  * Author: Leonid
  * Date-time: 06.07.13 22:38
@@ -13,8 +16,11 @@ public final class Move {
 	 * Size of promotion move (e.g. "h1Q")
 	 */
 	private static final int PROMOTION_MOVE_SIZE = 3;
+	public static final Move RESIGN = new Move();
 	private final String from;
 	private final String to;
+
+	private boolean isSpecial;
 
 	/**
 	 * Create an 'act of moving'
@@ -33,6 +39,27 @@ public final class Move {
 		//TODO: validate not null? correctness?
 		this.from = squareFrom;
 		this.to = moveDestination;
+	}
+
+	/**
+	 * By 'special' move here we mean an act
+	 * that doesn't cause movement of pieces on the board
+	 * (example : RESIGN)
+	 *
+	 * @return true if the move is 'special'
+	 *
+	 */
+	public boolean isSpecial() {
+		return isSpecial;
+	}
+
+	private Move() {
+		//TODO: ugly? This keeps them final
+		//but they're unneeded for us
+		//as as 'good' side effect it allows equal be correct
+		//till we have just 1 special move (RESIGN)
+		this.from = this.to = "";
+		this.isSpecial = true;
 	}
 
 	public String getFrom() {
@@ -70,7 +97,7 @@ public final class Move {
 
 	@Override
 	public String toString() {
-		return from + " : " + to;
+		return this == Move.RESIGN ? "RESIGN" : from + " : " + to;
 	}
 
 	public boolean isPromotion() {

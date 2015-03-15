@@ -12,6 +12,8 @@ import java.util.Set;
  * Date-time: 21.10.14 23:03
  */
 public class ProtectionEvaluator implements Evaluator {
+	private static final double WORST_MOVE = 0.0;
+
 	/**
 	 	Protection has 2 aspects:
 	 	a) tactical: act when your pieces are under attack
@@ -34,6 +36,10 @@ public class ProtectionEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		if ( move.isSpecial() ) {
+			return WORST_MOVE;
+		}
+
 		final Position targetPosition = position.move( move );
 		final Side ourSide = position.getSide( move.getFrom() );
 

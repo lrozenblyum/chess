@@ -15,8 +15,14 @@ import java.util.stream.Stream;
  *
  */
 public class MaterialEvaluator implements Evaluator {
+	private static final double WORST_MOVE = 0.0;
+
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		if ( move.isSpecial() ) {
+			return WORST_MOVE;
+		}
+
 		final Position target = position.move( move );
 
 		Side ourSide = position.getSideToMove();

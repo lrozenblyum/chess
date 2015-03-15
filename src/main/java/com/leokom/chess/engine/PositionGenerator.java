@@ -21,11 +21,35 @@ final class PositionGenerator {
 	}
 
 	/**
-	 * This method itself is a NON-validating generator
+	 * This method itself is a particularly-validating generator
 	 * @param move move to be executed
 	 * @return new position, after move from squareFrom
 	 */
 	Position generate( Move move ) {
+		if ( move == null ) {
+			throw new IllegalArgumentException( "Move must be not null" );
+		}
+
+		if ( move == Move.RESIGN ) {
+			//TODO: technically side to move is useless for such terminal position?
+			//it indicates a side of possible move IF the position wouldn't be terminal
+			final Position result = new Position( source.getSideToMove().opposite() );
+			source.copyStateTo( result );
+			//TODO: should checkmate move also set this flag?
+			result.setTerminal( source.getSideToMove().opposite() );
+			return result;
+		}
+
+
+
+		if ( source.getPiece( move.getFrom() ) == null ) {
+			throw new IllegalArgumentException( "Source square is empty : " + move.getFrom() );
+		}
+
+		if ( source.getPiece( move.getFrom() ).getSide() != source.getSideToMove() ) {
+			throw new IllegalArgumentException( "Wrong side to move : " + move + ". Currently it's turn of " + source.getSideToMove() );
+		}
+
 		String squareFrom = move.getFrom();
 		String moveTo = move.getTo();
 		final PieceType pieceType = source.getPieceType( squareFrom );

@@ -16,6 +16,8 @@ import static org.mockito.Mockito.when;
 public class WinboardTestGameBuilder {
 	private final Player opponent;
 	private final WinboardPlayer player;
+	private String customResponse;
+
 	public WinboardTestGameBuilder(
 		WinboardPlayer player,
 		WinboardCommunicator communicator ) {
@@ -37,7 +39,10 @@ public class WinboardTestGameBuilder {
 	public WinboardTestGameBuilder move( Move move ) {
 		switch ( sideToMove ) {
 		case WHITE:
-			communicatorReceive = communicatorReceive.thenReturn( "usermove " + move.getFrom() + move.getTo() );
+
+			final String moveToReceive =
+				move == Move.RESIGN ? "result 0-1 {Impl.specific reason}" : "usermove " + move.getFrom() + move.getTo();
+			communicatorReceive = communicatorReceive.thenReturn( moveToReceive );
 			break;
 		case BLACK:
 			doAnswer( invocation -> { player.opponentMoved( move ); return null; } )
@@ -51,8 +56,21 @@ public class WinboardTestGameBuilder {
 	}
 
 	public void play() {
+		if ( customResponse != null ) {
+			communicatorReceive = communicatorReceive.thenReturn( customResponse );
+		}
 		//ensure no infinite loop is continued after the last move
 		communicatorReceive = communicatorReceive.thenReturn( "quit" );
 		player.opponentSuggestsMeStartNewGameWhite();
+	}
+
+	public Player getOpponent() {
+		return opponent;
+	}
+
+	public WinboardTestGameBuilder customWinboardResponse( String customResponse ) {
+		this.customResponse = customResponse;
+		return this;
+
 	}
 }

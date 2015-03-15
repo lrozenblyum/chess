@@ -62,6 +62,10 @@ class CastlingSafetyEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		if ( move.isSpecial() ) {
+			return WORST_MOVE;
+		}
+
 		//if king has moved already - all other moves are fine
 		//they don't bring anything for castling safety
 		final Side side = position.getSideToMove();

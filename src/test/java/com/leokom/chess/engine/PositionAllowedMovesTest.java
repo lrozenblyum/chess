@@ -32,7 +32,7 @@ public class PositionAllowedMovesTest {
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c1", PieceType.KING );
 
-		Set< Move > moves = position.getMoves();
+		Set< Move > moves = position.getNormalMoves();
 
 		assertEquals( 1, moves.size() );
 		final Move move = moves.iterator().next();
@@ -45,7 +45,7 @@ public class PositionAllowedMovesTest {
 		position.add( Side.BLACK, "a1", PieceType.KING );
 		position.add( Side.WHITE, "c1", PieceType.KING );
 
-		Set< Move > moves = position.getMoves();
+		Set< Move > moves = position.getNormalMoves();
 
 		assertEquals( 1, moves.size() );
 		final Move move = moves.iterator().next();

@@ -7,7 +7,6 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static org.mockito.Mockito.*;
 
@@ -53,6 +52,21 @@ public class WinBoardPlayerIntegrationTest {
 		verify( opponent ).opponentOfferedDraw();
 	}
 
+	//resign
+	//If your engine wants to resign, it can send the command "resign". Alternatively, it can use the "RESULT
+	//{comment}" command if the string "resign" is included in the comment; for example "0-1 {White
+	//	resigns}". xboard relays the resignation to the user, the ICS, the other engine in Two Machines mode,
+	//and the PGN save file as required. Note that many interfaces work more smoothly if you resign before
+	//you move.
+	@Test
+	public void informWinboardAboutResign() {
+		//I'm choosing a more specific way to inform Winboard
+		//about resigning (string resign)
+
+		assertTranslationOfCommandFromPlayerToWinboardClient(
+				Move.RESIGN, "resign" );
+	}
+
 	@Test
 	public void resignListenerCalled() {
 		final Player opponent = mock( Player.class );
@@ -66,7 +80,7 @@ public class WinBoardPlayerIntegrationTest {
 		//mid-level processing
 		commander.processInputFromServer();
 		//top-level component has set up the commander's listener correctly
-		verify( opponent ).opponentResigned();
+		verify( opponent ).opponentMoved( Move.RESIGN );
 	}
 
 	@Test
@@ -106,6 +120,7 @@ public class WinBoardPlayerIntegrationTest {
 				new Move( "f7", "f8Q" ), "move f7f8q" );
 	}
 
+
 	@Test
 	public void castlingCorrectlyTranslatedToPlayer() {
 		assertTranslationOfReceivedCommandToMoveForOpponent(
@@ -127,8 +142,6 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void checkmateWhenWinboardWins() {
 		//implementing fool's mate
-		final Player opponent = mock( Player.class );
-		player.setOpponent( opponent );
 
 		new WinboardTestGameBuilder( player, communicator )
 				.move( new Move( "e2", "e4" ) )
@@ -149,8 +162,6 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void checkmateFromPlayerToWinboard() {
 		//implementing fool's mate
-		final Player opponent = mock( Player.class );
-		player.setOpponent( opponent );
 
 		new WinboardTestGameBuilder( player, communicator )
 		.move( new Move( "f2", "f3" ) )
@@ -161,6 +172,62 @@ public class WinBoardPlayerIntegrationTest {
 
 		verify( communicator ).send( "0-1 {LeokomChess : checkmate}" );
 		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
+	}
+
+	@Test
+	public void resignFromPlayerToWinboard() {
+		new WinboardTestGameBuilder( player, communicator )
+				.move( new Move( "f2", "f3" ) )
+				.move( new Move( "e7", "e5" ) )
+				.move( new Move( "g2", "g4" ) )
+				.move( Move.RESIGN )
+				.play();
+
+		verify( communicator ).send( "resign" );
+		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
+	}
+
+	@Test
+	public void resignFromWinboardToPlayer() {
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+				builder
+				.move( new Move( "f2", "f3" ) )
+				.move( new Move( "e7", "e5" ) )
+				.move( Move.RESIGN )
+				.play();
+
+		verify( builder.getOpponent() ).opponentMoved( Move.RESIGN );
+	}
+
+	@Test
+	public void noFalsePositiveResign() {
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+			builder
+				.move( new Move( "f2", "f3" ) )
+				.move( new Move( "e7", "e5" ) )
+				.move( new Move( "g2", "g4" ) )
+				.move( new Move( "d8", "h4" ) )
+				//realistic result of game -> xboard sends result
+				.customWinboardResponse( "result 0-1 {Black wins}" )
+				.play();
+
+		verify( builder.getOpponent(), never() ).opponentMoved( Move.RESIGN );
+	}
+
+	@Test
+	public void noFalsePositiveResignWhenWhiteWins() {
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+		builder
+				.move( new Move( "e2", "e4" ) )
+				.move( new Move( "g7", "g5" ) )
+				.move( new Move( "d2", "d4" ) )
+				.move( new Move( "f7", "f6" ) )
+				.move( new Move( "d1", "h5" ) )
+				//realistic result of game -> xboard sends result
+				.customWinboardResponse( "result 1-0 {White wins}" )
+				.play();
+
+		verify( builder.getOpponent(), never() ).opponentMoved( Move.RESIGN );
 	}
 
 	@Test
@@ -178,14 +245,7 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	private void assertTranslationOfCommandFromPlayerToWinboardClient( Move playerMove, String commandSentToWinboardClient ) {
-
-		//TODO: I don't like this reset, but player sends several commands
-		//like set features etc, how to do better?
-		Mockito.reset( communicator );
-
 		player.opponentMoved( playerMove );
-
-
 		verify( communicator ).send( commandSentToWinboardClient );
 	}
 

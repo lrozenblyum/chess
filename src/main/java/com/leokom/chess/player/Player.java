@@ -29,8 +29,6 @@ public interface Player {
 	 */
 	void opponentMoved( Move opponentMove );
 
-	void opponentResigned();
-
 	//TODO: this method is extracted because we need
 	//to set up bidirectional connection
 	//think about better solution

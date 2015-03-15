@@ -80,10 +80,16 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
-		commander.onResign( new ResignListener() {
-			@Override
-			public void execute() {
-				opponent.opponentResigned();
+		commander.onGameOver( ( data ) -> {
+			logger.info( "Game over. Extra data: " + data );
+			//game over is sent due to draw, checkmate, resign,...
+			// avoid false detection
+			if ( !position.isTerminal() ) {
+				final Move move = Move.RESIGN;
+
+				position = position.move( move );
+
+				opponent.opponentMoved( move );
 			}
 		} );
 
@@ -131,21 +137,28 @@ public class WinboardPlayer implements Player {
 	 */
 	@Override
 	public void opponentMoved( Move opponentMove ) {
-		String translatedMove = opponentMove.toOldStringPresentation();
-		if ( opponentMove.isPromotion() ) {
-			translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
-		}
-
 		position = position.move( opponentMove );
-		commander.opponentMoved( translatedMove );
 
-		detectTerminalPosition();
+		if ( opponentMove == Move.RESIGN ) {
+			commander.resign();
+		}
+		else {
+			String translatedMove = opponentMove.toOldStringPresentation();
+			if ( opponentMove.isPromotion() ) {
+				translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
+			}
+
+			commander.opponentMoved( translatedMove );
+
+			detectCheckmate();
+		}
 	}
 
 	/**
-	 * Inform Winboard UI if position is terminal
+	 * Inform Winboard UI if position is checkmate
 	 */
-	private void detectTerminalPosition() {
+	private void detectCheckmate() {
+		//TODO: there are other reasons of terminal position, not only checkmate
 		if ( position.isTerminal() ) {
 			commander.checkmate( position.getWinningSide() );
 		}
@@ -160,11 +173,6 @@ public class WinboardPlayer implements Player {
 	@Override
 	public void opponentOfferedDraw() {
 		commander.offerDraw();
-	}
-
-	@Override
-	public void opponentResigned() {
-		commander.resign();
 	}
 
 	//TODO: validate legality of this method call!
@@ -210,7 +218,7 @@ public class WinboardPlayer implements Player {
 			final Move engineMove = new Move( squareFrom, destination );
 			position = position.move( engineMove );
 
-			detectTerminalPosition();
+			detectCheckmate();
 
 			//important to call last
 			//so that we'll won't return recursively here in another move

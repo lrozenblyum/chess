@@ -70,6 +70,8 @@ public class Position {
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
 	private Side sideToMove;
+	private boolean terminal;
+	private Side winningSide;
 
 
 	void setHasKingMoved( Side side ) {
@@ -663,15 +665,6 @@ public class Position {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	public Position move( Move move ) {
-		//TODO: think about better place for validation
-		if ( pieces.get( move.getFrom() ) == null ) {
-			throw new IllegalArgumentException( "Source square is empty : " + move.getFrom() );
-		}
-
-		if ( pieces.get( move.getFrom() ).getSide() != sideToMove ) {
-			throw new IllegalArgumentException( "Wrong side to move : " + move + ". Currently it's turn of " + sideToMove );
-		}
-
 		return new PositionGenerator( this ).generate( move );
 	}
 
@@ -824,13 +817,29 @@ public class Position {
 	 */
 	public Set< Move > getMoves() {
 		final Set< Move > result = new HashSet<>();
+		if ( terminal ) {
+			return result;
+		}
 
 		final Set<String> squares = getSquaresOccupiedBySide( sideToMove );
 		for ( String square : squares ) {
 			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( toSet() ) );
 		}
 
+		//resign is possible if there is at least one other move
+		//correct?
+		if ( !result.isEmpty() ) {
+			result.add( Move.RESIGN );
+		}
+
 		return result;
+	}
+
+	/**
+	 * @return legal non-special moves
+	 */
+	public Set< Move > getNormalMoves() {
+		return getMoves().stream().filter( move -> !move.isSpecial() ).collect( toSet() );
 	}
 
 	public Stream< Piece > getPieces( Side side ) {
@@ -868,8 +877,16 @@ public class Position {
 			throw new IllegalStateException( "Game has not yet finished" );
 		}
 
-		//funny easy implementation that takes into account
-		//just Checkmate possibility
-		return sideToMove.opposite();
+		//null is currently only after checkmate
+		return winningSide != null ? winningSide : sideToMove.opposite();
+	}
+
+	/**
+	 * Mark position as 'terminal'
+	 * @param winningSide side that has won the game
+	 */
+	void setTerminal( Side winningSide ) {
+		this.terminal = true;
+		this.winningSide = winningSide;
 	}
 }
