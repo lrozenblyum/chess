@@ -122,7 +122,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void onGameOver( GameOverListener listener ) {
-		stringParameterListeners.put( "result 0-1 {Impl.specific reason}", listener );
+		stringParameterListeners.put( "result", listener );
 	}
 
 	@Override
