@@ -121,6 +121,7 @@ public class WinBoardPlayerIntegrationTest {
 				new Move( "f7", "f8Q" ), "move f7f8q" );
 	}
 
+
 	@Test
 	public void castlingCorrectlyTranslatedToPlayer() {
 		assertTranslationOfReceivedCommandToMoveForOpponent(
@@ -175,6 +176,22 @@ public class WinBoardPlayerIntegrationTest {
 		.play();
 
 		verify( communicator ).send( "0-1 {LeokomChess : checkmate}" );
+		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
+	}
+
+	@Test
+	public void resignFromPlayerToWinboard() {
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		new WinboardTestGameBuilder( player, communicator )
+				.move( new Move( "f2", "f3" ) )
+				.move( new Move( "e7", "e5" ) )
+				.move( new Move( "g2", "g4" ) )
+				.move( Move.RESIGN )
+				.play();
+
+		verify( communicator ).send( "resign" );
 		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
 	}
 
