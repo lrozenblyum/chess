@@ -87,7 +87,13 @@ public class WinboardPlayer implements Player {
 			}
 		} );
 
-		commander.onGameOver( ( data ) -> opponent.opponentMoved( Move.RESIGN ) );
+		commander.onGameOver( ( data ) -> {
+			//game over is sent due to draw, checkmate, resign,...
+			// avoid false detection
+			if ( !position.isTerminal() ) {
+				opponent.opponentMoved( Move.RESIGN );
+			}
+		} );
 
 		//critically important to send this sequence at the start
 		//to ensure the Winboard won't ignore our 'setfeature' commands
