@@ -196,6 +196,20 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	@Test
+	public void resignFromWinboardToPlayer() {
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		new WinboardTestGameBuilder( player, communicator )
+				.move( new Move( "f2", "f3" ) )
+				.move( new Move( "e7", "e5" ) )
+				.move( Move.RESIGN )
+				.play();
+
+		verify( opponent ).opponentMoved( Move.RESIGN );
+	}
+
+	@Test
 	public void noCheckmateNoFalseInforming() {
 		//implementing fool's mate
 		final Player opponent = mock( Player.class );

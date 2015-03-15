@@ -37,7 +37,10 @@ public class WinboardTestGameBuilder {
 	public WinboardTestGameBuilder move( Move move ) {
 		switch ( sideToMove ) {
 		case WHITE:
-			communicatorReceive = communicatorReceive.thenReturn( "usermove " + move.getFrom() + move.getTo() );
+
+			final String moveToReceive =
+				move == Move.RESIGN ? "result 0-1 {Impl.specific reason}" : "usermove " + move.getFrom() + move.getTo();
+			communicatorReceive = communicatorReceive.thenReturn( moveToReceive );
 			break;
 		case BLACK:
 			doAnswer( invocation -> { player.opponentMoved( move ); return null; } )
