@@ -52,6 +52,6 @@ interface WinboardCommander {
 
 	void onResign( ResignListener listener );
 
-	void onGameOver( ResignListener listener );
+	void onGameOver( GameOverListener listener );
 
 }

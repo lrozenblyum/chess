@@ -121,8 +121,8 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
-	public void onGameOver( ResignListener listener ) {
-		listenersWithoutParams.put( "result 0-1 {Impl.specific reason}", listener );
+	public void onGameOver( GameOverListener listener ) {
+		stringParameterListeners.put( "result 0-1 {Impl.specific reason}", listener );
 	}
 
 	@Override
