@@ -88,6 +88,7 @@ public class WinboardPlayer implements Player {
 		} );
 
 		commander.onGameOver( ( data ) -> {
+			logger.info( "Received game over. Extra data: " + data );
 			//game over is sent due to draw, checkmate, resign,...
 			// avoid false detection
 			if ( !position.isTerminal() ) {
