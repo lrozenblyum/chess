@@ -16,6 +16,8 @@ import static org.mockito.Mockito.when;
 public class WinboardTestGameBuilder {
 	private final Player opponent;
 	private final WinboardPlayer player;
+	private String customResponse;
+
 	public WinboardTestGameBuilder(
 		WinboardPlayer player,
 		WinboardCommunicator communicator ) {
@@ -54,6 +56,9 @@ public class WinboardTestGameBuilder {
 	}
 
 	public void play() {
+		if ( customResponse != null ) {
+			communicatorReceive = communicatorReceive.thenReturn( customResponse );
+		}
 		//ensure no infinite loop is continued after the last move
 		communicatorReceive = communicatorReceive.thenReturn( "quit" );
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -61,5 +66,11 @@ public class WinboardTestGameBuilder {
 
 	public Player getOpponent() {
 		return opponent;
+	}
+
+	public WinboardTestGameBuilder customWinboardResponse( String customResponse ) {
+		this.customResponse = customResponse;
+		return this;
+
 	}
 }
