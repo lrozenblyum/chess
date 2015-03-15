@@ -38,6 +38,11 @@ interface WinboardCommander {
 
 	void resign();
 
+	/**
+	 * Inform Winboard that the side has won by checkmate
+	 * @param side winning by checkmate side
+	 */
+	void checkmate( Side side );
 
 	void onProtover( ProtoverListener protoverListener );
 	void onQuit( QuitListener listener );
@@ -49,9 +54,4 @@ interface WinboardCommander {
 
 	void onGameOver( ResignListener listener );
 
-	/**
-	 * Inform Winboard that the side has won by checkmate
-	 * @param side winning by checkmate side
-	 */
-	void checkmate( Side side );
 }
