@@ -143,16 +143,16 @@ public class WinboardPlayer implements Player {
 			}
 
 			commander.opponentMoved( translatedMove );
-		}
 
-		//TODO: do we need this in case of resign? Looks excessive
-		detectTerminalPosition();
+			detectCheckmate();
+		}
 	}
 
 	/**
-	 * Inform Winboard UI if position is terminal
+	 * Inform Winboard UI if position is checkmate
 	 */
-	private void detectTerminalPosition() {
+	private void detectCheckmate() {
+		//TODO: there are other reasons of terminal position, not only checkmate
 		if ( position.isTerminal() ) {
 			commander.checkmate( position.getWinningSide() );
 		}
@@ -217,7 +217,7 @@ public class WinboardPlayer implements Player {
 			final Move engineMove = new Move( squareFrom, destination );
 			position = position.move( engineMove );
 
-			detectTerminalPosition();
+			detectCheckmate();
 
 			//important to call last
 			//so that we'll won't return recursively here in another move
