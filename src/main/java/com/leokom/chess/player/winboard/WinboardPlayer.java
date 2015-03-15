@@ -91,7 +91,11 @@ public class WinboardPlayer implements Player {
 			//game over is sent due to draw, checkmate, resign,...
 			// avoid false detection
 			if ( !position.isTerminal() ) {
-				opponent.opponentMoved( Move.RESIGN );
+				final Move move = Move.RESIGN;
+
+				position = position.move( move );
+
+				opponent.opponentMoved( move );
 			}
 		} );
 
