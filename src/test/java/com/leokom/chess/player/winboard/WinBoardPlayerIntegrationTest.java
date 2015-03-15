@@ -215,6 +215,22 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	@Test
+	public void noFalsePositiveResignWhenWhiteWins() {
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+		builder
+				.move( new Move( "e2", "e4" ) )
+				.move( new Move( "g7", "g5" ) )
+				.move( new Move( "d2", "d4" ) )
+				.move( new Move( "f7", "f6" ) )
+				.move( new Move( "d1", "h5" ) )
+				//realistic result of game -> xboard sends result
+				.customWinboardResponse( "result 1-0 {White wins}" )
+				.play();
+
+		verify( builder.getOpponent(), never() ).opponentMoved( Move.RESIGN );
+	}
+
+	@Test
 	public void noCheckmateNoFalseInforming() {
 		//implementing fool's mate
 		final Player opponent = mock( Player.class );
