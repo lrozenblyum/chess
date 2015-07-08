@@ -214,7 +214,7 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 	}
 
-	private Answer getAnswerToH8H7( final LegalPlayer player ) {
+	private Answer<?> getAnswerToH8H7( final LegalPlayer player ) {
 		return invocationOnMock -> {
 			player.opponentMoved( new Move( "a1", "a2" ) );
 			return null;
