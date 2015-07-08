@@ -2,9 +2,9 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author: Leonid
