@@ -30,6 +30,10 @@ final class PositionGenerator {
 			return getResignPosition();
 		}
 
+		if ( move == Move.OFFER_DRAW ) {
+			return getOfferDrawPosition();
+		}
+
 		validateStandardMove( move );
 
 		String squareFrom = move.getFrom();
@@ -49,6 +53,10 @@ final class PositionGenerator {
 			default:
 				throw new IllegalArgumentException( "There are no other chess pieces. Received: " + pieceType );
 		}
+	}
+
+	private Position getOfferDrawPosition() {
+		return this.source;
 	}
 
 	private void validateStandardMove( Move move ) {

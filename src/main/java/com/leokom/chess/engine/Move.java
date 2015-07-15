@@ -17,6 +17,7 @@ public final class Move {
 	 */
 	private static final int PROMOTION_MOVE_SIZE = 3;
 	public static final Move RESIGN = new Move();
+	public static final Move OFFER_DRAW = new Move();
 	private final String from;
 	private final String to;
 
