@@ -28,6 +28,7 @@ class MasterEvaluator implements Evaluator {
 		evaluatorWeights.put( new MobilityEvaluator(), NORMAL_PRIORITY );
 		evaluatorWeights.put( new MaterialEvaluator(), NORMAL_PRIORITY );
 		evaluatorWeights.put( new ProtectionEvaluator(), NORMAL_PRIORITY );
+		evaluatorWeights.put( new SpecialMoveEvaluator(), NORMAL_PRIORITY );
 	}
 
 	@Override
