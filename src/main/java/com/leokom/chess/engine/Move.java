@@ -82,6 +82,12 @@ public final class Move {
 			return false;
 		}
 
+		//special moves are implemented as singletons
+		//and should be equal by reference
+		if ( this.isSpecial ) {
+			return object == this;
+		}
+
 		Move another = ( Move ) object;
 		return this.from.equals( another.from ) && this.to.equals( another.to );
 	}
@@ -98,7 +104,9 @@ public final class Move {
 
 	@Override
 	public String toString() {
-		return this == Move.RESIGN ? "RESIGN" : from + " : " + to;
+		return this == RESIGN ? "RESIGN" :
+				this == OFFER_DRAW ? "OFFER_DRAW" :
+				from + " : " + to;
 	}
 
 	public boolean isPromotion() {
