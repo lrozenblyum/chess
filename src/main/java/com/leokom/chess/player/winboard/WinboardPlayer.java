@@ -142,6 +142,9 @@ public class WinboardPlayer implements Player {
 		if ( opponentMove == Move.RESIGN ) {
 			commander.resign();
 		}
+		else if ( opponentMove == Move.OFFER_DRAW ) {
+			commander.offerDraw();
+		}
 		else {
 			String translatedMove = opponentMove.toOldStringPresentation();
 			if ( opponentMove.isPromotion() ) {

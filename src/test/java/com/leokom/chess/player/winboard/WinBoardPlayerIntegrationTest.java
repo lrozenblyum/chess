@@ -188,6 +188,18 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	@Test
+	public void offerDrawFromPlayerToWinboard() {
+		new WinboardTestGameBuilder( player, communicator )
+				.move( new Move( "f2", "f3" ) )
+				.move( new Move( "e7", "e5" ) )
+				.move( new Move( "g2", "g4" ) )
+				.move( Move.OFFER_DRAW )
+				.play();
+
+		verify( communicator ).send( "offer draw" );
+	}
+
+	@Test
 	public void resignFromWinboardToPlayer() {
 		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
 				builder
