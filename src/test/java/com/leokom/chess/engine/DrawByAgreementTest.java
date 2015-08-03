@@ -36,4 +36,10 @@ public class DrawByAgreementTest {
 		final Position positionAfterResign = position.move( Move.OFFER_DRAW );
 		assertFalse( positionAfterResign.isTerminal() );
 	}
+
+	@Test
+	public void allowedForNonTerminal() {
+		Position position = Position.getInitialPosition();
+		PositionAsserts.assertAllowedMovesInclude( position, Move.OFFER_DRAW );
+	}
 }
