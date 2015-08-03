@@ -829,6 +829,7 @@ public class Position {
 		//resign is possible if there is at least one other move
 		//correct?
 		if ( !result.isEmpty() ) {
+			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
 		}
 
