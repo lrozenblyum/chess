@@ -28,4 +28,12 @@ public class DrawByAgreementTest {
 
 		assertEquals( Side.WHITE, positionAfterResign.getSideToMove() );
 	}
+
+	@Test
+	public void notTerminalPosition() {
+		Position position = Position.getInitialPosition();
+
+		final Position positionAfterResign = position.move( Move.OFFER_DRAW );
+		assertFalse( positionAfterResign.isTerminal() );
+	}
 }
