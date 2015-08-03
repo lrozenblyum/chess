@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Author: Leonid
@@ -17,5 +18,14 @@ public class DrawByAgreementTest {
 		final Position positionAfterResign = position.move( Move.OFFER_DRAW );
 
 		assertFalse( positionAfterResign.getMoves().isEmpty() );
+	}
+
+	@Test
+	public void correctRightToMove() {
+		Position position = Position.getInitialPosition();
+
+		final Position positionAfterResign = position.move( Move.OFFER_DRAW );
+
+		assertEquals( Side.WHITE, positionAfterResign.getSideToMove() );
 	}
 }
