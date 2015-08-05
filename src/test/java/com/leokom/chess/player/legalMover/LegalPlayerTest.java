@@ -240,6 +240,27 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( new Move( "a1", "a2" ) ); //proving the only move of blacks
 	}
 
+	//TODO: technically opponent can accept/reject draw offer
+	//this is not implemented yet
+	//this test is to ensure we won't start moving when opponent
+	//offered draw but didn't move
+	@Test
+	public void noMovementWhenOfferDraw() {
+		Player opponent = mock( Player.class );
+
+		LegalPlayer player = new LegalPlayer();
+		player.setOpponent( opponent );
+
+		final Position position = new Position( Side.WHITE );
+		position.add( Side.WHITE, "d1", PieceType.KING );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+		player.setPosition( position );
+
+		player.opponentMoved( Move.OFFER_DRAW );
+
+		verify( opponent, never() ).opponentMoved( any( Move.class ) );
+	}
+
 	//e.g. Winboard is WHITE initially (Legal = BLACK)
 	//WInboard suggests starting new game where LEGAL = WHITE, Winboard = BLACK
 	//we should reinstall state of the game
