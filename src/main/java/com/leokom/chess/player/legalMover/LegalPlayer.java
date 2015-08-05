@@ -52,7 +52,15 @@ public class LegalPlayer implements Player {
 		//updating internal representation of our position according to the opponent's move
 		updatePositionByOpponentMove( opponentMove );
 
-		executeMove();
+		if ( isOurMove( opponentMove ) ) {
+			executeMove();
+		}
+	}
+
+	//TODO: better need querying the position to check whether it's our side to move!
+	//(then need storing 'our side')
+	private boolean isOurMove( Move opponentMove ) {
+		return opponentMove != Move.OFFER_DRAW;
 	}
 
 	private void updatePositionByOpponentMove( Move opponentMove ) {
