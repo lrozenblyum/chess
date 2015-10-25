@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
@@ -15,6 +16,14 @@ import static org.mockito.Mockito.*;
  * Date-time: 09.12.13 22:01
  */
 public class LegalPlayerTest {
+
+	private Player opponent;
+
+	@Before
+	public void setUp() throws Exception {
+		opponent = mock( Player.class );
+	}
+
 	@Test
 	public void legalPlayerCreation() {
 		new LegalPlayer();
@@ -22,7 +31,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerExecutesSingleAllowedMove() {
-		Player opponent = mock( Player.class );
 
 		//assuming playing as white...
 		LegalPlayer player = new LegalPlayer();
@@ -50,8 +58,6 @@ public class LegalPlayerTest {
 	//I'm not ready to triangulate the sides change
 	@Test
 	public void legalPlayerExecutesSingleAllowedMoveTriangulate() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -70,8 +76,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCanMoveFirstAfterRun() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -82,8 +86,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCanMoveFirst() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -100,8 +102,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void initialPositionPossibleMovement() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -113,8 +113,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void secondMoveCanAlsoBeDone() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -132,8 +130,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void secondMoveTriangulate() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -143,8 +139,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void noCrashAfterKnightMove() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -155,8 +149,6 @@ public class LegalPlayerTest {
 	//leave just h8, h7 as a space for the King
 	@Test
 	public void proveNeedToUpdatePositionAfterOurMove() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -187,8 +179,6 @@ public class LegalPlayerTest {
 	//let another player respond immediately inside reaction to our move
 	@Test
 	public void proveNeedToUpdatePositionAfterOurMoveInRecursiveCase() {
-		Player opponent = mock( Player.class );
-
 		final LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -223,8 +213,6 @@ public class LegalPlayerTest {
 
 	@Test
 	public void blackMoving() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -246,8 +234,6 @@ public class LegalPlayerTest {
 	//offered draw but didn't move
 	@Test
 	public void noMovementWhenOfferDraw() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
@@ -266,8 +252,6 @@ public class LegalPlayerTest {
 	//we should reinstall state of the game
 	@Test
 	public void legalPlayerCanStartNewGameInMiddleOfExisting() {
-		Player opponent = mock( Player.class );
-
 		LegalPlayer player = new LegalPlayer();
 		player.setOpponent( opponent );
 
