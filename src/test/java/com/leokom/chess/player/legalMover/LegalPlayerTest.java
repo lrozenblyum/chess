@@ -269,9 +269,7 @@ public class LegalPlayerTest {
 
 		assertTrue( "Legal player must play legally after switch of sides. Actual move: " + legalPlayerMove.getValue(),
 				Position.getInitialPosition().getMoves().stream()
-				.filter( stringMove ->
-						stringMove.equals( legalPlayerMove.getValue() ) )
-				.findAny().isPresent());
+				.anyMatch( legalPlayerMove.getValue()::equals ) );
 	}
 
 
