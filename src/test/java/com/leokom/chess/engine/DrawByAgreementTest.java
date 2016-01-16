@@ -42,4 +42,11 @@ public class DrawByAgreementTest {
 		Position position = Position.getInitialPosition();
 		PositionAsserts.assertAllowedMovesInclude( position, Move.OFFER_DRAW );
 	}
+
+	@Test
+	public void prohibitedForTerminal() {
+		Position position = Position.getInitialPosition();
+		PositionAsserts.assertAllowedMovesOmit( position.move( Move.RESIGN ),
+				Move.OFFER_DRAW );
+	}
 }
