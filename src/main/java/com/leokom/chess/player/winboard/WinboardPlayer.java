@@ -76,7 +76,7 @@ public class WinboardPlayer implements Player {
 		commander.onOfferDraw( new OfferDrawListener() {
 			@Override
 			public void execute() {
-				opponent.opponentOfferedDraw();
+				opponent.opponentMoved( Move.OFFER_DRAW );
 			}
 		} );
 

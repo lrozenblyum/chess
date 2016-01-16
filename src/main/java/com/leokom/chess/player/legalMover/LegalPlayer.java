@@ -37,7 +37,6 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentOfferedDraw() {
-		getLogger().info( "The opponent has offered draw" );
 	}
 
 	@Override
@@ -54,6 +53,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentMoved( Move opponentMove ) {
+		LogManager.getLogger().info( "Opponent moved : {}", opponentMove );
 		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
 		if ( opponentMove == null ) {
 			throw new IllegalArgumentException( "Wrong opponent move null" );

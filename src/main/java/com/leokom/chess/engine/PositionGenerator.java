@@ -56,6 +56,7 @@ final class PositionGenerator {
 	}
 
 	private Position getOfferDrawPosition() {
+		//TODO: enrich it, best way till DRAW_ACCEPTED is implemented
 		return this.source;
 	}
 
