@@ -27,7 +27,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentOfferedDraw() {
-
+		getLogger().info( "The opponent has offered draw" );
 	}
 
 	@Override
