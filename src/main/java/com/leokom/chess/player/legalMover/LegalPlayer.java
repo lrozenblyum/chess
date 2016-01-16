@@ -36,10 +36,6 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentOfferedDraw() {
-	}
-
-	@Override
 	public void opponentAgreedToDrawOffer() {
 
 	}

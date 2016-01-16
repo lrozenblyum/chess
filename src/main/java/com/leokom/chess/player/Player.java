@@ -9,7 +9,6 @@ import com.leokom.chess.engine.Move;
  * a human or a winboard-protocol )
  */
 public interface Player {
-	void opponentOfferedDraw();
 	void opponentAgreedToDrawOffer();
 
 	/**
