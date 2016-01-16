@@ -18,11 +18,21 @@ import java.util.Set;
 public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
+	private Evaluator brains;
 
 	/**
 	 * Create player
 	 */
 	public LegalPlayer() {
+		this( new MasterEvaluator() );
+	}
+
+	/**
+	 * Create a player with injected brains
+	 * @param brains brains to evaluate moves
+	 */
+	LegalPlayer( Evaluator brains ) {
+		this.brains = brains;
 	}
 
 	@Override
@@ -102,8 +112,6 @@ public class LegalPlayer implements Player {
 	 * @return best move according to current strategy
 	 */
 	private Move findBestMove( Set< Move > legalMoves ) {
-		Evaluator brains = new MasterEvaluator();
-
 		Map< Move, Double > moveRatings = new HashMap<>();
 		for ( Move move : legalMoves ) {
 			moveRatings.put( move, brains.evaluateMove( position, move ) );

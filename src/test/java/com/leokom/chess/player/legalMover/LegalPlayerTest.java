@@ -26,14 +26,14 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCreation() {
-		new LegalPlayer();
+		getLegalPlayer();
 	}
 
 	@Test
 	public void legalPlayerExecutesSingleAllowedMove() {
 
 		//assuming playing as white...
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.BLACK );
@@ -54,11 +54,15 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( new Move( "a1", "a2" ) );
 	}
 
+	private LegalPlayer getLegalPlayer() {
+		return new LegalPlayer( new TestMasterEvaluator() );
+	}
+
 	//assuming playing as white...   (still!)
 	//I'm not ready to triangulate the sides change
 	@Test
 	public void legalPlayerExecutesSingleAllowedMoveTriangulate() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.BLACK );
@@ -76,7 +80,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCanMoveFirstAfterRun() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -86,7 +90,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCanMoveFirst() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.WHITE );
@@ -102,7 +106,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void initialPositionPossibleMovement() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
@@ -113,7 +117,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void secondMoveCanAlsoBeDone() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
@@ -130,7 +134,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void secondMoveTriangulate() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -139,7 +143,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void noCrashAfterKnightMove() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -149,7 +153,7 @@ public class LegalPlayerTest {
 	//leave just h8, h7 as a space for the King
 	@Test
 	public void proveNeedToUpdatePositionAfterOurMove() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.WHITE );
@@ -179,7 +183,7 @@ public class LegalPlayerTest {
 	//let another player respond immediately inside reaction to our move
 	@Test
 	public void proveNeedToUpdatePositionAfterOurMoveInRecursiveCase() {
-		final LegalPlayer player = new LegalPlayer();
+		final LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position( Side.WHITE );
@@ -213,7 +217,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void blackMoving() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position( Side.WHITE );
@@ -234,7 +238,7 @@ public class LegalPlayerTest {
 	//offered draw but didn't move
 	@Test
 	public void noMovementWhenOfferDraw() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position( Side.WHITE );
@@ -252,7 +256,7 @@ public class LegalPlayerTest {
 	//we should reinstall state of the game
 	@Test
 	public void legalPlayerCanStartNewGameInMiddleOfExisting() {
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position( Side.WHITE );

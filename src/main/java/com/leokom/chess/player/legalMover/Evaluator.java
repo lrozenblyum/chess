@@ -4,7 +4,9 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 
 /**
- * Estimate move
+ * Estimate a move from a position.
+ * A valid Evaluator implementation must be stateless
+ * (not depend on evaluation of past moves).
  * Author: Leonid
  * Date-time: 14.07.14 22:57
  */
