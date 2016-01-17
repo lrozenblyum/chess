@@ -107,6 +107,7 @@ public final class Move {
 	public String toString() {
 		return this == RESIGN ? "RESIGN" :
 				this == OFFER_DRAW ? "OFFER_DRAW" :
+				this == ACCEPT_DRAW ? "ACCEPT_DRAW" :
 				from + " : " + to;
 	}
 
