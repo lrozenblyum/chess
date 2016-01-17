@@ -34,6 +34,10 @@ final class PositionGenerator {
 			return getOfferDrawPosition();
 		}
 
+		if ( move == Move.ACCEPT_DRAW ) {
+			return getAcceptDrawPosition();
+		}
+
 		validateStandardMove( move );
 
 		String squareFrom = move.getFrom();
@@ -58,6 +62,11 @@ final class PositionGenerator {
 	private Position getOfferDrawPosition() {
 		//TODO: enrich it, best way till DRAW_ACCEPTED is implemented
 		return this.source;
+	}
+
+	public Position getAcceptDrawPosition() {
+		//TODO: need for sure distinguish it
+		return getResignPosition();
 	}
 
 	private void validateStandardMove( Move move ) {
