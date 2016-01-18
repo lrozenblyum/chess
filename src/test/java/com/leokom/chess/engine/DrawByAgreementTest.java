@@ -2,9 +2,7 @@ package com.leokom.chess.engine;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Author: Leonid
@@ -40,6 +38,24 @@ This immediately ends the game.
 				move( Move.OFFER_DRAW ).
 				move( Move.ACCEPT_DRAW );
 		assertTrue( newPosition.isTerminal() );
+	}
+
+	@Test
+	public void noSideToMoveInTerminal() {
+		Position position = Position.getInitialPosition();
+		final Position newPosition = position.
+				move( Move.OFFER_DRAW ).
+				move( Move.ACCEPT_DRAW );
+		assertNull( newPosition.getSideToMove() );
+	}
+
+	@Test
+	public void noWinningSideInDraw() {
+		Position position = Position.getInitialPosition();
+		final Position newPosition = position.
+				move( Move.OFFER_DRAW ).
+				move( Move.ACCEPT_DRAW );
+		assertNull( newPosition.getWinningSide() );
 	}
 
 	@Test

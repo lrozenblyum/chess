@@ -27,7 +27,7 @@ final class PositionGenerator {
 	 */
 	Position generate( Move move ) {
 		if ( move == Move.RESIGN ) {
-			return getResignPosition();
+			return createTerminalPosition( source.getSideToMove().opposite() );
 		}
 
 		if ( move == Move.OFFER_DRAW ) {
@@ -65,8 +65,7 @@ final class PositionGenerator {
 	}
 
 	public Position getAcceptDrawPosition() {
-		//TODO: need for sure distinguish it
-		return getResignPosition();
+		return createTerminalPosition( null );
 	}
 
 	private void validateStandardMove( Move move ) {
@@ -83,13 +82,11 @@ final class PositionGenerator {
 		}
 	}
 
-	private Position getResignPosition() {
-		//TODO: technically side to move is useless for such terminal position?
-		//it indicates a side of possible move IF the position wouldn't be terminal
-		final Position result = new Position( source.getSideToMove().opposite() );
+	private Position createTerminalPosition( Side winningSide ) {
+		final Position result = new Position( null );
 		source.copyStateTo( result );
 		//TODO: should checkmate move also set this flag?
-		result.setTerminal( source.getSideToMove().opposite() );
+		result.setTerminal( winningSide );
 		return result;
 	}
 

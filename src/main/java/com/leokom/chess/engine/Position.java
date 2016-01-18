@@ -102,7 +102,8 @@ public class Position {
 	 *
 	 * By default en passant file is absent
 	 *
-	 * @param sideToMove side which turn will be now
+	 * @param sideToMove side which turn will be now, null for terminal positions
+	 *
 	 */
 	public Position( Side sideToMove ) {
 		this.sideToMove = sideToMove;
@@ -878,8 +879,10 @@ public class Position {
 			throw new IllegalStateException( "Game has not yet finished" );
 		}
 
-		//null is currently only after checkmate
-		return winningSide != null ? winningSide : sideToMove.opposite();
+		//winningSide != null is currently only after resign
+		//winningSide == null && sideToMove != null currently after checkmate (due to our lazy nature of detection of checkmate)
+		//winningSide == null && sideToMove == null currently after draw
+		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
 	}
 
 	/**
