@@ -881,6 +881,8 @@ public class Position {
 
 		//winningSide != null is currently only after resign
 		//winningSide == null && sideToMove != null currently after checkmate (due to our lazy nature of detection of checkmate)
+		//first try to make that calculation not-lazy failed, with StackOverflow
+		//it tried to create more and more positions getSquaresThatExposeOurKingToCheck
 		//winningSide == null && sideToMove == null currently after draw
 		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
 	}
