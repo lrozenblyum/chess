@@ -26,6 +26,9 @@ touching a piece with the intention of moving or capturing it
 This immediately ends the game.
 	 * * Game state should be different from existing ones!
      * - validity detection
+     * ** can accept draw after offer
+     * ** cannot accept draw if there is an in-between move from same side?
+     *
      * - should we distinguish from WHOM the move is done?
      * some weird engine can push OFFER_DRAW/ACCEPT_DRAW and we silently
      * accept that?
