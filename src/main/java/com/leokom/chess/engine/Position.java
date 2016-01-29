@@ -72,6 +72,7 @@ public class Position {
 	private Side sideToMove;
 	private boolean terminal;
 	private Side winningSide;
+	private boolean drawOffered;
 
 
 	void setHasKingMoved( Side side ) {
@@ -832,7 +833,9 @@ public class Position {
 		if ( !result.isEmpty() ) {
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
-			result.add( Move.ACCEPT_DRAW );
+			if ( drawOffered ) {
+				result.add( Move.ACCEPT_DRAW );
+			}
 		}
 
 		return result;
@@ -895,5 +898,9 @@ public class Position {
 	void setTerminal( Side winningSide ) {
 		this.terminal = true;
 		this.winningSide = winningSide;
+	}
+
+	void setDrawOffered( boolean drawOffered ) {
+		this.drawOffered = drawOffered;
 	}
 }

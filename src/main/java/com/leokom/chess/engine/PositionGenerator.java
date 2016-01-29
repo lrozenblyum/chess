@@ -60,8 +60,11 @@ final class PositionGenerator {
 	}
 
 	private Position getOfferDrawPosition() {
-		//TODO: enrich it, best way till DRAW_ACCEPTED is implemented
-		return this.source;
+		//no side to move change after draw offer
+		Position result = new Position( source.getSideToMove() );
+		source.copyStateTo( result );
+		result.setDrawOffered( true );
+		return result;
 	}
 
 	public Position getAcceptDrawPosition() {
