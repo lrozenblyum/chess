@@ -26,6 +26,17 @@ final class PositionGenerator {
 	 * @return new position, after move from squareFrom
 	 */
 	Position generate( Move move ) {
+		final Position position = getPosition( move );
+
+		//post-processing actions that require analyzing at the latest stage
+		if ( move != Move.OFFER_DRAW ) {
+			position.setWaitingForAcceptDraw( false );
+		}
+
+		return position;
+	}
+
+	private Position getPosition( Move move ) {
 		if ( move == Move.RESIGN ) {
 			return createTerminalPosition( source.getSideToMove().opposite() );
 		}
@@ -63,7 +74,7 @@ final class PositionGenerator {
 		//no side to move change after draw offer
 		Position result = new Position( source.getSideToMove() );
 		source.copyStateTo( result );
-		result.setDrawOffered( true );
+		result.setWaitingForAcceptDraw( true );
 		return result;
 	}
 

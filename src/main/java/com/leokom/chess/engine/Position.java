@@ -72,7 +72,7 @@ public class Position {
 	private Side sideToMove;
 	private boolean terminal;
 	private Side winningSide;
-	private boolean drawOffered;
+	private boolean waitingForAcceptDraw;
 
 
 	void setHasKingMoved( Side side ) {
@@ -703,6 +703,9 @@ public class Position {
 		position.hasKingMoved = new HashSet<>( this.hasKingMoved );
 		position.hasARookMoved = new HashSet<>( this.hasARookMoved );
 		position.hasHRookMoved = new HashSet<>( this.hasHRookMoved );
+
+		//little overhead but ensuring we really copy the FULL state
+		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
 	}
 
 	/**
@@ -833,7 +836,7 @@ public class Position {
 		if ( !result.isEmpty() ) {
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
-			if ( drawOffered ) {
+			if ( waitingForAcceptDraw ) {
 				result.add( Move.ACCEPT_DRAW );
 			}
 		}
@@ -900,7 +903,7 @@ public class Position {
 		this.winningSide = winningSide;
 	}
 
-	void setDrawOffered( boolean drawOffered ) {
-		this.drawOffered = drawOffered;
+	void setWaitingForAcceptDraw( boolean waitingForAcceptDraw ) {
+		this.waitingForAcceptDraw = waitingForAcceptDraw;
 	}
 }

@@ -49,6 +49,13 @@ This immediately ends the game.
 	}
 
 	@Test
+	public void cannotAcceptDrawIfMoved() {
+		Position position = Position.getInitialPosition();
+		final Position newPosition = position.move( "e2", "e4" ).move( Move.OFFER_DRAW ).move( "e7", "e5" );
+		PositionAsserts.assertAllowedMovesOmit( newPosition, Move.ACCEPT_DRAW );
+	}
+
+	@Test
 	public void cannotMoveAfterAcceptDraw() {
 		Position position = Position.getInitialPosition();
 		final Position newPosition = position.
