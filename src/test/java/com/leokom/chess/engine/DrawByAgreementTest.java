@@ -35,6 +35,14 @@ This immediately ends the game.
 	 */
 
 	@Test
+	public void canAcceptAfterDrawOffer() {
+		Position position = Position.getInitialPosition();
+		final Position newPosition = position.
+				move( Move.OFFER_DRAW );
+		PositionAsserts.assertAllowedMovesInclude( newPosition, Move.ACCEPT_DRAW );
+	}
+
+	@Test
 	public void cannotMoveAfterAcceptDraw() {
 		Position position = Position.getInitialPosition();
 		final Position newPosition = position.

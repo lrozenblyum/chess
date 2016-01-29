@@ -832,6 +832,7 @@ public class Position {
 		if ( !result.isEmpty() ) {
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
+			result.add( Move.ACCEPT_DRAW );
 		}
 
 		return result;
