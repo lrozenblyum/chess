@@ -145,6 +145,9 @@ public class WinboardPlayer implements Player {
 		else if ( opponentMove == Move.OFFER_DRAW ) {
 			commander.offerDraw();
 		}
+		else if ( opponentMove == Move.ACCEPT_DRAW ) {
+			commander.agreeToDrawOffer();
+		}
 		else {
 			String translatedMove = opponentMove.toOldStringPresentation();
 			if ( opponentMove.isPromotion() ) {

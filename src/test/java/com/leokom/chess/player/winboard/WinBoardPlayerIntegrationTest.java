@@ -67,6 +67,13 @@ public class WinBoardPlayerIntegrationTest {
 				Move.RESIGN, "resign" );
 	}
 
+	//To accept the draw, send "offer draw".
+	@Test
+	public void informWinboardAboutAcceptDraw() {
+		assertTranslationOfCommandFromPlayerToWinboardClient(
+				Move.ACCEPT_DRAW, "offer draw" );
+	}
+
 	@Test
 	public void resignListenerCalled() {
 		final Player opponent = mock( Player.class );
