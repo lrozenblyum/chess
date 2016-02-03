@@ -20,6 +20,7 @@ class MasterEvaluator implements Evaluator {
 
 	private static final double HIGHEST_PRIORITY = 100.0;
 	private static final double NORMAL_PRIORITY = 1.0;
+	private static final double DISABLED = 0.0;
 
 	{
 		evaluatorWeights.put( new CheckmateEvaluator(), HIGHEST_PRIORITY );
@@ -28,7 +29,7 @@ class MasterEvaluator implements Evaluator {
 		evaluatorWeights.put( new MobilityEvaluator(), NORMAL_PRIORITY );
 		evaluatorWeights.put( new MaterialEvaluator(), NORMAL_PRIORITY );
 		evaluatorWeights.put( new ProtectionEvaluator(), NORMAL_PRIORITY );
-		evaluatorWeights.put( new SpecialMoveEvaluator(), NORMAL_PRIORITY );
+		evaluatorWeights.put( new SpecialMoveEvaluator(), DISABLED );
 	}
 
 	@Override
