@@ -36,11 +36,6 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentAgreedToDrawOffer() {
-
-	}
-
-	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
 		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
 		position = Position.getInitialPosition();

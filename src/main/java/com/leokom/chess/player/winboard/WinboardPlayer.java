@@ -178,12 +178,6 @@ public class WinboardPlayer implements Player {
 		return move.length() == PROMOTION_MOVE_LENGTH;
 	}
 
-	//TODO: validate legality of this method call!
-	@Override
-	public void opponentAgreedToDrawOffer() {
-		commander.agreeToDrawOffer();
-	}
-
 	@Override
 	public void setOpponent( Player opponent ) {
 		this.opponent = opponent;

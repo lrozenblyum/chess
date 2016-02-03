@@ -9,8 +9,6 @@ import com.leokom.chess.engine.Move;
  * a human or a winboard-protocol )
  */
 public interface Player {
-	void opponentAgreedToDrawOffer();
-
 	/**
 	 *
 	 * The method should be starting point to move for whites

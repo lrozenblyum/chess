@@ -53,7 +53,7 @@ public class SimpleEnginePlayer implements Player {
 
 		//Simplest possible strategy - agree to the draw offer
 		if ( opponentMove == Move.OFFER_DRAW ) {
-			opponent.opponentAgreedToDrawOffer();
+			opponent.opponentMoved( Move.ACCEPT_DRAW );
 		}
 
 		switch ( moveNumber ) {
@@ -86,11 +86,6 @@ public class SimpleEnginePlayer implements Player {
 	private void moveTo( Move move ) {
 		//hiding complexity of opponent.opponentMoved call
 		opponent.opponentMoved( move );
-	}
-
-	@Override
-	public void opponentAgreedToDrawOffer() {
-		logger.info( "Opponent agreed to draw offer" );
 	}
 
 	@Override
