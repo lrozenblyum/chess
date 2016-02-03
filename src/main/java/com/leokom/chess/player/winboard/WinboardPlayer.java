@@ -82,10 +82,12 @@ public class WinboardPlayer implements Player {
 
 		commander.onGameOver( ( data ) -> {
 			logger.info( "Game over. Extra data: " + data );
-			//game over is sent due to draw, checkmate, resign,...
-			// avoid false detection
+			//TODO: game over is sent due to draw, checkmate, resign,...
+			// it's hard but need to avoid false detection
 			if ( !position.isTerminal() ) {
-				final Move move = Move.RESIGN;
+				//very loose check. Draw by insufficient material
+				//can be treated here as ACCEPT_DRAW
+				final Move move = data.startsWith( "1/2-1/2" ) ? Move.ACCEPT_DRAW : Move.RESIGN;
 
 				position = position.move( move );
 
