@@ -53,6 +53,8 @@ public class LegalPlayer implements Player {
 		//updating internal representation of our position according to the opponent's move
 		updatePositionByOpponentMove( opponentMove );
 
+		//can be not our move : when opponent offers draw before HIS move
+		//so he still has the right to move
 		if ( isOurMove( opponentMove ) ) {
 			executeMove();
 		}
