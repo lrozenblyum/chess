@@ -59,12 +59,7 @@ public class WinboardPlayer implements Player {
 
 		commander.onUserMove( new WinboardUserMoveListener() );
 
-		commander.onGo( new GoListener() {
-			@Override
-			public void execute() {
-				opponent.opponentSuggestsMeStartNewGameWhite();
-			}
-		} );
+		commander.onGo( () -> opponent.opponentSuggestsMeStartNewGameWhite() );
 
 		commander.onProtover( protocolVersion -> {
 			commander.enableUserMovePrefixes();
@@ -73,12 +68,7 @@ public class WinboardPlayer implements Player {
 			logger.info( "Protocol version detected = " + protocolVersion );
 		} );
 
-		commander.onOfferDraw( new OfferDrawListener() {
-			@Override
-			public void execute() {
-				opponent.opponentMoved( Move.OFFER_DRAW );
-			}
-		} );
+		commander.onOfferDraw( () -> opponent.opponentMoved( Move.OFFER_DRAW ) );
 
 		commander.onGameOver( ( data ) -> {
 			logger.info( "Game over. Extra data: " + data );
