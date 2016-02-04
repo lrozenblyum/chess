@@ -29,6 +29,8 @@ class MasterEvaluator implements Evaluator {
 		evaluatorWeights.put( new MobilityEvaluator(), NORMAL_PRIORITY );
 		evaluatorWeights.put( new MaterialEvaluator(), NORMAL_PRIORITY );
 		evaluatorWeights.put( new ProtectionEvaluator(), NORMAL_PRIORITY );
+		//this disabling is not absolute. Those moves anyway have chance
+		//e.g. if LegalPlayer selects moves in reverse order (from worse to best)
 		evaluatorWeights.put( new SpecialMoveEvaluator(), DISABLED );
 	}
 
