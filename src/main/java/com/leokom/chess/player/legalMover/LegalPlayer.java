@@ -6,7 +6,6 @@ import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -113,18 +112,13 @@ public class LegalPlayer implements Player {
 		return getMoveWithMaxRating( moveRatings );
 	}
 
-
 	private Move getMoveWithMaxRating( Map< Move, Double > moveValues ) {
-		double maxValue = ( Collections.max( moveValues.values() ));
-
-		for ( Map.Entry< Move, Double > entry: moveValues.entrySet() ) {
-			if ( entry.getValue() == maxValue ) {
-				return entry.getKey();
-			}
-		}
-
-	 	throw new AssertionError( "Since map is not empty we mustn't come here" );
+		return
+			moveValues.entrySet().stream()
+			.sorted( Map.Entry.< Move, Double >comparingByValue().reversed() )
+			.findFirst().get().getKey();
 	}
+
 
 	private Logger getLogger() {
 		return LogManager.getLogger( this.getClass() );
