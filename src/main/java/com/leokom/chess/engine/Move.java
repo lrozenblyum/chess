@@ -43,13 +43,6 @@ public final class Move {
 		this.to = moveDestination;
 	}
 
-	static PieceType getPromotionPieceType( String move ) {
-		//depends on 3-char format
-
-		String promotionNotation = move.substring( 2 );
-		return PieceType.byNotation( promotionNotation );
-	}
-
 	/**
 	 * By 'special' move here we mean an act
 	 * that doesn't cause movement of pieces on the board
@@ -124,6 +117,21 @@ public final class Move {
 
 	static boolean isPromotion( String move ) {
 		return move.length() == PROMOTION_MOVE_SIZE;
+	}
+
+	String getDestinationSquare() {
+		return getDestinationSquare( to );
+	}
+
+	PieceType getPromotionPieceType() {
+		return getPromotionPieceType( to );
+	}
+
+	static PieceType getPromotionPieceType( String move ) {
+		//depends on 3-char format
+
+		String promotionNotation = move.substring( 2 );
+		return PieceType.byNotation( promotionNotation );
 	}
 
 	/**

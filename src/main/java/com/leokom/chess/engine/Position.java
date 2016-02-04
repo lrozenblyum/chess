@@ -817,10 +817,10 @@ public class Position {
 		removePiece( from );
 
 		if ( move.isPromotion() ) {
-			 add( piece.getSide(), Move.getDestinationSquare( move.getTo() ), Move.getPromotionPieceType( move.getTo() ) );
+			 add( piece.getSide(), move.getDestinationSquare(), move.getPromotionPieceType() );
 		}
 		else {
-			add( piece.getSide(), to, piece.getPieceType() );
+			add( piece.getSide(), move.getDestinationSquare(), piece.getPieceType() );
 		}
 	}
 
