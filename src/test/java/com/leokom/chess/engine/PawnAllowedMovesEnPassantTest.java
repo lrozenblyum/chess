@@ -115,6 +115,19 @@ public class PawnAllowedMovesEnPassantTest {
 		testPawn( position, "f5", Side.WHITE, "f6" );
 	}
 
+	@Test
+	public void enPassantCannotPutKingInCheck() {
+		PositionBuilder position = createPositionWithEnPassantPossibility( "g" );
+		position
+			.addPawn( Side.BLACK, "g5" )
+			//rook will check king if we make en passant
+			.add( Side.BLACK, "a5", PieceType.ROOK )
+			.add( Side.WHITE, "h5", PieceType.KING );
+
+
+		testPawn( position, "f5", Side.WHITE, "f6" );
+	}
+
 	private static PositionBuilder createPositionWithoutEnPassantRight() {
 		return new PositionBuilder();
 	}
