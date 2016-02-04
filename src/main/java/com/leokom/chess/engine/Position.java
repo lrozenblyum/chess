@@ -72,6 +72,7 @@ public class Position {
 	private Side sideToMove;
 	private boolean terminal;
 	private Side winningSide;
+	private boolean waitingForAcceptDraw;
 
 
 	void setHasKingMoved( Side side ) {
@@ -102,7 +103,8 @@ public class Position {
 	 *
 	 * By default en passant file is absent
 	 *
-	 * @param sideToMove side which turn will be now
+	 * @param sideToMove side which turn will be now, null for terminal positions
+	 *
 	 */
 	public Position( Side sideToMove ) {
 		this.sideToMove = sideToMove;
@@ -701,6 +703,9 @@ public class Position {
 		position.hasKingMoved = new HashSet<>( this.hasKingMoved );
 		position.hasARookMoved = new HashSet<>( this.hasARookMoved );
 		position.hasHRookMoved = new HashSet<>( this.hasHRookMoved );
+
+		//little overhead but ensuring we really copy the FULL state
+		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
 	}
 
 	/**
@@ -829,7 +834,11 @@ public class Position {
 		//resign is possible if there is at least one other move
 		//correct?
 		if ( !result.isEmpty() ) {
+			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
+			if ( waitingForAcceptDraw ) {
+				result.add( Move.ACCEPT_DRAW );
+			}
 		}
 
 		return result;
@@ -877,8 +886,12 @@ public class Position {
 			throw new IllegalStateException( "Game has not yet finished" );
 		}
 
-		//null is currently only after checkmate
-		return winningSide != null ? winningSide : sideToMove.opposite();
+		//winningSide != null is currently only after resign
+		//winningSide == null && sideToMove != null currently after checkmate (due to our lazy nature of detection of checkmate)
+		//first try to make that calculation not-lazy failed, with StackOverflow
+		//it tried to create more and more positions getSquaresThatExposeOurKingToCheck
+		//winningSide == null && sideToMove == null currently after draw
+		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
 	}
 
 	/**
@@ -888,5 +901,9 @@ public class Position {
 	void setTerminal( Side winningSide ) {
 		this.terminal = true;
 		this.winningSide = winningSide;
+	}
+
+	void setWaitingForAcceptDraw( boolean waitingForAcceptDraw ) {
+		this.waitingForAcceptDraw = waitingForAcceptDraw;
 	}
 }

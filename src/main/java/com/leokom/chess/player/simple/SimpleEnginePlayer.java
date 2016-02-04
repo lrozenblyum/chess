@@ -51,6 +51,11 @@ public class SimpleEnginePlayer implements Player {
 			return;
 		}
 
+		//Simplest possible strategy - agree to the draw offer
+		if ( opponentMove == Move.OFFER_DRAW ) {
+			opponent.opponentMoved( Move.ACCEPT_DRAW );
+		}
+
 		switch ( moveNumber ) {
 			case 1:
 				moveTo( new Move( "e" + rankFrom,  "e" + rankTo ) );
@@ -67,7 +72,7 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	private void offerDraw() {
-		opponent.opponentOfferedDraw();
+		opponent.opponentMoved( Move.OFFER_DRAW );
 	}
 
 	private void resign() {
@@ -84,24 +89,11 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	@Override
-	public void opponentAgreedToDrawOffer() {
-		logger.info( "Opponent agreed to draw offer" );
-	}
-
-	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
 		//TODO: contradicts current understanding of interface
 		//of the method
 		if ( side == Side.WHITE ) {
 			executeMove( null );
 		}
-	}
-
-	/**
-	 * Simplest possible strategy - agree to the draw offer
-	 */
-	@Override
-	public void opponentOfferedDraw() {
-		opponent.opponentAgreedToDrawOffer();
 	}
 }

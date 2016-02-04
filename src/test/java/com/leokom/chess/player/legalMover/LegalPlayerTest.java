@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
@@ -15,17 +16,24 @@ import static org.mockito.Mockito.*;
  * Date-time: 09.12.13 22:01
  */
 public class LegalPlayerTest {
+
+	private Player opponent;
+
+	@Before
+	public void setUp() throws Exception {
+		opponent = mock( Player.class );
+	}
+
 	@Test
 	public void legalPlayerCreation() {
-		new LegalPlayer();
+		getLegalPlayer();
 	}
 
 	@Test
 	public void legalPlayerExecutesSingleAllowedMove() {
-		Player opponent = mock( Player.class );
 
 		//assuming playing as white...
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.BLACK );
@@ -46,13 +54,15 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( new Move( "a1", "a2" ) );
 	}
 
+	private LegalPlayer getLegalPlayer() {
+		return new LegalPlayer( new TestMasterEvaluator() );
+	}
+
 	//assuming playing as white...   (still!)
 	//I'm not ready to triangulate the sides change
 	@Test
 	public void legalPlayerExecutesSingleAllowedMoveTriangulate() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.BLACK );
@@ -70,9 +80,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCanMoveFirstAfterRun() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -82,9 +90,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCanMoveFirst() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.WHITE );
@@ -100,9 +106,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void initialPositionPossibleMovement() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
@@ -113,9 +117,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void secondMoveCanAlsoBeDone() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite(); //our first move!
@@ -132,9 +134,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void secondMoveTriangulate() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -143,9 +143,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void noCrashAfterKnightMove() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		player.opponentSuggestsMeStartNewGameWhite();
@@ -155,9 +153,7 @@ public class LegalPlayerTest {
 	//leave just h8, h7 as a space for the King
 	@Test
 	public void proveNeedToUpdatePositionAfterOurMove() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		Position position = new Position( Side.WHITE );
@@ -187,9 +183,7 @@ public class LegalPlayerTest {
 	//let another player respond immediately inside reaction to our move
 	@Test
 	public void proveNeedToUpdatePositionAfterOurMoveInRecursiveCase() {
-		Player opponent = mock( Player.class );
-
-		final LegalPlayer player = new LegalPlayer();
+		final LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position( Side.WHITE );
@@ -223,9 +217,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void blackMoving() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position( Side.WHITE );
@@ -240,14 +232,31 @@ public class LegalPlayerTest {
 		verify( opponent ).opponentMoved( new Move( "a1", "a2" ) ); //proving the only move of blacks
 	}
 
+	//TODO: technically opponent can accept/reject draw offer
+	//this is not implemented yet
+	//this test is to ensure we won't start moving when opponent
+	//offered draw but didn't move
+	@Test
+	public void noMovementWhenOfferDraw() {
+		LegalPlayer player = getLegalPlayer();
+		player.setOpponent( opponent );
+
+		final Position position = new Position( Side.WHITE );
+		position.add( Side.WHITE, "d1", PieceType.KING );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+		player.setPosition( position );
+
+		player.opponentMoved( Move.OFFER_DRAW );
+
+		verify( opponent, never() ).opponentMoved( any( Move.class ) );
+	}
+
 	//e.g. Winboard is WHITE initially (Legal = BLACK)
 	//WInboard suggests starting new game where LEGAL = WHITE, Winboard = BLACK
 	//we should reinstall state of the game
 	@Test
 	public void legalPlayerCanStartNewGameInMiddleOfExisting() {
-		Player opponent = mock( Player.class );
-
-		LegalPlayer player = new LegalPlayer();
+		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );
 
 		final Position position = new Position( Side.WHITE );
@@ -264,9 +273,7 @@ public class LegalPlayerTest {
 
 		assertTrue( "Legal player must play legally after switch of sides. Actual move: " + legalPlayerMove.getValue(),
 				Position.getInitialPosition().getMoves().stream()
-				.filter( stringMove ->
-						stringMove.equals( legalPlayerMove.getValue() ) )
-				.findAny().isPresent());
+				.anyMatch( legalPlayerMove.getValue()::equals ) );
 	}
 
 

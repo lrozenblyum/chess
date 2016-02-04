@@ -49,7 +49,7 @@ public class WinBoardPlayerIntegrationTest {
 		//mid-level processing
 		commander.processInputFromServer();
 		//top-level component has set up the commander's listener correctly
-		verify( opponent ).opponentOfferedDraw();
+		verify( opponent ).opponentMoved( Move.OFFER_DRAW );
 	}
 
 	//resign
@@ -65,6 +65,22 @@ public class WinBoardPlayerIntegrationTest {
 
 		assertTranslationOfCommandFromPlayerToWinboardClient(
 				Move.RESIGN, "resign" );
+	}
+
+	//To accept the draw, send "offer draw".
+	@Test
+	public void informWinboardAboutAcceptDraw() {
+		assertTranslationOfCommandFromPlayerToWinboardClient(
+				Move.ACCEPT_DRAW, "offer draw" );
+	}
+
+	//If there was a draw for some non-obvious reason,
+	// perhaps your opponent called your flag when he had insufficient mating material
+	// (or vice versa), or perhaps the operator agreed to a draw manually.
+	@Test
+	public void informOpponentAboutAcceptDraw() {
+		assertTranslationOfReceivedCommandToMoveForOpponent(
+				"result 1/2-1/2 {some maybe impl. specific message}", Move.ACCEPT_DRAW );
 	}
 
 	@Test
@@ -104,7 +120,7 @@ public class WinBoardPlayerIntegrationTest {
 		player.setPosition( position.build() );
 
 		assertTranslationOfReceivedCommandToMoveForOpponent(
-				"usermove f7g8q", "f7", "g8Q" );
+				"usermove f7g8q", new Move( "f7", "g8Q" ) );
 	}
 
 	//Player -> Winboard
@@ -124,7 +140,7 @@ public class WinBoardPlayerIntegrationTest {
 	@Test
 	public void castlingCorrectlyTranslatedToPlayer() {
 		assertTranslationOfReceivedCommandToMoveForOpponent(
-				"usermove e1g1", "e1", "g1" );
+				"usermove e1g1", new Move( "e1", "g1" ) );
 	}
 
 	@Test
@@ -185,6 +201,18 @@ public class WinBoardPlayerIntegrationTest {
 
 		verify( communicator ).send( "resign" );
 		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
+	}
+
+	@Test
+	public void offerDrawFromPlayerToWinboard() {
+		new WinboardTestGameBuilder( player, communicator )
+				.move( new Move( "f2", "f3" ) )
+				.move( new Move( "e7", "e5" ) )
+				.move( new Move( "g2", "g4" ) )
+				.move( Move.OFFER_DRAW )
+				.play();
+
+		verify( communicator ).send( "offer draw" );
 	}
 
 	@Test
@@ -249,7 +277,7 @@ public class WinBoardPlayerIntegrationTest {
 		verify( communicator ).send( commandSentToWinboardClient );
 	}
 
-	private void assertTranslationOfReceivedCommandToMoveForOpponent( String winboardReceivedMessage, String squareFrom, String destination ) {
+	private void assertTranslationOfReceivedCommandToMoveForOpponent( String winboardReceivedMessage, Move move ) {
 		Player opponent = mock( Player.class );
 
 		player.setOpponent( opponent );
@@ -258,6 +286,6 @@ public class WinBoardPlayerIntegrationTest {
 
 		commander.processInputFromServer();
 
-		verify( opponent ).opponentMoved( new Move( squareFrom, destination ) );
+		verify( opponent ).opponentMoved( move );
 	}
 }

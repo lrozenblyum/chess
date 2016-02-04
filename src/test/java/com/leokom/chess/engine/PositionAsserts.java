@@ -93,4 +93,10 @@ public final class PositionAsserts {
 				"Allowed moves must NOT include : " + targetToBeIncluded + "; actually: " + squares,
 				squares.contains( targetToBeIncluded ) );
 	}
+
+	static void assertAllowedMovesOmit( Position position, Move move ) {
+		assertFalse(
+				"Allowed moves must omit : " + move + ". Actual moves in position : " + position.getMoves(),
+				position.getMoves().contains( move ) );
+	}
 }

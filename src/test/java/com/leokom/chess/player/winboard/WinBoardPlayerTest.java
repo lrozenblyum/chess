@@ -1,5 +1,6 @@
 package com.leokom.chess.player.winboard;
 
+import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -30,7 +31,7 @@ public class WinBoardPlayerTest {
 
 		commander.processInputFromServer();
 
-		verify( opponent ).opponentOfferedDraw();
+		verify( opponent ).opponentMoved( Move.OFFER_DRAW );
 	}
 
 	//this test should emulate WinBoard behaviour and analyze our reaction on it.

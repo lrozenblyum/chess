@@ -26,8 +26,27 @@ final class PositionGenerator {
 	 * @return new position, after move from squareFrom
 	 */
 	Position generate( Move move ) {
+		final Position position = getPosition( move );
+
+		//post-processing actions that require analyzing at the latest stage
+		if ( move != Move.OFFER_DRAW ) {
+			position.setWaitingForAcceptDraw( false );
+		}
+
+		return position;
+	}
+
+	private Position getPosition( Move move ) {
 		if ( move == Move.RESIGN ) {
-			return getResignPosition();
+			return createTerminalPosition( source.getSideToMove().opposite() );
+		}
+
+		if ( move == Move.OFFER_DRAW ) {
+			return getOfferDrawPosition();
+		}
+
+		if ( move == Move.ACCEPT_DRAW ) {
+			return getAcceptDrawPosition();
 		}
 
 		validateStandardMove( move );
@@ -51,6 +70,18 @@ final class PositionGenerator {
 		}
 	}
 
+	private Position getOfferDrawPosition() {
+		//no side to move change after draw offer
+		Position result = new Position( source.getSideToMove() );
+		source.copyStateTo( result );
+		result.setWaitingForAcceptDraw( true );
+		return result;
+	}
+
+	public Position getAcceptDrawPosition() {
+		return createTerminalPosition( null );
+	}
+
 	private void validateStandardMove( Move move ) {
 		if ( move == null ) {
 			throw new IllegalArgumentException( "Move must be not null" );
@@ -65,13 +96,11 @@ final class PositionGenerator {
 		}
 	}
 
-	private Position getResignPosition() {
-		//TODO: technically side to move is useless for such terminal position?
-		//it indicates a side of possible move IF the position wouldn't be terminal
-		final Position result = new Position( source.getSideToMove().opposite() );
+	private Position createTerminalPosition( Side winningSide ) {
+		final Position result = new Position( null );
 		source.copyStateTo( result );
 		//TODO: should checkmate move also set this flag?
-		result.setTerminal( source.getSideToMove().opposite() );
+		result.setTerminal( winningSide );
 		return result;
 	}
 

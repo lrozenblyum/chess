@@ -17,6 +17,8 @@ public final class Move {
 	 */
 	private static final int PROMOTION_MOVE_SIZE = 3;
 	public static final Move RESIGN = new Move();
+	public static final Move OFFER_DRAW = new Move();
+	public static final Move ACCEPT_DRAW = new Move();
 	private final String from;
 	private final String to;
 
@@ -81,6 +83,12 @@ public final class Move {
 			return false;
 		}
 
+		//special moves are implemented as singletons
+		//and should be equal by reference
+		if ( this.isSpecial ) {
+			return object == this;
+		}
+
 		Move another = ( Move ) object;
 		return this.from.equals( another.from ) && this.to.equals( another.to );
 	}
@@ -97,7 +105,10 @@ public final class Move {
 
 	@Override
 	public String toString() {
-		return this == Move.RESIGN ? "RESIGN" : from + " : " + to;
+		return this == RESIGN ? "RESIGN" :
+				this == OFFER_DRAW ? "OFFER_DRAW" :
+				this == ACCEPT_DRAW ? "ACCEPT_DRAW" :
+				from + " : " + to;
 	}
 
 	public boolean isPromotion() {

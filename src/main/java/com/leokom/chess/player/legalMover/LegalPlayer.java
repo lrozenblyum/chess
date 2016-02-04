@@ -18,21 +18,21 @@ import java.util.Set;
 public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
+	private Evaluator brains;
 
 	/**
 	 * Create player
 	 */
 	public LegalPlayer() {
+		this( new MasterEvaluator() );
 	}
 
-	@Override
-	public void opponentOfferedDraw() {
-
-	}
-
-	@Override
-	public void opponentAgreedToDrawOffer() {
-
+	/**
+	 * Create a player with injected brains
+	 * @param brains brains to evaluate moves
+	 */
+	LegalPlayer( Evaluator brains ) {
+		this.brains = brains;
 	}
 
 	@Override
@@ -44,6 +44,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentMoved( Move opponentMove ) {
+		LogManager.getLogger().info( "Opponent moved : {}", opponentMove );
 		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
 		if ( opponentMove == null ) {
 			throw new IllegalArgumentException( "Wrong opponent move null" );
@@ -52,7 +53,17 @@ public class LegalPlayer implements Player {
 		//updating internal representation of our position according to the opponent's move
 		updatePositionByOpponentMove( opponentMove );
 
-		executeMove();
+		//can be not our move : when opponent offers draw before HIS move
+		//so he still has the right to move
+		if ( isOurMove( opponentMove ) ) {
+			executeMove();
+		}
+	}
+
+	//TODO: better need querying the position to check whether it's our side to move!
+	//(then need storing 'our side')
+	private boolean isOurMove( Move opponentMove ) {
+		return opponentMove != Move.OFFER_DRAW;
 	}
 
 	private void updatePositionByOpponentMove( Move opponentMove ) {
@@ -94,8 +105,6 @@ public class LegalPlayer implements Player {
 	 * @return best move according to current strategy
 	 */
 	private Move findBestMove( Set< Move > legalMoves ) {
-		Evaluator brains = new MasterEvaluator();
-
 		Map< Move, Double > moveRatings = new HashMap<>();
 		for ( Move move : legalMoves ) {
 			moveRatings.put( move, brains.evaluateMove( position, move ) );

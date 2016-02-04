@@ -21,8 +21,8 @@ public class LegalPlayerSelfPlayTest {
 
 	@Test
 	public void twoLegalPlayers() {
-		Player legalPlayerWhite = new LegalPlayer();
-		Player legalPlayerBlack = new LegalPlayer();
+		Player legalPlayerWhite = getLegalPlayer();
+		Player legalPlayerBlack = getLegalPlayer();
 
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
@@ -30,12 +30,16 @@ public class LegalPlayerSelfPlayTest {
 		legalPlayerWhite.opponentSuggestsMeStartNewGameWhite();
 	}
 
+	private LegalPlayer getLegalPlayer() {
+		return new LegalPlayer( new TestMasterEvaluator() );
+	}
+
 	//I've just set position but not injected it. Shouldn't have any influence !
 	//but it has.
 	@Test
 	public void twoLegalPlayersNotInjectedPositionStrangeInfluence() {
-		Player legalPlayerWhite = new LegalPlayer();
-		Player legalPlayerBlack = new LegalPlayer();
+		Player legalPlayerWhite = getLegalPlayer();
+		Player legalPlayerBlack = getLegalPlayer();
 
 		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "a1", PieceType.KING );

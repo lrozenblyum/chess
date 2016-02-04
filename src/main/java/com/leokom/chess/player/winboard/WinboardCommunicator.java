@@ -55,6 +55,7 @@ class WinboardCommunicator implements Communicator {
 	@Override
     public void send( String command ) {
 		logger.info( "Sent: " + command );
+		//From Spec : All your output to xboard must be in complete lines; any form of prompt or partial line will cause problems.
         outputStream.println( command );
     }
 

@@ -59,12 +59,7 @@ public class WinboardPlayer implements Player {
 
 		commander.onUserMove( new WinboardUserMoveListener() );
 
-		commander.onGo( new GoListener() {
-			@Override
-			public void execute() {
-				opponent.opponentSuggestsMeStartNewGameWhite();
-			}
-		} );
+		commander.onGo( () -> opponent.opponentSuggestsMeStartNewGameWhite() );
 
 		commander.onProtover( protocolVersion -> {
 			commander.enableUserMovePrefixes();
@@ -73,19 +68,16 @@ public class WinboardPlayer implements Player {
 			logger.info( "Protocol version detected = " + protocolVersion );
 		} );
 
-		commander.onOfferDraw( new OfferDrawListener() {
-			@Override
-			public void execute() {
-				opponent.opponentOfferedDraw();
-			}
-		} );
+		commander.onOfferDraw( () -> opponent.opponentMoved( Move.OFFER_DRAW ) );
 
 		commander.onGameOver( ( data ) -> {
 			logger.info( "Game over. Extra data: " + data );
-			//game over is sent due to draw, checkmate, resign,...
-			// avoid false detection
+			//TODO: game over is sent due to draw, checkmate, resign,...
+			// it's hard but need to avoid false detection
 			if ( !position.isTerminal() ) {
-				final Move move = Move.RESIGN;
+				//very loose check. Draw by insufficient material
+				//can be treated here as ACCEPT_DRAW
+				final Move move = data.startsWith( "1/2-1/2" ) ? Move.ACCEPT_DRAW : Move.RESIGN;
 
 				position = position.move( move );
 
@@ -142,6 +134,12 @@ public class WinboardPlayer implements Player {
 		if ( opponentMove == Move.RESIGN ) {
 			commander.resign();
 		}
+		else if ( opponentMove == Move.OFFER_DRAW ) {
+			commander.offerDraw();
+		}
+		else if ( opponentMove == Move.ACCEPT_DRAW ) {
+			commander.agreeToDrawOffer();
+		}
 		else {
 			String translatedMove = opponentMove.toOldStringPresentation();
 			if ( opponentMove.isPromotion() ) {
@@ -168,17 +166,6 @@ public class WinboardPlayer implements Player {
 		//well it depends on fact that Player and Winboard promotion length is the same
 		//so far so good
 		return move.length() == PROMOTION_MOVE_LENGTH;
-	}
-
-	@Override
-	public void opponentOfferedDraw() {
-		commander.offerDraw();
-	}
-
-	//TODO: validate legality of this method call!
-	@Override
-	public void opponentAgreedToDrawOffer() {
-		commander.agreeToDrawOffer();
 	}
 
 	@Override

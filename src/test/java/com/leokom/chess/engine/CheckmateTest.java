@@ -19,4 +19,16 @@ public class CheckmateTest {
 
 		Assert.assertTrue( matePosition.getMoves().isEmpty() );
 	}
+
+	@Test
+	public void checkmateCorrectWinningSide() {
+		Position position = Position.getInitialPosition();
+
+
+		final Position matePosition = position
+				.move( "f2", "f3" ).move( "e7", "e5" )
+				.move( "g2", "g4" ).move( "d8", "h4" );
+
+		Assert.assertEquals( Side.BLACK, matePosition.getWinningSide() );
+	}
 }
