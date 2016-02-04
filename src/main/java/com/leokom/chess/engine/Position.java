@@ -335,13 +335,7 @@ public class Position {
 
 		//castling is also covered fine here
 		for ( String move : potentialMoves ) {
-
-			//replaced simpler .move() by a complex one
-			//to break infinite loop - calling PositionGenerator which called this method etc
-			Position potential = new Position( this.sideToMove.opposite() );
-			this.copyStateTo( potential );
-			potential.moveUnconditionally( square, move );
-			if ( potential.isKingInCheck( getSide( square ) ) ) {
+			if ( this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) ) {
 				result.add( move );
 			}
 		}
