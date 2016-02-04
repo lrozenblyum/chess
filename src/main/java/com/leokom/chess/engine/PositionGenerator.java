@@ -26,6 +26,9 @@ final class PositionGenerator {
 	 * @return new position, after move from squareFrom
 	 */
 	Position generate( Move move ) {
+		if ( source.isTerminal() ) {
+			throw new IllegalStateException( "Cannot move. Game is already over" );
+		}
 		final Position position = getPosition( move );
 
 		//post-processing actions that require analyzing at the latest stage
@@ -171,9 +174,7 @@ final class PositionGenerator {
 		}
 
 		if ( Move.isPromotion( move ) ) {
-			//depends on 3-char format
-			String promotionNotation = move.substring( 2 );
-			PieceType promotedPieceType = PieceType.byNotation( promotionNotation );
+			PieceType promotedPieceType = Move.getPromotionPieceType( move );
 			result.add( movingSide, squareTo, promotedPieceType );
 		} else {
 			//if it's capture - also ok - as it overwrites....

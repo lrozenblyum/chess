@@ -68,10 +68,15 @@ public class PositionAllowedMovesTest {
 		assertEquals( 0, moves.size() );
 	}
 
-	@Ignore( "till we solve infinite loop of isTerminal() method call" )
 	@Test( expected = IllegalStateException.class )
 	public void cannotMoveFromTerminalPosition() {
 		Position position = Position.getInitialPosition();
 		position.move( Move.RESIGN ).move( new Move( "e7", "e5" ) );
 	}
+
+	@Test
+	public void position() {
+		Position.getInitialPosition().isTerminal();
+	}
+
 }

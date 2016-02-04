@@ -336,9 +336,12 @@ public class Position {
 		//castling is also covered fine here
 		for ( String move : potentialMoves ) {
 
-			//works in assumption move is NON-validating
-			final Position possiblePosition = this.move( new Move( square, move ) );
-			if ( possiblePosition.isKingInCheck( getSide( square ) ) ) {
+			//replaced simpler .move() by a complex one
+			//to break infinite loop - calling PositionGenerator which called this method etc
+			Position potential = new Position( this.sideToMove.opposite() );
+			this.copyStateTo( potential );
+			potential.moveUnconditionally( square, move );
+			if ( potential.isKingInCheck( getSide( square ) ) ) {
 				result.add( move );
 			}
 		}
@@ -809,9 +812,16 @@ public class Position {
 	 * from from to to
 	 */
 	void moveUnconditionally( String from, String to ) {
+		Move move = new Move( from, to );
 		Piece piece = getPiece( from );
 		removePiece( from );
-		add( piece.getSide(), to, piece.getPieceType() );
+
+		if ( move.isPromotion() ) {
+			 add( piece.getSide(), Move.getDestinationSquare( move.getTo() ), Move.getPromotionPieceType( move.getTo() ) );
+		}
+		else {
+			add( piece.getSide(), to, piece.getPieceType() );
+		}
 	}
 
 	/**
