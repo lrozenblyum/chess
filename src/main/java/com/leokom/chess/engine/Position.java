@@ -783,14 +783,9 @@ public class Position {
 	//currently for tests only...
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		for( String square : pieces.keySet() ) {
-			builder
-				.append( square )
-				.append ( ":" )
-				.append( pieces.get( square ) );
-		}
-		return builder.toString();
+		return pieces.entrySet().stream()
+			.map( entry -> entry.getKey() + ":" + entry.getValue() )
+			.collect( Collectors.joining( " " ) );
 	}
 
 	void removePiece( String square ) {
