@@ -331,16 +331,12 @@ public class Position {
 	}
 
 	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
-		Set< String > result = new HashSet<>();
-
 		//castling is also covered fine here
-		for ( String move : potentialMoves ) {
-			if ( this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) ) {
-				result.add( move );
-			}
-		}
 
-		return result;
+		return potentialMoves.stream()
+			.filter( move ->
+					this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) )
+			.collect( Collectors.toSet() );
 	}
 
 	private boolean isKingInCheck( Side side ) {
