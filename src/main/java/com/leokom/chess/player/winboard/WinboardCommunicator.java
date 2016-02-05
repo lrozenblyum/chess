@@ -62,6 +62,9 @@ class WinboardCommunicator implements Communicator {
     @Override
     public String receive() {
         try {
+			//TODO: PERFORMANCE: profiler shows this readLine is the bottleneck
+			//from CPU POV
+			//http://stackoverflow.com/questions/7281385/bufferedreader-read-eating-100-of-cpu
 			final String line = reader.readLine();
 			logger.info( "Received: " + line );
 			return line;
