@@ -31,7 +31,7 @@ public class LegalPlayerSelfPlayTest {
 	}
 
 	private LegalPlayer getLegalPlayer() {
-		return new LegalPlayer( new TestMasterEvaluator() );
+		return new LegalPlayer( new MasterEvaluatorTweaked() );
 	}
 
 	//I've just set position but not injected it. Shouldn't have any influence !

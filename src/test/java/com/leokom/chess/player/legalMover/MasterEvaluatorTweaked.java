@@ -10,7 +10,7 @@ import com.leokom.chess.engine.Position;
  * Author: Leonid
  * Date-time: 16.01.16 21:04
  */
-public class TestMasterEvaluator extends MasterEvaluator {
+public class MasterEvaluatorTweaked extends MasterEvaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		//trying to eliminate risks of 'OFFER_DRAW' polluting

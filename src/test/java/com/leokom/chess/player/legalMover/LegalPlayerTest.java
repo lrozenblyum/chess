@@ -55,7 +55,7 @@ public class LegalPlayerTest {
 	}
 
 	private LegalPlayer getLegalPlayer() {
-		return new LegalPlayer( new TestMasterEvaluator() );
+		return new LegalPlayer( new MasterEvaluatorTweaked() );
 	}
 
 	//assuming playing as white...   (still!)
