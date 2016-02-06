@@ -49,8 +49,20 @@ public final class MainRunner {
 	 * </p>
 	 */
 	public static void main( String[] args ) {
-		logger.info( "Starting the chess..." );
+		try {
+			logger.info( "Starting the chess..." );
+			runGame();
+			logger.info( "Chess are stopped. Bye-bye" );
+		}
+		catch ( RuntimeException re ) {
+			//important to investigate issues
+			//and to avoid sending console output from exception to Winboard
+			logger.error( "Crash occurred", re );
+		}
 
+	}
+
+	private static void runGame() {
 		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
 		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
 		//setting opponents for symmetry. Technically it's possible
@@ -60,8 +72,6 @@ public final class MainRunner {
 
 		//inform white that black is ready so you may start
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
-
-		logger.info( "Chess are stopped. Bye-bye" );
 	}
 
 }
