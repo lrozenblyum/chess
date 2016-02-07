@@ -51,4 +51,6 @@ interface WinboardCommander {
 	void onOfferDraw( OfferDrawListener listener );
 
 	void onGameOver( GameOverListener listener );
+
+	void onForce( ForceListener listener );
 }
