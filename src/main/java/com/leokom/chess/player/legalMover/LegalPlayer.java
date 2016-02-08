@@ -135,6 +135,12 @@ public class LegalPlayer implements Player {
 		this.recordingMode = true;
 	}
 
+	@Override
+	public void switchToPlayingMode() {
+		this.recordingMode = false;
+		executeMove();
+	}
+
 	//injecting the position for tests, however maybe in future
 	//it's useful for starting game from a non-initial position
 	void setPosition( Position position ) {

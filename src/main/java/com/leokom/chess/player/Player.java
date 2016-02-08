@@ -34,9 +34,17 @@ public interface Player {
 	void setOpponent( Player opponent );
 
 	/**
-	 * Recording mode is inspired by Winboard 'force' command
-	 * in this mode the player just monitors input of moves
-	 * and doesn't execute any moves
+	 * Recording mode is inspired by Winboard 'force' command.
+	 * In this mode the player just monitors input of moves
+	 * and doesn't execute any moves.
 	 */
 	void switchToRecodingMode();
+
+	/**
+	 * Playing mode is inspired by Winboard 'go' command.
+	 * From this moment the player joins the game playing for the side
+	 * whose move is right now.
+	 *
+	 */
+	void switchToPlayingMode();
 }

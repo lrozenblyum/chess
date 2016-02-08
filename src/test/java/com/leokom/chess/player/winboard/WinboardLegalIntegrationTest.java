@@ -48,7 +48,6 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		verify( playerSpy, never() ).opponentMoved( any( Move.class ) );
 	}
 
-	@Ignore( "till fixed" )
 	@Test
 	public void crashCase() {
 		simulateWinboard( "new", "force", "usermove b1c3", "go", "usermove g1f3" );

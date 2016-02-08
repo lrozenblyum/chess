@@ -44,6 +44,11 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	@Override
+	public void switchToPlayingMode() {
+
+	}
+
+	@Override
 	public void opponentMoved( Move opponentMove ) {
 		executeMove( opponentMove );
 	}

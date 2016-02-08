@@ -88,7 +88,7 @@ final class PositionGenerator {
 		}
 
 		if ( source.getPiece( move.getFrom() ) == null ) {
-			throw new IllegalArgumentException( "Source square is empty : " + move.getFrom() );
+			throw new IllegalArgumentException( "Source square is empty : " + move );
 		}
 
 		if ( source.getPiece( move.getFrom() ).getSide() != source.getSideToMove() ) {
