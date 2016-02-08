@@ -33,4 +33,10 @@ public interface Player {
 	//half-constructed state)
 	void setOpponent( Player opponent );
 
+	/**
+	 * Recording mode is inspired by Winboard 'force' command
+	 * in this mode the player just monitors input of moves
+	 * and doesn't execute any moves
+	 */
+	void switchToRecodingMode();
 }

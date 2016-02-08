@@ -69,6 +69,7 @@ public class WinboardPlayer implements Player {
 
 		commander.onUserMove( new WinboardUserMoveListener() );
 
+		commander.onForce( () -> opponent.switchToRecodingMode() );
 		commander.onGo( () -> opponent.opponentSuggestsMeStartNewGameWhite() );
 
 		commander.onProtover( protocolVersion -> {
@@ -181,6 +182,11 @@ public class WinboardPlayer implements Player {
 	@Override
 	public void setOpponent( Player opponent ) {
 		this.opponent = opponent;
+	}
+
+	@Override
+	public void switchToRecodingMode() {
+		//TODO: can an opponent tell me this? what to do?
 	}
 
 	/**

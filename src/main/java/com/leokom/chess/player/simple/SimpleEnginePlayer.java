@@ -39,6 +39,11 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	@Override
+	public void switchToRecodingMode() {
+		//TODO: implement if needed
+	}
+
+	@Override
 	public void opponentMoved( Move opponentMove ) {
 		executeMove( opponentMove );
 	}

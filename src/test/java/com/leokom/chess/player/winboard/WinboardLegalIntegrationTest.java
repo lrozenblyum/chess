@@ -41,7 +41,6 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		verify( playerSpy, times( 0 ) ).opponentMoved( any( Move.class ) );
 	}
 
-	@Ignore( "till fixed" )
 	@Test
 	public void noCallToGoNothingInReturnExpected() {
 		simulateWinboard( "new", "force", "usermove b1c3" );

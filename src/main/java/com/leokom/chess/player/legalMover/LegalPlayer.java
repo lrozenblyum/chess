@@ -18,6 +18,7 @@ public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
 	private Evaluator brains;
+	private boolean recordingMode;
 
 	/**
 	 * Create player
@@ -54,7 +55,7 @@ public class LegalPlayer implements Player {
 
 		//can be not our move : when opponent offers draw before HIS move
 		//so he still has the right to move
-		if ( isOurMove( opponentMove ) ) {
+		if ( isOurMove( opponentMove ) && !recordingMode ) {
 			executeMove();
 		}
 	}
@@ -127,6 +128,11 @@ public class LegalPlayer implements Player {
 	@Override
 	public void setOpponent( Player opponent ) {
 		this.opponent = opponent;
+	}
+
+	@Override
+	public void switchToRecodingMode() {
+		this.recordingMode = true;
 	}
 
 	//injecting the position for tests, however maybe in future
