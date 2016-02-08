@@ -6,6 +6,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.stubbing.OngoingStubbing;
+
+import java.util.Arrays;
 
 import static org.mockito.Mockito.*;
 
@@ -16,7 +19,6 @@ import static org.mockito.Mockito.*;
  */
 public class WinboardLegalIntegrationTest {private WinboardCommunicator communicator;
 	private WinboardCommander commander;
-	private LegalPlayer opponent;
 	private WinboardPlayer playerSpy;
 
 	@Before
@@ -27,17 +29,14 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		playerSpy = spy( player );
 		playerSpy.initCommander( commander );
 
-		opponent = new LegalPlayer();
+		LegalPlayer opponent = new LegalPlayer();
 		this.playerSpy.setOpponent( opponent );
 		opponent.setOpponent( this.playerSpy );
 	}
 
 	@Test
 	public void noMovesBeforeGo() {
-		when( communicator.receive() ).thenReturn( "new" ).thenReturn( "force" );
-
-		commander.processInputFromServer();
-		commander.processInputFromServer();
+		simulateWinboard( "new", "force" );
 
 		verify( playerSpy, times( 0 ) ).opponentMoved( any( Move.class ) );
 	}
@@ -45,15 +44,7 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 	@Ignore( "till fixed" )
 	@Test
 	public void noCallToGoNothingInReturnExpected() {
-		when( communicator.receive() )
-				.thenReturn( "new" )
-				.thenReturn( "force" )
-				.thenReturn( "usermove b1c3" );
-
-		//TODO: how to avoid calling multiple times?
-		commander.processInputFromServer();
-		commander.processInputFromServer();
-		commander.processInputFromServer();
+		simulateWinboard( "new", "force", "usermove b1c3" );
 
 		verify( playerSpy, never() ).opponentMoved( any( Move.class ) );
 	}
@@ -61,19 +52,20 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 	@Ignore( "till fixed" )
 	@Test
 	public void crashCase() {
-		when( communicator.receive() )
-			.thenReturn( "new" )
-			.thenReturn( "force" )
-			.thenReturn( "usermove b1c3" )
-			.thenReturn( "go" )
-			.thenReturn( "usermove g1f3" );
+		simulateWinboard( "new", "force", "usermove b1c3", "go", "usermove g1f3" );
+	}
 
-		//TODO: how to avoid calling multiple times?
-		commander.processInputFromServer();
-		commander.processInputFromServer();
-		commander.processInputFromServer();
-		commander.processInputFromServer();
-		commander.processInputFromServer();
+	//smth similar to WinboardTestGameBuilder but simpler
+	private void simulateWinboard( String... commandsFromWinboard ) {
+		//programming communicator
+		OngoingStubbing<String> stubbing = when( communicator.receive() );
+		for( String command : commandsFromWinboard ) {
+			stubbing = stubbing.thenReturn( command );
+		}
+
+		//calling Commander to fetch communicator and then inform Player
+		Arrays.stream( commandsFromWinboard )
+				.forEach( command -> commander.processInputFromServer() );
 	}
 
 }
