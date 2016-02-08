@@ -25,10 +25,9 @@ public class WinboardPlayer implements Player {
 	private static final int SQUARE_FROM_LENGTH = 2;
 
 	private Logger logger = LogManager.getLogger( this.getClass() );
-	private final WinboardCommander commander;
+	private WinboardCommander commander;
 	private boolean needQuit = false;
 	private Player opponent;
-
 
 	//just for tests
 	void setPosition( Position position ) {
@@ -44,11 +43,22 @@ public class WinboardPlayer implements Player {
 	//creating several instances of the player (must be singleton)
 	//calling run several times (from different threads)
 
+	/* For delayed initialization of spy in test.
+	 * Complex scenario to ensure commander will be associated with the spy
+	 * not with the original player */
+	WinboardPlayer() {
+	}
+
 	/**
 	 * Create instance on Winboard player.
+	 *
 	 * @param winboardCommander instance of mid-level winboard-commander.
 	 */
 	WinboardPlayer( WinboardCommander winboardCommander ) {
+		initCommander( winboardCommander );
+	}
+
+	void initCommander( WinboardCommander winboardCommander ) {
 		this.commander = winboardCommander;
 
 		commander.onXBoard( () -> logger.info( "Ready to work" ) );

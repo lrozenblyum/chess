@@ -1,9 +1,10 @@
 package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
@@ -15,17 +16,20 @@ import static org.mockito.Mockito.*;
  */
 public class WinboardLegalIntegrationTest {private WinboardCommunicator communicator;
 	private WinboardCommander commander;
-	private WinboardPlayer player;
 	private LegalPlayer opponent;
+	private WinboardPlayer playerSpy;
 
 	@Before
 	public void prepare() {
 		communicator = mock( WinboardCommunicator.class );
 		commander = new WinboardCommanderImpl( communicator );
-		player = spy( new WinboardPlayer( commander ) );
+		WinboardPlayer player = new WinboardPlayer();
+		playerSpy = spy( player );
+		playerSpy.initCommander( commander );
+
 		opponent = new LegalPlayer();
-		player.setOpponent( opponent );
-		opponent.setOpponent( player );
+		this.playerSpy.setOpponent( opponent );
+		opponent.setOpponent( this.playerSpy );
 	}
 
 	@Test
@@ -33,8 +37,43 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		when( communicator.receive() ).thenReturn( "new" ).thenReturn( "force" );
 
 		commander.processInputFromServer();
+		commander.processInputFromServer();
 
-		verify( player, times( 0 ) ).opponentMoved( any( Move.class ) );
+		verify( playerSpy, times( 0 ) ).opponentMoved( any( Move.class ) );
+	}
+
+	@Ignore( "till fixed" )
+	@Test
+	public void noCallToGoNothingInReturnExpected() {
+		when( communicator.receive() )
+				.thenReturn( "new" )
+				.thenReturn( "force" )
+				.thenReturn( "usermove b1c3" );
+
+		//TODO: how to avoid calling multiple times?
+		commander.processInputFromServer();
+		commander.processInputFromServer();
+		commander.processInputFromServer();
+
+		verify( playerSpy, never() ).opponentMoved( any( Move.class ) );
+	}
+
+	@Ignore( "till fixed" )
+	@Test
+	public void crashCase() {
+		when( communicator.receive() )
+			.thenReturn( "new" )
+			.thenReturn( "force" )
+			.thenReturn( "usermove b1c3" )
+			.thenReturn( "go" )
+			.thenReturn( "usermove g1f3" );
+
+		//TODO: how to avoid calling multiple times?
+		commander.processInputFromServer();
+		commander.processInputFromServer();
+		commander.processInputFromServer();
+		commander.processInputFromServer();
+		commander.processInputFromServer();
 	}
 
 }
