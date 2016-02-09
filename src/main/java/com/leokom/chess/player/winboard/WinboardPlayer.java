@@ -71,6 +71,7 @@ public class WinboardPlayer implements Player {
 
 		commander.onForce( () -> opponent.switchToRecodingMode() );
 		commander.onGo( () -> opponent.switchToPlayingMode() );
+		commander.onNew( () -> position = Position.getInitialPosition() );
 
 		commander.onProtover( protocolVersion -> {
 			commander.enableUserMovePrefixes();
@@ -200,6 +201,10 @@ public class WinboardPlayer implements Player {
 	 */
 	boolean needShuttingDown() {
 		return needQuit;
+	}
+
+	Position getPosition() {
+		return position;
 	}
 
 	private class WinboardUserMoveListener implements UserMoveListener {

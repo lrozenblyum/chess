@@ -7,8 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.stubbing.Stubber;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 
@@ -19,6 +18,31 @@ import static org.mockito.Mockito.*;
 public class WinBoardPlayerTest {
 	private static final int PROTOCOL_VERSION = 2; //any??
 	private static final int WAIT_TILL_QUIT = 5000;
+
+	@Test
+	public void newCommandResetsPosition() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		//unit test is harder to program here than the integration one...
+
+		final ArgumentCaptor<NewListener> newListener = ArgumentCaptor.forClass( NewListener.class );
+		verify( commander ).onNew( newListener.capture() );
+
+		executeUsermoveListener( commander, "e2e4" ).doAnswer( invocationOnMock -> {
+			newListener.getValue().execute();
+			return null;  //just for compiler... due to generic Answer interface
+		} ).when( commander ).processInputFromServer();
+
+		commander.processInputFromServer();
+		assertNull( player.getPosition().getPieceType( "e2" ) );
+
+		//'new' command will be received -> need resetting the board
+		commander.processInputFromServer();
+		assertNotNull( player.getPosition().getPieceType( "e2" ) );
+	}
 
 	@Test
 	public void offerDrawTransmittedToTheOpponent() {
@@ -129,6 +153,18 @@ public class WinBoardPlayerTest {
 
 		return doAnswer( invocationOnMock -> {
 			quitListener.getValue().execute();
+			return null;  //just for compiler... due to generic Answer interface
+		} );
+	}
+
+
+	private static Stubber executeUsermoveListener( WinboardCommander commander, String winboardFormattedMove ) {
+		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
+
+		verify( commander ).onUserMove( userMoveListener.capture() );
+
+		return doAnswer( invocationOnMock -> {
+			userMoveListener.getValue().execute( winboardFormattedMove );
 			return null;  //just for compiler... due to generic Answer interface
 		} );
 	}
