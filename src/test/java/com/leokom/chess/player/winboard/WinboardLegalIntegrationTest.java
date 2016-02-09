@@ -68,6 +68,13 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		Assert.assertEquals( PieceType.KNIGHT,opponent.getPosition().getPieceType( "b1" ) );
 	}
 
+	//by specification : new command should cause leave of force mode
+	@Test
+	public void leaveForceModeByNew() {
+		simulateWinboard( "new", "force", "new" );
+		Assert.assertFalse( opponent.isRecordingMode() );
+	}
+
 	//smth similar to WinboardTestGameBuilder but simpler
 	private void simulateWinboard( String... commandsFromWinboard ) {
 		//programming communicator

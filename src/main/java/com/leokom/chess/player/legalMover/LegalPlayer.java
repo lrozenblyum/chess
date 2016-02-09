@@ -46,6 +46,7 @@ public class LegalPlayer implements Player {
 	public void opponentSuggestsMeStartNewGameBlack() {
 		getLogger().info( "Opponent suggested me started a new game black. Starting it" );
 		position = Position.getInitialPosition();
+		this.recordingMode = false;
 	}
 
 	@Override
@@ -156,5 +157,9 @@ public class LegalPlayer implements Player {
 	//TODO: public for Winboard<->Legal integration test
 	public Position getPosition() {
 		return this.position;
+	}
+
+	public boolean isRecordingMode() {
+		return recordingMode;
 	}
 }
