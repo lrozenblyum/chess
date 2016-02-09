@@ -138,16 +138,19 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void switchToRecodingMode() {
+		getLogger().info( "Switching to recording mode... Moves will be executed by external source" );
 		this.recordingMode = true;
 	}
 
 	@Override
 	public void leaveRecordingMode() {
+		getLogger().info( "Leaving recording mode" );
 		this.recordingMode = false;
 	}
 
 	@Override
 	public void joinGameForSideToMove() {
+		getLogger().info( "Opponent suggested me to join the game for side: {}. Joining...", position.getSideToMove() );
 		leaveRecordingMode();
 		executeMove();
 	}
