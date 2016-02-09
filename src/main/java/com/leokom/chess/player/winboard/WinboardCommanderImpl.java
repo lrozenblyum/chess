@@ -117,6 +117,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void onNew( NewListener listener ) {
+		listenersWithoutParams.put( "new", listener );
+	}
+
+	@Override
 	public void checkmate( Side winningSide ) {
 		String prefix = "";
 		switch ( winningSide ) {

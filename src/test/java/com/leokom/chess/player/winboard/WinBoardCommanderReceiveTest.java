@@ -21,6 +21,17 @@ public class WinBoardCommanderReceiveTest {
 		verify( listener ).execute();
 	}
 
+	@Test
+	public void commandNew() {
+		Communicator communicator = getReceiveCommunicator( "new" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final NewListener listener = mock( NewListener.class );
+		commander.onNew( listener );
+
+		commander.processInputFromServer();
+		verify( listener ).execute();
+	}
+
 
 	@Test
 	public void xboard() {

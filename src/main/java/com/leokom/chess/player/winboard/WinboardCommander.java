@@ -49,8 +49,7 @@ interface WinboardCommander {
 	void onGo( GoListener listener );
 	void onUserMove( UserMoveListener listener );
 	void onOfferDraw( OfferDrawListener listener );
-
 	void onGameOver( GameOverListener listener );
-
 	void onForce( ForceListener listener );
+	void onNew( NewListener listener );
 }
