@@ -44,7 +44,12 @@ public class SimpleEnginePlayer implements Player {
 	}
 
 	@Override
-	public void switchToPlayingMode() {
+	public void leaveRecordingMode() {
+
+	}
+
+	@Override
+	public void joinGameForSideToMove() {
 
 	}
 

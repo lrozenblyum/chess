@@ -70,9 +70,10 @@ public class WinboardPlayer implements Player {
 		commander.onUserMove( new WinboardUserMoveListener() );
 
 		commander.onForce( () -> opponent.switchToRecodingMode() );
-		commander.onGo( () -> opponent.switchToPlayingMode() );
+		commander.onGo( () -> opponent.joinGameForSideToMove() );
 		commander.onNew( () -> {
 			position = Position.getInitialPosition();
+			opponent.leaveRecordingMode();
 			opponent.opponentSuggestsMeStartNewGameBlack();
 		} );
 
@@ -199,7 +200,12 @@ public class WinboardPlayer implements Player {
 	}
 
 	@Override
-	public void switchToPlayingMode() {
+	public void leaveRecordingMode() {
+
+	}
+
+	@Override
+	public void joinGameForSideToMove() {
 		//TODO: can an opponent tell me this? what to do?
 	}
 

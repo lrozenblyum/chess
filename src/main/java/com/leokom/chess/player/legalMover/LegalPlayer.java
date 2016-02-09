@@ -46,7 +46,6 @@ public class LegalPlayer implements Player {
 	public void opponentSuggestsMeStartNewGameBlack() {
 		getLogger().info( "Opponent suggested me started a new game black. Starting it" );
 		position = Position.getInitialPosition();
-		this.recordingMode = false;
 	}
 
 	@Override
@@ -143,8 +142,13 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void switchToPlayingMode() {
+	public void leaveRecordingMode() {
 		this.recordingMode = false;
+	}
+
+	@Override
+	public void joinGameForSideToMove() {
+		leaveRecordingMode();
 		executeMove();
 	}
 

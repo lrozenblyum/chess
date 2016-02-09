@@ -42,13 +42,15 @@ public interface Player {
 	 */
 	void switchToRecodingMode();
 
+	void leaveRecordingMode();
+
 	/**
 	 * Playing mode is inspired by Winboard 'go' command.
 	 * From this moment the player joins the game playing for the side
 	 * whose move is right now.
 	 *
 	 */
-	void switchToPlayingMode();
+	void joinGameForSideToMove();
 
 
 }
