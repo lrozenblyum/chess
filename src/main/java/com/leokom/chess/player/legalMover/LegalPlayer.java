@@ -43,6 +43,12 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
+	public void opponentSuggestsMeStartNewGameBlack() {
+		getLogger().info( "Opponent suggested me started a new game black. Starting it" );
+		position = Position.getInitialPosition();
+	}
+
+	@Override
 	public void opponentMoved( Move opponentMove ) {
 		LogManager.getLogger().info( "Opponent moved : {}", opponentMove );
 		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
@@ -145,5 +151,10 @@ public class LegalPlayer implements Player {
 	//it's useful for starting game from a non-initial position
 	void setPosition( Position position ) {
 		this.position = position;
+	}
+
+	//TODO: public for Winboard<->Legal integration test
+	public Position getPosition() {
+		return this.position;
 	}
 }

@@ -106,4 +106,9 @@ public class SimpleEnginePlayer implements Player {
 			executeMove( null );
 		}
 	}
+
+	@Override
+	public void opponentSuggestsMeStartNewGameBlack() {
+		//TODO: implement me
+	}
 }

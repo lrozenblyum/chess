@@ -1,6 +1,7 @@
 package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.player.legalMover.LegalPlayer;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.*;
 public class WinboardLegalIntegrationTest {private WinboardCommunicator communicator;
 	private WinboardCommander commander;
 	private WinboardPlayer playerSpy;
+	private LegalPlayer opponent;
 
 	@Before
 	public void prepare() {
@@ -29,7 +31,7 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		playerSpy = spy( player );
 		playerSpy.initCommander( commander );
 
-		LegalPlayer opponent = new LegalPlayer();
+		opponent = new LegalPlayer();
 		this.playerSpy.setOpponent( opponent );
 		opponent.setOpponent( this.playerSpy );
 	}
@@ -51,6 +53,19 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 	@Test
 	public void crashCase() {
 		simulateWinboard( "new", "force", "usermove b1c3", "go", "usermove g1f3" );
+	}
+
+	@Test
+	public void positionUpdatedUsually() {
+		simulateWinboard( "new", "usermove b1c3" );
+		Assert.assertEquals( PieceType.KNIGHT,opponent.getPosition().getPieceType( "c3" ) );
+		Assert.assertNull( opponent.getPosition().getPieceType( "b1" ) );
+	}
+
+	@Test
+	public void positionResetByNew() {
+		simulateWinboard( "new", "usermove b1c3", "new" );
+		Assert.assertEquals( PieceType.KNIGHT,opponent.getPosition().getPieceType( "b1" ) );
 	}
 
 	//smth similar to WinboardTestGameBuilder but simpler

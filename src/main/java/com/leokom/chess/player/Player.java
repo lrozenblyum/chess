@@ -19,6 +19,8 @@ public interface Player {
 	 */
 	void opponentSuggestsMeStartNewGameWhite();
 
+	void opponentSuggestsMeStartNewGameBlack();
+
 	/**
 	 * React on another player's move
 	 *
@@ -47,4 +49,6 @@ public interface Player {
 	 *
 	 */
 	void switchToPlayingMode();
+
+
 }
