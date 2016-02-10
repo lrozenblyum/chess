@@ -19,10 +19,19 @@ public interface Player {
 	 */
 	void opponentSuggestsMeStartNewGameWhite();
 
+	/**
+	 * Prepare new game for playing black.
+	 * Wait for the first whites move.
+	 */
 	void opponentSuggestsMeStartNewGameBlack();
 
 	/**
-	 * React on another player's move
+	 * React to another player's move.
+	 *
+	 * If recording mode is ON, simply update internal Position.
+	 * In this case the move is treated not from an opponent
+	 * but just from some external source (we might receive moves
+	 * both for WHITE and for BLACK here).
 	 *
 	 * @param opponentMove move received from the opponent
 	 */
@@ -55,6 +64,4 @@ public interface Player {
 	 *
 	 */
 	void joinGameForSideToMove();
-
-
 }
