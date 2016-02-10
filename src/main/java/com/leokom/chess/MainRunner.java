@@ -41,10 +41,15 @@ public final class MainRunner {
 	 *             <li>-Dblack=SimpleEngine</li>
 	 *             </ul>
 	 *
+	 * For Winboard opponents always specify them as Black
+	 *             even if they will eventually start playing White.
+	 * In Winboard the main decisions are taken by the Player itself,
+	 *             so our switchers are practically just telling what's the
+	 *             Winboard's opponent
+	 *
 	 * Not supported player combinations:
 	 *             <ul>
 	 *                 <li>Winboard vs Winboard (has no sense as 2 thin clients for UI?)</li>
-	 *                 <li>Winboard playing black (temporarily till <a target="_blank" href="https://github.com/lrozenblyum/chess/issues/120">#120</a> implemented)</li>
 	 *             </ul>
 	 * </p>
 	 */
