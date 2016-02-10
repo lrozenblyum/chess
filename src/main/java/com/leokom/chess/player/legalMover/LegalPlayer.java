@@ -161,8 +161,7 @@ public class LegalPlayer implements Player {
 		this.ourSide = ourSide;
 	}
 
-	//TODO: public for Winboard<->Legal integration test
-	public Position getPosition() {
+	Position getPosition() {
 		return this.position;
 	}
 
