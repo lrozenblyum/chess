@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ public class LegalPlayer implements Player {
 	private Position position = Position.getInitialPosition();
 	private Evaluator brains;
 	private boolean recordingMode;
+	private Side ourSide;
 
 	/**
 	 * Create player
@@ -39,6 +41,7 @@ public class LegalPlayer implements Player {
 	public void opponentSuggestsMeStartNewGameWhite() {
 		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
 		position = Position.getInitialPosition();
+		ourSide = Side.WHITE;
 		executeMove();
 	}
 
@@ -46,6 +49,7 @@ public class LegalPlayer implements Player {
 	public void opponentSuggestsMeStartNewGameBlack() {
 		getLogger().info( "Opponent suggested me started a new game black. Starting it" );
 		position = Position.getInitialPosition();
+		ourSide = Side.BLACK;
 	}
 
 	@Override
@@ -61,15 +65,9 @@ public class LegalPlayer implements Player {
 
 		//can be not our move : when opponent offers draw before HIS move
 		//so he still has the right to move
-		if ( isOurMove( opponentMove ) && !recordingMode ) {
+		if ( position.getSideToMove() == ourSide && !recordingMode ) {
 			executeMove();
 		}
-	}
-
-	//TODO: better need querying the position to check whether it's our side to move!
-	//(then need storing 'our side')
-	private boolean isOurMove( Move opponentMove ) {
-		return opponentMove != Move.OFFER_DRAW;
 	}
 
 	private void updatePositionByOpponentMove( Move opponentMove ) {
@@ -152,13 +150,15 @@ public class LegalPlayer implements Player {
 	public void joinGameForSideToMove() {
 		getLogger().info( "Opponent suggested me to join the game for side: {}. Joining...", position.getSideToMove() );
 		leaveRecordingMode();
+		ourSide = position.getSideToMove();
 		executeMove();
 	}
 
 	//injecting the position for tests, however maybe in future
 	//it's useful for starting game from a non-initial position
-	void setPosition( Position position ) {
+	void setPosition( Position position, Side ourSide ) {
 		this.position = position;
+		this.ourSide = ourSide;
 	}
 
 	//TODO: public for Winboard<->Legal integration test

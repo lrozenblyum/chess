@@ -40,7 +40,7 @@ public class LegalPlayerTest {
 		position.add( Side.WHITE, "a1", PieceType.KING );
 		position.add( Side.BLACK, "c2", PieceType.KING );
 
-		player.setPosition( position );
+		player.setPosition( position, Side.WHITE );
 
 		//TODO: it's overhead but in current architecture
 		//the only way to inform another player about a move
@@ -69,7 +69,7 @@ public class LegalPlayerTest {
 		position.add( Side.WHITE, "h8", PieceType.KING );
 		position.add( Side.BLACK, "g5", PieceType.KING );
 
-		player.setPosition( position );
+		player.setPosition( position, Side.WHITE );
 
 		//TODO: overhead (see another test for description)
 		player.opponentMoved( new Move( "g5", "g6" ) );
@@ -97,7 +97,7 @@ public class LegalPlayerTest {
 		position.add( Side.WHITE, "h8", PieceType.KING );
 		position.add( Side.BLACK, "g6", PieceType.KING );
 
-		player.setPosition( position );
+		player.setPosition( position, Side.WHITE );
 
 		player.executeMove();
 
@@ -169,7 +169,7 @@ public class LegalPlayerTest {
 
 		position.add( Side.BLACK, "a1", PieceType.KING );
 
-		player.setPosition( position );
+		player.setPosition( position, Side.WHITE );
 
 		player.executeMove();
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
@@ -199,7 +199,7 @@ public class LegalPlayerTest {
 
 		position.add( Side.BLACK, "a1", PieceType.KING );
 
-		player.setPosition( position );
+		player.setPosition( position, Side.WHITE );
 
 		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
@@ -225,7 +225,7 @@ public class LegalPlayerTest {
 		position.add( Side.WHITE, "d1", PieceType.KING );
 		position.add( Side.BLACK, "a1", PieceType.KING );
 
-		player.setPosition( position );
+		player.setPosition( position, Side.BLACK );
 
 		player.opponentMoved( new Move( "d1", "c1" ) );
 
@@ -244,7 +244,7 @@ public class LegalPlayerTest {
 		final Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "d1", PieceType.KING );
 		position.add( Side.BLACK, "a1", PieceType.KING );
-		player.setPosition( position );
+		player.setPosition( position, Side.BLACK );
 
 		player.opponentMoved( Move.OFFER_DRAW );
 
@@ -264,7 +264,7 @@ public class LegalPlayerTest {
 		//correct move
 		position.add( Side.WHITE, "d1", PieceType.KING );
 		position.add( Side.BLACK, "a1", PieceType.KING );
-		player.setPosition( position );
+		player.setPosition( position, Side.WHITE );
 
 		player.opponentSuggestsMeStartNewGameWhite();
 
