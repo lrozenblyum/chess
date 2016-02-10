@@ -42,10 +42,14 @@ public interface Player {
 	 */
 	void switchToRecodingMode();
 
+	/**
+	 * Leave recoding mode. This will allow in future actively reacting to the
+	 * opponent's moves
+	 */
 	void leaveRecordingMode();
 
 	/**
-	 * Playing mode is inspired by Winboard 'go' command.
+	 * Inspired by Winboard 'go' command.
 	 * From this moment the player joins the game playing for the side
 	 * whose move is right now.
 	 *

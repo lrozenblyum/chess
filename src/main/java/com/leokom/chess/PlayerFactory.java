@@ -61,7 +61,7 @@ final class PlayerFactory {
 			case "Legal":
 				return new LegalPlayer();
 			case "SimpleEngine":
-				return new SimpleEnginePlayer( side );
+				return new SimpleEnginePlayer();
 			case "Winboard":
 				return WinboardPlayer.create();
 			default:
@@ -75,6 +75,6 @@ final class PlayerFactory {
 		return
 			side == Side.WHITE ?
 				WinboardPlayer.create() :
-				new SimpleEnginePlayer( side );
+				new SimpleEnginePlayer();
 	}
 }
