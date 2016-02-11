@@ -10,11 +10,12 @@ import org.apache.logging.log4j.Logger;
 /**
  * Run just 2 moves for white/black (central pawns)
  * Always agree to draw.
- * Resign on the 3'd move
+ * Resign on the 3'd move.
+ * This player guarantees finite game.
  *
-* Author: Leonid
-* Date-time: 15.04.13 22:26
-*/
+ * Author: Leonid
+ * Date-time: 15.04.13 22:26
+ */
 public class SimpleEnginePlayer implements Player {
 	private Position position = Position.getInitialPosition();
 	private int moveNumber;
@@ -106,7 +107,7 @@ public class SimpleEnginePlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
-		LogManager.getLogger().info( "Opponent suggests me start new game black" );
+		LogManager.getLogger().info( "Opponent suggests me start new game white" );
 		moveNumber = 0;
 		position = Position.getInitialPosition();
 		executeMove( null );

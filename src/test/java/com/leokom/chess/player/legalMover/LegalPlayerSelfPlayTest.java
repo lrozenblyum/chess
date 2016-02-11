@@ -1,8 +1,5 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -18,7 +15,6 @@ public class LegalPlayerSelfPlayTest {
 	// no exceptions
 	//too complex so far. Trying a simpler way.
 
-
 	@Test
 	public void twoLegalPlayers() {
 		Player legalPlayerWhite = getLegalPlayer();
@@ -27,6 +23,7 @@ public class LegalPlayerSelfPlayTest {
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
 
+		legalPlayerBlack.opponentSuggestsMeStartNewGameBlack();
 		legalPlayerWhite.opponentSuggestsMeStartNewGameWhite();
 	}
 
@@ -34,20 +31,19 @@ public class LegalPlayerSelfPlayTest {
 		return new LegalPlayer( new MasterEvaluatorTweaked() );
 	}
 
-	//I've just set position but not injected it. Shouldn't have any influence !
+	//Second test is hanging here. Shouldn't have any influence !
 	//but it has.
+	// add for experiment @FixMethodOrder( MethodSorters.NAME_ASCENDING )
+	// to change order of execution
 	@Test
-	public void twoLegalPlayersNotInjectedPositionStrangeInfluence() {
+	public void secondTestInfluence() {
 		Player legalPlayerWhite = getLegalPlayer();
 		Player legalPlayerBlack = getLegalPlayer();
-
-		Position position = new Position( Side.WHITE );
-		position.add( Side.WHITE, "a1", PieceType.KING );
-		position.add( Side.BLACK, "c1", PieceType.KING );
 
 		legalPlayerWhite.setOpponent( legalPlayerBlack );
 		legalPlayerBlack.setOpponent( legalPlayerWhite );
 
+		legalPlayerBlack.opponentSuggestsMeStartNewGameBlack();
 		legalPlayerWhite.opponentSuggestsMeStartNewGameWhite();
 	}
 }

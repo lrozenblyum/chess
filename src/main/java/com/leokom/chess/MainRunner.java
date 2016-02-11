@@ -75,7 +75,11 @@ public final class MainRunner {
 		blackPlayer.setOpponent( whitePlayer );
 		whitePlayer.setOpponent( blackPlayer );
 
+		//Black is informed first, to passively wait for the White's first move
+		blackPlayer.opponentSuggestsMeStartNewGameBlack();
+
 		//inform white that black is ready so you may start
+		//some Engines like Winboard use it to start a main loop
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
 	}
 

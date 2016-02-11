@@ -67,7 +67,10 @@ public class LegalPlayer implements Player {
 		//so he still has the right to move
 		if ( position.getSideToMove() == ourSide && !recordingMode ) {
 			executeMove();
+		} else {
+			getLogger().info( "We don't execute our move because it's " + ( recordingMode ? "recording mode" : "not our turn to move" ) );
 		}
+
 	}
 
 	private void updatePositionByOpponentMove( Move opponentMove ) {
