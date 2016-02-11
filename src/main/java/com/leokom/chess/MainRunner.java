@@ -62,7 +62,7 @@ public final class MainRunner {
 		catch ( RuntimeException re ) {
 			//important to investigate issues
 			//and to avoid sending console output from exception to Winboard
-			logger.error( "Crash occurred", re );
+			logger.error( "An error occurred during the game running", re );
 		}
 
 	}
