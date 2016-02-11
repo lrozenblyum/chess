@@ -25,10 +25,9 @@ public class WinboardPlayer implements Player {
 	private static final int SQUARE_FROM_LENGTH = 2;
 
 	private Logger logger = LogManager.getLogger( this.getClass() );
-	private final WinboardCommander commander;
+	private WinboardCommander commander;
 	private boolean needQuit = false;
 	private Player opponent;
-
 
 	//just for tests
 	void setPosition( Position position ) {
@@ -44,12 +43,28 @@ public class WinboardPlayer implements Player {
 	//creating several instances of the player (must be singleton)
 	//calling run several times (from different threads)
 
+	/* For delayed initialization of spy in test.
+	 * Complex scenario to ensure commander will be associated with the spy
+	 * not with the original player */
+	WinboardPlayer() {
+	}
+
 	/**
 	 * Create instance on Winboard player.
+	 *
 	 * @param winboardCommander instance of mid-level winboard-commander.
 	 */
 	WinboardPlayer( WinboardCommander winboardCommander ) {
+		initCommander( winboardCommander );
+	}
+
+	void initCommander( WinboardCommander winboardCommander ) {
 		this.commander = winboardCommander;
+		//critically important to send this sequence at the start
+		//to ensure the Winboard won't ignore our 'setfeature' commands
+		//set feature commands must be sent in response to protover
+		// From spec: If needed, it is okay for your engine to set done=0 soon as it starts, even before it receives the xboard and protover commands. This can be useful if your engine takes a long time to initialize itself.
+		commander.startInit();
 
 		commander.onXBoard( () -> logger.info( "Ready to work" ) );
 
@@ -59,7 +74,13 @@ public class WinboardPlayer implements Player {
 
 		commander.onUserMove( new WinboardUserMoveListener() );
 
-		commander.onGo( () -> opponent.opponentSuggestsMeStartNewGameWhite() );
+		commander.onForce( () -> opponent.switchToRecodingMode() );
+		commander.onGo( () -> opponent.joinGameForSideToMove() );
+		commander.onNew( () -> {
+			position = Position.getInitialPosition();
+			opponent.leaveRecordingMode();
+			opponent.opponentSuggestsMeStartNewGameBlack();
+		} );
 
 		commander.onProtover( protocolVersion -> {
 			commander.enableUserMovePrefixes();
@@ -84,11 +105,6 @@ public class WinboardPlayer implements Player {
 				opponent.opponentMoved( move );
 			}
 		} );
-
-		//critically important to send this sequence at the start
-		//to ensure the Winboard won't ignore our 'setfeature' commands
-		//set feature commands must be sent in response to protover
-		commander.startInit();
 	}
 
 	/**
@@ -120,6 +136,11 @@ public class WinboardPlayer implements Player {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void opponentSuggestsMeStartNewGameBlack() {
+		//TODO: anything to implement?
 	}
 
 	/**
@@ -173,12 +194,31 @@ public class WinboardPlayer implements Player {
 		this.opponent = opponent;
 	}
 
+	@Override
+	public void switchToRecodingMode() {
+		//TODO: can an opponent tell me this? what to do?
+	}
+
+	@Override
+	public void leaveRecordingMode() {
+
+	}
+
+	@Override
+	public void joinGameForSideToMove() {
+		//TODO: can an opponent tell me this? what to do?
+	}
+
 	/**
 	 * Check if we need break main loop
 	 * @return true if main loop must be stopped
 	 */
 	boolean needShuttingDown() {
 		return needQuit;
+	}
+
+	Position getPosition() {
+		return position;
 	}
 
 	private class WinboardUserMoveListener implements UserMoveListener {

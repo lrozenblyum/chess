@@ -664,7 +664,7 @@ public class Position {
 	}
 
 	public PieceType getPieceType( String squareFrom ) {
-		return pieces.get( squareFrom ).getPieceType();
+		return pieces.get( squareFrom ) != null ? pieces.get( squareFrom ).getPieceType() : null;
 	}
 
 	public boolean hasARookMoved( Side side ) {

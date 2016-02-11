@@ -31,20 +31,25 @@ public final class MainRunner {
 	 * <code>engineName</code> could be any of:
 	 *             <ul>
 	 *             <li>Winboard</li>
-	 *             <li>SimpleEngine</li>
+	 *             <li>Simple</li>
 	 *             <li>Legal</li>
 	 *             </ul>
 	 *
 	 * Default players:
 	 *             <ul>
 	 *             <li>-Dwhite=Winboard</li>
-	 *             <li>-Dblack=SimpleEngine</li>
+	 *             <li>-Dblack=Simple</li>
 	 *             </ul>
+	 *
+	 * For Winboard opponents always specify them as Black
+	 *             even if they eventually start playing White.
+	 * In Winboard the main decisions are taken by the WinboardPlayer itself,
+	 *             so our switchers are practically just telling what's the
+	 *             Winboard's opponent.
 	 *
 	 * Not supported player combinations:
 	 *             <ul>
 	 *                 <li>Winboard vs Winboard (has no sense as 2 thin clients for UI?)</li>
-	 *                 <li>Winboard playing black (temporarily till <a target="_blank" href="https://github.com/lrozenblyum/chess/issues/120">#120</a> implemented)</li>
 	 *             </ul>
 	 * </p>
 	 */
@@ -57,7 +62,7 @@ public final class MainRunner {
 		catch ( RuntimeException re ) {
 			//important to investigate issues
 			//and to avoid sending console output from exception to Winboard
-			logger.error( "Crash occurred", re );
+			logger.error( "An error occurred during the game running", re );
 		}
 
 	}
@@ -65,13 +70,8 @@ public final class MainRunner {
 	private static void runGame() {
 		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
 		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
-		//setting opponents for symmetry. Technically it's possible
-		// for one set to make a back reference
-		blackPlayer.setOpponent( whitePlayer );
-		whitePlayer.setOpponent( blackPlayer );
 
-		//inform white that black is ready so you may start
-		whitePlayer.opponentSuggestsMeStartNewGameWhite();
+		new Game( whitePlayer, blackPlayer ).run();
 	}
 
 }

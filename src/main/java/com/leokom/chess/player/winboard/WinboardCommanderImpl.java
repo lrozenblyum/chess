@@ -36,8 +36,6 @@ class WinboardCommanderImpl implements WinboardCommander {
 		this.communicator = communicator;
 	}
 
-
-
 	/**
 	 * Switches Winboard engine in 'features set up mode'
 	 */
@@ -109,6 +107,16 @@ class WinboardCommanderImpl implements WinboardCommander {
 	@Override
 	public void onGameOver( GameOverListener listener ) {
 		stringParameterListeners.put( "result", listener );
+	}
+
+	@Override
+	public void onForce( ForceListener listener ) {
+		listenersWithoutParams.put( "force", listener );
+	}
+
+	@Override
+	public void onNew( NewListener listener ) {
+		listenersWithoutParams.put( "new", listener );
 	}
 
 	@Override

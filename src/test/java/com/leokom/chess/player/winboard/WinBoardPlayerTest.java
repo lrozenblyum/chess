@@ -5,10 +5,8 @@ import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
-import org.mockito.stubbing.Stubber;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 
@@ -21,16 +19,38 @@ public class WinBoardPlayerTest {
 	private static final int WAIT_TILL_QUIT = 5000;
 
 	@Test
+	public void newCommandResetsPosition() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		final Player opponent = mock( Player.class );
+		player.setOpponent( opponent );
+
+		//unit test is harder to program here than the integration one...
+
+		final ArgumentCaptor<NewListener> newListener = ArgumentCaptor.forClass( NewListener.class );
+		verify( commander ).onNew( newListener.capture() );
+
+		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
+		verify( commander ).onUserMove( userMoveListener.capture() );
+
+		userMoveListener.getValue().execute( "e2e4" );
+		assertNull( player.getPosition().getPieceType( "e2" ) );
+
+		//'new' command will be received -> need resetting the board
+		newListener.getValue().execute();
+		assertNotNull( player.getPosition().getPieceType( "e2" ) );
+	}
+
+	@Test
 	public void offerDrawTransmittedToTheOpponent() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 		final WinboardPlayer player = new WinboardPlayer( commander );
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
 
-		executeOfferDrawListener( commander ).when( commander ).processInputFromServer();
-
-		commander.processInputFromServer();
-
+		final ArgumentCaptor< OfferDrawListener > offerDrawListener = ArgumentCaptor.forClass( OfferDrawListener.class );
+		verify( commander ).onOfferDraw( offerDrawListener.capture() );
+		offerDrawListener.getValue().execute();
 		verify( opponent ).opponentMoved( Move.OFFER_DRAW );
 	}
 
@@ -46,6 +66,19 @@ public class WinBoardPlayerTest {
 
 		//it really checks only 1 method call
 		verify( commander ).startInit();
+	}
+
+	@Test
+	public void startInitAsEarlyAsPossible() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		//implicit call of startInit
+		new WinboardPlayer( commander );
+
+		InOrder inOrder = inOrder( commander );
+
+		inOrder.verify( commander ).startInit();
+		inOrder.verify( commander ).onNew( any() );
 	}
 
 	//ensure need of refactoring into commander instead of communicator
@@ -66,14 +99,13 @@ public class WinBoardPlayerTest {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
 		WinboardPlayer player = new WinboardPlayer(	commander );
+
 		ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
 		verify( commander ).onQuit( quitListener.capture() );
-
 		assertFalse( player.needShuttingDown() );
 
 		//correct quit listener must enable need of shutting down
 		quitListener.getValue().execute();
-
 		assertTrue( player.needShuttingDown() );
 	}
 
@@ -82,12 +114,13 @@ public class WinBoardPlayerTest {
 	 */
 	@Test
 	public void quitListenerActsCorrectly() {
-		//dummy implementation - each time anybody sets a protover listener -
+		//dummy implementation - each time anybody sets a quit listener -
 		//we quit IMMEDIATELY
 		final WinboardCommander commander = mock( WinboardCommander.class );
 
-		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
 		final WinboardPlayer winboardPlayer = new WinboardPlayer( commander );
+
+		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
 		verify( commander ).onQuit( quitListener.capture() );
 
 		quitListener.getValue().execute();
@@ -100,37 +133,17 @@ public class WinBoardPlayerTest {
 	//after receiving quit command
 	@Test( timeout = WAIT_TILL_QUIT )
 	public void useCommanderForQuitCommandRealTest() {
-		//dummy implementation - each time anybody sets a protover listener -
+		//dummy implementation - each time anybody sets a quit listener -
 		//we quit IMMEDIATELY
 		final WinboardCommander commander = mock( WinboardCommander.class );
 
 		final Player winboardPlayer = new WinboardPlayer( commander );
 
-		executeQuitListener( commander ).when( commander ).processInputFromServer();
+		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
+		verify( commander ).onQuit( quitListener.capture() );
+		quitListener.getValue().execute();
 
 		winboardPlayer.opponentSuggestsMeStartNewGameWhite();
-	}
-
-	//TODO: very similar to executeQuitListener...
-	private static Stubber executeOfferDrawListener( WinboardCommander commander ) {
-		final ArgumentCaptor< OfferDrawListener > offerDrawListener = ArgumentCaptor.forClass( OfferDrawListener.class );
-		verify( commander ).onOfferDraw( offerDrawListener.capture() );
-
-		return doAnswer( invocationOnMock -> {
-			offerDrawListener.getValue().execute();
-			return null; //just for compiler... due to generic Answer interface
-		} );
-	}
-
-	private static Stubber executeQuitListener( WinboardCommander commander ) {
-		final ArgumentCaptor<QuitListener> quitListener = ArgumentCaptor.forClass( QuitListener.class );
-
-		verify( commander ).onQuit( quitListener.capture() );
-
-		return doAnswer( invocationOnMock -> {
-			quitListener.getValue().execute();
-			return null;  //just for compiler... due to generic Answer interface
-		} );
 	}
 
 	/**
@@ -145,10 +158,11 @@ public class WinBoardPlayerTest {
 		//dummy implementation - each time anybody sets a protover listener -
 		//we call it IMMEDIATELY
 		WinboardCommander commander = mock( WinboardCommander.class );
-		ArgumentCaptor< ProtoverListener > listenerCaptor = ArgumentCaptor.forClass( ProtoverListener.class );
+
 		new WinboardPlayer(	commander );
 
 		//the player must have set its listener in constructor...
+		ArgumentCaptor< ProtoverListener > listenerCaptor = ArgumentCaptor.forClass( ProtoverListener.class );
 		verify( commander ).onProtover( listenerCaptor.capture() );
 
 		//calling the protover listener - it must have implications described below.

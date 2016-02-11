@@ -9,6 +9,30 @@ import static org.mockito.Mockito.*;
  * Date-time: 13.11.12 21:33
  */
 public class WinBoardCommanderReceiveTest {
+
+	@Test
+	public void force() {
+		Communicator communicator = getReceiveCommunicator( "force" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final ForceListener listener = mock( ForceListener.class );
+		commander.onForce( listener );
+
+		commander.processInputFromServer();
+		verify( listener ).execute();
+	}
+
+	@Test
+	public void commandNew() {
+		Communicator communicator = getReceiveCommunicator( "new" );
+		WinboardCommander commander = new WinboardCommanderImpl( communicator );
+		final NewListener listener = mock( NewListener.class );
+		commander.onNew( listener );
+
+		commander.processInputFromServer();
+		verify( listener ).execute();
+	}
+
+
 	@Test
 	public void xboard() {
 		Communicator communicator = getReceiveCommunicator( "xboard" );

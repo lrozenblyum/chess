@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,8 @@ public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
 	private Evaluator brains;
+	private boolean recordingMode;
+	private Side ourSide;
 
 	/**
 	 * Create player
@@ -38,7 +41,15 @@ public class LegalPlayer implements Player {
 	public void opponentSuggestsMeStartNewGameWhite() {
 		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
 		position = Position.getInitialPosition();
+		ourSide = Side.WHITE;
 		executeMove();
+	}
+
+	@Override
+	public void opponentSuggestsMeStartNewGameBlack() {
+		getLogger().info( "Opponent suggested me started a new game black. Starting it" );
+		position = Position.getInitialPosition();
+		ourSide = Side.BLACK;
 	}
 
 	@Override
@@ -52,17 +63,7 @@ public class LegalPlayer implements Player {
 		//updating internal representation of our position according to the opponent's move
 		updatePositionByOpponentMove( opponentMove );
 
-		//can be not our move : when opponent offers draw before HIS move
-		//so he still has the right to move
-		if ( isOurMove( opponentMove ) ) {
-			executeMove();
-		}
-	}
-
-	//TODO: better need querying the position to check whether it's our side to move!
-	//(then need storing 'our side')
-	private boolean isOurMove( Move opponentMove ) {
-		return opponentMove != Move.OFFER_DRAW;
+		executeMove();
 	}
 
 	private void updatePositionByOpponentMove( Move opponentMove ) {
@@ -71,20 +72,28 @@ public class LegalPlayer implements Player {
 
 	//exposing package-private for tests
 	void executeMove() {
+		if ( recordingMode ) {
+			getLogger().info( "Just recording the moves." );
+			return;
+		}
+
 		Set< Move > legalMoves = position.getMoves();
-
-		if ( !legalMoves.isEmpty() ) {
-			Move move = findBestMove( legalMoves );
-
-			updateInternalPositionPresentation( move );
-
-			informOpponentAboutTheMove( move );
-		}
-		else {
-			getLogger().info( "We cannot execute any moves." +
-					" Final state has been detected." +
+		if ( legalMoves.isEmpty() ) {
+			getLogger().info( " Final state has been detected." +
 					" Winning side : " + position.getWinningSide() );
+			return;
 		}
+
+		//can be not our move : when opponent offers draw before HIS move
+		//so he still has the right to move
+		if ( position.getSideToMove() != ourSide ) {
+			getLogger().info( "It's not our side to move" );
+			return;
+		}
+
+		Move move = findBestMove( legalMoves );
+        updateInternalPositionPresentation( move );
+        informOpponentAboutTheMove( move );
 	}
 
 	private void informOpponentAboutTheMove( Move move ) {
@@ -129,9 +138,38 @@ public class LegalPlayer implements Player {
 		this.opponent = opponent;
 	}
 
+	@Override
+	public void switchToRecodingMode() {
+		getLogger().info( "Switching to recording mode... Moves will be executed by external source" );
+		this.recordingMode = true;
+	}
+
+	@Override
+	public void leaveRecordingMode() {
+		getLogger().info( "Leaving recording mode" );
+		this.recordingMode = false;
+	}
+
+	@Override
+	public void joinGameForSideToMove() {
+		getLogger().info( "Opponent suggested me to join the game for side: {}. Joining...", position.getSideToMove() );
+		leaveRecordingMode();
+		ourSide = position.getSideToMove();
+		executeMove();
+	}
+
 	//injecting the position for tests, however maybe in future
 	//it's useful for starting game from a non-initial position
-	void setPosition( Position position ) {
+	void setPosition( Position position, Side ourSide ) {
 		this.position = position;
+		this.ourSide = ourSide;
+	}
+
+	Position getPosition() {
+		return this.position;
+	}
+
+	public boolean isRecordingMode() {
+		return recordingMode;
 	}
 }

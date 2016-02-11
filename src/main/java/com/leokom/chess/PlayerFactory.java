@@ -3,7 +3,7 @@ package com.leokom.chess;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
-import com.leokom.chess.player.simple.SimpleEnginePlayer;
+import com.leokom.chess.player.simple.SimplePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +34,7 @@ final class PlayerFactory {
 	 * Basing on defaults or system properties.
 	 * Defaults :
 	 * WHITE: Winboard
-	 * BLACK: SimpleEngine
+	 * BLACK: Simple
 	 *
 	 * There are practical important limitations (not yet validated):
 	 *
@@ -60,8 +60,8 @@ final class PlayerFactory {
 		switch ( engineName ) {
 			case "Legal":
 				return new LegalPlayer();
-			case "SimpleEngine":
-				return new SimpleEnginePlayer( side );
+			case "Simple":
+				return new SimplePlayer();
 			case "Winboard":
 				return WinboardPlayer.create();
 			default:
@@ -75,6 +75,6 @@ final class PlayerFactory {
 		return
 			side == Side.WHITE ?
 				WinboardPlayer.create() :
-				new SimpleEnginePlayer( side );
+				new SimplePlayer();
 	}
 }
