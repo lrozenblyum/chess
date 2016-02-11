@@ -70,17 +70,8 @@ public final class MainRunner {
 	private static void runGame() {
 		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
 		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
-		//setting opponents for symmetry. Technically it's possible
-		// for one set to make a back reference
-		blackPlayer.setOpponent( whitePlayer );
-		whitePlayer.setOpponent( blackPlayer );
 
-		//Black is informed first, to passively wait for the White's first move
-		blackPlayer.opponentSuggestsMeStartNewGameBlack();
-
-		//inform white that black is ready so you may start
-		//some Engines like Winboard use it to start a main loop
-		whitePlayer.opponentSuggestsMeStartNewGameWhite();
+		new Game( whitePlayer, blackPlayer ).run();
 	}
 
 }

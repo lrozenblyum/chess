@@ -1,6 +1,6 @@
 package com.leokom.chess.player.legalMover;
 
-import com.leokom.chess.player.Player;
+import com.leokom.chess.Game;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -17,14 +17,7 @@ public class LegalPlayerSelfPlayTest {
 
 	@Test
 	public void twoLegalPlayers() {
-		Player legalPlayerWhite = getLegalPlayer();
-		Player legalPlayerBlack = getLegalPlayer();
-
-		legalPlayerWhite.setOpponent( legalPlayerBlack );
-		legalPlayerBlack.setOpponent( legalPlayerWhite );
-
-		legalPlayerBlack.opponentSuggestsMeStartNewGameBlack();
-		legalPlayerWhite.opponentSuggestsMeStartNewGameWhite();
+		new Game( getLegalPlayer(), getLegalPlayer() ).run();
 	}
 
 	private LegalPlayer getLegalPlayer() {
@@ -37,13 +30,6 @@ public class LegalPlayerSelfPlayTest {
 	// to change order of execution
 	@Test
 	public void secondTestInfluence() {
-		Player legalPlayerWhite = getLegalPlayer();
-		Player legalPlayerBlack = getLegalPlayer();
-
-		legalPlayerWhite.setOpponent( legalPlayerBlack );
-		legalPlayerBlack.setOpponent( legalPlayerWhite );
-
-		legalPlayerBlack.opponentSuggestsMeStartNewGameBlack();
-		legalPlayerWhite.opponentSuggestsMeStartNewGameWhite();
+		new Game( getLegalPlayer(), getLegalPlayer() ).run();
 	}
 }
