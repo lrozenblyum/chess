@@ -42,10 +42,10 @@ public final class MainRunner {
 	 *             </ul>
 	 *
 	 * For Winboard opponents always specify them as Black
-	 *             even if they will eventually start playing White.
-	 * In Winboard the main decisions are taken by the Player itself,
+	 *             even if they eventually start playing White.
+	 * In Winboard the main decisions are taken by the WinboardPlayer itself,
 	 *             so our switchers are practically just telling what's the
-	 *             Winboard's opponent
+	 *             Winboard's opponent.
 	 *
 	 * Not supported player combinations:
 	 *             <ul>
