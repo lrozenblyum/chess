@@ -48,7 +48,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void canSelectSimpleEngineForWhite() {
-		System.setProperty( "white", "SimpleEngine" );
+		System.setProperty( "white", "Simple" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertTrue( player instanceof SimpleEnginePlayer );

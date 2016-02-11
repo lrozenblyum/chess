@@ -34,7 +34,7 @@ final class PlayerFactory {
 	 * Basing on defaults or system properties.
 	 * Defaults :
 	 * WHITE: Winboard
-	 * BLACK: SimpleEngine
+	 * BLACK: Simple
 	 *
 	 * There are practical important limitations (not yet validated):
 	 *
@@ -60,7 +60,7 @@ final class PlayerFactory {
 		switch ( engineName ) {
 			case "Legal":
 				return new LegalPlayer();
-			case "SimpleEngine":
+			case "Simple":
 				return new SimpleEnginePlayer();
 			case "Winboard":
 				return WinboardPlayer.create();

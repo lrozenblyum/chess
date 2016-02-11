@@ -31,14 +31,14 @@ public final class MainRunner {
 	 * <code>engineName</code> could be any of:
 	 *             <ul>
 	 *             <li>Winboard</li>
-	 *             <li>SimpleEngine</li>
+	 *             <li>Simple</li>
 	 *             <li>Legal</li>
 	 *             </ul>
 	 *
 	 * Default players:
 	 *             <ul>
 	 *             <li>-Dwhite=Winboard</li>
-	 *             <li>-Dblack=SimpleEngine</li>
+	 *             <li>-Dblack=Simple</li>
 	 *             </ul>
 	 *
 	 * For Winboard opponents always specify them as Black
