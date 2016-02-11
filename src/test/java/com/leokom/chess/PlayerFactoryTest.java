@@ -3,7 +3,7 @@ package com.leokom.chess;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
-import com.leokom.chess.player.simple.SimpleEnginePlayer;
+import com.leokom.chess.player.simple.SimplePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.junit.*;
 
@@ -43,7 +43,7 @@ public class PlayerFactoryTest {
 	@Test
 	public void noSystemPropertiesDefaultPlayer() {
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
-		assertTrue( player instanceof SimpleEnginePlayer );
+		assertTrue( player instanceof SimplePlayer );
 	}
 
 	@Test
@@ -51,7 +51,7 @@ public class PlayerFactoryTest {
 		System.setProperty( "white", "Simple" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
-		assertTrue( player instanceof SimpleEnginePlayer );
+		assertTrue( player instanceof SimplePlayer );
 	}
 
 	@Test

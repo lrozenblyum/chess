@@ -3,7 +3,7 @@ package com.leokom.chess;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
-import com.leokom.chess.player.simple.SimpleEnginePlayer;
+import com.leokom.chess.player.simple.SimplePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,7 +61,7 @@ final class PlayerFactory {
 			case "Legal":
 				return new LegalPlayer();
 			case "Simple":
-				return new SimpleEnginePlayer();
+				return new SimplePlayer();
 			case "Winboard":
 				return WinboardPlayer.create();
 			default:
@@ -75,6 +75,6 @@ final class PlayerFactory {
 		return
 			side == Side.WHITE ?
 				WinboardPlayer.create() :
-				new SimpleEnginePlayer();
+				new SimplePlayer();
 	}
 }

@@ -16,14 +16,14 @@ import org.apache.logging.log4j.Logger;
  * Author: Leonid
  * Date-time: 15.04.13 22:26
  */
-public class SimpleEnginePlayer implements Player {
+public class SimplePlayer implements Player {
 	private Position position = Position.getInitialPosition();
 	private int moveNumber;
 	private Player opponent;
 	private final Logger logger = LogManager.getLogger( this.getClass() );
 	private boolean recordingMode = false;
 
-	public SimpleEnginePlayer() {
+	public SimplePlayer() {
 		moveNumber = 0;
 	}
 
