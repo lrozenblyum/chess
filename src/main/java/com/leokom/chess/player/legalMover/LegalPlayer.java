@@ -63,14 +63,7 @@ public class LegalPlayer implements Player {
 		//updating internal representation of our position according to the opponent's move
 		updatePositionByOpponentMove( opponentMove );
 
-		//can be not our move : when opponent offers draw before HIS move
-		//so he still has the right to move
-		if ( position.getSideToMove() == ourSide && !recordingMode ) {
-			executeMove();
-		} else {
-			getLogger().info( "We don't execute our move because it's " + ( recordingMode ? "recording mode" : "not our turn to move" ) );
-		}
-
+		executeMove();
 	}
 
 	private void updatePositionByOpponentMove( Move opponentMove ) {
@@ -79,20 +72,28 @@ public class LegalPlayer implements Player {
 
 	//exposing package-private for tests
 	void executeMove() {
+		if ( recordingMode ) {
+			getLogger().info( "Just recording the moves." );
+			return;
+		}
+
 		Set< Move > legalMoves = position.getMoves();
-
-		if ( !legalMoves.isEmpty() ) {
-			Move move = findBestMove( legalMoves );
-
-			updateInternalPositionPresentation( move );
-
-			informOpponentAboutTheMove( move );
-		}
-		else {
-			getLogger().info( "We cannot execute any moves." +
-					" Final state has been detected." +
+		if ( legalMoves.isEmpty() ) {
+			getLogger().info( " Final state has been detected." +
 					" Winning side : " + position.getWinningSide() );
+			return;
 		}
+
+		//can be not our move : when opponent offers draw before HIS move
+		//so he still has the right to move
+		if ( position.getSideToMove() != ourSide ) {
+			getLogger().info( "It's not our side to move" );
+			return;
+		}
+
+		Move move = findBestMove( legalMoves );
+        updateInternalPositionPresentation( move );
+        informOpponentAboutTheMove( move );
 	}
 
 	private void informOpponentAboutTheMove( Move move ) {
