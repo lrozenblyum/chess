@@ -2,11 +2,9 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.legalMover.LegalPlayerIntegration;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.stubbing.OngoingStubbing;
 
