@@ -42,11 +42,6 @@ public class LegalPlayerTest {
 
 		player.setPosition( position, Side.WHITE );
 
-		//TODO: it's overhead but in current architecture
-		//the only way to inform another player about a move
-		//is as a reaction to 'opponentMoved'
-
-
 		player.opponentMoved( new Move( "c2", "c1" ) );
 		//leaving for whites only single move:
 		//a1-a2
@@ -71,7 +66,6 @@ public class LegalPlayerTest {
 
 		player.setPosition( position, Side.WHITE );
 
-		//TODO: overhead (see another test for description)
 		player.opponentMoved( new Move( "g5", "g6" ) );
 		//leaving for whites only single move:
 
