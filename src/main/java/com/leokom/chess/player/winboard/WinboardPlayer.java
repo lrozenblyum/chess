@@ -60,6 +60,11 @@ public class WinboardPlayer implements Player {
 
 	void initCommander( WinboardCommander winboardCommander ) {
 		this.commander = winboardCommander;
+		//critically important to send this sequence at the start
+		//to ensure the Winboard won't ignore our 'setfeature' commands
+		//set feature commands must be sent in response to protover
+		// From spec: If needed, it is okay for your engine to set done=0 soon as it starts, even before it receives the xboard and protover commands. This can be useful if your engine takes a long time to initialize itself.
+		commander.startInit();
 
 		commander.onXBoard( () -> logger.info( "Ready to work" ) );
 
@@ -100,11 +105,6 @@ public class WinboardPlayer implements Player {
 				opponent.opponentMoved( move );
 			}
 		} );
-
-		//critically important to send this sequence at the start
-		//to ensure the Winboard won't ignore our 'setfeature' commands
-		//set feature commands must be sent in response to protover
-		commander.startInit();
 	}
 
 	/**

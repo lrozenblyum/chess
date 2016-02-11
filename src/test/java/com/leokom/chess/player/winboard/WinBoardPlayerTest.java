@@ -68,6 +68,19 @@ public class WinBoardPlayerTest {
 		verify( commander ).startInit();
 	}
 
+	@Test
+	public void startInitAsEarlyAsPossible() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		//implicit call of startInit
+		new WinboardPlayer( commander );
+
+		InOrder inOrder = inOrder( commander );
+
+		inOrder.verify( commander ).startInit();
+		inOrder.verify( commander ).onNew( any() );
+	}
+
 	//ensure need of refactoring into commander instead of communicator
 	@Test( timeout = WAIT_TILL_QUIT )
 	public void useCommanderForQuitCommand() {
