@@ -88,6 +88,21 @@ public class ProtectionEvaluatorTest {
 
 		asserts.assertFirstBetter( position, rookDefendsQueen, rookDefendsBishop );
 	}
+
+	@Test
+	public void protectingByLessValuablePieceIsBetter() {
+		PositionBuilder position = new PositionBuilder()
+				.add( Side.WHITE, "d4", PieceType.PAWN )
+				.add( Side.WHITE, "e6", PieceType.PAWN )
+				.add( Side.WHITE, "h1", PieceType.ROOK )
+				//attacks e6
+				.add( Side.BLACK, "f7", PieceType.PAWN );
+
+		Move pawnDefendsPawn = new Move( "d4", "d5" );
+		Move rookDefendsPawn = new Move( "h1", "e1" );
+
+		asserts.assertFirstBetter( position, pawnDefendsPawn, rookDefendsPawn );
+	}
 	//backlog
 
 
@@ -97,7 +112,7 @@ public class ProtectionEvaluatorTest {
 	// Maybe fact of attack should increase value of protective moves?)
 
 	// 2) + Protecting a more valuable piece is more important than less valuable
-	// 3) Protecting BY less valuable piece is better than BY more valuable
+	// 3) * Protecting BY less valuable piece is better than BY more valuable
 	// 4) Double protection is better than single
 
 
