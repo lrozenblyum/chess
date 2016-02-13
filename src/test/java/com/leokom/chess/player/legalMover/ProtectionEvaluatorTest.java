@@ -73,6 +73,21 @@ public class ProtectionEvaluatorTest {
 		asserts.assertFirstBetter( position, knightDefendsQueen, noDefenseForQueen );
 	}
 
+	@Test
+	public void protectingMoreValuablePieceImportant() {
+		PositionBuilder position = new PositionBuilder()
+			.add( Side.WHITE, "a1", PieceType.QUEEN )
+			.add( Side.WHITE, "b4", PieceType.BISHOP )
+			.add( Side.WHITE, "h8", PieceType.ROOK )
+			.add( Side.BLACK, "c2", PieceType.KNIGHT );
+
+		//or to h1
+		Move rookDefendsQueen = new Move( "h8", "a8" );
+		//or to h4
+		Move rookDefendsBishop = new Move( "h8", "b8" );
+
+		asserts.assertFirstBetter( position, rookDefendsQueen, rookDefendsBishop );
+	}
 	//backlog
 
 
@@ -81,7 +96,7 @@ public class ProtectionEvaluatorTest {
 	// b) proactive - when no attack
 	// Maybe fact of attack should increase value of protective moves?)
 
-	// 2) Protecting a more valuable piece is more important than less valuable
+	// 2) + Protecting a more valuable piece is more important than less valuable
 	// 3) Protecting BY less valuable piece is better than BY more valuable
 	// 4) Double protection is better than single
 
