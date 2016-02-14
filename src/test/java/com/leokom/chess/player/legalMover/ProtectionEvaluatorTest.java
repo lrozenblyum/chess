@@ -2,6 +2,7 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.*;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -89,6 +90,7 @@ public class ProtectionEvaluatorTest {
 		asserts.assertFirstBetter( position, rookDefendsQueen, rookDefendsBishop );
 	}
 
+	@Ignore( "The requirement is questionable" )
 	@Test
 	public void protectingByLessValuablePieceIsBetter() {
 		PositionBuilder position = new PositionBuilder()
@@ -103,6 +105,23 @@ public class ProtectionEvaluatorTest {
 
 		asserts.assertFirstBetter( position, pawnDefendsPawn, rookDefendsPawn );
 	}
+
+	@Test
+	public void protectionByMultipleIsBetter() {
+		PositionBuilder position = new PositionBuilder()
+				.add( Side.WHITE, "c4", PieceType.PAWN )
+				//defends c4
+				.add( Side.WHITE, "d3", PieceType.PAWN )
+				.add( Side.WHITE, "h1", PieceType.ROOK )
+				//attacks c4
+				.add( Side.BLACK, "d5", PieceType.PAWN );
+
+		Move rookAlsoDefendsC4 = new Move( "h1", "c1" );
+		Move justPawnDefendsC4 = new Move( "h1", "g1" );
+
+		asserts.assertFirstBetter( position, rookAlsoDefendsC4, justPawnDefendsC4 );
+	}
+
 	//backlog
 
 
@@ -112,11 +131,12 @@ public class ProtectionEvaluatorTest {
 	// Maybe fact of attack should increase value of protective moves?)
 
 	// 2) + Protecting a more valuable piece is more important than less valuable
-	// 3) * Protecting BY less valuable piece is better than BY more valuable
-	// 4) Double protection is better than single
+	// 3) -/* (suspended) Protecting BY less valuable piece is better than BY more valuable
 
+	// 4) * Double protection is better than single
+	// 5) - if a piece is attacked by 2, we need more protection
 
-	// 5) Protecting is backwards (against capture)
+	// 6) Protecting is backwards (against capture)
 	// and blocking (prevent attack by crossing)
 	//difference?
 }
