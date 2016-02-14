@@ -134,6 +134,11 @@ public class ProtectionEvaluatorTest {
 	// 3) -/* (suspended) Protecting BY less valuable piece is better than BY more valuable
 
 	// 4) * Double protection is better than single
+
+
+	// 4b) - protection by a piece that cannot move (since it will expose king to chess)
+	// should have no effect (or very little one)
+
 	// 5) - if a piece is attacked by 2, we need more protection
 
 	// 6) Protecting is backwards (against capture)

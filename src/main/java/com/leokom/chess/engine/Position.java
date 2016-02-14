@@ -379,6 +379,13 @@ public class Position {
 		return result;
 	}
 
+	public Set< String > getSquaresAttackingSquare( Side side, String targetSquare ) {
+		return pieces.entrySet().stream()
+			.filter( entry -> entry.getValue().getSide() == side )
+			.filter( entry -> getSquaresAttackedFromSquare( entry.getKey() ).contains( targetSquare ) )
+			.map( Map.Entry::getKey ).collect( Collectors.toSet() );
+	}
+
 	//this method can be formed either as:
 	//rook moves+bishop moves
 	//or ( rook attacked + bishop attacked ) - (busy by our pieces)

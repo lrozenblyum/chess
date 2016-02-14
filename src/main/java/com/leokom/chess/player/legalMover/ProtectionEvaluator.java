@@ -1,6 +1,7 @@
 package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.Piece;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.utils.CollectionUtils;
@@ -51,13 +52,20 @@ public class ProtectionEvaluator implements Evaluator {
 		for ( String ourAttackedSquare : ourSquaresAttackedByOpponent ) {
 			//REFACTOR: probably bad dependency on another evaluator - extract common utility
 			int pieceValue = MaterialEvaluator.getValue( targetPosition.getPieceType( ourAttackedSquare ) );
-			boolean hasProtection = targetPosition.getSquaresAttackedBy( ourSide ).contains( ourAttackedSquare );
 
-			opponentAttackIndex += pieceValue / ( hasProtection ? 2.0 : 1.0 );
+			final Set< String > ourProtectors = targetPosition.getSquaresAttackingSquare( ourSide, ourAttackedSquare );
+
+			//+1 to avoid / 0, more protectors is better
+			opponentAttackIndex += pieceValue / ( ourProtectors.size() + 1.0 );
 		}
 
 		return 1 - opponentAttackIndex / MaterialEvaluator.MAXIMAL_VALUE;
 	}
+
+//	private Set< Piece > getPiecesProtecting( Position position, String square ) {
+//		position.getPieces( pieceToProtect.getSide() ).filter(
+//				potentialProtector -> position.getSquaresAttackedFromSquare( potentialProtector ).contains( square ) );
+//	}
 
 	//REFACTOR: too generic to encapsulate into Position?
 	private Set<String> getPiecesAttackedByOpponent( Position position, Side ourSide ) {
