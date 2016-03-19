@@ -3,7 +3,6 @@ package com.leokom.chess.engine;
 import org.jooq.lambda.Seq;
 import org.junit.Test;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertFalse;
@@ -37,4 +36,16 @@ public class DrawBy75MovesTest {
 				}
 		);
 	}
+
+	/*
+	 * - Ability to keep old behaviour (unlimited rules < 07.2014)
+	 * - Ability to specify 75 by not hard-coding it (inject it)
+	 * - Special moves are definitely not counted (specifically OFFER_DRAW)
+	 * - other special moves cause creation of terminal position,
+	 * anyway RESIGN on the 75'th move is still resign (?)
+	 *
+	 * - position should be terminal
+	 * - reason : DRAW
+	 * - detailed reason? (draw by 75 moves)
+	 */
 }
