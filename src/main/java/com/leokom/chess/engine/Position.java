@@ -908,4 +908,8 @@ public class Position {
 	void setWaitingForAcceptDraw( boolean waitingForAcceptDraw ) {
 		this.waitingForAcceptDraw = waitingForAcceptDraw;
 	}
+
+	public static Position getInitialPosition( int countOfMovesToDraw ) {
+		return getInitialPosition();
+	}
 }

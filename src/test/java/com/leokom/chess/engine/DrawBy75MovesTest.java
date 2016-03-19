@@ -37,6 +37,17 @@ public class DrawBy75MovesTest {
 		);
 	}
 
+	@Test
+	public void newRulesInjection() {
+		final int smallestPossibleCount = 1;
+		Position position =
+			Position.getInitialPosition( smallestPossibleCount )
+			.move( new Move( "g1", "f3" ) )
+			.move( new Move( "g8", "f6" ) );
+
+		org.junit.Assert.assertTrue( position.isTerminal() );
+	}
+
 	/*
 	 * - Ability to keep old behaviour (unlimited rules < 07.2014)
 	 * - Ability to specify 75 by not hard-coding it (inject it)
