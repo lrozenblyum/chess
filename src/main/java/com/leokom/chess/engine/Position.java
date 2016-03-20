@@ -568,7 +568,7 @@ public class Position {
 	 * Get rank staying on which a pawn can execute
 	 * en passant capture
 	 * if previous move from another side was a double pawn move
-	 * @param side
+	 * @param side pawn side
 	 * @return rank with en passant possibility
 	 */
 	static int getEnPassantPossibleRank( Side side ) {
@@ -577,7 +577,7 @@ public class Position {
 
 	/**
 	 * Get pawn rank that is reachable from current rank by SINGLE move
-	 * @param pawnRank
+	 * @param pawnRank pawn rank
 	 * @param side pawn side
 	 * @return pawn rank
 	 */
@@ -600,7 +600,7 @@ public class Position {
 	}
 
 	/**
-	 * @param side
+	 * @param side side of player
 	 * @return rank from which next pawn move can reach promotion rank
 	 */
 	private static int getRankBeforePromotion( Side side ) {
@@ -775,8 +775,8 @@ public class Position {
 	 * Check if the position has a pawn on square provided
 	 * with needed side
 	 *
-	 * @param side
-	 * @param square
+	 * @param side pawn side
+	 * @param square square to find the pawn
 	 * @return true iff such pawn is present
 	 */
 	boolean hasPawn( Side side, String square ) {
