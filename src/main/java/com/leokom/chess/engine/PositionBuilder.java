@@ -50,4 +50,9 @@ public class PositionBuilder {
 		position.setEnPassantFile( enPassantFile );
 		return this;
 	}
+
+	public PositionBuilder rules( Rules rules ) {
+		position.setRules( rules );
+		return this;
+	}
 }

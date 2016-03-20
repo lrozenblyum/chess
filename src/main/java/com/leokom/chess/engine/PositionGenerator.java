@@ -16,6 +16,13 @@ import static com.leokom.chess.engine.Position.getEnPassantPossibleRank;
  * Date-time: 06.07.13 22:16
  */
 final class PositionGenerator {
+	/**
+	 * Chess rules mention moves counter must be calculated
+	 * for both players
+	 */
+	private static final int SEMI_MOVES_COEFFICIENT = 2;
+
+
 	private final Position source;
 
 	PositionGenerator( Position source ) {
@@ -50,7 +57,8 @@ final class PositionGenerator {
 	private void makeObligatoryDrawIfPossible( Position position ) {
 		position.incMovesCount();
 		final OptionalInt movesTillDraw = position.getRules().getMovesTillDraw();
-		if ( source.getSideToMove() == Side.BLACK && movesTillDraw.isPresent() && position.getMovesCount() >= movesTillDraw.getAsInt() * 2 ) {
+		if ( movesTillDraw.isPresent() &&
+				position.getMovesCount() >= movesTillDraw.getAsInt() * SEMI_MOVES_COEFFICIENT ) {
 			//TODO: ugly call to support existing logic in getWinningSide()
 			//practically setTerminal MUST be enough!
 			position.setSideToMove( null );

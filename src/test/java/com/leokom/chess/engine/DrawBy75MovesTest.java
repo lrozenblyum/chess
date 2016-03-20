@@ -113,6 +113,21 @@ public class DrawBy75MovesTest {
 		Assert.assertTrue( position.isTerminal() );
 	}
 
+	@Test
+	public void countOfMovesForBlackRespected() {
+		final Position position = new PositionBuilder()
+				.rules( getRules( 1 ) )
+				.add( Side.WHITE, "g1", PieceType.KNIGHT )
+				.add( Side.BLACK, "g8", PieceType.KNIGHT )
+				.setSideOf( "g8" ).build();//black
+
+		final Position result = position
+				.move( new Move( "g8", "f6" ) )
+				.move( new Move( "g1", "f3" ) );
+
+		Assert.assertTrue( result.isTerminal() );
+	}
+
 	private Rules getRules( int smallestPossibleCount ) {
 		Rules rules = mock( Rules.class );
 		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( smallestPossibleCount ) );
@@ -127,14 +142,14 @@ public class DrawBy75MovesTest {
 	 * + other special moves cause creation of terminal position,
 	 * anyway RESIGN on the 75'th move is still resign !
 	 *
-	 * - position should be terminal
+	 * + position should be terminal
 	 * - reason : DRAW
 	 * - detailed reason? (draw by 75 moves)
 	 *
 	 * - a capture resets count
 	 * - pawn movement resets count
 	 * - non-capture & non-pawn : increases count
-	 * - take into account semi-moves! BLACK start?
+	 * + take into account semi-moves! BLACK start?
 	 *
 	 * - Send to Winboard
 	 * - Receive from Winboard
