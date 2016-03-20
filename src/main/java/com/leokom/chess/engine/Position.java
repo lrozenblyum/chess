@@ -896,6 +896,7 @@ public class Position {
 		//first try to make that calculation not-lazy failed, with StackOverflow
 		//it tried to create more and more positions getSquaresThatExposeOurKingToCheck
 		//winningSide == null && sideToMove == null currently after draw
+		//simulated the same behaviour for case when draw achieved due to 75 moves rule
 		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
 	}
 

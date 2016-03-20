@@ -6,7 +6,9 @@ import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 /**
  * Author: Leonid
@@ -47,6 +49,18 @@ public class DrawBy75MovesTest {
 			.move( new Move( "g8", "f6" ) );
 
 		Assert.assertTrue( position.isTerminal() );
+	}
+
+	@Test
+	public void positionStateCorrect() {
+		final int smallestPossibleCount = 1;
+		Position position =
+				Position.getInitialPosition( smallestPossibleCount )
+						.move( new Move( "g1", "f3" ) )
+						.move( new Move( "g8", "f6" ) );
+
+		assertNull( position.getWinningSide() );
+		assertEquals( new Piece( PieceType.KNIGHT, Side.BLACK ), position.getPiece( "f6" ) );
 	}
 
 	/*
