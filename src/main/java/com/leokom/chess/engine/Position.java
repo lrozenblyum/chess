@@ -93,6 +93,8 @@ public class Position {
 	//temporary state in game (which could change)
 	private String enPassantFile;
 
+	private int movesCount;
+
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
 
@@ -710,6 +712,7 @@ public class Position {
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
 
 		position.rules = this.rules;
+		position.movesCount = this.movesCount;
 	}
 
 	/**
@@ -924,5 +927,9 @@ public class Position {
 
 	void setRules( Rules rules ) {
 		this.rules = rules;
+	}
+
+	int incMovesCount() {
+		return ++movesCount;
 	}
 }

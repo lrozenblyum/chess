@@ -34,13 +34,17 @@ final class PositionGenerator {
 			position.setWaitingForAcceptDraw( false );
 		}
 
-		final OptionalInt movesTillDraw = source.getRules().getMovesTillDraw();
-		if ( source.getSideToMove() == Side.BLACK && movesTillDraw.isPresent() && movesTillDraw.getAsInt() == 1 ) {
+		final int movesCount = position.incMovesCount();
+
+		final OptionalInt movesTillDraw = position.getRules().getMovesTillDraw();
+		if ( source.getSideToMove() == Side.BLACK && movesTillDraw.isPresent() && movesCount >= movesTillDraw.getAsInt() * 2 ) {
 			//TODO: ugly call to support existing logic in getWinningSide()
 			//practically setTerminal MUST be enough!
 			position.setSideToMove( null );
 			position.setTerminal( null );
 		}
+
+
 
 		return position;
 	}

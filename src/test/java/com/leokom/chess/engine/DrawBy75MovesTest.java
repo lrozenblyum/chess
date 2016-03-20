@@ -78,6 +78,19 @@ public class DrawBy75MovesTest {
 		assertFalse( position.isTerminal() );
 	}
 
+	@Test
+	public void countOfMovesRespectedFully() {
+		Rules rules = getRules( 2 );
+		Position position =
+				Position.getInitialPosition( rules )
+						.move( new Move( "g1", "f3" ) )
+						.move( new Move( "g8", "f6" ) )
+						.move( new Move( "f3", "g1" ) )
+						.move( new Move( "f6", "g8" ) );
+
+		Assert.assertTrue( position.isTerminal() );
+	}
+
 	private Rules getRules( int smallestPossibleCount ) {
 		Rules rules = mock( Rules.class );
 		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( smallestPossibleCount ) );
