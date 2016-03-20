@@ -90,6 +90,17 @@ public class DrawBy75MovesTest {
 	}
 
 	@Test
+	public void pawnMovementResetsCounter() {
+		Rules rules = getRules( 1 );
+		Position position =
+				Position.getInitialPosition( rules )
+						.move( new Move( "e2", "e4" ) )
+						.move( new Move( "g8", "f6" ) );
+
+		Assert.assertFalse( position.isTerminal() );
+	}
+
+	@Test
 	public void countOfMovesRespected() {
 		Rules rules = getRules( 2 );
 		Position position =
@@ -147,7 +158,7 @@ public class DrawBy75MovesTest {
 	 * - detailed reason? (draw by 75 moves)
 	 *
 	 * - a capture resets count
-	 * - pawn movement resets count
+	 * * pawn movement resets count
 	 * - non-capture & non-pawn : increases count
 	 * + take into account semi-moves! BLACK start?
 	 *
