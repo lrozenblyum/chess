@@ -32,7 +32,7 @@ final class PositionGenerator {
 			position.setWaitingForAcceptDraw( false );
 		}
 
-		if ( source.getSideToMove() == Side.BLACK && source.getCountOfMovesToDraw() != 0 ) {
+		if ( source.getSideToMove() == Side.BLACK && source.getRules().getMovesTillDraw().isPresent() ) {
 			//TODO: ugly call to support existing logic in getWinningSide()
 			//practically setTerminal MUST be enough!
 			position.setSideToMove( null );
@@ -84,7 +84,7 @@ final class PositionGenerator {
 		return result;
 	}
 
-	public Position getAcceptDrawPosition() {
+	private Position getAcceptDrawPosition() {
 		return createTerminalPosition( null );
 	}
 

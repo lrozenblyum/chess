@@ -73,7 +73,7 @@ public class Position {
 	private boolean terminal;
 	private Side winningSide;
 	private boolean waitingForAcceptDraw;
-	private int countOfMovesToDraw;
+	private Rules rules;
 
 
 	void setHasKingMoved( Side side ) {
@@ -109,6 +109,7 @@ public class Position {
 	 */
 	public Position( Side sideToMove ) {
 		this.sideToMove = sideToMove;
+		this.rules = Rules.DEFAULT;
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
@@ -708,7 +709,7 @@ public class Position {
 		//little overhead but ensuring we really copy the FULL state
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
 
-		position.countOfMovesToDraw = this.countOfMovesToDraw;
+		position.rules = this.rules;
 	}
 
 	/**
@@ -852,7 +853,7 @@ public class Position {
 	/**
 	 * @return legal non-special moves
 	 */
-	public Set< Move > getNormalMoves() {
+	Set< Move > getNormalMoves() {
 		return getMoves().stream().filter( move -> !move.isSpecial() ).collect( toSet() );
 	}
 
@@ -913,15 +914,15 @@ public class Position {
 		this.waitingForAcceptDraw = waitingForAcceptDraw;
 	}
 
-	public static Position getInitialPosition( int countOfMovesToDraw ) {
-		return InitialPosition.generate( countOfMovesToDraw );
+	public static Position getInitialPosition( Rules rules ) {
+		return InitialPosition.generate( rules );
 	}
 
-	int getCountOfMovesToDraw() {
-		return countOfMovesToDraw;
+	Rules getRules() {
+		return this.rules;
 	}
 
-	void setCountOfMovesToDraw( int countOfMovesToDraw ) {
-		this.countOfMovesToDraw = countOfMovesToDraw;
+	void setRules( Rules rules ) {
+		this.rules = rules;
 	}
 }

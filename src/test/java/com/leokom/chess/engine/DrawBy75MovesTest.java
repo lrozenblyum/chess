@@ -4,11 +4,14 @@ import org.jooq.lambda.Seq;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.OptionalInt;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Author: Leonid
@@ -42,9 +45,10 @@ public class DrawBy75MovesTest {
 
 	@Test
 	public void newRulesInjection() {
-		final int smallestPossibleCount = 1;
+		Rules rules = getRules( 1 );
+
 		Position position =
-			Position.getInitialPosition( smallestPossibleCount )
+			Position.getInitialPosition( rules )
 			.move( new Move( "g1", "f3" ) )
 			.move( new Move( "g8", "f6" ) );
 
@@ -53,14 +57,20 @@ public class DrawBy75MovesTest {
 
 	@Test
 	public void positionStateCorrect() {
-		final int smallestPossibleCount = 1;
+		Rules rules = getRules( 1 );
 		Position position =
-				Position.getInitialPosition( smallestPossibleCount )
+				Position.getInitialPosition( rules )
 						.move( new Move( "g1", "f3" ) )
 						.move( new Move( "g8", "f6" ) );
 
 		assertNull( position.getWinningSide() );
 		assertEquals( new Piece( PieceType.KNIGHT, Side.BLACK ), position.getPiece( "f6" ) );
+	}
+
+	private Rules getRules( int smallestPossibleCount ) {
+		Rules rules = mock( Rules.class );
+		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( smallestPossibleCount ) );
+		return rules;
 	}
 
 	/*

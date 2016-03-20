@@ -37,9 +37,9 @@ final class InitialPosition {
 	}
 
 
-	static Position generate( int countOfMovesToDraw ) {
+	static Position generate( Rules rules ) {
 		final Position result = new Position( Side.WHITE );
-		result.setCountOfMovesToDraw( countOfMovesToDraw );
+		result.setRules( rules );
 
 		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
@@ -74,6 +74,6 @@ final class InitialPosition {
 	}
 
 	static Position generate() {
-		return generate( 0 );
+		return generate( Rules.DEFAULT );
 	}
 }
