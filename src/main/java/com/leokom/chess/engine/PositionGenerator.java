@@ -1,5 +1,7 @@
 package com.leokom.chess.engine;
 
+import java.util.OptionalInt;
+
 import static com.leokom.chess.engine.Board.fileOfSquare;
 import static com.leokom.chess.engine.Board.rankOfSquare;
 import static com.leokom.chess.engine.Position.getDoubleMoveRank;
@@ -32,7 +34,8 @@ final class PositionGenerator {
 			position.setWaitingForAcceptDraw( false );
 		}
 
-		if ( source.getSideToMove() == Side.BLACK && source.getRules().getMovesTillDraw().isPresent() ) {
+		final OptionalInt movesTillDraw = source.getRules().getMovesTillDraw();
+		if ( source.getSideToMove() == Side.BLACK && movesTillDraw.isPresent() && movesTillDraw.getAsInt() == 1 ) {
 			//TODO: ugly call to support existing logic in getWinningSide()
 			//practically setTerminal MUST be enough!
 			position.setSideToMove( null );
