@@ -73,6 +73,7 @@ public class Position {
 	private boolean terminal;
 	private Side winningSide;
 	private boolean waitingForAcceptDraw;
+	private int countOfMovesToDraw;
 
 
 	void setHasKingMoved( Side side ) {
@@ -706,6 +707,8 @@ public class Position {
 
 		//little overhead but ensuring we really copy the FULL state
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
+
+		position.countOfMovesToDraw = this.countOfMovesToDraw;
 	}
 
 	/**
@@ -910,6 +913,14 @@ public class Position {
 	}
 
 	public static Position getInitialPosition( int countOfMovesToDraw ) {
-		return getInitialPosition();
+		return InitialPosition.generate( countOfMovesToDraw );
+	}
+
+	int getCountOfMovesToDraw() {
+		return countOfMovesToDraw;
+	}
+
+	void setCountOfMovesToDraw( int countOfMovesToDraw ) {
+		this.countOfMovesToDraw = countOfMovesToDraw;
 	}
 }

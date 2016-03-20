@@ -1,6 +1,7 @@
 package com.leokom.chess.engine;
 
 import org.jooq.lambda.Seq;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -45,7 +46,7 @@ public class DrawBy75MovesTest {
 			.move( new Move( "g1", "f3" ) )
 			.move( new Move( "g8", "f6" ) );
 
-		org.junit.Assert.assertTrue( position.isTerminal() );
+		Assert.assertTrue( position.isTerminal() );
 	}
 
 	/*
@@ -63,5 +64,10 @@ public class DrawBy75MovesTest {
 	 * - pawn movement resets count
 	 * - non-capture & non-pawn : increases count
 	 * - take into account semi-moves! BLACK start?
+	 *
+	 * - Send to Winboard
+	 * - Receive from Winboard
+	 * - Send to LegalPlayer
+	 * - Receive from LegalPlayer
 	 */
 }

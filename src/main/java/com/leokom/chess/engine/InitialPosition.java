@@ -36,8 +36,10 @@ final class InitialPosition {
 		return NOT_PAWN_INITIAL_RANKS.get( side );
 	}
 
-	static Position generate() {
+
+	static Position generate( int countOfMovesToDraw ) {
 		final Position result = new Position( Side.WHITE );
+		result.setCountOfMovesToDraw( countOfMovesToDraw );
 
 		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );
 		final Set< String > initialKnightFiles = new HashSet<>( Arrays.asList( "b", "g" ) );
@@ -69,5 +71,9 @@ final class InitialPosition {
 		}
 
 		return result;
+	}
+
+	static Position generate() {
+		return generate( 0 );
 	}
 }
