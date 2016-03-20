@@ -34,19 +34,28 @@ final class PositionGenerator {
 			position.setWaitingForAcceptDraw( false );
 		}
 
-		final int movesCount = position.incMovesCount();
+		if ( !move.isSpecial() ) {
+			makeObligatoryDrawIfPossible( position );
+		}
 
+		return position;
+	}
+
+	/**
+	 * If according to currently executed move
+	 * we need to mark the position as an obligatory draw : do it
+	 * Currently 75 moves rule is supported.
+	 * @param position position to mark obligatory when needed
+	 */
+	private void makeObligatoryDrawIfPossible( Position position ) {
+		position.incMovesCount();
 		final OptionalInt movesTillDraw = position.getRules().getMovesTillDraw();
-		if ( source.getSideToMove() == Side.BLACK && movesTillDraw.isPresent() && movesCount >= movesTillDraw.getAsInt() * 2 ) {
+		if ( source.getSideToMove() == Side.BLACK && movesTillDraw.isPresent() && position.getMovesCount() >= movesTillDraw.getAsInt() * 2 ) {
 			//TODO: ugly call to support existing logic in getWinningSide()
 			//practically setTerminal MUST be enough!
 			position.setSideToMove( null );
 			position.setTerminal( null );
 		}
-
-
-
-		return position;
 	}
 
 	private Position getPosition( Move move ) {

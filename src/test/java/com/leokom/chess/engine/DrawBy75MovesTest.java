@@ -66,6 +66,28 @@ public class DrawBy75MovesTest {
 		assertNull( position.getWinningSide() );
 		assertEquals( new Piece( PieceType.KNIGHT, Side.BLACK ), position.getPiece( "f6" ) );
 	}
+	@Test
+	public void offerDrawIsNotCounted() {
+		Rules rules = getRules( 1 );
+		Position position =
+				Position.getInitialPosition( rules )
+						.move( new Move( "g1", "f3" ) )
+						.move( Move.OFFER_DRAW );
+
+		assertFalse( position.isTerminal() );
+	}
+
+	@Test
+	public void resignIsStillResign() {
+		Rules rules = getRules( 1 );
+		Position position =
+				Position.getInitialPosition( rules )
+						.move( new Move( "g1", "f3" ) )
+						.move( Move.RESIGN );
+
+		Assert.assertTrue( position.isTerminal() );
+		assertEquals( Side.WHITE, position.getWinningSide() );
+	}
 
 	@Test
 	public void countOfMovesRespected() {
@@ -100,9 +122,10 @@ public class DrawBy75MovesTest {
 	/*
 	 * - Ability to keep old behaviour (unlimited rules < 07.2014)
 	 * - Ability to specify 75 by not hard-coding it (inject it)
-	 * - Special moves are definitely not counted (specifically OFFER_DRAW)
-	 * - other special moves cause creation of terminal position,
-	 * anyway RESIGN on the 75'th move is still resign (?)
+	 *
+	 * + Special moves are definitely not counted (specifically OFFER_DRAW)
+	 * + other special moves cause creation of terminal position,
+	 * anyway RESIGN on the 75'th move is still resign !
 	 *
 	 * - position should be terminal
 	 * - reason : DRAW

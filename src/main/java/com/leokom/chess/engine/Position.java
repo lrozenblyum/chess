@@ -929,7 +929,11 @@ public class Position {
 		this.rules = rules;
 	}
 
-	int incMovesCount() {
-		return ++movesCount;
+	void incMovesCount() {
+		++movesCount;
+	}
+
+	int getMovesCount() {
+		return movesCount;
 	}
 }
