@@ -126,6 +126,10 @@ final class PositionGenerator {
 			throw new IllegalArgumentException( "Move must be not null" );
 		}
 
+		if ( source.getSideToMove() == null ) {
+			throw new IllegalStateException( "The game is already over, cannot move. Tried to move : " + move );
+		}
+
 		if ( source.getPiece( move.getFrom() ) == null ) {
 			throw new IllegalArgumentException( "Source square is empty : " + move );
 		}

@@ -153,6 +153,20 @@ public class DrawBy75MovesTest {
 		Assert.assertTrue( result.isTerminal() );
 	}
 
+	@Test
+	public void captureResetsCount() {
+		Rules rules = getRules( 1 );
+		Position position =
+				Position.getInitialPosition( rules )
+						.move( new Move( "e2", "e4" ) ) //pawn
+						.move( new Move( "g8", "f6" ) )
+						.move( new Move( "d2", "d4" ) ) //pawn
+						.move( new Move( "f6", "e4" ) ) //capture
+						.move( new Move( "g1", "f3" ) );
+
+		Assert.assertFalse( position.isTerminal() );
+	}
+
 	private Rules getRules( int smallestPossibleCount ) {
 		Rules rules = mock( Rules.class );
 		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( smallestPossibleCount ) );
