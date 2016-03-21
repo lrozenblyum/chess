@@ -41,9 +41,7 @@ final class PositionGenerator {
 			position.setWaitingForAcceptDraw( false );
 		}
 
-		if ( !move.isSpecial() ) {
-			makeObligatoryDrawIfPossible( position );
-		}
+		makeObligatoryDrawIfPossible( position, move );
 
 		return position;
 	}
@@ -52,10 +50,21 @@ final class PositionGenerator {
 	 * If according to currently executed move
 	 * we need to mark the position as an obligatory draw : do it
 	 * Currently 75 moves rule is supported.
-	 * @param position position to mark obligatory when needed
+	 * @param position target position to mark obligatory when needed
+	 * @param move move that has been executed
 	 */
-	private void makeObligatoryDrawIfPossible( Position position ) {
-		position.incMovesCount();
+	private void makeObligatoryDrawIfPossible( Position position, Move move ) {
+		if ( move.isSpecial() ) {
+			return;
+		}
+
+		if ( source.getPieceType( move.getFrom() ) == PieceType.PAWN ) {
+			position.resetMovesCount();
+		}
+		else {
+			position.incMovesCount();
+		}
+
 		final OptionalInt movesTillDraw = position.getRules().getMovesTillDraw();
 		if ( movesTillDraw.isPresent() &&
 				position.getMovesCount() >= movesTillDraw.getAsInt() * SEMI_MOVES_COEFFICIENT ) {

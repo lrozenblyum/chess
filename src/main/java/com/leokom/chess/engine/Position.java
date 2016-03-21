@@ -936,4 +936,8 @@ public class Position {
 	int getMovesCount() {
 		return movesCount;
 	}
+
+	void resetMovesCount() {
+		movesCount = 0;
+	}
 }

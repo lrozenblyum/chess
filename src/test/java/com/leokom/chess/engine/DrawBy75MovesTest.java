@@ -100,6 +100,19 @@ public class DrawBy75MovesTest {
 		Assert.assertFalse( position.isTerminal() );
 	}
 
+	//pawn move is not the end, it just starts new counter
+	@Test
+	public void counterStillWorksAfterPawnMove() {
+		Rules rules = getRules( 1 );
+		Position position =
+				Position.getInitialPosition( rules )
+						.move( new Move( "e2", "e4" ) )
+						.move( new Move( "g8", "f6" ) )
+						.move( new Move( "g1", "f3" ) );
+
+		Assert.assertTrue( position.isTerminal() );
+	}
+
 	@Test
 	public void countOfMovesRespected() {
 		Rules rules = getRules( 2 );
@@ -158,7 +171,7 @@ public class DrawBy75MovesTest {
 	 * - detailed reason? (draw by 75 moves)
 	 *
 	 * - a capture resets count
-	 * * pawn movement resets count
+	 * + pawn movement resets count
 	 * - non-capture & non-pawn : increases count
 	 * + take into account semi-moves! BLACK start?
 	 *
