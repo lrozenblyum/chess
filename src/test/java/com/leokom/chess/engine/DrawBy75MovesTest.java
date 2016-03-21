@@ -143,7 +143,8 @@ public class DrawBy75MovesTest {
 				.rules( getRules( 1 ) )
 				.add( Side.WHITE, "g1", PieceType.KNIGHT )
 				.add( Side.BLACK, "g8", PieceType.KNIGHT )
-				.setSideOf( "g8" ).build();//black
+				.setSide( Side.BLACK )
+				.build();
 
 		final Position result = position
 				.move( new Move( "g8", "f6" ) )
@@ -170,7 +171,7 @@ public class DrawBy75MovesTest {
 	 * - reason : DRAW
 	 * - detailed reason? (draw by 75 moves)
 	 *
-	 * - a capture resets count
+	 * * a capture resets count
 	 * + pawn movement resets count
 	 * - non-capture & non-pawn : increases count
 	 * + take into account semi-moves! BLACK start?

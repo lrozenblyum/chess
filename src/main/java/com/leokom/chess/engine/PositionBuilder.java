@@ -23,7 +23,11 @@ public class PositionBuilder {
 	}
 
 	public PositionBuilder setSideOf( String square ) {
-		position.setSideToMove( position.getSide( square ) );
+		return setSide( position.getSide( square ) );
+	}
+
+	public PositionBuilder setSide( Side side ) {
+		position.setSideToMove( side );
 		return this;
 	}
 
