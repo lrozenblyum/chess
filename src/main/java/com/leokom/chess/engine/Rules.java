@@ -13,7 +13,7 @@ import java.util.OptionalInt;
  * Date-time: 20.03.16 11:05
  */
 class Rules {
-	private static final Rules BEFORE_JULY_2014 = new Rules();
+	static final Rules BEFORE_JULY_2014 = new Rules();
 	//TODO: inject new rules after they're implemented
 	//keeping old behaviour so far
 	static final Rules DEFAULT = BEFORE_JULY_2014;

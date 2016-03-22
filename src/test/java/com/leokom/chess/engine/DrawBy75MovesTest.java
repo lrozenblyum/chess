@@ -28,19 +28,45 @@ public class DrawBy75MovesTest {
 	public void rulesBeforeJuly2014() {
 		//trick to overcome impossibility to mutate inside lambda
 		//http://stackoverflow.com/a/32768790/1429367
-		AtomicReference< Position > position = new AtomicReference<>( Position.getInitialPosition() );
+		AtomicReference< Position > position = new AtomicReference<>( Position.getInitialPosition( Rules.BEFORE_JULY_2014 ) );
 
 		//knights moving forth and back
 		//first usage of cool library jOOλ
+		//knights moving forth and back
 		Seq.of( new Move( "g1", "f3" ),	new Move( "g8", "f6" ),
 				new Move( "f3", "g1" ),	new Move( "f6", "g8" ) )
 				.cycle( BIG_AMOUNT_OF_TIMES )
 				.forEach(
-				move -> {
-					position.set( position.get().move( move ) );
-					assertFalse( position.get().isTerminal() );
-				}
-		);
+						move -> {
+							doMove( position, move );
+							assertFalse( position.get().isTerminal() );
+						}
+				);
+	}
+
+	private void doMove( AtomicReference<Position> position, Move move ) {
+		position.set( position.get().move( move ) );
+	}
+
+	@Test
+	public void rulesAfterJuly2014() {
+		AtomicReference< Position > position = new AtomicReference<>( Position.getInitialPosition( Rules.DEFAULT ) );
+
+		//knights moving forth and back
+		//75 * 2 = 150 / 4 = 37.5
+		final int iterationsCloseToEnd = 37;
+		Seq.of( new Move( "g1", "f3" ),	new Move( "g8", "f6" ),
+				new Move( "f3", "g1" ),	new Move( "f6", "g8" ) )
+				.cycle( iterationsCloseToEnd )
+				.forEach(
+						move -> {
+							doMove( position, move );
+							assertFalse( position.get().isTerminal() );
+						}
+				);
+
+		Seq.of( new Move( "g1", "f3" ),	new Move( "g8", "f6" ) ).forEach( move -> doMove( position, move ) );
+		Assert.assertTrue( position.get().isTerminal() );
 	}
 
 	@Test
@@ -100,7 +126,7 @@ public class DrawBy75MovesTest {
 		Assert.assertFalse( position.isTerminal() );
 	}
 
-	//pawn move is not the end, it just starts new counter
+	//pawn doMove is not the end, it just starts new counter
 	@Test
 	public void counterStillWorksAfterPawnMove() {
 		Rules rules = getRules( 1 );
@@ -193,11 +219,12 @@ public class DrawBy75MovesTest {
 
 	/*
 	 * - Ability to keep old behaviour (unlimited rules < 07.2014)
-	 * - Ability to specify 75 by not hard-coding it (inject it)
+	 * * Ability to specify 75 by not hard-coding it (inject it)
+	 * * Make 75 moves rule - default
 	 *
 	 * + Special moves are definitely not counted (specifically OFFER_DRAW)
 	 * + other special moves cause creation of terminal position,
-	 * anyway RESIGN on the 75'th move is still resign !
+	 * anyway RESIGN on the 75'th doMove is still resign !
 	 *
 	 * + position should be terminal
 	 * - reason : DRAW
