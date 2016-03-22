@@ -41,9 +41,7 @@ final class PositionGenerator {
 			position.setWaitingForAcceptDraw( false );
 		}
 
-		makeObligatoryDrawIfPossible( position, move );
-
-		return position;
+		return makeObligatoryDrawIfPossible( position, move );
 	}
 
 	/**
@@ -52,10 +50,12 @@ final class PositionGenerator {
 	 * Currently 75 moves rule is supported.
 	 * @param position target position to mark obligatory when needed
 	 * @param move move that has been executed
+	 * @return result position untouched if no obligatory draw is needed or
+	 * a terminal position basing on it
 	 */
-	private void makeObligatoryDrawIfPossible( Position position, Move move ) {
+	private Position makeObligatoryDrawIfPossible( Position position, Move move ) {
 		if ( move.isSpecial() ) {
-			return;
+			return position;
 		}
 
 		if ( needRestartingMoveCounter( move ) ) {
@@ -66,13 +66,11 @@ final class PositionGenerator {
 		}
 
 		final OptionalInt movesTillDraw = position.getRules().getMovesTillDraw();
-		if ( movesTillDraw.isPresent() &&
-				position.getMovesCount() >= movesTillDraw.getAsInt() * SEMI_MOVES_COEFFICIENT ) {
-			//TODO: ugly call to support existing logic in getWinningSide()
-			//practically setTerminal MUST be enough!
-			position.setSideToMove( null );
-			position.setTerminal( null );
+		if ( movesTillDraw.isPresent() && position.getMovesCount() >= movesTillDraw.getAsInt() * SEMI_MOVES_COEFFICIENT ) {
+			return createTerminalPositionOf( null, position );
 		}
+
+		return position;
 	}
 
 	private boolean needRestartingMoveCounter( Move move ) {
@@ -152,8 +150,12 @@ final class PositionGenerator {
 	}
 
 	private Position createTerminalPosition( Side winningSide ) {
+		return createTerminalPositionOf( winningSide, source );
+	}
+
+	private Position createTerminalPositionOf( Side winningSide, Position position ) {
 		final Position result = new Position( null );
-		source.copyStateTo( result );
+		position.copyStateTo( result );
 		//TODO: should checkmate move also set this flag?
 		result.setTerminal( winningSide );
 		return result;
