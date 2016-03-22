@@ -58,7 +58,7 @@ final class PositionGenerator {
 			return;
 		}
 
-		if ( source.getPieceType( move.getFrom() ) == PieceType.PAWN ) {
+		if ( needRestartingCounterMoveCounter( move ) ) {
 			position.resetMovesCount();
 		}
 		else {
@@ -73,6 +73,18 @@ final class PositionGenerator {
 			position.setSideToMove( null );
 			position.setTerminal( null );
 		}
+	}
+
+	private boolean needRestartingCounterMoveCounter( Move move ) {
+		return didPawnMove( move ) || isCapture( move );
+	}
+
+	private boolean isCapture( Move move ) {
+		return source.isCapture( move );
+	}
+
+	private boolean didPawnMove( Move move ) {
+		return source.getPieceType( move.getFrom() ) == PieceType.PAWN;
 	}
 
 	private Position getPosition( Move move ) {

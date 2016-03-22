@@ -940,4 +940,14 @@ public class Position {
 	void resetMovesCount() {
 		movesCount = 0;
 	}
+
+	/**
+	 * Detect whether a move executed from the position would be a capture
+	 * @param move potential move to execute
+	 * @return true if the move is capture
+	 */
+	boolean isCapture( Move move ) {
+		//TODO: ensure promotion is also covered
+		return isOccupiedBy( move.getTo(), getSideToMove().opposite() );
+	}
 }
