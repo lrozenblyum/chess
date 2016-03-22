@@ -58,7 +58,7 @@ final class PositionGenerator {
 			return;
 		}
 
-		if ( needRestartingCounterMoveCounter( move ) ) {
+		if ( needRestartingMoveCounter( move ) ) {
 			position.resetMovesCount();
 		}
 		else {
@@ -75,7 +75,7 @@ final class PositionGenerator {
 		}
 	}
 
-	private boolean needRestartingCounterMoveCounter( Move move ) {
+	private boolean needRestartingMoveCounter( Move move ) {
 		return didPawnMove( move ) || isCapture( move );
 	}
 
