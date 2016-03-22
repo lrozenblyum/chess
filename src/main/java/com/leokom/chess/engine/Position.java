@@ -947,7 +947,6 @@ public class Position {
 	 * @return true if the move is capture
 	 */
 	boolean isCapture( Move move ) {
-		//TODO: ensure promotion is also covered
-		return isOccupiedBy( move.getTo(), getSideToMove().opposite() );
+		return isOccupiedBy( move.getDestinationSquare(), getSideToMove().opposite() );
 	}
 }

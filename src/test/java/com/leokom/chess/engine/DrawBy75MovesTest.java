@@ -167,6 +167,24 @@ public class DrawBy75MovesTest {
 		Assert.assertFalse( position.isTerminal() );
 	}
 
+	@Test
+	public void captureWithPromotionResetsCount() {
+		final Position position = new PositionBuilder()
+				.rules( getRules( 1 ) )
+				.add( Side.WHITE, "f7", PieceType.PAWN )
+				.add( Side.BLACK, "g8", PieceType.KNIGHT )
+				.add( Side.BLACK, "a1", PieceType.KING )
+				.add( Side.WHITE, "a8", PieceType.KING )
+				.setSide( Side.WHITE )
+				.build();
+
+		final Position result = position
+				.move( new Move( "f7", "g8R" ) )
+				.move( new Move( "a1", "a2" ) );
+
+		Assert.assertFalse( result.isTerminal() );
+	}
+
 	private Rules getRules( int smallestPossibleCount ) {
 		Rules rules = mock( Rules.class );
 		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( smallestPossibleCount ) );
