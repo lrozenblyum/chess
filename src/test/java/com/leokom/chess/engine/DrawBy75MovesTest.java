@@ -203,9 +203,9 @@ public class DrawBy75MovesTest {
 	 * - reason : DRAW
 	 * - detailed reason? (draw by 75 moves)
 	 *
-	 * * a capture resets count
+	 * + a capture resets count
 	 * + pawn movement resets count
-	 * - non-capture & non-pawn : increases count
+	 * + non-capture & non-pawn : increases count
 	 * + take into account semi-moves! BLACK start?
 	 *
 	 * - Send to Winboard
