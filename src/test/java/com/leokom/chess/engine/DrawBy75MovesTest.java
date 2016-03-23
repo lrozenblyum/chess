@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.OptionalInt;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,49 +23,42 @@ public class DrawBy75MovesTest {
 
 	/* Before 1 July 2014, consecutive 75 moves from both players
 			 * didn't cause automatic draw. No limits if neither player claims draw */
+
+
 	@Test
 	public void rulesBeforeJuly2014() {
 		//trick to overcome impossibility to mutate inside lambda
 		//http://stackoverflow.com/a/32768790/1429367
-		AtomicReference< Position > position = new AtomicReference<>( Position.getInitialPosition( Rules.BEFORE_JULY_2014 ) );
+		final Position initialPosition = Position.getInitialPosition( Rules.BEFORE_JULY_2014 );
 
 		//knights moving forth and back
 		//first usage of cool library jOOλ
 		//knights moving forth and back
-		Seq.of( new Move( "g1", "f3" ),	new Move( "g8", "f6" ),
-				new Move( "f3", "g1" ),	new Move( "f6", "g8" ) )
-				.cycle( BIG_AMOUNT_OF_TIMES )
-				.forEach(
-						move -> {
-							doMove( position, move );
-							assertFalse( position.get().isTerminal() );
-						}
-				);
-	}
+		final Seq<Move> moves = Seq.of( new Move( "g1", "f3" ), new Move( "g8", "f6" ),
+				new Move( "f3", "g1" ), new Move( "f6", "g8" ) )
+				.cycle( BIG_AMOUNT_OF_TIMES );
 
-	private void doMove( AtomicReference<Position> position, Move move ) {
-		position.set( position.get().move( move ) );
+
+		new PositionMover( initialPosition, moves )
+			.afterMove( position -> assertFalse( position.isTerminal() ) )
+			.run();
 	}
 
 	@Test
 	public void rulesAfterJuly2014() {
-		AtomicReference< Position > position = new AtomicReference<>( Position.getInitialPosition( Rules.DEFAULT ) );
+		final Position initialPosition = Position.getInitialPosition( Rules.DEFAULT );
 
 		//knights moving forth and back
 		//75 * 2 = 150 / 4 = 37.5
 		final int iterationsCloseToEnd = 37;
-		Seq.of( new Move( "g1", "f3" ),	new Move( "g8", "f6" ),
-				new Move( "f3", "g1" ),	new Move( "f6", "g8" ) )
+		final Seq<Move> moves = Seq.of( new Move( "g1", "f3" ), new Move( "g8", "f6" ),
+				new Move( "f3", "g1" ), new Move( "f6", "g8" ) )
 				.cycle( iterationsCloseToEnd )
-				.forEach(
-						move -> {
-							doMove( position, move );
-							assertFalse( position.get().isTerminal() );
-						}
-				);
+				.append( new Move( "g1", "f3" ), new Move( "g8", "f6" ) );
 
-		Seq.of( new Move( "g1", "f3" ),	new Move( "g8", "f6" ) ).forEach( move -> doMove( position, move ) );
-		Assert.assertTrue( position.get().isTerminal() );
+		final Position result = new PositionMover( initialPosition, moves ).run();
+
+		Assert.assertTrue( result.isTerminal() );
 	}
 
 	@Test
