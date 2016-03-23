@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.OptionalInt;
+import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -40,7 +41,7 @@ public class DrawBy75MovesTest {
 
 
 		new PositionMover( initialPosition, moves )
-			.afterMove( position -> assertFalse( position.isTerminal() ) )
+			.afterMove( assertNonTerminal() )
 			.run();
 	}
 
@@ -59,6 +60,29 @@ public class DrawBy75MovesTest {
 		final Position result = new PositionMover( initialPosition, moves ).run();
 
 		Assert.assertTrue( result.isTerminal() );
+	}
+
+	@Test
+	public void enPassantResetsCounter() {
+		Rules rules = getRules( 1 );
+
+		Position initialPosition = Position.getInitialPosition( rules );
+		Seq< Move > moves = Seq.of(
+				new Move( "e2", "e4" ),
+				new Move( "a7", "a5" ),
+				new Move( "e4", "e5" ),
+				new Move( "f7", "f5" ),
+				new Move( "e5", "f6" ) );
+
+		final Position result = new PositionMover( initialPosition, moves )
+				.afterMove( assertNonTerminal() )
+				.run();
+
+		Assert.assertTrue( result.move( "g8", "h6" ).move( "g1", "f3" ).isTerminal() );
+	}
+
+	private Consumer<Position> assertNonTerminal() {
+		return position -> assertFalse( position.isTerminal() );
 	}
 
 	@Test
@@ -223,6 +247,7 @@ public class DrawBy75MovesTest {
 	 * - detailed reason? (draw by 75 moves)
 	 *
 	 * + a capture resets count
+	 * + en passant capture resets count (done through pawn movement anyway, but position.isCapture also improved)
 	 * + pawn movement resets count
 	 * + non-capture & non-pawn : increases count
 	 * + take into account semi-moves! BLACK start?

@@ -947,6 +947,21 @@ public class Position {
 	 * @return true if the move is capture
 	 */
 	boolean isCapture( Move move ) {
-		return isOccupiedBy( move.getDestinationSquare(), getSideToMove().opposite() );
+		return isOccupiedBy( move.getDestinationSquare(), getSideToMove().opposite() ) ||
+				isEnPassant( move );
+	}
+
+	//position generator also knows about en passant
+	//maybe need generalizing
+
+	//this is NON-VALIDATING checker
+	private boolean isEnPassant( Move move ) {
+		return isPawnCapture( move ) && isEmptySquare( move.getDestinationSquare() );
+	}
+
+	//pawn capture is done diagonally - the file is changed
+	private boolean isPawnCapture( Move move ) {
+		return getPieceType( move.getFrom() ) == PieceType.PAWN &&
+			! Board.fileOfSquare( move.getFrom() ).equals( move.getDestinationSquare() );
 	}
 }
