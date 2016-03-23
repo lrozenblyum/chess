@@ -14,15 +14,22 @@ import java.util.OptionalInt;
  */
 class Rules {
 	static final Rules BEFORE_JULY_2014 = new Rules();
-	//TODO: inject new rules after they're implemented
-	//keeping old behaviour so far
-	static final Rules DEFAULT = BEFORE_JULY_2014;
+	private static final Rules AFTER_JULY_2014 = new Rules( 75 );
+	static final Rules DEFAULT = AFTER_JULY_2014;
+	private final Integer countOfMovesTillDraw;
 
 	private Rules() {
+		this( null );
+	}
+
+	private Rules( Integer countOfMovesTillDraw ) {
+		this.countOfMovesTillDraw = countOfMovesTillDraw;
 	}
 
 	OptionalInt getMovesTillDraw() {
 		//see discussion http://stackoverflow.com/questions/26364330/why-isnt-there-an-optionalint-ofnullableinteger
-		return OptionalInt.empty();
+		return countOfMovesTillDraw == null ?
+				OptionalInt.empty() :
+				OptionalInt.of( countOfMovesTillDraw );
 	}
 }

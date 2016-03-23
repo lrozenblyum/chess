@@ -218,9 +218,9 @@ public class DrawBy75MovesTest {
 	}
 
 	/*
-	 * - Ability to keep old behaviour (unlimited rules < 07.2014)
-	 * * Ability to specify 75 by not hard-coding it (inject it)
-	 * * Make 75 moves rule - default
+	 * + Ability to keep old behaviour (unlimited rules < 07.2014)
+	 * + Ability to specify 75 by not hard-coding it (inject it)
+	 * + Make 75 moves rule - default
 	 *
 	 * + Special moves are definitely not counted (specifically OFFER_DRAW)
 	 * + other special moves cause creation of terminal position,
