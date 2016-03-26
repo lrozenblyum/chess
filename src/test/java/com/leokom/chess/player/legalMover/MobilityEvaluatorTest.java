@@ -23,6 +23,7 @@ public class MobilityEvaluatorTest {
 	public void shouldQueenControlMore() {
 		Position position = new Position( Side.WHITE );
 		position.add( Side.WHITE, "a1", PieceType.QUEEN );
+		position.add( Side.BLACK, "h7", PieceType.QUEEN );
 
 		Move expectedBetter = new Move( "a1", "d4" ); //high mobility
 		Move expectedWorse = new Move( "a1", "h8" ); //low mobility
