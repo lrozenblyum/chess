@@ -35,6 +35,8 @@ class MobilityEvaluator implements Evaluator {
 		//TODO: all evaluators must take into account
 		//possibility that the position is terminal
 		//most likely MasterEvaluator might take preventive actions.
+
+		//proved need in LegalPlayerTest and in (temporarily ignored) LegalPlayerSelfTest
 		if ( target.isTerminal() ) {
 			return WORST_MOVE;
 		}

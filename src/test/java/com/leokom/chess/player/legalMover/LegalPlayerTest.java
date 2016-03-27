@@ -34,30 +34,11 @@ public class LegalPlayerTest {
 		player.setOpponent( opponent );
 
 		//just single answer programmed, next - do nothing
-		doAnswer( invocationOnMock -> { player.opponentMoved( new Move( "e7", "e5" ) ); return null; } )
+		doAnswer( invocationOnMock -> { player.opponentMoved( new Move( "g8", "f6" ) ); return null; } )
 		.doAnswer( invocation -> null )
 		.when( opponent ).opponentMoved( any( Move.class ) );
 
 		player.joinGameForSideToMove();
-	}
-
-	private static class EvaluatorToSpeedUpObligatoryDraw implements Evaluator {
-		private static final double WORST_MOVE = 0.0;
-		private static final double BEST_MOVE = 1.0;
-
-		@Override
-		public double evaluateMove( Position position, Move move ) {
-			 if ( move.isSpecial() ) {
-				 return WORST_MOVE;
-			 }
-
-			final Position result = position.move( move );
-			if ( result.isTerminal() && result.getWinningSide() == null ) {
-				return BEST_MOVE;
-			}
-
-			return WORST_MOVE;
-		}
 	}
 
 	@Test
@@ -65,10 +46,11 @@ public class LegalPlayerTest {
 		Rules rules = new RulesBuilder().movesTillDraw( 1 ).build();
 		final Position position = Position.getInitialPosition( rules );
 
-		final LegalPlayer player = new LegalPlayer( new EvaluatorToSpeedUpObligatoryDraw() );
+		final LegalPlayer player = getLegalPlayer();
 		player.setPosition( position, Side.BLACK );
 		player.setOpponent( opponent );
-		player.opponentMoved( new Move( "e2", "e4" ) );
+		//not pawn, not capture
+		player.opponentMoved( new Move( "g1", "f3" ) );
 	}
 
 	@Test
