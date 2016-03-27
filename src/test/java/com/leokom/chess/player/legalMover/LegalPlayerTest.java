@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
 
+import java.util.OptionalInt;
+
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -22,6 +24,55 @@ public class LegalPlayerTest {
 	@Before
 	public void setUp() throws Exception {
 		opponent = mock( Player.class );
+	}
+
+	@Test
+	public void legalPlayerCorrectWhenObligatoryDrawAchievedByOpponentMove() {
+		Rules rules = mock( Rules.class );
+		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( 1 ) );
+		final Position position = Position.getInitialPosition( rules );
+
+		final LegalPlayer player = getLegalPlayer();
+		player.setPosition( position, Side.WHITE );
+		player.setOpponent( opponent );
+
+		//just single answer programmed, next - do nothing
+		doAnswer( invocationOnMock -> { player.opponentMoved( new Move( "e7", "e5" ) ); return null; } )
+		.doAnswer( invocation -> null )
+		.when( opponent ).opponentMoved( any( Move.class ) );
+
+		player.joinGameForSideToMove();
+	}
+
+	private static class EvaluatorToSpeedUpObligatoryDraw implements Evaluator {
+		private static final double WORST_MOVE = 0.0;
+		private static final double BEST_MOVE = 1.0;
+
+		@Override
+		public double evaluateMove( Position position, Move move ) {
+			 if ( move.isSpecial() ) {
+				 return WORST_MOVE;
+			 }
+
+			final Position result = position.move( move );
+			if ( result.isTerminal() && result.getWinningSide() == null ) {
+				return BEST_MOVE;
+			}
+
+			return WORST_MOVE;
+		}
+	}
+
+	@Test
+	public void legalPlayerCorrectWhenObligatoryDrawAchievedByHisMove() {
+		Rules rules = mock( Rules.class );
+		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( 1 ) );
+		final Position position = Position.getInitialPosition( rules );
+
+		final LegalPlayer player = new LegalPlayer( new EvaluatorToSpeedUpObligatoryDraw() );
+		player.setPosition( position, Side.BLACK );
+		player.setOpponent( opponent );
+		player.opponentMoved( new Move( "e2", "e4" ) );
 	}
 
 	@Test
@@ -93,7 +144,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position, Side.WHITE );
 
-		player.executeMove();
+		player.executeOurMove();
 
 		verify( opponent ).opponentMoved( new Move( "h8", "g8" ) );
 	}
@@ -165,7 +216,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position, Side.WHITE );
 
-		player.executeMove();
+		player.executeOurMove();
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
 		reset( opponent ); //NOT recommended by Mockito
@@ -197,7 +248,7 @@ public class LegalPlayerTest {
 
 		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
-		player.executeMove(); //results in LegalPlayer h8h7
+		player.executeOurMove(); //results in LegalPlayer h8h7
 
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 	}

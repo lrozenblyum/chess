@@ -12,7 +12,7 @@ import java.util.OptionalInt;
  * Author: Leonid
  * Date-time: 20.03.16 11:05
  */
-class Rules {
+public class Rules {
 	static final Rules BEFORE_JULY_2014 = new Rules();
 	private static final Rules AFTER_JULY_2014 = new Rules( 75 );
 	static final Rules DEFAULT = AFTER_JULY_2014;
@@ -26,7 +26,7 @@ class Rules {
 		this.countOfMovesTillDraw = countOfMovesTillDraw;
 	}
 
-	OptionalInt getMovesTillDraw() {
+	public OptionalInt getMovesTillDraw() {
 		//see discussion http://stackoverflow.com/questions/26364330/why-isnt-there-an-optionalint-ofnullableinteger
 		return countOfMovesTillDraw == null ?
 				OptionalInt.empty() :
