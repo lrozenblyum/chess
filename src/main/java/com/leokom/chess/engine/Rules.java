@@ -26,7 +26,7 @@ public class Rules {
 		this.countOfMovesTillDraw = countOfMovesTillDraw;
 	}
 
-	public OptionalInt getMovesTillDraw() {
+	OptionalInt getMovesTillDraw() {
 		//see discussion http://stackoverflow.com/questions/26364330/why-isnt-there-an-optionalint-ofnullableinteger
 		return countOfMovesTillDraw == null ?
 				OptionalInt.empty() :

@@ -228,9 +228,7 @@ public class DrawBy75MovesTest {
 	}
 
 	private Rules getRules( int smallestPossibleCount ) {
-		Rules rules = mock( Rules.class );
-		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( smallestPossibleCount ) );
-		return rules;
+		return new RulesBuilder().movesTillDraw( smallestPossibleCount ).build();
 	}
 
 	/*

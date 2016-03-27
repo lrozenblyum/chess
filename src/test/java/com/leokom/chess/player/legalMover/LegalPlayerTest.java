@@ -7,8 +7,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
 
-import java.util.OptionalInt;
-
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -28,8 +26,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCorrectWhenObligatoryDrawAchievedByOpponentMove() {
-		Rules rules = mock( Rules.class );
-		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( 1 ) );
+		Rules rules = new RulesBuilder().movesTillDraw( 1 ).build();
 		final Position position = Position.getInitialPosition( rules );
 
 		final LegalPlayer player = getLegalPlayer();
@@ -65,8 +62,7 @@ public class LegalPlayerTest {
 
 	@Test
 	public void legalPlayerCorrectWhenObligatoryDrawAchievedByHisMove() {
-		Rules rules = mock( Rules.class );
-		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( 1 ) );
+		Rules rules = new RulesBuilder().movesTillDraw( 1 ).build();
 		final Position position = Position.getInitialPosition( rules );
 
 		final LegalPlayer player = new LegalPlayer( new EvaluatorToSpeedUpObligatoryDraw() );
