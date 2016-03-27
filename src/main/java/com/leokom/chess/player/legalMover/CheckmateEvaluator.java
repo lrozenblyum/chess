@@ -9,7 +9,7 @@ import com.leokom.chess.engine.Position;
  *
  * Checkmate is the highest goal of the whole game
  */
-public class CheckmateEvaluator implements Evaluator {
+class CheckmateEvaluator implements Evaluator {
 
 	private static final int BEST_MOVE = 1;
 	private static final int WORST_MOVE = 0;
