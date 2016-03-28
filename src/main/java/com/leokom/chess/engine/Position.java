@@ -921,7 +921,7 @@ public class Position {
 		return InitialPosition.generate( rules );
 	}
 
-	Rules getRules() {
+	public Rules getRules() {
 		return this.rules;
 	}
 

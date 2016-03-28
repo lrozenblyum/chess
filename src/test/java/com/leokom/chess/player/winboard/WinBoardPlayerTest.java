@@ -89,6 +89,7 @@ public class WinBoardPlayerTest {
 		executeMoveFromUI( commander, "g1f3" );
 
 		verify( commander, never() ).checkmate( any() );
+		verify( commander ).obligatoryDrawByMovesCount( 1 );
 	}
 
 	@Test
