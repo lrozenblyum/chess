@@ -1,6 +1,8 @@
 package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.RulesBuilder;
 import com.leokom.chess.player.Player;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -30,15 +32,19 @@ public class WinBoardPlayerTest {
 		final ArgumentCaptor<NewListener> newListener = ArgumentCaptor.forClass( NewListener.class );
 		verify( commander ).onNew( newListener.capture() );
 
-		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
-		verify( commander ).onUserMove( userMoveListener.capture() );
+		executeMoveFromUI( commander, "e2e4" );
 
-		userMoveListener.getValue().execute( "e2e4" );
 		assertNull( player.getPosition().getPieceType( "e2" ) );
 
 		//'new' command will be received -> need resetting the board
 		newListener.getValue().execute();
 		assertNotNull( player.getPosition().getPieceType( "e2" ) );
+	}
+
+	private void executeMoveFromUI( WinboardCommander commander, String move ) {
+		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
+		verify( commander ).onUserMove( userMoveListener.capture() );
+		userMoveListener.getValue().execute( move );
 	}
 
 	@Test
@@ -66,6 +72,23 @@ public class WinBoardPlayerTest {
 
 		//it really checks only 1 method call
 		verify( commander ).startInit();
+	}
+
+	@Test
+	public void playerCorrectReactionForDraw() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		final WinboardPlayer player = new WinboardPlayer();
+		final Player opponent = mock( Player.class );
+		doAnswer( (invocation -> { player.opponentMoved( new Move( "g8", "f6" ) );return null; } ) ).
+				when( opponent ).opponentMoved( new Move( "g1", "f3" ) );
+		player.setOpponent( opponent );
+		player.setPosition( Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() ) );
+		player.initCommander( commander );
+
+		executeMoveFromUI( commander, "g1f3" );
+
+		verify( commander, never() ).checkmate( any() );
 	}
 
 	@Test

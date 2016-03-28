@@ -178,8 +178,13 @@ public class WinboardPlayer implements Player {
 	 */
 	private void detectCheckmate() {
 		//TODO: there are other reasons of terminal position, not only checkmate
-		if ( position.isTerminal() ) {
-			commander.checkmate( position.getWinningSide() );
+
+		//2'nd condition excludes draw by 75 moves
+		//technically theoretically here we can have no checkmate but:
+		// - win by time
+		// - ?
+		if ( position.isTerminal() && position.getWinningSide() != null ) {
+			commander.checkmate(  position.getWinningSide() );
 		}
 	}
 
