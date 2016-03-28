@@ -53,4 +53,10 @@ public class WinBoardCommanderSendTest {
 		commander.opponentMoved( "e2e4" );
 		verify( communicator ).send( "move e2e4" );
 	}
+
+	@Test
+	public void obligatoryDraw() {
+		commander.obligatoryDrawByMovesCount( 75 );
+		verify( communicator ).send( "1/2-1/2 {Draw by 75 moves rule}" );
+	}
 }

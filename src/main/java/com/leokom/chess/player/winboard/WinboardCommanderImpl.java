@@ -121,7 +121,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void obligatoryDrawByMovesCount( int movesCount ) {
-
+		communicator.send( String.format( "1/2-1/2 {Draw by %s moves rule}", movesCount ) );
 	}
 
 	@Override
