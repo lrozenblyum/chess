@@ -135,7 +135,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 				prefix = "0-1";
 				break;
 		}
-		communicator.send( prefix + " {LeokomChess : checkmate}" );
+		communicator.send( prefix + " {Checkmate}" );
 	}
 
 	@Override

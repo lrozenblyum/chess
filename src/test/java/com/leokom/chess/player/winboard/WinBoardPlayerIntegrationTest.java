@@ -167,8 +167,8 @@ public class WinBoardPlayerIntegrationTest {
 				.move( new Move( "d1", "h5" ) )
 				.play();
 
-		verify( communicator ).send( "1-0 {LeokomChess : checkmate}" );
-		verify( communicator, never() ).send( "0-1 {LeokomChess : checkmate}" );
+		verify( communicator ).send( "1-0 {Checkmate}" );
+		verify( communicator, never() ).send( "0-1 {Checkmate}" );
 	}
 
 	//Winboard vs Player (White vs Black)
@@ -186,8 +186,8 @@ public class WinBoardPlayerIntegrationTest {
 		.move( new Move( "d8", "h4" ) )
 		.play();
 
-		verify( communicator ).send( "0-1 {LeokomChess : checkmate}" );
-		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
+		verify( communicator ).send( "0-1 {Checkmate}" );
+		verify( communicator, never() ).send( "1-0 {Checkmate}" );
 	}
 
 	@Test
