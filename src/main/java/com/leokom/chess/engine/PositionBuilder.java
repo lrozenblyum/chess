@@ -1,6 +1,8 @@
 package com.leokom.chess.engine;
 
 
+import java.util.stream.IntStream;
+
 /**
  * Create position in fluent-interface style
  *
@@ -57,6 +59,13 @@ public class PositionBuilder {
 
 	public PositionBuilder rules( Rules rules ) {
 		position.setRules( rules );
+		return this;
+	}
+
+	public PositionBuilder semiMovesCount( int semiMovesCount ) {
+		//trick to avoid creation of position.setMovesCount
+		position.resetMovesCount();
+		IntStream.rangeClosed( 1, semiMovesCount ).forEach( counter -> position.incMovesCount() );
 		return this;
 	}
 }

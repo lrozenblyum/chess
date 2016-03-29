@@ -203,6 +203,21 @@ public class DrawBy75MovesTest {
 		Assert.assertFalse( position.isTerminal() );
 	}
 
+	//If the last move resulted in checkmate, that shall take precedence.
+	@Test
+	public void checkmateAtLastMomentIsCheckmate() {
+		Position position = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.ROOK )
+				.add( Side.WHITE, "b7", PieceType.ROOK )
+				.add( Side.BLACK, "h7", PieceType.KING )
+				.setSide( Side.BLACK )
+				.rules( new RulesBuilder().movesTillDraw( 1 ).build() )
+				.build();
+
+		final Position result = position.move( "h7", "h8" ).move( "a1", "a8" );
+		assertEquals( Side.WHITE, result.getWinningSide() );
+	}
+
 	@Test
 	public void captureWithPromotionResetsCount() {
 		final Position position = new PositionBuilder()
@@ -248,5 +263,7 @@ public class DrawBy75MovesTest {
 	 * + Receive from Winboard
 	 * + Send to LegalPlayer
 	 * + Receive from LegalPlayer
+	 *
+	 * - If the last move resulted in checkmate, that shall take precedence.
 	 */
 }
