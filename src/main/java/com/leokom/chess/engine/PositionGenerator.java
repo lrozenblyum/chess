@@ -98,6 +98,10 @@ final class PositionGenerator {
 			return getAcceptDrawPosition();
 		}
 
+		return getPositionAfterStandardMove( move );
+	}
+
+	private Position getPositionAfterStandardMove( Move move ) {
 		validateStandardMove( move );
 
 		String squareFrom = move.getFrom();
