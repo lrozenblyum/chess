@@ -1,9 +1,6 @@
 package com.leokom.chess.player.winboard;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.PositionBuilder;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -169,6 +166,19 @@ public class WinBoardPlayerIntegrationTest {
 
 		verify( communicator ).send( "1-0 {Checkmate}" );
 		verify( communicator, never() ).send( "0-1 {Checkmate}" );
+	}
+
+	@Test
+	public void obligatoryDraw() {
+		player.setPosition( Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() ) );
+
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+			builder
+			.move( new Move( "b1", "c3" ) )
+			.move( new Move( "b8", "a6" ) )
+			.play();
+
+		verify( communicator, atLeastOnce() ).send( startsWith( "1/2-1/2" ) );
 	}
 
 	//Winboard vs Player (White vs Black)

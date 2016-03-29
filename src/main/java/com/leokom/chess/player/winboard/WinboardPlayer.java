@@ -89,6 +89,8 @@ public class WinboardPlayer implements Player {
 			logger.info( "Protocol version detected = " + protocolVersion );
 		} );
 
+		//there is no 'onAcceptDraw' in Winboard protocol
+		//using onGameOver to detect that state
 		commander.onOfferDraw( () -> opponent.opponentMoved( Move.OFFER_DRAW ) );
 
 		commander.onGameOver( ( data ) -> {
@@ -103,7 +105,8 @@ public class WinboardPlayer implements Player {
 				position = position.move( move );
 
 				opponent.opponentMoved( move );
-			}
+			} //else we already know it
+			//e.g. 75 moves draw.
 		} );
 	}
 
