@@ -242,7 +242,7 @@ public class DrawBy75MovesTest {
 	 *
 	 * + position should be terminal
 	 * + reason : DRAW /when winningSide == null it's enough
-	 * - detailed reason? (draw by 75 moves)
+	 * ? detailed reason? (draw by 75 moves). This info is not needed so far
 	 *
 	 * + a capture resets count
 	 * + en passant capture resets count (done through pawn movement anyway, but position.isCapture also improved)
