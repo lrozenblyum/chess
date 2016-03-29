@@ -241,7 +241,7 @@ public class DrawBy75MovesTest {
 	 * anyway RESIGN on the 75'th doMove is still resign !
 	 *
 	 * + position should be terminal
-	 * - reason : DRAW
+	 * + reason : DRAW /when winningSide == null it's enough
 	 * - detailed reason? (draw by 75 moves)
 	 *
 	 * + a capture resets count
@@ -250,9 +250,9 @@ public class DrawBy75MovesTest {
 	 * + non-capture & non-pawn : increases count
 	 * + take into account semi-moves! BLACK start?
 	 *
-	 * - Send to Winboard
-	 * - Receive from Winboard
-	 * - Send to LegalPlayer
-	 * - Receive from LegalPlayer
+	 * + Send to Winboard
+	 * + Receive from Winboard
+	 * + Send to LegalPlayer
+	 * + Receive from LegalPlayer
 	 */
 }

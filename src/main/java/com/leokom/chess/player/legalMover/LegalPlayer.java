@@ -79,8 +79,7 @@ public class LegalPlayer implements Player {
 
 		Set< Move > legalMoves = position.getMoves();
 		if ( legalMoves.isEmpty() ) {
-			getLogger().info( " Final state has been detected." +
-					getWinningSideDescription() );
+			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
 			return;
 		}
 
@@ -97,7 +96,9 @@ public class LegalPlayer implements Player {
 	}
 
 	private String getWinningSideDescription() {
-		return " Winning side : " + position.getWinningSide();
+		return position.getWinningSide() != null ?
+				"Winner : " + position.getWinningSide() :
+				"Draw";
 	}
 
 	private void informOpponentAboutTheMove( Move move ) {
