@@ -54,10 +54,14 @@ public class WinBoardPlayerTest {
 		final Player opponent = mock( Player.class );
 		player.setOpponent( opponent );
 
+		makeDrawOfferFromUI( commander );
+		verify( opponent ).opponentMoved( Move.OFFER_DRAW );
+	}
+
+	private void makeDrawOfferFromUI( WinboardCommander commander ) {
 		final ArgumentCaptor< OfferDrawListener > offerDrawListener = ArgumentCaptor.forClass( OfferDrawListener.class );
 		verify( commander ).onOfferDraw( offerDrawListener.capture() );
 		offerDrawListener.getValue().execute();
-		verify( opponent ).opponentMoved( Move.OFFER_DRAW );
 	}
 
 	//this test should emulate WinBoard behaviour and analyze our reaction on it.
@@ -75,21 +79,48 @@ public class WinBoardPlayerTest {
 	}
 
 	@Test
-	public void playerCorrectReactionForDraw() {
+	public void reactionToObligatoryDraw() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
 		final WinboardPlayer player = new WinboardPlayer();
+
 		final Player opponent = mock( Player.class );
 		doAnswer( (invocation -> { player.opponentMoved( new Move( "g8", "f6" ) );return null; } ) ).
 				when( opponent ).opponentMoved( new Move( "g1", "f3" ) );
-		player.setOpponent( opponent );
-		player.setPosition( Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() ) );
-		player.initCommander( commander );
+
+		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() );
+		initWinboardPlayer( player, commander, opponent, position );
 
 		executeMoveFromUI( commander, "g1f3" );
 
 		verify( commander, never() ).checkmate( any() );
 		verify( commander ).obligatoryDrawByMovesCount( 1 );
+	}
+
+	@Test
+	public void correctReactionToDrawByAgreement() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		final WinboardPlayer player = new WinboardPlayer();
+		final Player opponent = mock( Player.class );
+		doAnswer( (invocation -> { player.opponentMoved( Move.ACCEPT_DRAW );return null; } ) ).
+				when( opponent ).opponentMoved( Move.OFFER_DRAW );
+
+		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() );
+
+		initWinboardPlayer( player, commander, opponent, position );
+
+		makeDrawOfferFromUI( commander );
+
+		verify( commander, never() ).checkmate( any() );
+		verify( commander, never() ).obligatoryDrawByMovesCount( anyInt() );
+		verify( commander ).agreeToDrawOffer();
+	}
+
+	private void initWinboardPlayer( WinboardPlayer player, WinboardCommander commander, Player opponent, Position position ) {
+		player.setOpponent( opponent );
+		player.setPosition( position );
+		player.initCommander( commander );
 	}
 
 	@Test
