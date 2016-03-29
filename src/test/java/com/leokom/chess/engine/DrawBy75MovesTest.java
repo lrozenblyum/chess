@@ -4,14 +4,11 @@ import org.jooq.lambda.Seq;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.OptionalInt;
 import java.util.function.Consumer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Author: Leonid
@@ -25,11 +22,8 @@ public class DrawBy75MovesTest {
 	/* Before 1 July 2014, consecutive 75 moves from both players
 			 * didn't cause automatic draw. No limits if neither player claims draw */
 
-
 	@Test
 	public void rulesBeforeJuly2014() {
-		//trick to overcome impossibility to mutate inside lambda
-		//http://stackoverflow.com/a/32768790/1429367
 		final Position initialPosition = Position.getInitialPosition( Rules.BEFORE_JULY_2014 );
 
 		//knights moving forth and back
