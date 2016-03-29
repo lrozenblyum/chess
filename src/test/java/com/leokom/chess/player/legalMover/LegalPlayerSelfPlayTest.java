@@ -24,8 +24,8 @@ public class LegalPlayerSelfPlayTest {
 		return new LegalPlayer( new MasterEvaluatorTweaked() );
 	}
 
-	//Second test is hanging here. Shouldn't have any influence !
-	//but it has.
+	//Second test is hanging here when Rules = BEFORE_JULY_2014.
+	// Shouldn't have any influence ! but it has.
 	// add for experiment @FixMethodOrder( MethodSorters.NAME_ASCENDING )
 	// to change order of execution
 	@Test
