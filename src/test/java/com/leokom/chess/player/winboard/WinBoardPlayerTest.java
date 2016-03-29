@@ -44,7 +44,8 @@ public class WinBoardPlayerTest {
 	private void executeMoveFromUI( WinboardCommander commander, String move ) {
 		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
 		verify( commander ).onUserMove( userMoveListener.capture() );
-		userMoveListener.getValue().execute( move );
+		final UserMoveListener moveListener = userMoveListener.getValue();
+		moveListener.execute( move );
 	}
 
 	@Test
@@ -79,7 +80,7 @@ public class WinBoardPlayerTest {
 	}
 
 	@Test
-	public void reactionToObligatoryDraw() {
+	public void reactionToObligatoryDrawAfterOpponentMove() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
 		final WinboardPlayer player = new WinboardPlayer();
@@ -92,6 +93,25 @@ public class WinBoardPlayerTest {
 		initWinboardPlayer( player, commander, opponent, position );
 
 		executeMoveFromUI( commander, "g1f3" );
+
+		verify( commander, never() ).checkmate( any() );
+		verify( commander ).obligatoryDrawByMovesCount( 1 );
+	}
+
+	@Test
+	public void reactionToObligatoryDrawAfterWinboardMove() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		final WinboardPlayer player = new WinboardPlayer();
+
+		final Player opponent = mock( Player.class );
+
+		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() );
+		initWinboardPlayer( player, commander, opponent, position );
+
+		player.opponentMoved( new Move( "g1", "f3" ) );
+
+		executeMoveFromUI( commander, "g8f6" );
 
 		verify( commander, never() ).checkmate( any() );
 		verify( commander ).obligatoryDrawByMovesCount( 1 );
