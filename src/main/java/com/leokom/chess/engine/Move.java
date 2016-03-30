@@ -58,8 +58,6 @@ public final class Move {
 	private Move() {
 		//TODO: ugly? This keeps them final
 		//but they're unneeded for us
-		//as as 'good' side effect it allows equal be correct
-		//till we have just 1 special move (RESIGN)
 		this.from = this.to = "";
 		this.isSpecial = true;
 	}

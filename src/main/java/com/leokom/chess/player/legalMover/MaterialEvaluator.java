@@ -14,7 +14,7 @@ import java.util.stream.Stream;
  * has no sense (since it's a difference between us & opponent)
  *
  */
-public class MaterialEvaluator implements Evaluator {
+class MaterialEvaluator implements Evaluator {
 	private static final double WORST_MOVE = 0.0;
 
 	@Override

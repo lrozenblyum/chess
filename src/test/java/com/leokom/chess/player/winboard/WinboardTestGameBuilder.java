@@ -13,12 +13,12 @@ import static org.mockito.Mockito.when;
  * Author: Leonid
  * Date-time: 22.02.15 21:27
  */
-public class WinboardTestGameBuilder {
+class WinboardTestGameBuilder {
 	private final Player opponent;
 	private final WinboardPlayer player;
 	private String customResponse;
 
-	public WinboardTestGameBuilder(
+	WinboardTestGameBuilder(
 		WinboardPlayer player,
 		WinboardCommunicator communicator ) {
 		this.player = player;
@@ -36,7 +36,7 @@ public class WinboardTestGameBuilder {
 	private OngoingStubbing<String> communicatorReceive;
 
 	//highly depends on knowledge that Winboard: White, opponent Black
-	public WinboardTestGameBuilder move( Move move ) {
+	WinboardTestGameBuilder move( Move move ) {
 		switch ( sideToMove ) {
 		case WHITE:
 
@@ -47,6 +47,7 @@ public class WinboardTestGameBuilder {
 		case BLACK:
 			doAnswer( invocation -> { player.opponentMoved( move ); return null; } )
 					.when( opponent ).opponentMoved( lastMove );
+			break;
 		}
 
 		lastMove = move;
@@ -55,7 +56,7 @@ public class WinboardTestGameBuilder {
 		return this;
 	}
 
-	public void play() {
+	void play() {
 		if ( customResponse != null ) {
 			communicatorReceive = communicatorReceive.thenReturn( customResponse );
 		}
@@ -64,11 +65,11 @@ public class WinboardTestGameBuilder {
 		player.opponentSuggestsMeStartNewGameWhite();
 	}
 
-	public Player getOpponent() {
+	Player getOpponent() {
 		return opponent;
 	}
 
-	public WinboardTestGameBuilder customWinboardResponse( String customResponse ) {
+	WinboardTestGameBuilder customWinboardResponse( String customResponse ) {
 		this.customResponse = customResponse;
 		return this;
 

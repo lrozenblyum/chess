@@ -8,7 +8,7 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 02.05.14 18:35
  */
-@Ignore( "Till we decide what to do with potentially infinite game (stack overflow) " )
+@Ignore( "Just because it's too long now" )
 public class LegalPlayerSelfPlayTest {
 	//finite time of game finish (practically till July2014 FIDE rules in action
 	//the infinite game is possible)
@@ -24,8 +24,8 @@ public class LegalPlayerSelfPlayTest {
 		return new LegalPlayer( new MasterEvaluatorTweaked() );
 	}
 
-	//Second test is hanging here. Shouldn't have any influence !
-	//but it has.
+	//Second test is hanging here when Rules = BEFORE_JULY_2014.
+	// Shouldn't have any influence ! but it has.
 	// add for experiment @FixMethodOrder( MethodSorters.NAME_ASCENDING )
 	// to change order of execution
 	@Test

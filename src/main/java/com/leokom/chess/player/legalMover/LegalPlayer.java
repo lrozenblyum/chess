@@ -42,7 +42,7 @@ public class LegalPlayer implements Player {
 		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
 		position = Position.getInitialPosition();
 		ourSide = Side.WHITE;
-		executeMove();
+		executeOurMove();
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class LegalPlayer implements Player {
 		//updating internal representation of our position according to the opponent's move
 		updatePositionByOpponentMove( opponentMove );
 
-		executeMove();
+		executeOurMove();
 	}
 
 	private void updatePositionByOpponentMove( Move opponentMove ) {
@@ -71,7 +71,7 @@ public class LegalPlayer implements Player {
 	}
 
 	//exposing package-private for tests
-	void executeMove() {
+	void executeOurMove() {
 		if ( recordingMode ) {
 			getLogger().info( "Just recording the moves." );
 			return;
@@ -79,8 +79,7 @@ public class LegalPlayer implements Player {
 
 		Set< Move > legalMoves = position.getMoves();
 		if ( legalMoves.isEmpty() ) {
-			getLogger().info( " Final state has been detected." +
-					" Winning side : " + position.getWinningSide() );
+			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
 			return;
 		}
 
@@ -96,6 +95,12 @@ public class LegalPlayer implements Player {
         informOpponentAboutTheMove( move );
 	}
 
+	private String getWinningSideDescription() {
+		return position.getWinningSide() != null ?
+				"Winner : " + position.getWinningSide() :
+				"Draw";
+	}
+
 	private void informOpponentAboutTheMove( Move move ) {
 		opponent.opponentMoved( move );
 	}
@@ -105,6 +110,9 @@ public class LegalPlayer implements Player {
 		getLogger().info( this.position.getSideToMove() + " : Moved " + move );
 		position = position.move( move );
 		getLogger().info( "\nNew position : " + position );
+		if ( position.isTerminal() ) {
+			getLogger().info( "Final position has been reached by our move! " + getWinningSideDescription() );
+		}
 	}
 
 	/**
@@ -155,7 +163,7 @@ public class LegalPlayer implements Player {
 		getLogger().info( "Opponent suggested me to join the game for side: {}. Joining...", position.getSideToMove() );
 		leaveRecordingMode();
 		ourSide = position.getSideToMove();
-		executeMove();
+		executeOurMove();
 	}
 
 	//injecting the position for tests, however maybe in future

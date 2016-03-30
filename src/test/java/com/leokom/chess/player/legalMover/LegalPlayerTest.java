@@ -25,6 +25,35 @@ public class LegalPlayerTest {
 	}
 
 	@Test
+	public void legalPlayerCorrectWhenObligatoryDrawAchievedByOpponentMove() {
+		Rules rules = new RulesBuilder().movesTillDraw( 1 ).build();
+		final Position position = Position.getInitialPosition( rules );
+
+		final LegalPlayer player = getLegalPlayer();
+		player.setPosition( position, Side.WHITE );
+		player.setOpponent( opponent );
+
+		//just single answer programmed, next - do nothing
+		doAnswer( invocationOnMock -> { player.opponentMoved( new Move( "g8", "f6" ) ); return null; } )
+		.doAnswer( invocation -> null )
+		.when( opponent ).opponentMoved( any( Move.class ) );
+
+		player.joinGameForSideToMove();
+	}
+
+	@Test
+	public void legalPlayerCorrectWhenObligatoryDrawAchievedByHisMove() {
+		Rules rules = new RulesBuilder().movesTillDraw( 1 ).build();
+		final Position position = Position.getInitialPosition( rules );
+
+		final LegalPlayer player = getLegalPlayer();
+		player.setPosition( position, Side.BLACK );
+		player.setOpponent( opponent );
+		//not pawn, not capture
+		player.opponentMoved( new Move( "g1", "f3" ) );
+	}
+
+	@Test
 	public void legalPlayerCreation() {
 		getLegalPlayer();
 	}
@@ -93,7 +122,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position, Side.WHITE );
 
-		player.executeMove();
+		player.executeOurMove();
 
 		verify( opponent ).opponentMoved( new Move( "h8", "g8" ) );
 	}
@@ -165,7 +194,7 @@ public class LegalPlayerTest {
 
 		player.setPosition( position, Side.WHITE );
 
-		player.executeMove();
+		player.executeOurMove();
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
 		reset( opponent ); //NOT recommended by Mockito
@@ -197,7 +226,7 @@ public class LegalPlayerTest {
 
 		doAnswer( getAnswerToH8H7( player ) ).when( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 
-		player.executeMove(); //results in LegalPlayer h8h7
+		player.executeOurMove(); //results in LegalPlayer h8h7
 
 		verify( opponent ).opponentMoved( new Move( "h8", "h7" ) );
 	}
