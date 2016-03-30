@@ -981,11 +981,11 @@ public class Position {
 
 	//this is NON-VALIDATING checker
 	private boolean isEnPassant( Move move ) {
-		return isPawnCapture( move ) && isEmptySquare( move.getDestinationSquare() );
+		return isCaptureByPawn( move ) && isEmptySquare( move.getDestinationSquare() );
 	}
 
-	//pawn capture is done diagonally - the file is changed
-	private boolean isPawnCapture( Move move ) {
+	//capture by pawn is done diagonally - the file is changed
+	private boolean isCaptureByPawn( Move move ) {
 		return getPieceType( move.getFrom() ) == PieceType.PAWN &&
 			! Board.fileOfSquare( move.getFrom() ).equals( move.getDestinationSquare() );
 	}
