@@ -264,6 +264,6 @@ public class DrawBy75MovesTest {
 	 * + Send to LegalPlayer
 	 * + Receive from LegalPlayer
 	 *
-	 * - If the last move resulted in checkmate, that shall take precedence.
+	 * + If the last move resulted in checkmate, that shall take precedence.
 	 */
 }

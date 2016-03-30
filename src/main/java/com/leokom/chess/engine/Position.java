@@ -32,6 +32,11 @@ import static java.util.stream.Collectors.toSet;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
+	/**
+	 * Chess rules mention moves counter must be calculated
+	 * for both players
+	 */
+	private static final int SEMI_MOVES_COEFFICIENT = 2;
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
@@ -843,6 +848,21 @@ public class Position {
 		//resign is possible if there is at least one other move
 		//correct?
 		if ( !result.isEmpty() ) {
+
+			//obligatory draw must be checked AFTER moves detection
+			//to distinguish checkmate at 150 ply case!
+			if ( isObligatoryDraw() ) {
+				//TODO: position mutability due to flaws in design
+				//we may mark it also terminal to avoid next checks for Moves
+
+				//must be done
+				this.sideToMove = null;
+				//for clarity
+				this.winningSide = null;
+
+				return new HashSet<>();
+			}
+
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
 			if ( waitingForAcceptDraw ) {
@@ -850,7 +870,13 @@ public class Position {
 			}
 		}
 
+
 		return result;
+	}
+
+	private boolean isObligatoryDraw() {
+		final OptionalInt movesTillDraw = rules.getMovesTillDraw();
+		return movesTillDraw.isPresent() && movesCount >= movesTillDraw.getAsInt() * SEMI_MOVES_COEFFICIENT;
 	}
 
 	/**

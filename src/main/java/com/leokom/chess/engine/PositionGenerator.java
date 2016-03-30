@@ -1,7 +1,5 @@
 package com.leokom.chess.engine;
 
-import java.util.OptionalInt;
-
 import static com.leokom.chess.engine.Board.fileOfSquare;
 import static com.leokom.chess.engine.Board.rankOfSquare;
 import static com.leokom.chess.engine.Position.getDoubleMoveRank;
@@ -16,13 +14,6 @@ import static com.leokom.chess.engine.Position.getEnPassantPossibleRank;
  * Date-time: 06.07.13 22:16
  */
 final class PositionGenerator {
-	/**
-	 * Chess rules mention moves counter must be calculated
-	 * for both players
-	 */
-	private static final int SEMI_MOVES_COEFFICIENT = 2;
-
-
 	private final Position source;
 
 	PositionGenerator( Position source ) {
@@ -41,21 +32,20 @@ final class PositionGenerator {
 			position.setWaitingForAcceptDraw( false );
 		}
 
-		return makeObligatoryDrawIfPossible( position, move );
+		updateMovesCounter( position, move );
+
+		return position;
 	}
 
 	/**
-	 * If according to currently executed move
-	 * we need to mark the position as an obligatory draw : do it
-	 * Currently 75 moves rule is supported.
-	 * @param position target position to mark obligatory when needed
+	 * Update moves counter to support 75 moves rules depending on type of move
+	 * @param position target position to update moves counters
 	 * @param move move that has been executed
-	 * @return result position untouched if no obligatory draw is needed or
-	 * a terminal position basing on it
 	 */
-	private Position makeObligatoryDrawIfPossible( Position position, Move move ) {
+	private void updateMovesCounter( Position position, Move move ) {
+		//no changes on board
 		if ( move.isSpecial() ) {
-			return position;
+			return;
 		}
 
 		if ( needRestartingMoveCounter( move ) ) {
@@ -64,13 +54,6 @@ final class PositionGenerator {
 		else {
 			position.incMovesCount();
 		}
-
-		final OptionalInt movesTillDraw = position.getRules().getMovesTillDraw();
-		if ( movesTillDraw.isPresent() && position.getMovesCount() >= movesTillDraw.getAsInt() * SEMI_MOVES_COEFFICIENT ) {
-			return createTerminalPositionOf( null, position );
-		}
-
-		return position;
 	}
 
 	private boolean needRestartingMoveCounter( Move move ) {
