@@ -39,7 +39,7 @@ public class CheckmateEvaluatorTest {
 				.add( Side.WHITE, "b7", PieceType.ROOK )
 				.add( Side.BLACK, "h8", PieceType.KING )
 				.rules( new RulesBuilder().movesTillDraw( 1 ).build() )
-				.semiMovesCount( 1 );
+				.pliesCount( 1 );
 
 		Move checkmateMove = new Move( "a1", "a8" );
 		Move obligatoryDrawMove = new Move( "a1", "a2" );

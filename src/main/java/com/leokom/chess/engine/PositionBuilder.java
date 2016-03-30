@@ -62,10 +62,10 @@ public class PositionBuilder {
 		return this;
 	}
 
-	public PositionBuilder semiMovesCount( int semiMovesCount ) {
+	public PositionBuilder pliesCount( int pliesCount ) {
 		//trick to avoid creation of position.setMovesCount
-		position.resetMovesCount();
-		IntStream.rangeClosed( 1, semiMovesCount ).forEach( counter -> position.incMovesCount() );
+		position.resetPliesCount();
+		IntStream.rangeClosed( 1, pliesCount ).forEach( counter -> position.incPliesCount() );
 		return this;
 	}
 }

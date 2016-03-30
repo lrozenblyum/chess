@@ -36,7 +36,7 @@ public class Position {
 	 * Chess rules mention moves counter must be calculated
 	 * for both players
 	 */
-	private static final int SEMI_MOVES_COEFFICIENT = 2;
+	private static final int PLIES_IN_MOVE = 2;
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
@@ -98,7 +98,10 @@ public class Position {
 	//temporary state in game (which could change)
 	private String enPassantFile;
 
-	private int movesCount;
+	//ply is the smallest movement in chess
+	//a move consists of 2 plies
+	//https://chessprogramming.wikispaces.com/Ply
+	private int pliesCount;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
@@ -717,7 +720,7 @@ public class Position {
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
 
 		position.rules = this.rules;
-		position.movesCount = this.movesCount;
+		position.pliesCount = this.pliesCount;
 	}
 
 	/**
@@ -876,7 +879,7 @@ public class Position {
 
 	private boolean isObligatoryDraw() {
 		final OptionalInt movesTillDraw = rules.getMovesTillDraw();
-		return movesTillDraw.isPresent() && movesCount >= movesTillDraw.getAsInt() * SEMI_MOVES_COEFFICIENT;
+		return movesTillDraw.isPresent() && pliesCount >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
 	}
 
 	/**
@@ -955,16 +958,12 @@ public class Position {
 		this.rules = rules;
 	}
 
-	void incMovesCount() {
-		++movesCount;
+	void incPliesCount() {
+		++pliesCount;
 	}
 
-	int getMovesCount() {
-		return movesCount;
-	}
-
-	void resetMovesCount() {
-		movesCount = 0;
+	void resetPliesCount() {
+		pliesCount = 0;
 	}
 
 	/**
