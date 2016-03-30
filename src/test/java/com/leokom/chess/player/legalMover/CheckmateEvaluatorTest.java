@@ -29,7 +29,22 @@ public class CheckmateEvaluatorTest {
 		Move notCheckmateMove = new Move( "a1", "a7" );
 
 		asserts.assertFirstBetter( builder, checkmateMove, notCheckmateMove );
+	}
 
+
+	@Test
+	public void checkmateIsBetterThanObligatoryDraw() {
+		PositionBuilder builder = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.ROOK )
+				.add( Side.WHITE, "b7", PieceType.ROOK )
+				.add( Side.BLACK, "h8", PieceType.KING )
+				.rules( new RulesBuilder().movesTillDraw( 1 ).build() )
+				.pliesCount( 1 );
+
+		Move checkmateMove = new Move( "a1", "a8" );
+		Move obligatoryDrawMove = new Move( "a1", "a2" );
+
+		asserts.assertFirstBetter( builder, checkmateMove, obligatoryDrawMove );
 	}
 
 	@Test
@@ -45,4 +60,5 @@ public class CheckmateEvaluatorTest {
 
 		asserts.assertFirstBetter( builder, checkmateMove, resignMove );
 	}
+
 }

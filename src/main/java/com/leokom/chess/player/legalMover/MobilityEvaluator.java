@@ -10,7 +10,7 @@ import com.leokom.chess.engine.Position;
  * Author: Leonid
  * Date-time: 23.07.14 21:46
  */
-public class MobilityEvaluator implements Evaluator {
+class MobilityEvaluator implements Evaluator {
 
 	//introduced this 'normalizer' to have
 	//result in borders [0 , 1]
@@ -32,6 +32,14 @@ public class MobilityEvaluator implements Evaluator {
 		}
 
 		final Position target = position.move( move );
+		//TODO: all evaluators must take into account
+		//possibility that the position is terminal
+		//most likely MasterEvaluator might take preventive actions.
+
+		//proved need in LegalPlayerTest and in (temporarily ignored) LegalPlayerSelfTest
+		if ( target.isTerminal() ) {
+			return WORST_MOVE;
+		}
 
 		final int legalMoves = target.toMirror().getMoves().size();
 		return (double) legalMoves / MAXIMAL_POSSIBLE_MOVES;

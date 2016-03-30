@@ -11,7 +11,7 @@ import java.util.Set;
  * Author: Leonid
  * Date-time: 21.10.14 23:03
  */
-public class ProtectionEvaluator implements Evaluator {
+class ProtectionEvaluator implements Evaluator {
 	private static final double WORST_MOVE = 0.0;
 
 	/**

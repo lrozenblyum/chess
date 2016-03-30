@@ -89,6 +89,8 @@ public class WinboardPlayer implements Player {
 			logger.info( "Protocol version detected = " + protocolVersion );
 		} );
 
+		//there is no 'onAcceptDraw' in Winboard protocol
+		//using onGameOver to detect that state
 		commander.onOfferDraw( () -> opponent.opponentMoved( Move.OFFER_DRAW ) );
 
 		commander.onGameOver( ( data ) -> {
@@ -103,7 +105,8 @@ public class WinboardPlayer implements Player {
 				position = position.move( move );
 
 				opponent.opponentMoved( move );
-			}
+			} //else we already know it
+			//e.g. 75 moves draw.
 		} );
 	}
 
@@ -169,17 +172,29 @@ public class WinboardPlayer implements Player {
 
 			commander.opponentMoved( translatedMove );
 
-			detectCheckmate();
+			detectGameOver();
 		}
 	}
 
 	/**
-	 * Inform Winboard UI if position is checkmate
+	 * Inform Winboard UI when the game is over
 	 */
-	private void detectCheckmate() {
+	private void detectGameOver() {
+		if ( !position.isTerminal() ) {
+			return;
+		}
+
 		//TODO: there are other reasons of terminal position, not only checkmate
-		if ( position.isTerminal() ) {
-			commander.checkmate( position.getWinningSide() );
+
+		//2'nd condition excludes draw by 75 moves
+		//technically theoretically here we can have no checkmate but:
+		// - win by time
+		// - ?
+		if ( position.getWinningSide() != null ) {
+			commander.checkmate(  position.getWinningSide() );
+		}
+		else {
+			commander.obligatoryDrawByMovesCount( position.getRules().getMovesTillDraw().orElse( 0 ) );
 		}
 	}
 
@@ -245,7 +260,7 @@ public class WinboardPlayer implements Player {
 			final Move engineMove = new Move( squareFrom, destination );
 			position = position.move( engineMove );
 
-			detectCheckmate();
+			detectGameOver();
 
 			//important to call last
 			//so that we'll won't return recursively here in another move

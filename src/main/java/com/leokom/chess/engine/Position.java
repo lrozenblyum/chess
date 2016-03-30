@@ -32,6 +32,11 @@ import static java.util.stream.Collectors.toSet;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
+	/**
+	 * Chess rules mention moves counter must be calculated
+	 * for both players
+	 */
+	private static final int PLIES_IN_MOVE = 2;
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
@@ -73,6 +78,7 @@ public class Position {
 	private boolean terminal;
 	private Side winningSide;
 	private boolean waitingForAcceptDraw;
+	private Rules rules;
 
 
 	void setHasKingMoved( Side side ) {
@@ -92,6 +98,11 @@ public class Position {
 	//temporary state in game (which could change)
 	private String enPassantFile;
 
+	//ply is the smallest movement in chess
+	//a move consists of 2 plies
+	//https://chessprogramming.wikispaces.com/Ply
+	private int pliesCount;
+
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
 
@@ -108,6 +119,7 @@ public class Position {
 	 */
 	public Position( Side sideToMove ) {
 		this.sideToMove = sideToMove;
+		this.rules = Rules.DEFAULT;
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
@@ -564,7 +576,7 @@ public class Position {
 	 * Get rank staying on which a pawn can execute
 	 * en passant capture
 	 * if previous move from another side was a double pawn move
-	 * @param side
+	 * @param side pawn side
 	 * @return rank with en passant possibility
 	 */
 	static int getEnPassantPossibleRank( Side side ) {
@@ -573,7 +585,7 @@ public class Position {
 
 	/**
 	 * Get pawn rank that is reachable from current rank by SINGLE move
-	 * @param pawnRank
+	 * @param pawnRank pawn rank
 	 * @param side pawn side
 	 * @return pawn rank
 	 */
@@ -596,7 +608,7 @@ public class Position {
 	}
 
 	/**
-	 * @param side
+	 * @param side side of player
 	 * @return rank from which next pawn move can reach promotion rank
 	 */
 	private static int getRankBeforePromotion( Side side ) {
@@ -706,6 +718,9 @@ public class Position {
 
 		//little overhead but ensuring we really copy the FULL state
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
+
+		position.rules = this.rules;
+		position.pliesCount = this.pliesCount;
 	}
 
 	/**
@@ -768,8 +783,8 @@ public class Position {
 	 * Check if the position has a pawn on square provided
 	 * with needed side
 	 *
-	 * @param side
-	 * @param square
+	 * @param side pawn side
+	 * @param square square to find the pawn
 	 * @return true iff such pawn is present
 	 */
 	boolean hasPawn( Side side, String square ) {
@@ -836,6 +851,21 @@ public class Position {
 		//resign is possible if there is at least one other move
 		//correct?
 		if ( !result.isEmpty() ) {
+
+			//obligatory draw must be checked AFTER moves detection
+			//to distinguish checkmate at 150 ply case!
+			if ( isObligatoryDraw() ) {
+				//TODO: position mutability due to flaws in design
+				//we may mark it also terminal to avoid next checks for Moves
+
+				//must be done
+				this.sideToMove = null;
+				//for clarity
+				this.winningSide = null;
+
+				return new HashSet<>();
+			}
+
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
 			if ( waitingForAcceptDraw ) {
@@ -843,13 +873,19 @@ public class Position {
 			}
 		}
 
+
 		return result;
+	}
+
+	private boolean isObligatoryDraw() {
+		final OptionalInt movesTillDraw = rules.getMovesTillDraw();
+		return movesTillDraw.isPresent() && pliesCount >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
 	}
 
 	/**
 	 * @return legal non-special moves
 	 */
-	public Set< Move > getNormalMoves() {
+	Set< Move > getNormalMoves() {
 		return getMoves().stream().filter( move -> !move.isSpecial() ).collect( toSet() );
 	}
 
@@ -893,6 +929,7 @@ public class Position {
 		//first try to make that calculation not-lazy failed, with StackOverflow
 		//it tried to create more and more positions getSquaresThatExposeOurKingToCheck
 		//winningSide == null && sideToMove == null currently after draw
+		//simulated the same behaviour for case when draw achieved due to 75 moves rule
 		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
 	}
 
@@ -907,5 +944,49 @@ public class Position {
 
 	void setWaitingForAcceptDraw( boolean waitingForAcceptDraw ) {
 		this.waitingForAcceptDraw = waitingForAcceptDraw;
+	}
+
+	public static Position getInitialPosition( Rules rules ) {
+		return InitialPosition.generate( rules );
+	}
+
+	public Rules getRules() {
+		return this.rules;
+	}
+
+	void setRules( Rules rules ) {
+		this.rules = rules;
+	}
+
+	void incPliesCount() {
+		++pliesCount;
+	}
+
+	void resetPliesCount() {
+		pliesCount = 0;
+	}
+
+	/**
+	 * Detect whether a move executed from the position would be a capture
+	 * @param move potential move to execute
+	 * @return true if the move is capture
+	 */
+	boolean isCapture( Move move ) {
+		return isOccupiedBy( move.getDestinationSquare(), getSideToMove().opposite() ) ||
+				isEnPassant( move );
+	}
+
+	//position generator also knows about en passant
+	//maybe need generalizing
+
+	//this is NON-VALIDATING checker
+	private boolean isEnPassant( Move move ) {
+		return isCaptureByPawn( move ) && isEmptySquare( move.getDestinationSquare() );
+	}
+
+	//capture by pawn is done diagonally - the file is changed
+	private boolean isCaptureByPawn( Move move ) {
+		return getPieceType( move.getFrom() ) == PieceType.PAWN &&
+			! Board.fileOfSquare( move.getFrom() ).equals( move.getDestinationSquare() );
 	}
 }
