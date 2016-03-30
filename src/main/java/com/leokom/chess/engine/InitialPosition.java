@@ -31,11 +31,10 @@ final class InitialPosition {
 		return PAWN_INITIAL_RANKS.get( side );
 	}
 
-	//TODO: how is 'not-pawn' called generally?
+	//not-pawn has no good name - 'piece' can be used in that meaning but creates ambiguity
 	static int getNotPawnInitialRank( Side side ) {
 		return NOT_PAWN_INITIAL_RANKS.get( side );
 	}
-
 
 	static Position generate( Rules rules ) {
 		final Position result = new Position( Side.WHITE );
