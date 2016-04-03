@@ -339,10 +339,10 @@ public class Position {
 	}
 
 	public Set<String> getSquaresOccupiedBySide( Side neededSide ) {
-		return getSquaresOccupiedBySideTOStream( neededSide ).collect( toSet() );
+		return getSquaresOccupiedBySideToStream( neededSide ).collect( toSet() );
 	}
 
-	private Stream<String> getSquaresOccupiedBySideTOStream( Side neededSide ) {
+	private Stream<String> getSquaresOccupiedBySideToStream( Side neededSide ) {
 		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide );
 	}
 
@@ -364,7 +364,7 @@ public class Position {
 	//we specify OUR side here because square might be empty
 	//so we might check only potential attack
 	private boolean isSquareAttacked( Side side, String square ) {
-		return getSquaresAttackedBy( side.opposite() ).contains( square );
+		return getSquaresAttackedByToStream( side.opposite() ).anyMatch( square::equals );
 	}
 
 	private String findKing( Side side ) {
@@ -385,14 +385,13 @@ public class Position {
 	 * @return set of all squares occupied by the given side
 	 */
 	public Set< String > getSquaresAttackedBy( Side side ) {
-		final Set< String > squaresOccupied = getSquaresOccupiedBySide( side );
+		return getSquaresAttackedByToStream( side ).collect( Collectors.toSet() );
+	}
 
-		Set< String > result = new HashSet<>();
-
-		for ( String squareOccupied : squaresOccupied ) {
-			result.addAll( getSquaresAttackedFromSquare( squareOccupied ) );
-		}
-		return result;
+	private Stream< String > getSquaresAttackedByToStream( Side side ) {
+		return getSquaresOccupiedBySideToStream( side )
+				.map( this::getSquaresAttackedFromSquare )
+				.flatMap( Collection::stream );
 	}
 
 	public Set< String > getSquaresAttackingSquare( Side side, String targetSquare ) {
