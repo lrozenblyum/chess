@@ -116,9 +116,21 @@ public class LegalPlayer implements Player {
 	}
 
 	/**
-	 *
+	 * Finds the best move among given ones.
+	 * If there are several 'best' moves, one of them is returned.
+	 * (which one of them is chosen is undefined.
+	 * This selection is not guaranteed to be the same under same circumstances)
 	 * @param legalMoves not-empty set of moves
 	 * @return best move according to current strategy
+	 */
+	/*
+	 * Thanks to possibility to have different results for the same possible moves
+	 * we have a some kind of randomness without explicitly
+	 * creating it.
+	 * That means : even in the same position the current algorithm
+	 * can select a different move (most likely thanks to unordered
+	 * nature of Set)
+	 *
 	 */
 	private Move findBestMove( Set< Move > legalMoves ) {
 		Map< Move, Double > moveRatings = new HashMap<>();
