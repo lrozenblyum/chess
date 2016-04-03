@@ -1,5 +1,6 @@
 package com.leokom.chess.engine;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Set;
@@ -79,6 +80,32 @@ public class CheckTest {
 		final Move singleMove = moves.iterator().next();
 		assertEquals( "h2", singleMove.getFrom() );
 		assertEquals( "g2", singleMove.getTo() );
+	}
+
+	@Test
+	public void canOfferDrawWhenKingInCheck() {
+		Position position = new Position( Side.BLACK );
+
+		position.add( Side.BLACK, "h2", PieceType.KING );
+		position.add( Side.WHITE, "g2", PieceType.QUEEN );
+		position.add( Side.BLACK, "a1", PieceType.QUEEN );
+
+
+		final Set<Move> moves = position.getMoves();
+		Assert.assertTrue( moves.contains( Move.OFFER_DRAW ) );
+	}
+
+	@Test
+	public void canResignWhenKingInCheck() {
+		Position position = new Position( Side.BLACK );
+
+		position.add( Side.BLACK, "h2", PieceType.KING );
+		position.add( Side.WHITE, "g2", PieceType.QUEEN );
+		position.add( Side.BLACK, "a1", PieceType.QUEEN );
+
+
+		final Set<Move> moves = position.getMoves();
+		Assert.assertTrue( moves.contains( Move.RESIGN ) );
 	}
 
 	//even if such pieces are constrained from moving to that square because they would then leave or place their own king in check
