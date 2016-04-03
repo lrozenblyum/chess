@@ -1,6 +1,8 @@
 package com.leokom.chess.engine;
 
-import java.util.EnumSet;
+import com.leokom.chess.utils.CollectionUtils;
+
+import java.util.Set;
 
 /**
  * Created as wish to reduce duplication
@@ -20,11 +22,11 @@ enum HorizontalDirection {
 	 */
 	RIGHT;
 
-	//TODO : use some immutable representation
-	private static final EnumSet< HorizontalDirection > cache = EnumSet.allOf( HorizontalDirection.class );
+	//to make sure it's indeed immutable all enum values must be immutable
+	private static final Set< HorizontalDirection > CACHE
+			= CollectionUtils.enums( HorizontalDirection.class );
 
-	static EnumSet< HorizontalDirection > values2() {
-		return cache;
+	static Set< HorizontalDirection > VALUES() {
+		return CACHE;
 	}
-
 }

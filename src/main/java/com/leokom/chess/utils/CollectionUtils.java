@@ -1,8 +1,6 @@
 package com.leokom.chess.utils;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Author: Leonid
@@ -30,5 +28,15 @@ public final class CollectionUtils {
 		Set< T > result = new HashSet<>( first );
 		result.retainAll( second );
 		return result;
+	}
+
+	/**
+	 * Get an unmodifiable set of enum values of a particular enum class
+	 * @param clazz enum class
+	 * @param <T> enum
+	 * @return unmodifiable set of enum values
+	 */
+	public static <T extends Enum< T >> Set< T > enums( Class< T > clazz ) {
+		return Collections.unmodifiableSet( EnumSet.allOf( clazz ) );
 	}
 }

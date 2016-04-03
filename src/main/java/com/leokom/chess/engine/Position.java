@@ -303,14 +303,14 @@ public class Position {
 		Set< String > result = new HashSet<>();
 
 		//diagonally
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values2() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.values2() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
 				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
 			}
 		}
 
 		//left/right/top/bottom
-		for ( Direction direction : Direction.values2() ) {
+		for ( Direction direction : Direction.VALUES() ) {
 			addIfNotNull( result, squareTo( square, direction ) );
 		}
 
@@ -326,7 +326,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByRook( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( Direction direction : Direction.values2() ) {
+		for ( Direction direction : Direction.VALUES() ) {
 			String runningSquare = square;
 
 			do {
@@ -421,8 +421,8 @@ public class Position {
 	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values2() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.values2() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
 				String movingSquare = square;
 				do {
 					movingSquare = squareDiagonally( movingSquare, horizontalDirection, verticalDirection );
@@ -440,7 +440,7 @@ public class Position {
 	//still have the square diagonally-front attacked
 	private Set< String > getSquaresAttackedByPawn( String square ) {
 		Set< String > result = new HashSet<>();
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values2() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
 			final Side side = getSide( square );
 
 			final String attackedSquare = squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
@@ -502,8 +502,8 @@ public class Position {
 
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
-			for ( HorizontalDirection horizontalDirection : HorizontalDirection.values2() ) {
-				for ( VerticalDirection verticalDirection : VerticalDirection.values2() ) {
+			for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+				for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
 					final String destination = Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
 							verticalDirection, shiftPair[ 1 ] );
 

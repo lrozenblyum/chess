@@ -1,6 +1,7 @@
 package com.leokom.chess.engine;
 
-import java.util.EnumSet;
+import com.leokom.chess.utils.CollectionUtils;
+
 import java.util.Set;
 
 /**
@@ -14,9 +15,20 @@ enum Direction {
 	LEFT,
 	RIGHT;
 
-	private static final EnumSet< Direction > cache = EnumSet.allOf( Direction.class );
+	//thread safety for ready-only purposes looks fine
+	//http://stackoverflow.com/questions/26409869/is-a-readonly-enumset-iterator-thread-safe
+	private static final Set< Direction > CACHE = CollectionUtils.enums( Direction.class );
 
-	static Set< Direction > values2() {
-		return cache;
+	/**
+	 *
+	 * @return cache of all values
+	 */
+	/*
+	 * values() method creates clone() of array
+	 * which is slow when executed thousands times
+	 * (unexpectedly) proved by profiler
+	 */
+	static Set< Direction > VALUES() {
+		return CACHE;
 	}
 }

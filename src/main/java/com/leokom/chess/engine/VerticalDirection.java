@@ -1,6 +1,7 @@
 package com.leokom.chess.engine;
 
-import java.util.EnumSet;
+import com.leokom.chess.utils.CollectionUtils;
+
 import java.util.Set;
 
 /**
@@ -19,13 +20,14 @@ enum VerticalDirection {
 	 */
 	DOWN;
 
-	private static final EnumSet< VerticalDirection > cache = EnumSet.allOf( VerticalDirection.class );
+	private static final Set< VerticalDirection > CACHE =
+			CollectionUtils.enums( VerticalDirection.class );
 
 	VerticalDirection opposite() {
 		return this == UP ? DOWN : UP;
 	}
 
-	static Set< VerticalDirection > values2() {
-		return cache;
+	static Set< VerticalDirection > VALUES() {
+		return CACHE;
 	}
 }
