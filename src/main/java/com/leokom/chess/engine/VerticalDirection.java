@@ -1,5 +1,8 @@
 package com.leokom.chess.engine;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * Direction on the board, from White player view
  * Author: Leonid
@@ -16,7 +19,13 @@ enum VerticalDirection {
 	 */
 	DOWN;
 
+	private static final EnumSet< VerticalDirection > cache = EnumSet.allOf( VerticalDirection.class );
+
 	VerticalDirection opposite() {
 		return this == UP ? DOWN : UP;
+	}
+
+	static Set< VerticalDirection > values2() {
+		return cache;
 	}
 }

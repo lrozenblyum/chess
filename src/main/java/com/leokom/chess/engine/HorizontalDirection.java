@@ -1,5 +1,7 @@
 package com.leokom.chess.engine;
 
+import java.util.EnumSet;
+
 /**
  * Created as wish to reduce duplication
  * We do similar actions to determine pawn
@@ -16,5 +18,13 @@ enum HorizontalDirection {
 	/**
 	 * Direction from a to h file
 	 */
-	RIGHT
+	RIGHT;
+
+	//TODO : use some immutable representation
+	private static final EnumSet< HorizontalDirection > cache = EnumSet.allOf( HorizontalDirection.class );
+
+	static EnumSet< HorizontalDirection > values2() {
+		return cache;
+	}
+
 }
