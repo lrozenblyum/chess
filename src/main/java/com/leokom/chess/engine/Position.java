@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import static com.leokom.chess.engine.Board.*;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
 import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
+import static com.leokom.chess.utils.CollectionUtils.filterValues;
 import static java.util.stream.Collectors.toSet;
 
 /**
@@ -369,12 +370,11 @@ public class Position {
 
 	private String findKing( Side side ) {
 		//TODO: null is impossible in real chess, possible in our tests...
-		return pieces.entrySet().stream()
-			.filter( ( entry ) ->
-				entry.getValue().getPieceType() == PieceType.KING &&
-				entry.getValue().getSide() == side
-			)
-			.map( Map.Entry::getKey ).findFirst().orElse( null );
+		return
+			filterValues( pieces, new Piece( PieceType.KING, side )::equals )
+			.map( Map.Entry::getKey )
+			.findFirst()
+			.orElse( null );
 	}
 
 	/**

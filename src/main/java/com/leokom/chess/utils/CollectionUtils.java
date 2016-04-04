@@ -1,6 +1,8 @@
 package com.leokom.chess.utils;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Author: Leonid
@@ -39,4 +41,19 @@ public final class CollectionUtils {
 	public static <T extends Enum< T >> Set< T > enums( Class< T > clazz ) {
 		return Collections.unmodifiableSet( EnumSet.allOf( clazz ) );
 	}
+
+	/**
+	 * Get stream of entry sets of the map
+	 * for which values suit the predicate
+	 * @param map map to be searched
+	 * @param valuePredicate predicate to be applied to values
+	 * @param <K> map key
+	 * @param <V> map value
+	 * @return stream of filtered entry sets
+	 */
+	public static < K, V > Stream< Map.Entry< K, V > >
+		filterValues( Map< K, V > map, Predicate< V > valuePredicate ) {
+		return map.entrySet().stream().filter( entry -> valuePredicate.test( entry.getValue() ) );
+	}
+
 }
