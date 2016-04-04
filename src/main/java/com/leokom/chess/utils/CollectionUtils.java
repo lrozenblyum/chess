@@ -52,7 +52,7 @@ public final class CollectionUtils {
 	 * @return stream of filtered entry sets
 	 */
 	public static < K, V > Stream< Map.Entry< K, V > >
-		filterValues( Map< K, V > map, Predicate< V > valuePredicate ) {
+	filterMapByValues( Map< K, V > map, Predicate< V > valuePredicate ) {
 		return map.entrySet().stream().filter( entry -> valuePredicate.test( entry.getValue() ) );
 	}
 
