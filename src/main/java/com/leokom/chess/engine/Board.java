@@ -33,9 +33,8 @@ final class Board {
 		return String.valueOf( square.charAt( 0 ) );
 	}
 
-	static Integer rankOfSquare( String square ) {
-		//this internal conversion is needed because char itself has its
-		return Integer.valueOf( String.valueOf( square.charAt( 1 ) ));
+	static int rankOfSquare( String square ) {
+		return Character.getNumericValue( square.charAt( 1 ) );
 	}
 
 	private static String fileTo( String file, HorizontalDirection direction, int shift ) {
