@@ -281,7 +281,7 @@ public class Position {
 		//assuming square is occupied...
 		switch ( pieces.get( square ).getPieceType() ) {
 			case PAWN:
-				return getSquaresAttackedByPawn( square );
+				return getSquaresAttackedByPawn( square ).collect( Collectors.toSet() );
 			case KNIGHT:
 				return getSquaresAttackedByKnight( square );
 			case BISHOP:
@@ -437,16 +437,13 @@ public class Position {
 
 	//NOTE: from point of view of en passant we
 	//still have the square diagonally-front attacked
-	private Set< String > getSquaresAttackedByPawn( String square ) {
-		Set< String > result = new HashSet<>();
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
-			final Side side = getSide( square );
+	private Stream< String > getSquaresAttackedByPawn( String square ) {
+		return HorizontalDirection.VALUES().stream()
+			.map( horizontalDirection -> {
+				final Side side = getSide( square );
 
-			final String attackedSquare = squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
-
-			addIfNotNull( result, attackedSquare );
-		}
-		return result;
+				return squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
+			} ).filter( Objects::nonNull );
 	}
 
 	private Set<String> getPawnMoves( String square ) {
@@ -461,12 +458,9 @@ public class Position {
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
-			final Set<String> attacked = getSquaresAttackedByPawn( square );
-			for ( String attackedSquare : attacked ) {
-				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
-					addPromotionResult( result, fileOfSquare( attackedSquare ), side );
-				}
-			}
+			getSquaresAttackedByPawn( square ).filter( attackedSquare -> canBeAttackedUsually( side, attackedSquare ) ).forEach( attackedSquare ->
+				addPromotionResult( result, fileOfSquare( attackedSquare ), side )
+			);
 		}
 		else {
 			result.add( file + getPawnNextRank( rank, side ) );
@@ -474,24 +468,26 @@ public class Position {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
 
-			final Set<String> attacked = getSquaresAttackedByPawn( square );
-			for ( String attackedSquare : attacked ) {
-				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
-					result.add( attackedSquare );
-				}
-
-				//3.7 d. A pawn attacking a square crossed by an opponent’s pawn which has advanced two squares
-				// in one move from its original square may capture this opponent’s pawn
-				// as though the latter had been moved only one square
-				if ( enPassantFile != null &&
-					attackedSquare.equals( enPassantFile + getPawnDoubleMoveIntermediateRank( side.opposite() ) )) {
-					result.add( attackedSquare );
-				}
-			}
+			final Stream<String> attacked = getSquaresAttackedByPawn( square );
+			attacked
+			.filter( attackedSquare -> canBeAttackedUsually( side, attackedSquare ) || canEnPassant( side, attackedSquare )  )
+			.forEach( result::add );
 		}
 
 		result.removeAll( getImpossibleMovesForPawn( result, square ) );
 		return result;
+	}
+
+	//3.7 d. A pawn attacking a square crossed by an opponent’s pawn which has advanced two squares
+	// in one move from its original square may capture this opponent’s pawn
+	// as though the latter had been moved only one square
+	private boolean canEnPassant( Side side, String attackedSquare ) {
+		return enPassantFile != null &&
+			attackedSquare.equals( enPassantFile + getPawnDoubleMoveIntermediateRank( side.opposite() ) );
+	}
+
+	private boolean canBeAttackedUsually( Side side, String attackedSquare ) {
+		return isOccupiedBy( attackedSquare, side.opposite() );
 	}
 
 	private Set<String> getSquaresAttackedByKnight( String square ) {
@@ -975,7 +971,7 @@ public class Position {
 	 * @return true if the move is capture
 	 */
 	boolean isCapture( Move move ) {
-		return isOccupiedBy( move.getDestinationSquare(), getSideToMove().opposite() ) ||
+		return canBeAttackedUsually( getSideToMove(), move.getDestinationSquare() ) ||
 				isEnPassant( move );
 	}
 
