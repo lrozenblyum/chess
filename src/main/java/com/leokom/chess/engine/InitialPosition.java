@@ -2,6 +2,8 @@ package com.leokom.chess.engine;
 
 import java.util.*;
 
+import com.google.common.collect.ImmutableMap;
+
 import static com.leokom.chess.engine.Board.MAXIMAL_FILE;
 import static com.leokom.chess.engine.Board.MINIMAL_FILE;
 
@@ -15,17 +17,13 @@ final class InitialPosition {
 	private static final int BLACK_PAWN_INITIAL_RANK = 7;
 
 
-	private static final Map< Side, Integer > PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
-		put( Side.WHITE, WHITE_PAWN_INITIAL_RANK );
-		put( Side.BLACK, BLACK_PAWN_INITIAL_RANK );
-	}};
+	private static final Map< Side, Integer > PAWN_INITIAL_RANKS =
+			ImmutableMap.of( Side.WHITE, WHITE_PAWN_INITIAL_RANK, Side.BLACK, BLACK_PAWN_INITIAL_RANK );
 
 	private static final int WHITE_NOT_PAWN_INITIAL_RANK = 1;
 	private static final int BLACK_NOT_PAWN_INITIAL_RANK = 8;
-	private static final Map< Side, Integer > NOT_PAWN_INITIAL_RANKS = new HashMap<Side, Integer>() { {
-		put( Side.WHITE, WHITE_NOT_PAWN_INITIAL_RANK );
-		put( Side.BLACK, BLACK_NOT_PAWN_INITIAL_RANK );
-	}};
+	private static final Map< Side, Integer > NOT_PAWN_INITIAL_RANKS = 
+			ImmutableMap.of( Side.WHITE, WHITE_NOT_PAWN_INITIAL_RANK, Side.BLACK, BLACK_NOT_PAWN_INITIAL_RANK );
 
 	static int getPawnInitialRank( Side side ) {
 		return PAWN_INITIAL_RANKS.get( side );
