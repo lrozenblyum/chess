@@ -13,8 +13,6 @@ import com.google.common.collect.Sets;
 public final class CollectionUtils {
 	private CollectionUtils() {}
 
-	//TODO: reuse some library for this?
-	// so far I'm trying to keep as less dependencies as possible
 	public static < T > void addIfNotNull( Collection<T> collection, T toAdd ) {
 		if ( toAdd != null ) {
 			collection.add( toAdd );
@@ -42,6 +40,8 @@ public final class CollectionUtils {
 	 */
 	public static < K, V > Stream< Map.Entry< K, V > >
 	filterMapByValues( Map< K, V > map, Predicate< V > valuePredicate ) {
+		//guava solution would be return Maps.filterValues(map, valuePredicate::test ).entrySet().stream()
+		//but it creates a new Map so I don't think it's efficient, here we work in Stream world directly
 		return map.entrySet().stream().filter( entry -> valuePredicate.test( entry.getValue() ) );
 	}
 
