@@ -1,5 +1,6 @@
 package com.leokom.chess.engine;
 
+import com.google.common.collect.Sets;
 import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
@@ -155,17 +156,19 @@ public class Position {
 	Set<String> getMovesFrom( String square ) {
 		final Set<String> potentialMoves = getPotentialMoves( square );
 
+		Set< String > result = new HashSet<>( potentialMoves );
+
 		//3.1 It is not permitted to move a piece to a square occupied by a piece of the same colour.
-		potentialMoves.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
+		result.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
 
 		// 3.9 'No piece can be moved that will ... expose the king of the same colour to check
 		//... or leave that king in check' is also covered here.
-		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
+		result.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
 
 		//1.2 ’capturing’ the opponent’s king ... not allowed
-		potentialMoves.removeAll( getCapturesOfKing( potentialMoves ) );
+		result.removeAll( getCapturesOfKing( potentialMoves ) );
 
-		return potentialMoves;
+		return result;
 	}
 
 	private Collection< String > getCapturesOfKing( Set< String > potentialMoves ) {
@@ -180,6 +183,7 @@ public class Position {
 	//artificial method born due to need to exclude
 	//some moves from pool of the 'potential moves'
 	//due to king check conditions and 'cannot move to occupied by our side square'
+	//returns potentially Immutable set
 	private Set<String> getPotentialMoves( String square ) {
 		switch ( getPieceType( square ) ) {
 			case KNIGHT:
@@ -405,15 +409,12 @@ public class Position {
 	//rook moves+bishop moves
 	//or ( rook attacked + bishop attacked ) - (busy by our pieces)
 	private Set<String> getQueenMoves( String square ) {
-		//TODO: some Guava/CollectionUtils for simplification?
-
 		//this works in assumption that rook's castling is NOT included into
 		//getRookMoves. Castling is considered as King's move
 		//however due to current notation for castling it's not harmful
 		//(we're not using 0-0 yet)
-		final Set< String > result = getSquaresAttackedByRook( square );
-		result.addAll( getSquaresAttackedByBishop( square ) );
-		return result;
+
+		return Sets.union( getSquaresAttackedByRook( square ), getSquaresAttackedByBishop( square ) );
 	}
 
 
