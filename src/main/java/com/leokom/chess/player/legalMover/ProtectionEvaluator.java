@@ -1,9 +1,9 @@
 package com.leokom.chess.player.legalMover;
 
+import com.google.common.collect.Sets;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
-import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.Set;
 
@@ -65,6 +65,6 @@ class ProtectionEvaluator implements Evaluator {
 	private Set<String> getPiecesAttackedByOpponent( Position position, Side ourSide ) {
 		final Side opponentSide = ourSide.opposite();
 		Set<String> ourSquares = position.getSquaresOccupiedBySide( ourSide );
-		return CollectionUtils.intersect( position.getSquaresAttackedBy( opponentSide ), ourSquares );
+		return Sets.intersection( position.getSquaresAttackedBy( opponentSide ), ourSquares );
 	}
 }

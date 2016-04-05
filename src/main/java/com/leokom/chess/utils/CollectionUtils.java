@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import com.google.common.collect.Sets;
+
 /**
  * Author: Leonid
  * Date-time: 07.07.13 22:25
@@ -11,25 +13,10 @@ import java.util.stream.Stream;
 public final class CollectionUtils {
 	private CollectionUtils() {}
 
-	//TODO: reuse some library for this?
-	// so far I'm trying to keep as less dependencies as possible
 	public static < T > void addIfNotNull( Collection<T> collection, T toAdd ) {
 		if ( toAdd != null ) {
 			collection.add( toAdd );
 		}
-	}
-
-	/**
-	 * Return set that is intersection of the arguments
-	 * @param first first argument
-	 * @param second second argument
-	 * @param <T> generic type of data
-	 * @return intersection
-	 */
-	public static < T > Set< T > intersect( Set< T > first, Set< T > second ) {
-		Set< T > result = new HashSet<>( first );
-		result.retainAll( second );
-		return result;
 	}
 
 	/**
@@ -39,7 +26,7 @@ public final class CollectionUtils {
 	 * @return unmodifiable set of enum values
 	 */
 	public static <T extends Enum< T >> Set< T > enums( Class< T > clazz ) {
-		return Collections.unmodifiableSet( EnumSet.allOf( clazz ) );
+		return Sets.immutableEnumSet( EnumSet.allOf( clazz ) );
 	}
 
 	/**
@@ -53,6 +40,8 @@ public final class CollectionUtils {
 	 */
 	public static < K, V > Stream< Map.Entry< K, V > >
 	filterMapByValues( Map< K, V > map, Predicate< V > valuePredicate ) {
+		//guava solution would be return Maps.filterValues(map, valuePredicate::test ).entrySet().stream()
+		//but it creates a new Map so I don't think it's efficient, here we work in Stream world directly
 		return map.entrySet().stream().filter( entry -> valuePredicate.test( entry.getValue() ) );
 	}
 

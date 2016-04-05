@@ -1,10 +1,11 @@
 package com.leokom.chess.player.legalMover;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
-import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,30 +23,16 @@ class CastlingSafetyEvaluator implements Evaluator {
 	private static final double BAD_MOVE = 0.25;
 	private static final double WORST_MOVE = 0;
 
-	private static final Set< Move > CASTLING_MOVES = new HashSet< Move >() {
-		{
-			add( new Move( "e1", "g1" ) );
-			add( new Move( "e1", "c1" ) );
-			add( new Move( "e8", "g8" ) );
-			add( new Move( "e8", "c8" ) );
-		}
-	};
+	private static final Set< Move > CASTLING_MOVES = ImmutableSet.of(
+			new Move( "e1", "g1" ),
+			new Move( "e1", "c1" ),
+			new Move( "e8", "g8" ),
+			new Move( "e8", "c8" )
+	);
 
-	private static final Set< String > FILES_IN_BETWEEN_QUEEN_SIDE = new HashSet< String >() {
-		{
-			add( "b" );
-			add( "c" );
-			add( "d" );
-		}
-	};
+	private static final Set< String > FILES_IN_BETWEEN_QUEEN_SIDE = ImmutableSet.of( "b", "c", "d" );
 
-	private static final Set< String > FILES_IN_BETWEEN_KING_SIDE = new HashSet< String >() {
-		{
-			add( "f" );
-			add( "g" );
-		}
-	};
-
+	private static final Set< String > FILES_IN_BETWEEN_KING_SIDE = ImmutableSet.of( "f", "g" );
 
 	/*
 	 * TODO: backlog
@@ -122,7 +109,7 @@ class CastlingSafetyEvaluator implements Evaluator {
 		}
 
 		final Set<String> occupiedInBetween =
-				CollectionUtils.intersect( position.getSquaresOccupiedBySide( side ), squaresInBetween );
+				Sets.intersection( position.getSquaresOccupiedBySide( side ), squaresInBetween );
 
 		return occupiedInBetween.size();
 	}
