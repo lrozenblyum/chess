@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import com.google.common.collect.Sets;
+
 /**
  * Author: Leonid
  * Date-time: 07.07.13 22:25
@@ -26,7 +28,7 @@ public final class CollectionUtils {
 	 * @return unmodifiable set of enum values
 	 */
 	public static <T extends Enum< T >> Set< T > enums( Class< T > clazz ) {
-		return Collections.unmodifiableSet( EnumSet.allOf( clazz ) );
+		return Sets.immutableEnumSet( EnumSet.allOf( clazz ) );
 	}
 
 	/**
