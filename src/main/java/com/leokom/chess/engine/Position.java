@@ -1,5 +1,7 @@
 package com.leokom.chess.engine;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.leokom.chess.utils.CollectionUtils;
 
@@ -45,17 +47,11 @@ public class Position {
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
-	//thread-safe for read usage, should we use some 'immutable map'?
-	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
-		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
-		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
-	}};
+	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = 
+			ImmutableMap.of( Side.WHITE, WHITE_PAWN_PROMOTION_RANK, Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
 
-	//thread safe
 	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
-		Collections.unmodifiableSet( EnumSet.of(
-				PieceType.QUEEN, PieceType.ROOK,
-				PieceType.KNIGHT, PieceType.BISHOP ) );
+		ImmutableSet.of( PieceType.QUEEN, PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP );
 
 
 	//all pieces currently present on the board
