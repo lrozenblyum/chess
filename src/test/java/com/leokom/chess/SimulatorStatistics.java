@@ -1,4 +1,4 @@
-package com.leokom.chess.player.legalMover;
+package com.leokom.chess;
 
 /**
  * Author: Leonid

@@ -1,6 +1,5 @@
-package com.leokom.chess.player.legalMover;
+package com.leokom.chess;
 
-import com.leokom.chess.Game;
 import com.leokom.chess.player.Player;
 
 /**
