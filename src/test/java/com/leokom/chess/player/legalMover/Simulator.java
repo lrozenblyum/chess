@@ -22,7 +22,13 @@ class Simulator {
 		this.second = second;
 	}
 
+	/**
+	 * Run simulator
+	 * By default the players will play
+	 * 2 consecutive games switching colours.
+	 */
 	void run() {
 		new Game( this.first, this.second ).run();
+		new Game( this.second, this.first ).run();
 	}
 }

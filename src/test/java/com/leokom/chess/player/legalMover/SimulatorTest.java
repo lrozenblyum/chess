@@ -13,7 +13,7 @@ import static org.mockito.Mockito.verify;
  */
 public class SimulatorTest {
 	@Test
-	public void runGames() {
+	public void runGame() {
 		final Player first = mock( Player.class );
 		final Player second = mock( Player.class );
 		new Simulator( first, second ).run();
@@ -22,6 +22,13 @@ public class SimulatorTest {
 		verify( first ).opponentSuggestsMeStartNewGameWhite();
 	}
 
+	@Test
+	public void afterFinishRunAnotherGameReversed() {
+		final Player first = mock( Player.class );
+		final Player second = mock( Player.class );
+		new Simulator( first, second ).run();
 
-
+		verify( first ).opponentSuggestsMeStartNewGameBlack();
+		verify( second ).opponentSuggestsMeStartNewGameWhite();
+	}
 }
