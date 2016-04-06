@@ -26,9 +26,12 @@ class Simulator {
 	 * Run simulator
 	 * By default the players will play
 	 * 2 consecutive games switching colours.
+	 *
+	 * @return statistics about game results
 	 */
-	void run() {
+	SimulatorStatistics run() {
 		new Game( this.first, this.second ).run();
 		new Game( this.second, this.first ).run();
+		return new SimulatorStatistics();
 	}
 }

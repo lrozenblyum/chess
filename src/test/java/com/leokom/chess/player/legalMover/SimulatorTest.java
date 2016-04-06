@@ -1,6 +1,7 @@
 package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.player.Player;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,10 +13,11 @@ import static org.mockito.Mockito.verify;
  * Date-time: 06.04.16 21:08
  */
 public class SimulatorTest {
+	private final Player first = mock( Player.class );
+	private final Player second = mock( Player.class );
+
 	@Test
 	public void runGame() {
-		final Player first = mock( Player.class );
-		final Player second = mock( Player.class );
 		new Simulator( first, second ).run();
 
 		verify( second ).opponentSuggestsMeStartNewGameBlack();
@@ -24,11 +26,21 @@ public class SimulatorTest {
 
 	@Test
 	public void afterFinishRunAnotherGameReversed() {
-		final Player first = mock( Player.class );
-		final Player second = mock( Player.class );
 		new Simulator( first, second ).run();
 
 		verify( first ).opponentSuggestsMeStartNewGameBlack();
 		verify( second ).opponentSuggestsMeStartNewGameWhite();
+	}
+
+	@Test
+	public void getStatistics() {
+		SimulatorStatistics statistics = new Simulator( first, second ).run();
+		assertNotNull( statistics );
+	}
+
+	@Ignore( "long, probably need to move to IT" )
+	@Test
+	public void legalPlayerEqualProbableDraw() {
+		new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
 	}
 }
