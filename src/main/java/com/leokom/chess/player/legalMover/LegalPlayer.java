@@ -185,7 +185,8 @@ public class LegalPlayer implements Player {
 		this.ourSide = ourSide;
 	}
 
-	Position getPosition() {
+	@Override
+	public Position getPosition() {
 		return this.position;
 	}
 

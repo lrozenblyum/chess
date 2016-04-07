@@ -68,4 +68,9 @@ public class PositionBuilder {
 		IntStream.rangeClosed( 1, pliesCount ).forEach( counter -> position.incPliesCount() );
 		return this;
 	}
+
+	public PositionBuilder winningSide( Side side ) {
+		position.setTerminal( side );
+		return this;
+	}
 }

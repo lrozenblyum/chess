@@ -5,4 +5,11 @@ package com.leokom.chess;
  * Date-time: 06.04.16 22:13
  */
 class SimulatorStatistics {
+	int getFirstWins() {
+		return 1;
+	}
+
+	int getSecondWins() {
+		return 1;
+	}
 }

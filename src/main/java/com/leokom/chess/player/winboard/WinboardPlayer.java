@@ -232,7 +232,8 @@ public class WinboardPlayer implements Player {
 		return needQuit;
 	}
 
-	Position getPosition() {
+	@Override
+	public Position getPosition() {
 		return position;
 	}
 

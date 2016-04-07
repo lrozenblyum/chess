@@ -49,6 +49,11 @@ public class SimplePlayer implements Player {
 	}
 
 	@Override
+	public Position getPosition() {
+		return position;
+	}
+
+	@Override
 	public void opponentMoved( Move opponentMove ) {
 		position = position.move( opponentMove );
 		if ( !recordingMode ) {

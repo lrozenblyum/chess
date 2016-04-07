@@ -1,6 +1,7 @@
 package com.leokom.chess.player;
 
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.Position;
 
 /**
  * Engine-agnostic player.
@@ -64,4 +65,14 @@ public interface Player {
 	 *
 	 */
 	void joinGameForSideToMove();
+
+	/**
+	 * Get position from the perspective of the Player
+	 * Practically before game start and after game end the Position representation
+	 * of the players should be equal.
+	 * During the game they might differ between moves when a player
+	 * hasn't yet received a move from the opponent.
+	 * @return position
+	 */
+	Position getPosition();
 }
