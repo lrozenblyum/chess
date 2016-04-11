@@ -72,7 +72,7 @@ public interface Player {
 	 * of the players should be equal.
 	 * During the game they might differ between moves when a player
 	 * hasn't yet received a move from the opponent.
-	 * @return position
+	 * @return position position which is not null
 	 */
 	Position getPosition();
 }

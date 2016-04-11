@@ -1,5 +1,6 @@
 package com.leokom.chess;
 
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 
 /**
@@ -29,8 +30,12 @@ class Simulator {
 	 * @return statistics about game results
 	 */
 	SimulatorStatistics run() {
-		new Game( this.first, this.second ).run();
+		final Side winner = new Game( this.first, this.second ).run();
 		new Game( this.second, this.first ).run();
-		return new SimulatorStatistics();
+
+
+		return winner != null ?
+				new SimulatorStatistics( 1, 1 ) :
+				new SimulatorStatistics( 0, 0 );
 	}
 }

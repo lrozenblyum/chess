@@ -73,4 +73,11 @@ public class PositionBuilder {
 		position.setTerminal( side );
 		return this;
 	}
+
+	public PositionBuilder draw() {
+		this.position.setTerminal( null );
+		//see the reason of this in PositionBuilder
+		this.position.setSideToMove( null );
+		return this;
+	}
 }

@@ -34,7 +34,8 @@ public class WinboardPlayer implements Player {
 		this.position = position;
 	}
 
-	//TODO: symptom of need to change architecture
+	//the To Do already exists in Game class
+	//symptom of need to change architecture
 	//the 'state' of game should be commonly shared
 	//for both players
 	private Position position = Position.getInitialPosition();

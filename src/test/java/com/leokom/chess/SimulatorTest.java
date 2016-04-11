@@ -21,9 +21,13 @@ public class SimulatorTest {
 	private final Player first = mock( Player.class );
 	private final Player second = mock( Player.class );
 
+	private Position positionOfFirst = mock( Position.class );
+	private Position positionOfSecond = mock( Position.class );
+
+
 	@Test
 	public void runGame() {
-		new Simulator( first, second ).run();
+		runSimulator();
 
 		verify( second ).opponentSuggestsMeStartNewGameBlack();
 		verify( first ).opponentSuggestsMeStartNewGameWhite();
@@ -31,7 +35,7 @@ public class SimulatorTest {
 
 	@Test
 	public void afterFinishRunAnotherGameReversed() {
-		new Simulator( first, second ).run();
+		runSimulator();
 
 		verify( first ).opponentSuggestsMeStartNewGameBlack();
 		verify( second ).opponentSuggestsMeStartNewGameWhite();
@@ -39,7 +43,7 @@ public class SimulatorTest {
 
 	@Test
 	public void getStatistics() {
-		SimulatorStatistics statistics = new Simulator( first, second ).run();
+		SimulatorStatistics statistics = runSimulator();
 		assertNotNull( statistics );
 	}
 
@@ -47,12 +51,31 @@ public class SimulatorTest {
 	public void statisticsReflectsReality() {
 		final Position position = new PositionBuilder().winningSide( Side.BLACK ).build();
 
-		when( first.getPosition() ).thenReturn( position );
-		when( second.getPosition() ).thenReturn( position );
+		positionOfFirst = position;
+		positionOfSecond = position;
 
-		SimulatorStatistics statistics = new Simulator( first, second ).run();
+		SimulatorStatistics statistics = runSimulator();
 		assertEquals( 1, statistics.getFirstWins() );
 		assertEquals( 1, statistics.getSecondWins() );
+	}
+
+	@Test
+	public void twoDraws() {
+		final Position position = new PositionBuilder().draw().build();
+
+		positionOfFirst = position;
+		positionOfSecond = position;
+
+		SimulatorStatistics statistics = runSimulator();
+		assertEquals( 0, statistics.getFirstWins() );
+		assertEquals( 0, statistics.getSecondWins() );
+	}
+
+	private SimulatorStatistics runSimulator() {
+		when( first.getPosition() ).thenReturn( positionOfFirst );
+		when( second.getPosition() ).thenReturn( positionOfSecond );
+
+		return new Simulator( first, second ).run();
 	}
 
 	@Ignore( "long, probably need to move to IT" )
