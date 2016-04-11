@@ -21,9 +21,7 @@ public class SimulatorTest {
 	private final Player first = mock( Player.class );
 	private final Player second = mock( Player.class );
 
-	private Position positionOfFirst = mock( Position.class );
-	private Position positionOfSecond = mock( Position.class );
-
+	private Position position = mock( Position.class );
 
 	@Test
 	public void runGame() {
@@ -49,10 +47,7 @@ public class SimulatorTest {
 
 	@Test
 	public void statisticsReflectsReality() {
-		final Position position = new PositionBuilder().winningSide( Side.BLACK ).build();
-
-		positionOfFirst = position;
-		positionOfSecond = position;
+		this.position = new PositionBuilder().winningSide( Side.BLACK ).build();
 
 		SimulatorStatistics statistics = runSimulator();
 		assertEquals( 1, statistics.getFirstWins() );
@@ -61,10 +56,7 @@ public class SimulatorTest {
 
 	@Test
 	public void twoDraws() {
-		final Position position = new PositionBuilder().draw().build();
-
-		positionOfFirst = position;
-		positionOfSecond = position;
+		this.position = new PositionBuilder().draw().build();
 
 		SimulatorStatistics statistics = runSimulator();
 		assertEquals( 0, statistics.getFirstWins() );
@@ -72,8 +64,10 @@ public class SimulatorTest {
 	}
 
 	private SimulatorStatistics runSimulator() {
-		when( first.getPosition() ).thenReturn( positionOfFirst );
-		when( second.getPosition() ).thenReturn( positionOfSecond );
+		//after correct game (or after full refactoring)
+		//both players must return the same position : so we just stating this as a fact here
+		when( first.getPosition() ).thenReturn( this.position );
+		when( second.getPosition() ).thenReturn( this.position );
 
 		return new Simulator( first, second ).run();
 	}
