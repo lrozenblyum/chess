@@ -116,12 +116,28 @@ public class SimulatorTest {
 	}
 
 	//we expect legal player is much smarter than the simple one
-	@Ignore( "Probably hard to implement due to lack of Async offer draw handling?" )
+	@Ignore( "Offer draw is a show-stopper?" )
 	@Test
 	public void legalVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( new LegalPlayer(), new SimplePlayer() ).run();
+		final SimulatorStatistics statistics = new Simulator(
+				new SimplePlayer(), new LegalPlayer() ).run();
 
 		assertEquals( 2, statistics.getFirstWins() );
 		assertEquals( 0, statistics.getSecondWins() );
+	}
+
+	@Test
+	public void simpleVsSimpleNoCrash() {
+		new Simulator( new SimplePlayer(), new SimplePlayer() ).run();
+	}
+
+	@Ignore( "need investigating" )
+	@Test
+	public void simpleVsSimpleStatistics() {
+		final SimulatorStatistics statistics = new Simulator(
+				new SimplePlayer(), new SimplePlayer() ).run();
+
+		assertEquals( 1, statistics.getFirstWins() );
+		assertEquals( 1, statistics.getSecondWins() );
 	}
 }

@@ -56,9 +56,17 @@ public class SimplePlayer implements Player {
 	@Override
 	public void opponentMoved( Move opponentMove ) {
 		position = position.move( opponentMove );
-		if ( !recordingMode ) {
-			executeMove( opponentMove );
+		if ( recordingMode ) {
+			return;
 		}
+
+		if ( position.isTerminal() ) {
+			logger.info( "Game is over." );
+			return;
+		}
+
+		executeMove( opponentMove );
+
 	}
 
 	private void executeMove( Move opponentMove ) {
@@ -67,14 +75,10 @@ public class SimplePlayer implements Player {
 		int rankTo = position.getSideToMove() == Side.WHITE ? 4 : 5;
 		moveNumber++;
 		logger.info( "Move number = " + moveNumber );
-		if ( opponentMove == Move.RESIGN ) {
-			logger.info( "Opponent resigned" );
-			return;
-		}
 
 		//Simplest possible strategy - agree to the draw offer
 		if ( opponentMove == Move.OFFER_DRAW ) {
-			opponent.opponentMoved( Move.ACCEPT_DRAW );
+			moveTo( Move.ACCEPT_DRAW );
 		}
 
 		switch ( moveNumber ) {
