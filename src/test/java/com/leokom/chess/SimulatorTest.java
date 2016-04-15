@@ -5,6 +5,7 @@ import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legalMover.LegalPlayer;
+import com.leokom.chess.player.simple.SimplePlayer;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -107,5 +108,20 @@ public class SimulatorTest {
 	@Test
 	public void legalPlayerEqualProbableDraw() {
 		new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
+	}
+
+	@Test
+	public void legalVsSimpleNoCrash() {
+		new Simulator( new LegalPlayer(), new SimplePlayer() ).run();
+	}
+
+	//we expect legal player is much smarter than the simple one
+	@Ignore( "Probably hard to implement due to lack of Async offer draw handling?" )
+	@Test
+	public void legalVsSimpleStatistics() {
+		final SimulatorStatistics statistics = new Simulator( new LegalPlayer(), new SimplePlayer() ).run();
+
+		assertEquals( 2, statistics.getFirstWins() );
+		assertEquals( 0, statistics.getSecondWins() );
 	}
 }

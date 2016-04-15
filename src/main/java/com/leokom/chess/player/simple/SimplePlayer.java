@@ -93,11 +93,11 @@ public class SimplePlayer implements Player {
 	}
 
 	private void offerDraw() {
-		opponent.opponentMoved( Move.OFFER_DRAW );
+		moveTo( Move.OFFER_DRAW );
 	}
 
 	private void resign() {
-		opponent.opponentMoved( Move.RESIGN );
+		moveTo( Move.RESIGN );
 	}
 
 	/**
