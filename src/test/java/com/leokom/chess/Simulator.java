@@ -37,11 +37,18 @@ class Simulator {
 		winners.add( createGame( first, second ).run() );
 		winners.add( createGame( second, first ).run() );
 
-		//reference equality is fine
-		final long firstWins = winners.stream().filter( Objects::nonNull ).filter( first::equals ).count();
-		final long secondWins = winners.stream().filter( Objects::nonNull ).filter( second::equals ).count();
+		final long firstWins = countWinsOf( winners, first );
+		final long secondWins = countWinsOf( winners, second );
 
 		return new SimulatorStatistics( firstWins, secondWins );
+	}
+
+	private long countWinsOf( List< Player > winners, Player player ) {
+		return winners.stream()
+				.filter( Objects::nonNull )
+				//default reference equality is fine
+				.filter( player::equals )
+				.count();
 	}
 
 	//https://code.google.com/archive/p/mockito/wikis/MockingObjectCreation.wiki
