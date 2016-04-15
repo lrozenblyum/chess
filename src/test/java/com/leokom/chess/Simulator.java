@@ -1,7 +1,10 @@
 package com.leokom.chess;
 
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Enable matches between players
@@ -30,24 +33,13 @@ class Simulator {
 	 * @return statistics about game results
 	 */
 	SimulatorStatistics run() {
-		final Side winner = createGame( first, second ).run();
-		final Side winner2 = createGame( second, first ).run();
+		List< Player > winners = new ArrayList<>();
+		winners.add( createGame( first, second ).run() );
+		winners.add( createGame( second, first ).run() );
 
-		int firstWins = 0;
-		int secondWins = 0;
-		if ( winner == Side.WHITE ) {
-			firstWins++;
-		}
-		else  if ( winner == Side.BLACK ) {
-			secondWins++;
-		}
-
-		if ( winner2 == Side.WHITE ) {
-			secondWins++;
-		}
-		else  if ( winner2 == Side.BLACK ) {
-			firstWins++;
-		}
+		//reference equality is fine
+		final long firstWins = winners.stream().filter( Objects::nonNull ).filter( first::equals ).count();
+		final long secondWins = winners.stream().filter( Objects::nonNull ).filter( second::equals ).count();
 
 		return new SimulatorStatistics( firstWins, secondWins );
 	}

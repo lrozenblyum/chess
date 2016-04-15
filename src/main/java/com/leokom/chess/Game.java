@@ -25,9 +25,9 @@ public final class Game {
 
 	/**
 	 * Run the game.
-	 * @return winner or null in case of draw
+	 * @return winner among whitePlayer, blackPlayer or null in case of draw
 	 */
-	public Side run() {
+	public Player run() {
 		//setting opponents for symmetry. Technically it's possible
 		// for one set to make a back reference
 		blackPlayer.setOpponent( whitePlayer );
@@ -42,6 +42,7 @@ public final class Game {
 
 		//TODO: assymetry, need validating that blackPlayer position gives same result
 		//maybe it's time to share the Position
-		return whitePlayer.getPosition().getWinningSide();
+		final Side winningSide = whitePlayer.getPosition().getWinningSide();
+		return winningSide == null ? null : winningSide == Side.WHITE ? whitePlayer : blackPlayer;
 	}
 }

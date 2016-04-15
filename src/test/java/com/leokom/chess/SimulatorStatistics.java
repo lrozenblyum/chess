@@ -5,19 +5,19 @@ package com.leokom.chess;
  * Date-time: 06.04.16 22:13
  */
 final class SimulatorStatistics {
-	private int firstWins;
-	private int secondWins;
+	private long firstWins;
+	private long secondWins;
 
-	SimulatorStatistics( int firstWins, int secondWins ) {
+	SimulatorStatistics( long firstWins, long secondWins ) {
 		this.firstWins = firstWins;
 		this.secondWins = secondWins;
 	}
 
-	int getFirstWins() {
+	long getFirstWins() {
 		return firstWins;
 	}
 
-	int getSecondWins() {
+	long getSecondWins() {
 		return secondWins;
 	}
 }
