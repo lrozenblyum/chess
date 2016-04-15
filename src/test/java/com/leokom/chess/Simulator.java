@@ -31,11 +31,24 @@ class Simulator {
 	 */
 	SimulatorStatistics run() {
 		final Side winner = new Game( this.first, this.second ).run();
-		new Game( this.second, this.first ).run();
+		final Side winner2 = new Game( this.second, this.first ).run();
 
+		int firstWins = 0;
+		int secondWins = 0;
+		if ( winner == Side.WHITE ) {
+			firstWins++;
+		}
+		else  if ( winner == Side.BLACK ) {
+			secondWins++;
+		}
 
-		return winner != null ?
-				new SimulatorStatistics( 1, 1 ) :
-				new SimulatorStatistics( 0, 0 );
+		if ( winner2 == Side.WHITE ) {
+			secondWins++;
+		}
+		else  if ( winner2 == Side.BLACK ) {
+			firstWins++;
+		}
+
+		return new SimulatorStatistics( firstWins, secondWins );
 	}
 }

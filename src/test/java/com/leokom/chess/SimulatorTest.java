@@ -63,13 +63,35 @@ public class SimulatorTest {
 		assertEquals( 0, statistics.getSecondWins() );
 	}
 
+	@Ignore( "we don't program the position well here" )
+	@Test
+	public void twoWinsByFirst() {
+		Position whiteWins = new PositionBuilder().winningSide( Side.WHITE ).build();
+		Position blackWins = new PositionBuilder().winningSide( Side.BLACK ).build();
+
+		//thus both games are won by the First player
+		programPlayers( whiteWins, blackWins );
+
+		SimulatorStatistics statistics = getSimulator().run();
+		assertEquals( 2, statistics.getFirstWins() );
+		assertEquals( 0, statistics.getSecondWins() );
+	}
+
+	private Simulator getSimulator() {
+		return new Simulator( first, second );
+	}
+
 	private SimulatorStatistics runSimulator() {
 		//after correct game (or after full refactoring)
 		//both players must return the same position : so we just stating this as a fact here
-		when( first.getPosition() ).thenReturn( this.position );
-		when( second.getPosition() ).thenReturn( this.position );
+		programPlayers( this.position );
 
-		return new Simulator( first, second ).run();
+		return getSimulator().run();
+	}
+
+	private void programPlayers( Position position, Position ... positions ) {
+		when( first.getPosition() ).thenReturn( position, positions );
+		when( second.getPosition() ).thenReturn( position, positions );
 	}
 
 	@Ignore( "long, probably need to move to IT" )
