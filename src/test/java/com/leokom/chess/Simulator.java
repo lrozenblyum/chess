@@ -30,8 +30,8 @@ class Simulator {
 	 * @return statistics about game results
 	 */
 	SimulatorStatistics run() {
-		final Side winner = new Game( this.first, this.second ).run();
-		final Side winner2 = new Game( this.second, this.first ).run();
+		final Side winner = createGame( first, second ).run();
+		final Side winner2 = createGame( second, first ).run();
 
 		int firstWins = 0;
 		int secondWins = 0;
@@ -50,5 +50,11 @@ class Simulator {
 		}
 
 		return new SimulatorStatistics( firstWins, secondWins );
+	}
+
+	//https://code.google.com/archive/p/mockito/wikis/MockingObjectCreation.wiki
+	//pattern1: using one-line methods for object creation
+	Game createGame( Player white, Player black ) {
+		return new Game( white, black );
 	}
 }

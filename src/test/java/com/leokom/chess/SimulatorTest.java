@@ -9,9 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Author: Leonid
@@ -61,6 +59,17 @@ public class SimulatorTest {
 		SimulatorStatistics statistics = runSimulator();
 		assertEquals( 0, statistics.getFirstWins() );
 		assertEquals( 0, statistics.getSecondWins() );
+	}
+
+	@Test
+	public void verifyFlippingGamesCreation() {
+		final Simulator simulator = new Simulator( first, second );
+		programPlayers( position );
+		final Simulator spy = spy( simulator );
+		spy.run();
+
+		verify( spy ).createGame( first, second );
+		verify( spy ).createGame( second, first );
 	}
 
 	@Ignore( "we don't program the position well here" )
