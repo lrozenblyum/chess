@@ -43,7 +43,7 @@ class Simulator {
 		return new SimulatorStatistics( firstWins, secondWins );
 	}
 
-	private long countWinsOf( List< Player > winners, Player player ) {
+	private static long countWinsOf( List< Player > winners, Player player ) {
 		return winners.stream()
 				.filter( Objects::nonNull )
 				//default reference equality is fine
