@@ -116,11 +116,10 @@ public class SimulatorTest {
 	}
 
 	//we expect legal player is much smarter than the simple one
-	@Ignore( "Offer draw is a show-stopper?" )
 	@Test
 	public void legalVsSimpleStatistics() {
 		final SimulatorStatistics statistics = new Simulator(
-				new SimplePlayer(), new LegalPlayer() ).run();
+				new LegalPlayer(), new SimplePlayer() ).run();
 
 		assertEquals( 2, statistics.getFirstWins() );
 		assertEquals( 0, statistics.getSecondWins() );
