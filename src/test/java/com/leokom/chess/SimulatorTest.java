@@ -131,7 +131,6 @@ public class SimulatorTest {
 		new Simulator( new SimplePlayer(), new SimplePlayer() ).run();
 	}
 
-	@Ignore( "need investigating" )
 	@Test
 	public void simpleVsSimpleStatistics() {
 		final SimulatorStatistics statistics = new Simulator(

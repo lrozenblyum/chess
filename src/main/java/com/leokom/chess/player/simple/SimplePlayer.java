@@ -89,7 +89,11 @@ public class SimplePlayer implements Player {
 				moveTo( new Move( "d" + rankFrom, "d" + rankTo ) );
 				//NOTE: interesting to implement - how much do we need to wait for result?
 				//NOTE2: it's not recommended way to offer draw after the move.
-				offerDraw();
+				//TODO: technically the Position must prohibit this offer draw
+				//now position.move is almost non-validating
+				if ( !position.isTerminal() ) {
+					offerDraw();
+				}
 				break;
 			default:
 				resign();
