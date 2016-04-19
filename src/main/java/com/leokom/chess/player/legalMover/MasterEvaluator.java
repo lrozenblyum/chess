@@ -36,14 +36,10 @@ class MasterEvaluator implements Evaluator {
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		double estimate = 0;
-		for ( Map.Entry< Evaluator, Double > evaluatorEntry : evaluatorWeights.entrySet() ) {
-			// rather safe if all evaluators keep convention [0 , 1]
+		return evaluatorWeights.entrySet().stream().mapToDouble( evaluatorEntry -> {
 			final Evaluator evaluator = evaluatorEntry.getKey();
 			final double weight = evaluatorEntry.getValue();
-			estimate += weight * evaluator.evaluateMove( position, move ) ;
-		}
-
-		return estimate;
+			return weight * evaluator.evaluateMove( position, move );
+		} ).sum();
 	}
 }
