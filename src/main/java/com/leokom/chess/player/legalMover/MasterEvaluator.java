@@ -18,22 +18,25 @@ class MasterEvaluator implements Evaluator {
 	//among 2 'equal' moves we would like to select according to some
 	//compare 1-to-another logic
 
-	private Map< BasicEvaluator, Double > evaluatorWeights = new HashMap<>();
 
 	private static final double HIGHEST_PRIORITY = 100.0;
 	private static final double NORMAL_PRIORITY = 1.0;
 	private static final double DISABLED = 0.0;
 
-	{
-		evaluatorWeights.put( CHECKMATE, HIGHEST_PRIORITY );
-		evaluatorWeights.put( CASTLING_SAFETY, NORMAL_PRIORITY );
-		evaluatorWeights.put( CENTER_CONTROL, NORMAL_PRIORITY );
-		evaluatorWeights.put( MOBILITY, NORMAL_PRIORITY );
-		evaluatorWeights.put( MATERIAL, NORMAL_PRIORITY );
-		evaluatorWeights.put( PROTECTION, NORMAL_PRIORITY );
+	private final Map< BasicEvaluator, Double > evaluatorWeights = getStandardWeights();
+
+	private Map< BasicEvaluator, Double > getStandardWeights() {
+		Map< BasicEvaluator, Double > result = new HashMap<>();
+		result.put( CHECKMATE, HIGHEST_PRIORITY );
+		result.put( CASTLING_SAFETY, NORMAL_PRIORITY );
+		result.put( CENTER_CONTROL, NORMAL_PRIORITY );
+		result.put( MOBILITY, NORMAL_PRIORITY );
+		result.put( MATERIAL, NORMAL_PRIORITY );
+		result.put( PROTECTION, NORMAL_PRIORITY );
 		//this disabling is not absolute. Those moves anyway have chance
 		//e.g. if LegalPlayer selects moves in reverse order (from worse to best)
-		evaluatorWeights.put( SPECIAL_MOVE, DISABLED );
+		result.put( SPECIAL_MOVE, DISABLED );
+		return result;
 	}
 
 	@Override
