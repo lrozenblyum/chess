@@ -7,8 +7,8 @@ package com.leokom.chess.player.legalMover;
  * Author: Leonid
  * Date-time: 19.04.16 22:46
  */
-enum BasicEvaluator {
-//we keep references to instances of evaluators here
+public enum EvaluatorType {
+	//we keep references to instances of evaluators here
 	//so they're practically singletons
 	//any valid Evaluator must be stateless and thread-safe
 	CHECKMATE( new CheckmateEvaluator() ),
@@ -25,7 +25,7 @@ enum BasicEvaluator {
 		return evaluator;
 	}
 
-	BasicEvaluator( Evaluator evaluator ) {
+	EvaluatorType( Evaluator evaluator ) {
 		this.evaluator = evaluator;
 	}
 }

@@ -33,7 +33,7 @@ public class LegalPlayer implements Player {
 	 * Create a player with injected brains
 	 * @param brains brains to evaluate moves
 	 */
-	LegalPlayer( Evaluator brains ) {
+	public LegalPlayer( Evaluator brains ) {
 		this.brains = brains;
 	}
 

@@ -10,7 +10,7 @@ import com.leokom.chess.engine.Position;
  * Author: Leonid
  * Date-time: 14.07.14 22:57
  */
-interface Evaluator {
+public interface Evaluator {
 
 	/**
 	 * Get 'rating' of a move

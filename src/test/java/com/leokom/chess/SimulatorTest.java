@@ -4,7 +4,7 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legalMover.LegalPlayer;
+import com.leokom.chess.player.legalMover.*;
 import com.leokom.chess.player.simple.SimplePlayer;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -104,12 +104,6 @@ public class SimulatorTest {
 		when( second.getPosition() ).thenReturn( position, positions );
 	}
 
-	@Ignore( "long, probably need to move to IT" )
-	@Test
-	public void legalPlayerEqualProbableDraw() {
-		new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
-	}
-
 	@Test
 	public void legalVsSimpleNoCrash() {
 		new Simulator( new LegalPlayer(), new SimplePlayer() ).run();
@@ -134,6 +128,29 @@ public class SimulatorTest {
 	public void simpleVsSimpleStatistics() {
 		final SimulatorStatistics statistics = new Simulator(
 				new SimplePlayer(), new SimplePlayer() ).run();
+
+		assertEquals( 1, statistics.getFirstWins() );
+		assertEquals( 1, statistics.getSecondWins() );
+	}
+
+	//non-deterministic, it's not a business-requirement
+	@Test
+	public void legalVsLegalCustomEvaluator() {
+		final Evaluator brainLikesToEatPieces = new MasterEvaluatorBuilder().weight( EvaluatorType.MATERIAL, 100.0 ).build();
+
+		final SimulatorStatistics statistics =
+			new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToEatPieces ) ).run();
+
+
+		assertEquals( 0, statistics.getFirstWins() );
+		//who eats - that one wins
+		assertEquals( 2, statistics.getSecondWins() );
+	}
+
+	//non-deterministic, it's not a business-requirement
+	@Test
+	public void legalPlayerEqualProbableDraw() {
+		final SimulatorStatistics statistics = new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
 
 		assertEquals( 1, statistics.getFirstWins() );
 		assertEquals( 1, statistics.getSecondWins() );

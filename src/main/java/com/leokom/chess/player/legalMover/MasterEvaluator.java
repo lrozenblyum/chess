@@ -6,7 +6,7 @@ import com.leokom.chess.engine.Position;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.leokom.chess.player.legalMover.BasicEvaluator.*;
+import static com.leokom.chess.player.legalMover.EvaluatorType.*;
 
 /**
  * Central evaluator of a move ('brains', 'decision maker')
@@ -23,10 +23,18 @@ class MasterEvaluator implements Evaluator {
 	private static final double NORMAL_PRIORITY = 1.0;
 	private static final double DISABLED = 0.0;
 
-	private final Map< BasicEvaluator, Double > evaluatorWeights = getStandardWeights();
+	private final Map<EvaluatorType, Double > evaluatorWeights;
 
-	private Map< BasicEvaluator, Double > getStandardWeights() {
-		Map< BasicEvaluator, Double > result = new HashMap<>();
+	public MasterEvaluator() {
+		this( getStandardWeights() );
+	}
+
+	MasterEvaluator( Map<EvaluatorType, Double > weights ) {
+		this.evaluatorWeights = weights;
+	}
+
+	static Map<EvaluatorType, Double > getStandardWeights() {
+		Map<EvaluatorType, Double > result = new HashMap<>();
 		result.put( CHECKMATE, HIGHEST_PRIORITY );
 		result.put( CASTLING_SAFETY, NORMAL_PRIORITY );
 		result.put( CENTER_CONTROL, NORMAL_PRIORITY );
