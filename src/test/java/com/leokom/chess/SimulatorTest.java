@@ -49,8 +49,7 @@ public class SimulatorTest {
 		this.position = new PositionBuilder().winningSide( Side.BLACK ).build();
 
 		SimulatorStatistics statistics = runSimulator();
-		assertEquals( 1, statistics.getFirstWins() );
-		assertEquals( 1, statistics.getSecondWins() );
+		assertEquals( new SimulatorStatistics( 1, 1 ), statistics );
 	}
 
 	@Test
@@ -58,8 +57,7 @@ public class SimulatorTest {
 		this.position = new PositionBuilder().draw().build();
 
 		SimulatorStatistics statistics = runSimulator();
-		assertEquals( 0, statistics.getFirstWins() );
-		assertEquals( 0, statistics.getSecondWins() );
+		assertEquals( new SimulatorStatistics( 0, 0 ), statistics );
 	}
 
 	@Test
@@ -83,8 +81,7 @@ public class SimulatorTest {
 		programPlayers( whiteWins, blackWins );
 
 		SimulatorStatistics statistics = getSimulator().run();
-		assertEquals( 2, statistics.getFirstWins() );
-		assertEquals( 0, statistics.getSecondWins() );
+		assertEquals( new SimulatorStatistics( 2, 0 ), statistics );
 	}
 
 	private Simulator getSimulator() {
@@ -115,8 +112,7 @@ public class SimulatorTest {
 		final SimulatorStatistics statistics = new Simulator(
 				new LegalPlayer(), new SimplePlayer() ).run();
 
-		assertEquals( 2, statistics.getFirstWins() );
-		assertEquals( 0, statistics.getSecondWins() );
+		assertEquals( new SimulatorStatistics( 2, 0 ), statistics );
 	}
 
 	@Test
@@ -129,8 +125,7 @@ public class SimulatorTest {
 		final SimulatorStatistics statistics = new Simulator(
 				new SimplePlayer(), new SimplePlayer() ).run();
 
-		assertEquals( 1, statistics.getFirstWins() );
-		assertEquals( 1, statistics.getSecondWins() );
+		assertEquals( new SimulatorStatistics( 1, 1 ), statistics );
 	}
 
 	//non-deterministic, it's not a business-requirement
@@ -141,10 +136,8 @@ public class SimulatorTest {
 		final SimulatorStatistics statistics =
 			new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToEatPieces ) ).run();
 
-
-		assertEquals( 0, statistics.getFirstWins() );
 		//who eats - that one wins
-		assertEquals( 2, statistics.getSecondWins() );
+		assertEquals( new SimulatorStatistics( 0, 2 ), statistics );
 	}
 
 	//non-deterministic, it's not a business-requirement
@@ -152,7 +145,6 @@ public class SimulatorTest {
 	public void legalPlayerEqualProbableDraw() {
 		final SimulatorStatistics statistics = new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
 
-		assertEquals( 1, statistics.getFirstWins() );
-		assertEquals( 1, statistics.getSecondWins() );
+		assertEquals( new SimulatorStatistics( 1, 1 ), statistics );
 	}
 }
