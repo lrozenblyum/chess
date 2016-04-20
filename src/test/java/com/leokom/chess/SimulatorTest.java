@@ -71,6 +71,17 @@ public class SimulatorTest {
 		verify( spy ).createGame( second, first );
 	}
 
+	@Test
+	public void verifyMultiTimesFlippingGamesCreation() {
+		final Simulator simulator = new Simulator( first, second ).pairGames( 2 );
+		programPlayers( position );
+		final Simulator spy = spy( simulator );
+		spy.run();
+
+		verify( spy, times( 2 ) ).createGame( first, second );
+		verify( spy, times( 2 ) ).createGame( second, first );
+	}
+
 	@Ignore( "we don't program the position well here" )
 	@Test
 	public void twoWinsByFirst() {

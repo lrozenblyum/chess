@@ -5,6 +5,7 @@ import com.leokom.chess.player.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 /**
  * Enable matches between players
@@ -20,6 +21,8 @@ class Simulator {
 	private final Player first;
 	private final Player second;
 
+	private int timesToRun = 1;
+
 	Simulator( Player first, Player second ) {
 		this.first = first;
 		this.second = second;
@@ -30,12 +33,16 @@ class Simulator {
 	 * By default the players will play
 	 * 2 consecutive games switching colours.
 	 *
+	 * This can be controlled by {@link #pairGames(int)}
+	 *
 	 * @return statistics about game results
 	 */
 	SimulatorStatistics run() {
 		List< Player > winners = new ArrayList<>();
-		winners.add( createGame( first, second ).run() );
-		winners.add( createGame( second, first ).run() );
+		IntStream.rangeClosed( 1, timesToRun ).forEach( iteration -> {
+			winners.add( createGame( first, second ).run() );
+			winners.add( createGame( second, first ).run() );
+		} );
 
 		final long firstWins = countWinsOf( winners, first );
 		final long secondWins = countWinsOf( winners, second );
@@ -55,5 +62,15 @@ class Simulator {
 	//pattern1: using one-line methods for object creation
 	Game createGame( Player white, Player black ) {
 		return new Game( white, black );
+	}
+
+	/**
+	 * Override default 1 pair games
+	 * @param times pairGames of games to run
+	 * @return this
+	 */
+	Simulator pairGames( int times ) {
+		timesToRun = times;
+		return this;
 	}
 }
