@@ -33,7 +33,7 @@ class Simulator {
 	 * By default the players will play
 	 * 2 consecutive games switching colours.
 	 *
-	 * This can be controlled by {@link #pairGames(int)}
+	 * This can be controlled by {@link #gamePairs(int)}
 	 *
 	 * @return statistics about game results
 	 */
@@ -66,10 +66,10 @@ class Simulator {
 
 	/**
 	 * Override default 1 pair games
-	 * @param times pairGames of games to run
+	 * @param times gamePairs of games to run
 	 * @return this
 	 */
-	Simulator pairGames( int times ) {
+	Simulator gamePairs( int times ) {
 		timesToRun = times;
 		return this;
 	}

@@ -73,7 +73,7 @@ public class SimulatorTest {
 
 	@Test
 	public void verifyMultiTimesFlippingGamesCreation() {
-		final Simulator simulator = new Simulator( first, second ).pairGames( 2 );
+		final Simulator simulator = new Simulator( first, second ).gamePairs( 2 );
 		programPlayers( position );
 		final Simulator spy = spy( simulator );
 		spy.run();
@@ -149,6 +149,22 @@ public class SimulatorTest {
 
 		//who eats - that one wins
 		assertEquals( new SimulatorStatistics( 0, 2 ), statistics );
+	}
+
+	//first multiple simulation - 100 GAMES
+	//let's check whether Protection feature is important
+	@Test
+	public void runSimulationMultipleTimes() {
+		final Evaluator brainLikesToProtectItself = new MasterEvaluatorBuilder()
+			.weight( EvaluatorType.PROTECTION, 1000.0 ).build();
+
+		final SimulatorStatistics statistics =
+				new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToProtectItself ) )
+				.gamePairs( 50 )
+				.run();
+
+		//protector should win, shouldn't it?
+		assertEquals( new SimulatorStatistics( 0, 100 ), statistics );
 	}
 
 	//non-deterministic, it's not a business-requirement
