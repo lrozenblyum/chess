@@ -18,6 +18,7 @@ import java.util.stream.IntStream;
  * Date-time: 06.04.16 21:08
  */
 class Simulator {
+	private static final int GAMES_IN_SINGLE_ITERATION = 2;
 	private final Player first;
 	private final Player second;
 
@@ -46,8 +47,8 @@ class Simulator {
 
 		final long firstWins = countWinsOf( winners, first );
 		final long secondWins = countWinsOf( winners, second );
-
-		return new SimulatorStatistics( firstWins, secondWins );
+		final long totalGames = timesToRun * GAMES_IN_SINGLE_ITERATION;
+		return new SimulatorStatistics( totalGames, firstWins, secondWins );
 	}
 
 	private static long countWinsOf( List< Player > winners, Player player ) {

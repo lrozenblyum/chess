@@ -49,7 +49,7 @@ public class SimulatorTest {
 		this.position = new PositionBuilder().winningSide( Side.BLACK ).build();
 
 		SimulatorStatistics statistics = runSimulator();
-		assertEquals( new SimulatorStatistics( 1, 1 ), statistics );
+		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
 	}
 
 	@Test
@@ -57,7 +57,7 @@ public class SimulatorTest {
 		this.position = new PositionBuilder().draw().build();
 
 		SimulatorStatistics statistics = runSimulator();
-		assertEquals( new SimulatorStatistics( 0, 0 ), statistics );
+		assertEquals( new SimulatorStatistics( 2, 0, 0 ), statistics );
 	}
 
 	@Test
@@ -82,6 +82,15 @@ public class SimulatorTest {
 		verify( spy, times( 2 ) ).createGame( second, first );
 	}
 
+
+	@Test
+	public void totalGamesCounted() {
+		programPlayers( position );
+		final SimulatorStatistics simulator = new Simulator( first, second ).gamePairs( 23 ).run();
+		//twice
+		assertEquals( 46, simulator.getTotalGames() );
+	}
+
 	@Ignore( "we don't program the position well here" )
 	@Test
 	public void twoWinsByFirst() {
@@ -92,7 +101,7 @@ public class SimulatorTest {
 		programPlayers( whiteWins, blackWins );
 
 		SimulatorStatistics statistics = getSimulator().run();
-		assertEquals( new SimulatorStatistics( 2, 0 ), statistics );
+		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
 
 	private Simulator getSimulator() {
@@ -123,7 +132,7 @@ public class SimulatorTest {
 		final SimulatorStatistics statistics = new Simulator(
 				new LegalPlayer(), new SimplePlayer() ).run();
 
-		assertEquals( new SimulatorStatistics( 2, 0 ), statistics );
+		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
 
 	@Test
@@ -136,7 +145,7 @@ public class SimulatorTest {
 		final SimulatorStatistics statistics = new Simulator(
 				new SimplePlayer(), new SimplePlayer() ).run();
 
-		assertEquals( new SimulatorStatistics( 1, 1 ), statistics );
+		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
 	}
 
 	//non-deterministic, it's not a business-requirement
@@ -148,23 +157,7 @@ public class SimulatorTest {
 			new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToEatPieces ) ).run();
 
 		//who eats - that one wins
-		assertEquals( new SimulatorStatistics( 0, 2 ), statistics );
-	}
-
-	//first multiple simulation - 100 GAMES
-	//let's check whether Protection feature is important
-	@Test
-	public void runSimulationMultipleTimes() {
-		final Evaluator brainLikesToProtectItself = new MasterEvaluatorBuilder()
-			.weight( EvaluatorType.PROTECTION, 1000.0 ).build();
-
-		final SimulatorStatistics statistics =
-				new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToProtectItself ) )
-				.gamePairs( 50 )
-				.run();
-
-		//protector should win, shouldn't it?
-		assertEquals( new SimulatorStatistics( 0, 100 ), statistics );
+		assertEquals( new SimulatorStatistics( 2, 0, 2 ), statistics );
 	}
 
 	//non-deterministic, it's not a business-requirement
@@ -172,6 +165,6 @@ public class SimulatorTest {
 	public void legalPlayerEqualProbableDraw() {
 		final SimulatorStatistics statistics = new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
 
-		assertEquals( new SimulatorStatistics( 1, 1 ), statistics );
+		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
 	}
 }
