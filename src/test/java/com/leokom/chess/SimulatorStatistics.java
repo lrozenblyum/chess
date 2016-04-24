@@ -62,4 +62,8 @@ final class SimulatorStatistics {
 	long getTotalGames() {
 		return totalGames;
 	}
+
+	static SimulatorStatistics EMPTY() {
+		return new SimulatorStatistics( 0, 0, 0 );
+	}
 }
