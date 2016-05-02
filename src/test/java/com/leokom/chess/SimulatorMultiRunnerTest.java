@@ -22,13 +22,13 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith( Parameterized.class )
 public class SimulatorMultiRunnerTest {
-	private static final int COUNT_OF_PAIRS_OF_GAMES = 50;
+	private static final int COUNT_OF_PAIRS_OF_GAMES = 3;
 	private static SimulatorStatistics collector = SimulatorStatistics.EMPTY();
 
 	@AfterClass
 	public static void afterAll() {
 		//protector should win, shouldn't it?
-		assertEquals( new SimulatorStatistics( COUNT_OF_PAIRS_OF_GAMES * 2, 0, 100 ), collector );
+		assertEquals( new SimulatorStatistics( COUNT_OF_PAIRS_OF_GAMES * 2, 0, 6 ), collector );
 	}
 
 	public SimulatorMultiRunnerTest( int index ) {
@@ -43,7 +43,7 @@ public class SimulatorMultiRunnerTest {
 	}
 
 
-	//first multiple simulation - 100 GAMES
+	//first multiple simulation - big amount of GAMES
 	//let's check whether Protection feature is important
 	@Test
 	public void runGamePair() {
