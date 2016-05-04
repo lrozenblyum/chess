@@ -49,5 +49,19 @@ public class SimulatorMultiDeltaTest {
 		LogManager.getLogger().info( "STATISTICS ::: {}", statsPrettyPrinted );
 	}
 
+	/*
+	1hour 53 minutes 55 seconds
+	10 * 10 games
+	0 ==> SimulatorStatistics{firstWins=1, secondWins=8, totalGames=10}
+	10 ==> SimulatorStatistics{firstWins=8, secondWins=2, totalGames=10}
+	20 ==> SimulatorStatistics{firstWins=5, secondWins=5, totalGames=10}
+	30 ==> SimulatorStatistics{firstWins=5, secondWins=4, totalGames=10}
+	40 ==> SimulatorStatistics{firstWins=1, secondWins=6, totalGames=10}
+	50 ==> SimulatorStatistics{firstWins=3, secondWins=5, totalGames=10}
+	60 ==> SimulatorStatistics{firstWins=3, secondWins=3, totalGames=10}
+	70 ==> SimulatorStatistics{firstWins=5, secondWins=0, totalGames=10}
+	80 ==> SimulatorStatistics{firstWins=5, secondWins=1, totalGames=10}
+	90 ==> SimulatorStatistics{firstWins=4, secondWins=2, totalGames=10}
+	 */
 
 }
