@@ -37,10 +37,11 @@ public final class Game {
 		blackPlayer.opponentSuggestsMeStartNewGameBlack();
 
 		//inform white that black is ready so you may start
-		//some Engines like Winboard use it to start a main loop
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
 
-		//TODO: assymetry, need validating that blackPlayer position gives same result
+		//after that method call we expect game finished
+
+		//TODO: asymmetry, need validating that blackPlayer position gives same result
 		//maybe it's time to share the Position
 		final Side winningSide = whitePlayer.getPosition().getWinningSide();
 		return winningSide == null ? null : winningSide == Side.WHITE ? whitePlayer : blackPlayer;

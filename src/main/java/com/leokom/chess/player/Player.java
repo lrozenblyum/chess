@@ -12,16 +12,19 @@ import com.leokom.chess.engine.Position;
 public interface Player {
 	/**
 	 *
-	 * The method should be starting point to move for whites
+	 * The method should be a starting point to move for whites.
 	 *
-	 * Black player should understand that the opponent suggests
+	 * Returning from this method is expected only after the game end.
+	 *
+	 * If a black player receives this method call,
+	 * he must understand that the opponent suggests
 	 * him start new game, and play white in this game.
 	 *
 	 */
 	void opponentSuggestsMeStartNewGameWhite();
 
 	/**
-	 * Prepare new game for playing black.
+	 * Prepare a new game for playing black.
 	 * Wait for the first whites move.
 	 */
 	void opponentSuggestsMeStartNewGameBlack();
