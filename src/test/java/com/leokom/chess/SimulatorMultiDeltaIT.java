@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * Author: Leonid
  * Date-time: 04.05.16 21:29
  */
-public class SimulatorMultiDeltaTest {
+public class SimulatorMultiDeltaIT {
 
 	/*
 	 * Protection property.

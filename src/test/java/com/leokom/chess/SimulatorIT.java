@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
  * Author: Leonid
  * Date-time: 06.04.16 21:08
  */
-public class SimulatorTest {
+public class SimulatorIT {
 	private final Player first = mock( Player.class );
 	private final Player second = mock( Player.class );
 

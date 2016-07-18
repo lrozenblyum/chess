@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
  * Date-time: 24.04.16 22:54
  */
 @RunWith( Parameterized.class )
-public class SimulatorMultiRunnerTest {
+public class SimulatorMultiRunnerIT {
 	private static final int COUNT_OF_PAIRS_OF_GAMES = 3;
 	private static SimulatorStatistics collector = SimulatorStatistics.EMPTY();
 
@@ -31,7 +31,7 @@ public class SimulatorMultiRunnerTest {
 		assertEquals( new SimulatorStatistics( COUNT_OF_PAIRS_OF_GAMES * 2, 0, 6 ), collector );
 	}
 
-	public SimulatorMultiRunnerTest( int index ) {
+	public SimulatorMultiRunnerIT( int index ) {
 		LogManager.getLogger().info( "Running test %s", index );
 	}
 
