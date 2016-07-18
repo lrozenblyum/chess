@@ -94,6 +94,7 @@
                         <manifest>
                         	<addClasspath>true</addClasspath>
                         	<classpathPrefix>lib</classpathPrefix>
+                        	<mainClass>com.leokom.chess.MainRunner</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
