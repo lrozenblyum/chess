@@ -52,6 +52,8 @@ final class Board {
 		}
 	}
 
+	//the cache has been introduced according to profiler's result:
+	//string concatenation was rather slow
 	private static final Table< String, Integer, String > SQUARES;
 	static {
 		final ImmutableTable.Builder<String, Integer, String> tableBuilder = new ImmutableTable.Builder<>();
