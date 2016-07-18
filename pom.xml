@@ -9,6 +9,7 @@
     <artifactId>Chess</artifactId>
     <version>1.1-SNAPSHOT</version>
 
+
     <repositories>
         <repository>
             <id>maven.fluxchess.com</id>
@@ -81,13 +82,13 @@
 
 
     <build>
+    	<finalName>Chess</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
                 <configuration>
-
                     <outputDirectory>E:\Games\WinBoard-4.7.3\LeokomChess</outputDirectory>
                     <archive>
                         <manifest>
