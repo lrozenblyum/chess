@@ -1,5 +1,8 @@
 package com.leokom.chess.engine;
 
+import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Table;
+
 /**
  * Represent chess-board (files/ranks/squares) but not position
  * Author: Leonid
@@ -49,6 +52,21 @@ final class Board {
 		}
 	}
 
+	//the cache has been introduced according to profiler's result:
+	//string concatenation was rather slow
+	private static final Table< String, Integer, String > SQUARES;
+	static {
+		final ImmutableTable.Builder<String, Integer, String> tableBuilder = new ImmutableTable.Builder<>();
+
+		for ( char file = MINIMAL_FILE; file <= MAXIMAL_FILE; file++ ) {
+			for ( int rank = MINIMAL_RANK; rank <= MAXIMAL_RANK; rank++ ) {
+				tableBuilder.put( String.valueOf( file ), rank, String.valueOf( file ) + rank  );
+			}
+		}
+
+		SQUARES = tableBuilder.build();
+	}
+
 	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift, VerticalDirection verticalDirection, int verticalShift ) {
 		String file = fileOfSquare( square );
 		int rank = rankOfSquare( square );
@@ -58,12 +76,21 @@ final class Board {
 
 		//validity check
 		if ( isFileValid( destinationFile ) && isRankValid( destinationRank ) ) {
-			return destinationFile + destinationRank;
+			return square( destinationFile, destinationRank );
 		}
 		else {
 			//TODO: maybe introduce some class Square, with Null object instance?
 			return null;
 		}
+	}
+
+	//REFACTOR: technically all code in Position class
+	//should use this method instead of manually calculating squares
+	private static String square( String destinationFile, int destinationRank ) {
+		//optimized version of "a" + 1 ==> "a1"
+		//that is slow according to profiler
+		//this also reduces pressure on GC
+		return SQUARES.get( destinationFile, destinationRank );
 	}
 
 	static String squareTo( String square, HorizontalDirection horizontalDirection ) {
