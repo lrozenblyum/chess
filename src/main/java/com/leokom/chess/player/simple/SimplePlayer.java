@@ -49,11 +49,24 @@ public class SimplePlayer implements Player {
 	}
 
 	@Override
+	public Position getPosition() {
+		return position;
+	}
+
+	@Override
 	public void opponentMoved( Move opponentMove ) {
 		position = position.move( opponentMove );
-		if ( !recordingMode ) {
-			executeMove( opponentMove );
+		if ( recordingMode ) {
+			return;
 		}
+
+		if ( position.isTerminal() ) {
+			logger.info( "Game is over." );
+			return;
+		}
+
+		executeMove( opponentMove );
+
 	}
 
 	private void executeMove( Move opponentMove ) {
@@ -62,14 +75,10 @@ public class SimplePlayer implements Player {
 		int rankTo = position.getSideToMove() == Side.WHITE ? 4 : 5;
 		moveNumber++;
 		logger.info( "Move number = " + moveNumber );
-		if ( opponentMove == Move.RESIGN ) {
-			logger.info( "Opponent resigned" );
-			return;
-		}
 
 		//Simplest possible strategy - agree to the draw offer
 		if ( opponentMove == Move.OFFER_DRAW ) {
-			opponent.opponentMoved( Move.ACCEPT_DRAW );
+			moveTo( Move.ACCEPT_DRAW );
 		}
 
 		switch ( moveNumber ) {
@@ -80,7 +89,11 @@ public class SimplePlayer implements Player {
 				moveTo( new Move( "d" + rankFrom, "d" + rankTo ) );
 				//NOTE: interesting to implement - how much do we need to wait for result?
 				//NOTE2: it's not recommended way to offer draw after the move.
-				offerDraw();
+				//TODO: technically the Position must prohibit this offer draw
+				//now position.move is almost non-validating
+				if ( !position.isTerminal() ) {
+					offerDraw();
+				}
 				break;
 			default:
 				resign();
@@ -88,11 +101,11 @@ public class SimplePlayer implements Player {
 	}
 
 	private void offerDraw() {
-		opponent.opponentMoved( Move.OFFER_DRAW );
+		moveTo( Move.OFFER_DRAW );
 	}
 
 	private void resign() {
-		opponent.opponentMoved( Move.RESIGN );
+		moveTo( Move.RESIGN );
 	}
 
 	/**

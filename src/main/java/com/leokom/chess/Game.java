@@ -1,5 +1,7 @@
 package com.leokom.chess;
 
+import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 
 /**
@@ -23,8 +25,9 @@ public final class Game {
 
 	/**
 	 * Run the game.
+	 * @return winner among whitePlayer, blackPlayer or null in case of draw
 	 */
-	public void run() {
+	public Player run() {
 		//setting opponents for symmetry. Technically it's possible
 		// for one set to make a back reference
 		blackPlayer.setOpponent( whitePlayer );
@@ -34,7 +37,13 @@ public final class Game {
 		blackPlayer.opponentSuggestsMeStartNewGameBlack();
 
 		//inform white that black is ready so you may start
-		//some Engines like Winboard use it to start a main loop
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
+
+		//after that method call we expect game finished
+
+		//TODO: asymmetry, need validating that blackPlayer position gives same result
+		//maybe it's time to share the Position
+		final Side winningSide = whitePlayer.getPosition().getWinningSide();
+		return winningSide == null ? null : winningSide == Side.WHITE ? whitePlayer : blackPlayer;
 	}
 }

@@ -721,6 +721,8 @@ public class Position {
 
 		position.rules = this.rules;
 		position.pliesCount = this.pliesCount;
+
+		position.terminal = this.terminal;
 	}
 
 	/**
