@@ -103,7 +103,8 @@
                     </execution>
                 </executions>
             </plugin>
-
+			
+			<!-- Set up Jar generation properties, e.g. automatic generation of manifest -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
