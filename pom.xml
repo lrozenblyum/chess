@@ -96,6 +96,8 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <!-- We're interested only in compile&runtime dependencies -->
+                            <includeScope>runtime</includeScope>
                             <outputDirectory>E:\Games\WinBoard-4.7.3\LeokomChess\lib</outputDirectory>
                         </configuration>
                     </execution>
