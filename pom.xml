@@ -98,7 +98,7 @@
                         <configuration>
                             <!-- We're interested only in compile&runtime dependencies -->
                             <includeScope>runtime</includeScope>
-                            <outputDirectory>E:\Games\WinBoard-4.7.3\LeokomChess\lib</outputDirectory>
+                            <outputDirectory>${project.deployDirectory}\lib</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -110,7 +110,7 @@
                 <version>3.0.2</version>
                 <configuration>
 
-                    <outputDirectory>E:\Games\WinBoard-4.7.3\LeokomChess</outputDirectory>
+                    <outputDirectory>${project.deployDirectory}</outputDirectory>
                     <archive>
                         <manifest>
                         	<addClasspath>true</addClasspath>
@@ -195,5 +195,7 @@
 
         <!-- Naming convention inspired by http://stackoverflow.com/a/30318342/1429367 -->
         <log4j2version>2.4.1</log4j2version>
+
+        <project.deployDirectory>E:\Games\WinBoard-4.7.3\LeokomChess</project.deployDirectory>
     </properties>
 </project>
