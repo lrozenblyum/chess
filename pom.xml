@@ -81,7 +81,47 @@
 
 
     <build>
+    	<finalName>Chess</finalName>
         <plugins>
+            <!-- Copy dependencies into the deploy directory -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <!-- We're interested only in compile&runtime dependencies -->
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.deployDirectory}\lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+			
+			<!-- Set up Jar generation properties, e.g. automatic generation of manifest -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+
+                    <outputDirectory>${project.deployDirectory}</outputDirectory>
+                    <archive>
+                        <manifest>
+                        	<addClasspath>true</addClasspath>
+                        	<classpathPrefix>lib</classpathPrefix>
+                        	<mainClass>com.leokom.chess.MainRunner</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -101,7 +141,8 @@
                     <param>com.leokom.chess.*</param>
                   </targetClasses>
                   <targetTests>
-                    <param>com.leokom.chess.*</param>
+                    <!-- thus avoiding IT tests run -->
+                    <param>com.leokom.chess.*Test</param>
                   </targetTests>
 
                     <!-- XML is required for pitest plugin in SonarQube (default is HTML) -->
@@ -156,5 +197,7 @@
 
         <!-- Naming convention inspired by http://stackoverflow.com/a/30318342/1429367 -->
         <log4j2version>2.4.1</log4j2version>
+
+        <project.deployDirectory>E:\Games\WinBoard-4.7.3\LeokomChess</project.deployDirectory>
     </properties>
 </project>
