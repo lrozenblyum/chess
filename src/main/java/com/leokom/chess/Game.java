@@ -1,11 +1,10 @@
 package com.leokom.chess;
 
-import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 
 /**
- * Create & Run Game of Chess.
+ * Create &amp; Run Game of Chess.
  * Author: Leonid
  * Date-time: 11.02.16 23:00
  */
