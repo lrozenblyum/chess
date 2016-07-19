@@ -21,7 +21,7 @@ document http://home.hccnet.nl/h.g.muller/interfacing.txt
 * Set up Winboard
 * `mvn clean package -Dproject.deployDirectory="path to set up"`
 (`-DskipTests=true` if you feel brave;
-avoid `clean phase` if your IDE has already compiled the code)
+avoid `clean` phase if your IDE has already compiled the code)
 * runEngine.bat (modify RUNNABLE_JAR_DIRECTORY to the "path to set up", modify WINBOARD_PATH, JAVA_PATH according to your environment )
 
 ## Continuous Integration
