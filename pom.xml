@@ -101,7 +101,8 @@
                     <param>com.leokom.chess.*</param>
                   </targetClasses>
                   <targetTests>
-                    <param>com.leokom.chess.*</param>
+                    <!-- thus avoiding IT tests run -->
+                    <param>com.leokom.chess.*Test</param>
                   </targetTests>
 
                     <!-- XML is required for pitest plugin in SonarQube (default is HTML) -->
