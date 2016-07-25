@@ -853,14 +853,7 @@ public class Position {
 			//obligatory draw must be checked AFTER moves detection
 			//to distinguish checkmate at 150 ply case!
 			if ( isObligatoryDraw() ) {
-				//TODO: position mutability due to flaws in design
-				//we may mark it also terminal to avoid next checks for Moves
-
-				//must be done
-				this.sideToMove = null;
-				//for clarity
-				this.winningSide = null;
-
+				markDraw();
 				return new HashSet<>();
 			}
 
@@ -869,10 +862,22 @@ public class Position {
 			if ( waitingForAcceptDraw ) {
 				result.add( Move.ACCEPT_DRAW );
 			}
+		} else if ( !isKingInCheck( sideToMove ) ) {
+			//stalemate
+			markDraw();
 		}
 
-
 		return result;
+	}
+
+	private void markDraw() {
+		//TODO: position mutability due to flaws in design
+		//we may mark it also terminal to avoid next checks for Moves
+
+		//must be done
+		this.sideToMove = null;
+		//for clarity
+		this.winningSide = null;
 	}
 
 	private boolean isObligatoryDraw() {

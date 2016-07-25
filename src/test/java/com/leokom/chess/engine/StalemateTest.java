@@ -21,5 +21,6 @@ public class StalemateTest {
 		final Position result = position.move( "d5", "d6" );
 
 		Assert.assertTrue( result.isTerminal() );
+		assertNull( result.getWinningSide() );
 	}
 }
