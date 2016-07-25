@@ -51,6 +51,12 @@ interface WinboardCommander {
 	 */
 	void obligatoryDrawByMovesCount( int movesCount );
 
+	/**
+	 * Inform Winboard about stalemate draw
+	 */
+	void stalemateDraw();
+
+
 
 	void onProtover( ProtoverListener protoverListener );
 	void onQuit( QuitListener listener );

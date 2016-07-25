@@ -125,6 +125,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void stalemateDraw() {
+		communicator.send( "1/2-1/2 {Stalemate}" );
+	}
+
+	@Override
 	public void checkmate( Side winningSide ) {
 		String prefix = "";
 		switch ( winningSide ) {

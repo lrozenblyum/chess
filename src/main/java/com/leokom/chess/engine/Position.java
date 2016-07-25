@@ -73,8 +73,12 @@ public class Position {
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
 	private Side sideToMove;
+
+	private Result result;
 	private boolean terminal;
 	private Side winningSide;
+
+
 	private boolean waitingForAcceptDraw;
 	private Rules rules;
 
@@ -863,7 +867,7 @@ public class Position {
 				result.add( Move.ACCEPT_DRAW );
 			}
 		} else if ( !isKingInCheck( sideToMove ) ) {
-			//stalemate
+			this.result = Result.STALEMATE;
 			markDraw();
 		}
 
@@ -872,8 +876,9 @@ public class Position {
 
 	private void markDraw() {
 		//TODO: position mutability due to flaws in design
-		//we may mark it also terminal to avoid next checks for Moves
 
+		//marking it also terminal to avoid next checks for Moves
+		this.terminal = true;
 		//must be done
 		this.sideToMove = null;
 		//for clarity
@@ -916,6 +921,17 @@ public class Position {
 	}
 
 	/**
+	 * Get game result
+	 * @return the game result
+	 * @throws IllegalStateException if game is not over yet
+	 */
+	public Result getGameResult() {
+		validateGameIsOver();
+
+		return result;
+	}
+
+	/**
 	 * Get side that has won the game
 	 *
 	 * @return side that has won the game
@@ -923,9 +939,7 @@ public class Position {
 	 * @throws java.lang.IllegalStateException when game is not finished yet
 	 */
 	public Side getWinningSide() {
-		if ( !isTerminal() ) {
-			throw new IllegalStateException( "Game has not yet finished" );
-		}
+		validateGameIsOver();
 
 		//winningSide != null is currently only after resign
 		//winningSide == null && sideToMove != null currently after checkmate (due to our lazy nature of detection of checkmate)
@@ -934,6 +948,12 @@ public class Position {
 		//winningSide == null && sideToMove == null currently after draw
 		//simulated the same behaviour for case when draw achieved due to 75 moves rule
 		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
+	}
+
+	private void validateGameIsOver() {
+		if ( !isTerminal() ) {
+			throw new IllegalStateException( "Game has not yet finished" );
+		}
 	}
 
 	/**

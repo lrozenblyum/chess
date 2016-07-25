@@ -2,6 +2,7 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Result;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -192,7 +193,10 @@ public class WinboardPlayer implements Player {
 		// - win by time
 		// - ?
 		if ( position.getWinningSide() != null ) {
-			commander.checkmate(  position.getWinningSide() );
+			commander.checkmate( position.getWinningSide() );
+		}
+		else if ( position.getGameResult() == Result.STALEMATE ){
+			commander.stalemateDraw();
 		}
 		else {
 			commander.obligatoryDrawByMovesCount( position.getRules().getMovesTillDraw().orElse( 0 ) );

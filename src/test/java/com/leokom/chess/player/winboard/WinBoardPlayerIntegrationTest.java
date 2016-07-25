@@ -181,6 +181,23 @@ public class WinBoardPlayerIntegrationTest {
 		verify( communicator, atLeastOnce() ).send( startsWith( "1/2-1/2" ) );
 	}
 
+	@Test
+	public void stalemateSent() {
+		final Position position = new PositionBuilder()
+				.add( Side.WHITE, "d5", PieceType.KING )
+				.add( Side.WHITE, "d7", PieceType.PAWN )
+				.add( Side.BLACK, "d8", PieceType.KING )
+				.build();
+
+		player.setPosition( position );
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+
+		builder.move( new Move( "d5", "d6" ) ).play();
+
+		verify( communicator ).send( startsWith( "1/2-1/2" ) );
+		verify( communicator ).send( contains( "Stalemate" ) );
+	}
+
 	//Winboard vs Player (White vs Black)
 	//1. f3 e5
 	//2. g4?? Qh4#
