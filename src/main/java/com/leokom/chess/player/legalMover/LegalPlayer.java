@@ -98,7 +98,7 @@ public class LegalPlayer implements Player {
 	private String getWinningSideDescription() {
 		return position.getWinningSide() != null ?
 				"Winner : " + position.getWinningSide() :
-				"Draw";
+				"Draw" + (position.getGameResult() != null ? " REASON: " + position.getGameResult() : "");
 	}
 
 	private void informOpponentAboutTheMove( Move move ) {
