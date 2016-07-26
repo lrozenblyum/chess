@@ -7,5 +7,7 @@ package com.leokom.chess.engine;
  * Date-time: 25.07.16 21:43
  */
 public enum Result {
-	STALEMATE
+	STALEMATE,
+
+	DRAW_BY_OBLIGATORY_MOVES
 }

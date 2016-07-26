@@ -198,8 +198,11 @@ public class WinboardPlayer implements Player {
 		else if ( position.getGameResult() == Result.STALEMATE ){
 			commander.stalemateDraw();
 		}
-		else {
+		else if ( position.getGameResult() == Result.DRAW_BY_OBLIGATORY_MOVES ){
 			commander.obligatoryDrawByMovesCount( position.getRules().getMovesTillDraw().orElse( 0 ) );
+		}
+		else {
+			throw new IllegalArgumentException( "Unknown game result : " + position.getGameResult() );
 		}
 	}
 
