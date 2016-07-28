@@ -3,7 +3,6 @@ package com.leokom.chess.engine;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
@@ -39,6 +38,6 @@ public class StalemateTest {
 		final Position result = position.move( "e8", "d8" );
 
 		assertFalse( result.isTerminal() );
-		assertEquals( Side.WHITE, result.getSideToMove() );
+		org.junit.Assert.assertEquals( Side.WHITE, result.getSideToMove() );
 	}
 }
