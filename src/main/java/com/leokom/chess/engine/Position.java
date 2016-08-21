@@ -840,15 +840,13 @@ public class Position {
 	 * @return set of possible legal moves
 	 */
 	public Set< Move > getMoves() {
-		final Set< Move > result = new HashSet<>();
 		if ( terminal ) {
-			return result;
+			return new HashSet<>();
 		}
 
-		final Set<String> squares = getSquaresOccupiedBySide( sideToMove );
-		for ( String square : squares ) {
-			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( toSet() ) );
-		}
+		final Set<Move> result = getSquaresOccupiedBySideToStream( sideToMove )
+			.flatMap( square -> getMovesFrom( square ).stream().map( move -> new Move( square, move ) ) )
+			.collect( Collectors.toSet() );
 
 		//resign is possible if there is at least one other move
 		//correct?
