@@ -16,6 +16,7 @@ import static org.mockito.Mockito.*;
  * Author: Leonid
  * Date-time: 06.04.16 21:08
  */
+@Ignore( "Till we find a way to exclude them nicely in IDEA" )
 public class SimulatorIT {
 	private final Player first = mock( Player.class );
 	private final Player second = mock( Player.class );

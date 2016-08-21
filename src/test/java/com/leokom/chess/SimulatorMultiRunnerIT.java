@@ -6,6 +6,7 @@ import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.legalMover.MasterEvaluatorBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -20,6 +21,7 @@ import static org.junit.Assert.assertEquals;
  * run every game in a separate test, collect all results and analyze
  * Date-time: 24.04.16 22:54
  */
+@Ignore( "Till we find a way to exclude them nicely in IDEA" )
 @RunWith( Parameterized.class )
 public class SimulatorMultiRunnerIT {
 	private static final int COUNT_OF_PAIRS_OF_GAMES = 3;
