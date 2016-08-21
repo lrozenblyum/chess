@@ -377,7 +377,7 @@ public class Position {
 		return
 			filterMapByValues( pieces, new Piece( PieceType.KING, side )::equals )
 			.map( Map.Entry::getKey )
-			.findFirst()
+			.findAny()
 			.orElse( null );
 	}
 
