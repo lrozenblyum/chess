@@ -6,6 +6,7 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Author: Leonid
@@ -52,10 +53,10 @@ class ProtectionEvaluator implements Evaluator {
 			//REFACTOR: probably bad dependency on another evaluator - extract common utility
 			int pieceValue = MaterialEvaluator.getValue( targetPosition.getPieceType( ourAttackedSquare ) );
 
-			final Set< String > ourProtectors = targetPosition.getSquaresAttackingSquare( ourSide, ourAttackedSquare );
+			final Stream< String > ourProtectors = targetPosition.getSquaresAttackingSquare( ourSide, ourAttackedSquare );
 
 			//+1 to avoid / 0, more protectors is better
-			opponentAttackIndex += pieceValue / ( ourProtectors.size() + 1.0 );
+			opponentAttackIndex += pieceValue / ( ourProtectors.count() + 1.0 );
 		}
 
 		return 1 - opponentAttackIndex / MaterialEvaluator.MAXIMAL_VALUE;

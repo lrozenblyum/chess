@@ -398,11 +398,10 @@ public class Position {
 				.flatMap( Collection::stream );
 	}
 
-	public Set< String > getSquaresAttackingSquare( Side side, String targetSquare ) {
+	public Stream< String > getSquaresAttackingSquare( Side side, String targetSquare ) {
 		return
-			filterMapByValues( pieces, piece -> piece.getSide() == side )
-			.filter( entry -> getSquaresAttackedFromSquare( entry.getKey() ).contains( targetSquare ) )
-			.map( Map.Entry::getKey ).collect( Collectors.toSet() );
+			getSquaresOccupiedBySideToStream( side )
+			.filter( square -> getSquaresAttackedFromSquare( square ).contains( targetSquare ) );
 	}
 
 	//this method can be formed either as:
