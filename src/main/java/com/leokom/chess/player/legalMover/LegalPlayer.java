@@ -77,16 +77,16 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
-		Set< Move > legalMoves = position.getMoves();
-		if ( legalMoves.isEmpty() ) {
-			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
-			return;
-		}
-
 		//can be not our move : when opponent offers draw before HIS move
 		//so he still has the right to move
 		if ( position.getSideToMove() != ourSide ) {
 			getLogger().info( "It's not our side to move" );
+			return;
+		}
+
+		Set< Move > legalMoves = position.getMoves();
+		if ( legalMoves.isEmpty() ) {
+			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
 			return;
 		}
 
