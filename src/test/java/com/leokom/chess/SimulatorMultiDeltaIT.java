@@ -4,6 +4,7 @@ import com.leokom.chess.player.legalMover.EvaluatorType;
 import com.leokom.chess.player.legalMover.LegalPlayer;
 import com.leokom.chess.player.legalMover.MasterEvaluatorBuilder;
 import org.apache.logging.log4j.LogManager;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Map;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * Author: Leonid
  * Date-time: 04.05.16 21:29
  */
+@Ignore( "Till we find a way to exclude them nicely in IDEA" )
 public class SimulatorMultiDeltaIT {
 
 	/*

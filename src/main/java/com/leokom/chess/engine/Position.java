@@ -858,6 +858,7 @@ public class Position {
 			//to distinguish checkmate at 150 ply case!
 			if ( isObligatoryDraw() ) {
 				markDraw();
+				this.result = Result.DRAW_BY_OBLIGATORY_MOVES;
 				return new HashSet<>();
 			}
 
