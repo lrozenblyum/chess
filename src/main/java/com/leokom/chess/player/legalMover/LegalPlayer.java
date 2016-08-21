@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -84,15 +85,15 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
-		Set< Move > legalMoves = position.getMoves();
-		if ( legalMoves.isEmpty() ) {
+		final Optional< Move > bestMove = findBestMove( position.getMoves() );
+		if ( !bestMove.isPresent() ) {
 			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
-			return;
 		}
-
-		Move move = findBestMove( legalMoves );
-        updateInternalPositionPresentation( move );
-        informOpponentAboutTheMove( move );
+		else {
+			Move move = bestMove.get();
+			updateInternalPositionPresentation( move );
+			informOpponentAboutTheMove( move );
+		}
 	}
 
 	private String getWinningSideDescription() {
@@ -132,7 +133,7 @@ public class LegalPlayer implements Player {
 	 * nature of Set)
 	 *
 	 */
-	private Move findBestMove( Set< Move > legalMoves ) {
+	private Optional<Move> findBestMove( Set< Move > legalMoves ) {
 		Map< Move, Double > moveRatings = new HashMap<>();
 		for ( Move move : legalMoves ) {
 			moveRatings.put( move, brains.evaluateMove( position, move ) );
@@ -141,13 +142,12 @@ public class LegalPlayer implements Player {
 		return getMoveWithMaxRating( moveRatings );
 	}
 
-	private Move getMoveWithMaxRating( Map< Move, Double > moveValues ) {
+	private Optional<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
 		return
 			moveValues.entrySet().stream()
 			.sorted( Map.Entry.< Move, Double >comparingByValue().reversed() )
-			.findFirst().get().getKey();
+			.findFirst().map( Map.Entry::getKey );
 	}
-
 
 	private Logger getLogger() {
 		return LogManager.getLogger( this.getClass() );
