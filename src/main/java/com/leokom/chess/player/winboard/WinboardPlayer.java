@@ -2,7 +2,6 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Result;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -186,23 +185,25 @@ public class WinboardPlayer implements Player {
 			return;
 		}
 
-		//TODO: there are other reasons of terminal position, not only checkmate
-
-		//2'nd condition excludes draw by 75 moves
 		//technically theoretically here we can have no checkmate but:
 		// - win by time
 		// - ?
 		if ( position.getWinningSide() != null ) {
+			//TODO: there are other reasons of terminal position, not only checkmate
+
 			commander.checkmate( position.getWinningSide() );
 		}
-		else if ( position.getGameResult() == Result.STALEMATE ){
-			commander.stalemateDraw();
-		}
-		else if ( position.getGameResult() == Result.DRAW_BY_OBLIGATORY_MOVES ){
-			commander.obligatoryDrawByMovesCount( position.getRules().getMovesTillDraw().orElse( 0 ) );
-		}
 		else {
-			throw new IllegalArgumentException( "Unknown game result : " + position.getGameResult() );
+			switch ( position.getGameResult() ) {
+				case STALEMATE:
+					commander.stalemateDraw();
+					break;
+				case DRAW_BY_OBLIGATORY_MOVES:
+					commander.obligatoryDrawByMovesCount( position.getRules().getMovesTillDraw().orElse( 0 ) );
+					break;
+				default:
+					throw new IllegalArgumentException( "Unknown game result : " + position.getGameResult() );
+			}
 		}
 	}
 
