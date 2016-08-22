@@ -461,9 +461,11 @@ public class Position {
 		if ( rank == getRankBeforePromotion( side ) ) {
 			addPromotionResult( result, file, side );
 
-			getSquaresAttackedByPawn( square ).filter( attackedSquare -> canBeAttackedUsually( side, attackedSquare ) ).forEach( attackedSquare ->
-				addPromotionResult( result, fileOfSquare( attackedSquare ), side )
-			);
+			getSquaresAttackedByPawn( square )
+				.filter( attackedSquare -> canBeAttackedUsually( side, attackedSquare ) )
+				.forEach( attackedSquare ->
+					addPromotionResult( result, fileOfSquare( attackedSquare ), side )
+				);
 		}
 		else {
 			result.add( file + getPawnNextRank( rank, side ) );
@@ -471,9 +473,10 @@ public class Position {
 				result.add( file + getDoubleMoveRank( side ) );
 			}
 
-			final Stream<String> attacked = getSquaresAttackedByPawn( square );
-			attacked
-			.filter( attackedSquare -> canBeAttackedUsually( side, attackedSquare ) || canEnPassant( side, attackedSquare )  )
+			getSquaresAttackedByPawn( square )
+			.filter( attackedSquare ->
+					canBeAttackedUsually( side, attackedSquare ) ||
+					canEnPassant( side, attackedSquare )  )
 			.forEach( result::add );
 		}
 
