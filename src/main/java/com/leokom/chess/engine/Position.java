@@ -166,7 +166,8 @@ public class Position {
 
 		// 3.9 'No piece can be moved that will ... expose the king of the same colour to check
 		//... or leave that king in check' is also covered here.
-		result.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
+		//castling is also covered here
+		result.removeIf( move -> this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) );
 
 		//1.2 ’capturing’ the opponent’s king ... not allowed
 		result.removeAll( getCapturesOfKing( potentialMoves ) );
@@ -352,15 +353,6 @@ public class Position {
 
 	private Stream<String> getSquaresOccupiedBySideToStream( Side neededSide ) {
 		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide );
-	}
-
-	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
-		//castling is also covered fine here
-
-		return potentialMoves.stream()
-			.filter( move ->
-					this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) )
-			.collect( Collectors.toSet() );
 	}
 
 	private boolean isKingInCheck( Side side ) {
@@ -941,7 +933,7 @@ public class Position {
 		//winningSide != null is currently only after resign
 		//winningSide == null && sideToMove != null currently after checkmate (due to our lazy nature of detection of checkmate)
 		//first try to make that calculation not-lazy failed, with StackOverflow
-		//it tried to create more and more positions getSquaresThatExposeOurKingToCheck
+		//it tried to create more and more positions in predicate that checks whether we expose our king to check
 		//winningSide == null && sideToMove == null currently after draw
 		//simulated the same behaviour for case when draw achieved due to 75 moves rule
 		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
