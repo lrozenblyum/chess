@@ -159,6 +159,9 @@ public class Position {
 		Set< String > result = new HashSet<>( potentialMoves );
 
 		//3.1 It is not permitted to move a piece to a square occupied by a piece of the same colour.
+
+		//looks rather safe to ignore the fact that result set can contain 'e8Q' (pawn promotions)
+		//all pawn-specific clean-up is done on pawn level
 		result.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
 
 		// 3.9 'No piece can be moved that will ... expose the king of the same colour to check
@@ -532,9 +535,11 @@ public class Position {
 				continue;
 			}
 
-			//probably it's already double-checked in common block of code
-			//it's good to have it here since common block of code doesn't check
+			//it's particularly double-checked in common block of code
+			//however common block of code doesn't check
 			//e8Q move correctness for moving to occupied place
+			//also common block of code allows capture
+			// but here we deny captures if a pawn moved forward
 			if ( isOccupied( destinationSquare ) ) {
 				disallowedMoves.add( potentialMove );
 			}
@@ -950,7 +955,7 @@ public class Position {
 
 	private void validateGameIsOver() {
 		if ( !isTerminal() ) {
-			throw new IllegalStateException( "Game has not yet finished" );
+			throw new IllegalStateException( "Game has not yet finished. Valid moves: " + getMoves() );
 		}
 	}
 
