@@ -170,18 +170,12 @@ public class Position {
 		result.removeIf( move -> this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) );
 
 		//1.2 ’capturing’ the opponent’s king ... not allowed
-		result.removeAll( getCapturesOfKing( potentialMoves ) );
 
-		return result;
-	}
-
-	private Collection< String > getCapturesOfKing( Set< String > potentialMoves ) {
 		//no need to filter explicitly by opponent's king
 		//anyway we couldn't move to a square occupied by OUR king
-		return potentialMoves.stream()
-			.filter( move ->
-				isOccupiedBy( Move.getDestinationSquare( move ), PieceType.KING )
-			).collect( Collectors.toList() );
+		result.removeIf( move -> this.isOccupiedBy( Move.getDestinationSquare( move ), PieceType.KING ) );
+
+		return result;
 	}
 
 	//artificial method born due to need to exclude
