@@ -22,4 +22,10 @@ public class PositionTest {
 
 		assertTrue( result.isCapture( new Move( "e5", "f6" ) ) );
 	}
+
+	@Test
+	public void usualPawnMoveIsNotCapture() {
+		Position position = Position.getInitialPosition();
+		assertFalse( position.isCapture( new Move( "e2", "e4" ) ) );
+	}
 }

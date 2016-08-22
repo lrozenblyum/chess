@@ -999,6 +999,6 @@ public class Position {
 	//capture by pawn is done diagonally - the file is changed
 	private boolean isCaptureByPawn( Move move ) {
 		return getPieceType( move.getFrom() ) == PieceType.PAWN &&
-			! Board.fileOfSquare( move.getFrom() ).equals( move.getDestinationSquare() );
+			! Board.fileOfSquare( move.getFrom() ).equals( Board.fileOfSquare( move.getDestinationSquare() ) );
 	}
 }
