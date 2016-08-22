@@ -459,13 +459,15 @@ public class Position {
 		final Side side = getSide( square );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
-			addPromotionResult( result, file, side );
+			getPromotionResult( file, side )
+				.forEach( result::add );
 
 			getSquaresAttackedByPawn( square )
 				.filter( attackedSquare -> canBeAttackedUsually( side, attackedSquare ) )
-				.forEach( attackedSquare ->
-					addPromotionResult( result, fileOfSquare( attackedSquare ), side )
-				);
+				.flatMap( attackedSquare ->
+					getPromotionResult( fileOfSquare( attackedSquare ), side )
+				)
+				.forEach( result::add );
 		}
 		else {
 			result.add( file + getPawnNextRank( rank, side ) );
@@ -616,16 +618,16 @@ public class Position {
 	}
 
 	/**
-	 * Add to the result set all possible cases of promoting a pawn
+	 * Get all possible cases of promoting a pawn
 	 * of given side in the file provided
-	 * @param result result set to be modified
 	 * @param file file place of promotion
 	 * @param side side of pawn
+	 * @return stream of possible promotions
 	 */
-	private static void addPromotionResult( Set<String> result, String file, Side side ) {
-		for ( PieceType pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-			result.add( file + getPromotionRank( side ) + pieceToPromote.getNotation() );
-		}
+	private static Stream< String > getPromotionResult( String file, Side side ) {
+		return PIECES_TO_PROMOTE_FROM_PAWN.stream().map(
+			pieceToPromote -> file + getPromotionRank( side ) + pieceToPromote.getNotation()
+		);
 	}
 
 	/**
