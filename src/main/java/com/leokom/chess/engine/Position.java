@@ -477,7 +477,7 @@ public class Position {
 			.forEach( result::add );
 		}
 
-		result.removeAll( getImpossibleMovesForPawn( result, square ) );
+		result.removeIf( move -> !canPawnMove( square, move ) );
 		return result;
 	}
 
@@ -511,49 +511,38 @@ public class Position {
 			}
 		}
 
-
-
 		return knightMoves;
 	}
 
-	/**
-	 * Get set of moves from initial potentialPawnMoves
-	 * that aren't allowed according to chess rules
-	 * @param potentialPawnMoves moves that were detected as potential possibilities
-	 * @param square current pawn position
-	 * @return set of moves to be removed
-	 */
-	private Set<String> getImpossibleMovesForPawn( Set<String> potentialPawnMoves, String square ) {
-		Set< String > disallowedMoves = new HashSet<>();
-		for ( String potentialMove : potentialPawnMoves ) {
-			String destinationSquare = Move.getDestinationSquare( potentialMove );
+	private boolean canPawnMove( String square, String potentialMove ) {
+		String destinationSquare = Move.getDestinationSquare( potentialMove );
 
-			//pawn cannot move to occupied square
-			//if file is different - it's capture and should be allowed
-			final boolean isMoveForward = sameFile( destinationSquare, square );
-			if ( !isMoveForward ) {
-				continue;
-			}
+		//pawn cannot move to occupied square
+		//if file is different - it's capture and should be allowed
+		final boolean isMoveForward = sameFile( destinationSquare, square );
+		if ( !isMoveForward ) {
+			return true;
+		}
 
-			//it's particularly double-checked in common block of code
-			//however common block of code doesn't check
-			//e8Q move correctness for moving to occupied place
-			//also common block of code allows capture
-			// but here we deny captures if a pawn moved forward
-			if ( isOccupied( destinationSquare ) ) {
-				disallowedMoves.add( potentialMove );
-			}
+		//it's particularly double-checked in common block of code
+		//however common block of code doesn't check
+		//e8Q move correctness for moving to occupied place
+		//also common block of code allows capture
+		// but here we deny captures if a pawn moved forward
+		if ( isOccupied( destinationSquare ) ) {
+			return false;
+		}
 
-			Side side = getSide( square );
-			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
-			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
+		Side side = getSide( square );
+		int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
+		if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getPawnInitialRank( side )
 				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
 
-				disallowedMoves.add( potentialMove );
-			}
+			return false;
 		}
-		return disallowedMoves;
+
+		return true;
 	}
 
 	/**
