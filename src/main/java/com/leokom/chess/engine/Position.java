@@ -162,7 +162,7 @@ public class Position {
 
 		//looks rather safe to ignore the fact that result set can contain 'e8Q' (pawn promotions)
 		//all pawn-specific clean-up is done on pawn level
-		result.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
+		result.removeIf( move -> isOccupiedBy( move, getSide( square ) ) );
 
 		// 3.9 'No piece can be moved that will ... expose the king of the same colour to check
 		//... or leave that king in check' is also covered here.
@@ -346,7 +346,7 @@ public class Position {
 	}
 
 	private Stream<String> getSquaresOccupiedBySideToStream( Side neededSide ) {
-		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide );
+		return pieces.keySet().stream().filter( square -> this.isOccupiedBy( square, neededSide ) );
 	}
 
 	private boolean isKingInCheck( Side side ) {
