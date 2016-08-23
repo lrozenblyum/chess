@@ -7,10 +7,7 @@ import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Author: Leonid
@@ -19,7 +16,8 @@ import java.util.Set;
 public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
-	private Evaluator brains;
+	private final DecisionMaker decisionMaker;
+
 	private boolean recordingMode;
 	private Side ourSide;
 
@@ -35,7 +33,7 @@ public class LegalPlayer implements Player {
 	 * @param brains brains to evaluate moves
 	 */
 	public LegalPlayer( Evaluator brains ) {
-		this.brains = brains;
+		this.decisionMaker = new StandardDecisionMaker( brains );
 	}
 
 	@Override
@@ -85,7 +83,7 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
-		final Optional< Move > bestMove = findBestMove( position.getMoves() );
+		final Optional< Move > bestMove = decisionMaker.findBestMove( position );
 		if ( !bestMove.isPresent() ) {
 			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
 		}
@@ -114,39 +112,6 @@ public class LegalPlayer implements Player {
 		if ( position.isTerminal() ) {
 			getLogger().info( "Final position has been reached by our move! " + getWinningSideDescription() );
 		}
-	}
-
-	/**
-	 * Finds the best move among given ones.
-	 * If there are several 'best' moves, one of them is returned.
-	 * (which one of them is chosen is undefined.
-	 * This selection is not guaranteed to be the same under same circumstances)
-	 * @param legalMoves not-empty set of moves
-	 * @return best move according to current strategy
-	 */
-	/*
-	 * Thanks to possibility to have different results for the same possible moves
-	 * we have a some kind of randomness without explicitly
-	 * creating it.
-	 * That means : even in the same position the current algorithm
-	 * can select a different move (most likely thanks to unordered
-	 * nature of Set)
-	 *
-	 */
-	private Optional<Move> findBestMove( Set< Move > legalMoves ) {
-		Map< Move, Double > moveRatings = new HashMap<>();
-		for ( Move move : legalMoves ) {
-			moveRatings.put( move, brains.evaluateMove( position, move ) );
-		}
-
-		return getMoveWithMaxRating( moveRatings );
-	}
-
-	private Optional<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
-		return
-			moveValues.entrySet().stream()
-			.sorted( Map.Entry.< Move, Double >comparingByValue().reversed() )
-			.findFirst().map( Map.Entry::getKey );
 	}
 
 	private Logger getLogger() {

@@ -11,7 +11,7 @@ import java.util.Map;
 import static com.leokom.chess.player.legalMover.EvaluatorType.*;
 
 /**
- * Central evaluator of a move ('brains', 'decision maker')
+ * Central evaluator of a move ('brains')
  */
 class MasterEvaluator implements Evaluator {
 	private static Logger LOG = LogManager.getLogger();
