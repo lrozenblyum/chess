@@ -2,6 +2,8 @@ package com.leokom.chess.player.legalMover;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +14,8 @@ import static com.leokom.chess.player.legalMover.EvaluatorType.*;
  * Central evaluator of a move ('brains', 'decision maker')
  */
 class MasterEvaluator implements Evaluator {
+	private static Logger LOG = LogManager.getLogger();
+
 	//we don't need to know that we can execute other moves
 	//while evaluating a move, do we?
 	//so far no, but from human logic we need that possibility
@@ -52,7 +56,10 @@ class MasterEvaluator implements Evaluator {
 		return evaluatorWeights.entrySet().stream().mapToDouble( evaluatorEntry -> {
 			final Evaluator evaluator = evaluatorEntry.getKey().getEvaluator();
 			final double weight = evaluatorEntry.getValue();
-			return weight * evaluator.evaluateMove( position, move );
+			final double evaluatorResponse = evaluator.evaluateMove( position, move );
+			final double moveEstimate = weight * evaluatorResponse;
+			LOG.debug( "{} [{}] : {} * {} = {}", move, evaluatorEntry.getKey(), weight, evaluatorResponse, moveEstimate );
+			return moveEstimate;
 		} ).sum();
 	}
 }
