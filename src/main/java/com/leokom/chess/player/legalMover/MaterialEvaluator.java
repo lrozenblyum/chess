@@ -27,16 +27,24 @@ class MaterialEvaluator implements Evaluator {
 
 		Side ourSide = position.getSideToMove();
 
-		Stream< Piece > ourPieces = target.getPieces( ourSide );
-		Stream< Piece > opponentPieces = target.getPieces( ourSide.opposite() );
-
-		int ourMaterialValue = value( ourPieces );
-		int opponentMaterialValue = value( opponentPieces );
+		int ourMaterialValue = getMaterialValue( target, ourSide );
+		int opponentMaterialValue = getMaterialValue( target, ourSide.opposite() );
 
 		int materialAdvantage = ourMaterialValue - opponentMaterialValue;
 		return normalizeAdvantage( materialAdvantage );
 	}
 
+	private int getMaterialValue( Position position, Side side ) {
+		return value( position.getPieces( side ).
+				filter( this::isNotAKing ) );
+
+	}
+
+	private boolean isNotAKing( Piece piece ) {
+		return piece.getPieceType() != PieceType.KING;
+	}
+
+	//king is invaluable
 	private static final Map< PieceType,Integer > VALUES = new
 			HashMap<>();
 	//heuristic, may be dynamic depending on situation on the board!
@@ -46,9 +54,6 @@ class MaterialEvaluator implements Evaluator {
 		VALUES.put( PieceType.BISHOP, 3 );
 		VALUES.put( PieceType.ROOK, 5 );
 		VALUES.put( PieceType.QUEEN, 9 );
-		//TODO: keeping king here makes this evaluator always generating rather good values
-		//since the king is here till the end of game. Probably we should remove it
-		VALUES.put( PieceType.KING, 1000 );
 	}
 
 	static int getValue( PieceType pieceType ) {
@@ -61,7 +66,6 @@ class MaterialEvaluator implements Evaluator {
 
 	//no pawns included here since they are 'promoted'
 	static final int MAXIMAL_VALUE =
-			VALUES.get( PieceType.KING ) +
 					9 * VALUES.get( PieceType.QUEEN ) +
 					2 * VALUES.get( PieceType.ROOK ) +
 					2 * VALUES.get( PieceType.BISHOP ) +
