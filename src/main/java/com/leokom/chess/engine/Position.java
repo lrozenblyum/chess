@@ -497,32 +497,20 @@ public class Position {
 	private boolean canPawnMove( String square, String potentialMove ) {
 		String destinationSquare = Move.getDestinationSquare( potentialMove );
 
-		//pawn cannot move to occupied square
 		//if file is different - it's capture and should be allowed
-		final boolean isMoveForward = sameFile( destinationSquare, square );
-		if ( !isMoveForward ) {
-			return true;
-		}
+		return !sameFile( destinationSquare, square ) ||
+				// here we deny captures if a pawn moved forward
+				//pawn cannot move FORWARD to occupied square
+				( !isOccupied( destinationSquare ) &&
+				  !isPawnDoubleMoveProhibited( square, destinationSquare ) );
+	}
 
-		//it's particularly double-checked in common block of code
-		//however common block of code doesn't check
-		//e8Q move correctness for moving to occupied place
-		//also common block of code allows capture
-		// but here we deny captures if a pawn moved forward
-		if ( isOccupied( destinationSquare ) ) {
-			return false;
-		}
-
+	private boolean isPawnDoubleMoveProhibited( String square, String destinationSquare ) {
 		Side side = getSide( square );
 		int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
-		if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
+		return rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getPawnInitialRank( side )
-				&& isOccupied( square( fileOfSquare( square ), intermediateRank ) ) ) {
-
-			return false;
-		}
-
-		return true;
+				&& isOccupied( square( fileOfSquare( square ), intermediateRank ) );
 	}
 
 	/**
