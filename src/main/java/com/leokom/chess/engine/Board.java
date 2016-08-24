@@ -76,20 +76,20 @@ final class Board {
 		char destinationFile = fileTo( file, horizontalDirection, horizontalShift );
 		int destinationRank = rankTo( rank, verticalDirection, verticalShift );
 
-		//validity check
-		if ( isFileValid( destinationFile ) && isRankValid( destinationRank ) ) {
-			return Optional.of( square( destinationFile, destinationRank ) );
-		}
-		else {
-			return Optional.empty();
-		}
+		return Optional.ofNullable( square( destinationFile, destinationRank ) );
 	}
 
-	static String square( char destinationFile, int destinationRank ) {
+	/**
+	 * Get square for given file and rank
+	 * @param file file
+	 * @param rank rank
+	 * @return square (null if a file or rank are invalid)
+	 */
+	static String square( char file, int rank ) {
 		//optimized version of 'a' + 1 ==> "a1"
 		//that is slow according to profiler
 		//this also reduces pressure on GC
-		return SQUARES.get( destinationFile, destinationRank );
+		return SQUARES.get( file, rank );
 	}
 
 	private static Optional<String> squareTo( String square, HorizontalDirection horizontalDirection ) {
@@ -113,16 +113,6 @@ final class Board {
 			case RIGHT: return squareTo( square, HorizontalDirection.RIGHT );
 			default: throw new IllegalArgumentException( "Unsupported direction: " + direction );
 		}
-	}
-
-
-	private static boolean isRankValid( int destinationRank ) {
-		return destinationRank >= MINIMAL_RANK && destinationRank <= MAXIMAL_RANK;
-	}
-
-	private static boolean isFileValid( char file ) {
-		//TODO: is character order guaranteed in Java for such comparisons?
-		return file >= MINIMAL_FILE && file <= MAXIMAL_FILE;
 	}
 
 	private static int rankTo( int rank, VerticalDirection verticalDirection, int verticalShift ) {
