@@ -46,6 +46,8 @@ class MaterialEvaluator implements Evaluator {
 		VALUES.put( PieceType.BISHOP, 3 );
 		VALUES.put( PieceType.ROOK, 5 );
 		VALUES.put( PieceType.QUEEN, 9 );
+		//TODO: keeping king here makes this evaluator always generating rather good values
+		//since the king is here till the end of game. Probably we should remove it
 		VALUES.put( PieceType.KING, 1000 );
 	}
 
