@@ -233,19 +233,19 @@ public class Position {
 
 		//TODO: this condition as also covered by hasKingMoved
 		//but we need to keep that flag in synchronous-state
-		final String kingFile = "e";
-		if ( square.equals( kingFile + castlingRank ) ) {
+		final char kingFile = 'e';
+		if ( square.equals( Board.square( kingFile, castlingRank ) ) ) {
 			//TODO: the first condition is excessive - second covers it
-			final String kingSideRookFile = "h";
-			if ( isOccupiedBy( kingSideRookFile + castlingRank, side ) &&
+			final char kingSideRookFile = 'h';
+			if ( isOccupiedBy( Board.square( kingSideRookFile, castlingRank ), side ) &&
 				!hasHRookMoved.contains( side ) &&
 				!isSquareAttacked( side, "f" + castlingRank ) &&
 				isFreeRankBetween( kingFile, kingSideRookFile, castlingRank )) {
 				result.add( "g" + castlingRank );
 			}
 
-			final String queenSideRookFile = "a";
-			if ( isOccupiedBy( queenSideRookFile + castlingRank, side ) &&
+			final char queenSideRookFile = 'a';
+			if ( isOccupiedBy( Board.square( queenSideRookFile, castlingRank ), side ) &&
 				!hasARookMoved.contains( side ) &&
 				!isSquareAttacked( side, "d" + castlingRank ) &&
 				isFreeRankBetween( queenSideRookFile, kingFile, castlingRank )) {
@@ -264,9 +264,9 @@ public class Position {
 	 * @param rank rank where to check squares
 	 * @return true if all middle squares are free
 	 */
-	private boolean isFreeRankBetween( String leftFile, String rightFile, int rank ) {
-		String leftBorderSquare = leftFile + rank;
-		String rightBorderSquare = rightFile + rank;
+	private boolean isFreeRankBetween( char leftFile, char rightFile, int rank ) {
+		String leftBorderSquare = Board.square( leftFile, rank );
+		String rightBorderSquare = Board.square( rightFile, rank );
 
 		for ( String movingSquare = Board.squareTo( leftBorderSquare, HorizontalDirection.RIGHT );
 			!movingSquare.equals( rightBorderSquare );
