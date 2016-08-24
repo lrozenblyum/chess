@@ -8,7 +8,8 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 02.05.14 18:35
  */
-@Ignore( "Performance is still not ideal. It was 2 minutes 02 sec, now 1 min 10 sec, or even 48 seconds" )
+@Ignore( "Performance is still not ideal. It was 2 minutes 02 sec, now 1 min 10 sec, or even 48 seconds." +
+		"If the logging in MasterEvaluator is disabled : 55 sec. Enabled : ~3 min 15 sec." )
 public class LegalPlayerSelfPlayTest {
 	//finite time of game finish (practically till July2014 FIDE rules in action
 	//the infinite game is possible)
