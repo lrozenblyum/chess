@@ -13,12 +13,6 @@ import com.google.common.collect.Sets;
 public final class CollectionUtils {
 	private CollectionUtils() {}
 
-	public static < T > void addIfNotNull( Collection<T> collection, T toAdd ) {
-		if ( toAdd != null ) {
-			collection.add( toAdd );
-		}
-	}
-
 	/**
 	 * Get an unmodifiable set of enum values of a particular enum class
 	 * @param clazz enum class

@@ -3,6 +3,7 @@ package com.leokom.chess.engine;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -68,7 +69,7 @@ final class Board {
 		SQUARES = tableBuilder.build();
 	}
 
-	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift, VerticalDirection verticalDirection, int verticalShift ) {
+	static Optional<String> squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift, VerticalDirection verticalDirection, int verticalShift ) {
 		char file = fileOfSquare( square );
 		int rank = rankOfSquare( square );
 
@@ -77,11 +78,10 @@ final class Board {
 
 		//validity check
 		if ( isFileValid( destinationFile ) && isRankValid( destinationRank ) ) {
-			return square( destinationFile, destinationRank );
+			return Optional.of( square( destinationFile, destinationRank ) );
 		}
 		else {
-			//TODO: maybe introduce some class Square, with Null object instance?
-			return null;
+			return Optional.empty();
 		}
 	}
 
@@ -92,20 +92,20 @@ final class Board {
 		return SQUARES.get( destinationFile, destinationRank );
 	}
 
-	private static String squareTo( String square, HorizontalDirection horizontalDirection ) {
+	private static Optional<String> squareTo( String square, HorizontalDirection horizontalDirection ) {
 		return squareTo( square, horizontalDirection, 1 );
 	}
 
-	private static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift ) {
+	private static Optional<String> squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift ) {
 		return squareTo( square, horizontalDirection, horizontalShift, VerticalDirection.UP, 0 );
 	}
 
-	private static String squareTo( String square, VerticalDirection verticalDirection ) {
+	private static Optional<String> squareTo( String square, VerticalDirection verticalDirection ) {
 		//the intermediate 2 params are unimportant. Need to improve
 		return squareTo( square, HorizontalDirection.LEFT, 0, verticalDirection, 1 );
 	}
 
-	static String squareTo( String square, Direction direction ) {
+	static Optional<String> squareTo( String square, Direction direction ) {
 		switch ( direction ) {
 			case UP: return squareTo( square, VerticalDirection.UP );
 			case DOWN: return squareTo( square, VerticalDirection.DOWN );
@@ -146,12 +146,12 @@ final class Board {
 		return fileOfSquare( firstSquare ) == fileOfSquare( secondSquare );
 	}
 
-	private static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
+	private static Optional<String> squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
 		return squareTo(
 				square, horizontalDirection, squaresDiagonally, verticalDirection, squaresDiagonally );
 	}
 
-	static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection ) {
+	static Optional<String> squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection ) {
 		return squareDiagonally( square,horizontalDirection, verticalDirection, 1 );
 	}
 

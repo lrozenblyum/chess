@@ -12,7 +12,6 @@ import java.util.stream.Stream;
 import static com.leokom.chess.engine.Board.*;
 import static com.leokom.chess.engine.Board.square;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
-import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 import static com.leokom.chess.utils.CollectionUtils.filterMapByValues;
 import static java.util.stream.Collectors.toSet;
 
@@ -299,13 +298,15 @@ public class Position {
 		//diagonally
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
-				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
+				squareDiagonally( square, horizontalDirection, verticalDirection ).
+				ifPresent( result::add );
 			}
 		}
 
 		//left/right/top/bottom
 		for ( Direction direction : Direction.VALUES() ) {
-			addIfNotNull( result, squareTo( square, direction ) );
+			squareTo( square, direction )
+			.ifPresent( result::add );
 		}
 
 		return result;
@@ -321,12 +322,12 @@ public class Position {
 		Set< String > result = new HashSet<>();
 
 		for ( Direction direction : Direction.VALUES() ) {
-			String runningSquare = square;
+			Optional< String > runningSquare = Optional.of( square );
 
 			do {
-				runningSquare = squareTo( runningSquare, direction );
-				addIfNotNull( result, runningSquare );
-			} while ( runningSquare != null && isFree( runningSquare ) );
+				runningSquare = squareTo( runningSquare.get(), direction );
+				runningSquare.ifPresent( result::add );
+			} while ( runningSquare.isPresent() && isFree( runningSquare.get() ) );
 		}
 
 		return result;
@@ -402,14 +403,13 @@ public class Position {
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
-				String movingSquare = square;
+				Optional< String > movingSquare = Optional.of( square );
 				do {
-					movingSquare = squareDiagonally( movingSquare, horizontalDirection, verticalDirection );
-					//null means end of table reached and will break the loop
-					addIfNotNull( result, movingSquare );
+					movingSquare = squareDiagonally( movingSquare.get(), horizontalDirection, verticalDirection );
+					movingSquare.ifPresent( result::add );
 				}
 				//the loop will include first busy square on its way to the result
-				while ( movingSquare != null && isFree( movingSquare ) );
+				while ( movingSquare.isPresent() && isFree( movingSquare.get() ) );
 			}
 		}
 		return result;
@@ -423,7 +423,7 @@ public class Position {
 				final Side side = getSide( square );
 
 				return squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
-			} ).filter( Objects::nonNull );
+			} ).filter( Optional::isPresent ).map( Optional::get );
 	}
 
 	private Set<String> getPawnMoves( String square ) {
@@ -484,11 +484,9 @@ public class Position {
 		for ( int [] shiftPair : shifts ) {
 			for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
 				for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
-					final String destination = Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
-							verticalDirection, shiftPair[ 1 ] );
-
-					//can be null when outside the board
-					CollectionUtils.addIfNotNull( knightMoves, destination );
+					Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
+							verticalDirection, shiftPair[ 1 ] )
+					.ifPresent( knightMoves::add );
 				}
 			}
 		}
