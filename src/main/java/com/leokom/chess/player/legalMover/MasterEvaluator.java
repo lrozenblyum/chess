@@ -14,7 +14,7 @@ import static com.leokom.chess.player.legalMover.EvaluatorType.*;
  * Central evaluator of a move ('brains')
  */
 class MasterEvaluator implements Evaluator {
-	private static Logger LOG = LogManager.getLogger();
+	private static final Logger LOG = LogManager.getLogger();
 
 	//we don't need to know that we can execute other moves
 	//while evaluating a move, do we?
@@ -29,7 +29,7 @@ class MasterEvaluator implements Evaluator {
 
 	private final Map<EvaluatorType, Double > evaluatorWeights;
 
-	public MasterEvaluator() {
+	MasterEvaluator() {
 		this( getStandardWeights() );
 	}
 
