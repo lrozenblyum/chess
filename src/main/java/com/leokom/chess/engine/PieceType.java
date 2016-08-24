@@ -1,5 +1,7 @@
 package com.leokom.chess.engine;
 
+import java.util.Arrays;
+
 /**
  * Define all possible piece types for chess
  * Author: Leonid
@@ -58,13 +60,10 @@ public enum PieceType {
 	}
 
 	static PieceType byNotation( String notation ) {
-		for ( PieceType pieceType : values() ) {
-			if ( pieceType.notation.equals( notation ) ) {
-				return pieceType;
-			}
-		}
-
-		throw new IllegalArgumentException( "No piece type is known for notation: " + notation );
+		return Arrays.stream( values() )
+			.filter( pieceType -> pieceType.notation.equals( notation ) )
+			.findAny()
+			.orElseThrow( () -> new IllegalArgumentException( "No piece type is known for notation: " + notation ) );
 	}
 
 	String getNotation() {
