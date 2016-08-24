@@ -3,7 +3,6 @@ package com.leokom.chess.engine;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.common.io.CharStreams;
 import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
@@ -271,7 +270,7 @@ public class Position {
 		//start is inclusive, excluding it explicitly by +1
 		return IntStream.range( leftFile + 1, rightFile )
 			.mapToObj( file -> square( ( char ) file, rank ) )
-			.allMatch( this::isEmptySquare );
+			.allMatch( this::isFree );
 	}
 
 	private Set< String > getSquaresAttackedFromSquare( String square ) {
@@ -330,7 +329,7 @@ public class Position {
 			do {
 				runningSquare = squareTo( runningSquare, direction );
 				addIfNotNull( result, runningSquare );
-			} while ( runningSquare != null && isEmptySquare( runningSquare ) );
+			} while ( runningSquare != null && isFree( runningSquare ) );
 		}
 
 		return result;
@@ -413,7 +412,7 @@ public class Position {
 					addIfNotNull( result, movingSquare );
 				}
 				//the loop will include first busy square on its way to the result
-				while ( movingSquare != null && isEmptySquare( movingSquare ) );
+				while ( movingSquare != null && isFree( movingSquare ) );
 			}
 		}
 		return result;
@@ -630,7 +629,7 @@ public class Position {
 	}
 
 	private boolean isOccupied( String square ) {
-		return !isEmptySquare( square );
+		return !isFree( square );
 	}
 
 	static int getDoubleMoveRank( Side side ) {
@@ -720,12 +719,12 @@ public class Position {
 	}
 
 	/**
-	 * Check if square is empty (not occupied by any piece)
+	 * Check if a given square is free (not occupied by any piece)
 	 * @param square square to check
 	 * @return true if square is empty
 	 */
-	boolean isEmptySquare( String square ) {
-		return getSide( square ) == null;
+	boolean isFree( String square ) {
+		return pieces.get( square ) == null;
 	}
 
 	/**
@@ -982,7 +981,7 @@ public class Position {
 
 	//this is NON-VALIDATING checker
 	private boolean isEnPassant( Move move ) {
-		return isCaptureByPawn( move ) && isEmptySquare( move.getDestinationSquare() );
+		return isCaptureByPawn( move ) && isFree( move.getDestinationSquare() );
 	}
 
 	//capture by pawn is done diagonally - the file is changed

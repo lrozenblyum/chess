@@ -17,12 +17,12 @@ public final class PositionAsserts {
 	static void assertHasPiece( Position position, PieceType pieceType, Side side, String square ) {
 		assertTrue( pieceType +
 				" of " + side + " is expected to be on square: " + square +
-				". Actually the square " + ( position.isEmptySquare( square ) ? " is empty " : " has " + position.getPiece( square ) ),
+				". Actually the square " + ( position.isFree( square ) ? " is empty " : " has " + position.getPiece( square ) ),
 				position.hasPiece( side, square, pieceType ) );
 	}
 
 	static void assertEmptySquare( Position position, String square ) {
-		assertTrue( "The square must be empty: " + square + "; actually contains: " + position.getPiece( square ), position.isEmptySquare( square ) );
+		assertTrue( "The square must be empty: " + square + "; actually contains: " + position.getPiece( square ), position.isFree( square ) );
 	}
 
 	static void assertHasPawn( Position position, String square, Side side ) {
