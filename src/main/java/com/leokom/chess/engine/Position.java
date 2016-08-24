@@ -7,7 +7,6 @@ import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.leokom.chess.engine.Board.*;
@@ -267,9 +266,7 @@ public class Position {
 	 * @return true if all middle squares are free
 	 */
 	private boolean isFreeRankBetween( char leftFile, char rightFile, int rank ) {
-		//start is inclusive, excluding it explicitly by +1
-		return IntStream.range( leftFile + 1, rightFile )
-			.mapToObj( file -> square( ( char ) file, rank ) )
+		return getSquaresBetween( leftFile, rightFile, rank )
 			.allMatch( this::isFree );
 	}
 

@@ -3,6 +3,9 @@ package com.leokom.chess.engine;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 /**
  * Represent chess-board (files/ranks/squares) but not position
  * Author: Leonid
@@ -150,5 +153,11 @@ final class Board {
 
 	static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection ) {
 		return squareDiagonally( square,horizontalDirection, verticalDirection, 1 );
+	}
+
+	static Stream<String> getSquaresBetween( char leftFile, char rightFile, int rank ) {
+		//start is inclusive, excluding it explicitly by +1
+		return IntStream.range( leftFile + 1, rightFile )
+			.mapToObj( file -> square( ( char ) file, rank ) );
 	}
 }
