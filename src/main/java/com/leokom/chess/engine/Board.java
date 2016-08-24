@@ -89,7 +89,7 @@ final class Board {
 		return SQUARES.get( destinationFile, destinationRank );
 	}
 
-	static String squareTo( String square, HorizontalDirection horizontalDirection ) {
+	private static String squareTo( String square, HorizontalDirection horizontalDirection ) {
 		return squareTo( square, horizontalDirection, 1 );
 	}
 

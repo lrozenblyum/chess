@@ -3,10 +3,12 @@ package com.leokom.chess.engine;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.io.CharStreams;
 import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static com.leokom.chess.engine.Board.*;
@@ -266,18 +268,10 @@ public class Position {
 	 * @return true if all middle squares are free
 	 */
 	private boolean isFreeRankBetween( char leftFile, char rightFile, int rank ) {
-		String leftBorderSquare = square( leftFile, rank );
-		String rightBorderSquare = square( rightFile, rank );
-
-		for ( String movingSquare = Board.squareTo( leftBorderSquare, HorizontalDirection.RIGHT );
-			!movingSquare.equals( rightBorderSquare );
-			movingSquare = Board.squareTo( movingSquare, HorizontalDirection.RIGHT ) ) {
-			if ( isOccupied( movingSquare ) ) {
-				return false;
-			}
-		}
-
-		return true;
+		//start is inclusive, excluding it explicitly by +1
+		return IntStream.range( leftFile + 1, rightFile )
+			.mapToObj( file -> square( ( char ) file, rank ) )
+			.allMatch( this::isEmptySquare );
 	}
 
 	private Set< String > getSquaresAttackedFromSquare( String square ) {
