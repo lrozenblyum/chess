@@ -42,7 +42,7 @@ public class PositionBuilder {
 		return this;
 	}
 
-	public PositionBuilder addQueen( Side side, String square ) {
+	PositionBuilder addQueen( Side side, String square ) {
 		position.addQueen( side, square );
 		return this;
 	}
@@ -52,7 +52,7 @@ public class PositionBuilder {
 		return position.move( from, to );
 	}
 
-	public PositionBuilder setEnPassantFile( String enPassantFile ) {
+	PositionBuilder setEnPassantFile( Character enPassantFile ) {
 		position.setEnPassantFile( enPassantFile );
 		return this;
 	}

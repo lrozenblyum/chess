@@ -95,10 +95,10 @@ public class Position {
 		this.hasHRookMoved.add( side );
 	}
 
-	void setEnPassantFile( String enPassantFile ) {	this.enPassantFile = enPassantFile; }
+	void setEnPassantFile( Character enPassantFile ) {	this.enPassantFile = enPassantFile; }
 
 	//temporary state in game (which could change)
-	private String enPassantFile;
+	private Character enPassantFile;
 
 	//ply is the smallest movement in chess
 	//a move consists of 2 plies
@@ -438,7 +438,7 @@ public class Position {
 	private Set<String> getPawnMoves( String square ) {
 		final Set<String> result = new HashSet<>();
 
-		final String file = fileOfSquare( square );
+		final char file = fileOfSquare( square );
 		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
@@ -456,9 +456,9 @@ public class Position {
 				.forEach( result::add );
 		}
 		else {
-			result.add( file + getPawnNextRank( rank, side ) );
+			result.add( Board.square( file, getPawnNextRank( rank, side ) ) );
 			if ( rank == getPawnInitialRank( side ) ) {
-				result.add( file + getDoubleMoveRank( side ) );
+				result.add( Board.square( file, getDoubleMoveRank( side ) ) );
 			}
 
 			getSquaresAttackedByPawn( square )
@@ -477,7 +477,7 @@ public class Position {
 	// as though the latter had been moved only one square
 	private boolean canEnPassant( Side side, String attackedSquare ) {
 		return enPassantFile != null &&
-			attackedSquare.equals( enPassantFile + getPawnDoubleMoveIntermediateRank( side.opposite() ) );
+			attackedSquare.equals( Board.square( enPassantFile, getPawnDoubleMoveIntermediateRank( side.opposite() ) ) );
 	}
 
 	private boolean canBeAttackedUsually( Side side, String attackedSquare ) {
@@ -528,7 +528,7 @@ public class Position {
 		int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 		if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getPawnInitialRank( side )
-				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
+				&& isOccupied( Board.square( fileOfSquare( square ), intermediateRank ) ) ) {
 
 			return false;
 		}
@@ -610,9 +610,9 @@ public class Position {
 	 * @param side side of pawn
 	 * @return stream of possible promotions
 	 */
-	private static Stream< String > getPromotionResult( String file, Side side ) {
+	private static Stream< String > getPromotionResult( char file, Side side ) {
 		return PIECES_TO_PROMOTE_FROM_PAWN.stream().map(
-			pieceToPromote -> file + getPromotionRank( side ) + pieceToPromote.getNotation()
+			pieceToPromote -> Board.square( file, getPromotionRank( side ) ) + pieceToPromote.getNotation()
 		);
 	}
 
@@ -738,7 +738,7 @@ public class Position {
 	 * returns the file of movement, otherwise null
 	 * @return possible en passant file if double-move done
 	 */
-	String getPossibleEnPassantFile() {
+	Character getPossibleEnPassantFile() {
 		return this.enPassantFile;
 	}
 
@@ -993,6 +993,6 @@ public class Position {
 	//capture by pawn is done diagonally - the file is changed
 	private boolean isCaptureByPawn( Move move ) {
 		return getPieceType( move.getFrom() ) == PieceType.PAWN &&
-			! Board.fileOfSquare( move.getFrom() ).equals( Board.fileOfSquare( move.getDestinationSquare() ) );
+				!Board.sameFile( move.getFrom(), move.getDestinationSquare() );
 	}
 }

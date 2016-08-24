@@ -155,11 +155,11 @@ final class PositionGenerator {
 
 		//TODO: technically it will do excessive 'again' setting (not harmful)
 		//if the rook has already moved
-		if ( Board.fileOfSquare( squareFrom ).equals( "a" ) ) {
+		if ( Board.fileOfSquare( squareFrom ) == 'a' ) {
 			result.setHasARookMoved( this.source.getSide( squareFrom ) );
 		}
 
-		if ( Board.fileOfSquare( squareFrom ).equals( "h" ) ) {
+		if ( Board.fileOfSquare( squareFrom ) == 'h' ) {
 			result.setHasHRookMoved( this.source.getSide( squareFrom ) );
 		}
 		return result;
@@ -198,8 +198,7 @@ final class PositionGenerator {
 	private Position processPawnMove( String squareFrom, String move ) {
 		final String squareTo = Move.getDestinationSquare( move );
 
-		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
-
+		final Character newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 
 		final Side movingSide = source.getSideToMove();
 
@@ -273,7 +272,7 @@ final class PositionGenerator {
 		if ( source.getPossibleEnPassantFile() != null &&
 				rankOfSquare( squareFrom ) == enPassantPossibleRank &&
 				source.getPossibleEnPassantFile().equals( fileOfSquare( squareTo ) )) {
-			return source.getPossibleEnPassantFile() + enPassantPossibleRank;
+			return Board.square( source.getPossibleEnPassantFile(), enPassantPossibleRank );
 		}
 		return null;
 	}
@@ -286,7 +285,7 @@ final class PositionGenerator {
 	 * @param squareTo square to which the piece is going to squareTo
 	 * @return possible en passant file (null if impossible)
 	 */
-	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
+	private Character getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = source.getSide( squareFrom );
 
 		return rankOfSquare( squareFrom ) == InitialPosition.getPawnInitialRank( side ) &&

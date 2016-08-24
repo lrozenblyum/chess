@@ -53,7 +53,7 @@ public class PositionImmutabilityTest {
 	@Test
 	public void positionEnPassantStatusSet() {
 		Position position = new Position( Side.BLACK );
-		position.setEnPassantFile( "e" );
+		position.setEnPassantFile( 'e' );
 		position.add( Side.WHITE, "e4", PieceType.PAWN );
 		position.add( Side.WHITE, "d2", PieceType.PAWN );
 		position.add( Side.BLACK, "g4", PieceType.PAWN );
@@ -62,6 +62,6 @@ public class PositionImmutabilityTest {
 				.move( "g4", "g3" )
 				.move( "d2", "d4" );
 
-		assertEquals( "e", position.getPossibleEnPassantFile() );
+		assertEquals( 'e', position.getPossibleEnPassantFile().charValue() );
 	}
 }
