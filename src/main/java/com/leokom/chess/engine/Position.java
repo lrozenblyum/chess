@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.leokom.chess.engine.Board.*;
+import static com.leokom.chess.engine.Board.square;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
 import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
 import static com.leokom.chess.utils.CollectionUtils.filterMapByValues;
@@ -234,22 +235,22 @@ public class Position {
 		//TODO: this condition as also covered by hasKingMoved
 		//but we need to keep that flag in synchronous-state
 		final char kingFile = 'e';
-		if ( square.equals( Board.square( kingFile, castlingRank ) ) ) {
+		if ( square.equals( square( kingFile, castlingRank ) ) ) {
 			//TODO: the first condition is excessive - second covers it
 			final char kingSideRookFile = 'h';
-			if ( isOccupiedBy( Board.square( kingSideRookFile, castlingRank ), side ) &&
+			if ( isOccupiedBy( square( kingSideRookFile, castlingRank ), side ) &&
 				!hasHRookMoved.contains( side ) &&
-				!isSquareAttacked( side, "f" + castlingRank ) &&
+				!isSquareAttacked( side, square( 'f', castlingRank ) ) &&
 				isFreeRankBetween( kingFile, kingSideRookFile, castlingRank )) {
-				result.add( "g" + castlingRank );
+				result.add( square( 'g', castlingRank ) );
 			}
 
 			final char queenSideRookFile = 'a';
-			if ( isOccupiedBy( Board.square( queenSideRookFile, castlingRank ), side ) &&
+			if ( isOccupiedBy( square( queenSideRookFile, castlingRank ), side ) &&
 				!hasARookMoved.contains( side ) &&
-				!isSquareAttacked( side, "d" + castlingRank ) &&
+				!isSquareAttacked( side, square( 'd', castlingRank ) ) &&
 				isFreeRankBetween( queenSideRookFile, kingFile, castlingRank )) {
-				result.add( "c" + castlingRank );
+				result.add( square( 'c', castlingRank ) );
 			}
 		}
 
@@ -265,8 +266,8 @@ public class Position {
 	 * @return true if all middle squares are free
 	 */
 	private boolean isFreeRankBetween( char leftFile, char rightFile, int rank ) {
-		String leftBorderSquare = Board.square( leftFile, rank );
-		String rightBorderSquare = Board.square( rightFile, rank );
+		String leftBorderSquare = square( leftFile, rank );
+		String rightBorderSquare = square( rightFile, rank );
 
 		for ( String movingSquare = Board.squareTo( leftBorderSquare, HorizontalDirection.RIGHT );
 			!movingSquare.equals( rightBorderSquare );
@@ -456,9 +457,9 @@ public class Position {
 				.forEach( result::add );
 		}
 		else {
-			result.add( Board.square( file, getPawnNextRank( rank, side ) ) );
+			result.add( square( file, getPawnNextRank( rank, side ) ) );
 			if ( rank == getPawnInitialRank( side ) ) {
-				result.add( Board.square( file, getDoubleMoveRank( side ) ) );
+				result.add( square( file, getDoubleMoveRank( side ) ) );
 			}
 
 			getSquaresAttackedByPawn( square )
@@ -477,7 +478,7 @@ public class Position {
 	// as though the latter had been moved only one square
 	private boolean canEnPassant( Side side, String attackedSquare ) {
 		return enPassantFile != null &&
-			attackedSquare.equals( Board.square( enPassantFile, getPawnDoubleMoveIntermediateRank( side.opposite() ) ) );
+			attackedSquare.equals( square( enPassantFile, getPawnDoubleMoveIntermediateRank( side.opposite() ) ) );
 	}
 
 	private boolean canBeAttackedUsually( Side side, String attackedSquare ) {
@@ -528,7 +529,7 @@ public class Position {
 		int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
 		if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getPawnInitialRank( side )
-				&& isOccupied( Board.square( fileOfSquare( square ), intermediateRank ) ) ) {
+				&& isOccupied( square( fileOfSquare( square ), intermediateRank ) ) ) {
 
 			return false;
 		}
@@ -612,7 +613,7 @@ public class Position {
 	 */
 	private static Stream< String > getPromotionResult( char file, Side side ) {
 		return PIECES_TO_PROMOTE_FROM_PAWN.stream().map(
-			pieceToPromote -> Board.square( file, getPromotionRank( side ) ) + pieceToPromote.getNotation()
+			pieceToPromote -> square( file, getPromotionRank( side ) ) + pieceToPromote.getNotation()
 		);
 	}
 
