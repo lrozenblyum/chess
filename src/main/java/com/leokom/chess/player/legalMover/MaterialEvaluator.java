@@ -36,15 +36,14 @@ class MaterialEvaluator implements Evaluator {
 
 	private int getMaterialValue( Position position, Side side ) {
 		return value( position.getPieces( side ).
-				filter( this::isNotAKing ) );
-
+			//king is excluded because it's invaluable
+			filter( this::isNotAKing ) );
 	}
 
 	private boolean isNotAKing( Piece piece ) {
 		return piece.getPieceType() != PieceType.KING;
 	}
 
-	//king is invaluable
 	private static final Map< PieceType,Integer > VALUES = new
 			HashMap<>();
 	//heuristic, may be dynamic depending on situation on the board!
@@ -54,6 +53,10 @@ class MaterialEvaluator implements Evaluator {
 		VALUES.put( PieceType.BISHOP, 3 );
 		VALUES.put( PieceType.ROOK, 5 );
 		VALUES.put( PieceType.QUEEN, 9 );
+		//practically King is invaluable,
+		//however for sum purposes like attackIndex
+		// we need some value associated
+		VALUES.put( PieceType.KING, 1000 );
 	}
 
 	static int getValue( PieceType pieceType ) {

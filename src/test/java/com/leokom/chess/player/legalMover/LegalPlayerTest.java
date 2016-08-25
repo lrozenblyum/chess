@@ -102,6 +102,23 @@ public class LegalPlayerTest {
 	}
 
 	@Test
+	public void noProblemsWhenNextMoveGivesPossibilityToCheck() {
+		LegalPlayer player = getLegalPlayer();
+		player.setOpponent( opponent );
+
+		Position position = new Position( Side.BLACK );
+		position.add( Side.BLACK, "h7", PieceType.KING );
+		position.add( Side.WHITE, "g5", PieceType.KING );
+		position.add( Side.WHITE, "a2", PieceType.QUEEN );
+
+		player.setPosition( position, Side.WHITE );
+
+		player.opponentMoved( new Move( "h7", "h8" ) );
+		//during next move it will be possible to check via a2-a1
+		verify( opponent ).opponentMoved( any() );
+	}
+
+	@Test
 	public void legalPlayerCanMoveFirstAfterRun() {
 		LegalPlayer player = getLegalPlayer();
 		player.setOpponent( opponent );

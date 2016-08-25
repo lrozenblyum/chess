@@ -17,7 +17,8 @@ public enum EvaluatorType {
 	MATERIAL( new MaterialEvaluator() ),
 	MOBILITY( new MobilityEvaluator() ),
 	PROTECTION( new ProtectionEvaluator() ),
-	SPECIAL_MOVE( new SpecialMoveEvaluator() );
+	SPECIAL_MOVE( new SpecialMoveEvaluator() ),
+	ATTACK( new AttackEvaluator() );
 
 	private final Evaluator evaluator;
 

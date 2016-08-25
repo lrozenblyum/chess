@@ -45,6 +45,7 @@ class MasterEvaluator implements Evaluator {
 		result.put( MOBILITY, NORMAL_PRIORITY );
 		result.put( MATERIAL, NORMAL_PRIORITY );
 		result.put( PROTECTION, NORMAL_PRIORITY );
+		result.put( ATTACK, NORMAL_PRIORITY );
 		//this disabling is not absolute. Those moves anyway have chance
 		//e.g. if LegalPlayer selects moves in reverse order (from worse to best)
 		result.put( SPECIAL_MOVE, DISABLED );
