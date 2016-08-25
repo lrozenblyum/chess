@@ -380,7 +380,7 @@ public class Position {
 	}
 
 	/**
-	 * The method is generic and allow knowing who is attacking a square
+	 * The method is generic and allows to know who is attacking a square
 	 * (important both for attackers and protectors)
 	 * @param attackerSide side of interest
 	 * @param targetSquare square of interest
