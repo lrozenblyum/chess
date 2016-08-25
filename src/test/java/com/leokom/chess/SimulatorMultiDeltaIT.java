@@ -68,10 +68,11 @@ public class SimulatorMultiDeltaIT {
 				.collect( Collectors.joining( "\n" ) );
 
 
-		LogManager.getLogger().info( "STATISTICS ::: {}", statsPrettyPrinted );
+		LogManager.getLogger().info( "STATISTICS :::\n {}", statsPrettyPrinted );
 	}
 
 	/*
+	Protector
 	1hour 53 minutes 55 seconds
 	10 * 10 games
 	0 ==> SimulatorStatistics{firstWins=1, secondWins=8, totalGames=10}
@@ -87,6 +88,7 @@ public class SimulatorMultiDeltaIT {
 	 */
 
 	/*
+	Protector
 	27 min 51 sec
 	0 ==> SimulatorStatistics{firstWins=2, secondWins=8, totalGames=10}
 	10 ==> SimulatorStatistics{firstWins=8, secondWins=2, totalGames=10}
@@ -98,6 +100,23 @@ public class SimulatorMultiDeltaIT {
 	70 ==> SimulatorStatistics{firstWins=8, secondWins=2, totalGames=10}
 	80 ==> SimulatorStatistics{firstWins=6, secondWins=0, totalGames=10}
 	90 ==> SimulatorStatistics{firstWins=4, secondWins=1, totalGames=10}
+	 */
+
+	/* Attacker (with debug logging enabled)
+	10 min 38 sec
+	  10 * 2 games
+	STATISTICS :::
+		0 ==> SimulatorStatistics{firstWins=1, secondWins=0, totalGames=2}
+		10 ==> SimulatorStatistics{firstWins=0, secondWins=0, totalGames=2}
+		20 ==> SimulatorStatistics{firstWins=0, secondWins=0, totalGames=2}
+		30 ==> SimulatorStatistics{firstWins=0, secondWins=1, totalGames=2}
+		40 ==> SimulatorStatistics{firstWins=0, secondWins=1, totalGames=2}
+		50 ==> SimulatorStatistics{firstWins=0, secondWins=0, totalGames=2}
+		60 ==> SimulatorStatistics{firstWins=0, secondWins=0, totalGames=2}
+		70 ==> SimulatorStatistics{firstWins=0, secondWins=0, totalGames=2}
+		80 ==> SimulatorStatistics{firstWins=0, secondWins=0, totalGames=2}
+		90 ==> SimulatorStatistics{firstWins=0, secondWins=1, totalGames=2}
+
 	 */
 
 }
