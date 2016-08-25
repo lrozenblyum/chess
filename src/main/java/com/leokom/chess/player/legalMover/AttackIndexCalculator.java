@@ -16,6 +16,11 @@ import java.util.stream.Stream;
 final class AttackIndexCalculator {
 	private AttackIndexCalculator() {}
 
+	/*
+	 * Backlog for improvements:
+	 * - for protection evaluator king is taken too seriously
+	 * - for attack evaluator king has become a main target for attacks
+	 */
 
 	static float getAttackIndex( Position targetPosition, Side attackerSide ) {
 		final Set< String > squaresAttacked = getPiecesAttackedBy( targetPosition, attackerSide );
