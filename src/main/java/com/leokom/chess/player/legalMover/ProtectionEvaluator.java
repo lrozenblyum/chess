@@ -1,12 +1,8 @@
 package com.leokom.chess.player.legalMover;
 
-import com.google.common.collect.Sets;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
-
-import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * Author: Leonid
@@ -41,31 +37,9 @@ class ProtectionEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		final Position targetPosition = position.move( move );
 		final Side ourSide = position.getSide( move.getFrom() );
-
-		final Set< String > ourSquaresAttackedByOpponent = getPiecesAttackedByOpponent( targetPosition, ourSide );
-
-		// sum of piece values
-		// if a piece is protected - index of piece value is reduced
-		float opponentAttackIndex = 0;
-		for ( String ourAttackedSquare : ourSquaresAttackedByOpponent ) {
-			//REFACTOR: probably bad dependency on another evaluator - extract common utility
-			int pieceValue = MaterialEvaluator.getValue( targetPosition.getPieceType( ourAttackedSquare ) );
-
-			final Stream< String > ourProtectors = targetPosition.getSquaresAttackingSquare( ourSide, ourAttackedSquare );
-
-			//+1 to avoid / 0, more protectors is better
-			opponentAttackIndex += pieceValue / ( ourProtectors.count() + 1.0 );
-		}
-
+		float opponentAttackIndex = AttackIndexCalculator.getAttackIndex(
+			position.move( move ), ourSide.opposite() );
 		return 1 - opponentAttackIndex / MaterialEvaluator.MAXIMAL_VALUE;
 	}
-
-	//REFACTOR: too generic to encapsulate into Position?
-	private Set<String> getPiecesAttackedByOpponent( Position position, Side ourSide ) {
-		final Side opponentSide = ourSide.opposite();
-		Set<String> ourSquares = position.getSquaresOccupiedBySide( ourSide );
-		return Sets.intersection( position.getSquaresAttackedBy( opponentSide ), ourSquares );
-	}
-}
+ }

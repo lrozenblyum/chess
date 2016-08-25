@@ -379,9 +379,16 @@ public class Position {
 				.flatMap( Collection::stream );
 	}
 
-	public Stream< String > getSquaresAttackingSquare( Side side, String targetSquare ) {
+	/**
+	 * The method is generic and allow knowing who is attacking a square
+	 * (important both for attackers and protectors)
+	 * @param attackerSide side of interest
+	 * @param targetSquare square of interest
+	 * @return stream of squares from which attackerSide has control over targetSquare
+	 */
+	public Stream< String > getSquaresAttackingSquare( Side attackerSide, String targetSquare ) {
 		return
-			getSquaresOccupiedBySideToStream( side )
+			getSquaresOccupiedBySideToStream( attackerSide )
 			.filter( square -> getSquaresAttackedFromSquare( square ).contains( targetSquare ) );
 	}
 
