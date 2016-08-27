@@ -2,7 +2,6 @@ package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedEvaluatorFactory;
@@ -12,8 +11,6 @@ import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedEvaluato
  * Date-time: 21.10.14 23:03
  */
 class ProtectionEvaluator implements Evaluator {
-	private static final double WORST_MOVE = 0.0;
-
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		return 1 +
