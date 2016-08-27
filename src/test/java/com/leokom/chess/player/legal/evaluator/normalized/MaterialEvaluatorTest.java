@@ -1,26 +1,14 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.*;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Author: Leonid
  * Date-time: 24.07.14 22:39
  */
-public class MaterialEvaluatorTest {
-
-	private EvaluatorAsserts asserts;
-	@Before
-	public void prepare(){
-		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.MATERIAL );
-
-		asserts = new EvaluatorAsserts( evaluator );
-	}
-
+public class MaterialEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void shouldCaptureBetter(){
 		PositionBuilder position = new PositionBuilder();
@@ -67,5 +55,10 @@ public class MaterialEvaluatorTest {
 		Move toQueen = new Move( "e7", "e8Q" );
 
 		asserts.assertFirstBetter( position, toQueen, toBishop );
+	}
+
+	@Override
+	EvaluatorType getEvaluatorType() {
+		return EvaluatorType.MATERIAL;
 	}
 }

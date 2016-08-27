@@ -12,17 +12,14 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 03.08.15 22:15
  */
-public class SpecialMoveEvaluatorTest {
-	private EvaluatorAsserts asserts;
-
-	@Before
-	public void prepare() {
-		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.SPECIAL_MOVE );
-		asserts = new EvaluatorAsserts( evaluator );
-	}
-
+public class SpecialMoveEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void offerDrawToPrefer() {
 		asserts.assertFirstBetter( Position.getInitialPosition(), Move.OFFER_DRAW, Move.RESIGN );
+	}
+
+	@Override
+	EvaluatorType getEvaluatorType() {
+		return EvaluatorType.SPECIAL_MOVE;
 	}
 }

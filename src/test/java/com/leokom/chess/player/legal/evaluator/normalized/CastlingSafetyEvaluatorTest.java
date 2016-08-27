@@ -1,22 +1,11 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.*;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
-import org.junit.Before;
 import org.junit.Test;
 
 
-public class CastlingSafetyEvaluatorTest {
-	private EvaluatorAsserts asserts;
-
-	@Before
-	public void prepare() {
-		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.CASTLING_SAFETY );
-		asserts = new EvaluatorAsserts( evaluator );
-	}
-
+public class CastlingSafetyEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void shouldKingMovementNotGoodInitially() {
 		PositionBuilder position = new PositionBuilder();
@@ -102,4 +91,8 @@ public class CastlingSafetyEvaluatorTest {
 	}
 
 
+	@Override
+	EvaluatorType getEvaluatorType() {
+		return EvaluatorType.CASTLING_SAFETY;
+	}
 }

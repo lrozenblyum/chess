@@ -11,15 +11,7 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 01.03.15 22:31
  */
-public class CheckmateEvaluatorTest {
-	private EvaluatorAsserts asserts;
-
-	@Before
-	public void prepare() {
-		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.CHECKMATE );
-		asserts = new EvaluatorAsserts( evaluator );
-	}
-
+public class CheckmateEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void checkmateBetterThanNot() {
 		PositionBuilder builder = new PositionBuilder()
@@ -64,4 +56,8 @@ public class CheckmateEvaluatorTest {
 		asserts.assertFirstBetter( builder, checkmateMove, resignMove );
 	}
 
+	@Override
+	EvaluatorType getEvaluatorType() {
+		return EvaluatorType.CHECKMATE;
+	}
 }

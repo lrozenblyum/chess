@@ -1,21 +1,10 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.*;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
-import org.junit.Before;
 import org.junit.Test;
 
-public class CenterControlEvaluatorTest {
-	private EvaluatorAsserts asserts;
-
-	@Before
-	public void prepare() {
-		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.CENTER_CONTROL );
-		asserts = new EvaluatorAsserts( evaluator );
-	}
-
+public class CenterControlEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void evaluateMove() {
 		Position position = new Position( Side.WHITE );
@@ -111,5 +100,10 @@ public class CenterControlEvaluatorTest {
 		Move singleSquareControl = new Move( "a2", "a4" );
 
 		asserts.assertFirstBetter( position, twoSquaresControlled, singleSquareControl );
+	}
+
+	@Override
+	EvaluatorType getEvaluatorType() {
+		return EvaluatorType.CENTER_CONTROL;
 	}
 }

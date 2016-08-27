@@ -4,24 +4,14 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Author: Leonid
  * Date-time: 23.07.14 21:44
  */
-public class MobilityEvaluatorTest {
-	private EvaluatorAsserts asserts;
-
-	@Before
-	public void prepare() {
-		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.MOBILITY );
-		asserts = new EvaluatorAsserts( evaluator );
-	}
+public class MobilityEvaluatorTest extends EvaluatorTestCase {
 
 	@Test
 	public void shouldQueenControlMore() {
@@ -48,5 +38,10 @@ public class MobilityEvaluatorTest {
 		Move expectedWorse = new Move( "f8", "g8" ); //can move to f8, g7, h8, h7
 
 		asserts.assertFirstBetter( position, expectedBetter, expectedWorse );
+	}
+
+	@Override
+	EvaluatorType getEvaluatorType() {
+		return EvaluatorType.MOBILITY;
 	}
 }

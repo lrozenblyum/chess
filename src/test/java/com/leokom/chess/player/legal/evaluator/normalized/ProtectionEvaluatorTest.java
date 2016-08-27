@@ -1,23 +1,12 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.*;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
-public class ProtectionEvaluatorTest {
-	private EvaluatorAsserts asserts;
-
-	@Before
-	public void prepare() {
-		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.PROTECTION );
-		asserts = new EvaluatorAsserts( evaluator );
-	}
-
+public class ProtectionEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void leaveAttackedSquare() {
 		PositionBuilder position = new PositionBuilder();
@@ -123,6 +112,11 @@ public class ProtectionEvaluatorTest {
 		Move justPawnDefendsC4 = new Move( "h1", "g1" );
 
 		asserts.assertFirstBetter( position, rookAlsoDefendsC4, justPawnDefendsC4 );
+	}
+
+	@Override
+	EvaluatorType getEvaluatorType() {
+		return EvaluatorType.PROTECTION;
 	}
 
 	//backlog
