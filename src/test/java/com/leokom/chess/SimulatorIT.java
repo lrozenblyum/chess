@@ -4,7 +4,7 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legalMover.*;
+import com.leokom.chess.player.legal.*;
 import com.leokom.chess.player.simple.SimplePlayer;
 import org.junit.Ignore;
 import org.junit.Test;
