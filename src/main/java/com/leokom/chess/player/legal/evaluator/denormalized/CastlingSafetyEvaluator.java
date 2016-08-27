@@ -47,6 +47,7 @@ class CastlingSafetyEvaluator implements Evaluator {
 	 *
 	 * Moving 1 rook is not so harmful if second one hasn't yet moved
 	 *
+	 * @return move estimate [0, 1]
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
