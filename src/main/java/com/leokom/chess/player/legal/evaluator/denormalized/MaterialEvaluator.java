@@ -18,9 +18,15 @@ import java.util.stream.Stream;
 class MaterialEvaluator implements Evaluator {
 	private static final double WORST_MOVE = 0.0;
 
+	/**
+	 *
+	 * {@inheritDoc}
+	 * @return [ -big value, big value ]
+	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		if ( move.isSpecial() ) {
+			//FIXME: check ALL denormalized evaluators for correctness of this value
 			return WORST_MOVE;
 		}
 
@@ -31,8 +37,7 @@ class MaterialEvaluator implements Evaluator {
 		int ourMaterialValue = getMaterialValue( target, ourSide );
 		int opponentMaterialValue = getMaterialValue( target, ourSide.opposite() );
 
-		int materialAdvantage = ourMaterialValue - opponentMaterialValue;
-		return normalizeAdvantage( materialAdvantage );
+		return ourMaterialValue - opponentMaterialValue;
 	}
 
 	private int getMaterialValue( Position position, Side side ) {
@@ -62,31 +67,6 @@ class MaterialEvaluator implements Evaluator {
 
 	static int getValue( PieceType pieceType ) {
 		return VALUES.get( pieceType );
-	}
-
-	//highly depends on actual values
-	//and on fact we evaluate queen higher than other pieces except king
-	//and on assumption about 8 max promoted queens
-
-	//no pawns included here since they are 'promoted'
-	static final int MAXIMAL_VALUE =
-					9 * VALUES.get( PieceType.QUEEN ) +
-					2 * VALUES.get( PieceType.ROOK ) +
-					2 * VALUES.get( PieceType.BISHOP ) +
-					2 * VALUES.get( PieceType.KNIGHT );
-
-	//technically it should be VALUE(KING)
-	//but to support 'invalid' positions we keep the lowest possible value
-	private static final int MINIMAL_VALUE = 0;
-
-
-	private static final int MAXIMAL_ADVANTAGE = MAXIMAL_VALUE - MINIMAL_VALUE;
-	private static final int MINIMAL_ADVANTAGE = MINIMAL_VALUE - MAXIMAL_VALUE;
-
-	//convert advantage [ MINIMAL_ADV..MAXIMAL_ADV ] to value [ 0..1 ]
-	private static double normalizeAdvantage( int materialAdvantage ) {
-		return ( materialAdvantage - MINIMAL_ADVANTAGE ) / (double)
-				(MAXIMAL_ADVANTAGE - MINIMAL_ADVANTAGE);
 	}
 
 	private static int value( Stream< Piece > pieces ) {

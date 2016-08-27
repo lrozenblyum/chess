@@ -1,11 +1,14 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
-import com.leokom.chess.engine.*;
+import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.PieceType;
+import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedEvaluatorFactory;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * Evaluate material domination
@@ -16,33 +19,10 @@ import java.util.stream.Stream;
  *
  */
 class MaterialEvaluator implements Evaluator {
-	private static final double WORST_MOVE = 0.0;
-
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.isSpecial() ) {
-			return WORST_MOVE;
-		}
-
-		final Position target = position.move( move );
-
-		Side ourSide = position.getSideToMove();
-
-		int ourMaterialValue = getMaterialValue( target, ourSide );
-		int opponentMaterialValue = getMaterialValue( target, ourSide.opposite() );
-
-		int materialAdvantage = ourMaterialValue - opponentMaterialValue;
+		double materialAdvantage = new DenormalizedEvaluatorFactory().get( EvaluatorType.MATERIAL ).evaluateMove( position, move );
 		return normalizeAdvantage( materialAdvantage );
-	}
-
-	private int getMaterialValue( Position position, Side side ) {
-		return value( position.getPieces( side ).
-			//king is excluded because it's invaluable
-			filter( this::isNotAKing ) );
-	}
-
-	private boolean isNotAKing( Piece piece ) {
-		return piece.getPieceType() != PieceType.KING;
 	}
 
 	private static final Map< PieceType,Integer > VALUES = new
@@ -58,10 +38,6 @@ class MaterialEvaluator implements Evaluator {
 		//however for sum purposes like attackIndex
 		// we need some value associated
 		VALUES.put( PieceType.KING, 1000 );
-	}
-
-	static int getValue( PieceType pieceType ) {
-		return VALUES.get( pieceType );
 	}
 
 	//highly depends on actual values
@@ -85,15 +61,8 @@ class MaterialEvaluator implements Evaluator {
 	private static final int MINIMAL_ADVANTAGE = MINIMAL_VALUE - MAXIMAL_VALUE;
 
 	//convert advantage [ MINIMAL_ADV..MAXIMAL_ADV ] to value [ 0..1 ]
-	private static double normalizeAdvantage( int materialAdvantage ) {
+	private static double normalizeAdvantage( double materialAdvantage ) {
 		return ( materialAdvantage - MINIMAL_ADVANTAGE ) / (double)
 				(MAXIMAL_ADVANTAGE - MINIMAL_ADVANTAGE);
-	}
-
-	private static int value( Stream< Piece > pieces ) {
-		return pieces
-				.map( Piece::getPieceType )
-				.mapToInt( VALUES::get )
-				.sum();
 	}
 }
