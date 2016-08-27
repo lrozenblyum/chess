@@ -1,21 +1,34 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
 
 /**
  * Author: Leonid
  * Date-time: 27.08.16 15:23
  */
-/* Must be public due to JUnit4 limitation : @Before method must be in a public class */
+@RunWith( Parameterized.class )
 public abstract class EvaluatorTestCase {
 	protected EvaluatorAsserts asserts;
 
 	abstract EvaluatorType getEvaluatorType();
 
+	@Parameterized.Parameters
+	public static Iterable< EvaluatorFactory > parameters() {
+		return Arrays.asList( new NormalizedEvaluatorFactory() );
+	}
+
+	@Parameterized.Parameter
+	public /*for field injection to work*/ EvaluatorFactory evaluatorFactory;
+
 	@Before
 	public final void prepareMe() {
-		asserts = new EvaluatorAsserts( new NormalizedEvaluatorFactory().get( getEvaluatorType() ) );
+		asserts = new EvaluatorAsserts( evaluatorFactory.get( getEvaluatorType() ) );
 	}
 }
