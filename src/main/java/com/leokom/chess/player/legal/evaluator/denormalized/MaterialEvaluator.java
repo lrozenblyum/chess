@@ -21,7 +21,9 @@ class MaterialEvaluator implements Evaluator {
 	/**
 	 *
 	 * {@inheritDoc}
-	 * @return [ -big value, big value ]
+	 * @return sum of values of pieces on board - sum of values of opponent's pieces on board
+	 * thus in boundaries (- max. sum of value of pieces of a side, max. sum of value of pieces of a side)
+	 * (exclusive because 0 of a side is not an option)
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
