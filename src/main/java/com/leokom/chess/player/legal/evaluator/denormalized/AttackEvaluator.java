@@ -19,8 +19,6 @@ class AttackEvaluator implements Evaluator {
 		}
 
 		final Side ourSide = position.getSide( move.getFrom() );
-		float attackIndex = AttackIndexCalculator.getAttackIndex(
-				position.move( move ), ourSide );
-		return attackIndex / MaterialEvaluator.MAXIMAL_VALUE;
+		return AttackIndexCalculator.getAttackIndex( position.move( move ), ourSide );
 	}
 }
