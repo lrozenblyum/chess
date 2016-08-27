@@ -1,6 +1,7 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.internal.common.EvaluatorWeights;
 
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * Date-time: 19.04.16 23:03
  */
 public class MasterEvaluatorBuilder {
-	private Map<EvaluatorType, Double > weights = MasterEvaluator.getStandardWeights();
+	private Map<EvaluatorType, Double > weights = EvaluatorWeights.getStandardWeights();
 
 	public MasterEvaluatorBuilder weight( EvaluatorType evaluatorType, double weight ) {
 		weights.put( evaluatorType, weight );
