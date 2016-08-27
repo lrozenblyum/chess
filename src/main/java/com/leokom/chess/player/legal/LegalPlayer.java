@@ -4,6 +4,9 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
+import com.leokom.chess.player.legal.evaluator.common.Evaluator;
+import com.leokom.chess.player.legal.evaluator.normalized.StandardDecisionMaker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,11 +28,15 @@ public class LegalPlayer implements Player {
 	 * Create player
 	 */
 	public LegalPlayer() {
-		this( new MasterEvaluator() );
+		this( new StandardDecisionMaker() );
+	}
+
+	public LegalPlayer( DecisionMaker decisionMaker ) {
+		this.decisionMaker = decisionMaker;
 	}
 
 	/**
-	 * Create a player with injected brains
+	 * Create a player with standard decision maker and injected evaluators
 	 * @param brains brains to evaluate moves
 	 */
 	public LegalPlayer( Evaluator brains ) {

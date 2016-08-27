@@ -1,8 +1,8 @@
 package com.leokom.chess;
 
-import com.leokom.chess.player.legal.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.legal.MasterEvaluatorBuilder;
+import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.junit.Ignore;
 import org.junit.Test;
