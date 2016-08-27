@@ -70,6 +70,7 @@ class MaterialEvaluator implements Evaluator {
 
 	//no pawns included here since they are 'promoted'
 	static final int MAXIMAL_VALUE =
+					VALUES.get( PieceType.KING ) + //TODO: needed for external but not for internal usage
 					9 * VALUES.get( PieceType.QUEEN ) +
 					2 * VALUES.get( PieceType.ROOK ) +
 					2 * VALUES.get( PieceType.BISHOP ) +
