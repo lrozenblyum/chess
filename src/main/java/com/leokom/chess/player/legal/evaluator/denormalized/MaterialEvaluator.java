@@ -3,9 +3,9 @@ package com.leokom.chess.player.legal.evaluator.denormalized;
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Stream;
+
+import static com.leokom.chess.player.legal.evaluator.internal.common.MaterialValues.VALUES;
 
 /**
  * Evaluate material domination
@@ -49,22 +49,6 @@ class MaterialEvaluator implements Evaluator {
 	private boolean isNotAKing( Piece piece ) {
 		return piece.getPieceType() != PieceType.KING;
 	}
-
-	private static final Map< PieceType,Integer > VALUES = new
-			HashMap<>();
-	//heuristic, may be dynamic depending on situation on the board!
-	static {
-		VALUES.put( PieceType.PAWN, 1 );
-		VALUES.put( PieceType.KNIGHT, 3 );
-		VALUES.put( PieceType.BISHOP, 3 );
-		VALUES.put( PieceType.ROOK, 5 );
-		VALUES.put( PieceType.QUEEN, 9 );
-		//practically King is invaluable,
-		//however for sum purposes like attackIndex
-		// we need some value associated
-		VALUES.put( PieceType.KING, 1000 );
-	}
-
 	static int getValue( PieceType pieceType ) {
 		return VALUES.get( pieceType );
 	}
