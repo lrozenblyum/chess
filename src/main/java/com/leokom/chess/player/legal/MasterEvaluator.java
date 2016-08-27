@@ -55,7 +55,7 @@ class MasterEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		return evaluatorWeights.entrySet().stream().mapToDouble( evaluatorEntry -> {
-			final Evaluator evaluator = evaluatorEntry.getKey().getEvaluator();
+			final Evaluator evaluator = new NormalizedEvaluatorFactory().get( evaluatorEntry.getKey() );
 			final double weight = evaluatorEntry.getValue();
 			final double evaluatorResponse = evaluator.evaluateMove( position, move );
 			final double moveEstimate = weight * evaluatorResponse;
