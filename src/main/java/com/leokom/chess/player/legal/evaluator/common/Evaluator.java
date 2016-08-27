@@ -17,9 +17,8 @@ public interface Evaluator {
 	 * @param position chess position for which the move should be evaluated
 	 * @param move move that we potentially could execute
 	 * @return double number which means 'BIGGER'='BETTER'
-	 * in range [ 0, 1 ]
-	 * 0 is the least recommended move
-	 * 1 is the most recommended one
+	 *
+	 * Specific categories of evaluators can introduce some limits on range of values supported
 	 */
 	double evaluateMove( Position position, Move move );
 }

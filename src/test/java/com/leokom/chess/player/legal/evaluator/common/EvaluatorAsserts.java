@@ -30,7 +30,7 @@ public class EvaluatorAsserts {
 				betterMoveEstimate > worseMoveEstimate );
 	}
 
-	public void assertNoDifference( Position position, Move firstMove, Move secondMove ) {
+	void assertNoDifference( Position position, Move firstMove, Move secondMove ) {
 		double firstMoveEstimate = evaluator.evaluateMove( position, firstMove );
 		double secondMoveEstimate = evaluator.evaluateMove( position, secondMove );
 
