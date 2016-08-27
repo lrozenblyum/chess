@@ -3,6 +3,8 @@ package com.leokom.chess.player.legal.evaluator.normalized;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedEvaluatorFactory;
 
 /**
  * Author: Leonid
@@ -11,19 +13,9 @@ import com.leokom.chess.player.legal.evaluator.common.Evaluator;
  * Checkmate is the highest goal of the whole game
  */
 class CheckmateEvaluator implements Evaluator {
-
-	private static final int BEST_MOVE = 1;
-	private static final int WORST_MOVE = 0;
-
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.isSpecial() ) {
-			return WORST_MOVE;
-		}
-
-		final Position result = position.move( move );
-		return result.isTerminal() &&
-				position.getSide( move.getFrom() ) == result.getWinningSide() ?
-				BEST_MOVE : WORST_MOVE;
+		return new DenormalizedEvaluatorFactory().get( EvaluatorType.CHECKMATE )
+				.evaluateMove( position, move );
 	}
 }

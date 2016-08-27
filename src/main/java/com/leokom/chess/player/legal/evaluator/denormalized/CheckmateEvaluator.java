@@ -15,6 +15,11 @@ class CheckmateEvaluator implements Evaluator {
 	private static final int BEST_MOVE = 1;
 	private static final int WORST_MOVE = 0;
 
+	/**
+	 *
+	 * {@inheritDoc}
+	 * @return 0 or 1
+	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		if ( move.isSpecial() ) {
