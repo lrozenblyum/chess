@@ -1,8 +1,6 @@
 package com.leokom.chess.player.legal.evaluator.common;
 
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorFactory;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedEvaluatorFactory;
 import com.leokom.chess.player.legal.evaluator.normalized.NormalizedEvaluatorFactory;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -22,7 +20,8 @@ public abstract class EvaluatorTestCase {
 
 	@Parameterized.Parameters
 	public static Iterable< EvaluatorFactory > parameters() {
-		return Arrays.asList( new NormalizedEvaluatorFactory() );
+		return Arrays.asList( new NormalizedEvaluatorFactory(),
+				new DenormalizedEvaluatorFactory() );
 	}
 
 	@Parameterized.Parameter
