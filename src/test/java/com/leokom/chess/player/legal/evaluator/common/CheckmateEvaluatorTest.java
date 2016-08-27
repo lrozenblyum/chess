@@ -1,10 +1,6 @@
-package com.leokom.chess.player.legal.evaluator.normalized;
+package com.leokom.chess.player.legal.evaluator.common;
 
 import com.leokom.chess.engine.*;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
-import org.junit.Before;
 import org.junit.Test;
 
 /**

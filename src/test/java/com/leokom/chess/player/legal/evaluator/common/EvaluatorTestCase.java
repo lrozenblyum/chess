@@ -1,8 +1,9 @@
-package com.leokom.chess.player.legal.evaluator.normalized;
+package com.leokom.chess.player.legal.evaluator.common;
 
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.normalized.NormalizedEvaluatorFactory;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

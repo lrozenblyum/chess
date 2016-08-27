@@ -12,7 +12,7 @@ import java.util.Map;
  * Author: Leonid
  * Date-time: 27.08.16 13:28
  */
-class NormalizedEvaluatorFactory implements EvaluatorFactory {
+public class NormalizedEvaluatorFactory implements EvaluatorFactory {
 	private static final Map<EvaluatorType, Evaluator> evaluators;
 	static {
 		//we keep references to instances of evaluators here

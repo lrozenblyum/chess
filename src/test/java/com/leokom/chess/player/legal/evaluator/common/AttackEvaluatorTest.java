@@ -1,10 +1,9 @@
-package com.leokom.chess.player.legal.evaluator.normalized;
+package com.leokom.chess.player.legal.evaluator.common;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Test;
 
 /**
