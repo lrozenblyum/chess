@@ -1,5 +1,6 @@
 package com.leokom.chess.player.legal.evaluator.denormalized;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
@@ -22,10 +23,11 @@ import java.util.Set;
  */
 class CenterControlEvaluator implements Evaluator {
 	private static final double WORST_MOVE = 0.0;
+	private static final Set<String> CENTER_SQUARES = ImmutableSet.of( "e5", "e4", "d4", "d5" );
 
 	/**
 	 * {@inheritDoc}
-	 *
+	 * @return [ 0, 4 ]
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
@@ -45,12 +47,9 @@ class CenterControlEvaluator implements Evaluator {
 		//can change drastically after the opponent's move
 		//however we look now only at 1/2 depth
 		final Set< String > squaresAttackedByUs = targetPosition.getSquaresAttackedBy( ourSide );
-		final Set< String > centerSquares = new HashSet<>( Arrays.asList(
-			"e5", "e4", "d4", "d5"
-		) );
 
-		final Set< String > intersection = Sets.intersection( squaresAttackedByUs, centerSquares );
+		final Set< String > intersection = Sets.intersection( squaresAttackedByUs, CENTER_SQUARES );
 
-		return (float) intersection.size() / centerSquares.size();
+		return intersection.size();
 	}
 }

@@ -1,13 +1,12 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableSet;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedEvaluatorFactory;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -21,7 +20,8 @@ import java.util.Set;
  * Date-time: 14.07.14 23:11
  */
 class CenterControlEvaluator implements Evaluator {
-	private static final double WORST_MOVE = 0.0;
+	//TODO: duplication with evaluator from another package, should we generalize?
+	private static final Set<String> CENTER_SQUARES = ImmutableSet.of( "e5", "e4", "d4", "d5" );
 
 	/**
 	 * {@inheritDoc}
@@ -29,28 +29,7 @@ class CenterControlEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.isSpecial() ) {
-			return WORST_MOVE;
-		}
-
-		//TODO: if we're already in central square
-		//does it mean control now?
-		//e.g. Knight on e5 cannot attack e4, d4, d5
-		//but blocks the center
-
-		final Side ourSide = position.getSideToMove();
-
-		final Position targetPosition = position.move( move );
-		//technically it's naive check - since the situation
-		//can change drastically after the opponent's move
-		//however we look now only at 1/2 depth
-		final Set< String > squaresAttackedByUs = targetPosition.getSquaresAttackedBy( ourSide );
-		final Set< String > centerSquares = new HashSet<>( Arrays.asList(
-			"e5", "e4", "d4", "d5"
-		) );
-
-		final Set< String > intersection = Sets.intersection( squaresAttackedByUs, centerSquares );
-
-		return (float) intersection.size() / centerSquares.size();
+		return new DenormalizedEvaluatorFactory().get( EvaluatorType.CENTER_CONTROL )
+				.evaluateMove( position, move ) / (float) CENTER_SQUARES.size();
 	}
 }
