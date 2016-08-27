@@ -31,6 +31,8 @@ class ProtectionEvaluator implements Evaluator {
 		2 first ways can be described in 'reduction of attacking index of opponent'
 		3'd way is more related to strategical protection (but anyway it's a way to act)
 		4'th way is a little bit similar to 1-2  (if we take piece value into account)
+
+	 @return non-positive index [ - some big number, 0 ]
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
@@ -39,8 +41,6 @@ class ProtectionEvaluator implements Evaluator {
 		}
 
 		final Side ourSide = position.getSide( move.getFrom() );
-		float opponentAttackIndex = AttackIndexCalculator.getAttackIndex(
-			position.move( move ), ourSide.opposite() );
-		return 1 - opponentAttackIndex / MaterialEvaluator.MAXIMAL_VALUE;
+		return -AttackIndexCalculator.getAttackIndex( position.move( move ), ourSide.opposite() );
 	}
  }
