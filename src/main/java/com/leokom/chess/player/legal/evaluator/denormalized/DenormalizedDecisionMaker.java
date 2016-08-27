@@ -5,6 +5,7 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Make decisions based on evaluators from this package
@@ -15,6 +16,8 @@ import java.util.Optional;
 public class DenormalizedDecisionMaker implements DecisionMaker {
 	@Override
 	public Optional< Move > findBestMove( Position position ) {
-		return Optional.empty();
+		final Set<Move> legalMoves = position.getMoves();
+		return legalMoves.isEmpty() ? Optional.empty() :
+				Optional.of( legalMoves.iterator().next() );
 	}
 }
