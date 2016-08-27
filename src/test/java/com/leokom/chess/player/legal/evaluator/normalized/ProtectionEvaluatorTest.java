@@ -1,7 +1,9 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.*;
+import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,7 +14,7 @@ public class ProtectionEvaluatorTest {
 
 	@Before
 	public void prepare() {
-		ProtectionEvaluator evaluator = new ProtectionEvaluator();
+		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.PROTECTION );
 		asserts = new EvaluatorAsserts( evaluator );
 	}
 

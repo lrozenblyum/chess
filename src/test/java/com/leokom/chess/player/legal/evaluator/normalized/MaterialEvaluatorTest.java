@@ -3,6 +3,7 @@ package com.leokom.chess.player.legal.evaluator.normalized;
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,10 +13,12 @@ import org.junit.Test;
  */
 public class MaterialEvaluatorTest {
 
-	private Evaluator evaluator;
+	private EvaluatorAsserts asserts;
 	@Before
 	public void prepare(){
-		evaluator = new MaterialEvaluator();
+		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.MATERIAL );
+
+		asserts = new EvaluatorAsserts( evaluator );
 	}
 
 	@Test
@@ -27,8 +30,7 @@ public class MaterialEvaluatorTest {
 		Move capture = new Move( "e4", "d5" );
 		Move justMove = new Move( "e4", "e5" );
 
-		new EvaluatorAsserts( evaluator )
-				.assertFirstBetter( position, capture, justMove );
+		asserts.assertFirstBetter( position, capture, justMove );
 	}
 
 	@Test
@@ -40,8 +42,7 @@ public class MaterialEvaluatorTest {
 		Move capture = new Move( "e4", "e8" );
 		Move justMove = new Move( "e4", "d5" );
 
-		new EvaluatorAsserts( evaluator )
-				.assertFirstBetter( position, capture, justMove );
+		asserts.assertFirstBetter( position, capture, justMove );
 	}
 
 	@Test
@@ -53,8 +54,7 @@ public class MaterialEvaluatorTest {
 		Move promotion = new Move( "e7", "e8B" );
 		Move justMove = new Move( "b2", "b3" );
 
-		new EvaluatorAsserts( evaluator )
-				.assertFirstBetter( position, promotion, justMove );
+		asserts.assertFirstBetter( position, promotion, justMove );
 
 	}
 
@@ -66,8 +66,6 @@ public class MaterialEvaluatorTest {
 		Move toBishop = new Move( "e7", "e8B" );
 		Move toQueen = new Move( "e7", "e8Q" );
 
-		new EvaluatorAsserts( evaluator )
-				.assertFirstBetter( position, toQueen, toBishop );
-
+		asserts.assertFirstBetter( position, toQueen, toBishop );
 	}
 }

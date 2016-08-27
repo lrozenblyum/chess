@@ -4,6 +4,7 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,15 +13,16 @@ import org.junit.Test;
  * Date-time: 03.08.15 22:15
  */
 public class SpecialMoveEvaluatorTest {
-	private Evaluator evaluator;
+	private EvaluatorAsserts asserts;
 
 	@Before
 	public void prepare() {
-		evaluator = new SpecialMoveEvaluator();
+		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.SPECIAL_MOVE );
+		asserts = new EvaluatorAsserts( evaluator );
 	}
 
 	@Test
 	public void offerDrawToPrefer() {
-		new EvaluatorAsserts( evaluator ).assertFirstBetter( Position.getInitialPosition(), Move.OFFER_DRAW, Move.RESIGN );
+		asserts.assertFirstBetter( Position.getInitialPosition(), Move.OFFER_DRAW, Move.RESIGN );
 	}
 }

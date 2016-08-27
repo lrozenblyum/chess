@@ -6,6 +6,7 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,11 +15,12 @@ import org.junit.Test;
  * Date-time: 23.07.14 21:44
  */
 public class MobilityEvaluatorTest {
-	private Evaluator evaluator;
+	private EvaluatorAsserts asserts;
 
 	@Before
 	public void prepare() {
-		evaluator = new MobilityEvaluator();
+		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.MOBILITY );
+		asserts = new EvaluatorAsserts( evaluator );
 	}
 
 	@Test
@@ -30,7 +32,7 @@ public class MobilityEvaluatorTest {
 		Move expectedBetter = new Move( "a1", "d4" ); //high mobility
 		Move expectedWorse = new Move( "a1", "h8" ); //low mobility
 
-		new EvaluatorAsserts( evaluator ).assertFirstBetter( position, expectedBetter, expectedWorse );
+		asserts.assertFirstBetter( position, expectedBetter, expectedWorse );
 	}
 
 	@Test
@@ -45,6 +47,6 @@ public class MobilityEvaluatorTest {
 		Move expectedBetter = new Move( "f8", "g7" ); //can move to f8, g8, h8, h7, g6, f6
 		Move expectedWorse = new Move( "f8", "g8" ); //can move to f8, g7, h8, h7
 
-		new EvaluatorAsserts( evaluator ).assertFirstBetter( position, expectedBetter, expectedWorse );
+		asserts.assertFirstBetter( position, expectedBetter, expectedWorse );
 	}
 }

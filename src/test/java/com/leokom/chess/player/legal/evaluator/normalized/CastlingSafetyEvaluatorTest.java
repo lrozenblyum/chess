@@ -1,7 +1,9 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.*;
+import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ public class CastlingSafetyEvaluatorTest {
 
 	@Before
 	public void prepare() {
-		CastlingSafetyEvaluator evaluator = new CastlingSafetyEvaluator();
+		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.CASTLING_SAFETY );
 		asserts = new EvaluatorAsserts( evaluator );
 	}
 

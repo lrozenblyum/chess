@@ -1,7 +1,9 @@
 package com.leokom.chess.player.legal.evaluator.normalized;
 
 import com.leokom.chess.engine.*;
+import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +12,7 @@ public class CenterControlEvaluatorTest {
 
 	@Before
 	public void prepare() {
-		CenterControlEvaluator evaluator = new CenterControlEvaluator();
+		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.CENTER_CONTROL );
 		asserts = new EvaluatorAsserts( evaluator );
 	}
 

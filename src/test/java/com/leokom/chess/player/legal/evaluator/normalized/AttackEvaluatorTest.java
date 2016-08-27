@@ -4,7 +4,9 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
+import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +19,7 @@ public class AttackEvaluatorTest {
 
 	@Before
 	public void prepare() {
-		AttackEvaluator evaluator = new AttackEvaluator();
+		Evaluator evaluator = new NormalizedEvaluatorFactory().get( EvaluatorType.ATTACK );
 		asserts = new EvaluatorAsserts( evaluator );
 	}
 
