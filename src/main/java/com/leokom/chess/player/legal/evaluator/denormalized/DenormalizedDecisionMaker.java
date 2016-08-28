@@ -8,6 +8,7 @@ import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.internal.common.EvaluatorWeights;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,20 +33,35 @@ class DenormalizedDecisionMaker implements DecisionMaker {
 		if ( legalMoves.isEmpty() ) {
 			return Optional.empty();
 		}
+
 		Table<EvaluatorType, Move, Double> movesTable = generateInitialTable( position, legalMoves );
-
-
-		movesTable.cellSet().forEach( cell ->
-			LOG.debug( "INITIAL: {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue() )
-		);
+		logTable( movesTable, "INITIAL" );
 
 		Table<EvaluatorType, Move, Double> normalizedTable = generateNormalized( movesTable );
+		logTable( normalizedTable, "NORMALIZED" );
 
-		normalizedTable.cellSet().forEach( cell ->
-			LOG.debug( "NORMALIZED: {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue() )
-		);
+		Table<EvaluatorType, Move, Double> weightedTable = generateWithWeights( normalizedTable );
+		logTable( weightedTable, "WEIGHTED" );
 
 		return Optional.of( legalMoves.iterator().next() );
+	}
+
+	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
+		weightedTable.cellSet().forEach( cell -> {
+			LOG.debug( prefix + ": {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue() );
+		});
+	}
+
+	private Table<EvaluatorType, Move, Double> generateWithWeights( Table<EvaluatorType, Move, Double> normalizedTable ) {
+		final Map<EvaluatorType, Double> standardWeights = EvaluatorWeights.getStandardWeights();
+
+		Table< EvaluatorType, Move, Double > result = HashBasedTable.create();
+
+		normalizedTable.cellSet().forEach( cell -> {
+			result.put( cell.getRowKey(), cell.getColumnKey(), cell.getValue() * standardWeights.get( cell.getRowKey() ) );
+		} );
+
+		return result;
 	}
 
 	private Table<EvaluatorType, Move, Double> generateInitialTable( Position position, Set<Move> legalMoves ) {
