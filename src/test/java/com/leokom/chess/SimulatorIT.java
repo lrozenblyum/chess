@@ -7,7 +7,9 @@ import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.*;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
 import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorBuilder;
+import com.leokom.chess.player.legal.evaluator.normalized.StandardDecisionMaker;
 import com.leokom.chess.player.simple.SimplePlayer;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -170,5 +172,15 @@ public class SimulatorIT {
 		final SimulatorStatistics statistics = new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
+	}
+
+	//expected : better, actually : 2 draws. No difference??
+	@Test
+	public void newDecisionMakerShouldBeBetter() {
+		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedDecisionMaker() );
+		final LegalPlayer classicPlayer = new LegalPlayer( new StandardDecisionMaker() );
+		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer ).run();
+
+		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
 }
