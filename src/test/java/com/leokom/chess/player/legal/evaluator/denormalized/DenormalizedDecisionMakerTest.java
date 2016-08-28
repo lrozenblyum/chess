@@ -38,6 +38,8 @@ public class DenormalizedDecisionMakerTest {
 				.add( Side.WHITE, "b2", PieceType.PAWN )
 				.add( Side.WHITE, "a1", PieceType.QUEEN )
 				.add( Side.BLACK, "c1", PieceType.ROOK )
+				.add( Side.WHITE, "h6", PieceType.KING )
+				.add( Side.BLACK, "h8", PieceType.KING )
 				.setSide( Side.WHITE );
 
 		//otherwise we'll lose the queen
