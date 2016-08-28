@@ -81,6 +81,8 @@ class DenormalizedDecisionMaker implements DecisionMaker {
 					}
 				}
 				else {
+					//TODO: technically, if all values are in [ 0, 1 ] range we may not normalize
+					//is it wise?
 					formula = this::standardizedValueFormula;
 				}
 
