@@ -13,6 +13,7 @@ import static com.leokom.chess.player.legal.evaluator.common.EvaluatorType.*;
  */
 public class EvaluatorWeights {
 	private static final double HIGHEST_PRIORITY = 100.0;
+	private static final double INCREASED_PRIORITY = 3.0;
 	private static final double NORMAL_PRIORITY = 1.0;
 	private static final double DISABLED = 0.0;
 
@@ -23,7 +24,8 @@ public class EvaluatorWeights {
 		result.put( CASTLING_SAFETY, NORMAL_PRIORITY );
 		result.put( CENTER_CONTROL, NORMAL_PRIORITY );
 		result.put( MOBILITY, NORMAL_PRIORITY );
-		result.put( MATERIAL, NORMAL_PRIORITY );
+		//empirically found minimal multiplier that causes GOOD results for DenormalizedDecisionMaker
+		result.put( MATERIAL, INCREASED_PRIORITY );
 		result.put( PROTECTION, NORMAL_PRIORITY );
 		result.put( ATTACK, NORMAL_PRIORITY );
 		//this disabling is not absolute. Those moves anyway have chance
