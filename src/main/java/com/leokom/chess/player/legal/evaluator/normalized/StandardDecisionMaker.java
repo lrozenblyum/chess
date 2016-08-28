@@ -10,8 +10,9 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Initial decision maker based on MasterEvaluator
- * independent evaluation of each move is delegated to MasterEvaluator
+ * Initial decision maker based on MasterEvaluator.
+ * independent evaluation of each move is delegated to MasterEvaluator.
+ * You can inject any custom brains instead of MasterEvaluator via constructor.
  *
  * Author: Leonid
  * Date-time: 23.08.16 22:54

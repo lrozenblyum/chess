@@ -9,6 +9,7 @@ import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import com.leokom.chess.player.legal.evaluator.internal.common.EvaluatorWeights;
+import com.leokom.chess.player.legal.evaluator.normalized.StandardDecisionMaker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,21 +44,11 @@ class DenormalizedDecisionMaker implements DecisionMaker {
 		Table<EvaluatorType, Move, Double> weightedTable = generateWithWeights( normalizedTable );
 		logTable( weightedTable, "WEIGHTED" );
 
-
-		Map< Move, Double > moveRatings = new HashMap<>();
-		weightedTable.columnKeySet().forEach( move -> {
-			//summing without converting to DoubleStream http://stackoverflow.com/q/24421140
-			moveRatings.put( move, weightedTable.column( move ).values().stream().reduce( 0.0, Double::sum ) );
-		} );
-
-		return getMoveWithMaxRating( moveRatings );
-	}
-
-	private Optional<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
 		return
-				moveValues.entrySet().stream()
-						.sorted( Map.Entry.< Move, Double >comparingByValue().reversed() )
-						.findFirst().map( Map.Entry::getKey );
+			new StandardDecisionMaker( ( position1, move ) ->
+				//summing without converting to DoubleStream http://stackoverflow.com/q/24421140
+				weightedTable.column( move ).values().stream().reduce( 0.0, Double::sum ) )
+			.findBestMove( position );
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
