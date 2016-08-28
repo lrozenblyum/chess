@@ -43,7 +43,21 @@ class DenormalizedDecisionMaker implements DecisionMaker {
 		Table<EvaluatorType, Move, Double> weightedTable = generateWithWeights( normalizedTable );
 		logTable( weightedTable, "WEIGHTED" );
 
-		return Optional.of( legalMoves.iterator().next() );
+
+		Map< Move, Double > moveRatings = new HashMap<>();
+		weightedTable.columnKeySet().forEach( move -> {
+			//summing without converting to DoubleStream http://stackoverflow.com/q/24421140
+			moveRatings.put( move, weightedTable.column( move ).values().stream().reduce( 0.0, Double::sum ) );
+		} );
+
+		return getMoveWithMaxRating( moveRatings );
+	}
+
+	private Optional<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
+		return
+				moveValues.entrySet().stream()
+						.sorted( Map.Entry.< Move, Double >comparingByValue().reversed() )
+						.findFirst().map( Map.Entry::getKey );
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
