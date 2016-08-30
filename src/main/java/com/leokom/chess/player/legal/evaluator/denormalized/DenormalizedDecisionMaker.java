@@ -21,7 +21,7 @@ import java.util.*;
  * Author: Leonid
  * Date-time: 27.08.16 21:51
  */
-class DenormalizedDecisionMaker implements DecisionMaker {
+public class DenormalizedDecisionMaker implements DecisionMaker {
 	private static final Logger LOG = LogManager.getLogger();
 	private static final double DEFAULT_FOR_EQUAL_NOT_IN_RANGE = 0.5;
 
