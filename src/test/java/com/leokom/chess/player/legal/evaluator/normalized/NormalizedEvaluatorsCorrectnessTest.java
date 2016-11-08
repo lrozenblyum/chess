@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Ensure normalized evaluators correctly implement contract
