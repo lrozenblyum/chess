@@ -5,7 +5,7 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test specific denormalized evaluator features
@@ -19,7 +19,7 @@ public class DenormalizedEvaluatorTest {
 		final double estimate = new DenormalizedEvaluatorFactory()
 				.get( EvaluatorType.ATTACK ).evaluateMove( Position.getInitialPosition(), Move.RESIGN );
 
-		//to avoid using delta-based assertEquals
-		assertTrue( Double.NEGATIVE_INFINITY == estimate );
+		//delta is ignored
+		assertEquals( Double.NEGATIVE_INFINITY, estimate, 0 );
 	}
 }
