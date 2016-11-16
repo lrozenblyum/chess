@@ -16,8 +16,6 @@ import static com.leokom.chess.player.legal.evaluator.internal.common.MaterialVa
  *
  */
 class MaterialEvaluator implements Evaluator {
-	private static final double WORST_MOVE = 0.0;
-
 	/**
 	 *
 	 * {@inheritDoc}
@@ -27,11 +25,6 @@ class MaterialEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.isSpecial() ) {
-			//FIXME: check ALL denormalized evaluators for correctness of this value
-			return WORST_MOVE;
-		}
-
 		final Position target = position.move( move );
 
 		Side ourSide = position.getSideToMove();

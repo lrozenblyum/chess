@@ -20,10 +20,6 @@ class MobilityEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.isSpecial() ) {
-			return WORST_MOVE;
-		}
-
 		final Position target = position.move( move );
 		//TODO: all evaluators must take into account
 		//possibility that the position is terminal

@@ -40,6 +40,7 @@ final class AttackIndexCalculator {
 		return result;
 	}
 
+	//TODO: technically, in case of a terminal position, it should return empty result
 	//REFACTOR: too generic to encapsulate into Position?
 	private static Set<String> getPiecesAttackedBy( Position position, Side attackerSide ) {
 		Set<String> defenderSquares = position.getSquaresOccupiedBySide( attackerSide.opposite() );

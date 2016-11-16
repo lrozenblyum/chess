@@ -10,15 +10,9 @@ import com.leokom.chess.player.legal.evaluator.common.Evaluator;
  * Date-time: 25.08.16 20:54
  */
 class AttackEvaluator implements Evaluator {
-	private static final double WORST_MOVE = 0.0;
-
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.isSpecial() ) {
-			return WORST_MOVE;
-		}
-
-		final Side ourSide = position.getSide( move.getFrom() );
+		final Side ourSide = position.getSideToMove();
 		return AttackIndexCalculator.getAttackIndex( position.move( move ), ourSide );
 	}
 }

@@ -22,10 +22,6 @@ class CheckmateEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		if ( move.isSpecial() ) {
-			return WORST_MOVE;
-		}
-
 		final Position result = position.move( move );
 		return result.isTerminal() &&
 				position.getSide( move.getFrom() ) == result.getWinningSide() ?
