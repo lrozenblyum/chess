@@ -49,9 +49,14 @@ public class StandardDecisionMaker implements DecisionMaker {
 	@Override
 	public Optional<Move> findBestMove( Position position ) {
 		Map< Move, Double > moveRatings = new HashMap<>();
-		for ( Move move : position.getMoves() ) {
-			moveRatings.put( move, brains.evaluateMove( position, move ) );
-		}
+
+		//filtering Draw offers till #161 is solved
+		//this looks safe since Offer draw cannot be a single legal move in a position.
+
+		//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
+		position.getMoves().stream().filter( move -> move != Move.OFFER_DRAW ).forEach( move ->
+			moveRatings.put( move, brains.evaluateMove( position, move ) )
+		);
 
 		return getMoveWithMaxRating( moveRatings );
 	}
