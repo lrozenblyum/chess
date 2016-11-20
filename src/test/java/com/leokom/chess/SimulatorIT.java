@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -175,13 +176,16 @@ public class SimulatorIT {
 		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
 	}
 
-	//expected : better, actually : 2 draws. No difference??
+	//expected : new skills are better
 	@Test
 	public void newDecisionMakerShouldBeBetter() {
 		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedDecisionMaker() );
 		final LegalPlayer classicPlayer = new LegalPlayer( new StandardDecisionMaker() );
-		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer ).run();
+		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer )
+				.gamePairs( 5 )
+				.run();
 
-		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
+		assertTrue( statistics + " should prove advantage of the first player",
+			statistics.getFirstWins() > statistics.getSecondWins() );
 	}
 }
