@@ -52,9 +52,7 @@ public class DenormalizedDecisionMaker implements DecisionMaker {
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
-		weightedTable.cellSet().forEach( cell -> {
-			LOG.debug( prefix + ": {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue() );
-		});
+		weightedTable.cellSet().forEach( cell -> LOG.debug( prefix + ": {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue() ));
 	}
 
 	private Table<EvaluatorType, Move, Double> generateWithWeights( Table<EvaluatorType, Move, Double> normalizedTable ) {
@@ -62,9 +60,9 @@ public class DenormalizedDecisionMaker implements DecisionMaker {
 
 		Table< EvaluatorType, Move, Double > result = HashBasedTable.create();
 
-		normalizedTable.cellSet().forEach( cell -> {
-			result.put( cell.getRowKey(), cell.getColumnKey(), cell.getValue() * standardWeights.get( cell.getRowKey() ) );
-		} );
+		normalizedTable.cellSet().forEach( cell ->
+			result.put( cell.getRowKey(), cell.getColumnKey(), cell.getValue() * standardWeights.get( cell.getRowKey() ) )
+		);
 
 		return result;
 	}
@@ -91,21 +89,7 @@ public class DenormalizedDecisionMaker implements DecisionMaker {
 				double maxValue = Collections.max( values );
 				double minValue = Collections.min( values );
 
-				Formula formula;
-				if ( maxValue == minValue ) {
-					if ( maxValue >= 0.0 && maxValue <= 1.0 ) {
-						//ok, all equal but already in normalized range, don't touch?
-						formula = this::identityFormula;
-					}
-					else {
-						formula = this::constantMiddleFormula;
-					}
-				}
-				else {
-					//TODO: technically, if all values are in [ 0, 1 ] range we may not normalize
-					//is it wise?
-					formula = this::standardizedValueFormula;
-				}
+				Formula formula = getFormula( minValue, maxValue );
 
 				movesTable.row( evaluatorType ).
 						forEach( (move, value) ->
@@ -113,6 +97,22 @@ public class DenormalizedDecisionMaker implements DecisionMaker {
 			}
 		);
 		return normalizedTable;
+	}
+
+	private Formula getFormula( double minValue, double maxValue ) {
+		if ( maxValue != minValue ) {
+			//TODO: technically, if all values are in [ 0, 1 ] range we may not normalize
+			//is it wise?
+			return this::standardizedValueFormula;
+		}
+
+		if ( maxValue >= 0.0 && maxValue <= 1.0 ) {
+		//ok, all equal but already in normalized range, don't touch?
+			return this::identityFormula;
+		}
+		else {
+			return this::constantMiddleFormula;
+		}
 	}
 
 	private double identityFormula( double maxValue, double minValue, Double value ) {

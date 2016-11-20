@@ -2,7 +2,6 @@ package com.leokom.chess.player.legal;
 
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorTweaked;
 import org.junit.Before;
 import org.junit.Test;
