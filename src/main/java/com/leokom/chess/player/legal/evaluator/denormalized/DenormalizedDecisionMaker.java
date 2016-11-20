@@ -44,11 +44,13 @@ public class DenormalizedDecisionMaker implements DecisionMaker {
 		Table<EvaluatorType, Move, Double> weightedTable = generateWithWeights( normalizedTable );
 		logTable( weightedTable, "WEIGHTED" );
 
-		return
-			new NormalizedDecisionMaker( (position1, move ) ->
-				//summing without converting to DoubleStream http://stackoverflow.com/q/24421140
-				weightedTable.column( move ).values().stream().reduce( 0.0, Double::sum ) )
-			.findBestMove( position );
+		return new NormalizedDecisionMaker( getEvaluator( weightedTable ) ).findBestMove( position );
+	}
+
+	private Evaluator getEvaluator(Table<EvaluatorType, Move, Double> weightedTable) {
+		return ( position, move ) ->
+            //summing without converting to DoubleStream http://stackoverflow.com/q/24421140
+            weightedTable.column( move ).values().stream().reduce( 0.0, Double::sum );
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
