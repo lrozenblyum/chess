@@ -6,6 +6,7 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
+import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
 import com.leokom.chess.player.legal.evaluator.normalized.StandardDecisionMaker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,10 +26,10 @@ public class LegalPlayer implements Player {
 	private Side ourSide;
 
 	/**
-	 * Create player
+	 * Create player with denormalized decision maker
 	 */
 	public LegalPlayer() {
-		this( new StandardDecisionMaker() );
+		this( new DenormalizedDecisionMaker() );
 	}
 
 	public LegalPlayer( DecisionMaker decisionMaker ) {
