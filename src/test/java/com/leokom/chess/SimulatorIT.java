@@ -9,7 +9,7 @@ import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
 import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorBuilder;
-import com.leokom.chess.player.legal.evaluator.normalized.StandardDecisionMaker;
+import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMaker;
 import com.leokom.chess.player.simple.SimplePlayer;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -180,7 +180,7 @@ public class SimulatorIT {
 	@Test
 	public void newDecisionMakerShouldBeBetter() {
 		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedDecisionMaker() );
-		final LegalPlayer classicPlayer = new LegalPlayer( new StandardDecisionMaker() );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedDecisionMaker() );
 		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer )
 				.gamePairs( 5 )
 				.run();

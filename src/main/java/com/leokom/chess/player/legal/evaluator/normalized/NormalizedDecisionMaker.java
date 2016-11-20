@@ -17,14 +17,14 @@ import java.util.Optional;
  * Author: Leonid
  * Date-time: 23.08.16 22:54
  */
-public class StandardDecisionMaker implements DecisionMaker {
+public class NormalizedDecisionMaker implements DecisionMaker {
 	private Evaluator brains;
 
-	public StandardDecisionMaker() {
+	public NormalizedDecisionMaker() {
 		this( new MasterEvaluator() );
 	}
 
-	public StandardDecisionMaker( Evaluator brains ) {
+	public NormalizedDecisionMaker( Evaluator brains ) {
 		this.brains = brains;
 	}
 

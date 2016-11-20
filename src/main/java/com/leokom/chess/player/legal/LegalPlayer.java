@@ -7,7 +7,7 @@ import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
-import com.leokom.chess.player.legal.evaluator.normalized.StandardDecisionMaker;
+import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMaker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +41,7 @@ public class LegalPlayer implements Player {
 	 * @param brains brains to evaluate moves
 	 */
 	public LegalPlayer( Evaluator brains ) {
-		this.decisionMaker = new StandardDecisionMaker( brains );
+		this.decisionMaker = new NormalizedDecisionMaker( brains );
 	}
 
 	@Override
