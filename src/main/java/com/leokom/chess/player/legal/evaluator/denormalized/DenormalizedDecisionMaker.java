@@ -54,7 +54,9 @@ public class DenormalizedDecisionMaker implements DecisionMaker {
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
-		weightedTable.cellSet().forEach( cell -> LOG.debug( prefix + ": {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue() ));
+		if ( LOG.isTraceEnabled() ) {
+			weightedTable.cellSet().forEach(cell -> LOG.debug(prefix + ": {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue()));
+		}
 	}
 
 	private Table<EvaluatorType, Move, Double> generateWithWeights( Table<EvaluatorType, Move, Double> normalizedTable ) {
