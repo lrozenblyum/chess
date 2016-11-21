@@ -17,7 +17,15 @@ final class SimulatorStatistics {
 		this.secondWins = secondWins;
 	}
 
-	SimulatorStatistics plus( SimulatorStatistics another ) {
+	long getFirstWins() {
+		return firstWins;
+	}
+
+	long getSecondWins() {
+		return secondWins;
+	}
+
+	SimulatorStatistics plus(SimulatorStatistics another ) {
 		return new SimulatorStatistics(
 				totalGames + another.totalGames,
 				firstWins + another.firstWins,

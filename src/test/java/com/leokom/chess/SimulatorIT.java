@@ -4,12 +4,19 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legalMover.*;
+import com.leokom.chess.player.legal.LegalPlayer;
+import com.leokom.chess.player.legal.evaluator.common.Evaluator;
+import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
+import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
+import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorBuilder;
+import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMaker;
 import com.leokom.chess.player.simple.SimplePlayer;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -167,5 +174,18 @@ public class SimulatorIT {
 		final SimulatorStatistics statistics = new Simulator( new LegalPlayer(), new LegalPlayer() ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
+	}
+
+	//expected : new skills are better
+	@Test
+	public void newDecisionMakerShouldBeBetter() {
+		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedDecisionMaker() );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedDecisionMaker() );
+		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer )
+				.gamePairs( 5 )
+				.run();
+
+		assertTrue( statistics + " should prove advantage of the first player",
+			statistics.getFirstWins() > statistics.getSecondWins() );
 	}
 }
