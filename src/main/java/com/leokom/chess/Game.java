@@ -1,7 +1,9 @@
 package com.leokom.chess;
 
+import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Create &amp; Run Game of Chess.
@@ -42,7 +44,15 @@ public final class Game {
 
 		//TODO: asymmetry, need validating that blackPlayer position gives same result
 		//maybe it's time to share the Position
-		final Side winningSide = whitePlayer.getPosition().getWinningSide();
-		return winningSide == null ? null : winningSide == Side.WHITE ? whitePlayer : blackPlayer;
+		Position position = whitePlayer.getPosition();
+
+		if ( position.isTerminal() ) {
+			final Side winningSide = position.getWinningSide();
+			return winningSide == null ? null : winningSide == Side.WHITE ? whitePlayer : blackPlayer;
+		}
+		else {
+			LogManager.getLogger().warn( "The game has been finished without reaching a terminal position" );
+			return null;
+		}
 	}
 }
