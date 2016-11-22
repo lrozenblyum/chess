@@ -7,8 +7,6 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
