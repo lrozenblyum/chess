@@ -11,7 +11,9 @@ import static com.leokom.chess.player.legal.evaluator.common.EvaluatorType.*;
  * Author: Leonid
  * Date-time: 27.08.16 21:54
  */
-public class EvaluatorWeights {
+public final class EvaluatorWeights {
+	private EvaluatorWeights() {}
+
 	private static final double HIGHEST_PRIORITY = 100.0;
 	private static final double INCREASED_PRIORITY = 3.0;
 	private static final double NORMAL_PRIORITY = 1.0;
