@@ -10,8 +10,6 @@ import com.leokom.chess.player.legal.evaluator.common.Evaluator;
  * Date-time: 21.10.14 23:03
  */
 class ProtectionEvaluator implements Evaluator {
-	private static final double WORST_MOVE = 0.0;
-
 	/**
 	 	Protection has 2 aspects:
 	 	a) tactical: act when your pieces are under attack
