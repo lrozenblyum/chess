@@ -13,9 +13,9 @@ import java.util.Map;
  * Date-time: 27.08.16 15:54
  */
 public class DenormalizedEvaluatorFactory implements EvaluatorFactory {
-	private static final Map<EvaluatorType, Evaluator> evaluators;
+	private static final Map<EvaluatorType, Evaluator> EVALUATORS;
 	static {
-		//we keep references to instances of evaluators here
+		//we keep references to instances of EVALUATORS here
 		//so they're practically singletons
 		//any valid Evaluator must be stateless and thread-safe
 
@@ -29,11 +29,11 @@ public class DenormalizedEvaluatorFactory implements EvaluatorFactory {
 		evaluatorsMutable.put( EvaluatorType.PROTECTION, new ProtectionEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.SPECIAL_MOVE, new SpecialMoveEvaluator() );
 
-		evaluators = Maps.immutableEnumMap( evaluatorsMutable );
+		EVALUATORS = Maps.immutableEnumMap( evaluatorsMutable );
 	}
 
 	@Override
 	public Evaluator get( EvaluatorType type ) {
-		return evaluators.get( type );
+		return EVALUATORS.get( type );
 	}
 }

@@ -14,11 +14,11 @@ import java.util.Map;
  * Date-time: 27.08.16 13:28
  */
 public class NormalizedEvaluatorFactory implements EvaluatorFactory {
-	private static final Map<EvaluatorType, Evaluator> evaluators;
+	private static final Map<EvaluatorType, Evaluator> EVALUATORS;
 	private static final DenormalizedEvaluatorFactory DENORMALIZED_EVALUATOR_FACTORY = new DenormalizedEvaluatorFactory();
 
 	static {
-		//we keep references to instances of evaluators here
+		//we keep references to instances of EVALUATORS here
 		//so they're practically singletons
 		//any valid Evaluator must be stateless and thread-safe
 
@@ -29,18 +29,18 @@ public class NormalizedEvaluatorFactory implements EvaluatorFactory {
 		evaluatorsMutable.put( EvaluatorType.MOBILITY, new MobilityEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.PROTECTION, new ProtectionEvaluator() );
 
-		evaluators = Maps.immutableEnumMap( evaluatorsMutable );
+		EVALUATORS = Maps.immutableEnumMap( evaluatorsMutable );
 	}
 
 	/**
-	 * @implNote part of evaluators might be reused from denormalized package if they already
+	 * @implNote part of EVALUATORS might be reused from denormalized package if they already
 	 * provide the correct values
 	 * @param type type of evaluator to get evaluator from
 	 * @return evaluator that is normalized [ 0, 1 ]
 	 */
 	@Override
 	public Evaluator get( EvaluatorType type ) {
-		return evaluators.get( type ) != null ? evaluators.get( type ) :
+		return EVALUATORS.get( type ) != null ? EVALUATORS.get( type ) :
 			DENORMALIZED_EVALUATOR_FACTORY.get( type );
 	}
 }
