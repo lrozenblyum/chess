@@ -240,7 +240,7 @@ public class WinBoardCommanderReceiveTest {
 
 	private static Communicator getReceiveCommunicator( String messageToReceive ) {
 		Communicator result = mock( Communicator.class );
-		stub( result.receive() ).toReturn( messageToReceive );
+		when( result.receive() ).thenReturn( messageToReceive );
 		return result;
 	}
 }

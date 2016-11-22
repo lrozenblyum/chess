@@ -160,7 +160,7 @@ public class WinBoardPlayerTest {
 	@Test( timeout = WAIT_TILL_QUIT )
 	public void useCommanderForQuitCommand() {
 		final Communicator quitCommunicator = mock( Communicator.class );
-		stub( quitCommunicator.receive() ).toReturn( "quit" );
+		when( quitCommunicator.receive() ).thenReturn( "quit" );
 
 		WinboardCommander commander = new WinboardCommanderImpl( quitCommunicator );
 
