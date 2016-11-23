@@ -112,6 +112,7 @@ public class WinBoardPlayerIntegrationTest {
 	public void promotionCorrectlyTranslatedToCommonStandard() {
 		PositionBuilder position = new PositionBuilder()
 				.addPawn( Side.WHITE, "f7" )
+				.add( Side.BLACK, "g8", PieceType.QUEEN )
 				.setSideOf( "f7" );
 
 		player.setPosition( position.build() );
