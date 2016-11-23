@@ -54,7 +54,7 @@ public class WinBoardPlayerTest {
 		final WinboardPlayer player = new WinboardPlayer( commander );
 		player.setOpponent( mock( Player.class ) );
 
-		getUserMoveListener( commander ).execute( "e2e5" );
+		executeMoveFromUI( commander, "e2e5" );
 
 		verify( commander ).illegalMove();
 	}
@@ -65,7 +65,7 @@ public class WinBoardPlayerTest {
 		final WinboardPlayer player = new WinboardPlayer( commander );
 		player.setOpponent( mock( Player.class ) );
 
-		getUserMoveListener( commander ).execute( "e2e4" );
+		executeMoveFromUI( commander, "e2e4" );
 
 		verify( commander, never() ).illegalMove();
 	}
@@ -77,16 +77,9 @@ public class WinBoardPlayerTest {
 		Player opponent = mock(Player.class);
 		player.setOpponent( opponent );
 
-		getUserMoveListener( commander ).execute( "e2e5" );
+		executeMoveFromUI( commander, "e2e5" );
 
 		verify( opponent, never() ).opponentMoved( any() );
-	}
-
-	private UserMoveListener getUserMoveListener(WinboardCommander commander) {
-		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
-		verify( commander ).onUserMove( userMoveListener.capture() );
-
-		return userMoveListener.getValue();
 	}
 
 	@Test
