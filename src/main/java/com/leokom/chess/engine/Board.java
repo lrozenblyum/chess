@@ -1,5 +1,12 @@
 package com.leokom.chess.engine;
 
+import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Table;
+
+import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 /**
  * Represent chess-board (files/ranks/squares) but not position
  * Author: Leonid
@@ -28,59 +35,77 @@ final class Board {
 	 * @param square square in format 'e2'
 	 * @return file of square
 	 */
-	//REFACTOR: char is better than String here I think
-	static String fileOfSquare( String square ) {
-		return String.valueOf( square.charAt( 0 ) );
+	static char fileOfSquare( String square ) {
+		return square.charAt( 0 );
 	}
 
-	static Integer rankOfSquare( String square ) {
-		//this internal conversion is needed because char itself has its
-		return Integer.valueOf( String.valueOf( square.charAt( 1 ) ));
+	static int rankOfSquare( String square ) {
+		return Character.getNumericValue( square.charAt( 1 ) );
 	}
 
-	private static String fileTo( String file, HorizontalDirection direction, int shift ) {
+	private static char fileTo( char file, HorizontalDirection direction, int shift ) {
 		switch ( direction ) {
 			case LEFT:
-				//TODO: UGLY construction, need better!
-				return String.valueOf( (char) ( file.charAt( 0 ) - shift ) );
+				return (char) ( file - shift );
 			case RIGHT:
-				return String.valueOf( (char) ( file.charAt( 0 ) + shift ) );
+				return (char) ( file + shift );
 			default:
 				throw new IllegalArgumentException( "Direction is not supported: " + direction );
 		}
 	}
 
-	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift, VerticalDirection verticalDirection, int verticalShift ) {
-		String file = fileOfSquare( square );
-		int rank = rankOfSquare( square );
+	//the cache has been introduced according to profiler's result:
+	//string concatenation was rather slow
+	private static final Table< Character, Integer, String > SQUARES;
+	static {
+		final ImmutableTable.Builder<Character, Integer, String> tableBuilder = new ImmutableTable.Builder<>();
 
-		String destinationFile = fileTo( file, horizontalDirection, horizontalShift );
-		int destinationRank = rankTo( rank, verticalDirection, verticalShift );
+		for ( char file = MINIMAL_FILE; file <= MAXIMAL_FILE; file++ ) {
+			for ( int rank = MINIMAL_RANK; rank <= MAXIMAL_RANK; rank++ ) {
+				tableBuilder.put( file, rank, String.valueOf( file ) + rank  );
+			}
+		}
 
-		//validity check
-		if ( isFileValid( destinationFile ) && isRankValid( destinationRank ) ) {
-			return destinationFile + destinationRank;
-		}
-		else {
-			//TODO: maybe introduce some class Square, with Null object instance?
-			return null;
-		}
+		SQUARES = tableBuilder.build();
 	}
 
-	static String squareTo( String square, HorizontalDirection horizontalDirection ) {
+	static Optional<String> squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift, VerticalDirection verticalDirection, int verticalShift ) {
+		char file = fileOfSquare( square );
+		int rank = rankOfSquare( square );
+
+		char destinationFile = fileTo( file, horizontalDirection, horizontalShift );
+		int destinationRank = rankTo( rank, verticalDirection, verticalShift );
+
+		return Optional.ofNullable( square( destinationFile, destinationRank ) );
+	}
+
+	/**
+	 * Get square for given file and rank
+	 * @param file file
+	 * @param rank rank
+	 * @return square (null if a file or rank are invalid)
+	 */
+	static String square( char file, int rank ) {
+		//optimized version of 'a' + 1 ==> "a1"
+		//that is slow according to profiler
+		//this also reduces pressure on GC
+		return SQUARES.get( file, rank );
+	}
+
+	private static Optional<String> squareTo( String square, HorizontalDirection horizontalDirection ) {
 		return squareTo( square, horizontalDirection, 1 );
 	}
 
-	static String squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift ) {
+	private static Optional<String> squareTo( String square, HorizontalDirection horizontalDirection, int horizontalShift ) {
 		return squareTo( square, horizontalDirection, horizontalShift, VerticalDirection.UP, 0 );
 	}
 
-	static String squareTo( String square, VerticalDirection verticalDirection ) {
+	private static Optional<String> squareTo( String square, VerticalDirection verticalDirection ) {
 		//the intermediate 2 params are unimportant. Need to improve
 		return squareTo( square, HorizontalDirection.LEFT, 0, verticalDirection, 1 );
 	}
 
-	static String squareTo( String square, Direction direction ) {
+	static Optional<String> squareTo( String square, Direction direction ) {
 		switch ( direction ) {
 			case UP: return squareTo( square, VerticalDirection.UP );
 			case DOWN: return squareTo( square, VerticalDirection.DOWN );
@@ -88,16 +113,6 @@ final class Board {
 			case RIGHT: return squareTo( square, HorizontalDirection.RIGHT );
 			default: throw new IllegalArgumentException( "Unsupported direction: " + direction );
 		}
-	}
-
-
-	private static boolean isRankValid( int destinationRank ) {
-		return destinationRank >= MINIMAL_RANK && destinationRank <= MAXIMAL_RANK;
-	}
-
-	private static boolean isFileValid( String file ) {
-		//TODO: is character order guaranteed in Java for such comparisons?
-		return file.charAt( 0 ) >= MINIMAL_FILE && file.charAt( 0 ) <= MAXIMAL_FILE;
 	}
 
 	private static int rankTo( int rank, VerticalDirection verticalDirection, int verticalShift ) {
@@ -113,20 +128,26 @@ final class Board {
 
 	/**
 	 *
-	 * @param firstSquare
-	 * @param secondSquare
+	 * @param firstSquare first square
+	 * @param secondSquare second square
 	 * @return true if squares are on the same file
 	 */
 	static boolean sameFile( String firstSquare, String secondSquare ) {
-		return fileOfSquare( firstSquare ).equals( fileOfSquare( secondSquare ) );
+		return fileOfSquare( firstSquare ) == fileOfSquare( secondSquare );
 	}
 
-	private static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
+	private static Optional<String> squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection, int squaresDiagonally ) {
 		return squareTo(
 				square, horizontalDirection, squaresDiagonally, verticalDirection, squaresDiagonally );
 	}
 
-	static String squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection ) {
+	static Optional<String> squareDiagonally( String square, HorizontalDirection horizontalDirection, VerticalDirection verticalDirection ) {
 		return squareDiagonally( square,horizontalDirection, verticalDirection, 1 );
+	}
+
+	static Stream<String> getSquaresBetween( char leftFile, char rightFile, int rank ) {
+		//start is inclusive, excluding it explicitly by +1
+		return IntStream.range( leftFile + 1, rightFile )
+			.mapToObj( file -> square( ( char ) file, rank ) );
 	}
 }

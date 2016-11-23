@@ -1,6 +1,8 @@
 package com.leokom.chess.engine;
 
 
+import java.util.stream.IntStream;
+
 /**
  * Create position in fluent-interface style
  *
@@ -23,7 +25,11 @@ public class PositionBuilder {
 	}
 
 	public PositionBuilder setSideOf( String square ) {
-		position.setSideToMove( position.getSide( square ) );
+		return setSide( position.getSide( square ) );
+	}
+
+	public PositionBuilder setSide( Side side ) {
+		position.setSideToMove( side );
 		return this;
 	}
 
@@ -36,7 +42,7 @@ public class PositionBuilder {
 		return this;
 	}
 
-	public PositionBuilder addQueen( Side side, String square ) {
+	PositionBuilder addQueen( Side side, String square ) {
 		position.addQueen( side, square );
 		return this;
 	}
@@ -46,8 +52,32 @@ public class PositionBuilder {
 		return position.move( from, to );
 	}
 
-	public PositionBuilder setEnPassantFile( String enPassantFile ) {
+	PositionBuilder setEnPassantFile( Character enPassantFile ) {
 		position.setEnPassantFile( enPassantFile );
+		return this;
+	}
+
+	public PositionBuilder rules( Rules rules ) {
+		position.setRules( rules );
+		return this;
+	}
+
+	public PositionBuilder pliesCount( int pliesCount ) {
+		//trick to avoid creation of position.setMovesCount
+		position.resetPliesCount();
+		IntStream.rangeClosed( 1, pliesCount ).forEach( counter -> position.incPliesCount() );
+		return this;
+	}
+
+	public PositionBuilder winningSide( Side side ) {
+		position.setTerminal( side );
+		return this;
+	}
+
+	public PositionBuilder draw() {
+		this.position.setTerminal( null );
+		//see the reason of this in PositionBuilder
+		this.position.setSideToMove( null );
 		return this;
 	}
 }

@@ -1,5 +1,9 @@
 package com.leokom.chess.engine;
 
+import com.leokom.chess.utils.CollectionUtils;
+
+import java.util.Set;
+
 /**
  * Created as wish to reduce duplication
  * We do similar actions to determine pawn
@@ -16,5 +20,13 @@ enum HorizontalDirection {
 	/**
 	 * Direction from a to h file
 	 */
-	RIGHT
+	RIGHT;
+
+	//to make sure it's indeed immutable all enum values must be immutable
+	private static final Set< HorizontalDirection > CACHE
+			= CollectionUtils.enums( HorizontalDirection.class );
+
+	static Set< HorizontalDirection > VALUES() {
+		return CACHE;
+	}
 }

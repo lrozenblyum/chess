@@ -44,6 +44,20 @@ interface WinboardCommander {
 	 */
 	void checkmate( Side side );
 
+	/**
+	 * Inform Winboard that the obligatory draw by moves count
+	 * occurred (in chess after July 2014 there is 75 moves rule)
+	 * @param movesCount count of moves according to the rule
+	 */
+	void obligatoryDrawByMovesCount( int movesCount );
+
+	/**
+	 * Inform Winboard about stalemate draw
+	 */
+	void stalemateDraw();
+
+
+
 	void onProtover( ProtoverListener protoverListener );
 	void onQuit( QuitListener listener );
 	void onGo( GoListener listener );
@@ -52,4 +66,5 @@ interface WinboardCommander {
 	void onGameOver( GameOverListener listener );
 	void onForce( ForceListener listener );
 	void onNew( NewListener listener );
+
 }

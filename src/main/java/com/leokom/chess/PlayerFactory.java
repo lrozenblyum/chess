@@ -1,14 +1,14 @@
 package com.leokom.chess;
 
+import com.google.common.collect.ImmutableMap;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legalMover.LegalPlayer;
+import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.simple.SimplePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,11 +23,8 @@ final class PlayerFactory {
 	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
 
 	//side -> name of system property that specifies player for the side
-	private static final Map< Side, String > SYSTEM_PROPERTIES =
-		new HashMap< Side, String >() {{
-			put( Side.WHITE, "white" );
-			put( Side.BLACK, "black" );
-		}};
+	private static final Map< Side, String > SYSTEM_PROPERTIES = 
+			ImmutableMap.of( Side.WHITE, "white", Side.BLACK, "black" );
 
 	/**
 	 * Create player for the side

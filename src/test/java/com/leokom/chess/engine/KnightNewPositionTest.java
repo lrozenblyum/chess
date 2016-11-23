@@ -67,7 +67,7 @@ public class KnightNewPositionTest {
 
 		Position afterPawnMove = position.setSideOf( "a2" ).build().move( "a2", "a4" );
 		//this assert is just to ensure previous conditions are ok
-		assertEquals( "a", afterPawnMove.getPossibleEnPassantFile() );
+		assertEquals( 'a', afterPawnMove.getPossibleEnPassantFile().charValue() );
 
 		final Position afterKnightMove = afterPawnMove.move( "h1", "g3" );
 

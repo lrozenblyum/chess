@@ -27,13 +27,45 @@ final class PositionGenerator {
 	 */
 	Position generate( Move move ) {
 		final Position position = getPosition( move );
-
 		//post-processing actions that require analyzing at the latest stage
 		if ( move != Move.OFFER_DRAW ) {
 			position.setWaitingForAcceptDraw( false );
 		}
 
+		updateMovesCounter( position, move );
+
 		return position;
+	}
+
+	/**
+	 * Update moves counter to support 75 moves rules depending on type of move
+	 * @param position target position to update moves counters
+	 * @param move move that has been executed
+	 */
+	private void updateMovesCounter( Position position, Move move ) {
+		//no changes on board
+		if ( move.isSpecial() ) {
+			return;
+		}
+
+		if ( needRestartingPlyCounter( move ) ) {
+			position.resetPliesCount();
+		}
+		else {
+			position.incPliesCount();
+		}
+	}
+
+	private boolean needRestartingPlyCounter( Move move ) {
+		return didPawnMove( move ) || isCapture( move );
+	}
+
+	private boolean isCapture( Move move ) {
+		return source.isCapture( move );
+	}
+
+	private boolean didPawnMove( Move move ) {
+		return source.getPieceType( move.getFrom() ) == PieceType.PAWN;
 	}
 
 	private Position getPosition( Move move ) {
@@ -49,6 +81,10 @@ final class PositionGenerator {
 			return getAcceptDrawPosition();
 		}
 
+		return getPositionAfterStandardMove( move );
+	}
+
+	private Position getPositionAfterStandardMove( Move move ) {
 		validateStandardMove( move );
 
 		String squareFrom = move.getFrom();
@@ -78,13 +114,17 @@ final class PositionGenerator {
 		return result;
 	}
 
-	public Position getAcceptDrawPosition() {
+	private Position getAcceptDrawPosition() {
 		return createTerminalPosition( null );
 	}
 
 	private void validateStandardMove( Move move ) {
 		if ( move == null ) {
 			throw new IllegalArgumentException( "Move must be not null" );
+		}
+
+		if ( source.getSideToMove() == null ) {
+			throw new IllegalStateException( "The game is already over, cannot move. Tried to move : " + move );
 		}
 
 		if ( source.getPiece( move.getFrom() ) == null ) {
@@ -97,8 +137,12 @@ final class PositionGenerator {
 	}
 
 	private Position createTerminalPosition( Side winningSide ) {
+		return createTerminalPositionOf( winningSide, source );
+	}
+
+	private Position createTerminalPositionOf( Side winningSide, Position position ) {
 		final Position result = new Position( null );
-		source.copyStateTo( result );
+		position.copyStateTo( result );
 		//TODO: should checkmate move also set this flag?
 		result.setTerminal( winningSide );
 		return result;
@@ -111,11 +155,11 @@ final class PositionGenerator {
 
 		//TODO: technically it will do excessive 'again' setting (not harmful)
 		//if the rook has already moved
-		if ( Board.fileOfSquare( squareFrom ).equals( "a" ) ) {
+		if ( Board.fileOfSquare( squareFrom ) == 'a' ) {
 			result.setHasARookMoved( this.source.getSide( squareFrom ) );
 		}
 
-		if ( Board.fileOfSquare( squareFrom ).equals( "h" ) ) {
+		if ( Board.fileOfSquare( squareFrom ) == 'h' ) {
 			result.setHasHRookMoved( this.source.getSide( squareFrom ) );
 		}
 		return result;
@@ -154,8 +198,7 @@ final class PositionGenerator {
 	private Position processPawnMove( String squareFrom, String move ) {
 		final String squareTo = Move.getDestinationSquare( move );
 
-		final String newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
-
+		final Character newEnPassantFile = getNewEnPassantFile( squareFrom, squareTo );
 
 		final Side movingSide = source.getSideToMove();
 
@@ -229,7 +272,7 @@ final class PositionGenerator {
 		if ( source.getPossibleEnPassantFile() != null &&
 				rankOfSquare( squareFrom ) == enPassantPossibleRank &&
 				source.getPossibleEnPassantFile().equals( fileOfSquare( squareTo ) )) {
-			return source.getPossibleEnPassantFile() + enPassantPossibleRank;
+			return Board.square( source.getPossibleEnPassantFile(), enPassantPossibleRank );
 		}
 		return null;
 	}
@@ -242,7 +285,7 @@ final class PositionGenerator {
 	 * @param squareTo square to which the piece is going to squareTo
 	 * @return possible en passant file (null if impossible)
 	 */
-	private String getNewEnPassantFile( String squareFrom, String squareTo ) {
+	private Character getNewEnPassantFile( String squareFrom, String squareTo ) {
 		final Side side = source.getSide( squareFrom );
 
 		return rankOfSquare( squareFrom ) == InitialPosition.getPawnInitialRank( side ) &&

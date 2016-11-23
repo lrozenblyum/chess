@@ -1,9 +1,6 @@
 package com.leokom.chess.player.winboard;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.PositionBuilder;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
 import org.junit.Before;
 import org.junit.Test;
@@ -167,8 +164,54 @@ public class WinBoardPlayerIntegrationTest {
 				.move( new Move( "d1", "h5" ) )
 				.play();
 
-		verify( communicator ).send( "1-0 {LeokomChess : checkmate}" );
-		verify( communicator, never() ).send( "0-1 {LeokomChess : checkmate}" );
+		verify( communicator ).send( "1-0 {Checkmate}" );
+		verify( communicator, never() ).send( "0-1 {Checkmate}" );
+	}
+
+	@Test
+	public void obligatoryDraw() {
+		player.setPosition( Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() ) );
+
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+			builder
+			.move( new Move( "b1", "c3" ) )
+			.move( new Move( "b8", "a6" ) )
+			.play();
+
+		verify( communicator, atLeastOnce() ).send( startsWith( "1/2-1/2" ) );
+	}
+
+	@Test
+	public void stalemateSentDueToWinboardMove() {
+		final Position position = new PositionBuilder()
+				.add( Side.WHITE, "d5", PieceType.KING )
+				.add( Side.WHITE, "d7", PieceType.PAWN )
+				.add( Side.BLACK, "d8", PieceType.KING )
+				.build();
+
+		player.setPosition( position );
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+
+		builder.move( new Move( "d5", "d6" ) ).play();
+
+		verify( communicator ).send( startsWith( "1/2-1/2" ) );
+		verify( communicator ).send( contains( "Stalemate" ) );
+	}
+
+	@Test
+	public void stalemateSentDueToOpponentMove() {
+		final Position position = new PositionBuilder()
+				.add( Side.BLACK, "d4", PieceType.KING )
+				.add( Side.BLACK, "d2", PieceType.PAWN )
+				.add( Side.WHITE, "e1", PieceType.KING )
+				.build();
+
+		player.setPosition( position );
+		final WinboardTestGameBuilder builder = new WinboardTestGameBuilder( player, communicator );
+
+		builder.move( new Move( "e1", "d1" ) ).move( new Move( "d4", "d3" ) ).play();
+
+		verify( communicator ).send( "1/2-1/2 {Stalemate}" );
 	}
 
 	//Winboard vs Player (White vs Black)
@@ -186,8 +229,8 @@ public class WinBoardPlayerIntegrationTest {
 		.move( new Move( "d8", "h4" ) )
 		.play();
 
-		verify( communicator ).send( "0-1 {LeokomChess : checkmate}" );
-		verify( communicator, never() ).send( "1-0 {LeokomChess : checkmate}" );
+		verify( communicator ).send( "0-1 {Checkmate}" );
+		verify( communicator, never() ).send( "1-0 {Checkmate}" );
 	}
 
 	@Test

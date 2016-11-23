@@ -1,5 +1,8 @@
 package com.leokom.chess.engine;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
@@ -7,8 +10,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.leokom.chess.engine.Board.*;
+import static com.leokom.chess.engine.Board.square;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
-import static com.leokom.chess.utils.CollectionUtils.addIfNotNull;
+import static com.leokom.chess.utils.CollectionUtils.filterMapByValues;
 import static java.util.stream.Collectors.toSet;
 
 /**
@@ -32,23 +36,22 @@ import static java.util.stream.Collectors.toSet;
  * Date-time: 21.08.12 15:55
  */
 public class Position {
+	/**
+	 * Chess rules mention moves counter must be calculated
+	 * for both players
+	 */
+	private static final int PLIES_IN_MOVE = 2;
 
 	//by specification - the furthest from starting position
 	//(in theory it means possibility to extend for fields others than 8*8)
 	private static final int WHITE_PAWN_PROMOTION_RANK = MAXIMAL_RANK;
 	private static final int BLACK_PAWN_PROMOTION_RANK = MINIMAL_RANK;
 
-	//thread-safe for read usage, should we use some 'immutable map'?
-	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = new HashMap<Side, Integer>() { {
-		put( Side.WHITE, WHITE_PAWN_PROMOTION_RANK );
-		put( Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
-	}};
+	private static final Map< Side, Integer > PAWN_PROMOTION_RANKS = 
+			ImmutableMap.of( Side.WHITE, WHITE_PAWN_PROMOTION_RANK, Side.BLACK, BLACK_PAWN_PROMOTION_RANK );
 
-	//thread safe
 	private static final Set< PieceType > PIECES_TO_PROMOTE_FROM_PAWN =
-		Collections.unmodifiableSet( EnumSet.of(
-				PieceType.QUEEN, PieceType.ROOK,
-				PieceType.KNIGHT, PieceType.BISHOP ) );
+		ImmutableSet.of( PieceType.QUEEN, PieceType.ROOK, PieceType.KNIGHT, PieceType.BISHOP );
 
 
 	//all pieces currently present on the board
@@ -70,9 +73,14 @@ public class Position {
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
 	private Side sideToMove;
+
+	private Result result;
 	private boolean terminal;
 	private Side winningSide;
+
+
 	private boolean waitingForAcceptDraw;
+	private Rules rules;
 
 
 	void setHasKingMoved( Side side ) {
@@ -87,10 +95,15 @@ public class Position {
 		this.hasHRookMoved.add( side );
 	}
 
-	void setEnPassantFile( String enPassantFile ) {	this.enPassantFile = enPassantFile; }
+	void setEnPassantFile( Character enPassantFile ) {	this.enPassantFile = enPassantFile; }
 
 	//temporary state in game (which could change)
-	private String enPassantFile;
+	private Character enPassantFile;
+
+	//ply is the smallest movement in chess
+	//a move consists of 2 plies
+	//https://chessprogramming.wikispaces.com/Ply
+	private int pliesCount;
 
 	//TODO: in theory the flag could be inconsistent with actual position...
 	//maybe need some builder?
@@ -108,6 +121,7 @@ public class Position {
 	 */
 	public Position( Side sideToMove ) {
 		this.sideToMove = sideToMove;
+		this.rules = Rules.DEFAULT;
 	}
 
 	private static final int VALID_SQUARE_LENGTH = 2;
@@ -142,31 +156,32 @@ public class Position {
 	Set<String> getMovesFrom( String square ) {
 		final Set<String> potentialMoves = getPotentialMoves( square );
 
+		Set< String > result = new HashSet<>( potentialMoves );
+
 		//3.1 It is not permitted to move a piece to a square occupied by a piece of the same colour.
-		potentialMoves.removeAll( getSquaresOccupiedBySide( getSide( square ) ) );
+
+		//looks rather safe to ignore the fact that result set can contain 'e8Q' (pawn promotions)
+		//all pawn-specific clean-up is done on pawn level
+		result.removeIf( move -> isOccupiedBy( move, getSide( square ) ) );
 
 		// 3.9 'No piece can be moved that will ... expose the king of the same colour to check
 		//... or leave that king in check' is also covered here.
-		potentialMoves.removeAll( getSquaresThatExposeOurKingToCheck( square, potentialMoves ) );
+		//castling is also covered here
+		result.removeIf( move -> this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) );
 
 		//1.2 ’capturing’ the opponent’s king ... not allowed
-		potentialMoves.removeAll( getCapturesOfKing( potentialMoves ) );
 
-		return potentialMoves;
-	}
-
-	private Collection< String > getCapturesOfKing( Set< String > potentialMoves ) {
 		//no need to filter explicitly by opponent's king
 		//anyway we couldn't move to a square occupied by OUR king
-		return potentialMoves.stream()
-			.filter( move ->
-				isOccupiedBy( Move.getDestinationSquare( move ), PieceType.KING )
-			).collect( Collectors.toList() );
+		result.removeIf( move -> this.isOccupiedBy( Move.getDestinationSquare( move ), PieceType.KING ) );
+
+		return result;
 	}
 
 	//artificial method born due to need to exclude
 	//some moves from pool of the 'potential moves'
 	//due to king check conditions and 'cannot move to occupied by our side square'
+	//returns potentially Immutable set
 	private Set<String> getPotentialMoves( String square ) {
 		switch ( getPieceType( square ) ) {
 			case KNIGHT:
@@ -218,23 +233,23 @@ public class Position {
 
 		//TODO: this condition as also covered by hasKingMoved
 		//but we need to keep that flag in synchronous-state
-		final String kingFile = "e";
-		if ( square.equals( kingFile + castlingRank ) ) {
+		final char kingFile = 'e';
+		if ( square.equals( square( kingFile, castlingRank ) ) ) {
 			//TODO: the first condition is excessive - second covers it
-			final String kingSideRookFile = "h";
-			if ( isOccupiedBy( kingSideRookFile + castlingRank, side ) &&
+			final char kingSideRookFile = 'h';
+			if ( isOccupiedBy( square( kingSideRookFile, castlingRank ), side ) &&
 				!hasHRookMoved.contains( side ) &&
-				!isSquareAttacked( side, "f" + castlingRank ) &&
+				!isSquareAttacked( side, square( 'f', castlingRank ) ) &&
 				isFreeRankBetween( kingFile, kingSideRookFile, castlingRank )) {
-				result.add( "g" + castlingRank );
+				result.add( square( 'g', castlingRank ) );
 			}
 
-			final String queenSideRookFile = "a";
-			if ( isOccupiedBy( queenSideRookFile + castlingRank, side ) &&
+			final char queenSideRookFile = 'a';
+			if ( isOccupiedBy( square( queenSideRookFile, castlingRank ), side ) &&
 				!hasARookMoved.contains( side ) &&
-				!isSquareAttacked( side, "d" + castlingRank ) &&
+				!isSquareAttacked( side, square( 'd', castlingRank ) ) &&
 				isFreeRankBetween( queenSideRookFile, kingFile, castlingRank )) {
-				result.add( "c" + castlingRank );
+				result.add( square( 'c', castlingRank ) );
 			}
 		}
 
@@ -249,26 +264,16 @@ public class Position {
 	 * @param rank rank where to check squares
 	 * @return true if all middle squares are free
 	 */
-	private boolean isFreeRankBetween( String leftFile, String rightFile, int rank ) {
-		String leftBorderSquare = leftFile + rank;
-		String rightBorderSquare = rightFile + rank;
-
-		for ( String movingSquare = Board.squareTo( leftBorderSquare, HorizontalDirection.RIGHT );
-			!movingSquare.equals( rightBorderSquare );
-			movingSquare = Board.squareTo( movingSquare, HorizontalDirection.RIGHT ) ) {
-			if ( isOccupied( movingSquare ) ) {
-				return false;
-			}
-		}
-
-		return true;
+	private boolean isFreeRankBetween( char leftFile, char rightFile, int rank ) {
+		return getSquaresBetween( leftFile, rightFile, rank )
+			.allMatch( this::isFree );
 	}
 
 	private Set< String > getSquaresAttackedFromSquare( String square ) {
 		//assuming square is occupied...
 		switch ( pieces.get( square ).getPieceType() ) {
 			case PAWN:
-				return getSquaresAttackedByPawn( square );
+				return getSquaresAttackedByPawn( square ).collect( Collectors.toSet() );
 			case KNIGHT:
 				return getSquaresAttackedByKnight( square );
 			case BISHOP:
@@ -291,15 +296,17 @@ public class Position {
 		Set< String > result = new HashSet<>();
 
 		//diagonally
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				addIfNotNull( result, squareDiagonally( square, horizontalDirection, verticalDirection ) );
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+				squareDiagonally( square, horizontalDirection, verticalDirection ).
+				ifPresent( result::add );
 			}
 		}
 
 		//left/right/top/bottom
-		for ( Direction direction : Direction.values() ) {
-			addIfNotNull( result, squareTo( square, direction ) );
+		for ( Direction direction : Direction.VALUES() ) {
+			squareTo( square, direction )
+			.ifPresent( result::add );
 		}
 
 		return result;
@@ -314,29 +321,24 @@ public class Position {
 	private Set<String> getSquaresAttackedByRook( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( Direction direction : Direction.values() ) {
-			String runningSquare = square;
+		for ( Direction direction : Direction.VALUES() ) {
+			Optional< String > runningSquare = Optional.of( square );
 
 			do {
-				runningSquare = squareTo( runningSquare, direction );
-				addIfNotNull( result, runningSquare );
-			} while ( runningSquare != null && isEmptySquare( runningSquare ) );
+				runningSquare = squareTo( runningSquare.get(), direction );
+				runningSquare.ifPresent( result::add );
+			} while ( runningSquare.isPresent() && isFree( runningSquare.get() ) );
 		}
 
 		return result;
 	}
 
 	public Set<String> getSquaresOccupiedBySide( Side neededSide ) {
-		return pieces.keySet().stream().filter( square -> pieces.get( square ).getSide() == neededSide ).collect( toSet() );
+		return getSquaresOccupiedBySideToStream( neededSide ).collect( toSet() );
 	}
 
-	private Set<String> getSquaresThatExposeOurKingToCheck( String square, Set< String > potentialMoves ) {
-		//castling is also covered fine here
-
-		return potentialMoves.stream()
-			.filter( move ->
-					this.move( new Move( square, move ) ).isKingInCheck( getSide( square ) ) )
-			.collect( Collectors.toSet() );
+	private Stream<String> getSquaresOccupiedBySideToStream( Side neededSide ) {
+		return pieces.keySet().stream().filter( square -> this.isOccupiedBy( square, neededSide ) );
 	}
 
 	private boolean isKingInCheck( Side side ) {
@@ -348,17 +350,16 @@ public class Position {
 	//we specify OUR side here because square might be empty
 	//so we might check only potential attack
 	private boolean isSquareAttacked( Side side, String square ) {
-		return getSquaresAttackedBy( side.opposite() ).contains( square );
+		return getSquaresAttackedByToStream( side.opposite() ).anyMatch( square::equals );
 	}
 
 	private String findKing( Side side ) {
 		//TODO: null is impossible in real chess, possible in our tests...
-		return pieces.entrySet().stream()
-			.filter( ( entry ) ->
-				entry.getValue().getPieceType() == PieceType.KING &&
-				entry.getValue().getSide() == side
-			)
-			.map( Map.Entry::getKey ).findFirst().orElse( null );
+		return
+			filterMapByValues( pieces, new Piece( PieceType.KING, side )::equals )
+			.map( Map.Entry::getKey )
+			.findAny()
+			.orElse( null );
 	}
 
 	/**
@@ -369,52 +370,53 @@ public class Position {
 	 * @return set of all squares occupied by the given side
 	 */
 	public Set< String > getSquaresAttackedBy( Side side ) {
-		final Set< String > squaresOccupied = getSquaresOccupiedBySide( side );
-
-		Set< String > result = new HashSet<>();
-
-		for ( String squareOccupied : squaresOccupied ) {
-			result.addAll( getSquaresAttackedFromSquare( squareOccupied ) );
-		}
-		return result;
+		return getSquaresAttackedByToStream( side ).collect( Collectors.toSet() );
 	}
 
-	public Set< String > getSquaresAttackingSquare( Side side, String targetSquare ) {
-		return pieces.entrySet().stream()
-			.filter( entry -> entry.getValue().getSide() == side )
-			.filter( entry -> getSquaresAttackedFromSquare( entry.getKey() ).contains( targetSquare ) )
-			.map( Map.Entry::getKey ).collect( Collectors.toSet() );
+	private Stream< String > getSquaresAttackedByToStream( Side side ) {
+		return getSquaresOccupiedBySideToStream( side )
+				.map( this::getSquaresAttackedFromSquare )
+				.flatMap( Collection::stream );
+	}
+
+	/**
+	 * The method is generic and allows to know who is attacking a square
+	 * (important both for attackers and protectors)
+	 * @param attackerSide side of interest
+	 * @param targetSquare square of interest
+	 * @return stream of squares from which attackerSide has control over targetSquare
+	 */
+	public Stream< String > getSquaresAttackingSquare( Side attackerSide, String targetSquare ) {
+		return
+			getSquaresOccupiedBySideToStream( attackerSide )
+			.filter( square -> getSquaresAttackedFromSquare( square ).contains( targetSquare ) );
 	}
 
 	//this method can be formed either as:
 	//rook moves+bishop moves
 	//or ( rook attacked + bishop attacked ) - (busy by our pieces)
 	private Set<String> getQueenMoves( String square ) {
-		//TODO: some Guava/CollectionUtils for simplification?
-
 		//this works in assumption that rook's castling is NOT included into
 		//getRookMoves. Castling is considered as King's move
 		//however due to current notation for castling it's not harmful
 		//(we're not using 0-0 yet)
-		final Set< String > result = getSquaresAttackedByRook( square );
-		result.addAll( getSquaresAttackedByBishop( square ) );
-		return result;
+
+		return Sets.union( getSquaresAttackedByRook( square ), getSquaresAttackedByBishop( square ) );
 	}
 
 
 	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-				String movingSquare = square;
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+				Optional< String > movingSquare = Optional.of( square );
 				do {
-					movingSquare = squareDiagonally( movingSquare, horizontalDirection, verticalDirection );
-					//null means end of table reached and will break the loop
-					addIfNotNull( result, movingSquare );
+					movingSquare = squareDiagonally( movingSquare.get(), horizontalDirection, verticalDirection );
+					movingSquare.ifPresent( result::add );
 				}
 				//the loop will include first busy square on its way to the result
-				while ( movingSquare != null && isEmptySquare( movingSquare ) );
+				while ( movingSquare.isPresent() && isFree( movingSquare.get() ) );
 			}
 		}
 		return result;
@@ -422,61 +424,62 @@ public class Position {
 
 	//NOTE: from point of view of en passant we
 	//still have the square diagonally-front attacked
-	private Set< String > getSquaresAttackedByPawn( String square ) {
-		Set< String > result = new HashSet<>();
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
-			final Side side = getSide( square );
+	private Stream< String > getSquaresAttackedByPawn( String square ) {
+		return HorizontalDirection.VALUES().stream()
+			.map( horizontalDirection -> {
+				final Side side = getSide( square );
 
-			final String attackedSquare = squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
-
-			addIfNotNull( result, attackedSquare );
-		}
-		return result;
+				return squareDiagonally( square, horizontalDirection, getPawnMovementDirection( side ) );
+			} ).filter( Optional::isPresent ).map( Optional::get );
 	}
 
 	private Set<String> getPawnMoves( String square ) {
 		final Set<String> result = new HashSet<>();
 
-		final String file = fileOfSquare( square );
+		final char file = fileOfSquare( square );
 		final int rank = rankOfSquare( square );
 
 		//NOTE: the possible NULL corresponds to to-do in javadoc
 		final Side side = getSide( square );
 
 		if ( rank == getRankBeforePromotion( side ) ) {
-			addPromotionResult( result, file, side );
+			getPromotionResult( file, side )
+				.forEach( result::add );
 
-			final Set<String> attacked = getSquaresAttackedByPawn( square );
-			for ( String attackedSquare : attacked ) {
-				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
-					addPromotionResult( result, fileOfSquare( attackedSquare ), side );
-				}
-			}
+			getSquaresAttackedByPawn( square )
+				.filter( attackedSquare -> canBeAttackedUsually( side, attackedSquare ) )
+				.flatMap( attackedSquare ->
+					getPromotionResult( fileOfSquare( attackedSquare ), side )
+				)
+				.forEach( result::add );
 		}
 		else {
-			result.add( file + getPawnNextRank( rank, side ) );
+			result.add( square( file, getPawnNextRank( rank, side ) ) );
 			if ( rank == getPawnInitialRank( side ) ) {
-				result.add( file + getDoubleMoveRank( side ) );
+				result.add( square( file, getDoubleMoveRank( side ) ) );
 			}
 
-			final Set<String> attacked = getSquaresAttackedByPawn( square );
-			for ( String attackedSquare : attacked ) {
-				if ( isOccupiedBy( attackedSquare, side.opposite() ) ) {
-					result.add( attackedSquare );
-				}
-
-				//3.7 d. A pawn attacking a square crossed by an opponent’s pawn which has advanced two squares
-				// in one move from its original square may capture this opponent’s pawn
-				// as though the latter had been moved only one square
-				if ( enPassantFile != null &&
-					attackedSquare.equals( enPassantFile + getPawnDoubleMoveIntermediateRank( side.opposite() ) )) {
-					result.add( attackedSquare );
-				}
-			}
+			getSquaresAttackedByPawn( square )
+			.filter( attackedSquare ->
+					canBeAttackedUsually( side, attackedSquare ) ||
+					canEnPassant( side, attackedSquare )  )
+			.forEach( result::add );
 		}
 
-		result.removeAll( getImpossibleMovesForPawn( result, square ) );
+		result.removeIf( move -> !canPawnMove( square, move ) );
 		return result;
+	}
+
+	//3.7 d. A pawn attacking a square crossed by an opponent’s pawn which has advanced two squares
+	// in one move from its original square may capture this opponent’s pawn
+	// as though the latter had been moved only one square
+	private boolean canEnPassant( Side side, String attackedSquare ) {
+		return enPassantFile != null &&
+			attackedSquare.equals( square( enPassantFile, getPawnDoubleMoveIntermediateRank( side.opposite() ) ) );
+	}
+
+	private boolean canBeAttackedUsually( Side side, String attackedSquare ) {
+		return isOccupiedBy( attackedSquare, side.opposite() );
 	}
 
 	private Set<String> getSquaresAttackedByKnight( String square ) {
@@ -486,58 +489,35 @@ public class Position {
 
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
-			for ( HorizontalDirection horizontalDirection : HorizontalDirection.values() ) {
-				for ( VerticalDirection verticalDirection : VerticalDirection.values() ) {
-					final String destination = Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
-							verticalDirection, shiftPair[ 1 ] );
-
-					//can be null when outside the board
-					CollectionUtils.addIfNotNull( knightMoves, destination );
+			for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+				for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+					Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
+							verticalDirection, shiftPair[ 1 ] )
+					.ifPresent( knightMoves::add );
 				}
 			}
 		}
 
-
-
 		return knightMoves;
 	}
 
-	/**
-	 * Get set of moves from initial potentialPawnMoves
-	 * that aren't allowed according to chess rules
-	 * @param potentialPawnMoves moves that were detected as potential possibilities
-	 * @param square current pawn position
-	 * @return set of moves to be removed
-	 */
-	private Set<String> getImpossibleMovesForPawn( Set<String> potentialPawnMoves, String square ) {
-		Set< String > disallowedMoves = new HashSet<>();
-		for ( String potentialMove : potentialPawnMoves ) {
-			String destinationSquare = Move.getDestinationSquare( potentialMove );
+	private boolean canPawnMove( String square, String potentialMove ) {
+		String destinationSquare = Move.getDestinationSquare( potentialMove );
 
-			//pawn cannot move to occupied square
-			//if file is different - it's capture and should be allowed
-			final boolean isMoveForward = sameFile( destinationSquare, square );
-			if ( !isMoveForward ) {
-				continue;
-			}
+		//if file is different - it's capture and should be allowed
+		return !sameFile( destinationSquare, square ) ||
+				// here we deny captures if a pawn moved forward
+				//pawn cannot move FORWARD to occupied square
+				( !isOccupied( destinationSquare ) &&
+				  !isPawnDoubleMoveProhibited( square, destinationSquare ) );
+	}
 
-			//probably it's already double-checked in common block of code
-			//it's good to have it here since common block of code doesn't check
-			//e8Q move correctness for moving to occupied plac
-			if ( isOccupied( destinationSquare ) ) {
-				disallowedMoves.add( potentialMove );
-			}
-
-			Side side = getSide( square );
-			int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
-			if ( rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
+	private boolean isPawnDoubleMoveProhibited( String square, String destinationSquare ) {
+		Side side = getSide( square );
+		int intermediateRank = getPawnDoubleMoveIntermediateRank( side );
+		return rankOfSquare( destinationSquare ) == getDoubleMoveRank( side ) &&
 				rankOfSquare( square ) == getPawnInitialRank( side )
-				&& isOccupied( fileOfSquare( square ) + intermediateRank ) ) {
-
-				disallowedMoves.add( potentialMove );
-			}
-		}
-		return disallowedMoves;
+				&& isOccupied( square( fileOfSquare( square ), intermediateRank ) );
 	}
 
 	/**
@@ -564,7 +544,7 @@ public class Position {
 	 * Get rank staying on which a pawn can execute
 	 * en passant capture
 	 * if previous move from another side was a double pawn move
-	 * @param side
+	 * @param side pawn side
 	 * @return rank with en passant possibility
 	 */
 	static int getEnPassantPossibleRank( Side side ) {
@@ -573,7 +553,7 @@ public class Position {
 
 	/**
 	 * Get pawn rank that is reachable from current rank by SINGLE move
-	 * @param pawnRank
+	 * @param pawnRank pawn rank
 	 * @param side pawn side
 	 * @return pawn rank
 	 */
@@ -596,7 +576,7 @@ public class Position {
 	}
 
 	/**
-	 * @param side
+	 * @param side side of player
 	 * @return rank from which next pawn move can reach promotion rank
 	 */
 	private static int getRankBeforePromotion( Side side ) {
@@ -608,16 +588,16 @@ public class Position {
 	}
 
 	/**
-	 * Add to the result set all possible cases of promoting a pawn
+	 * Get all possible cases of promoting a pawn
 	 * of given side in the file provided
-	 * @param result result set to be modified
 	 * @param file file place of promotion
 	 * @param side side of pawn
+	 * @return stream of possible promotions
 	 */
-	private static void addPromotionResult( Set<String> result, String file, Side side ) {
-		for ( PieceType pieceToPromote : PIECES_TO_PROMOTE_FROM_PAWN ) {
-			result.add( file + getPromotionRank( side ) + pieceToPromote.getNotation() );
-		}
+	private static Stream< String > getPromotionResult( char file, Side side ) {
+		return PIECES_TO_PROMOTE_FROM_PAWN.stream().map(
+			pieceToPromote -> square( file, getPromotionRank( side ) ) + pieceToPromote.getNotation()
+		);
 	}
 
 	/**
@@ -639,7 +619,7 @@ public class Position {
 	}
 
 	private boolean isOccupied( String square ) {
-		return !isEmptySquare( square );
+		return !isFree( square );
 	}
 
 	static int getDoubleMoveRank( Side side ) {
@@ -706,6 +686,11 @@ public class Position {
 
 		//little overhead but ensuring we really copy the FULL state
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
+
+		position.rules = this.rules;
+		position.pliesCount = this.pliesCount;
+
+		position.terminal = this.terminal;
 	}
 
 	/**
@@ -724,12 +709,12 @@ public class Position {
 	}
 
 	/**
-	 * Check if square is empty (not occupied by any piece)
+	 * Check if a given square is free (not occupied by any piece)
 	 * @param square square to check
 	 * @return true if square is empty
 	 */
-	boolean isEmptySquare( String square ) {
-		return getSide( square ) == null;
+	boolean isFree( String square ) {
+		return pieces.get( square ) == null;
 	}
 
 	/**
@@ -737,7 +722,7 @@ public class Position {
 	 * returns the file of movement, otherwise null
 	 * @return possible en passant file if double-move done
 	 */
-	String getPossibleEnPassantFile() {
+	Character getPossibleEnPassantFile() {
 		return this.enPassantFile;
 	}
 
@@ -768,8 +753,8 @@ public class Position {
 	 * Check if the position has a pawn on square provided
 	 * with needed side
 	 *
-	 * @param side
-	 * @param square
+	 * @param side pawn side
+	 * @param square square to find the pawn
 	 * @return true iff such pawn is present
 	 */
 	boolean hasPawn( Side side, String square ) {
@@ -823,33 +808,59 @@ public class Position {
 	 * @return set of possible legal moves
 	 */
 	public Set< Move > getMoves() {
-		final Set< Move > result = new HashSet<>();
 		if ( terminal ) {
-			return result;
+			return new HashSet<>();
 		}
 
-		final Set<String> squares = getSquaresOccupiedBySide( sideToMove );
-		for ( String square : squares ) {
-			result.addAll( getMovesFrom( square ).stream().map( move -> new Move( square, move ) ).collect( toSet() ) );
-		}
+		final Set<Move> result = getSquaresOccupiedBySideToStream( sideToMove )
+			.flatMap( square -> getMovesFrom( square ).stream().map( move -> new Move( square, move ) ) )
+			.collect( Collectors.toSet() );
 
 		//resign is possible if there is at least one other move
 		//correct?
 		if ( !result.isEmpty() ) {
+
+			//obligatory draw must be checked AFTER moves detection
+			//to distinguish checkmate at 150 ply case!
+			if ( isObligatoryDraw() ) {
+				markDraw();
+				this.result = Result.DRAW_BY_OBLIGATORY_MOVES;
+				return new HashSet<>();
+			}
+
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
 			if ( waitingForAcceptDraw ) {
 				result.add( Move.ACCEPT_DRAW );
 			}
+		} else if ( !isKingInCheck( sideToMove ) ) {
+			this.result = Result.STALEMATE;
+			markDraw();
 		}
 
 		return result;
 	}
 
+	private void markDraw() {
+		//TODO: position mutability due to flaws in design
+
+		//marking it also terminal to avoid next checks for Moves
+		this.terminal = true;
+		//must be done
+		this.sideToMove = null;
+		//for clarity
+		this.winningSide = null;
+	}
+
+	private boolean isObligatoryDraw() {
+		final OptionalInt movesTillDraw = rules.getMovesTillDraw();
+		return movesTillDraw.isPresent() && pliesCount >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
+	}
+
 	/**
 	 * @return legal non-special moves
 	 */
-	public Set< Move > getNormalMoves() {
+	Set< Move > getNormalMoves() {
 		return getMoves().stream().filter( move -> !move.isSpecial() ).collect( toSet() );
 	}
 
@@ -877,6 +888,17 @@ public class Position {
 	}
 
 	/**
+	 * Get game result
+	 * @return the game result
+	 * @throws IllegalStateException if game is not over yet
+	 */
+	public Result getGameResult() {
+		validateGameIsOver();
+
+		return result;
+	}
+
+	/**
 	 * Get side that has won the game
 	 *
 	 * @return side that has won the game
@@ -884,16 +906,21 @@ public class Position {
 	 * @throws java.lang.IllegalStateException when game is not finished yet
 	 */
 	public Side getWinningSide() {
-		if ( !isTerminal() ) {
-			throw new IllegalStateException( "Game has not yet finished" );
-		}
+		validateGameIsOver();
 
 		//winningSide != null is currently only after resign
 		//winningSide == null && sideToMove != null currently after checkmate (due to our lazy nature of detection of checkmate)
 		//first try to make that calculation not-lazy failed, with StackOverflow
-		//it tried to create more and more positions getSquaresThatExposeOurKingToCheck
+		//it tried to create more and more positions in predicate that checks whether we expose our king to check
 		//winningSide == null && sideToMove == null currently after draw
+		//simulated the same behaviour for case when draw achieved due to 75 moves rule
 		return winningSide != null ? winningSide : sideToMove != null ?  sideToMove.opposite() : null;
+	}
+
+	private void validateGameIsOver() {
+		if ( !isTerminal() ) {
+			throw new IllegalStateException( "Game has not yet finished. Valid moves: " + getMoves() );
+		}
 	}
 
 	/**
@@ -907,5 +934,49 @@ public class Position {
 
 	void setWaitingForAcceptDraw( boolean waitingForAcceptDraw ) {
 		this.waitingForAcceptDraw = waitingForAcceptDraw;
+	}
+
+	public static Position getInitialPosition( Rules rules ) {
+		return InitialPosition.generate( rules );
+	}
+
+	public Rules getRules() {
+		return this.rules;
+	}
+
+	void setRules( Rules rules ) {
+		this.rules = rules;
+	}
+
+	void incPliesCount() {
+		++pliesCount;
+	}
+
+	void resetPliesCount() {
+		pliesCount = 0;
+	}
+
+	/**
+	 * Detect whether a move executed from the position would be a capture
+	 * @param move potential move to execute
+	 * @return true if the move is capture
+	 */
+	boolean isCapture( Move move ) {
+		return canBeAttackedUsually( getSideToMove(), move.getDestinationSquare() ) ||
+				isEnPassant( move );
+	}
+
+	//position generator also knows about en passant
+	//maybe need generalizing
+
+	//this is NON-VALIDATING checker
+	private boolean isEnPassant( Move move ) {
+		return isCaptureByPawn( move ) && isFree( move.getDestinationSquare() );
+	}
+
+	//capture by pawn is done diagonally - the file is changed
+	private boolean isCaptureByPawn( Move move ) {
+		return getPieceType( move.getFrom() ) == PieceType.PAWN &&
+				!Board.sameFile( move.getFrom(), move.getDestinationSquare() );
 	}
 }

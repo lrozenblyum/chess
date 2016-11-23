@@ -1,5 +1,9 @@
 package com.leokom.chess.engine;
 
+import com.leokom.chess.utils.CollectionUtils;
+
+import java.util.Set;
+
 /**
  * Direction on the board, from White player view
  * Author: Leonid
@@ -16,7 +20,14 @@ enum VerticalDirection {
 	 */
 	DOWN;
 
+	private static final Set< VerticalDirection > CACHE =
+			CollectionUtils.enums( VerticalDirection.class );
+
 	VerticalDirection opposite() {
 		return this == UP ? DOWN : UP;
+	}
+
+	static Set< VerticalDirection > VALUES() {
+		return CACHE;
 	}
 }

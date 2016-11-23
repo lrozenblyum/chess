@@ -2,7 +2,7 @@ package com.leokom.chess;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legalMover.LegalPlayer;
+import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.simple.SimplePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.junit.*;

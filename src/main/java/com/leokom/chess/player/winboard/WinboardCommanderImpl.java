@@ -120,6 +120,16 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void obligatoryDrawByMovesCount( int movesCount ) {
+		communicator.send( String.format( "1/2-1/2 {Draw by %s moves rule}", movesCount ) );
+	}
+
+	@Override
+	public void stalemateDraw() {
+		communicator.send( "1/2-1/2 {Stalemate}" );
+	}
+
+	@Override
 	public void checkmate( Side winningSide ) {
 		String prefix = "";
 		switch ( winningSide ) {
@@ -130,7 +140,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 				prefix = "0-1";
 				break;
 		}
-		communicator.send( prefix + " {LeokomChess : checkmate}" );
+		communicator.send( prefix + " {Checkmate}" );
 	}
 
 	@Override
