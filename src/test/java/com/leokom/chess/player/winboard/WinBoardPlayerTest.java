@@ -70,6 +70,18 @@ public class WinBoardPlayerTest {
 		verify( commander, never() ).illegalMove();
 	}
 
+	@Test
+	public void noPositionUpdateForAnotherPlayerInErrorCase() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		Player opponent = mock(Player.class);
+		player.setOpponent( opponent );
+
+		getUserMoveListener( commander ).execute( "e2e5" );
+
+		verify( opponent, never() ).opponentMoved( any() );
+	}
+
 	private UserMoveListener getUserMoveListener(WinboardCommander commander) {
 		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
 		verify( commander ).onUserMove( userMoveListener.capture() );

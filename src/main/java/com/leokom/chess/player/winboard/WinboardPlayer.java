@@ -271,6 +271,7 @@ public class WinboardPlayer implements Player {
 
 			if ( !position.getMoves().contains( engineMove ) ) {
 				commander.illegalMove();
+				return;
 			}
 
 			position = position.move( engineMove );
