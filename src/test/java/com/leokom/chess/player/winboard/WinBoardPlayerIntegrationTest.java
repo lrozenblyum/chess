@@ -137,6 +137,12 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void castlingCorrectlyTranslatedToPlayer() {
+		PositionBuilder position = new PositionBuilder()
+				.add( Side.WHITE, "e1", PieceType.KING )
+				.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		player.setPosition( position.build() );
+
 		assertTranslationOfReceivedCommandToMoveForOpponent(
 				"usermove e1g1", new Move( "e1", "g1" ) );
 	}
