@@ -59,6 +59,17 @@ public class WinBoardPlayerTest {
 		verify( commander ).illegalMove();
 	}
 
+	@Test
+	public void correctMoveIsNotReportedAsError() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		player.setOpponent( mock( Player.class ) );
+
+		getUserMoveListener( commander ).execute( "e2e4" );
+
+		verify( commander, never() ).illegalMove();
+	}
+
 	private UserMoveListener getUserMoveListener(WinboardCommander commander) {
 		final ArgumentCaptor<UserMoveListener> userMoveListener = ArgumentCaptor.forClass( UserMoveListener.class );
 		verify( commander ).onUserMove( userMoveListener.capture() );
