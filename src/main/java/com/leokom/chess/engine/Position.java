@@ -858,6 +858,17 @@ public class Position {
 	}
 
 	/**
+	 * Check whether the given move is legal in current position
+	 * @param move move to check
+	 * @return true if the move is legal, false otherwise
+	 */
+	public boolean isLegal( Move move ) {
+		//NOTE: great point to OPTIMIZE, we don't need calculating the whole set
+		//lazy calculation via lambdas could greatly improve performance
+		return getMoves().contains( move );
+	}
+
+	/**
 	 * @return legal non-special moves
 	 */
 	Set< Move > getNormalMoves() {
