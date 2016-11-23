@@ -56,7 +56,10 @@ interface WinboardCommander {
 	 */
 	void stalemateDraw();
 
-
+    /**
+     * Inform Winboard that an illegal move has been executed
+     */
+    void illegalMove();
 
 	void onProtover( ProtoverListener protoverListener );
 	void onQuit( QuitListener listener );
@@ -66,5 +69,7 @@ interface WinboardCommander {
 	void onGameOver( GameOverListener listener );
 	void onForce( ForceListener listener );
 	void onNew( NewListener listener );
+
+
 
 }

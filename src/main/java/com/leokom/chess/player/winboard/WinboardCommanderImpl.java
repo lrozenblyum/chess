@@ -144,6 +144,11 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void illegalMove() {
+
+	}
+
+	@Override
 	public void onXBoard( XBoardListener listener ) {
 		listenersWithoutParams.put( "xboard", listener );
 	}
