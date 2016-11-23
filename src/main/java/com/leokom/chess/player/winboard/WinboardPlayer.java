@@ -268,6 +268,9 @@ public class WinboardPlayer implements Player {
 			String destination = translatedMove.substring( 2 );
 
 			final Move engineMove = new Move( squareFrom, destination );
+
+			commander.illegalMove();
+
 			position = position.move( engineMove );
 
 			detectGameOver();
