@@ -59,4 +59,10 @@ public class WinBoardCommanderSendTest {
 		commander.obligatoryDrawByMovesCount( 75 );
 		verify( communicator ).send( "1/2-1/2 {Draw by 75 moves rule}" );
 	}
+
+	@Test
+	public void illegalMove() {
+		commander.illegalMove();
+		verify( communicator ).send( startsWith( "Illegal move" ) );
+	}
 }

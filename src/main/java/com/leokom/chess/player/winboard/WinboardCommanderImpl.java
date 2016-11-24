@@ -145,7 +145,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void illegalMove() {
-
+		communicator.send( "Illegal move" );
 	}
 
 	@Override
