@@ -259,15 +259,14 @@ public class WinboardPlayer implements Player {
 		 */
 		@Override
 		public void execute( String move ) {
-			String translatedMove = move;
-			if ( isPromotion( move ) ) {
-				translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toUpperCase();
+			final Move engineMove = translateMove( move );
+
+			if ( !position.isLegal( engineMove ) ) {
+				//the original move should be passed back to the UI
+				commander.illegalMove( move );
+				return;
 			}
 
-			String squareFrom = translatedMove.substring( 0, SQUARE_FROM_LENGTH );
-			String destination = translatedMove.substring( 2 );
-
-			final Move engineMove = new Move( squareFrom, destination );
 			position = position.move( engineMove );
 
 			detectGameOver();
@@ -277,6 +276,23 @@ public class WinboardPlayer implements Player {
 			//the same we did in LegalPlayer : first update OUR state
 			//only THEN inform the opponent!
 			opponent.opponentMoved( engineMove );
+		}
+
+		/**
+		 * Translate move from Winboard to LeokomChess engine move
+		 * @param move winboard move
+		 * @return engine move
+		 */
+		private Move translateMove( String move ) {
+			String translatedMove = move;
+			if ( isPromotion( move ) ) {
+				translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toUpperCase();
+			}
+
+			String squareFrom = translatedMove.substring( 0, SQUARE_FROM_LENGTH );
+			String destination = translatedMove.substring( 2 );
+
+			return new Move( squareFrom, destination );
 		}
 	}
 }

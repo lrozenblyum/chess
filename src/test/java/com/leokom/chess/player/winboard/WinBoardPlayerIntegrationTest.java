@@ -112,6 +112,7 @@ public class WinBoardPlayerIntegrationTest {
 	public void promotionCorrectlyTranslatedToCommonStandard() {
 		PositionBuilder position = new PositionBuilder()
 				.addPawn( Side.WHITE, "f7" )
+				.add( Side.BLACK, "g8", PieceType.QUEEN )
 				.setSideOf( "f7" );
 
 		player.setPosition( position.build() );
@@ -136,6 +137,12 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void castlingCorrectlyTranslatedToPlayer() {
+		PositionBuilder position = new PositionBuilder()
+				.add( Side.WHITE, "e1", PieceType.KING )
+				.add( Side.WHITE, "h1", PieceType.ROOK );
+
+		player.setPosition( position.build() );
+
 		assertTranslationOfReceivedCommandToMoveForOpponent(
 				"usermove e1g1", new Move( "e1", "g1" ) );
 	}

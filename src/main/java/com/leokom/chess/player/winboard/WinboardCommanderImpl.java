@@ -143,6 +143,28 @@ class WinboardCommanderImpl implements WinboardCommander {
 		communicator.send( prefix + " {Checkmate}" );
 	}
 
+	/**
+	 * @inheritDoc
+	 *
+	 * The implementation doesn't provide the optional REASON.
+	 */
+	@Override
+	public void illegalMove( String winboardMove ) {
+		//Spec: If your engine receives a MOVE command that is recognizably a move but is not legal in the current position, your engine must print an error message in one of the above formats so that xboard can pass the error on to the user and retract the move. The (REASON) is entirely optional. Examples:
+		//Illegal move: e2e4
+		//Illegal move (in check): Nf3
+		//Illegal move (moving into check): e1g1
+
+		//LR: practically I don't see ANY usefulness from passing back the winboardMove
+		//it's not reflected on UI so far (maybe topical for network games?)
+		//anyway I follow the spec.
+
+		//in contrary to Winboard UI, Arena UI shows the illegal move,
+		//so it's useful. However Arena UI got stuck after this situation, I sent a message to the
+		//developers with the issue report.
+		communicator.send( "Illegal move: " + winboardMove );
+	}
+
 	@Override
 	public void onXBoard( XBoardListener listener ) {
 		listenersWithoutParams.put( "xboard", listener );

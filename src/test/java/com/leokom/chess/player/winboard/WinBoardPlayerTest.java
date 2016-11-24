@@ -49,6 +49,40 @@ public class WinBoardPlayerTest {
 	}
 
 	@Test
+	public void errorMoveIsDetected() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		player.setOpponent( mock( Player.class ) );
+
+		executeMoveFromUI( commander, "e2e5" );
+
+		verify( commander ).illegalMove( "e2e5" );
+	}
+
+	@Test
+	public void correctMoveIsNotReportedAsError() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		player.setOpponent( mock( Player.class ) );
+
+		executeMoveFromUI( commander, "e2e4" );
+
+		verify( commander, never() ).illegalMove( any() );
+	}
+
+	@Test
+	public void noPositionUpdateForAnotherPlayerInErrorCase() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+		final WinboardPlayer player = new WinboardPlayer( commander );
+		Player opponent = mock(Player.class);
+		player.setOpponent( opponent );
+
+		executeMoveFromUI( commander, "e2e5" );
+
+		verify( opponent, never() ).opponentMoved( any() );
+	}
+
+	@Test
 	public void offerDrawTransmittedToTheOpponent() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 		final WinboardPlayer player = new WinboardPlayer( commander );
