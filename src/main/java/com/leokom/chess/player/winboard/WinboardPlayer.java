@@ -262,7 +262,8 @@ public class WinboardPlayer implements Player {
 			final Move engineMove = translateMove( move );
 
 			if ( !position.isLegal( engineMove ) ) {
-				commander.illegalMove();
+				//the original move should be passed back to the UI
+				commander.illegalMove( move );
 				return;
 			}
 

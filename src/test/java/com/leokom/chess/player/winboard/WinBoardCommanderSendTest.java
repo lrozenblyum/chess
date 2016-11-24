@@ -62,7 +62,7 @@ public class WinBoardCommanderSendTest {
 
 	@Test
 	public void illegalMove() {
-		commander.illegalMove();
-		verify( communicator ).send( startsWith( "Illegal move" ) );
+		commander.illegalMove( "e2e7" );
+		verify( communicator ).send( "Illegal move: e2e7" );
 	}
 }

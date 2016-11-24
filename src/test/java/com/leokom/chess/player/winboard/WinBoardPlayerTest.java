@@ -56,7 +56,7 @@ public class WinBoardPlayerTest {
 
 		executeMoveFromUI( commander, "e2e5" );
 
-		verify( commander ).illegalMove();
+		verify( commander ).illegalMove( "e2e5" );
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class WinBoardPlayerTest {
 
 		executeMoveFromUI( commander, "e2e4" );
 
-		verify( commander, never() ).illegalMove();
+		verify( commander, never() ).illegalMove( any() );
 	}
 
 	@Test

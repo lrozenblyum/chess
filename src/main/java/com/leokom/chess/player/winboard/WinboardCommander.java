@@ -58,8 +58,9 @@ interface WinboardCommander {
 
     /**
      * Inform Winboard that an illegal move has been executed
+	 * @param winboardMove original move received from Winboard that is illegal
      */
-    void illegalMove();
+    void illegalMove( String winboardMove );
 
 	void onProtover( ProtoverListener protoverListener );
 	void onQuit( QuitListener listener );
