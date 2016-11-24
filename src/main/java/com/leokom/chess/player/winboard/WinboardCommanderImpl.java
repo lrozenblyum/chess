@@ -158,6 +158,10 @@ class WinboardCommanderImpl implements WinboardCommander {
 		//LR: practically I don't see ANY usefulness from passing back the winboardMove
 		//it's not reflected on UI so far (maybe topical for network games?)
 		//anyway I follow the spec.
+
+		//in contrary to Winboard UI, Arena UI shows the illegal move,
+		//so it's useful. However Arena UI got stuck after this situation, I sent a message to the
+		//developers with the issue report.
 		communicator.send( "Illegal move: " + winboardMove );
 	}
 
