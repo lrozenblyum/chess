@@ -8,8 +8,14 @@
 .idea/vcs.xml
 .idea/workspace.xml
 
+#Eclipse-specific files
+/.classpath
+/.project
+.settings/**
+
 #Maven-specific files
 /target/
 
 #Chess-specific files
 LeokomChess.log
+
