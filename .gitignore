@@ -1,1 +1,4 @@
 .idea/libraries/
+
+#chess-specific files
+LeokomChess.log
