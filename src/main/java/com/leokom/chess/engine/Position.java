@@ -3,7 +3,6 @@ package com.leokom.chess.engine;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.leokom.chess.utils.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +27,7 @@ import static java.util.stream.Collectors.toSet;
  * </ul>
  *
  * The position SHOULD be immutable. This is a strict desired state
- * of th class.
+ * of the class.
  * Mutators that exist here MUST be moved to some 'position builder'
  *
  *
