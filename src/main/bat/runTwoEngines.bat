@@ -6,10 +6,13 @@ rem for Winboard integrations we simply don't care about color of the opponent
 rem the goal is just to specify WHAT is the opponent
 rem specifying 'unlogically' -Dblack=Legal since -Dwhite=Legal is unsupported now
 SET RUN_OPTIONS_2=-Dblack=Legal
+SET ENGINE_2=%JAVA_PATH% %RUN_OPTIONS_2% -jar %RUN_JAR_PATH_2%
+
+SET MATCHES_COUNT=1
 
 rem to turn on debug mode add -debug
 rem it will create winboard debug log
 
 rem -mg means match game
-%WINBOARD_PATH% -debug  -reuseFirst false -mg 1 -fcp "%JAVA_PATH% %RUN_OPTIONS% -jar %RUN_JAR_PATH%" -fd "%RUNNABLE_JAR_DIRECTORY%" -scp "%JAVA_PATH% %RUN_OPTIONS_2% -jar %RUN_JAR_PATH_2%" -sd "%RUNNABLE_JAR_DIRECTORY_2%"
+%WINBOARD_PATH% -debug  -reuseFirst false -mg %MATCHES_COUNT% -fcp "%ENGINE%" -fd "%RUNNABLE_JAR_DIRECTORY%" -scp "%ENGINE_2%" -sd "%RUNNABLE_JAR_DIRECTORY_2%"
 
