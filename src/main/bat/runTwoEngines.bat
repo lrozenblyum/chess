@@ -14,5 +14,12 @@ rem to turn on debug mode add -debug
 rem it will create winboard debug log
 
 rem -mg means match game
-%WINBOARD_PATH% -debug  -reuseFirst false -mg %MATCHES_COUNT% -fcp "%ENGINE%" -fd "%RUNNABLE_JAR_DIRECTORY%" -scp "%ENGINE_2%" -sd "%RUNNABLE_JAR_DIRECTORY_2%"
+%WINBOARD_PATH% ^
+-debug ^
+-reuseFirst false ^
+-mg %MATCHES_COUNT% ^
+-fcp "%ENGINE%" ^
+-fd "%RUNNABLE_JAR_DIRECTORY%" ^
+-scp "%ENGINE_2%" ^
+-sd "%RUNNABLE_JAR_DIRECTORY_2%"
 
