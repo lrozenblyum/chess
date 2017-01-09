@@ -198,6 +198,6 @@
         <!-- Naming convention inspired by http://stackoverflow.com/a/30318342/1429367 -->
         <log4j2version>2.6.2</log4j2version>
 
-        <project.deployDirectory>E:\Games\WinBoard-4.7.3\LeokomChess</project.deployDirectory>
+        <project.deployDirectory>E:\Games\WinBoard-4.8.0\LeokomChess</project.deployDirectory>
     </properties>
 </project>

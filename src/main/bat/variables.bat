@@ -1,4 +1,4 @@
-SET WINBOARD_INSTALLATION_PATH=E:\Games\WinBoard-4.7.3
+SET WINBOARD_INSTALLATION_PATH=E:\Games\WinBoard-4.8.0
 rem UI that we use to run our Chess with
 SET WINBOARD_PATH=%WINBOARD_INSTALLATION_PATH%\WinBoard\winboard.exe
 rem I use the Winboard installation as a Chess deployment target
