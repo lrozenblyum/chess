@@ -1,7 +1,8 @@
-SET WINBOARD_PATH=E:\Games\WinBoard-4.7.3\WinBoard\winboard.exe
-rem this directory must be synchronous with jar destination
-rem I use the Winboard installation sub-dir for simplicity
-SET RUNNABLE_JAR_DIRECTORY=E:\Games\WinBoard-4.7.3\LeokomChess
+SET WINBOARD_INSTALLATION_PATH=E:\Games\WinBoard-4.7.3
+rem UI that we use to run our Chess with
+SET WINBOARD_PATH=%WINBOARD_INSTALLATION_PATH%\WinBoard\winboard.exe
+rem I use the Winboard installation as a Chess deployment target
+SET RUNNABLE_JAR_DIRECTORY=%WINBOARD_INSTALLATION_PATH%\LeokomChess
 SET JAVA_PATH=D:\Java\jdk1.8.0_77\bin\java.exe
 SET RUN_JAR_PATH=%RUNNABLE_JAR_DIRECTORY%\Chess.jar
 SET RUN_OPTIONS=-Dblack=Legal
