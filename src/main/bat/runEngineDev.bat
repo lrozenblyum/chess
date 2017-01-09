@@ -1,6 +1,7 @@
 rem =======================================================
 rem Runs Chess in development mode
 rem skips tests, packages fast to correct target directory
+rem Pre-requisites: M3_HOME pointing to a valid Maven3 installation
 rem =======================================================
 
 rem ----
@@ -18,7 +19,7 @@ set INITIAL_DIRECTORY=%cd%
 rem based on fact we're in src/main/bat and need to go to pom.xml location
 cd ..\..\..
 rem need to use call, otherwise maven takes the control over the batch
-call %M3_HOME%bin\mvn package -DskipTests=true
+call %M3_HOME%\bin\mvn clean package -DskipTests=true
 
 rem another option would be cd src/main/bat
 cd %INITIAL_DIRECTORY%
