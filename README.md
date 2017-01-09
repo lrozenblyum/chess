@@ -14,7 +14,6 @@ The well-known GUI implementations are XBoard/Winboard.
 document http://home.hccnet.nl/h.g.muller/interfacing.txt
 * know about all chess rules (including ambiguities with the 3'd position repetition and insufficient material)
 * be able to choose at least random 'correct according to rules' move.
-*
 
 ## How to run
 * Git clone
