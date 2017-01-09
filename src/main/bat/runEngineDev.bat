@@ -14,6 +14,9 @@ rem b) call mvn exec:java
 rem        * here I didn't find a way to make winboard use the mvn's console
 rem ----
 
+%~d0
+cd %~p0
+
 set INITIAL_DIRECTORY=%cd%
 
 rem based on fact we're in src/main/bat and need to go to pom.xml location

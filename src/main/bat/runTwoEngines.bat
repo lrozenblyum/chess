@@ -1,3 +1,6 @@
+%~d0
+cd %~p0
+
 call variables.bat
 SET RUNNABLE_JAR_DIRECTORY_2=E:\Games\WinBoard-4.7.3\LeokomChessTest
 SET RUN_JAR_PATH_2=%RUNNABLE_JAR_DIRECTORY_2%\Chess.jar
