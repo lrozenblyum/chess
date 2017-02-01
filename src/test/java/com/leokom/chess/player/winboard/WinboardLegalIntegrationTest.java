@@ -2,7 +2,7 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.player.legal.LegalPlayerIntegration;
+import com.leokom.chess.player.legal.LegalPlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 public class WinboardLegalIntegrationTest {private WinboardCommunicator communicator;
 	private WinboardCommander commander;
 	private WinboardPlayer playerSpy;
-	private LegalPlayerIntegration opponent;
+	private LegalPlayer opponent;
 
 	@Before
 	public void prepare() {
@@ -30,7 +30,7 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		playerSpy = spy( player );
 		playerSpy.initCommander( commander );
 
-		opponent = new LegalPlayerIntegration();
+		opponent = new LegalPlayer();
 		this.playerSpy.setOpponent( opponent );
 		opponent.setOpponent( this.playerSpy );
 	}
