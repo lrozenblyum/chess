@@ -2,8 +2,8 @@ package com.leokom.chess.player.simple;
 
 import com.leokom.chess.Game;
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.Player;
+import com.leokom.chess.player.PlayerBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,13 +38,7 @@ public class SimplePlayerTest {
 
     @Test
     public void blackFirstMove() {
-        Player player = mock( Player.class );
-        //setting up the position due to assymetry from 'Game'
-        when( player.getPosition() ).thenReturn( Position.getInitialPosition() );
-        doAnswer( invocationOnMock -> {
-            simplePlayer.opponentMoved( new Move("a1", "a2") );
-            return null;
-        } ).when( player ).opponentSuggestsMeStartNewGameWhite();
+        Player player = new PlayerBuilder( simplePlayer ).move( "a1", "a2" ).build();
 
         new Game( player, simplePlayer ).run();
 
