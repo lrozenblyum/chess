@@ -4,6 +4,7 @@ import com.leokom.chess.Game;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.Player;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
@@ -12,6 +13,13 @@ import static org.mockito.Mockito.*;
  * Test simple player before merging it into LegalPlayer
  */
 public class SimplePlayerTest {
+    private SimplePlayer simplePlayer;
+
+    @Before
+    public void prepare() {
+        simplePlayer = new SimplePlayer();
+    }
+
     /*
      * Simple player's behaviour:
      * a) first move : e pawn 2 squares forward
@@ -22,7 +30,6 @@ public class SimplePlayerTest {
      */
     @Test
     public void whiteFirstMove() {
-        SimplePlayer simplePlayer = new SimplePlayer();
         Player player = mock( Player.class );
         new Game( simplePlayer, player ).run();
 
@@ -32,7 +39,6 @@ public class SimplePlayerTest {
     @Test
     public void blackFirstMove() {
         Player player = mock( Player.class );
-        SimplePlayer simplePlayer = new SimplePlayer();
         //setting up the position due to assymetry from 'Game'
         when( player.getPosition() ).thenReturn( Position.getInitialPosition() );
         doAnswer( invocationOnMock -> {
