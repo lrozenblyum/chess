@@ -66,7 +66,6 @@ public class SimplePlayer implements Player {
 		}
 
 		executeMove( opponentMove );
-
 	}
 
 	private void executeMove( Move opponentMove ) {
@@ -79,6 +78,7 @@ public class SimplePlayer implements Player {
 		//Simplest possible strategy - agree to the draw offer
 		if ( opponentMove == Move.OFFER_DRAW ) {
 			moveTo( Move.ACCEPT_DRAW );
+			return;
 		}
 
 		switch ( moveNumber ) {
@@ -113,6 +113,7 @@ public class SimplePlayer implements Player {
 	 * @param move move to do
 	 */
 	private void moveTo( Move move ) {
+		logger.info( "Executing a move: " + move );
 		position = position.move( move );
 		//hiding complexity of opponent.opponentMoved call
 		opponent.opponentMoved( move );
