@@ -2,6 +2,7 @@ package com.leokom.chess.player.simple;
 
 import com.leokom.chess.Game;
 import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;
 import org.junit.Before;
@@ -38,10 +39,21 @@ public class SimplePlayerTest {
 
     @Test
     public void blackFirstMove() {
-        Player player = new PlayerBuilder( simplePlayer ).move( "a1", "a2" ).build();
+        Player player = new PlayerBuilder( simplePlayer, Side.WHITE ).move( "a1", "a2" ).build();
 
         new Game( player, simplePlayer ).run();
 
         verify( player ).opponentMoved( new Move( "e7", "e5" ) );
+    }
+
+    @Test
+    public void whiteSecondMove() {
+        Player player = new PlayerBuilder( simplePlayer, Side.BLACK )
+            .move( "h7", "h6" )
+            .build();
+
+        new Game( simplePlayer, player ).run();
+
+        verify( player ).opponentMoved( new Move( "d2", "d4" ) );
     }
 }

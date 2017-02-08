@@ -2,6 +2,7 @@ package com.leokom.chess.player;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -16,14 +17,16 @@ import static org.mockito.Mockito.when;
 //particularly similar to WinboardTestGameBuilder
 public class PlayerBuilder {
     private final Player opponent;
+    private final Side side;
     private Player player;
 
     private Move moveToExecute;
     private Position position;
 
-    public PlayerBuilder( Player opponent ) {
+    public PlayerBuilder( Player opponent, Side ourSide ) {
         this.player = Mockito.mock( Player.class );
         this.opponent = opponent;
+        this.side = ourSide;
         this.position = Position.getInitialPosition();
 
         updatePositionByOpponentMove();
@@ -36,6 +39,11 @@ public class PlayerBuilder {
 
         doAnswer( invocationOnMock -> {
             position = position.move( opponentMoveCaptor.getValue() );
+
+            if ( moveToExecute != null && side == Side.BLACK ) {
+                doMove();
+            }
+
             return null;
         } ).when( player ).opponentMoved( opponentMoveCaptor.capture() );
     }
@@ -50,14 +58,21 @@ public class PlayerBuilder {
     }
 
     public Player build() {
-        if ( moveToExecute != null ) {
-            doAnswer( invocationOnMock -> {
-                position = position.move( moveToExecute );
-                opponent.opponentMoved( moveToExecute );
+        if ( moveToExecute != null && side == Side.WHITE ) {
+            doAnswer(invocationOnMock -> {
+                doMove();
                 return null;
-            } ).when( player ).opponentSuggestsMeStartNewGameWhite();
+            }).when(player).opponentSuggestsMeStartNewGameWhite();
         }
 
         return player;
+    }
+
+    private void doMove() {
+        Move toBeDone = moveToExecute;
+        position = position.move( toBeDone );
+        //next time we don't want the mock invoked again
+        moveToExecute = null;
+        opponent.opponentMoved( toBeDone );
     }
 }
