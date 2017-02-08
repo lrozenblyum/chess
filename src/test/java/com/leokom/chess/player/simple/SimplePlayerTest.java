@@ -67,4 +67,15 @@ public class SimplePlayerTest {
 
         verify( player ).opponentMoved( Move.ACCEPT_DRAW );
     }
+
+    @Test
+    public void offerDrawIsAcceptedWhenPlayingBlack() {
+        Player player = new PlayerBuilder( simplePlayer, Side.WHITE )
+                .move( Move.OFFER_DRAW )
+                .build();
+
+        new Game( player, simplePlayer ).run();
+
+        verify( player ).opponentMoved( Move.ACCEPT_DRAW );
+    }
 }
