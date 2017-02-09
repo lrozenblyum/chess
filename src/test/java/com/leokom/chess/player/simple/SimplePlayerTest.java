@@ -68,6 +68,18 @@ public class SimplePlayerTest {
     }
 
     @Test
+    public void blackOffersDrawAfterSecondMove() {
+        Player player = new PlayerBuilder( simplePlayer )
+                .move( "a2", "a3" )
+                .move( "a3", "a4" )
+                .build();
+
+        new Game( player, simplePlayer ).run();
+
+        verify( player ).opponentMoved( Move.OFFER_DRAW );
+    }
+
+    @Test
     public void blackSecondMove() {
         Player player =
             new PlayerBuilder( simplePlayer)
