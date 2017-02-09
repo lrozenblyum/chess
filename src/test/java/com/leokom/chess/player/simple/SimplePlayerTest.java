@@ -68,6 +68,43 @@ public class SimplePlayerTest {
     }
 
     @Test
+    public void whiteResignOnThirdMove() {
+        Player player = new PlayerBuilder( simplePlayer )
+                .move( "h7", "h6" )
+                .move( "g7", "g6" )
+                .build();
+
+        new Game( simplePlayer, player ).run();
+
+        verify( player ).opponentMoved( Move.RESIGN );
+    }
+
+    @Test
+    public void blackResignOnThirdMove() {
+        Player player = new PlayerBuilder( simplePlayer )
+                .move( "a2", "a3" )
+                .move( "a3", "a4" )
+                .move( "a4", "a5" )
+                .build();
+
+        new Game( player, simplePlayer ).run();
+
+        verify( player ).opponentMoved( Move.RESIGN );
+    }
+
+    @Test
+    public void noResignIfOpponentResignsOnSecondMove() {
+        Player player = new PlayerBuilder( simplePlayer )
+                .move( "a2", "a3" )
+                .move( Move.RESIGN )
+                .build();
+
+        new Game( player, simplePlayer ).run();
+
+        verify( player, never() ).opponentMoved( Move.RESIGN );
+    }
+
+    @Test
     public void blackOffersDrawAfterSecondMove() {
         Player player = new PlayerBuilder( simplePlayer )
                 .move( "a2", "a3" )
