@@ -92,8 +92,16 @@ public class LegalPlayer implements Player {
 		}
 
 		final Optional< Move > bestMove = decisionMaker.findBestMove( position );
+		if ( bestMove == null ) {
+		    throw new IllegalStateException( "Decision maker should never return null but it did that" );
+        }
 		if ( !bestMove.isPresent() ) {
-			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
+		    if ( position.isTerminal() ) {
+                getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
+            }
+            else {
+		        throw new IllegalStateException( "Decision maker doesn't want to move while the position is not terminal! It's a bug in the decision maker" );
+            }
 		}
 		else {
 			Move move = bestMove.get();

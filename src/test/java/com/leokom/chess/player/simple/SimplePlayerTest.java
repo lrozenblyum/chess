@@ -4,20 +4,34 @@ import com.leokom.chess.Game;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;
-import org.junit.Before;
+import com.leokom.chess.player.legal.LegalPlayer;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.mockito.Mockito.*;
 
 /**
  * Test simple player before merging it into LegalPlayer
  */
+@RunWith( Parameterized.class )
 public class SimplePlayerTest {
-    private SimplePlayer simplePlayer;
+    @Parameterized.Parameter
+    public Player simplePlayer;
 
-    @Before
-    public void prepare() {
-        simplePlayer = new SimplePlayer();
+    private static final boolean ALLOW_NEW_IMPLEMENTATION = false;
+
+    @Parameterized.Parameters
+    public static Iterable< Player > players() {
+        if ( ALLOW_NEW_IMPLEMENTATION ) {
+            return Arrays.asList( new SimplePlayer(), new LegalPlayer(new SimpleBrains()) );
+        }
+        else {
+            return Collections.singletonList( new SimplePlayer() );
+        }
     }
 
     /*
