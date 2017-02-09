@@ -2,7 +2,6 @@ package com.leokom.chess.player.simple;
 
 import com.leokom.chess.Game;
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;
 import org.junit.Before;
@@ -39,7 +38,7 @@ public class SimplePlayerTest {
 
     @Test
     public void blackFirstMove() {
-        Player player = new PlayerBuilder( simplePlayer, Side.WHITE ).move( "a1", "a2" ).build();
+        Player player = new PlayerBuilder( simplePlayer ).move( "a1", "a2" ).build();
 
         new Game( player, simplePlayer ).run();
 
@@ -48,7 +47,7 @@ public class SimplePlayerTest {
 
     @Test
     public void whiteSecondMove() {
-        Player player = new PlayerBuilder( simplePlayer, Side.BLACK )
+        Player player = new PlayerBuilder( simplePlayer )
             .move( "h7", "h6" )
             .build();
 
@@ -58,8 +57,32 @@ public class SimplePlayerTest {
     }
 
     @Test
+    public void whiteOffersDrawAfterSecondMove() {
+        Player player = new PlayerBuilder( simplePlayer)
+                .move( "h7", "h6" )
+                .build();
+
+        new Game( simplePlayer, player ).run();
+
+        verify( player ).opponentMoved( Move.OFFER_DRAW );
+    }
+
+    @Test
+    public void blackSecondMove() {
+        Player player =
+            new PlayerBuilder( simplePlayer)
+            .move( "b2", "b3" )
+            .move( "c2", "c3" )
+            .build();
+
+        new Game( player, simplePlayer ).run();
+
+        verify( player ).opponentMoved( new Move( "d7", "d5" ) );
+    }
+
+    @Test
     public void offerDrawIsAcceptedWhenPlayingWhite() {
-        Player player = new PlayerBuilder( simplePlayer, Side.BLACK )
+        Player player = new PlayerBuilder( simplePlayer)
                 .move( Move.OFFER_DRAW )
                 .build();
 
@@ -70,7 +93,7 @@ public class SimplePlayerTest {
 
     @Test
     public void offerDrawIsAcceptedWhenPlayingBlack() {
-        Player player = new PlayerBuilder( simplePlayer, Side.WHITE )
+        Player player = new PlayerBuilder( simplePlayer)
                 .move( Move.OFFER_DRAW )
                 .build();
 

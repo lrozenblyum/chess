@@ -2,9 +2,11 @@ package com.leokom.chess.player;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.engine.Side;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
@@ -17,16 +19,14 @@ import static org.mockito.Mockito.when;
 //particularly similar to WinboardTestGameBuilder
 public class PlayerBuilder {
     private final Player opponent;
-    private final Side side;
     private Player player;
 
-    private Move moveToExecute;
+    private List< Move > movesToExecute = new ArrayList<>();
     private Position position;
 
-    public PlayerBuilder( Player opponent, Side ourSide ) {
+    public PlayerBuilder( Player opponent ) {
         this.player = Mockito.mock( Player.class );
         this.opponent = opponent;
-        this.side = ourSide;
         this.position = Position.getInitialPosition();
 
         updatePositionByOpponentMove();
@@ -40,16 +40,13 @@ public class PlayerBuilder {
         doAnswer( invocationOnMock -> {
             position = position.move( opponentMoveCaptor.getValue() );
 
-            if ( moveToExecute != null && side == Side.BLACK ) {
-                doMove();
-            }
-
+            doMove();
             return null;
         } ).when( player ).opponentMoved( opponentMoveCaptor.capture() );
     }
 
     public PlayerBuilder move( Move move ) {
-        this.moveToExecute =  move;
+        this.movesToExecute.add( move );
         return this;
     }
 
@@ -58,21 +55,22 @@ public class PlayerBuilder {
     }
 
     public Player build() {
-        if ( moveToExecute != null && side == Side.WHITE ) {
-            doAnswer(invocationOnMock -> {
-                doMove();
-                return null;
-            }).when(player).opponentSuggestsMeStartNewGameWhite();
-        }
+        doAnswer(invocationOnMock -> {
+            doMove();
+            return null;
+        }).when( player ).opponentSuggestsMeStartNewGameWhite();
 
         return player;
     }
 
     private void doMove() {
-        Move toBeDone = moveToExecute;
-        position = position.move( toBeDone );
+        if ( movesToExecute.isEmpty()  ) {
+            return;
+        }
+
         //next time we don't want the mock invoked again
-        moveToExecute = null;
+        Move toBeDone = movesToExecute.remove(0);
+        position = position.move( toBeDone );
         opponent.opponentMoved( toBeDone );
     }
 }
