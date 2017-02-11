@@ -7,7 +7,10 @@ import java.util.Optional;
 
 /**
  * The part of brain the makes decision :
- * this is the move to execute in current position
+ * this is the move to execute in current position.
+ *
+ * A valid implementation of the decision maker must be
+ * stateless.
  *
  * Author: Leonid
  * Date-time: 23.08.16 22:53
