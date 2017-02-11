@@ -13,6 +13,8 @@ import java.util.Optional;
 public class SimpleBrains implements DecisionMaker {
     @Override
     public Optional< Move > findBestMove( Position position ) {
-        return Optional.empty();
+        return position.isTerminal() ?
+                Optional.empty() :
+                Optional.of( position.getMoves().iterator().next() );
     }
 }
