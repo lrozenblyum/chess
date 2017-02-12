@@ -11,7 +11,7 @@ import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMake
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * Author: Leonid
@@ -91,11 +91,11 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
-		final Optional< Move > bestMove = decisionMaker.findBestMove( position );
-		if ( bestMove == null ) {
+		final List< Move > bestMoves = decisionMaker.findBestMove( position );
+		if ( bestMoves == null ) {
 		    throw new IllegalStateException( "Decision maker should never return null but it did that" );
         }
-		if ( !bestMove.isPresent() ) {
+		if ( bestMoves.isEmpty() ) {
 		    if ( position.isTerminal() ) {
                 getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
             }
@@ -104,9 +104,10 @@ public class LegalPlayer implements Player {
             }
 		}
 		else {
-			Move move = bestMove.get();
-			updateInternalPositionPresentation( move );
-			informOpponentAboutTheMove( move );
+			bestMoves.forEach( bestMove -> {
+				updateInternalPositionPresentation( bestMove );
+				informOpponentAboutTheMove( bestMove );
+			} );
 		}
 	}
 

@@ -12,22 +12,21 @@ import java.util.*;
  */
 public class SimpleBrains implements DecisionMaker {
     @Override
-    public Optional< Move > findBestMove( Position position ) {
+    public List< Move > findBestMove( Position position ) {
         if ( position.isTerminal() ) {
-            return Optional.empty();
+            return Collections.emptyList();
         }
 
-        List< Move > suggestedMoves = Arrays.asList(
-         new Move( "e2", "e4" ),
-         new Move( "d2", "d4" ),
-         new Move( "e7", "e5" ),
-         new Move( "d7", "d5" ),
-         Move.RESIGN );
+        List< List< Move > > suggestedMoves = Arrays.asList(
+            Collections.singletonList(new Move("e2", "e4")),
+            Collections.singletonList(new Move("d2", "d4")),
+            Collections.singletonList(new Move("e7", "e5")),
+            Collections.singletonList(new Move("d7", "d5")),
+            Collections.singletonList(Move.RESIGN));
 
         Set< Move > legalMoves = position.getMoves();
-        return Optional.of(
-                suggestedMoves.stream().filter( legalMoves::contains )
+        return suggestedMoves.stream().filter(suggestedMove -> legalMoves.contains(suggestedMove.get(0)))
                 .findFirst()
-                .orElse( legalMoves.iterator().next() ) );
+                .orElse( Collections.singletonList( legalMoves.iterator().next() ) );
     }
 }

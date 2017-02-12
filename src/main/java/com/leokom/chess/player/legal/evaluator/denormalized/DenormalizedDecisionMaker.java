@@ -28,11 +28,11 @@ public class DenormalizedDecisionMaker implements DecisionMaker {
 	private EvaluatorFactory evaluatorFactory = new DenormalizedEvaluatorFactory();
 
 	@Override
-	public Optional< Move > findBestMove( Position position ) {
+	public List< Move > findBestMove( Position position ) {
 		final Set< Move > legalMoves = position.getMoves();
 
 		if ( legalMoves.isEmpty() ) {
-			return Optional.empty();
+			return Collections.emptyList();
 		}
 
 		Table<EvaluatorType, Move, Double> movesTable = generateInitialTable( position, legalMoves );

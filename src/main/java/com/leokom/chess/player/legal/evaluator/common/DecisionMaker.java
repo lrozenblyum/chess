@@ -3,8 +3,7 @@ package com.leokom.chess.player.legal.evaluator.common;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 
-import java.util.Optional;
-
+import java.util.List;
 /**
  * The part of brain the makes decision :
  * this is the move to execute in current position.
@@ -18,9 +17,11 @@ import java.util.Optional;
 public interface DecisionMaker {
 
 	/**
-	 * Finds the best move in the current position.
+	 * Finds the best move(s) in the current position.
+	 * 2 moves can be returned if a player is allowed to execute
+	 * something extra after his move, e.g. OFFER DRAW
 	 * @return best move according to current strategy, absence of moves means:
 	 * no moves are legal - we reached a terminal position
 	 */
-	Optional< Move > findBestMove( Position position );
+	List< Move > findBestMove(Position position );
 }
