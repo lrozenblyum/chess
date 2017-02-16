@@ -7,6 +7,8 @@ import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
+
 /**
  * Run just 2 moves for white/black (central pawns)
  * Always agree to draw.
@@ -45,7 +47,7 @@ public class SimplePlayer implements Player {
 	@Override
 	public void joinGameForSideToMove() {
 		recordingMode = false;
-		executeMove( null );
+		executeMove((Move) null);
 	}
 
 	@Override
@@ -54,8 +56,8 @@ public class SimplePlayer implements Player {
 	}
 
 	@Override
-	public void opponentMoved( Move opponentMove ) {
-		position = position.move( opponentMove );
+	public void opponentMoved( Move... opponentMoves ) {
+		Arrays.stream( opponentMoves ).forEach( this::updatePosition );
 		if ( recordingMode ) {
 			return;
 		}
@@ -65,10 +67,14 @@ public class SimplePlayer implements Player {
 			return;
 		}
 
-		executeMove( opponentMove );
+		executeMove( opponentMoves );
 	}
 
-	private void executeMove( Move opponentMove ) {
+	private void updatePosition( Move opponentMove ) {
+		position = position.move( opponentMove );
+	}
+
+	private void executeMove( Move... opponentMoves ) {
 		LogManager.getLogger().info( "We're going to execute a move" );
 		int rankFrom = position.getSideToMove() == Side.WHITE ? 2 : 7;
 		int rankTo = position.getSideToMove() == Side.WHITE ? 4 : 5;
@@ -76,7 +82,7 @@ public class SimplePlayer implements Player {
 		logger.info( "Move number = " + moveNumber );
 
 		//Simplest possible strategy - agree to the draw offer
-		if ( opponentMove == Move.OFFER_DRAW ) {
+		if ( opponentMoves != null && Arrays.stream( opponentMoves ).anyMatch(Move.OFFER_DRAW::equals) ) {
 			moveTo( Move.ACCEPT_DRAW );
 			return;
 		}
@@ -114,7 +120,7 @@ public class SimplePlayer implements Player {
 	 */
 	private void moveTo( Move move ) {
 		logger.info( "Executing a move: " + move );
-		position = position.move( move );
+		updatePosition(move);
 		//hiding complexity of opponent.opponentMoved call
 		opponent.opponentMoved( move );
 	}
@@ -124,7 +130,7 @@ public class SimplePlayer implements Player {
 		LogManager.getLogger().info( "Opponent suggests me start new game white" );
 		moveNumber = 0;
 		position = Position.getInitialPosition();
-		executeMove( null );
+		executeMove((Move) null);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMake
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -60,15 +61,16 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentMoved( Move opponentMove ) {
-		LogManager.getLogger().info( "Opponent moved : {}", opponentMove );
+	public void opponentMoved( Move... opponentMoves ) {
+		LogManager.getLogger().info( "Opponent moved : {}", (Object[]) opponentMoves);
 		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
-		if ( opponentMove == null ) {
+		if ( opponentMoves == null ) {
 			throw new IllegalArgumentException( "Wrong opponent move null" );
 		}
 
 		//updating internal representation of our position according to the opponent's move
-		updatePositionByOpponentMove( opponentMove );
+		Arrays.stream( opponentMoves )
+		.forEach( this::updatePositionByOpponentMove );
 
 		executeOurMove();
 	}
