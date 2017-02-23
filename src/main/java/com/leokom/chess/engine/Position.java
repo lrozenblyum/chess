@@ -989,4 +989,15 @@ public class Position {
 		return getPieceType( move.getFrom() ) == PieceType.PAWN &&
 				!Board.sameFile( move.getFrom(), move.getDestinationSquare() );
 	}
+
+	/**
+	 * Usually moves are executed by a person to move.
+	 * However some special moves can be executed even when it's not your turn
+	 * @return set of moves that can be executed by the opponent
+	 */
+	Set<Move> getMovesForOpponent() {
+		Set< Move > moves = new HashSet<>();
+		moves.add( Move.RESIGN );
+		return moves;
+	}
 }
