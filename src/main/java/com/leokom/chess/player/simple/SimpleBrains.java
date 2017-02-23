@@ -21,6 +21,7 @@ public class SimpleBrains implements DecisionMaker {
         }
 
         List< List< Move > > suggestedMoves = asList(
+            singletonList( Move.ACCEPT_DRAW ),
             singletonList(new Move("e2", "e4")),
             asList(new Move("d2", "d4"), Move.OFFER_DRAW),
             singletonList(new Move("e7", "e5")),

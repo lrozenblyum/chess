@@ -8,6 +8,8 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.when;
 
@@ -21,7 +23,7 @@ public class PlayerBuilder {
     private final Player opponent;
     private Player player;
 
-    private List< Move > movesToExecute = new ArrayList<>();
+    private List< List< Move > > movesToExecute = new ArrayList<>();
     private Position position;
 
     public PlayerBuilder( Player opponent ) {
@@ -46,7 +48,12 @@ public class PlayerBuilder {
     }
 
     public PlayerBuilder move( Move move ) {
-        this.movesToExecute.add( move );
+        this.movesToExecute.add( singletonList( move ) );
+        return this;
+    }
+
+    public PlayerBuilder moveMulti( Move ... moves ) {
+        this.movesToExecute.add( asList( moves ) );
         return this;
     }
 
@@ -69,8 +76,8 @@ public class PlayerBuilder {
         }
 
         //next time we don't want the mock invoked again
-        Move toBeDone = movesToExecute.remove(0);
-        position = position.move( toBeDone );
-        opponent.opponentMoved( toBeDone );
+        List< Move > toBeDone = movesToExecute.remove(0);
+        toBeDone.forEach( move -> position = position.move( move ) );
+        opponent.opponentMoved( toBeDone.toArray(new Move[]{}) );
     }
 }

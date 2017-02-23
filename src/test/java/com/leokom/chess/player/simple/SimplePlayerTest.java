@@ -34,6 +34,28 @@ public class SimplePlayerTest {
         }
     }
 
+    @Test
+    public void simplePlayerAcceptsDrawInMultiCaseForBlack() {
+        Player whitePlayer = new PlayerBuilder( simplePlayer )
+                .moveMulti( new Move( "a2", "a4" ), Move.OFFER_DRAW )
+                .build();
+
+        new Game( whitePlayer, simplePlayer ).run();
+
+        verify( whitePlayer ).opponentMoved( Move.ACCEPT_DRAW );
+    }
+
+    @Test
+    public void simplePlayerAcceptsDrawInMultiCaseForWhite() {
+        Player blackPlayer = new PlayerBuilder( simplePlayer )
+                .moveMulti( new Move( "d7", "d5" ), Move.OFFER_DRAW )
+                .build();
+
+        new Game( simplePlayer, blackPlayer ).run();
+
+        verify( blackPlayer ).opponentMoved( Move.ACCEPT_DRAW );
+    }
+
     /*
      * Simple player's behaviour:
      * a) first move : e pawn 2 squares forward
