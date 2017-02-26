@@ -33,4 +33,9 @@ public class SimpleBrains implements DecisionMaker {
                 .findFirst()
                 .orElse( singletonList( legalMoves.iterator().next() ) );
     }
+
+    @Override
+    public Move findBestMoveForOpponent() {
+        return Move.ACCEPT_DRAW;
+    }
 }

@@ -90,6 +90,12 @@ public class LegalPlayer implements Player {
 		//so he still has the right to move
 		if ( position.getSideToMove() != ourSide ) {
 			getLogger().info( "It's not our side to move" );
+
+			Move bestMove = decisionMaker.findBestMoveForOpponent();
+			if ( bestMove != null ) {
+				getLogger().info( "Anyway we're ready to move: " + bestMove );
+				doMove( bestMove );
+			}
 			return;
 		}
 
@@ -106,11 +112,13 @@ public class LegalPlayer implements Player {
             }
 		}
 		else {
-			bestMoves.forEach( bestMove -> {
-				updateInternalPositionPresentation( bestMove );
-				informOpponentAboutTheMove( bestMove );
-			} );
+			bestMoves.forEach( this::doMove );
 		}
+	}
+
+	private void doMove(Move bestMove) {
+		updateInternalPositionPresentation( bestMove );
+		informOpponentAboutTheMove( bestMove );
 	}
 
 	private String getWinningSideDescription() {

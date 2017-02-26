@@ -24,4 +24,18 @@ public interface DecisionMaker {
 	 * no moves are legal - we reached a terminal position
 	 */
 	List< Move > findBestMove(Position position );
+
+	/**
+	 * Get the best move to execute when it's not our
+	 * turn to move
+	 * @return best move in not our turn (null if we don't want to move)
+	 */
+	/*
+	That's exactly why default methods were introduced:
+	to allow evolving interface while not forcing existing
+	implementations to increase complexity
+	 */
+	default Move findBestMoveForOpponent() {
+		return null;
+	}
 }
