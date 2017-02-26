@@ -997,7 +997,11 @@ public class Position {
 	 */
 	Set<Move> getMovesForOpponent() {
 		Set< Move > moves = new HashSet<>();
+		//resign can be done at any moment
 		moves.add( Move.RESIGN );
+		if ( this.waitingForAcceptDraw ) {
+			moves.add( Move.ACCEPT_DRAW );
+		}
 		return moves;
 	}
 }
