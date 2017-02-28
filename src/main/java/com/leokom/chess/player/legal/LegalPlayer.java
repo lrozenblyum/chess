@@ -86,10 +86,24 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
+		if ( position.isTerminal() ) {
+			logTerminal( "the opponent's" );
+			return;
+		}
+
 		//can be not our move : when opponent offers draw before HIS move
 		//so he still has the right to move
 		if ( position.getSideToMove() != ourSide ) {
 			getLogger().info( "It's not our side to move" );
+
+			Move bestMove = decisionMaker.findBestMoveForOpponent( position );
+			if ( bestMove != null ) {
+				getLogger().info( "Anyway we're ready to move: " + bestMove );
+				doMove( bestMove );
+			}
+			else {
+			    getLogger().info( "We don't want to move now" );
+            }
 			return;
 		}
 
@@ -98,19 +112,15 @@ public class LegalPlayer implements Player {
 		    throw new IllegalStateException( "Decision maker should never return null but it did that" );
         }
 		if ( bestMoves.isEmpty() ) {
-		    if ( position.isTerminal() ) {
-                getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
-            }
-            else {
-		        throw new IllegalStateException( "Decision maker doesn't want to move while the position is not terminal! It's a bug in the decision maker" );
-            }
+	        throw new IllegalStateException( "Decision maker doesn't want to move while the position is not terminal! It's a bug in the decision maker" );
 		}
-		else {
-			bestMoves.forEach( bestMove -> {
-				updateInternalPositionPresentation( bestMove );
-				informOpponentAboutTheMove( bestMove );
-			} );
-		}
+
+		bestMoves.forEach( this::doMove );
+	}
+
+	private void doMove( Move bestMove ) {
+		updatePositionByOurMove( bestMove );
+		informOpponentAboutTheMove( bestMove );
 	}
 
 	private String getWinningSideDescription() {
@@ -123,17 +133,21 @@ public class LegalPlayer implements Player {
 		opponent.opponentMoved( move );
 	}
 
-	//updating internal representation of current position according to our move
-	private void updateInternalPositionPresentation( Move move ) {
+	//updating internal representation of current position
+	private void updatePositionByOurMove( Move move ) {
 		getLogger().info( this.position.getSideToMove() + " : Moved " + move );
 		position = position.move( move );
 		getLogger().info( "\nNew position : " + position );
 		if ( position.isTerminal() ) {
-			getLogger().info( "Final position has been reached by our move! " + getWinningSideDescription() );
-		}
+            logTerminal( "our" );
+        }
 	}
 
-	private Logger getLogger() {
+    private void logTerminal(String whoseMoveItWas) {
+        getLogger().info( "Final position has been reached by " + whoseMoveItWas + " move! " + getWinningSideDescription() );
+    }
+
+    private Logger getLogger() {
 		return LogManager.getLogger( this.getClass() );
 	}
 

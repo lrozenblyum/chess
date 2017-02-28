@@ -22,7 +22,7 @@ public class SimplePlayerTest {
     @Parameterized.Parameter
     public Player simplePlayer;
 
-    private static final boolean ALLOW_NEW_IMPLEMENTATION = false;
+    private static final boolean ALLOW_NEW_IMPLEMENTATION = true;
 
     @Parameterized.Parameters
     public static Iterable< Player > players() {
