@@ -35,7 +35,10 @@ public class SimpleBrains implements DecisionMaker {
     }
 
     @Override
-    public Move findBestMoveForOpponent() {
-        return Move.ACCEPT_DRAW;
+    public Move findBestMoveForOpponent( Position position ) {
+        if ( position.getMovesForOpponent().contains( Move.ACCEPT_DRAW ) ) {
+            return Move.ACCEPT_DRAW;
+        }
+        return null;
     }
 }

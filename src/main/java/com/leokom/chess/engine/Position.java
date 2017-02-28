@@ -995,7 +995,7 @@ public class Position {
 	 * However some special moves can be executed even when it's not your turn
 	 * @return set of moves that can be executed by the opponent
 	 */
-	Set<Move> getMovesForOpponent() {
+	public Set<Move> getMovesForOpponent() {
 		Set< Move > moves = new HashSet<>();
 		//resign can be done at any moment
 		moves.add( Move.RESIGN );

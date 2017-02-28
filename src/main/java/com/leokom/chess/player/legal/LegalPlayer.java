@@ -96,7 +96,7 @@ public class LegalPlayer implements Player {
 		if ( position.getSideToMove() != ourSide ) {
 			getLogger().info( "It's not our side to move" );
 
-			Move bestMove = decisionMaker.findBestMoveForOpponent();
+			Move bestMove = decisionMaker.findBestMoveForOpponent( position );
 			if ( bestMove != null ) {
 				getLogger().info( "Anyway we're ready to move: " + bestMove );
 				doMove( bestMove );

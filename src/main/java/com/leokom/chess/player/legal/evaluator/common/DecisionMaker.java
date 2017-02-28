@@ -35,7 +35,7 @@ public interface DecisionMaker {
 	to allow evolving interface while not forcing existing
 	implementations to increase complexity
 	 */
-	default Move findBestMoveForOpponent() {
+	default Move findBestMoveForOpponent( Position position ) {
 		return null;
 	}
 }
