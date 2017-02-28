@@ -87,7 +87,7 @@ public class LegalPlayer implements Player {
 		}
 
 		if ( position.isTerminal() ) {
-			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
+			logTerminal( "the opponent's" );
 			return;
 		}
 
@@ -101,6 +101,9 @@ public class LegalPlayer implements Player {
 				getLogger().info( "Anyway we're ready to move: " + bestMove );
 				doMove( bestMove );
 			}
+			else {
+			    getLogger().info( "We don't want to move now" );
+            }
 			return;
 		}
 
@@ -116,7 +119,7 @@ public class LegalPlayer implements Player {
 	}
 
 	private void doMove( Move bestMove ) {
-		updateInternalPositionPresentation( bestMove );
+		updatePositionByOurMove( bestMove );
 		informOpponentAboutTheMove( bestMove );
 	}
 
@@ -130,17 +133,21 @@ public class LegalPlayer implements Player {
 		opponent.opponentMoved( move );
 	}
 
-	//updating internal representation of current position according to our move
-	private void updateInternalPositionPresentation( Move move ) {
+	//updating internal representation of current position
+	private void updatePositionByOurMove( Move move ) {
 		getLogger().info( this.position.getSideToMove() + " : Moved " + move );
 		position = position.move( move );
 		getLogger().info( "\nNew position : " + position );
 		if ( position.isTerminal() ) {
-			getLogger().info( "Final position has been reached by our move! " + getWinningSideDescription() );
-		}
+            logTerminal( "our" );
+        }
 	}
 
-	private Logger getLogger() {
+    private void logTerminal(String whoseMoveItWas) {
+        getLogger().info( "Final position has been reached by " + whoseMoveItWas + " move! " + getWinningSideDescription() );
+    }
+
+    private Logger getLogger() {
 		return LogManager.getLogger( this.getClass() );
 	}
 
