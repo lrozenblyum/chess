@@ -86,6 +86,11 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
+		if ( position.isTerminal() ) {
+			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
+			return;
+		}
+
 		//can be not our move : when opponent offers draw before HIS move
 		//so he still has the right to move
 		if ( position.getSideToMove() != ourSide ) {
@@ -104,19 +109,13 @@ public class LegalPlayer implements Player {
 		    throw new IllegalStateException( "Decision maker should never return null but it did that" );
         }
 		if ( bestMoves.isEmpty() ) {
-		    if ( position.isTerminal() ) {
-                getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
-            }
-            else {
-		        throw new IllegalStateException( "Decision maker doesn't want to move while the position is not terminal! It's a bug in the decision maker" );
-            }
+	        throw new IllegalStateException( "Decision maker doesn't want to move while the position is not terminal! It's a bug in the decision maker" );
 		}
-		else {
-			bestMoves.forEach( this::doMove );
-		}
+
+		bestMoves.forEach( this::doMove );
 	}
 
-	private void doMove(Move bestMove) {
+	private void doMove( Move bestMove ) {
 		updateInternalPositionPresentation( bestMove );
 		informOpponentAboutTheMove( bestMove );
 	}

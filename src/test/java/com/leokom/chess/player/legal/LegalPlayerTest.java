@@ -2,6 +2,7 @@ package com.leokom.chess.player.legal;
 
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
+import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorTweaked;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,6 +24,18 @@ public class LegalPlayerTest {
 	@Before
 	public void setUp() throws Exception {
 		opponent = mock( Player.class );
+	}
+
+	@Test
+	public void noDecisionMakersAskingInTerminalPosition() {
+		DecisionMaker decisionMaker = mock( DecisionMaker.class );
+		LegalPlayer player = new LegalPlayer(decisionMaker);
+
+		player.setPosition( Position.getInitialPosition().move( Move.RESIGN ), Side.BLACK );
+
+		player.executeOurMove();
+
+		verifyNoMoreInteractions( decisionMaker );
 	}
 
 	@Test
