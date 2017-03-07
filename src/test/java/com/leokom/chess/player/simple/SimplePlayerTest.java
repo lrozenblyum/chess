@@ -1,10 +1,12 @@
 package com.leokom.chess.player.simple;
 
 import com.leokom.chess.Game;
+import com.leokom.chess.PlayerFactory;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;
 import com.leokom.chess.player.legal.LegalPlayer;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -12,26 +14,18 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static com.leokom.chess.PlayerFactory.PlayerSelection.SIMPLE;
 import static org.mockito.Mockito.*;
 
 /**
- * Test simple player before merging it into LegalPlayer
+ * Test simple player new implementation
  */
-@RunWith( Parameterized.class )
 public class SimplePlayerTest {
-    @Parameterized.Parameter
-    public Player simplePlayer;
+    private Player simplePlayer;
 
-    private static final boolean ALLOW_NEW_IMPLEMENTATION = true;
-
-    @Parameterized.Parameters
-    public static Iterable< Player > players() {
-        if ( ALLOW_NEW_IMPLEMENTATION ) {
-            return Arrays.asList( new SimplePlayer(), new LegalPlayer(new SimpleBrains()) );
-        }
-        else {
-            return Collections.singletonList( new SimplePlayer() );
-        }
+    @Before
+    public void prepare() {
+        simplePlayer = SIMPLE.create();
     }
 
     @Test
