@@ -5,9 +5,11 @@ import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -24,7 +26,7 @@ public class DenormalizedDecisionMakerTest {
 
 	@Test
 	public void canFindMoves() {
-		assertTrue( decisionMaker.findBestMove( Position.getInitialPosition() ).isPresent() );
+		assertFalse( decisionMaker.findBestMove( Position.getInitialPosition() ).isEmpty() );
 	}
 
 	/**
@@ -45,8 +47,8 @@ public class DenormalizedDecisionMakerTest {
 		//otherwise we'll lose the queen
 		Move captureIsSmartest = new Move( "a1", "c1" );
 
-		final Optional< Move > moveFound = decisionMaker.findBestMove( position.build() );
-		assertTrue( moveFound.isPresent() );
-		assertEquals( captureIsSmartest, moveFound.get() );
+		final List< Move > movesFound = decisionMaker.findBestMove( position.build() );
+		assertFalse( movesFound.isEmpty() );
+		assertEquals( captureIsSmartest, movesFound.get( 0 ) );
 	}
 }

@@ -153,27 +153,29 @@ public class WinboardPlayer implements Player {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void opponentMoved( Move opponentMove ) {
-		position = position.move( opponentMove );
+	public void opponentMoved( Move... opponentMoves ) {
+		for ( Move opponentMove : opponentMoves ) {
+			position = position.move( opponentMove );
 
-		if ( opponentMove == Move.RESIGN ) {
-			commander.resign();
-		}
-		else if ( opponentMove == Move.OFFER_DRAW ) {
-			commander.offerDraw();
-		}
-		else if ( opponentMove == Move.ACCEPT_DRAW ) {
-			commander.agreeToDrawOffer();
-		}
-		else {
-			String translatedMove = opponentMove.toOldStringPresentation();
-			if ( opponentMove.isPromotion() ) {
-				translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
+			if ( opponentMove == Move.RESIGN ) {
+				commander.resign();
 			}
+			else if ( opponentMove == Move.OFFER_DRAW ) {
+				commander.offerDraw();
+			}
+			else if ( opponentMove == Move.ACCEPT_DRAW ) {
+				commander.agreeToDrawOffer();
+			}
+			else {
+				String translatedMove = opponentMove.toOldStringPresentation();
+				if ( opponentMove.isPromotion() ) {
+					translatedMove = translatedMove.substring( 0, PROMOTION_MOVE_LENGTH - 1 ) + translatedMove.substring( PROMOTION_MOVE_LENGTH - 1 ).toLowerCase();
+				}
 
-			commander.opponentMoved( translatedMove );
+				commander.opponentMoved( translatedMove );
 
-			detectGameOver();
+				detectGameOver();
+			}
 		}
 	}
 

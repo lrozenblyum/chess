@@ -30,16 +30,17 @@ public interface Player {
 	void opponentSuggestsMeStartNewGameBlack();
 
 	/**
-	 * React to another player's move.
+	 * React to another player's move (s).
 	 *
 	 * If recording mode is ON, simply update internal Position.
-	 * In this case the move is treated not from an opponent
+	 * In this case the move(s) is/are treated not from an opponent
 	 * but just from some external source (we might receive moves
 	 * both for WHITE and for BLACK here).
 	 *
-	 * @param opponentMove move received from the opponent
+	 * @param opponentMoves moves received from the opponent.
+*             Several moves can be received for example when the opponent offers draw
 	 */
-	void opponentMoved( Move opponentMove );
+	void opponentMoved( Move ... opponentMoves );
 
 	//TODO: this method is extracted because we need
 	//to set up bidirectional connection
@@ -78,4 +79,19 @@ public interface Player {
 	 * @return position position which is not null
 	 */
 	Position getPosition();
+
+	/**
+	 * Get name of the player.
+	 * It will help identifying it.
+	 * Also it will make it possible to specify human player name.
+	 *
+	 * A correct implementation of the name method
+	 * must not return different results for the same
+	 * player instance.
+	 *
+	 * @return name of the player.
+	 */
+	default String name() {
+		return this.getClass().getSimpleName();
+	}
 }

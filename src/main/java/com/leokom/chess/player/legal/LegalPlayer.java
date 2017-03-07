@@ -11,7 +11,8 @@ import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMake
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Author: Leonid
@@ -60,15 +61,16 @@ public class LegalPlayer implements Player {
 	}
 
 	@Override
-	public void opponentMoved( Move opponentMove ) {
-		LogManager.getLogger().info( "Opponent moved : {}", opponentMove );
+	public void opponentMoved( Move... opponentMoves ) {
+		LogManager.getLogger().info( "Opponent moved : {}", (Object[]) opponentMoves);
 		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
-		if ( opponentMove == null ) {
+		if ( opponentMoves == null ) {
 			throw new IllegalArgumentException( "Wrong opponent move null" );
 		}
 
 		//updating internal representation of our position according to the opponent's move
-		updatePositionByOpponentMove( opponentMove );
+		Arrays.stream( opponentMoves )
+		.forEach( this::updatePositionByOpponentMove );
 
 		executeOurMove();
 	}
@@ -84,22 +86,41 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
+		if ( position.isTerminal() ) {
+			logTerminal( "the opponent's" );
+			return;
+		}
+
 		//can be not our move : when opponent offers draw before HIS move
 		//so he still has the right to move
 		if ( position.getSideToMove() != ourSide ) {
 			getLogger().info( "It's not our side to move" );
+
+			Move bestMove = decisionMaker.findBestMoveForOpponent( position );
+			if ( bestMove != null ) {
+				getLogger().info( "Anyway we're ready to move: " + bestMove );
+				doMove( bestMove );
+			}
+			else {
+			    getLogger().info( "We don't want to move now" );
+            }
 			return;
 		}
 
-		final Optional< Move > bestMove = decisionMaker.findBestMove( position );
-		if ( !bestMove.isPresent() ) {
-			getLogger().info( " Final state has been detected. " + getWinningSideDescription() );
+		final List< Move > bestMoves = decisionMaker.findBestMove( position );
+		if ( bestMoves == null ) {
+		    throw new IllegalStateException( "Decision maker should never return null but it did that" );
+        }
+		if ( bestMoves.isEmpty() ) {
+	        throw new IllegalStateException( "Decision maker doesn't want to move while the position is not terminal! It's a bug in the decision maker" );
 		}
-		else {
-			Move move = bestMove.get();
-			updateInternalPositionPresentation( move );
-			informOpponentAboutTheMove( move );
-		}
+
+		bestMoves.forEach( this::doMove );
+	}
+
+	private void doMove( Move bestMove ) {
+		updatePositionByOurMove( bestMove );
+		informOpponentAboutTheMove( bestMove );
 	}
 
 	private String getWinningSideDescription() {
@@ -112,17 +133,21 @@ public class LegalPlayer implements Player {
 		opponent.opponentMoved( move );
 	}
 
-	//updating internal representation of current position according to our move
-	private void updateInternalPositionPresentation( Move move ) {
+	//updating internal representation of current position
+	private void updatePositionByOurMove( Move move ) {
 		getLogger().info( this.position.getSideToMove() + " : Moved " + move );
 		position = position.move( move );
 		getLogger().info( "\nNew position : " + position );
 		if ( position.isTerminal() ) {
-			getLogger().info( "Final position has been reached by our move! " + getWinningSideDescription() );
-		}
+            logTerminal( "our" );
+        }
 	}
 
-	private Logger getLogger() {
+    private void logTerminal(String whoseMoveItWas) {
+        getLogger().info( "Final position has been reached by " + whoseMoveItWas + " move! " + getWinningSideDescription() );
+    }
+
+    private Logger getLogger() {
 		return LogManager.getLogger( this.getClass() );
 	}
 
@@ -165,5 +190,10 @@ public class LegalPlayer implements Player {
 
 	public boolean isRecordingMode() {
 		return recordingMode;
+	}
+
+	@Override
+	public String name() {
+		return Player.super.name() + " : " + this.decisionMaker.name();
 	}
 }

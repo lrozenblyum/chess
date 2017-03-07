@@ -5,9 +5,7 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 import com.leokom.chess.player.legal.evaluator.common.Evaluator;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Initial decision maker based on MasterEvaluator.
@@ -47,7 +45,7 @@ public class NormalizedDecisionMaker implements DecisionMaker {
 	 *
 	 */
 	@Override
-	public Optional<Move> findBestMove( Position position ) {
+	public List<Move> findBestMove(Position position ) {
 		Map< Move, Double > moveRatings = new HashMap<>();
 
 		//filtering Draw offers till #161 is solved
@@ -61,10 +59,13 @@ public class NormalizedDecisionMaker implements DecisionMaker {
 		return getMoveWithMaxRating( moveRatings );
 	}
 
-	private Optional<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
-		return
-				moveValues.entrySet().stream()
-						.sorted( Map.Entry.< Move, Double >comparingByValue().reversed() )
-						.findFirst().map( Map.Entry::getKey );
+	private List<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
+		Optional<Move> bestMove = moveValues.entrySet().stream()
+				.sorted(Map.Entry.<Move, Double>comparingByValue().reversed())
+				.findFirst()
+				.map(Map.Entry::getKey);
+		return bestMove.isPresent() ?
+				Collections.singletonList( bestMove.get() ) :
+				Collections.emptyList();
 	}
 }

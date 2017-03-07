@@ -4,12 +4,13 @@ import com.google.common.collect.ImmutableMap;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.simple.SimplePlayer;
+import com.leokom.chess.player.legal.evaluator.simple.SimpleBrain;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Create players for the chess game
@@ -17,7 +18,7 @@ import java.util.Map;
  * Author: Leonid
  * Date-time: 06.05.14 22:45
  */
-final class PlayerFactory {
+public final class PlayerFactory {
 	private PlayerFactory() {}
 
 	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
@@ -49,6 +50,10 @@ final class PlayerFactory {
 
 		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
 
+		return selectPlayer( side, engineName ).create();
+	}
+
+	private static PlayerSelection selectPlayer( Side side, String engineName ) {
 		if ( engineName == null ) {
 			logger.info( "No selection done. Selecting default player" );
 			return getDefaultPlayer( side );
@@ -56,22 +61,35 @@ final class PlayerFactory {
 
 		switch ( engineName ) {
 			case "Legal":
-				return new LegalPlayer();
+				return PlayerSelection.LEGAL;
 			case "Simple":
-				return new SimplePlayer();
+				return PlayerSelection.SIMPLE;
 			case "Winboard":
-				return WinboardPlayer.create();
+				return PlayerSelection.WINBOARD;
 			default:
 				logger.warn( "Unsupported option specified. Selecting default player" );
 				return getDefaultPlayer( side );
 		}
 	}
 
-	private static Player getDefaultPlayer( Side side ) {
+	public enum PlayerSelection {
+		LEGAL( LegalPlayer::new ),
+		SIMPLE( () -> new LegalPlayer( new SimpleBrain() ) ),
+		WINBOARD( WinboardPlayer::create );
+
+		private final Supplier< Player > playerCreator;
+
+		PlayerSelection( Supplier< Player > playerCreator ) {
+			this.playerCreator = playerCreator;
+		}
+
+		public Player create() {
+			return playerCreator.get();
+		}
+	}
+
+	private static PlayerSelection getDefaultPlayer( Side side ) {
 		logger.info( "Selecting default engine for Side = " + side );
-		return
-			side == Side.WHITE ?
-				WinboardPlayer.create() :
-				new SimplePlayer();
+		return side == Side.WHITE ?	PlayerSelection.WINBOARD : PlayerSelection.SIMPLE;
 	}
 }

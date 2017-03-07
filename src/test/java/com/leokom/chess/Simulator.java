@@ -24,6 +24,10 @@ class Simulator {
 
 	private int timesToRun = 1;
 
+	Simulator( PlayerFactory.PlayerSelection first, PlayerFactory.PlayerSelection second ) {
+		this( first.create(), second.create() );
+	}
+
 	Simulator( Player first, Player second ) {
 		this.first = first;
 		this.second = second;
