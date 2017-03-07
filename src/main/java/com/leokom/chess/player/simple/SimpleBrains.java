@@ -12,6 +12,15 @@ import static java.util.Collections.singletonList;
 /**
  * Brain that implements Simple player in Legal player's infrastructure
  * Created by Leonid on 09.02.17.
+ *
+ * Based on previous implementation with comments:
+ * Run just 2 moves for white/black (central pawns)
+ * Always agree to draw.
+ * Resign on the 3'd move.
+ * This player guarantees finite game.
+ *
+ * Author: Leonid
+ * Date-time: 15.04.13 22:26
  */
 public class SimpleBrains implements DecisionMaker {
     @Override
