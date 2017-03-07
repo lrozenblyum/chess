@@ -55,7 +55,7 @@ public class PlayerFactoryTest {
 	}
 
 	private void assertIsSimple(Player player) {
-		assertEquals( "LegalPlayer : SimpleBrains", player.name() );
+		assertEquals( "LegalPlayer : SimpleBrain", player.name() );
 	}
 
 	@Test

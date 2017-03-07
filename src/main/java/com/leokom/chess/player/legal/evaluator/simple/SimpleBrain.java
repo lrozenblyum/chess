@@ -1,4 +1,4 @@
-package com.leokom.chess.player.simple;
+package com.leokom.chess.player.legal.evaluator.simple;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
@@ -22,7 +22,7 @@ import static java.util.Collections.singletonList;
  * Author: Leonid
  * Date-time: 15.04.13 22:26
  */
-public class SimpleBrains implements DecisionMaker {
+public class SimpleBrain implements DecisionMaker {
     @Override
     public List< Move > findBestMove( Position position ) {
         if ( position.isTerminal() ) {

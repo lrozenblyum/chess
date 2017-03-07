@@ -1,18 +1,11 @@
-package com.leokom.chess.player.simple;
+package com.leokom.chess.player.legal.evaluator.simple;
 
 import com.leokom.chess.Game;
-import com.leokom.chess.PlayerFactory;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;
-import com.leokom.chess.player.legal.LegalPlayer;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 import static com.leokom.chess.PlayerFactory.PlayerSelection.SIMPLE;
 import static org.mockito.Mockito.*;
@@ -20,7 +13,7 @@ import static org.mockito.Mockito.*;
 /**
  * Test simple player new implementation
  */
-public class SimplePlayerTest {
+public class SimpleBrainTest {
     private Player simplePlayer;
 
     @Before

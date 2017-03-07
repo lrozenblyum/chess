@@ -14,6 +14,6 @@ public class LegalPlayerNameTest {
 
     @Test
     public void customNameWithCustomBrain() {
-        assertEquals( "LegalPlayer : SimpleBrains", SIMPLE.create().name() );
+        assertEquals( "LegalPlayer : SimpleBrain", SIMPLE.create().name() );
     }
 }
