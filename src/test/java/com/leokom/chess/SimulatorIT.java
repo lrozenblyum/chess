@@ -10,10 +10,11 @@ import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
 import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
 import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorBuilder;
 import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMaker;
-import com.leokom.chess.player.simple.SimplePlayer;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static com.leokom.chess.PlayerFactory.PlayerSelection.LEGAL;
+import static com.leokom.chess.PlayerFactory.PlayerSelection.SIMPLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -131,27 +132,25 @@ public class SimulatorIT {
 
 	@Test
 	public void legalVsSimpleNoCrash() {
-		new Simulator( new LegalPlayer(), new SimplePlayer() ).run();
+		new Simulator( LEGAL, SIMPLE ).run();
 	}
 
 	//we expect legal player is much smarter than the simple one
 	@Test
 	public void legalVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator(
-				new LegalPlayer(), new SimplePlayer() ).run();
+		final SimulatorStatistics statistics = new Simulator( LEGAL, SIMPLE ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
 
 	@Test
 	public void simpleVsSimpleNoCrash() {
-		new Simulator( new SimplePlayer(), new SimplePlayer() ).run();
+		new Simulator( SIMPLE, SIMPLE ).run();
 	}
 
 	@Test
 	public void simpleVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator(
-				new SimplePlayer(), new SimplePlayer() ).run();
+		final SimulatorStatistics statistics = new Simulator( SIMPLE, SIMPLE ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
 	}
