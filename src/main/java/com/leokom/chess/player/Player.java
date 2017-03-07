@@ -79,4 +79,19 @@ public interface Player {
 	 * @return position position which is not null
 	 */
 	Position getPosition();
+
+	/**
+	 * Get name of the player.
+	 * It will help identifying it.
+	 * Also it will make it possible to specify human player name.
+	 *
+	 * A correct implementation of the name method
+	 * must not return different results for the same
+	 * player instance.
+	 *
+	 * @return name of the player.
+	 */
+	default String name() {
+		return this.getClass().getSimpleName();
+	}
 }

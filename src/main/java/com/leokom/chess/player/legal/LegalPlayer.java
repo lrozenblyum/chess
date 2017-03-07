@@ -191,4 +191,9 @@ public class LegalPlayer implements Player {
 	public boolean isRecordingMode() {
 		return recordingMode;
 	}
+
+	@Override
+	public String name() {
+		return Player.super.name() + " : " + this.decisionMaker.name();
+	}
 }

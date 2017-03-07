@@ -7,6 +7,7 @@ import com.leokom.chess.player.simple.SimplePlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.junit.*;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PlayerFactoryTest {
@@ -43,7 +44,7 @@ public class PlayerFactoryTest {
 	@Test
 	public void noSystemPropertiesDefaultPlayer() {
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
-		assertTrue( player instanceof SimplePlayer );
+		assertIsSimple( player );
 	}
 
 	@Test
@@ -51,7 +52,11 @@ public class PlayerFactoryTest {
 		System.setProperty( "white", "Simple" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
-		assertTrue( player instanceof SimplePlayer );
+		assertIsSimple( player );
+	}
+
+	private void assertIsSimple(Player player) {
+		assertEquals( "LegalPlayer : SimpleBrains", player.name() );
 	}
 
 	@Test

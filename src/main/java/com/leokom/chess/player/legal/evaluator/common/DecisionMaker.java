@@ -41,4 +41,8 @@ public interface DecisionMaker {
 	default Move findBestMoveForOpponent( Position position ) {
 		return null;
 	}
+
+	default String name() {
+		return this.getClass().getSimpleName();
+	}
 }
