@@ -2,8 +2,8 @@ package com.leokom.chess.player.legal;
 
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
-import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorTweaked;
+import com.leokom.chess.player.legal.brain.common.Brain;
+import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorTweaked;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,15 +27,15 @@ public class LegalPlayerTest {
 	}
 
 	@Test
-	public void noDecisionMakersAskingInTerminalPosition() {
-		DecisionMaker decisionMaker = mock( DecisionMaker.class );
-		LegalPlayer player = new LegalPlayer(decisionMaker);
+	public void noBrainsAskingInTerminalPosition() {
+		Brain brain = mock( Brain.class );
+		LegalPlayer player = new LegalPlayer(brain);
 
 		player.setPosition( Position.getInitialPosition().move( Move.RESIGN ), Side.BLACK );
 
 		player.executeOurMove();
 
-		verifyNoMoreInteractions( decisionMaker );
+		verifyNoMoreInteractions(brain);
 	}
 
 	@Test

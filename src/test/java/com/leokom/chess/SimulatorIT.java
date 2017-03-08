@@ -5,11 +5,11 @@ import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.common.EvaluatorType;
-import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
-import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorBuilder;
-import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMaker;
+import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.EvaluatorType;
+import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
+import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
+import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -177,9 +177,9 @@ public class SimulatorIT {
 
 	//expected : new skills are better
 	@Test
-	public void newDecisionMakerShouldBeBetter() {
-		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedDecisionMaker() );
-		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedDecisionMaker() );
+	public void newBrainShouldBeBetter() {
+		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedBrain() );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain() );
 		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer )
 				.gamePairs( 5 )
 				.run();

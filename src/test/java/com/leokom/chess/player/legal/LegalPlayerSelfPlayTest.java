@@ -1,7 +1,7 @@
 package com.leokom.chess.player.legal;
 
 import com.leokom.chess.Game;
-import com.leokom.chess.player.legal.evaluator.normalized.MasterEvaluatorTweaked;
+import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorTweaked;
 import org.junit.Ignore;
 import org.junit.Test;
 

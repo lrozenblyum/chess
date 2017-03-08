@@ -80,7 +80,7 @@ public class PlayerFactoryTest {
 	}
 
 	private void assertIsLegal( Player player ) {
-		assertEquals( "LegalPlayer : DenormalizedDecisionMaker", player.name() );
+		assertEquals( "LegalPlayer : DenormalizedBrain", player.name() );
 	}
 
 	@Test

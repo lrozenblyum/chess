@@ -3,7 +3,7 @@ package com.leokom.chess.player.winboard;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
+import com.leokom.chess.player.legal.brain.common.Brain;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,9 +43,9 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 
 	@Test
 	public void legalPlayerCanResignWhenNotHisMove() {
-		DecisionMaker decisionMaker = mock( DecisionMaker.class );
-		when( decisionMaker.findBestMoveForOpponent( any() ) ).thenReturn(Move.RESIGN);
-		LegalPlayer legalPlayer = new LegalPlayer( decisionMaker );
+		Brain brain = mock( Brain.class );
+		when( brain.findBestMoveForOpponent( any() ) ).thenReturn(Move.RESIGN);
+		LegalPlayer legalPlayer = new LegalPlayer(brain);
 		setOpponent( legalPlayer );
 
 		//winboard playing white, suggests draw
@@ -56,12 +56,12 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 
 	@Test
 	public void winboardUnderstandsMultipleMoveWithResign() {
-		DecisionMaker decisionMaker = mock( DecisionMaker.class );
-		when( decisionMaker.findBestMove( any() ) ).thenReturn(Arrays.asList(
+		Brain brain = mock( Brain.class );
+		when( brain.findBestMove( any() ) ).thenReturn(Arrays.asList(
 			new Move( "e7", "e5" ),
 			Move.RESIGN )
 		);
-		LegalPlayer legalPlayer = new LegalPlayer( decisionMaker );
+		LegalPlayer legalPlayer = new LegalPlayer(brain);
 		setOpponent( legalPlayer );
 
 		simulateWinboard( "new", "usermove b1c3" );

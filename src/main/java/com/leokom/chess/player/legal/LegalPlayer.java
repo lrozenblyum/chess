@@ -4,10 +4,10 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
-import com.leokom.chess.player.legal.evaluator.common.Evaluator;
-import com.leokom.chess.player.legal.evaluator.denormalized.DenormalizedDecisionMaker;
-import com.leokom.chess.player.legal.evaluator.normalized.NormalizedDecisionMaker;
+import com.leokom.chess.player.legal.brain.common.Brain;
+import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
+import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,20 +21,20 @@ import java.util.List;
 public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
-	private final DecisionMaker decisionMaker;
+	private final Brain brain;
 
 	private boolean recordingMode;
 	private Side ourSide;
 
 	/**
-	 * Create player with denormalized decision maker
+	 * Create player with denormalized brain
 	 */
 	public LegalPlayer() {
-		this( new DenormalizedDecisionMaker() );
+		this( new DenormalizedBrain() );
 	}
 
-	public LegalPlayer( DecisionMaker decisionMaker ) {
-		this.decisionMaker = decisionMaker;
+	public LegalPlayer( Brain brain ) {
+		this.brain = brain;
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class LegalPlayer implements Player {
 	 * @param brains brains to evaluate moves
 	 */
 	public LegalPlayer( Evaluator brains ) {
-		this.decisionMaker = new NormalizedDecisionMaker( brains );
+		this.brain = new NormalizedBrain( brains );
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class LegalPlayer implements Player {
 		if ( position.getSideToMove() != ourSide ) {
 			getLogger().info( "It's not our side to move" );
 
-			Move bestMove = decisionMaker.findBestMoveForOpponent( position );
+			Move bestMove = brain.findBestMoveForOpponent( position );
 			if ( bestMove != null ) {
 				getLogger().info( "Anyway we're ready to move: " + bestMove );
 				doMove( bestMove );
@@ -107,12 +107,12 @@ public class LegalPlayer implements Player {
 			return;
 		}
 
-		final List< Move > bestMoves = decisionMaker.findBestMove( position );
+		final List< Move > bestMoves = brain.findBestMove( position );
 		if ( bestMoves == null ) {
-		    throw new IllegalStateException( "Decision maker should never return null but it did that" );
+		    throw new IllegalStateException( "Brain should never return null but it did that" );
         }
 		if ( bestMoves.isEmpty() ) {
-	        throw new IllegalStateException( "Decision maker doesn't want to move while the position is not terminal! It's a bug in the decision maker" );
+	        throw new IllegalStateException( "Brain doesn't want to move while the position is not terminal! It's a bug in the brain" );
 		}
 
 		bestMoves.forEach( this::doMove );
@@ -194,6 +194,6 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public String name() {
-		return Player.super.name() + " : " + this.decisionMaker.name();
+		return Player.super.name() + " : " + this.brain.name();
 	}
 }

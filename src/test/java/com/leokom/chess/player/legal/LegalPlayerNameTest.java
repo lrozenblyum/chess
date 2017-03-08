@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class LegalPlayerNameTest {
     @Test
     public void defaultName() {
-        assertEquals( "LegalPlayer : DenormalizedDecisionMaker", LEGAL.create().name() );
+        assertEquals( "LegalPlayer : DenormalizedBrain", LEGAL.create().name() );
     }
 
     @Test
