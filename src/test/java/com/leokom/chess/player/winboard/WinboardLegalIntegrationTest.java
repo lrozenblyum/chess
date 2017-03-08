@@ -11,6 +11,7 @@ import org.mockito.stubbing.OngoingStubbing;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -43,7 +44,7 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 	@Test
 	public void legalPlayerCanResignWhenNotHisMove() {
 		DecisionMaker decisionMaker = mock( DecisionMaker.class );
-		when( decisionMaker.findBestMoveForOpponent(any()) ).thenReturn(Move.RESIGN);
+		when( decisionMaker.findBestMoveForOpponent( any() ) ).thenReturn(Move.RESIGN);
 		LegalPlayer legalPlayer = new LegalPlayer( decisionMaker );
 		setOpponent( legalPlayer );
 
@@ -51,6 +52,21 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		simulateWinboard( "new", "draw" );
 
 		verify( playerSpy ).opponentMoved( Move.RESIGN );
+	}
+
+	@Test
+	public void winboardUnderstandsMultipleMoveWithResign() {
+		DecisionMaker decisionMaker = mock( DecisionMaker.class );
+		when( decisionMaker.findBestMove( any() ) ).thenReturn(Arrays.asList(
+			new Move( "e7", "e5" ),
+			Move.RESIGN )
+		);
+		LegalPlayer legalPlayer = new LegalPlayer( decisionMaker );
+		setOpponent( legalPlayer );
+
+		simulateWinboard( "new", "usermove b1c3" );
+
+		assertTrue( playerSpy.getPosition().isTerminal() );
 	}
 
 	@Test
