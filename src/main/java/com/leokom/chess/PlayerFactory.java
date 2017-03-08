@@ -32,7 +32,7 @@ public final class PlayerFactory {
 	 * Basing on defaults or system properties.
 	 * Defaults :
 	 * WHITE: Winboard
-	 * BLACK: Simple
+	 * BLACK: Legal
 	 *
 	 * There are practical important limitations (not yet validated):
 	 *
