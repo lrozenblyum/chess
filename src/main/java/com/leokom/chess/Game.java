@@ -29,6 +29,8 @@ public final class Game {
 	 * @return winner among whitePlayer, blackPlayer or null in case of draw
 	 */
 	public Player run() {
+		LogManager.getLogger().info( "Starting game : {} vs {}", whitePlayer.name(), blackPlayer.name() );
+
 		//setting opponents for symmetry. Technically it's possible
 		// for one set to make a back reference
 		blackPlayer.setOpponent( whitePlayer );
@@ -38,9 +40,10 @@ public final class Game {
 		blackPlayer.opponentSuggestsMeStartNewGameBlack();
 
 		//inform white that black is ready so you may start
+		//white player should start the game e.g. by providing main loop
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
 
-		//after that method call we expect game finished
+		LogManager.getLogger().info( "Game finished: {} vs {}", whitePlayer.name(), blackPlayer.name() );
 
 		//TODO: asymmetry, need validating that blackPlayer position gives same result
 		//maybe it's time to share the Position
