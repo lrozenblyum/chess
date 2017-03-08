@@ -2,7 +2,6 @@ package com.leokom.chess;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.junit.*;
 
@@ -41,9 +40,9 @@ public class PlayerFactoryTest {
 	}
 
 	@Test
-	public void noSystemPropertiesDefaultPlayer() {
+	public void noSystemPropertiesDefaultPlayerBlack() {
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
-		assertIsSimple( player );
+		assertIsLegal( player );
 	}
 
 	@Test
