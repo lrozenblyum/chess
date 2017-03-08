@@ -3,6 +3,7 @@ package com.leokom.chess.player.winboard;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.player.legal.LegalPlayer;
+import com.leokom.chess.player.legal.evaluator.common.DecisionMaker;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,9 +31,26 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		playerSpy = spy( player );
 		playerSpy.initCommander( commander );
 
-		opponent = new LegalPlayer();
+		setOpponent( new LegalPlayer() );
+	}
+
+	private void setOpponent( LegalPlayer opponent ) {
+		this.opponent = opponent;
 		this.playerSpy.setOpponent( opponent );
-		opponent.setOpponent( this.playerSpy );
+		this.opponent.setOpponent( this.playerSpy );
+	}
+
+	@Test
+	public void legalPlayerCanResignWhenNotHisMove() {
+		DecisionMaker decisionMaker = mock( DecisionMaker.class );
+		when( decisionMaker.findBestMoveForOpponent(any()) ).thenReturn(Move.RESIGN);
+		LegalPlayer legalPlayer = new LegalPlayer( decisionMaker );
+		setOpponent( legalPlayer );
+
+		//winboard playing white, suggests draw
+		simulateWinboard( "new", "draw" );
+
+		verify( playerSpy ).opponentMoved( Move.RESIGN );
 	}
 
 	@Test
