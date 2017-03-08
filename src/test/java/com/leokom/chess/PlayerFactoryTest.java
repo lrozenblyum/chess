@@ -77,7 +77,11 @@ public class PlayerFactoryTest {
 		System.setProperty( "black", "Legal" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
-		assertTrue( player instanceof LegalPlayer );
+		assertIsLegal( player );
+	}
+
+	private void assertIsLegal( Player player ) {
+		assertEquals( "LegalPlayer : DenormalizedDecisionMaker", player.name() );
 	}
 
 	@Test
@@ -85,6 +89,6 @@ public class PlayerFactoryTest {
 		System.setProperty( "white", "Legal" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
-		assertTrue( player instanceof LegalPlayer );
+		assertIsLegal( player );
 	}
 }
