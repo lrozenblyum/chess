@@ -5,10 +5,8 @@ call variables.bat
 SET RUNNABLE_JAR_DIRECTORY_2=%WINBOARD_INSTALLATION_PATH%\LeokomChessTest
 SET RUN_JAR_PATH_2=%RUNNABLE_JAR_DIRECTORY_2%\Chess.jar
 
-rem for Winboard integrations we simply don't care about color of the opponent
-rem the goal is just to specify WHAT is the opponent
-rem specifying 'unlogically' -Dblack=Legal since -Dwhite=Legal is unsupported now
-SET RUN_OPTIONS_2=-Dblack=Legal
+rem you may specify -Dblack=Simple
+SET RUN_OPTIONS_2=
 SET ENGINE_2=%JAVA_PATH% %RUN_OPTIONS_2% -jar %RUN_JAR_PATH_2%
 
 SET MATCHES_COUNT=1

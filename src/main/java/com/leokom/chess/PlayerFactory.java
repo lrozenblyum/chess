@@ -90,6 +90,6 @@ public final class PlayerFactory {
 
 	private static PlayerSelection getDefaultPlayer( Side side ) {
 		logger.info( "Selecting default engine for Side = " + side );
-		return side == Side.WHITE ?	PlayerSelection.WINBOARD : PlayerSelection.SIMPLE;
+		return side == Side.WHITE ?	PlayerSelection.WINBOARD : PlayerSelection.LEGAL;
 	}
 }

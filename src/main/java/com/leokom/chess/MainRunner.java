@@ -38,7 +38,7 @@ public final class MainRunner {
 	 * Default players:
 	 *             <ul>
 	 *             <li>-Dwhite=Winboard</li>
-	 *             <li>-Dblack=Simple</li>
+	 *             <li>-Dblack=Legal</li>
 	 *             </ul>
 	 *
 	 * For Winboard opponents always specify them as Black
