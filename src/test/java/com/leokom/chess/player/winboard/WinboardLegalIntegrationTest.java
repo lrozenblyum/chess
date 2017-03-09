@@ -11,6 +11,8 @@ import org.mockito.stubbing.OngoingStubbing;
 
 import java.util.Arrays;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -52,6 +54,22 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 		simulateWinboard( "new", "draw" );
 
 		verify( playerSpy ).opponentMoved( Move.RESIGN );
+	}
+
+	@Test
+	public void winboardUnderstandsMultipleMoveWithOfferDraw() {
+		Brain brain = mock( Brain.class );
+		when( brain.findBestMove( any() ) ).thenReturn(Arrays.asList(
+				new Move( "d7", "d5" ),
+				Move.OFFER_DRAW )
+		);
+		LegalPlayer legalPlayer = new LegalPlayer(brain);
+		setOpponent( legalPlayer );
+
+		simulateWinboard( "new", "usermove g1f3" );
+
+		//testing indirectly, if accept draw is allowed that means we respected offer draw
+		assertThat( playerSpy.getPosition().getMoves(), hasItem( Move.ACCEPT_DRAW ) );
 	}
 
 	@Test
