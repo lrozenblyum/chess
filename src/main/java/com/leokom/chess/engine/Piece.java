@@ -8,7 +8,7 @@ package com.leokom.chess.engine;
  * (will allow huge memory economy)
  *
 */
-public class Piece {
+public final class Piece {
 	private final PieceType pieceType;
 	private final Side side;
 
