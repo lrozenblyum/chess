@@ -1,7 +1,7 @@
 package com.leokom.chess.engine;
 
 /**
- * Value object representing act of moving.
+ * Immutable value object representing act of moving.
  * It encapsulates both moves that cause changes on-board
  * and acts that cause some other changes in game situation
  * like Resign.
@@ -22,7 +22,7 @@ public final class Move {
 	private final String from;
 	private final String to;
 
-	private boolean isSpecial;
+	private final boolean isSpecial;
 
 	/**
 	 * Create an 'act of moving'
@@ -41,6 +41,7 @@ public final class Move {
 		//TODO: validate not null? correctness?
 		this.from = squareFrom;
 		this.to = moveDestination;
+		this.isSpecial = false;
 	}
 
 	/**

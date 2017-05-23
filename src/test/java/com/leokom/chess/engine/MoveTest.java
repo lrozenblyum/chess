@@ -1,10 +1,16 @@
 package com.leokom.chess.engine;
 
 import org.junit.Test;
+import org.mutabilitydetector.unittesting.MutabilityAssert;
 
 import static org.junit.Assert.*;
 
 public class MoveTest {
+	@Test
+	public void moveShouldBeImmutable() {
+		MutabilityAssert.assertImmutable( Move.class );
+	}
+
 	@Test
 	public void resignToString() {
 		assertEquals( "RESIGN", Move.RESIGN.toString() );
