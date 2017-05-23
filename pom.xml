@@ -7,7 +7,7 @@
     <name>Chess</name>
     <groupId>com.leokom</groupId>
     <artifactId>Chess</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
 
     <repositories>
         <repository>
