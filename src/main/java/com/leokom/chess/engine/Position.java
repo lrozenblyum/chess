@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.leokom.chess.engine.Board.*;
-import static com.leokom.chess.engine.Board.square;
 import static com.leokom.chess.engine.InitialPosition.getPawnInitialRank;
 import static com.leokom.chess.utils.CollectionUtils.filterMapByValues;
 import static java.util.stream.Collectors.toSet;
