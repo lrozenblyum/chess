@@ -1007,6 +1007,19 @@ public class Position {
 		return moves;
 	}
 
+	/**
+	 * Get human-understandable move number.
+	 *
+	 * e.g. in the game
+	 * 1. e2-e4 e7-e5
+	 * 2. f2-f4
+	 *
+	 * e2-e4 &rarr; 1
+	 * e7-e5 &rarr; 1
+	 * f2-f4 &rarr; 2
+	 *
+	 * @return move number
+	 */
 	int getMoveNumber() {
 		return pliesCount / PLIES_IN_MOVE + 1;
 	}
