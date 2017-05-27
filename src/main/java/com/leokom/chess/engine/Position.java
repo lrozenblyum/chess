@@ -79,8 +79,6 @@ public class Position {
 
 	private boolean waitingForAcceptDraw;
 	private Rules rules;
-	private int moveNumber = 1;
-
 
 	void setHasKingMoved( Side side ) {
 		this.hasKingMoved.add( side );
@@ -1006,6 +1004,6 @@ public class Position {
 	}
 
 	int getMoveNumber() {
-		return moveNumber;
+		return pliesCount / PLIES_IN_MOVE + 1;
 	}
 }
