@@ -79,6 +79,7 @@ public class Position {
 
 	private boolean waitingForAcceptDraw;
 	private Rules rules;
+	private int moveNumber = 1;
 
 
 	void setHasKingMoved( Side side ) {
@@ -1002,5 +1003,9 @@ public class Position {
 			moves.add( Move.ACCEPT_DRAW );
 		}
 		return moves;
+	}
+
+	int getMoveNumber() {
+		return moveNumber;
 	}
 }
