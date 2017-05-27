@@ -64,7 +64,7 @@ public class PositionBuilder {
 
 	public PositionBuilder pliesCount( int pliesCount ) {
 		//trick to avoid creation of position.setMovesCount
-		position.resetPliesCount();
+		position.restartObligatoryDrawCounter();
 		IntStream.rangeClosed( 1, pliesCount ).forEach( counter -> position.incPliesCount() );
 		return this;
 	}

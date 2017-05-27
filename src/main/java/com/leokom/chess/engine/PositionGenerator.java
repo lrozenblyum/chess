@@ -48,15 +48,14 @@ final class PositionGenerator {
 			return;
 		}
 
-		if ( needRestartingPlyCounter( move ) ) {
-			position.resetPliesCount();
-		}
-		else {
-			position.incPliesCount();
+		position.incPliesCount();
+
+		if ( needRestartObligatoryDrawCounter( move ) ) {
+			position.restartObligatoryDrawCounter();
 		}
 	}
 
-	private boolean needRestartingPlyCounter( Move move ) {
+	private boolean needRestartObligatoryDrawCounter( Move move ) {
 		return didPawnMove( move ) || isCapture( move );
 	}
 

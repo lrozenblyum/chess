@@ -23,9 +23,17 @@ public class PositionNumberTest {
         assertEquals( 2, position.getMoveNumber() );
     }
 
+    @Test
+    public void pawnMovesCorrectlyCounted() {
+        Position position = Position.getInitialPosition()
+                .move(new Move("e2", "e4"))
+                .move(new Move( "e7", "e5" ));
+        assertEquals( 2, position.getMoveNumber() );
+    }
+
     /*
-     * Single change
-     * - pawns to prove wrong base
+     * + Single change
+     * + pawns to prove wrong base
      * - Special moves to check
      */
 }
