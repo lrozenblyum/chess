@@ -38,7 +38,8 @@ final class PositionGenerator {
 	}
 
 	/**
-	 * Update moves counter to support 75 moves rules depending on type of move
+	 * Update moves counters.
+	 * It also can support 75 moves rules depending on type of move
 	 * @param position target position to update moves counters
 	 * @param move move that has been executed
 	 */
