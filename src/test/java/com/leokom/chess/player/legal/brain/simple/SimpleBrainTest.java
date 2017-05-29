@@ -153,6 +153,19 @@ public class SimpleBrainTest {
     }
 
     @Test
+    public void noIllegalMoves() {
+        Player player =
+                new PlayerBuilder( simplePlayer )
+                        .move( "b1", "c3" )
+                        .move( "c3", "d5" )
+                        .build();
+
+        new Game( player, simplePlayer ).run();
+
+        verify( player, never() ).opponentMoved( new Move( "d7", "d5" ) );
+    }
+
+    @Test
     public void offerDrawIsAcceptedWhenPlayingWhite() {
         Player player = new PlayerBuilder( simplePlayer)
                 .move( Move.OFFER_DRAW )
