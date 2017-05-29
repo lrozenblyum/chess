@@ -2,6 +2,7 @@ package com.leokom.chess.player.legal.brain.simple;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Brain;
 
 import java.util.*;
@@ -29,18 +30,21 @@ public class SimpleBrain implements Brain {
             return Collections.emptyList();
         }
 
-        List< List< Move > > suggestedMoves = asList(
-            singletonList( Move.ACCEPT_DRAW ),
-            singletonList(new Move("e2", "e4")),
-            asList(new Move("d2", "d4"), Move.OFFER_DRAW),
-            singletonList(new Move("e7", "e5")),
-            asList(new Move("d7", "d5"), Move.OFFER_DRAW),
-            singletonList(Move.RESIGN));
+        if ( position.getMoves().contains( Move.ACCEPT_DRAW ) ) {
+            return singletonList( Move.ACCEPT_DRAW );
+        }
 
-        Set< Move > legalMoves = position.getMoves();
-        return suggestedMoves.stream().filter(suggestedMove -> legalMoves.contains(suggestedMove.get(0)))
-                .findFirst()
-                .orElse( singletonList( legalMoves.iterator().next() ) );
+        int rankFrom = position.getSideToMove() == Side.WHITE ? 2 : 7;
+        int rankTo = position.getSideToMove() == Side.WHITE ? 4 : 5;
+
+        switch ( position.getMoveNumber() ) {
+            case 1:
+                return singletonList( new Move( "e" + rankFrom,  "e" + rankTo ) );
+            case 2:
+                return asList( new Move( "d" + rankFrom, "d" + rankTo ), Move.OFFER_DRAW );
+            default:
+                return singletonList( Move.RESIGN );
+        }
     }
 
     @Override
