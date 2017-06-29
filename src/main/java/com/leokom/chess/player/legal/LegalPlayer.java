@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,7 +100,7 @@ public class LegalPlayer implements Player {
 			Move bestMove = brain.findBestMoveForOpponent( position );
 			if ( bestMove != null ) {
 				getLogger().info( "Anyway we're ready to move: " + bestMove );
-				doMove( bestMove );
+				doMoves( Collections.singletonList(bestMove) );
 			}
 			else {
 			    getLogger().info( "We don't want to move now" );
@@ -115,22 +116,28 @@ public class LegalPlayer implements Player {
 	        throw new IllegalStateException( "Brain doesn't want to move while the position is not terminal! It's a bug in the brain" );
 		}
 
-		bestMoves.forEach( this::doMove );
+		doMoves( bestMoves );
 	}
 
-	private void doMove( Move bestMove ) {
+	private void doMoves(List<Move> bestMoves) {
+		bestMoves.forEach( this::updateByOurMove );
+		opponent.opponentMoved( bestMoves.toArray( new Move[]{} ) );
+	}
+
+	private void updateByOurMove( Move bestMove ) {
+		if ( ! position.getMoves().contains( bestMove ) ) {
+			throw new IllegalArgumentException(
+					String.format( "Engine suggests to execute an illegal move: %s, legal moves: %s", bestMove, position.getMoves() )
+			);
+		}
+
 		updatePositionByOurMove( bestMove );
-		informOpponentAboutTheMove( bestMove );
 	}
 
 	private String getWinningSideDescription() {
 		return position.getWinningSide() != null ?
 				"Winner : " + position.getWinningSide() :
 				"Draw" + (position.getGameResult() != null ? " REASON: " + position.getGameResult() : "");
-	}
-
-	private void informOpponentAboutTheMove( Move move ) {
-		opponent.opponentMoved( move );
 	}
 
 	//updating internal representation of current position

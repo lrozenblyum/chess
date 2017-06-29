@@ -41,7 +41,17 @@ public class SimpleBrain implements Brain {
             case 1:
                 return singletonList( new Move( "e" + rankFrom,  "e" + rankTo ) );
             case 2:
-                return asList( new Move( "d" + rankFrom, "d" + rankTo ), Move.OFFER_DRAW );
+                List< Move > result = new ArrayList<>();
+                if ( ! position.getSquaresOccupiedBySide( position.getSideToMove().opposite() ).contains( "d" + rankTo
+                ) ) {
+                    result.add( new Move( "d" + rankFrom, "d" + rankTo ) );
+                }
+                else {
+                    result.add( position.getMoves().stream().filter( move -> !move.isSpecial()).findFirst().orElseThrow( () -> new RuntimeException() ) );
+                }
+
+                result.add( Move.OFFER_DRAW );
+                return result;
             default:
                 return singletonList( Move.RESIGN );
         }

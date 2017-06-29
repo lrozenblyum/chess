@@ -75,6 +75,10 @@ public class PlayerBuilder {
             return;
         }
 
+        if ( position.isTerminal() ) {
+            throw new IllegalStateException( "Shit" );
+        }
+
         //next time we don't want the mock invoked again
         List< Move > toBeDone = movesToExecute.remove(0);
         toBeDone.forEach( move -> position = position.move( move ) );
