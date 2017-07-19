@@ -80,8 +80,7 @@ public class Position {
 	private boolean waitingForAcceptDraw;
 	private Rules rules;
 
-
-	void setHasKingMoved( Side side ) {
+    void setHasKingMoved( Side side ) {
 		this.hasKingMoved.add( side );
 	}
 
@@ -103,8 +102,9 @@ public class Position {
 	//https://chessprogramming.wikispaces.com/Ply
 	private int pliesCount;
 
-	//TODO: in theory the flag could be inconsistent with actual position...
-	//maybe need some builder?
+	//the ply after which we should calculate 75 moves to
+    //make obligatory draw (in case no pawn moves or captures are done)
+    private int plyNumberToStartObligatoryDrawCalculation;
 
 	/**
 	 * Create position.
@@ -687,6 +687,7 @@ public class Position {
 
 		position.rules = this.rules;
 		position.pliesCount = this.pliesCount;
+		position.plyNumberToStartObligatoryDrawCalculation = this.plyNumberToStartObligatoryDrawCalculation;
 
 		position.terminal = this.terminal;
 	}
@@ -852,7 +853,9 @@ public class Position {
 
 	private boolean isObligatoryDraw() {
 		final OptionalInt movesTillDraw = rules.getMovesTillDraw();
-		return movesTillDraw.isPresent() && pliesCount >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
+		return movesTillDraw.isPresent() &&
+                ( pliesCount - plyNumberToStartObligatoryDrawCalculation)
+         >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
 	}
 
 	/**
@@ -961,8 +964,8 @@ public class Position {
 		++pliesCount;
 	}
 
-	void resetPliesCount() {
-		pliesCount = 0;
+	void restartObligatoryDrawCounter() {
+	    this.plyNumberToStartObligatoryDrawCalculation = pliesCount;
 	}
 
 	/**
@@ -1002,5 +1005,22 @@ public class Position {
 			moves.add( Move.ACCEPT_DRAW );
 		}
 		return moves;
+	}
+
+	/**
+	 * Get human-understandable move number.
+	 *
+	 * e.g. in the game
+	 * 1. e2-e4 e7-e5
+	 * 2. f2-f4
+	 *
+	 * e2-e4 &rarr; 1
+	 * e7-e5 &rarr; 1
+	 * f2-f4 &rarr; 2
+	 *
+	 * @return move number
+	 */
+	int getMoveNumber() {
+		return pliesCount / PLIES_IN_MOVE + 1;
 	}
 }
