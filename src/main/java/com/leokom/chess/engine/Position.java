@@ -340,9 +340,8 @@ public class Position {
 	}
 
 	private boolean isKingInCheck( Side side ) {
-		final String kingSquare = findKing( side );
-		//TODO: null is impossible in real chess, possible in our tests...
-		return kingSquare != null && isSquareAttacked( side, kingSquare );
+		return kingStream( side )
+				.anyMatch( kingSquare -> isSquareAttacked( side, kingSquare ) );
 	}
 
 	//we specify OUR side here because square might be empty
@@ -351,13 +350,11 @@ public class Position {
 		return getSquaresAttackedByToStream( side.opposite() ).anyMatch( square::equals );
 	}
 
-	private String findKing( Side side ) {
-		//TODO: null is impossible in real chess, possible in our tests...
-		return
-			filterMapByValues( pieces, new Piece( PieceType.KING, side )::equals )
-			.map( Map.Entry::getKey )
-			.findAny()
-			.orElse( null );
+	//get stream of squares with king of a given side is located
+	//the stream can contain 1 item in usual chess and 0 in our tests
+	private Stream< String > kingStream( Side side ) {
+		return filterMapByValues( pieces, new Piece( PieceType.KING, side )::equals )
+        .map( Map.Entry::getKey );
 	}
 
 	/**
