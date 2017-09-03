@@ -12,9 +12,4 @@ public class DrawBy50MovesTest {
             Move.CLAIM_DRAW
         );
     }
-
-    @Test
-    public void claimDrawStringRepresentation() {
-        assertEquals( "CLAIM_DRAW", Move.CLAIM_DRAW.toString() );
-    }
 }
