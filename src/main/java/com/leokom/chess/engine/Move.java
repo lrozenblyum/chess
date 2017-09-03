@@ -25,7 +25,7 @@ public final class Move {
 	//is easier to implement if UI integration doesn't support more specific one
 	//while the specifics are more semantical.
 	//so far implementing the minimal decision
-	public static final Move CLAIM_DRAW = null;
+	static final Move CLAIM_DRAW = new Move();
 	private final String from;
 	private final String to;
 
@@ -114,6 +114,7 @@ public final class Move {
 		return this == RESIGN ? "RESIGN" :
 				this == OFFER_DRAW ? "OFFER_DRAW" :
 				this == ACCEPT_DRAW ? "ACCEPT_DRAW" :
+				this == CLAIM_DRAW ? "CLAIM_DRAW" :
 				from + " : " + to;
 	}
 
