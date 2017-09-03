@@ -19,6 +19,13 @@ public final class Move {
 	public static final Move RESIGN = new Move();
 	public static final Move OFFER_DRAW = new Move();
 	public static final Move ACCEPT_DRAW = new Move();
+	//it's hard to decide whether we should introduce
+	//claim draw by 50 moves rule & claim draw by threefold repetition
+	//or just a common generic claim draw. The generic claim draw
+	//is easier to implement if UI integration doesn't support more specific one
+	//while the specifics are more semantical.
+	//so far implementing the minimal decision
+	public static final Move CLAIM_DRAW = null;
 	private final String from;
 	private final String to;
 
