@@ -824,6 +824,10 @@ public class Position {
 				return new HashSet<>();
 			}
 
+			if ( canClaimDraw() ) {
+				result.add( Move.CLAIM_DRAW );
+			}
+
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
 			if ( waitingForAcceptDraw ) {
@@ -853,6 +857,10 @@ public class Position {
 		return movesTillDraw.isPresent() &&
                 ( pliesCount - plyNumberToStartObligatoryDrawCalculation)
          >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
+	}
+
+	private boolean canClaimDraw() {
+		return pliesCount - plyNumberToStartObligatoryDrawCalculation >= 100;
 	}
 
 	/**
