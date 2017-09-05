@@ -44,4 +44,10 @@ public class DrawBy50MovesTest {
         return new PositionMover( initialPosition, moves ).run();
     }
 
+    /*
+     * [?] should position after claim draw differ
+     * from position after offer draw? now they're the same
+     *
+     *
+     */
 }

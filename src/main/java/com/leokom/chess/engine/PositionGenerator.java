@@ -81,7 +81,15 @@ final class PositionGenerator {
 			return getAcceptDrawPosition();
 		}
 
+		if ( move == Move.CLAIM_DRAW ) {
+			return getClaimDrawPosition();
+		}
+
 		return getPositionAfterStandardMove( move );
+	}
+
+	private Position getClaimDrawPosition() {
+		return createTerminalPosition( null );
 	}
 
 	private Position getPositionAfterStandardMove( Move move ) {
