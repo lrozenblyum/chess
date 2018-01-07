@@ -125,6 +125,12 @@ class WinboardCommanderImpl implements WinboardCommander {
 	}
 
 	@Override
+	public void claimDrawByMovesCount( int movesCount ) {
+		//TODO: add information about details
+		communicator.send( "1/2-1/2" );
+	}
+
+	@Override
 	public void stalemateDraw() {
 		communicator.send( "1/2-1/2 {Stalemate}" );
 	}

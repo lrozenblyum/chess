@@ -52,6 +52,13 @@ interface WinboardCommander {
 	void obligatoryDrawByMovesCount( int movesCount );
 
 	/**
+	 * Inform Winboard that the opponent claims draw by moves count.
+	 * @param movesCount count of moves
+	 */
+	void claimDrawByMovesCount( int movesCount );
+
+
+	/**
 	 * Inform Winboard about stalemate draw
 	 */
 	void stalemateDraw();
@@ -70,7 +77,5 @@ interface WinboardCommander {
 	void onGameOver( GameOverListener listener );
 	void onForce( ForceListener listener );
 	void onNew( NewListener listener );
-
-
 
 }
