@@ -60,12 +60,10 @@ public class NormalizedBrain implements Brain {
 	}
 
 	private List<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
-		Optional<Move> bestMove = moveValues.entrySet().stream()
-				.sorted(Map.Entry.<Move, Double>comparingByValue().reversed())
-				.findFirst()
-				.map(Map.Entry::getKey);
-		return bestMove.isPresent() ?
-				Collections.singletonList( bestMove.get() ) :
-				Collections.emptyList();
+		return moveValues.entrySet().stream()
+				.max(Map.Entry.comparingByValue())
+				.map(Map.Entry::getKey)
+				.map( Collections::singletonList )
+				.orElseGet( Collections::emptyList );
 	}
 }
