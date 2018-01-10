@@ -61,12 +61,19 @@ public class WinBoardCommanderSendTest {
 	}
 
 	/*
-	"offer draw" should also be used to claim 50-move and 3-fold-repetition draws that will occur after your move, by sending it before making the move. WinBoard will grant draw offers without the opponent having any say in it in situations where draws can be claimed. Only if the draw cannot be claimed, the offer will be passed to your opponent after you make your next move, just before WinBoard relays this move to the opponent.
+	1)
+	"offer draw" should also be used to claim 50-move ... draws that will occur after your move,
+	by sending it before making the move.
+	WinBoard will grant draw offers without the opponent having any say in it in situations where draws can be claimed.
+	Only if the draw cannot be claimed, the offer will be passed to your opponent after you make your next move, just before WinBoard relays this move to the opponent.
 
-	* RESULT {COMMENT} When your engine detects that the game has ended by rule, your engine must output a line of the form "RESULT {comment}" (without the quotes), where RESULT is a PGN result code (1-0, 0-1, or 1/2-1/2), and comment is the reason. Here "by rule" means that the game is
-	* definitely over because of what happened on the board.
+	2) RESULT {COMMENT} When your engine detects that the game has ended by rule,
+		your engine must output a line of the form "RESULT {comment}" (without the quotes),
+		where RESULT is a PGN result code (1-0, 0-1, or 1/2-1/2), and comment is the reason.
+		Here "by rule" means that the game is definitely over because of what happened on the board.
 	* In normal chess, this includes ... the 50 move rule ...
-	* (?)
+	* This command should thus not be used to ... make draw-by-rule claims that are not yet valid in the current position
+	* (but will be after you move). For offering and claiming such draws, "offer draw" should be used.
 	 */
 	@Test
 	public void claimDraw() {
