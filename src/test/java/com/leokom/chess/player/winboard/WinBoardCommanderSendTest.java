@@ -78,7 +78,7 @@ public class WinBoardCommanderSendTest {
 	@Test
 	public void claimDraw() {
 		commander.claimDrawByMovesCount( 50 );
-		verify( communicator ).send( "1/2-1/2" );
+		verify( communicator ).send( "1/2-1/2 {Draw claimed by 50 moves rule}" );
 	}
 
 	@Test
