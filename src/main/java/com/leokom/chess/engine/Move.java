@@ -56,6 +56,12 @@ public final class Move {
 	//is easier to implement if UI integration doesn't support more specific one
 	//while the specifics are more semantical.
 	//so far implementing the minimal decision
+
+	/**
+	 * The draw claim move represents a claim that is valid now.
+	 * To represent a claim that will be valid with an accompanying move, a new move
+	 * type should be introduced.
+	 */
 	static final Move CLAIM_DRAW = SpecialMove.CLAIM_DRAW.get();
 	private final String from;
 	private final String to;
