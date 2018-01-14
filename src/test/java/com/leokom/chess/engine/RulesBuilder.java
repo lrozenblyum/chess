@@ -11,16 +11,26 @@ import static org.mockito.Mockito.when;
  */
 public class RulesBuilder {
 	private Rules rules;
+	private int movesTillDraw = Rules.DEFAULT.getMovesTillDraw().orElse(1);
+	private int movesTillClaimDraw = Rules.DEFAULT.getMovesTillClaimDraw();
+
 	public RulesBuilder() {
 		rules = mock( Rules.class );
 	}
 
 	public RulesBuilder movesTillDraw( int smallestPossibleCount ) {
-		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( smallestPossibleCount ) );
+		this.movesTillDraw = smallestPossibleCount;
+		return this;
+	}
+
+	public RulesBuilder movesTillClaimDraw( int movesTillClaimDraw ) {
+		this.movesTillClaimDraw = movesTillClaimDraw;
 		return this;
 	}
 
 	public Rules build() {
+		when( rules.getMovesTillDraw() ).thenReturn( OptionalInt.of( movesTillDraw ) );
+		when( rules.getMovesTillClaimDraw() ).thenReturn( movesTillClaimDraw );
 		return rules;
 	}
 }
