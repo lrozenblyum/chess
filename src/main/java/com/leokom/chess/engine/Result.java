@@ -14,7 +14,5 @@ package com.leokom.chess.engine;
 public enum Result {
 	STALEMATE,
 
-	DRAW_BY_OBLIGATORY_MOVES,
-
-	DRAW_BY_CLAIM
+	DRAW_BY_OBLIGATORY_MOVES
 }
