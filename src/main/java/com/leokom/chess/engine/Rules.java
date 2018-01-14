@@ -35,7 +35,7 @@ public class Rules {
 				OptionalInt.of( countOfMovesTillDraw );
 	}
 
-	int getMovesTillClaimDraw() {
+	public int getMovesTillClaimDraw() {
 		return MOVES_TILL_CLAIM_DRAW;
 	}
 }
