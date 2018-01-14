@@ -32,7 +32,7 @@ public final class EvaluatorWeights {
 		result.put( ATTACK, NORMAL_PRIORITY );
 		//this disabling is not absolute. Those moves anyway have chance
 		//e.g. if LegalPlayer selects moves in reverse order (from worse to best)
-		result.put( SPECIAL_MOVE, HIGHEST_PRIORITY );
+		result.put( SPECIAL_MOVE, DISABLED );
 		return result;
 	}
 }
