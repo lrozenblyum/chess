@@ -3,6 +3,7 @@ package com.leokom.chess.engine;
 import org.jooq.lambda.Seq;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DrawBy50MovesTest {
@@ -29,6 +30,12 @@ public class DrawBy50MovesTest {
     @Test
     public void claimDrawMakesItTerminal() {
         assertTrue( prepareReadyForClaimPosition().move( Move.CLAIM_DRAW ).isTerminal() );
+    }
+
+    @Test
+    public void claimDrawGameResult() {
+        Result gameResult = prepareReadyForClaimPosition().move(Move.CLAIM_DRAW).getGameResult();
+        assertEquals( Result.DRAW_BY_CLAIM, gameResult );
     }
 
     private Position prepareReadyForClaimPosition() {

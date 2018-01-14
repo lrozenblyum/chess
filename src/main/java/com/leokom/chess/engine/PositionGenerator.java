@@ -89,7 +89,7 @@ final class PositionGenerator {
 	}
 
 	private Position getClaimDrawPosition() {
-		return createTerminalPosition( null );
+		return createTerminalPosition( null, Result.DRAW_BY_CLAIM );
 	}
 
 	private Position getPositionAfterStandardMove( Move move ) {
@@ -145,14 +145,14 @@ final class PositionGenerator {
 	}
 
 	private Position createTerminalPosition( Side winningSide ) {
-		return createTerminalPositionOf( winningSide, source );
+		return createTerminalPosition( winningSide, null );
 	}
 
-	private Position createTerminalPositionOf( Side winningSide, Position position ) {
+	private Position createTerminalPosition( Side winningSide, Result gameResult ) {
 		final Position result = new Position( null );
-		position.copyStateTo( result );
+		source.copyStateTo( result );
 		//TODO: should checkmate move also set this flag?
-		result.setTerminal( winningSide );
+		result.setTerminal(winningSide, gameResult);
 		return result;
 	}
 

@@ -949,8 +949,13 @@ public class Position {
 	 * @param winningSide side that has won the game
 	 */
 	void setTerminal( Side winningSide ) {
+		this.setTerminal( winningSide, null );
+	}
+
+	void setTerminal( Side winningSide, Result result ) {
 		this.terminal = true;
 		this.winningSide = winningSide;
+		this.result = result;
 	}
 
 	void setWaitingForAcceptDraw( boolean waitingForAcceptDraw ) {
