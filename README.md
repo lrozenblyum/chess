@@ -24,8 +24,8 @@ document http://home.hccnet.nl/h.g.muller/interfacing.txt
  
 1. Default (recommended) way
    1. `mvn clean package -Dproject.deployDirectory="path to set up"`
-   `-DskipTests=true` if you feel brave;
-    avoid `clean` phase if your IDE has already compiled the code.
+    `-DskipTests=true` if you feel brave;
+     avoid `clean` phase if your IDE has already compiled the code.
    2. runEngine.bat
 2. New way (requires M3_HOME variable set up)
    1. runEngineDev.bat
