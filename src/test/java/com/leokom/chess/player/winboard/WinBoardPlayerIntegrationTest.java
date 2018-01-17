@@ -97,6 +97,16 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	@Test
+	public void claimDrawFromUIReceived() {
+		//NOTE: the position is not prepared, if we add some extra validity checks
+		//then the position should be made really to accept the claim draw
+
+		assertTranslationOfReceivedCommandToMoveForOpponent(
+				"result 1/2-1/2 {TODO??????}",
+				Move.CLAIM_DRAW );
+	}
+
+	@Test
 	public void userMoveNoException() {
 		player.setOpponent( mock( Player.class ) );
 
