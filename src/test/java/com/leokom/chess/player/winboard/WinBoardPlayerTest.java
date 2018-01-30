@@ -140,14 +140,15 @@ public class WinBoardPlayerTest {
 
 		final Player opponent = mock( Player.class );
 
-		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillClaimDraw( 1 ).build() );
+		int movesTillClaimDraw = 1;
+		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillClaimDraw(movesTillClaimDraw).build() );
 		initWinboardPlayer( player, commander, opponent, position );
 
 		player.opponentMoved( new Move( "g1", "f3" ) );
 		executeMoveFromUI( commander, "g8f6" );
 		player.opponentMoved(Move.CLAIM_DRAW);
 
-		verify( commander ).claimDrawByMovesCount( 2 );
+		verify( commander ).claimDrawByMovesCount(movesTillClaimDraw);
 	}
 
 	@Test
