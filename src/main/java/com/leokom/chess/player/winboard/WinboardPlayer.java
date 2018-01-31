@@ -99,19 +99,7 @@ public class WinboardPlayer implements Player {
 			//TODO: game over is sent due to draw, checkmate, resign,...
 			// it's hard but need to avoid false detection
 			if ( !position.isTerminal() ) {
-				//very loose check. Draw by insufficient material
-				//can be treated here as ACCEPT_DRAW
-				final Move move;
-				if (data.startsWith("1/2-1/2")) {
-					if ( position.getMoves().contains( Move.CLAIM_DRAW ) ) {
-						move = Move.CLAIM_DRAW;
-					}
-					else {
-						move = Move.ACCEPT_DRAW;
-					}
-				} else {
-					move = Move.RESIGN;
-				}
+				final Move move = isDrawResult( data ) ? classifyDraw() : Move.RESIGN;
 
 				position = position.move( move );
 
@@ -119,6 +107,16 @@ public class WinboardPlayer implements Player {
 			} //else we already know it
 			//e.g. 75 moves draw.
 		} );
+	}
+
+	private boolean isDrawResult( String data ) {
+		return data.startsWith( "1/2-1/2" );
+	}
+
+	private Move classifyDraw() {
+		//very loose check. Draw by insufficient material
+		//can be treated here as ACCEPT_DRAW
+		return position.getMoves().contains( Move.CLAIM_DRAW ) ? Move.CLAIM_DRAW : Move.ACCEPT_DRAW;
 	}
 
 	/**
