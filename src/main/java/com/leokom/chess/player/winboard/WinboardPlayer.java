@@ -94,8 +94,8 @@ public class WinboardPlayer implements Player {
 		//using onGameOver to detect that state
 		commander.onOfferDraw( () -> opponent.opponentMoved( Move.OFFER_DRAW ) );
 
-		commander.onGameOver( ( data ) -> {
-			logger.info( "Game over. Extra data: " + data );
+		commander.onGameOver( gameOverDetails -> {
+			logger.info( "Game over. Extra gameOverDetails: " + gameOverDetails );
 			if ( position.isTerminal() ) {
 				logger.info( "We already knew about the game over due to terminal position" );
 				//e.g. this can occur due to 75 moves draw.
@@ -103,7 +103,7 @@ public class WinboardPlayer implements Player {
 				//TODO: game over is sent due to draw, checkmate, resign,...
 				// it's hard but need to avoid false detection
 
-				final Move move = isDrawResult( data ) ? classifyDraw() : Move.RESIGN;
+				final Move move = isDrawResult( gameOverDetails ) ? classifyDraw() : Move.RESIGN;
 
 				position = position.move( move );
 
@@ -112,13 +112,16 @@ public class WinboardPlayer implements Player {
 		} );
 	}
 
-	private boolean isDrawResult( String data ) {
-		return data.startsWith( "1/2-1/2" );
+	private boolean isDrawResult( String gameOverDetails ) {
+		return gameOverDetails.startsWith( "1/2-1/2" );
 	}
 
 	private Move classifyDraw() {
 		//very loose check. Draw by insufficient material
 		//can be treated here as ACCEPT_DRAW
+
+		//when we have a legal claim draw and accept draw (possible but unlikely)
+		//then we have NO choice to solve the ambiguity
 		return position.getMoves().contains( Move.CLAIM_DRAW ) ? Move.CLAIM_DRAW : Move.ACCEPT_DRAW;
 	}
 
