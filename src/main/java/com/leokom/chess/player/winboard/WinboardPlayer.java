@@ -101,7 +101,17 @@ public class WinboardPlayer implements Player {
 			if ( !position.isTerminal() ) {
 				//very loose check. Draw by insufficient material
 				//can be treated here as ACCEPT_DRAW
-				final Move move = data.startsWith( "1/2-1/2" ) ? Move.ACCEPT_DRAW : Move.RESIGN;
+				final Move move;
+				if (data.startsWith("1/2-1/2")) {
+					if ( position.getMoves().contains( Move.CLAIM_DRAW ) ) {
+						move = Move.CLAIM_DRAW;
+					}
+					else {
+						move = Move.ACCEPT_DRAW;
+					}
+				} else {
+					move = Move.RESIGN;
+				}
 
 				position = position.move( move );
 

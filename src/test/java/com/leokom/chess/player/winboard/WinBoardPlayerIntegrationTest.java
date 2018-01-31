@@ -98,11 +98,21 @@ public class WinBoardPlayerIntegrationTest {
 
 	@Test
 	public void claimDrawFromUIReceived() {
-		//NOTE: the position is not prepared, if we add some extra validity checks
-		//then the position should be made really to accept the claim draw
+		//we can use just heuristics in detection whether it's indeed draw claim.
+		//Winboard UI/protocol doesn't distinguish it well from other draw types
+
+		Rules fastDrawClaimPossibility = new RulesBuilder().movesTillClaimDraw(1).build();
+		Position positionWithClaimDrawPossibility =
+				new PositionBuilder()
+				.initial()
+				.rules( fastDrawClaimPossibility ).
+				build().
+				move("g1", "f3").
+				move("g8", "f6");
+		player.setPosition( positionWithClaimDrawPossibility );
 
 		assertTranslationOfReceivedCommandToMoveForOpponent(
-				"result 1/2-1/2 {TODO??????}",
+				"result 1/2-1/2 {draw claimed by UI - this string is not part of specification}",
 				Move.CLAIM_DRAW );
 	}
 
