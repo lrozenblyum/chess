@@ -96,16 +96,19 @@ public class WinboardPlayer implements Player {
 
 		commander.onGameOver( ( data ) -> {
 			logger.info( "Game over. Extra data: " + data );
-			//TODO: game over is sent due to draw, checkmate, resign,...
-			// it's hard but need to avoid false detection
-			if ( !position.isTerminal() ) {
+			if ( position.isTerminal() ) {
+				logger.info( "We already knew about the game over due to terminal position" );
+				//e.g. this can occur due to 75 moves draw.
+			} else {
+				//TODO: game over is sent due to draw, checkmate, resign,...
+				// it's hard but need to avoid false detection
+
 				final Move move = isDrawResult( data ) ? classifyDraw() : Move.RESIGN;
 
 				position = position.move( move );
 
 				opponent.opponentMoved( move );
-			} //else we already know it
-			//e.g. 75 moves draw.
+			}
 		} );
 	}
 
