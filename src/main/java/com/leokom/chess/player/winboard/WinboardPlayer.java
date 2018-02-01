@@ -95,7 +95,7 @@ public class WinboardPlayer implements Player {
 		commander.onOfferDraw( () -> opponent.opponentMoved( Move.OFFER_DRAW ) );
 
 		commander.onGameOver( gameOverDetails -> {
-			logger.info( "Game over. Extra gameOverDetails: " + gameOverDetails );
+			logger.info( "Game over. Extra details: " + gameOverDetails );
 			if ( position.isTerminal() ) {
 				logger.info( "We already knew about the game over due to terminal position" );
 				//e.g. this can occur due to 75 moves draw.
