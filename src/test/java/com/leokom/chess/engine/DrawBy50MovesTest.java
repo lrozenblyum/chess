@@ -3,6 +3,7 @@ package com.leokom.chess.engine;
 import org.jooq.lambda.Seq;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class DrawBy50MovesTest {
@@ -31,6 +32,12 @@ public class DrawBy50MovesTest {
         assertTrue( prepareReadyForClaimPosition().move( Move.CLAIM_DRAW ).isTerminal() );
     }
 
+    @Test
+    public void claimDrawReason() {
+        Position position = prepareReadyForClaimPosition().move(Move.CLAIM_DRAW);
+        assertEquals( Result.DRAW_BY_CLAIM, position.getGameResult() );
+    }
+
     private Position prepareReadyForClaimPosition() {
         final Position initialPosition = Position.getInitialPosition( Rules.DEFAULT );
 
@@ -43,11 +50,4 @@ public class DrawBy50MovesTest {
 
         return new PositionMover( initialPosition, moves ).run();
     }
-
-    /*
-     * [?] should position after claim draw differ
-     * from position after offer draw? now they're the same
-     *
-     *
-     */
 }
