@@ -1032,4 +1032,9 @@ public class Position {
 	int getMoveNumber() {
 		return pliesCount / PLIES_IN_MOVE + 1;
 	}
+
+	void setGameResult(Result gameResult) {
+		this.result = gameResult;
+	}
+
 }
