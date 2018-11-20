@@ -145,12 +145,12 @@ final class PositionGenerator {
 	}
 
 	private Position createTerminalPosition(Side winningSide, Result gameResult) {
-		final Position result = new Position( null );
-		source.copyStateTo( result );
+		final Position terminalPosition = new Position( null );
+		source.copyStateTo( terminalPosition );
 		//TODO: should checkmate move also set this flag?
-		result.setTerminal(winningSide);
-		result.setGameResult( gameResult );
-		return result;
+		terminalPosition.setTerminal(winningSide);
+		terminalPosition.setGameResult( gameResult );
+		return terminalPosition;
 	}
 
 	private Position processRookMove( String squareFrom, String move ) {
