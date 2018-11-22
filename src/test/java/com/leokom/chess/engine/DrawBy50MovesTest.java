@@ -40,14 +40,37 @@ public class DrawBy50MovesTest {
 
     private Position prepareReadyForClaimPosition() {
         final Position initialPosition = Position.getInitialPosition( Rules.DEFAULT );
-
-        //knights moving forth and back
-        //50 * 2 = 100 / 4 = 25
-        final int iterationsToEnd = 25;
-        final Seq<Move> moves = Seq.of( new Move( "g1", "f3" ), new Move( "g8", "f6" ),
-                new Move( "f3", "g1" ), new Move( "f6", "g8" ) )
-                .cycle( iterationsToEnd );
+        final Seq<Move> moves = get50MovesToDraw();
 
         return new PositionMover( initialPosition, moves ).run();
     }
+
+    private Seq<Move> get50MovesToDraw() {
+        //knights moving forth and back
+        //50 * 2 = 100 / 4 = 25
+        final int iterationsToEnd = 25;
+        return Seq.of( new Move( "g1", "f3" ), new Move( "g8", "f6" ),
+                new Move( "f3", "g1" ), new Move( "f6", "g8" ) )
+                .cycle( iterationsToEnd );
+    }
+
+    @Test
+    public void cannotClaimDrawBeforeTheLastMove() {
+        final Position initialPosition = Position.getInitialPosition(Rules.DEFAULT);
+
+        Seq<Move> moves = removeLastMove( get50MovesToDraw() );
+
+        Position position = new PositionMover(initialPosition, moves).run();
+        PositionAsserts.assertAllowedMovesOmit(position, Move.CLAIM_DRAW);
+    }
+
+    private Seq<Move> removeLastMove(Seq<Move> sequence) {
+        return sequence.reverse().skip(1).reverse();
+    }
+
+    //The game is drawn, upon a correct claim by a player having the move, if:
+    //9.3.1
+    //he writes his move, which cannot be changed, on his scoresheet and declares to the arbiter his intention
+    // to make this move which will result in the last 50 moves by each player having been made
+    // without the movement of any pawn and without any capture, or
 }
