@@ -1,7 +1,9 @@
 rem =======================================================
 rem Runs Chess in development mode
 rem skips tests, packages fast to correct target directory
-rem Pre-requisites: M3_HOME pointing to a valid Maven3 installation
+rem Pre-requisites:
+rem JAVA_HOME pointing to a valid Java installation
+rem M3_HOME pointing to a valid Maven3 installation
 rem =======================================================
 
 rem ----
