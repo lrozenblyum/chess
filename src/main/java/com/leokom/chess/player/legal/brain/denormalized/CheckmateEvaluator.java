@@ -24,6 +24,7 @@ class CheckmateEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Position result = position.move( move );
 		return result.isTerminal() &&
+				result.getWinningSide() != null &&
 				position.getSide( move.getFrom() ) == result.getWinningSide() ?
 				BEST_MOVE : WORST_MOVE;
 	}
