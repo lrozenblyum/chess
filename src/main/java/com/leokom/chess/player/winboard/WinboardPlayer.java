@@ -96,8 +96,7 @@ public class WinboardPlayer implements Player {
 			Move drawMoveReceived = classifyDrawOfferCommand();
 			opponent.opponentMoved(drawMoveReceived);
 			if ( drawMoveReceived == Move.CLAIM_DRAW  ) {
-				//TODO: unhardcode the 50
-				commander.informAboutClaimDrawFromUIByMovesCount( 50 );
+				commander.informAboutClaimDrawFromUIByMovesCount( position.getRules().getMovesTillClaimDraw() );
 			}
 		});
 
