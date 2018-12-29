@@ -118,7 +118,9 @@ public class WinBoardPlayerIntegrationTest {
 	}
 
 	//when adjudication is disabled, Winboard sends just 'draw'
-	@Test
+    //in this foggy case we should not only inform the engine but also Winboard UI
+    //since adjudication is disabled and the UI doesn't know about the game end!
+    @Test
 	public void claimDrawFromUIReceivedWhenAdjudicationDisabled() {
 		Rules fastDrawClaimPossibility = new RulesBuilder().movesTillClaimDraw(1).build();
 		Position positionWithClaimDrawPossibility =
@@ -133,6 +135,7 @@ public class WinBoardPlayerIntegrationTest {
 		assertTranslationOfReceivedCommandToMoveForOpponent(
 				"draw",
 				Move.CLAIM_DRAW );
+		verify( communicator ).send( "1/2-1/2 { draw claim received from the UI }" );
 	}
 
 	@Test
