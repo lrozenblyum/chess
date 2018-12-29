@@ -92,7 +92,14 @@ public class WinboardPlayer implements Player {
 
 		//there is no 'onAcceptDraw' in Winboard protocol
 		//using onGameOver to detect that state
-		commander.onOfferDraw( () -> opponent.opponentMoved(classifyDrawOfferCommand()) );
+		commander.onOfferDraw( () -> {
+			Move drawMoveReceived = classifyDrawOfferCommand();
+			opponent.opponentMoved(drawMoveReceived);
+			if ( drawMoveReceived == Move.CLAIM_DRAW  ) {
+				//TODO: unhardcode the 50
+				commander.informAboutClaimDrawFromUIByMovesCount( 50 );
+			}
+		});
 
 		commander.onGameOver( gameOverDetails -> {
 			logger.info( "Game over. Extra details: " + gameOverDetails );

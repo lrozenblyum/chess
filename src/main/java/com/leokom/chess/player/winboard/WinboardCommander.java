@@ -58,7 +58,9 @@ interface WinboardCommander {
 	void claimDrawByMovesCount( int movesCount );
 
 
-	/**
+    void informAboutClaimDrawFromUIByMovesCount(int movesCount);
+
+    /**
 	 * Inform Winboard about stalemate draw
 	 */
 	void stalemateDraw();

@@ -135,7 +135,7 @@ public class WinBoardPlayerIntegrationTest {
 		assertTranslationOfReceivedCommandToMoveForOpponent(
 				"draw",
 				Move.CLAIM_DRAW );
-		verify( communicator ).send( "1/2-1/2 { draw claim received from the UI }" );
+		verify( communicator ).send( "1/2-1/2 {Draw claim received from UI by 50 moves rule}" );
 	}
 
 	@Test
