@@ -57,8 +57,17 @@ interface WinboardCommander {
 	 */
 	void claimDrawByMovesCount( int movesCount );
 
-
-    void informAboutClaimDrawFromUIByMovesCount(int movesCount);
+	/**
+	 * Inform Winboard that the last move from UI was interpreted as draw claim.
+	 * It's a really unusual case due to protocol limitations: when
+	 * claim draw adjudication is disabled, the UI doesn't provide a separate possibility to claim draw.
+	 * Menu Action -> Draw should be dynamically analyzed depending on the situation.
+	 *
+	 * So here we inform the UI about the UI's last action!
+	 *
+	 * @param movesCount count of moves due to which the claim draw was possible
+	 */
+	void informAboutClaimDrawFromUIByMovesCount( int movesCount );
 
     /**
 	 * Inform Winboard about stalemate draw

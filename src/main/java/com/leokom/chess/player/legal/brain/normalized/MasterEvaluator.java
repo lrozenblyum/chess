@@ -39,7 +39,7 @@ class MasterEvaluator implements Evaluator {
 			final double weight = evaluatorEntry.getValue();
 			final double evaluatorResponse = evaluator.evaluateMove(position, move);
 			final double moveEstimate = weight * evaluatorResponse;
-			LOG.debug("{} [{}] : {} * {} = {}", move, evaluatorEntry.getKey(), weight, evaluatorResponse, moveEstimate);
+			LOG.debug( "{} [{}] : {} * {} = {}", move, evaluatorEntry.getKey(), weight, evaluatorResponse, moveEstimate );
 			return moveEstimate;
 		}).sum();
 		LOG.info("{} ===> {}", move, result);

@@ -92,9 +92,11 @@ public class WinboardPlayer implements Player {
 
 		//there is no 'onAcceptDraw' in Winboard protocol
 		//using onGameOver to detect that state
+
+		// 'draw' command may indicate both draw offer and draw claim, here we work on distinguish these states
 		commander.onOfferDraw( () -> {
 			Move drawMoveReceived = classifyDrawOfferCommand();
-			opponent.opponentMoved(drawMoveReceived);
+			opponent.opponentMoved( drawMoveReceived );
 			if ( drawMoveReceived == Move.CLAIM_DRAW  ) {
 				commander.informAboutClaimDrawFromUIByMovesCount( position.getRules().getMovesTillClaimDraw() );
 			}

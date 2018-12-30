@@ -103,8 +103,8 @@ public class Position {
 	private int pliesCount;
 
 	//the ply after which we should calculate 75 moves to
-    //make obligatory draw (in case no pawn moves or captures are done)
-	//it's also used to search for 50 moves rule claim draw possibility
+	//make obligatory draw (in case no pawn moves or captures are done)
+	//it's also	 used to search for 50 moves rule claim draw possibility
     private int plyNumberToStartNoPawnMovementNoCaptureCalculation;
 
 	/**
