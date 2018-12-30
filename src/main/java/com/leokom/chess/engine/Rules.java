@@ -13,7 +13,7 @@ import java.util.OptionalInt;
  * Date-time: 20.03.16 11:05
  */
 public class Rules {
-	private static final int MOVES_TILL_CLAIM_DRAW = 1;
+	private static final int MOVES_TILL_CLAIM_DRAW = 50;
 
 	static final Rules BEFORE_JULY_2014 = new Rules();
 	private static final Rules AFTER_JULY_2014 = new Rules( 75 );
