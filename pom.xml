@@ -158,6 +158,19 @@
                     </outputFormats>
                 </configuration>
               </plugin>
+
+            <!-- TODO: should we use a separate profile? -->
+            <plugin>
+                <groupId>de.jutzig</groupId>
+                <artifactId>github-release-plugin</artifactId>
+                <version>1.3.0</version>
+                <configuration>
+                    <description>Test release</description>
+                    <releaseName>Test Automation: ${project.version}</releaseName>
+                    <tag>${project.version}</tag>
+                    <draft>true</draft>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
