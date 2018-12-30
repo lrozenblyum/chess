@@ -96,11 +96,17 @@ public class WinboardPlayer implements Player {
 		// 'draw' command may indicate both draw offer and draw claim, here we work on distinguish these states
 		commander.onOfferDraw( () -> {
 			Move drawMoveReceived = classifyDrawOfferCommand();
+
+			//common approach: update internal state, detect whether we need to inform the UI about sth special
+			// (like we do in detectGameOver)
+			//only then - inform the opponent
 			position = position.move( drawMoveReceived );
-			opponent.opponentMoved( drawMoveReceived );
-			if ( drawMoveReceived == Move.CLAIM_DRAW  ) {
+
+			if ( drawMoveReceived == Move.CLAIM_DRAW ) {
 				commander.informAboutClaimDrawFromUIByMovesCount( position.getRules().getMovesTillClaimDraw() );
 			}
+
+			opponent.opponentMoved( drawMoveReceived );
 		});
 
 		commander.onGameOver( gameOverDetails -> {
