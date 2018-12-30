@@ -149,6 +149,8 @@ public class WinBoardPlayerTest {
 		player.opponentMoved(Move.CLAIM_DRAW);
 
 		verify( commander ).claimDrawByMovesCount(movesTillClaimDraw);
+		//we should correctly know the state
+		assertTrue( player.getPosition().isTerminal() );
 	}
 
 	@Test
