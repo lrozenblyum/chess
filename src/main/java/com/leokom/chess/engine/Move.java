@@ -1,5 +1,7 @@
 package com.leokom.chess.engine;
 
+import java.util.Arrays;
+
 /**
  * Immutable value object representing act of moving.
  * It encapsulates both moves that cause changes on-board
@@ -16,9 +18,51 @@ public final class Move {
 	 * Size of promotion move (e.g. "h1Q")
 	 */
 	private static final int PROMOTION_MOVE_SIZE = 3;
-	public static final Move RESIGN = new Move();
-	public static final Move OFFER_DRAW = new Move();
-	public static final Move ACCEPT_DRAW = new Move();
+
+	/**
+	 * Internal semantic representation of a special move
+	 * Allows deeper logic than Move.java can provide
+	 */
+	private enum SpecialMove {
+		RESIGN,
+		OFFER_DRAW,
+		ACCEPT_DRAW,
+		CLAIM_DRAW;
+
+		private final Move move;
+
+		SpecialMove() {
+			this.move = new Move();
+		}
+
+		Move get() {
+			return this.move;
+		}
+
+		static SpecialMove fromMove( Move move ) {
+			return Arrays.stream( SpecialMove.values() )
+					.filter( specialMove -> specialMove.move == move )
+					.findAny().
+					orElseThrow( () -> new IllegalArgumentException( "Move is not special: " + move ) );
+		}
+	}
+
+	public static final Move RESIGN = SpecialMove.RESIGN.get();
+	public static final Move OFFER_DRAW = SpecialMove.OFFER_DRAW.get();
+	public static final Move ACCEPT_DRAW = SpecialMove.ACCEPT_DRAW.get();
+	//it's hard to decide whether we should introduce
+	//claim draw by 50 moves rule & claim draw by threefold repetition
+	//or just a common generic claim draw. The generic claim draw
+	//is easier to implement if UI integration doesn't support more specific one
+	//while the specifics are more semantical.
+	//so far implementing the minimal decision
+
+	/**
+	 * The draw claim move represents a claim that is valid now.
+	 * To represent a claim that will be valid with an accompanying move, a new move
+	 * type should be introduced.
+	 */
+	public static final Move CLAIM_DRAW = SpecialMove.CLAIM_DRAW.get();
 	private final String from;
 	private final String to;
 
@@ -104,9 +148,8 @@ public final class Move {
 
 	@Override
 	public String toString() {
-		return this == RESIGN ? "RESIGN" :
-				this == OFFER_DRAW ? "OFFER_DRAW" :
-				this == ACCEPT_DRAW ? "ACCEPT_DRAW" :
+		return this.isSpecial ?
+				SpecialMove.fromMove( this ).toString() :
 				from + " : " + to;
 	}
 

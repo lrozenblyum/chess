@@ -92,23 +92,64 @@ public class WinboardPlayer implements Player {
 
 		//there is no 'onAcceptDraw' in Winboard protocol
 		//using onGameOver to detect that state
-		commander.onOfferDraw( () -> opponent.opponentMoved( Move.OFFER_DRAW ) );
 
-		commander.onGameOver( ( data ) -> {
-			logger.info( "Game over. Extra data: " + data );
-			//TODO: game over is sent due to draw, checkmate, resign,...
-			// it's hard but need to avoid false detection
-			if ( !position.isTerminal() ) {
-				//very loose check. Draw by insufficient material
-				//can be treated here as ACCEPT_DRAW
-				final Move move = data.startsWith( "1/2-1/2" ) ? Move.ACCEPT_DRAW : Move.RESIGN;
+		// 'draw' command may indicate both draw offer and draw claim, here we work on distinguish these states
+		commander.onOfferDraw( () -> {
+			Move drawMoveReceived = classifyDrawOfferCommand();
+
+			//common approach: update internal state, detect whether we need to inform the UI about sth special
+			// (like we do in detectGameOver)
+			//only then - inform the opponent
+			position = position.move( drawMoveReceived );
+
+			if ( drawMoveReceived == Move.CLAIM_DRAW ) {
+				commander.informAboutClaimDrawFromUIByMovesCount( position.getRules().getMovesTillClaimDraw() );
+			}
+
+			opponent.opponentMoved( drawMoveReceived );
+		});
+
+		commander.onGameOver( gameOverDetails -> {
+			logger.info( "Game over. Extra details: " + gameOverDetails );
+			if ( position.isTerminal() ) {
+				logger.info( "We already knew about the game over due to terminal position" );
+				//e.g. this can occur due to 75 moves draw.
+			} else {
+				//TODO: game over is sent due to draw, checkmate, resign,...
+				// it's hard but need to avoid false detection
+
+				final Move move = isDrawResult( gameOverDetails ) ? classifyDrawResult() : Move.RESIGN;
 
 				position = position.move( move );
 
 				opponent.opponentMoved( move );
-			} //else we already know it
-			//e.g. 75 moves draw.
+			}
 		} );
+	}
+
+	private boolean isDrawResult( String gameOverDetails ) {
+		return gameOverDetails.startsWith( "1/2-1/2" );
+	}
+
+	//as a matter of fact Winboard sends us 'draw' in case when adjudication is disabled
+	//during claim draw
+	//when we have a legal claim draw and accept draw (possible but unlikely)
+	//then we have NO choice to solve the ambiguity
+	private Move classifyDrawOfferCommand() {
+		return canClaimDrawBeExecutedNow() ? Move.CLAIM_DRAW : Move.OFFER_DRAW;
+	}
+
+	private Move classifyDrawResult() {
+		//very loose check. Draw by insufficient material
+		//can be treated here as ACCEPT_DRAW
+
+		//when we have a legal claim draw and accept draw (possible but unlikely)
+		//then we have NO choice to solve the ambiguity
+		return canClaimDrawBeExecutedNow() ? Move.CLAIM_DRAW : Move.ACCEPT_DRAW;
+	}
+
+	private boolean canClaimDrawBeExecutedNow() {
+		return position.getMoves().contains( Move.CLAIM_DRAW );
 	}
 
 	/**
@@ -165,6 +206,9 @@ public class WinboardPlayer implements Player {
 			}
 			else if ( opponentMove == Move.ACCEPT_DRAW ) {
 				commander.agreeToDrawOffer();
+			}
+			else if ( opponentMove == Move.CLAIM_DRAW ) {
+				commander.claimDrawByMovesCount( position.getRules().getMovesTillClaimDraw() );
 			}
 			else {
 				String translatedMove = opponentMove.toOldStringPresentation();

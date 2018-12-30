@@ -103,8 +103,9 @@ public class Position {
 	private int pliesCount;
 
 	//the ply after which we should calculate 75 moves to
-    //make obligatory draw (in case no pawn moves or captures are done)
-    private int plyNumberToStartObligatoryDrawCalculation;
+	//make obligatory draw (in case no pawn moves or captures are done)
+	//it's also	 used to search for 50 moves rule claim draw possibility
+    private int plyNumberToStartNoPawnMovementNoCaptureCalculation;
 
 	/**
 	 * Create position.
@@ -684,7 +685,7 @@ public class Position {
 
 		position.rules = this.rules;
 		position.pliesCount = this.pliesCount;
-		position.plyNumberToStartObligatoryDrawCalculation = this.plyNumberToStartObligatoryDrawCalculation;
+		position.plyNumberToStartNoPawnMovementNoCaptureCalculation = this.plyNumberToStartNoPawnMovementNoCaptureCalculation;
 
 		position.terminal = this.terminal;
 	}
@@ -824,6 +825,10 @@ public class Position {
 				return new HashSet<>();
 			}
 
+			if ( canClaimDraw() ) {
+				result.add( Move.CLAIM_DRAW );
+			}
+
 			result.add( Move.OFFER_DRAW );
 			result.add( Move.RESIGN );
 			if ( waitingForAcceptDraw ) {
@@ -850,9 +855,16 @@ public class Position {
 
 	private boolean isObligatoryDraw() {
 		final OptionalInt movesTillDraw = rules.getMovesTillDraw();
-		return movesTillDraw.isPresent() &&
-                ( pliesCount - plyNumberToStartObligatoryDrawCalculation)
-         >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
+		return movesTillDraw.isPresent() &&	enoughMovesWithoutPawnMovementAndCapture(movesTillDraw.getAsInt());
+	}
+
+	private boolean canClaimDraw() {
+		return enoughMovesWithoutPawnMovementAndCapture( rules.getMovesTillClaimDraw() );
+	}
+
+	private boolean enoughMovesWithoutPawnMovementAndCapture( int movesToBeEnough ) {
+		return ( pliesCount - plyNumberToStartNoPawnMovementNoCaptureCalculation)
+				>= movesToBeEnough * PLIES_IN_MOVE;
 	}
 
 	/**
@@ -962,7 +974,7 @@ public class Position {
 	}
 
 	void restartObligatoryDrawCounter() {
-	    this.plyNumberToStartObligatoryDrawCalculation = pliesCount;
+	    this.plyNumberToStartNoPawnMovementNoCaptureCalculation = pliesCount;
 	}
 
 	/**
@@ -1020,4 +1032,9 @@ public class Position {
 	int getMoveNumber() {
 		return pliesCount / PLIES_IN_MOVE + 1;
 	}
+
+	void setGameResult(Result gameResult) {
+		this.result = gameResult;
+	}
+
 }

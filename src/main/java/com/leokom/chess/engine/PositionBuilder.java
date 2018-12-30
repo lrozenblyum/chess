@@ -11,12 +11,17 @@ import java.util.stream.IntStream;
  * Date-time: 28.02.15 22:05
  */
 public class PositionBuilder {
-	private final Position position;
+	private Position position;
 
 	public PositionBuilder() {
 		//TODO: not the best decision to hard-code side here
 		//better delay position construction till build() method call
 		position = new Position( Side.WHITE );
+	}
+
+	public PositionBuilder initial() {
+		this.position = Position.getInitialPosition();
+		return this;
 	}
 
 	public PositionBuilder add( Side side, String square, PieceType pieceType ) {

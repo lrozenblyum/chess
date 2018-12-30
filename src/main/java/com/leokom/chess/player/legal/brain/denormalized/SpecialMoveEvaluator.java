@@ -23,6 +23,9 @@ class SpecialMoveEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return move == Move.OFFER_DRAW ? PREFERRED_MOVE : USUAL_MOVE;
+		return
+			move == Move.OFFER_DRAW ||
+			move == Move.CLAIM_DRAW ?
+			PREFERRED_MOVE : USUAL_MOVE;
 	}
 }

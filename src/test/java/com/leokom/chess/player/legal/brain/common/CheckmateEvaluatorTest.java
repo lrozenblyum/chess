@@ -52,6 +52,20 @@ public class CheckmateEvaluatorTest extends EvaluatorTestCase {
 		asserts.assertFirstBetter( builder, checkmateMove, resignMove );
 	}
 
+	@Test
+	public void drawClaimIsWorseThanCheckmate() {
+		PositionBuilder builder = new PositionBuilder()
+				.add( Side.WHITE, "c1", PieceType.ROOK )
+				.add( Side.WHITE, "b7", PieceType.ROOK )
+				.add( Side.BLACK, "h8", PieceType.KING );
+
+
+		Move checkmateMove = new Move( "c1", "c8" );
+		Move claimDrawMove = Move.CLAIM_DRAW;
+
+		asserts.assertFirstBetter( builder, checkmateMove, claimDrawMove );
+	}
+
 	@Override
 	EvaluatorType getEvaluatorType() {
 		return EvaluatorType.CHECKMATE;

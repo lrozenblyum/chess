@@ -121,7 +121,21 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void obligatoryDrawByMovesCount( int movesCount ) {
-		communicator.send( String.format( "1/2-1/2 {Draw by %s moves rule}", movesCount ) );
+		indicateDrawByMovesCount( movesCount, "Draw" );
+	}
+
+	@Override
+	public void claimDrawByMovesCount( int movesCount ) {
+		indicateDrawByMovesCount( movesCount, "Draw claimed" );
+	}
+
+	@Override
+	public void informAboutClaimDrawFromUIByMovesCount(int movesCount) {
+		indicateDrawByMovesCount( movesCount, "Draw claim received from UI" );
+	}
+
+	private void indicateDrawByMovesCount(int movesCount, String drawInformation) {
+		communicator.send(String.format("1/2-1/2 {%s by %s moves rule}", drawInformation, movesCount));
 	}
 
 	@Override
