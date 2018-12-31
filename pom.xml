@@ -177,7 +177,6 @@
                     <description>Test release</description>
                     <releaseName>Test Automation: ${project.version}</releaseName>
                     <tag>${project.version}</tag>
-                    <draft>true</draft>
                 </configuration>
             </plugin>
         </plugins>
