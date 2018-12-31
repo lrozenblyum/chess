@@ -169,6 +169,18 @@
               </plugin>
 
             <!-- TODO: should we use a separate profile? -->
+            <!-- Assembly plug-in will allow us create a *.zip artifact with binaries
+             which previously was created manually -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/assembly/assembly-release-archive.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>de.jutzig</groupId>
                 <artifactId>github-release-plugin</artifactId>
