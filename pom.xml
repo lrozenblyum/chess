@@ -9,6 +9,15 @@
     <artifactId>Chess</artifactId>
     <version>0.3-SNAPSHOT</version>
 
+
+    <!-- Added in order to support github-release-plugin.
+    This information is also useful itself for semantic purposes.
+     -->
+    <scm>
+        <url>https://github.com/lrozenblyum/chess</url>
+        <connection>scm:git:https://github.com/lrozenblyum/chess.git</connection>
+    </scm>
+
     <repositories>
         <repository>
             <id>maven.fluxchess.com</id>
