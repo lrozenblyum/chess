@@ -194,6 +194,16 @@
                      we consider all 0.* as pre-releases -->
                     <prerelease>true</prerelease>
                     <failOnExistingRelease>true</failOnExistingRelease>
+
+                    <!-- The sources will be added by default. Adding binaries here -->
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <include>LeokomChess-${project.version}*.zip</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
                 </configuration>
             </plugin>
         </plugins>
