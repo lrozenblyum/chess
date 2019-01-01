@@ -18,6 +18,17 @@
         <connection>scm:git:https://github.com/lrozenblyum/chess.git</connection>
     </scm>
 
+    <!-- Trick to use mvn deploy goal
+     We don't have any 'Nexus'-like deploy target yet.
+     However I want to be able to use a convenient command mvn clean deploy
+     so I specify local storage here -->
+    <distributionManagement>
+        <repository>
+            <id>internal</id>
+            <url>file://${project.build.directory}/maven-repository</url>
+        </repository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>maven.fluxchess.com</id>
@@ -181,6 +192,16 @@
                         <descriptor>src/assembly/assembly-release-archive.xml</descriptor>
                     </descriptors>
                 </configuration>
+                <executions>
+                    <execution>
+                        <!-- As an alternative we might use a separate profile.
+                         Specifying the phase that is earlier than deploy which our release-plugin is bound to -->
+                        <phase>install</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>de.jutzig</groupId>
@@ -207,6 +228,14 @@
                         </fileSet>
                     </fileSets>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>release</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
