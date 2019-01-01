@@ -114,7 +114,7 @@
                         <configuration>
                             <!-- We're interested only in compile&runtime dependencies -->
                             <includeScope>runtime</includeScope>
-                            <outputDirectory>${project.deployDirectory}\lib</outputDirectory>
+                            <outputDirectory>${project.deployDirectory}\${dependenciesDirectory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -131,7 +131,7 @@
                     <archive>
                         <manifest>
                         	<addClasspath>true</addClasspath>
-                        	<classpathPrefix>lib</classpathPrefix>
+                        	<classpathPrefix>${dependenciesDirectory}</classpathPrefix>
                         	<mainClass>com.leokom.chess.MainRunner</mainClass>
                         </manifest>
                     </archive>
@@ -244,5 +244,7 @@
         <log4j2version>2.6.2</log4j2version>
 
         <project.deployDirectory>E:\Games\WinBoard-4.8.0\LeokomChess</project.deployDirectory>
+
+        <dependenciesDirectory>lib</dependenciesDirectory>
     </properties>
 </project>

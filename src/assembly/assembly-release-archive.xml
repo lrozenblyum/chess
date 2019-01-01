@@ -14,7 +14,7 @@
             <outputDirectory>./</outputDirectory>
             <includes>
                 <include>*.jar</include>
-                <include>lib/*.jar</include>
+                <include>${dependenciesDirectory}/*.jar</include>
             </includes>
         </fileSet>
         <fileSet>
