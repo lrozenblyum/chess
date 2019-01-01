@@ -7,7 +7,7 @@
     <name>Chess</name>
     <groupId>com.leokom</groupId>
     <artifactId>Chess</artifactId>
-    <version>0.3</version>
+    <version>0.4-SNAPSHOT</version>
 
 
     <!-- Added in order to support github-release-plugin.
@@ -210,10 +210,7 @@
                 <configuration>
                     <releaseName>${project.version} release</releaseName>
                     <description>
-                        50-moves rule (works for the case from 9.3b rules article).
-                        Release to GitHub: automated.
-
-                        In remembrance of my friend Boris Livshitz who passed away today.
+                       To be defined
                     </description>
                     <tag>${project.version}</tag>
                     <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
