@@ -28,6 +28,32 @@ document http://home.hccnet.nl/h.g.muller/interfacing.txt
    2. runEngine.bat
 2. New way (requires M3_HOME variable set up)
    1. runEngineDev.bat
+   
+## How to release
+### Preparation
+1) settings.xml must contain valid credentials for release uploading to GitHub
+```xml 
+<servers>
+    <server>
+        <id>github</id>
+        <username>...</username>
+        <password>...</password>
+    </server>
+</servers>
+```
+2) pom.xml:
+github-release-plugin configuration contains meaningful description for the current release
+
+3) current release tag name is the same as Maven version (so in release 0.3 the tag name must be 0.3)
+
+### Execution
+mvn clean deploy
+
+### Release artifacts
+The release consists of:
+* source code in *.zip
+* source code in *.tar.gz
+* binaries in *.zip   
 
 ## Continuous Integration
 Public continuous integration is accessible via 
