@@ -30,7 +30,7 @@ document http://home.hccnet.nl/h.g.muller/interfacing.txt
    1. runEngineDev.bat
    
 ## How to release
-# Preparation
+### Preparation
 1) settings.xml must contain valid credentials for release uploading to GitHub
 ```xml 
 <servers>
@@ -46,10 +46,10 @@ github-release-plugin configuration contains meaningful description for the curr
 
 3) current release tag name is the same as Maven version (so in release 0.3 the tag name must be 0.3)
 
-# Execution
+### Execution
 mvn clean deploy
 
-# Release artifacts
+### Release artifacts
 The release consists of:
 * source code in *.zip
 * source code in *.tar.gz
