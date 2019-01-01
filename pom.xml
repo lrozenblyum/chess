@@ -176,7 +176,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <finalName>LeokomChess-${project.version}</finalName>
+                    <finalName>${binaryReleaseName}</finalName>
                     <descriptors>
                         <descriptor>src/assembly/assembly-release-archive.xml</descriptor>
                     </descriptors>
@@ -200,7 +200,9 @@
                         <fileSet>
                             <directory>${project.build.directory}</directory>
                             <includes>
-                                <include>LeokomChess-${project.version}*.zip</include>
+                                <!-- Using the wildcard because maven-assembly-plugin by default adds
+                                 suffix with assembly id (like '-bin')-->
+                                <include>${binaryReleaseName}*.zip</include>
                             </includes>
                         </fileSet>
                     </fileSets>
@@ -256,5 +258,7 @@
         <project.deployDirectory>E:\Games\WinBoard-4.8.0\LeokomChess</project.deployDirectory>
 
         <dependenciesDirectory>lib</dependenciesDirectory>
+
+        <binaryReleaseName>LeokomChess-${project.version}</binaryReleaseName>
     </properties>
 </project>
