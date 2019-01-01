@@ -202,6 +202,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- Thanks to this plug-in we'll be able to upload releases to GitHub -->
             <plugin>
                 <groupId>de.jutzig</groupId>
                 <artifactId>github-release-plugin</artifactId>
