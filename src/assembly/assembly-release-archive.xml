@@ -6,6 +6,8 @@
     <formats>
         <format>zip</format>
     </formats>
+    <!-- I don't want intermediate directory with name of the archive inside the archive -->
+    <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
         <fileSet>
             <directory>${project.deployDirectory}</directory>
