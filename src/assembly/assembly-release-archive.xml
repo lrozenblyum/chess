@@ -2,7 +2,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
     <!-- Chess release archive, includes the main jar, dependencies and bat files to run -->
-    <id>release-archive</id>
+    <id>bin</id>
     <formats>
         <format>zip</format>
     </formats>
