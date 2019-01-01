@@ -208,8 +208,8 @@
                 <artifactId>github-release-plugin</artifactId>
                 <version>1.3.0</version>
                 <configuration>
+                    <releaseName>${project.version} release</releaseName>
                     <description>Test release</description>
-                    <releaseName>Test Automation: ${project.version}</releaseName>
                     <tag>${project.version}</tag>
                     <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
                      we consider all 0.* as pre-releases -->
