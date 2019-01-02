@@ -4,3 +4,11 @@ jdk:
   - oraclejdk8
 
 sudo: false
+
+addons:
+  sonarcloud:
+    organization: "lrozenblyum-github" # from here: https://sonarcloud.io/account/organizations
+
+script:
+  # I don't want to execute install or verify at the moment: they depend on Windows directories
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar
