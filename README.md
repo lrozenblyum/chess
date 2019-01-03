@@ -29,6 +29,10 @@ document http://home.hccnet.nl/h.g.muller/interfacing.txt
 2. New way (requires M3_HOME variable set up)
    1. runEngineDev.bat
    
+## How to develop
+### Branch naming convention
+Due to SonarCloud analyzing of pull requests, the branch names should follow the pattern: they can only contain 'A-Z', 'a-z', '0-9', '-', '_', '.', and '/'.
+   
 ## How to release
 ### Preparation
 1) settings.xml must contain valid credentials for release uploading to GitHub
