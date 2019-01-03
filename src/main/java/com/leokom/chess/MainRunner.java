@@ -72,6 +72,20 @@ public final class MainRunner {
 
 	}
 
+	//verifying SonarCloud <-> GitHub integration
+	private void emptyMethod() {
+
+	}
+
+	public void doSomethingBad() {
+		try {
+			emptyMethod();
+		}
+		catch ( Error error ) {
+
+		}
+	}
+
 	private static void runGame() {
 		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
 		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
