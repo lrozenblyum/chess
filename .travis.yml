@@ -7,8 +7,13 @@ sudo: false
 
 addons:
   sonarcloud:
-    organization: "lrozenblyum-github" # from here: https://sonarcloud.io/account/organizations
+    # the organization key was found here: https://sonarcloud.io/account/organizations
+    organization: "lrozenblyum-github"
 
 script:
-  # I don't want to execute install or verify at the moment: they depend on Windows directories
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar
+  # by default travis 'install' phase will execute
+  # mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  # travis 'script' phase is by default: mvn test -B
+  # -B means: batch-mode (no questions, no progress-related logs pollution)
+  # jacoco call is needed for test coverage for sonar
+  - mvn org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar -B
