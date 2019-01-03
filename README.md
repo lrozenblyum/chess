@@ -56,10 +56,18 @@ The release consists of:
 * binaries in *.zip   
 
 ## Continuous Integration
-Public continuous integration is accessible via 
-https://travis-ci.org/lrozenblyum/chess/builds
+### Travis CI
+Builds: https://travis-ci.org/lrozenblyum/chess/builds
 
-Current status of master branch: [![Build Status](https://travis-ci.org/lrozenblyum/chess.svg?branch=master)](https://travis-ci.org/lrozenblyum/chess)
+[![Build Status](https://travis-ci.org/lrozenblyum/chess.svg?branch=master)](https://travis-ci.org/lrozenblyum/chess)
+
+### SonarCloud
+Full overview: https://sonarcloud.io/dashboard?id=lrozenblyum-chess
+
+![Technical debt](https://sonarcloud.io/api/project_badges/measure?project=lrozenblyum-chess&metric=sqale_index)
+![Maintainability rating](https://sonarcloud.io/api/project_badges/measure?project=lrozenblyum-chess&metric=sqale_rating
+)
+
 
 ## License
 The license is described in LICENSE file.
