@@ -48,6 +48,13 @@ public class WinBoardPlayerTest {
 		moveListener.execute( move );
 	}
 
+	private void executeDrawOfferOrClaimFromUI( WinboardCommander commander ) {
+		final ArgumentCaptor<OfferDrawListener> offerDrawListener = ArgumentCaptor.forClass( OfferDrawListener.class );
+		verify( commander ).onOfferDraw( offerDrawListener.capture() );
+		final OfferDrawListener moveListener = offerDrawListener.getValue();
+		moveListener.execute();
+	}
+
 	@Test
 	public void errorMoveIsDetected() {
 		WinboardCommander commander = mock( WinboardCommander.class );
@@ -130,6 +137,48 @@ public class WinBoardPlayerTest {
 
 		verify( commander, never() ).checkmate( any() );
 		verify( commander ).obligatoryDrawByMovesCount( 1 );
+	}
+
+	@Test
+	public void reactionToClaimDrawFromOpponent() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		final WinboardPlayer player = new WinboardPlayer();
+
+		final Player opponent = mock( Player.class );
+
+		int movesTillClaimDraw = 1;
+		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillClaimDraw(movesTillClaimDraw).build() );
+		initWinboardPlayer( player, commander, opponent, position );
+
+		player.opponentMoved( new Move( "g1", "f3" ) );
+		executeMoveFromUI( commander, "g8f6" );
+		player.opponentMoved(Move.CLAIM_DRAW);
+
+		verify( commander ).claimDrawByMovesCount(movesTillClaimDraw);
+		//we should correctly know the state
+		assertTrue( player.getPosition().isTerminal() );
+	}
+
+	@Test
+	public void reactionToClaimDrawFromUI() {
+		WinboardCommander commander = mock( WinboardCommander.class );
+
+		final WinboardPlayer player = new WinboardPlayer();
+
+		final Player opponent = mock( Player.class );
+
+		int movesTillClaimDraw = 1;
+		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillClaimDraw(movesTillClaimDraw).build() );
+		initWinboardPlayer( player, commander, opponent, position );
+
+		player.opponentMoved( new Move( "g1", "f3" ) );
+		executeMoveFromUI( commander, "g8f6" );
+		player.opponentMoved( new Move( "b1", "c3" ) );
+		executeDrawOfferOrClaimFromUI( commander );
+
+		//we should correctly know the state
+		assertTrue( player.getPosition().isTerminal() );
 	}
 
 	@Test

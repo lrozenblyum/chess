@@ -28,9 +28,6 @@ interface WinboardCommander {
 	 */
 	void processInputFromServer();
 
-	//TODO: add analyze if this command is received immediately after xboard
-	//if not - we may assume it's protocol v1
-
 	void onXBoard( XBoardListener listener );
 	void opponentMoved( String move );
 
@@ -52,6 +49,24 @@ interface WinboardCommander {
 	void obligatoryDrawByMovesCount( int movesCount );
 
 	/**
+	 * Inform Winboard that the opponent claims draw by moves count.
+	 * @param movesCount count of moves
+	 */
+	void claimDrawByMovesCount( int movesCount );
+
+	/**
+	 * Inform Winboard that the last move from UI was interpreted as draw claim.
+	 * It's a really unusual case due to protocol limitations: when
+	 * claim draw adjudication is disabled, the UI doesn't provide a separate possibility to claim draw.
+	 * Menu Action -> Draw should be dynamically analyzed depending on the situation.
+	 *
+	 * So here we inform the UI about the UI's last action!
+	 *
+	 * @param movesCount count of moves due to which the claim draw was possible
+	 */
+	void informAboutClaimDrawFromUIByMovesCount( int movesCount );
+
+    /**
 	 * Inform Winboard about stalemate draw
 	 */
 	void stalemateDraw();
@@ -70,7 +85,5 @@ interface WinboardCommander {
 	void onGameOver( GameOverListener listener );
 	void onForce( ForceListener listener );
 	void onNew( NewListener listener );
-
-
 
 }

@@ -17,7 +17,7 @@ public final class EvaluatorWeights {
 	private static final double HIGHEST_PRIORITY = 100.0;
 	private static final double INCREASED_PRIORITY = 3.0;
 	private static final double NORMAL_PRIORITY = 1.0;
-	private static final double DISABLED = 0.0;
+	private static final double LOWEST_POSSIBLE = 0.0;
 
 	public static Map<EvaluatorType, Double > getStandardWeights() {
 		//TODO: refactor to constant immutable map
@@ -32,7 +32,7 @@ public final class EvaluatorWeights {
 		result.put( ATTACK, NORMAL_PRIORITY );
 		//this disabling is not absolute. Those moves anyway have chance
 		//e.g. if LegalPlayer selects moves in reverse order (from worse to best)
-		result.put( SPECIAL_MOVE, DISABLED );
+		result.put( SPECIAL_MOVE, LOWEST_POSSIBLE );
 		return result;
 	}
 }

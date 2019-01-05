@@ -1,0 +1,32 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+    <!-- Chess release archive, includes the main jar, dependencies and bat files to run -->
+    <id>bin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <!-- I don't want intermediate directory with name of the archive inside the archive -->
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.deployDirectory}</directory>
+            <outputDirectory>./</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+                <include>${dependenciesDirectory}/*.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/main/bat</directory>
+            <outputDirectory>./</outputDirectory>
+            <includes>
+                <include>*.*</include>
+            </includes>
+            <excludes>
+                <!-- Purely development helper script, not needed for binary distribution -->
+                <exclude>runEngineDev.bat</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+</assembly>

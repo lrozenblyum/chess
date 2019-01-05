@@ -11,6 +11,12 @@ public class MoveTest {
 		MutabilityAssert.assertImmutable( Move.class );
 	}
 
+
+	@Test
+	public void claimDrawToString() {
+		assertEquals( "CLAIM_DRAW", Move.CLAIM_DRAW.toString() );
+	}
+
 	@Test
 	public void resignToString() {
 		assertEquals( "RESIGN", Move.RESIGN.toString() );

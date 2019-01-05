@@ -34,13 +34,15 @@ class MasterEvaluator implements Evaluator {
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return evaluatorWeights.entrySet().stream().mapToDouble( evaluatorEntry -> {
-			final Evaluator evaluator = new NormalizedEvaluatorFactory().get( evaluatorEntry.getKey() );
+		double result = evaluatorWeights.entrySet().stream().mapToDouble(evaluatorEntry -> {
+			final Evaluator evaluator = new NormalizedEvaluatorFactory().get(evaluatorEntry.getKey());
 			final double weight = evaluatorEntry.getValue();
-			final double evaluatorResponse = evaluator.evaluateMove( position, move );
+			final double evaluatorResponse = evaluator.evaluateMove(position, move);
 			final double moveEstimate = weight * evaluatorResponse;
 			LOG.debug( "{} [{}] : {} * {} = {}", move, evaluatorEntry.getKey(), weight, evaluatorResponse, moveEstimate );
 			return moveEstimate;
-		} ).sum();
+		}).sum();
+		LOG.info("{} ===> {}", move, result);
+		return result;
 	}
 }

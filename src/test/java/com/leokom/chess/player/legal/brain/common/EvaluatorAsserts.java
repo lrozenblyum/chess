@@ -34,9 +34,10 @@ public class EvaluatorAsserts {
 		double firstMoveEstimate = evaluator.evaluateMove( position, firstMove );
 		double secondMoveEstimate = evaluator.evaluateMove( position, secondMove );
 
-		Assert.assertTrue(
-				String.format( "%s -> %s must be equal to %s -> %s ",
-						firstMove, firstMoveEstimate, secondMove, secondMoveEstimate ),
-				firstMoveEstimate == secondMoveEstimate );
+		Assert.assertEquals(String.format("%s -> %s must be equal to %s -> %s ",
+				firstMove, firstMoveEstimate, secondMove, secondMoveEstimate),
+				firstMoveEstimate,
+				secondMoveEstimate,
+				0);
 	}
 }

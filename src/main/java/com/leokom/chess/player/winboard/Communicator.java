@@ -20,6 +20,4 @@ interface Communicator {
      * @return the received command (or null if server doesn't want to send anything)
      */
     String receive();
-
-    //TODO: add any polling command to check if next receive will return not-null result?
 }

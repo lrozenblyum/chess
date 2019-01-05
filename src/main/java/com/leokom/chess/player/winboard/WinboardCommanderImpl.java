@@ -121,7 +121,21 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void obligatoryDrawByMovesCount( int movesCount ) {
-		communicator.send( String.format( "1/2-1/2 {Draw by %s moves rule}", movesCount ) );
+		indicateDrawByMovesCount( movesCount, "Draw" );
+	}
+
+	@Override
+	public void claimDrawByMovesCount( int movesCount ) {
+		indicateDrawByMovesCount( movesCount, "Draw claimed" );
+	}
+
+	@Override
+	public void informAboutClaimDrawFromUIByMovesCount(int movesCount) {
+		indicateDrawByMovesCount( movesCount, "Draw claim received from UI" );
+	}
+
+	private void indicateDrawByMovesCount(int movesCount, String drawInformation) {
+		communicator.send(String.format("1/2-1/2 {%s by %s moves rule}", drawInformation, movesCount));
 	}
 
 	@Override
@@ -131,15 +145,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void checkmate( Side winningSide ) {
-		String prefix = "";
-		switch ( winningSide ) {
-			case WHITE:
-				prefix = "1-0";
-				break;
-			case BLACK:
-				prefix = "0-1";
-				break;
-		}
+		String prefix = winningSide == Side.WHITE ? "1-0" : "0-1";
 		communicator.send( prefix + " {Checkmate}" );
 	}
 

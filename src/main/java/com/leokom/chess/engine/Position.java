@@ -72,7 +72,7 @@ public class Position {
 
 	private Side sideToMove;
 
-	private Result result;
+	private Result gameResult;
 	private boolean terminal;
 	private Side winningSide;
 
@@ -103,8 +103,9 @@ public class Position {
 	private int pliesCount;
 
 	//the ply after which we should calculate 75 moves to
-    //make obligatory draw (in case no pawn moves or captures are done)
-    private int plyNumberToStartObligatoryDrawCalculation;
+	//make obligatory draw (in case no pawn moves or captures are done)
+	//it's also	 used to search for 50 moves rule claim draw possibility
+    private int plyNumberToStartNoPawnMovementNoCaptureCalculation;
 
 	/**
 	 * Create position.
@@ -283,7 +284,6 @@ public class Position {
 			case KING:
 				return getSquaresAttackedByKing( square );
 		 	default:
-				//TODO: unreachable code so far? How to improve?
 				throw new IllegalArgumentException( "Piece type is invalid: " + pieces.get( square ).getPieceType() );
 		}
 	}
@@ -294,15 +294,15 @@ public class Position {
 		Set< String > result = new HashSet<>();
 
 		//diagonally
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 				squareDiagonally( square, horizontalDirection, verticalDirection ).
 				ifPresent( result::add );
 			}
 		}
 
 		//left/right/top/bottom
-		for ( Direction direction : Direction.VALUES() ) {
+		for ( Direction direction : Direction.all() ) {
 			squareTo( square, direction )
 			.ifPresent( result::add );
 		}
@@ -319,7 +319,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByRook( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( Direction direction : Direction.VALUES() ) {
+		for ( Direction direction : Direction.all() ) {
 			Optional< String > runningSquare = Optional.of( square );
 
 			do {
@@ -340,9 +340,8 @@ public class Position {
 	}
 
 	private boolean isKingInCheck( Side side ) {
-		final String kingSquare = findKing( side );
-		//TODO: null is impossible in real chess, possible in our tests...
-		return kingSquare != null && isSquareAttacked( side, kingSquare );
+		return kingStream( side )
+				.anyMatch( kingSquare -> isSquareAttacked( side, kingSquare ) );
 	}
 
 	//we specify OUR side here because square might be empty
@@ -351,13 +350,11 @@ public class Position {
 		return getSquaresAttackedByToStream( side.opposite() ).anyMatch( square::equals );
 	}
 
-	private String findKing( Side side ) {
-		//TODO: null is impossible in real chess, possible in our tests...
-		return
-			filterMapByValues( pieces, new Piece( PieceType.KING, side )::equals )
-			.map( Map.Entry::getKey )
-			.findAny()
-			.orElse( null );
+	//get stream of squares with king of a given side is located
+	//the stream can contain 1 item in usual chess and 0 in our tests
+	private Stream< String > kingStream( Side side ) {
+		return filterMapByValues( pieces, new Piece( PieceType.KING, side )::equals )
+        .map( Map.Entry::getKey );
 	}
 
 	/**
@@ -406,8 +403,8 @@ public class Position {
 	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 				Optional< String > movingSquare = Optional.of( square );
 				do {
 					movingSquare = squareDiagonally( movingSquare.get(), horizontalDirection, verticalDirection );
@@ -423,7 +420,7 @@ public class Position {
 	//NOTE: from point of view of en passant we
 	//still have the square diagonally-front attacked
 	private Stream< String > getSquaresAttackedByPawn( String square ) {
-		return HorizontalDirection.VALUES().stream()
+		return HorizontalDirection.all().stream()
 			.map( horizontalDirection -> {
 				final Side side = getSide( square );
 
@@ -487,8 +484,8 @@ public class Position {
 
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
-			for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
-				for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+			for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
+				for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 					Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
 							verticalDirection, shiftPair[ 1 ] )
 					.ifPresent( knightMoves::add );
@@ -687,7 +684,7 @@ public class Position {
 
 		position.rules = this.rules;
 		position.pliesCount = this.pliesCount;
-		position.plyNumberToStartObligatoryDrawCalculation = this.plyNumberToStartObligatoryDrawCalculation;
+		position.plyNumberToStartNoPawnMovementNoCaptureCalculation = this.plyNumberToStartNoPawnMovementNoCaptureCalculation;
 
 		position.terminal = this.terminal;
 	}
@@ -823,8 +820,12 @@ public class Position {
 			//to distinguish checkmate at 150 ply case!
 			if ( isObligatoryDraw() ) {
 				markDraw();
-				this.result = Result.DRAW_BY_OBLIGATORY_MOVES;
+				this.gameResult = Result.DRAW_BY_OBLIGATORY_MOVES;
 				return new HashSet<>();
+			}
+
+			if ( canClaimDraw() ) {
+				result.add( Move.CLAIM_DRAW );
 			}
 
 			result.add( Move.OFFER_DRAW );
@@ -833,7 +834,7 @@ public class Position {
 				result.add( Move.ACCEPT_DRAW );
 			}
 		} else if ( !isKingInCheck( sideToMove ) ) {
-			this.result = Result.STALEMATE;
+			this.gameResult = Result.STALEMATE;
 			markDraw();
 		}
 
@@ -853,9 +854,16 @@ public class Position {
 
 	private boolean isObligatoryDraw() {
 		final OptionalInt movesTillDraw = rules.getMovesTillDraw();
-		return movesTillDraw.isPresent() &&
-                ( pliesCount - plyNumberToStartObligatoryDrawCalculation)
-         >= movesTillDraw.getAsInt() * PLIES_IN_MOVE;
+		return movesTillDraw.isPresent() &&	enoughMovesWithoutPawnMovementAndCapture(movesTillDraw.getAsInt());
+	}
+
+	private boolean canClaimDraw() {
+		return enoughMovesWithoutPawnMovementAndCapture( rules.getMovesTillClaimDraw() );
+	}
+
+	private boolean enoughMovesWithoutPawnMovementAndCapture( int movesToBeEnough ) {
+		return ( pliesCount - plyNumberToStartNoPawnMovementNoCaptureCalculation)
+				>= movesToBeEnough * PLIES_IN_MOVE;
 	}
 
 	/**
@@ -907,7 +915,7 @@ public class Position {
 	public Result getGameResult() {
 		validateGameIsOver();
 
-		return result;
+		return gameResult;
 	}
 
 	/**
@@ -965,7 +973,7 @@ public class Position {
 	}
 
 	void restartObligatoryDrawCounter() {
-	    this.plyNumberToStartObligatoryDrawCalculation = pliesCount;
+	    this.plyNumberToStartNoPawnMovementNoCaptureCalculation = pliesCount;
 	}
 
 	/**
@@ -1023,4 +1031,9 @@ public class Position {
 	public int getMoveNumber() {
 		return pliesCount / PLIES_IN_MOVE + 1;
 	}
+
+	void setGameResult(Result gameResult) {
+		this.gameResult = gameResult;
+	}
+
 }

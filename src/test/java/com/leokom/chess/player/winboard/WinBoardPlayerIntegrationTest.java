@@ -96,6 +96,48 @@ public class WinBoardPlayerIntegrationTest {
 		verify( opponent ).opponentMoved( Move.RESIGN );
 	}
 
+	//when adjudication is enabled, Winboard sends the actual result 1/2 - 1/2 in case of 50-moves rule
+	@Test
+	public void claimDrawFromUIReceivedWhenAdjudicationEnabled() {
+		//we can use just heuristics in detection whether it's indeed draw claim.
+		//Winboard UI/protocol doesn't distinguish it well from other draw types
+
+		Rules fastDrawClaimPossibility = new RulesBuilder().movesTillClaimDraw(1).build();
+		Position positionWithClaimDrawPossibility =
+				new PositionBuilder()
+				.initial()
+				.rules( fastDrawClaimPossibility ).
+				build().
+				move("g1", "f3").
+				move("g8", "f6");
+		player.setPosition( positionWithClaimDrawPossibility );
+
+		assertTranslationOfReceivedCommandToMoveForOpponent(
+				"result 1/2-1/2 {draw claimed by UI - this string is not part of specification}",
+				Move.CLAIM_DRAW );
+	}
+
+	//when adjudication is disabled, Winboard sends just 'draw'
+    //in this foggy case we should not only inform the engine but also Winboard UI
+    //since adjudication is disabled and the UI doesn't know about the game end!
+    @Test
+	public void claimDrawFromUIReceivedWhenAdjudicationDisabled() {
+		Rules fastDrawClaimPossibility = new RulesBuilder().movesTillClaimDraw(1).build();
+		Position positionWithClaimDrawPossibility =
+				new PositionBuilder()
+						.initial()
+						.rules( fastDrawClaimPossibility ).
+						build().
+						move("b1", "a3").
+						move("b8", "a6");
+		player.setPosition( positionWithClaimDrawPossibility );
+
+		assertTranslationOfReceivedCommandToMoveForOpponent(
+				"draw",
+				Move.CLAIM_DRAW );
+		verify( communicator ).send( "1/2-1/2 {Draw claim received from UI by 1 moves rule}" );
+	}
+
 	@Test
 	public void userMoveNoException() {
 		player.setOpponent( mock( Player.class ) );

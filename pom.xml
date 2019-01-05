@@ -7,7 +7,27 @@
     <name>Chess</name>
     <groupId>com.leokom</groupId>
     <artifactId>Chess</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
+
+
+    <!-- Added in order to support github-release-plugin.
+    This information is also useful itself for semantic purposes.
+     -->
+    <scm>
+        <url>https://github.com/lrozenblyum/chess</url>
+        <connection>scm:git:https://github.com/lrozenblyum/chess.git</connection>
+    </scm>
+
+    <!-- Trick to use mvn deploy goal
+     We don't have any 'Nexus'-like deploy target yet.
+     However I want to be able to use a convenient command mvn clean deploy
+     so I specify local storage here -->
+    <distributionManagement>
+        <repository>
+            <id>internal</id>
+            <url>file://${project.build.directory}/maven-repository</url>
+        </repository>
+    </distributionManagement>
 
     <repositories>
         <repository>
@@ -105,7 +125,7 @@
                         <configuration>
                             <!-- We're interested only in compile&runtime dependencies -->
                             <includeScope>runtime</includeScope>
-                            <outputDirectory>${project.deployDirectory}\lib</outputDirectory>
+                            <outputDirectory>${project.deployDirectory}\${dependenciesDirectory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -122,7 +142,7 @@
                     <archive>
                         <manifest>
                         	<addClasspath>true</addClasspath>
-                        	<classpathPrefix>lib</classpathPrefix>
+                        	<classpathPrefix>${dependenciesDirectory}</classpathPrefix>
                         	<mainClass>com.leokom.chess.MainRunner</mainClass>
                         </manifest>
                     </archive>
@@ -158,6 +178,67 @@
                     </outputFormats>
                 </configuration>
               </plugin>
+
+            <!-- Assembly plug-in will allow us create a *.zip artifact with binaries
+             which previously was created manually -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <finalName>${binaryReleaseName}</finalName>
+                    <descriptors>
+                        <descriptor>src/assembly/assembly-release-archive.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- As an alternative we might use a separate profile.
+                         Specifying the phase that is earlier than deploy which our release-plugin is bound to -->
+                        <phase>install</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Thanks to this plug-in we'll be able to upload releases to GitHub -->
+            <plugin>
+                <groupId>de.jutzig</groupId>
+                <artifactId>github-release-plugin</artifactId>
+                <version>1.3.0</version>
+                <configuration>
+                    <releaseName>${project.version} release</releaseName>
+                    <description>
+                       To be defined
+                    </description>
+                    <tag>${project.version}</tag>
+                    <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
+                     we consider all 0.* as pre-releases -->
+                    <prerelease>true</prerelease>
+                    <failOnExistingRelease>true</failOnExistingRelease>
+
+                    <!-- The sources will be added by default. Adding binaries here -->
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <!-- Using the wildcard because maven-assembly-plugin by default adds
+                                 suffix with assembly id (like '-bin')-->
+                                <include>${binaryReleaseName}*.zip</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>release</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -206,5 +287,9 @@
         <log4j2version>2.6.2</log4j2version>
 
         <project.deployDirectory>E:\Games\WinBoard-4.8.0\LeokomChess</project.deployDirectory>
+
+        <dependenciesDirectory>lib</dependenciesDirectory>
+
+        <binaryReleaseName>LeokomChess-${project.version}</binaryReleaseName>
     </properties>
 </project>

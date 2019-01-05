@@ -43,6 +43,10 @@ public final class Game {
 		//white player should start the game e.g. by providing main loop
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
 
+		return getWinner();
+	}
+
+	private Player getWinner() {
 		LogManager.getLogger().info( "Game finished: {} vs {}", whitePlayer.name(), blackPlayer.name() );
 
 		//TODO: asymmetry, need validating that blackPlayer position gives same result
@@ -51,7 +55,12 @@ public final class Game {
 
 		if ( position.isTerminal() ) {
 			final Side winningSide = position.getWinningSide();
-			return winningSide == null ? null : winningSide == Side.WHITE ? whitePlayer : blackPlayer;
+
+			if ( winningSide == null ) {
+				return null;
+			}
+
+			return winningSide == Side.WHITE ? whitePlayer : blackPlayer;
 		}
 		else {
 			LogManager.getLogger().warn( "The game has been finished without reaching a terminal position" );

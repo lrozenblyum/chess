@@ -22,7 +22,7 @@ public class LegalPlayerTest {
 	private Player opponent;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		opponent = mock( Player.class );
 	}
 
