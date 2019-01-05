@@ -296,7 +296,7 @@ public class Position {
 
 		//diagonally
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 				squareDiagonally( square, horizontalDirection, verticalDirection ).
 				ifPresent( result::add );
 			}
@@ -405,7 +405,7 @@ public class Position {
 		Set< String > result = new HashSet<>();
 
 		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 				Optional< String > movingSquare = Optional.of( square );
 				do {
 					movingSquare = squareDiagonally( movingSquare.get(), horizontalDirection, verticalDirection );
@@ -486,7 +486,7 @@ public class Position {
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
 			for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
-				for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+				for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 					Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
 							verticalDirection, shiftPair[ 1 ] )
 					.ifPresent( knightMoves::add );

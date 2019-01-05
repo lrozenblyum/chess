@@ -27,7 +27,7 @@ enum VerticalDirection {
 		return this == UP ? DOWN : UP;
 	}
 
-	static Set< VerticalDirection > VALUES() {
+	static Set< VerticalDirection > all() {
 		return CACHE;
 	}
 }
