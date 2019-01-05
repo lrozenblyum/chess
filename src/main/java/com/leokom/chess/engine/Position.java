@@ -284,7 +284,6 @@ public class Position {
 			case KING:
 				return getSquaresAttackedByKing( square );
 		 	default:
-				//TODO: unreachable code so far? How to improve?
 				throw new IllegalArgumentException( "Piece type is invalid: " + pieces.get( square ).getPieceType() );
 		}
 	}
