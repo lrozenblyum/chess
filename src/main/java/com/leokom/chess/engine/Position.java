@@ -72,7 +72,7 @@ public class Position {
 
 	private Side sideToMove;
 
-	private Result result;
+	private Result gameResult;
 	private boolean terminal;
 	private Side winningSide;
 
@@ -821,7 +821,7 @@ public class Position {
 			//to distinguish checkmate at 150 ply case!
 			if ( isObligatoryDraw() ) {
 				markDraw();
-				this.result = Result.DRAW_BY_OBLIGATORY_MOVES;
+				this.gameResult = Result.DRAW_BY_OBLIGATORY_MOVES;
 				return new HashSet<>();
 			}
 
@@ -835,7 +835,7 @@ public class Position {
 				result.add( Move.ACCEPT_DRAW );
 			}
 		} else if ( !isKingInCheck( sideToMove ) ) {
-			this.result = Result.STALEMATE;
+			this.gameResult = Result.STALEMATE;
 			markDraw();
 		}
 
@@ -916,7 +916,7 @@ public class Position {
 	public Result getGameResult() {
 		validateGameIsOver();
 
-		return result;
+		return gameResult;
 	}
 
 	/**
@@ -1034,7 +1034,7 @@ public class Position {
 	}
 
 	void setGameResult(Result gameResult) {
-		this.result = gameResult;
+		this.gameResult = gameResult;
 	}
 
 }
