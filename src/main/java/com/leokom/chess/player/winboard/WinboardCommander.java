@@ -28,9 +28,6 @@ interface WinboardCommander {
 	 */
 	void processInputFromServer();
 
-	//TODO: add analyze if this command is received immediately after xboard
-	//if not - we may assume it's protocol v1
-
 	void onXBoard( XBoardListener listener );
 	void opponentMoved( String move );
 
