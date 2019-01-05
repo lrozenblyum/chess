@@ -175,12 +175,9 @@ public class WinboardPlayer implements Player {
 	 */
 	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
-		while( true ) {
+		do {
 			commander.processInputFromServer();
-			if ( needQuit ) {
-				break;
-			}
-		}
+		} while ( !needQuit );
 	}
 
 	@Override
