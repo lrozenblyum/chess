@@ -81,8 +81,11 @@ class CastlingSafetyEvaluator implements Evaluator {
 		int occupied = getOccupiedInBetween( position, side );
 		int occupiedAfterMove = getOccupiedInBetween( position.move( move ), side );
 
-		return occupiedAfterMove < occupied ? GOOD_MOVE :
-				occupiedAfterMove > occupied ? BAD_MOVE : ACCEPTABLE_MOVE;
+		if ( occupiedAfterMove == occupied ) {
+			return ACCEPTABLE_MOVE;
+		}
+
+		return  occupiedAfterMove < occupied ? GOOD_MOVE : BAD_MOVE;
 	}
 
 	/**
