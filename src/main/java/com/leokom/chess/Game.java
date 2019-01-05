@@ -43,6 +43,10 @@ public final class Game {
 		//white player should start the game e.g. by providing main loop
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
 
+		return getWinner();
+	}
+
+	private Player getWinner() {
 		LogManager.getLogger().info( "Game finished: {} vs {}", whitePlayer.name(), blackPlayer.name() );
 
 		//TODO: asymmetry, need validating that blackPlayer position gives same result
