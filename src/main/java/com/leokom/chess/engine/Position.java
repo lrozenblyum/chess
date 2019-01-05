@@ -303,7 +303,7 @@ public class Position {
 		}
 
 		//left/right/top/bottom
-		for ( Direction direction : Direction.VALUES() ) {
+		for ( Direction direction : Direction.all() ) {
 			squareTo( square, direction )
 			.ifPresent( result::add );
 		}
@@ -320,7 +320,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByRook( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( Direction direction : Direction.VALUES() ) {
+		for ( Direction direction : Direction.all() ) {
 			Optional< String > runningSquare = Optional.of( square );
 
 			do {

@@ -28,7 +28,7 @@ enum Direction {
 	 * which is slow when executed thousands times
 	 * (unexpectedly) proved by profiler
 	 */
-	static Set< Direction > VALUES() {
+	static Set< Direction > all() {
 		return CACHE;
 	}
 }
