@@ -51,7 +51,12 @@ public final class Game {
 
 		if ( position.isTerminal() ) {
 			final Side winningSide = position.getWinningSide();
-			return winningSide == null ? null : winningSide == Side.WHITE ? whitePlayer : blackPlayer;
+
+			if ( winningSide == null ) {
+				return null;
+			}
+
+			return winningSide == Side.WHITE ? whitePlayer : blackPlayer;
 		}
 		else {
 			LogManager.getLogger().warn( "The game has been finished without reaching a terminal position" );
