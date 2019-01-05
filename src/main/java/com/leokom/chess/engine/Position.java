@@ -295,7 +295,7 @@ public class Position {
 		Set< String > result = new HashSet<>();
 
 		//diagonally
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
 				squareDiagonally( square, horizontalDirection, verticalDirection ).
 				ifPresent( result::add );
@@ -404,7 +404,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
 			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
 				Optional< String > movingSquare = Optional.of( square );
 				do {
@@ -421,7 +421,7 @@ public class Position {
 	//NOTE: from point of view of en passant we
 	//still have the square diagonally-front attacked
 	private Stream< String > getSquaresAttackedByPawn( String square ) {
-		return HorizontalDirection.VALUES().stream()
+		return HorizontalDirection.all().stream()
 			.map( horizontalDirection -> {
 				final Side side = getSide( square );
 
@@ -485,7 +485,7 @@ public class Position {
 
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
-			for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
+			for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
 				for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
 					Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
 							verticalDirection, shiftPair[ 1 ] )
