@@ -74,7 +74,7 @@ public class ResignTest {
 		assertTrue( position.getMoves().isEmpty() );
 	}
 
-	/**
+	/*
 	 * Backlog
 	 * Generator
 	 * + correct winning side detection

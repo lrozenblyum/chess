@@ -72,7 +72,7 @@ public class Position {
 
 	private Side sideToMove;
 
-	private Result result;
+	private Result gameResult;
 	private boolean terminal;
 	private Side winningSide;
 
@@ -284,7 +284,6 @@ public class Position {
 			case KING:
 				return getSquaresAttackedByKing( square );
 		 	default:
-				//TODO: unreachable code so far? How to improve?
 				throw new IllegalArgumentException( "Piece type is invalid: " + pieces.get( square ).getPieceType() );
 		}
 	}
@@ -295,15 +294,15 @@ public class Position {
 		Set< String > result = new HashSet<>();
 
 		//diagonally
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 				squareDiagonally( square, horizontalDirection, verticalDirection ).
 				ifPresent( result::add );
 			}
 		}
 
 		//left/right/top/bottom
-		for ( Direction direction : Direction.VALUES() ) {
+		for ( Direction direction : Direction.all() ) {
 			squareTo( square, direction )
 			.ifPresent( result::add );
 		}
@@ -320,7 +319,7 @@ public class Position {
 	private Set<String> getSquaresAttackedByRook( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( Direction direction : Direction.VALUES() ) {
+		for ( Direction direction : Direction.all() ) {
 			Optional< String > runningSquare = Optional.of( square );
 
 			do {
@@ -404,8 +403,8 @@ public class Position {
 	private Set<String> getSquaresAttackedByBishop( String square ) {
 		Set< String > result = new HashSet<>();
 
-		for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
-			for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+		for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
+			for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 				Optional< String > movingSquare = Optional.of( square );
 				do {
 					movingSquare = squareDiagonally( movingSquare.get(), horizontalDirection, verticalDirection );
@@ -421,7 +420,7 @@ public class Position {
 	//NOTE: from point of view of en passant we
 	//still have the square diagonally-front attacked
 	private Stream< String > getSquaresAttackedByPawn( String square ) {
-		return HorizontalDirection.VALUES().stream()
+		return HorizontalDirection.all().stream()
 			.map( horizontalDirection -> {
 				final Side side = getSide( square );
 
@@ -485,8 +484,8 @@ public class Position {
 
 		Set< String > knightMoves = new HashSet<>();
 		for ( int [] shiftPair : shifts ) {
-			for ( HorizontalDirection horizontalDirection : HorizontalDirection.VALUES() ) {
-				for ( VerticalDirection verticalDirection : VerticalDirection.VALUES() ) {
+			for ( HorizontalDirection horizontalDirection : HorizontalDirection.all() ) {
+				for ( VerticalDirection verticalDirection : VerticalDirection.all() ) {
 					Board.squareTo( square, horizontalDirection, shiftPair[ 0 ],
 							verticalDirection, shiftPair[ 1 ] )
 					.ifPresent( knightMoves::add );
@@ -821,7 +820,7 @@ public class Position {
 			//to distinguish checkmate at 150 ply case!
 			if ( isObligatoryDraw() ) {
 				markDraw();
-				this.result = Result.DRAW_BY_OBLIGATORY_MOVES;
+				this.gameResult = Result.DRAW_BY_OBLIGATORY_MOVES;
 				return new HashSet<>();
 			}
 
@@ -835,7 +834,7 @@ public class Position {
 				result.add( Move.ACCEPT_DRAW );
 			}
 		} else if ( !isKingInCheck( sideToMove ) ) {
-			this.result = Result.STALEMATE;
+			this.gameResult = Result.STALEMATE;
 			markDraw();
 		}
 
@@ -916,7 +915,7 @@ public class Position {
 	public Result getGameResult() {
 		validateGameIsOver();
 
-		return result;
+		return gameResult;
 	}
 
 	/**
@@ -1034,7 +1033,7 @@ public class Position {
 	}
 
 	void setGameResult(Result gameResult) {
-		this.result = gameResult;
+		this.gameResult = gameResult;
 	}
 
 }

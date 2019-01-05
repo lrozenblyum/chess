@@ -36,7 +36,6 @@ class CastlingSafetyEvaluator implements Evaluator {
 	private static final Set< String > FILES_IN_BETWEEN_KING_SIDE = ImmutableSet.of( "f", "g" );
 
 	/*
-	 * TODO: backlog
 	 * If rook is captured - don't think it would be possible
 	 * castling with it
 	 *
@@ -81,8 +80,11 @@ class CastlingSafetyEvaluator implements Evaluator {
 		int occupied = getOccupiedInBetween( position, side );
 		int occupiedAfterMove = getOccupiedInBetween( position.move( move ), side );
 
-		return occupiedAfterMove < occupied ? GOOD_MOVE :
-				occupiedAfterMove > occupied ? BAD_MOVE : ACCEPTABLE_MOVE;
+		if ( occupiedAfterMove == occupied ) {
+			return ACCEPTABLE_MOVE;
+		}
+
+		return  occupiedAfterMove < occupied ? GOOD_MOVE : BAD_MOVE;
 	}
 
 	/**

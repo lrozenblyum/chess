@@ -145,15 +145,7 @@ class WinboardCommanderImpl implements WinboardCommander {
 
 	@Override
 	public void checkmate( Side winningSide ) {
-		String prefix = "";
-		switch ( winningSide ) {
-			case WHITE:
-				prefix = "1-0";
-				break;
-			case BLACK:
-				prefix = "0-1";
-				break;
-		}
+		String prefix = winningSide == Side.WHITE ? "1-0" : "0-1";
 		communicator.send( prefix + " {Checkmate}" );
 	}
 

@@ -26,7 +26,7 @@ enum HorizontalDirection {
 	private static final Set< HorizontalDirection > CACHE
 			= CollectionUtils.enums( HorizontalDirection.class );
 
-	static Set< HorizontalDirection > VALUES() {
+	static Set< HorizontalDirection > all() {
 		return CACHE;
 	}
 }
