@@ -36,7 +36,6 @@ class CastlingSafetyEvaluator implements Evaluator {
 	private static final Set< String > FILES_IN_BETWEEN_KING_SIDE = ImmutableSet.of( "f", "g" );
 
 	/*
-	 * TODO: backlog
 	 * If rook is captured - don't think it would be possible
 	 * castling with it
 	 *
