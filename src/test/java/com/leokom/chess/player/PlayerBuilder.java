@@ -40,9 +40,16 @@ public class PlayerBuilder {
         ArgumentCaptor< Move > opponentMoveCaptor = ArgumentCaptor.forClass( Move.class );
 
         doAnswer( invocationOnMock -> {
-            position = position.move( opponentMoveCaptor.getValue() );
+            //the move captor MUST be cleared before the next move
+            //otherwise it will continue 'collecting' all the consequtive moves
+            //defense copying the list because we'll clear getAllValues
+            List< Move > moves = new ArrayList<>( opponentMoveCaptor.getAllValues() );
+            opponentMoveCaptor.getAllValues().clear();
+
+            moves.forEach( move -> position = position.move(move) );
 
             doMove();
+
             return null;
         } ).when( player ).opponentMoved( opponentMoveCaptor.capture() );
     }
