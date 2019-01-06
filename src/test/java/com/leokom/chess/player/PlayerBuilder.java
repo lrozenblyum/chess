@@ -76,7 +76,7 @@ public class PlayerBuilder {
         }
 
         if ( position.isTerminal() ) {
-            throw new IllegalStateException( "Shit" );
+            throw new IllegalStateException( "A move cannot executed from a terminal position. Moves to execute: " + movesToExecute );
         }
 
         //next time we don't want the mock invoked again
