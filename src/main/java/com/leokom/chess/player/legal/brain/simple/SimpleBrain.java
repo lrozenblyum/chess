@@ -16,7 +16,8 @@ import static java.util.Collections.singletonList;
  * Based on previous implementation with comments:
  * Run just 2 moves for white/black (central pawns)
  * Always agree to draw.
- * Resign on the 3'd move.
+ * Resign on the 3'd move unless during the 2'nd move something weird happened that prevents us executing any
+ * legal move.
  * This player guarantees finite game.
  *
  * Author: Leonid
