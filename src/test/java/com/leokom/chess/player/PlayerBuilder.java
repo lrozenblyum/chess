@@ -46,12 +46,16 @@ public class PlayerBuilder {
             List< Move > moves = new ArrayList<>( opponentMoveCaptor.getAllValues() );
             opponentMoveCaptor.getAllValues().clear();
 
-            moves.forEach( move -> position = position.move(move) );
+            moves.forEach(this::updatePosition);
 
             doMove();
 
             return null;
         } ).when( player ).opponentMoved( opponentMoveCaptor.capture() );
+    }
+
+    private void updatePosition( Move move ) {
+        position = position.move(move);
     }
 
     public PlayerBuilder move( Move move ) {
@@ -88,7 +92,7 @@ public class PlayerBuilder {
 
         //next time we don't want the mock invoked again
         List< Move > toBeDone = movesToExecute.remove(0);
-        toBeDone.forEach( move -> position = position.move( move ) );
+        toBeDone.forEach(this::updatePosition);
         opponent.opponentMoved( toBeDone.toArray(new Move[]{}) );
     }
 }
