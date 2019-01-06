@@ -100,7 +100,7 @@ public class LegalPlayer implements Player {
 			Move bestMove = brain.findBestMoveForOpponent( position );
 			if ( bestMove != null ) {
 				getLogger().info( "Anyway we're ready to move: " + bestMove );
-				doMoves( Collections.singletonList(bestMove) );
+				executeMoves( Collections.singletonList(bestMove) );
 			}
 			else {
 			    getLogger().info( "We don't want to move now" );
@@ -116,22 +116,12 @@ public class LegalPlayer implements Player {
 	        throw new IllegalStateException( "Brain doesn't want to move while the position is not terminal! It's a bug in the brain" );
 		}
 
-		doMoves( bestMoves );
+		executeMoves( bestMoves );
 	}
 
-	private void doMoves( List<Move> bestMoves ) {
-		bestMoves.forEach( this::updateByOurMove );
-		opponent.opponentMoved( bestMoves.toArray( new Move[]{} ) );
-	}
-
-	private void updateByOurMove( Move bestMove ) {
-		if ( ! position.getMoves().contains( bestMove ) ) {
-			throw new IllegalArgumentException(
-					String.format( "Brain suggests executing an illegal move: %s, legal moves: %s", bestMove, position.getMoves() )
-			);
-		}
-
-		updatePositionByOurMove( bestMove );
+	private void executeMoves( List< Move > ourMoves ) {
+		ourMoves.forEach( this::updatePositionByOurMove );
+		opponent.opponentMoved( ourMoves.toArray( new Move[]{} ) );
 	}
 
 	private String getWinningSideDescription() {
