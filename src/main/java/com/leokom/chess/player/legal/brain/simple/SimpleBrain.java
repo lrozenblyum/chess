@@ -7,7 +7,6 @@ import com.leokom.chess.player.legal.brain.common.Brain;
 
 import java.util.*;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 
 /**
@@ -42,12 +41,12 @@ public class SimpleBrain implements Brain {
                 return singletonList( new Move( "e" + rankFrom,  "e" + rankTo ) );
             case 2:
                 List< Move > result = new ArrayList<>();
-                if ( ! position.getSquaresOccupiedBySide( position.getSideToMove().opposite() ).contains( "d" + rankTo
-                ) ) {
-                    result.add( new Move( "d" + rankFrom, "d" + rankTo ) );
+                String secondDesiredSquare = "d" + rankTo;
+                if ( ! position.getSquaresOccupiedBySide( position.getSideToMove().opposite() ).contains(secondDesiredSquare) ) {
+                    result.add( new Move( "d" + rankFrom, secondDesiredSquare) );
                 }
                 else {
-                    result.add( position.getMoves().stream().filter( move -> !move.isSpecial()).findFirst().orElseThrow( () -> new RuntimeException() ) );
+                    result.add( position.getMoves().stream().filter( move -> !move.isSpecial()).findFirst().orElse( Move.RESIGN ) );
                 }
 
                 result.add( Move.OFFER_DRAW );
