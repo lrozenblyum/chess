@@ -152,7 +152,8 @@ public class SimulatorIT {
 	public void simpleVsSimpleStatistics() {
 		final SimulatorStatistics statistics = new Simulator( SIMPLE, SIMPLE ).run();
 
-		assertEquals( new SimulatorStatistics( 2, 1, 1 ), statistics );
+		//now simple vs simple correctly draws at the second move
+		assertEquals( new SimulatorStatistics( 2, 0, 0 ), statistics );
 	}
 
 	//non-deterministic, it's not a business-requirement
