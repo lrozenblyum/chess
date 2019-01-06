@@ -48,7 +48,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
-		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
+		getLogger().info( "Opponent suggested me starting a new game whites. Starting it" );
 		position = Position.getInitialPosition();
 		ourSide = Side.WHITE;
 		executeOurMove();
@@ -56,7 +56,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartNewGameBlack() {
-		getLogger().info( "Opponent suggested me started a new game black. Starting it" );
+		getLogger().info( "Opponent suggested me starting a new game black. Starting it" );
 		position = Position.getInitialPosition();
 		ourSide = Side.BLACK;
 	}
