@@ -76,18 +76,7 @@ public class SimpleBrainTest {
 
         new Game( simplePlayer, player ).run();
 
-        verify( player ).opponentMoved( new Move( "d2", "d4" ) );
-    }
-
-    @Test
-    public void whiteOffersDrawAfterSecondMove() {
-        Player player = new PlayerBuilder( simplePlayer)
-                .move( "h7", "h6" )
-                .build();
-
-        new Game( simplePlayer, player ).run();
-
-        verify( player ).opponentMoved( Move.OFFER_DRAW );
+        verify( player ).opponentMoved( new Move( "d2", "d4" ), Move.OFFER_DRAW );
     }
 
     @Test
@@ -128,18 +117,6 @@ public class SimpleBrainTest {
     }
 
     @Test
-    public void blackOffersDrawAfterSecondMove() {
-        Player player = new PlayerBuilder( simplePlayer )
-                .move( "a2", "a3" )
-                .move( "a3", "a4" )
-                .build();
-
-        new Game( player, simplePlayer ).run();
-
-        verify( player ).opponentMoved( Move.OFFER_DRAW );
-    }
-
-    @Test
     public void blackSecondMove() {
         Player player =
             new PlayerBuilder( simplePlayer)
@@ -149,7 +126,7 @@ public class SimpleBrainTest {
 
         new Game( player, simplePlayer ).run();
 
-        verify( player ).opponentMoved( new Move( "d7", "d5" ) );
+        verify( player ).opponentMoved( new Move( "d7", "d5" ), Move.OFFER_DRAW );
     }
 
     @Test
