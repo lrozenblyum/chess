@@ -40,11 +40,22 @@ public class PlayerBuilder {
         ArgumentCaptor< Move > opponentMoveCaptor = ArgumentCaptor.forClass( Move.class );
 
         doAnswer( invocationOnMock -> {
-            position = position.move( opponentMoveCaptor.getValue() );
+            //the move captor MUST be cleared before the next move
+            //otherwise it will continue 'collecting' all the consequtive moves
+            //defense copying the list because we'll clear getAllValues
+            List< Move > moves = new ArrayList<>( opponentMoveCaptor.getAllValues() );
+            opponentMoveCaptor.getAllValues().clear();
+
+            moves.forEach(this::updatePosition);
 
             doMove();
+
             return null;
         } ).when( player ).opponentMoved( opponentMoveCaptor.capture() );
+    }
+
+    private void updatePosition( Move move ) {
+        position = position.move(move);
     }
 
     public PlayerBuilder move( Move move ) {
@@ -75,9 +86,13 @@ public class PlayerBuilder {
             return;
         }
 
+        if ( position.isTerminal() ) {
+            throw new IllegalStateException( "A move cannot executed from a terminal position. Moves to execute: " + movesToExecute );
+        }
+
         //next time we don't want the mock invoked again
         List< Move > toBeDone = movesToExecute.remove(0);
-        toBeDone.forEach( move -> position = position.move( move ) );
+        toBeDone.forEach(this::updatePosition);
         opponent.opponentMoved( toBeDone.toArray(new Move[]{}) );
     }
 }

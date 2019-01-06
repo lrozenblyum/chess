@@ -1028,7 +1028,7 @@ public class Position {
 	 *
 	 * @return move number
 	 */
-	int getMoveNumber() {
+	public int getMoveNumber() {
 		return pliesCount / PLIES_IN_MOVE + 1;
 	}
 

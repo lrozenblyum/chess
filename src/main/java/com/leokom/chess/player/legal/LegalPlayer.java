@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
-		getLogger().info( "Opponent suggested me started a new game whites. Starting it" );
+		getLogger().info( "Opponent suggested me starting a new game whites. Starting it" );
 		position = Position.getInitialPosition();
 		ourSide = Side.WHITE;
 		executeOurMove();
@@ -55,7 +56,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartNewGameBlack() {
-		getLogger().info( "Opponent suggested me started a new game black. Starting it" );
+		getLogger().info( "Opponent suggested me starting a new game black. Starting it" );
 		position = Position.getInitialPosition();
 		ourSide = Side.BLACK;
 	}
@@ -99,7 +100,7 @@ public class LegalPlayer implements Player {
 			Move bestMove = brain.findBestMoveForOpponent( position );
 			if ( bestMove != null ) {
 				getLogger().info( "Anyway we're ready to move: " + bestMove );
-				doMove( bestMove );
+				executeMoves( Collections.singletonList(bestMove) );
 			}
 			else {
 			    getLogger().info( "We don't want to move now" );
@@ -115,22 +116,18 @@ public class LegalPlayer implements Player {
 	        throw new IllegalStateException( "Brain doesn't want to move while the position is not terminal! It's a bug in the brain" );
 		}
 
-		bestMoves.forEach( this::doMove );
+		executeMoves( bestMoves );
 	}
 
-	private void doMove( Move bestMove ) {
-		updatePositionByOurMove( bestMove );
-		informOpponentAboutTheMove( bestMove );
+	private void executeMoves( List< Move > ourMoves ) {
+		ourMoves.forEach( this::updatePositionByOurMove );
+		opponent.opponentMoved( ourMoves.toArray( new Move[]{} ) );
 	}
 
 	private String getWinningSideDescription() {
 		return position.getWinningSide() != null ?
 				"Winner : " + position.getWinningSide() :
 				"Draw" + (position.getGameResult() != null ? " REASON: " + position.getGameResult() : "");
-	}
-
-	private void informOpponentAboutTheMove( Move move ) {
-		opponent.opponentMoved( move );
 	}
 
 	//updating internal representation of current position
