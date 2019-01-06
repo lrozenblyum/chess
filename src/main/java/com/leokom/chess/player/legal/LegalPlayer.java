@@ -119,7 +119,7 @@ public class LegalPlayer implements Player {
 		doMoves( bestMoves );
 	}
 
-	private void doMoves(List<Move> bestMoves) {
+	private void doMoves( List<Move> bestMoves ) {
 		bestMoves.forEach( this::updateByOurMove );
 		opponent.opponentMoved( bestMoves.toArray( new Move[]{} ) );
 	}
@@ -127,7 +127,7 @@ public class LegalPlayer implements Player {
 	private void updateByOurMove( Move bestMove ) {
 		if ( ! position.getMoves().contains( bestMove ) ) {
 			throw new IllegalArgumentException(
-					String.format( "Engine suggests to execute an illegal move: %s, legal moves: %s", bestMove, position.getMoves() )
+					String.format( "Brain suggests executing an illegal move: %s, legal moves: %s", bestMove, position.getMoves() )
 			);
 		}
 

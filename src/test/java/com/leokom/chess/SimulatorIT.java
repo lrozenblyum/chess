@@ -135,7 +135,7 @@ public class SimulatorIT {
 		new Simulator( LEGAL, SIMPLE ).run();
 	}
 
-	//we expect legal player is much smarter than the simple one
+	//we expect the default brain of the legal player is much smarter than the simple one
 	@Test
 	public void legalVsSimpleStatistics() {
 		final SimulatorStatistics statistics = new Simulator( LEGAL, SIMPLE ).run();
