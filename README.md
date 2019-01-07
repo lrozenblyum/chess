@@ -74,4 +74,4 @@ Full overview: https://sonarcloud.io/dashboard?id=lrozenblyum-chess
 
 
 ## License
-See the [LICENSE](LICENSE) file.
+See the [LICENSE](LICENSE) and [NOTICE](NOTICE) files.
