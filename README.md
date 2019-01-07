@@ -74,5 +74,4 @@ Full overview: https://sonarcloud.io/dashboard?id=lrozenblyum-chess
 
 
 ## License
-The license is described in LICENSE file.
-Please read it carefully before forking the repository.
+See the [LICENSE](LICENSE) file.
