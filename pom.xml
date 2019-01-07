@@ -110,6 +110,23 @@
     <build>
     	<finalName>Chess</finalName>
         <plugins>
+            <!-- Additionally configuring maven clean plug-in in order to clean the deploy directory and thus remove potential old artefacts -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.deployDirectory}</directory>
+                            <includes>
+                                <!-- Let's clean just jars. For example old logs might be useful -->
+                                <include>**/*.jar</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
             <!-- Copy dependencies into the deploy directory -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
