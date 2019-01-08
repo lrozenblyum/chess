@@ -6,7 +6,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -40,16 +42,11 @@ public class PlayerBuilder {
         ArgumentCaptor< Move > opponentMoveCaptor = ArgumentCaptor.forClass( Move.class );
 
         doAnswer( invocationOnMock -> {
-            //the move captor MUST be cleared before the next move
-            //otherwise it will continue 'collecting' all the consequtive moves
-            //defense copying the list because we'll clear getAllValues
-            List< Move > moves = new ArrayList<>( opponentMoveCaptor.getAllValues() );
-            opponentMoveCaptor.getAllValues().clear();
-
+            // we cannot use the captor's getAllValues() because they increase with every mock invocation
+            // so we crack just current mock invocation arguments here with this casting
+            List< Move > moves = Arrays.stream( invocationOnMock.getArguments()).map( Move.class::cast ).collect( Collectors.toList() );
             moves.forEach(this::updatePosition);
-
             doMove();
-
             return null;
         } ).when( player ).opponentMoved( opponentMoveCaptor.capture() );
     }
