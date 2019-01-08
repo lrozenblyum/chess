@@ -79,8 +79,9 @@
         we may use it in core as well -->
         <dependency>
             <groupId>org.jooq</groupId>
-            <artifactId>jool</artifactId>
-            <version>0.9.10</version>
+            <!-- When we upgrade to Java9 we should change to simply jool -->
+            <artifactId>jool-java-8</artifactId>
+            <version>0.9.14</version>
 
             <scope>test</scope>
         </dependency>
