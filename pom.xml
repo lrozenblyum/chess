@@ -64,14 +64,14 @@
         <dependency>
             <groupId>org.mutabilitydetector</groupId>
             <artifactId>MutabilityDetector</artifactId>
-            <version>0.9.6</version>
+            <version>0.10.1</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.2.22</version>
+            <version>2.23.4</version>
             <scope>test</scope>
         </dependency>
 
@@ -79,8 +79,9 @@
         we may use it in core as well -->
         <dependency>
             <groupId>org.jooq</groupId>
-            <artifactId>jool</artifactId>
-            <version>0.9.10</version>
+            <!-- When we upgrade to Java9 we should change to simply jool -->
+            <artifactId>jool-java-8</artifactId>
+            <version>0.9.14</version>
 
             <scope>test</scope>
         </dependency>
@@ -88,7 +89,32 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <!-- I'm reluctant to update to 27.0.1 because of https://groups.google.com/forum/#!topic/guava-announce/Km82fZG68Sw
+            and a weird additional empty artifact which comes with guava then -->
+            <version>26.0-jre</version>
+            <!-- The exclusions are done due to https://github.com/google/guava/issues/2824 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>jsr305</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.errorprone</groupId>
+                    <artifactId>error_prone_annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.j2objc</groupId>
+                    <artifactId>j2objc-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>animal-sniffer-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.checkerframework</groupId>
+                    <artifactId>checker-qual</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -301,7 +327,7 @@
 
 
         <!-- Naming convention inspired by http://stackoverflow.com/a/30318342/1429367 -->
-        <log4j2version>2.6.2</log4j2version>
+        <log4j2version>2.11.1</log4j2version>
 
         <project.deployDirectory>E:\Games\WinBoard-4.8.0\LeokomChess</project.deployDirectory>
 
