@@ -23,7 +23,7 @@ import static java.util.Collections.singletonList;
  * Author: Leonid
  * Date-time: 15.04.13 22:26
  */
-public class SimpleBrain implements Brain {
+public class SimpleBrain implements Brain< Position, Move > {
     @Override
     public List< Move > findBestMove( Position position ) {
         if ( position.isTerminal() ) {

@@ -11,7 +11,7 @@ import com.leokom.chess.engine.Position;
  * Date-time: 14.07.14 22:57
  */
 @FunctionalInterface
-public interface Evaluator {
+public interface Evaluator extends GenericEvaluator< Position, Move > {
 
 	/**
 	 * Get 'rating' of a move

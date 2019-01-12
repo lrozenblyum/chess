@@ -21,7 +21,7 @@ import java.util.*;
  * Author: Leonid
  * Date-time: 27.08.16 21:51
  */
-public class DenormalizedBrain implements Brain {
+public class DenormalizedBrain implements Brain< Position, Move > {
 	private static final Logger LOG = LogManager.getLogger();
 	private static final double DEFAULT_FOR_EQUAL_NOT_IN_RANGE = 0.5;
 
@@ -44,7 +44,7 @@ public class DenormalizedBrain implements Brain {
 		Table<EvaluatorType, Move, Double> weightedTable = generateWithWeights( normalizedTable );
 		logTable( weightedTable, "WEIGHTED" );
 
-		return new NormalizedBrain( getEvaluator( weightedTable ) ).findBestMove( position );
+		return new NormalizedBrain<>( getEvaluator( weightedTable ) ).findBestMove( position );
 	}
 
 	private Evaluator getEvaluator(Table<EvaluatorType, Move, Double> weightedTable) {

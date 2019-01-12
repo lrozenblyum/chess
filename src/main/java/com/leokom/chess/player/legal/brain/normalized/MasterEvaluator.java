@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Central brain of a move ('brains')
  */
-class MasterEvaluator implements Evaluator {
+public class MasterEvaluator implements Evaluator {
 	private static final Logger LOG = LogManager.getLogger();
 
 	//we don't need to know that we can execute other moves
@@ -24,7 +24,7 @@ class MasterEvaluator implements Evaluator {
 
 	private final Map<EvaluatorType, Double > evaluatorWeights;
 
-	MasterEvaluator() {
+	public MasterEvaluator() {
 		this( EvaluatorWeights.getStandardWeights() );
 	}
 

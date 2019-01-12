@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 //REFACTOR: use this class on all applicable layers
 //where pair of 'squareFrom, to' are used
-public final class Move {
+public final class Move implements GameTransition {
 	/**
 	 * Size of promotion move (e.g. "h1Q")
 	 */

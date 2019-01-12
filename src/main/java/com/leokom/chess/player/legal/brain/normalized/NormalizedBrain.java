@@ -1,28 +1,30 @@
 package com.leokom.chess.player.legal.brain.normalized;
 
+import com.leokom.chess.engine.GameState;
+import com.leokom.chess.engine.GameTransition;
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.brain.common.Brain;
-import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Initial decision maker based on MasterEvaluator.
- * independent evaluation of each move is delegated to MasterEvaluator.
- * You can inject any custom brains instead of MasterEvaluator via constructor.
+ * Initial decision maker.
+ *
+ * Historically it was based on MasterEvaluator.
+ * Now it has become generic (actually even not depending on chess-related notions)/
+ * You can inject any custom brains via constructor.
  *
  * Author: Leonid
  * Date-time: 23.08.16 22:54
  */
-public class NormalizedBrain implements Brain {
-	private Evaluator brains;
+public class NormalizedBrain < StateType extends GameState< TransitionType >, TransitionType extends GameTransition> implements Brain< StateType, TransitionType > {
+	private final GenericEvaluator< StateType, TransitionType > brains;
 
-	public NormalizedBrain() {
-		this( new MasterEvaluator() );
-	}
-
-	public NormalizedBrain(Evaluator brains ) {
+	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains ) {
 		this.brains = brains;
 	}
 
@@ -45,8 +47,8 @@ public class NormalizedBrain implements Brain {
 	 *
 	 */
 	@Override
-	public List<Move> findBestMove(Position position ) {
-		Map< Move, Double > moveRatings = new HashMap<>();
+	public List<TransitionType> findBestMove(StateType position ) {
+		Map< TransitionType, Double > moveRatings = new HashMap<>();
 
 		//filtering Draw offers till #161 is solved
 		//this looks safe since Offer draw cannot be a single legal move in a position.
@@ -59,7 +61,7 @@ public class NormalizedBrain implements Brain {
 		return getMoveWithMaxRating( moveRatings );
 	}
 
-	private List<Move> getMoveWithMaxRating( Map< Move, Double > moveValues ) {
+	private List<TransitionType> getMoveWithMaxRating( Map< TransitionType, Double > moveValues ) {
 		return moveValues.entrySet().stream()
 				.max(Map.Entry.comparingByValue())
 				.map(Map.Entry::getKey)

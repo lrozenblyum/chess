@@ -1,7 +1,7 @@
 package com.leokom.chess.player.legal.brain.common;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.GameState;
+import com.leokom.chess.engine.GameTransition;
 
 import java.util.List;
 /**
@@ -16,7 +16,7 @@ import java.util.List;
  * Author: Leonid
  * Date-time: 23.08.16 22:53
  */
-public interface Brain {
+public interface Brain < StateType extends GameState< TransitionType >, TransitionType extends GameTransition> {
 
 	/**
 	 * Finds the best move(s) in the current position.
@@ -26,7 +26,7 @@ public interface Brain {
 	 * @return best move according to current strategy, absence of moves means:
 	 * no moves are legal - we reached a terminal position
 	 */
-	List< Move > findBestMove( Position position );
+	List< TransitionType > findBestMove( StateType position );
 
 	/**
 	 * Get the best move to execute when it's not our
@@ -40,7 +40,7 @@ public interface Brain {
 	to allow evolving interface while not forcing existing
 	implementations to increase complexity
 	 */
-	default Move findBestMoveForOpponent( Position position ) {
+	default TransitionType findBestMoveForOpponent( StateType position ) {
 		return null;
 	}
 

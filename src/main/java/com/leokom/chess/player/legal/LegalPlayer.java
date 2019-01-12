@@ -22,7 +22,7 @@ import java.util.List;
 public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
-	private final Brain brain;
+	private final Brain< Position, Move > brain;
 
 	private boolean recordingMode;
 	private Side ourSide;
@@ -34,7 +34,7 @@ public class LegalPlayer implements Player {
 		this( new DenormalizedBrain() );
 	}
 
-	public LegalPlayer( Brain brain ) {
+	public LegalPlayer( Brain< Position, Move > brain ) {
 		this.brain = brain;
 	}
 
@@ -43,7 +43,7 @@ public class LegalPlayer implements Player {
 	 * @param brains brains to evaluate moves
 	 */
 	public LegalPlayer( Evaluator brains ) {
-		this.brain = new NormalizedBrain( brains );
+		this.brain = new NormalizedBrain<>(brains);
 	}
 
 	@Override

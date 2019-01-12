@@ -8,6 +8,7 @@ import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
+import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import org.junit.Ignore;
@@ -180,7 +181,7 @@ public class SimulatorIT {
 	@Test
 	public void newBrainShouldBeBetter() {
 		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedBrain() );
-		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain() );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator() ) );
 		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer )
 				.gamePairs( 5 )
 				.run();
