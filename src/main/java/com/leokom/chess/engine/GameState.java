@@ -7,5 +7,7 @@ import java.util.Set;
  * @param <TransitionType> type of transitions
  */
 public interface GameState< TransitionType extends GameTransition > {
+    GameState< TransitionType > move(TransitionType move);
+
     Set< TransitionType > getMoves();
 }
