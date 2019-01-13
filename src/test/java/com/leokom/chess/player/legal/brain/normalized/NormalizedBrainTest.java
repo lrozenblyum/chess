@@ -43,8 +43,8 @@ public class NormalizedBrainTest {
     @Test
     public void singlePlyThinkingIsLimited() {
         GameStateImpl gameState = new GameStateImpl(
-                new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ),
-                new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ) ); // too low result on the 2'd ply
+                new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ),
+                new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ) ); // bigger means better for the opponent
 
         List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
                 (state, transition) -> transition.getId() // just a simple evaluation - let's say bigger id is better
@@ -57,8 +57,8 @@ public class NormalizedBrainTest {
     @Test
     public void secondPlyThinkingMustSuggestBetterMove() {
         GameStateImpl gameState = new GameStateImpl(
-                new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ),
-                new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ) );
+                new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ),
+                new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ) );
 
         List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
             (state, transition) -> transition.getId(), // just a simple evaluation - let's say bigger id is better

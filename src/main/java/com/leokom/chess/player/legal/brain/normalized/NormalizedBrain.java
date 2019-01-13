@@ -29,7 +29,16 @@ public class NormalizedBrain < StateType extends GameState< TransitionType >, Tr
 		this( brains, 1 );
 	}
 
-	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
+	/**
+	 * We assume that brains always evaluate the move from the side to move the next ply
+	 * It was a logical assumption when we developed a 1-ply engine.
+	 * It can still be kept.
+	 * The alternative could be: stable evaluator that returns positive/negative result depending on color of the side to move
+	 *
+	 * @param brains evauator
+	 * @param pliesDepth depth to think
+	 */
+	NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
 		this.brains = brains;
 		this.pliesDepth = pliesDepth;
 	}
@@ -54,17 +63,28 @@ public class NormalizedBrain < StateType extends GameState< TransitionType >, Tr
 	 */
 	@Override
 	public List<TransitionType> findBestMove(StateType position ) {
-		Map< TransitionType, Double > moveRatings = new HashMap<>();
+		Map<TransitionType, Double> moveRatings = new HashMap<>();
 
-		//filtering Draw offers till #161 is solved
-		//this looks safe since Offer draw cannot be a single legal move in a position.
+		if ( pliesDepth == 1 ) {
+			//filtering Draw offers till #161 is solved
+			//this looks safe since Offer draw cannot be a single legal move in a position.
 
-		//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
-		position.getMoves().stream().filter( move -> move != Move.OFFER_DRAW ).forEach( move ->
-			moveRatings.put( move, brains.evaluateMove( position, move ) )
-		);
+			//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
+			position.getMoves().stream().filter(move -> move != Move.OFFER_DRAW).forEach(move ->
+					moveRatings.put(move, brains.evaluateMove(position, move))
+			);
+		}
+		else { //just 2 is supported now
+			position.getMoves().forEach( move -> {
+				GameState<TransitionType> target = position.move( move );
+				TransitionType secondLevelFirstMove = target.getMoves().iterator().next();
+				//negating because bigger for the opponents means worse for the current player
+				//TODO: fix the casting
+				moveRatings.put( move, - brains.evaluateMove((StateType) target, secondLevelFirstMove ) );
+			} );
+		}
 
-		return getMoveWithMaxRating( moveRatings );
+		return getMoveWithMaxRating(moveRatings);
 	}
 
 	private List<TransitionType> getMoveWithMaxRating( Map< TransitionType, Double > moveValues ) {
