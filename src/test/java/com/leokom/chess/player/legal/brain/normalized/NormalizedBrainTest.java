@@ -67,4 +67,20 @@ public class NormalizedBrainTest {
         assertEquals( 1, result.size() );
         assertEquals( 12, result.get(0).getId() );
     }
+
+    @Test
+    public void ifOpponentCanSelectCoolMoveDetectThat() {
+        GameStateImpl gameState = new GameStateImpl(
+                //here the opponent can execute an average move
+                new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 50 ), new GameStateImpl() ),
+                //here he can execute a cool and a bad move. Thinking about him in positive way - that he'll select the best one
+                new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl(), new GameTransitionImpl( 100 ), new GameStateImpl() ) );
+
+        List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
+                (state, transition) -> transition.getId(), // just a simple evaluation - let's say bigger id is better
+                2
+        ).findBestMove(gameState);
+        assertEquals( 1, result.size() );
+        assertEquals( 12, result.get(0).getId() );
+    }
 }
