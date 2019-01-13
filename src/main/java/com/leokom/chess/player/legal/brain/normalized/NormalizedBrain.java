@@ -23,9 +23,15 @@ import java.util.Map;
  */
 public class NormalizedBrain < StateType extends GameState< TransitionType >, TransitionType extends GameTransition> implements Brain< StateType, TransitionType > {
 	private final GenericEvaluator< StateType, TransitionType > brains;
+	private final int pliesDepth;
 
 	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains ) {
+		this( brains, 1 );
+	}
+
+	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
 		this.brains = brains;
+		this.pliesDepth = pliesDepth;
 	}
 
 	/**

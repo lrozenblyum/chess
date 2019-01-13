@@ -52,4 +52,19 @@ public class NormalizedBrainTest {
         assertEquals( 1, result.size() );
         assertEquals( 20, result.get(0).getId() );
     }
+
+    //we must look to the 2'nd ply and detect a really better move
+    @Test
+    public void secondPlyThinkingMustSuggestBetterMove() {
+        GameStateImpl gameState = new GameStateImpl(
+                new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ),
+                new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ) );
+
+        List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
+            (state, transition) -> transition.getId(), // just a simple evaluation - let's say bigger id is better
+            2
+        ).findBestMove(gameState);
+        assertEquals( 1, result.size() );
+        assertEquals( 12, result.get(0).getId() );
+    }
 }
