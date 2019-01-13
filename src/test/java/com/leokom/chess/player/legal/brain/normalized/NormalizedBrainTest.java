@@ -20,7 +20,7 @@ public class NormalizedBrainTest {
     @Test
     public void singlePossibleMoveReturned() {
         int moveId = 12345;
-        GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(moveId) );
+        GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(moveId), new GameStateImpl() );
 
         List<GameTransitionImpl> result = new NormalizedBrain<GameStateImpl, GameTransitionImpl>((state, transition) -> 0).findBestMove(gameState);
         assertEquals( 1, result.size() );
@@ -29,8 +29,8 @@ public class NormalizedBrainTest {
 
     @Test
     public void betterMoveFound() {
-        GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(12),
-                new GameTransitionImpl( 20 ) );
+        GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(12), new GameStateImpl(),
+                new GameTransitionImpl( 20 ), new GameStateImpl() );
 
         List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
             (state, transition) -> transition.getId() // just a simple evaluation - let's say bigger id is better

@@ -1,27 +1,37 @@
 package com.leokom.chess.engine;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import com.google.common.collect.ImmutableMap;
+
+import java.util.Map;
 import java.util.Set;
 
 //fake implementation for test purposes
 public class GameStateImpl implements GameState< GameTransitionImpl > {
-    private final Set<GameTransitionImpl> transitions;
+    private final Map<GameTransitionImpl, GameStateImpl> tree;
 
-    public GameStateImpl(GameTransitionImpl ... transitions ) {
-        this( new HashSet<>(Arrays.asList( transitions )));
+    //a few constructors for simplicity
+    public GameStateImpl() {
+        this(ImmutableMap.of());
     }
 
-    private GameStateImpl(Set<GameTransitionImpl> transitions) {
-        this.transitions = transitions;
+    public GameStateImpl(GameTransitionImpl gameTransition, GameStateImpl gameState) {
+        this( ImmutableMap.of( gameTransition, gameState ) );
+    }
+
+    public GameStateImpl(GameTransitionImpl gameTransition, GameStateImpl gameState, GameTransitionImpl gameTransition2, GameStateImpl gameState2) {
+        this( ImmutableMap.of( gameTransition, gameState, gameTransition2, gameState2 ) );
+    }
+
+    private GameStateImpl(Map<GameTransitionImpl, GameStateImpl> tree ) {
+        this.tree = tree;
     }
 
     @Override
     public GameState<GameTransitionImpl> move(GameTransitionImpl move) {
-        return null;
+        return tree.get(move);
     }
 
     public Set<GameTransitionImpl> getMoves() {
-        return transitions;
+        return tree.keySet();
     }
 }
