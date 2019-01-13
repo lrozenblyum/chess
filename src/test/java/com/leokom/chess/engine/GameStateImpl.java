@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 //fake implementation for test purposes
-public class GameStateImpl implements GameState< GameTransitionImpl > {
+public class GameStateImpl implements GameState< GameTransitionImpl, GameStateImpl > {
     private final Map<GameTransitionImpl, GameStateImpl> tree;
 
     //a few constructors for simplicity
@@ -27,7 +27,7 @@ public class GameStateImpl implements GameState< GameTransitionImpl > {
     }
 
     @Override
-    public GameState<GameTransitionImpl> move(GameTransitionImpl move) {
+    public GameStateImpl move(GameTransitionImpl move) {
         return tree.get(move);
     }
 

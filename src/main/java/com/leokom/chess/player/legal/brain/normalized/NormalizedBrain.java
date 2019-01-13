@@ -21,7 +21,7 @@ import java.util.Map;
  * Author: Leonid
  * Date-time: 23.08.16 22:54
  */
-public class NormalizedBrain < StateType extends GameState< TransitionType >, TransitionType extends GameTransition> implements Brain< StateType, TransitionType > {
+public class NormalizedBrain < StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition> implements Brain< StateType, TransitionType > {
 	private final GenericEvaluator< StateType, TransitionType > brains;
 	private final int pliesDepth;
 
@@ -77,14 +77,13 @@ public class NormalizedBrain < StateType extends GameState< TransitionType >, Tr
 		else { //just 2 is supported now
 
 			position.getMoves().forEach( move -> {
-				GameState<TransitionType> target = position.move( move );
-				List<TransitionType> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove((StateType) target);
+				StateType target = position.move( move );
+				List<TransitionType> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
 
 				//negating because bigger for the opponents means worse for the current player
-				//TODO: fix the casting
 				//TODO: what if empty
 				//TODO: what if > 1
-				moveRatings.put( move, - brains.evaluateMove((StateType) target, bestMove.get(0) ) );
+				moveRatings.put( move, - brains.evaluateMove(target, bestMove.get(0) ) );
 			} );
 		}
 

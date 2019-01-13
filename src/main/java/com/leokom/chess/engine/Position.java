@@ -33,7 +33,7 @@ import static java.util.stream.Collectors.toSet;
  * Author: Leonid
  * Date-time: 21.08.12 15:55
  */
-public class Position implements GameState< Move > {
+public class Position implements GameState< Move, Position > {
 	/**
 	 * Chess rules mention moves counter must be calculated
 	 * for both players

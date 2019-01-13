@@ -16,7 +16,7 @@ import java.util.List;
  * Author: Leonid
  * Date-time: 23.08.16 22:53
  */
-public interface Brain < StateType extends GameState< TransitionType >, TransitionType extends GameTransition> {
+public interface Brain < StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition> {
 
 	/**
 	 * Finds the best move(s) in the current position.
