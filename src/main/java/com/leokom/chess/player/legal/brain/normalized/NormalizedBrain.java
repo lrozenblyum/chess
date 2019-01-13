@@ -75,12 +75,16 @@ public class NormalizedBrain < StateType extends GameState< TransitionType >, Tr
 			);
 		}
 		else { //just 2 is supported now
+
 			position.getMoves().forEach( move -> {
 				GameState<TransitionType> target = position.move( move );
-				TransitionType secondLevelFirstMove = target.getMoves().iterator().next();
+				List<TransitionType> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove((StateType) target);
+
 				//negating because bigger for the opponents means worse for the current player
 				//TODO: fix the casting
-				moveRatings.put( move, - brains.evaluateMove((StateType) target, secondLevelFirstMove ) );
+				//TODO: what if empty
+				//TODO: what if > 1
+				moveRatings.put( move, - brains.evaluateMove((StateType) target, bestMove.get(0) ) );
 			} );
 		}
 
