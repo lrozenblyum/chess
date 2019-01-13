@@ -2,6 +2,8 @@ package com.leokom.chess.player.legal.brain.normalized;
 
 import com.leokom.chess.engine.GameStateImpl;
 import com.leokom.chess.engine.GameTransitionImpl;
+import com.leokom.chess.engine.Move;
+import com.leokom.chess.engine.Position;
 import org.junit.Test;
 
 import java.util.*;
