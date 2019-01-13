@@ -189,4 +189,16 @@ public class SimulatorIT {
 		assertTrue( statistics + " should prove advantage of the first player",
 			statistics.getFirstWins() > statistics.getSecondWins() );
 	}
+
+	@Test
+	public void normalizedPlayerWithDepth2IsBetterThanDepth1() {
+		final LegalPlayer deeperThinker = new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 2 ) );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 1 ) );
+		final SimulatorStatistics statistics = new Simulator( deeperThinker, classicPlayer )
+				.gamePairs( 5 )
+				.run();
+
+		assertTrue( statistics + " should prove advantage of the first player",
+				statistics.getFirstWins() > statistics.getSecondWins() );
+	}
 }

@@ -38,7 +38,7 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 	 * @param brains evauator
 	 * @param pliesDepth depth to think
 	 */
-	NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
+	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
 		this.brains = brains;
 		this.pliesDepth = pliesDepth;
 	}
