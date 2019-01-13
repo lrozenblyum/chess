@@ -38,4 +38,18 @@ public class NormalizedBrainTest {
         assertEquals( 1, result.size() );
         assertEquals( 20, result.get(0).getId() );
     }
+
+    //we must not look to the 2'nd ply if we are limited by the 1'st one
+    @Test
+    public void singlePlyThinkingIsLimited() {
+        GameStateImpl gameState = new GameStateImpl(
+                new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ),
+                new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ) ); // too low result on the 2'd ply
+
+        List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
+                (state, transition) -> transition.getId() // just a simple evaluation - let's say bigger id is better
+        ).findBestMove(gameState);
+        assertEquals( 1, result.size() );
+        assertEquals( 20, result.get(0).getId() );
+    }
 }
