@@ -2,13 +2,12 @@ package com.leokom.chess.player.legal.brain.normalized;
 
 import com.leokom.chess.engine.GameStateImpl;
 import com.leokom.chess.engine.GameTransitionImpl;
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.Position;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class NormalizedBrainTest {
     @Test
@@ -85,4 +84,16 @@ public class NormalizedBrainTest {
         assertEquals( 1, result.size() );
         assertEquals( 12, result.get(0).getId() );
     }
+
+    @Test
+    public void secondPlyThinkingNoCrashOnTerminalPosition() {
+        GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(25 ), new GameStateImpl()  //terminal
+        );
+
+        new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
+                (state, transition) -> transition.getId(),
+                2
+        ).findBestMove(gameState);
+    }
+
 }

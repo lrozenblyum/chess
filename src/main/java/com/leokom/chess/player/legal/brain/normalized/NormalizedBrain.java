@@ -80,10 +80,12 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 				StateType target = position.move( move );
 				List<TransitionType> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
 
-				//negating because bigger for the opponents means worse for the current player
-				//TODO: what if empty
-				//TODO: what if > 1
-				moveRatings.put( move, - brains.evaluateMove(target, bestMove.get(0) ) );
+				//can be empty in case of terminal position
+				if ( ! bestMove.isEmpty() ) {
+					//negating because bigger for the opponents means worse for the current player
+					//TODO: what if > 1
+					moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
+				}
 			} );
 		}
 
