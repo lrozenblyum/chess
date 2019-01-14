@@ -86,7 +86,7 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 					//TODO: what if > 1
 					moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
 				} else {
-					moveRatings.put( move, -10000000d ); //TODO: check the value
+					moveRatings.put( move, brains.evaluateMove( position, move ) ); //falling back to 1'st level
 				}
 			} );
 		}

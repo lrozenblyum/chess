@@ -22,6 +22,11 @@ public class GameStateImpl implements GameState< GameTransitionImpl, GameStateIm
         this( ImmutableMap.of( gameTransition, gameState, gameTransition2, gameState2 ) );
     }
 
+    public GameStateImpl(GameTransitionImpl gameTransition, GameStateImpl gameState, GameTransitionImpl gameTransition2, GameStateImpl gameState2,
+                         GameTransitionImpl gameTransition3, GameStateImpl gameState3 ) {
+        this( ImmutableMap.of( gameTransition, gameState, gameTransition2, gameState2, gameTransition3, gameState3 ) );
+    }
+
     private GameStateImpl(Map<GameTransitionImpl, GameStateImpl> tree ) {
         this.tree = tree;
     }

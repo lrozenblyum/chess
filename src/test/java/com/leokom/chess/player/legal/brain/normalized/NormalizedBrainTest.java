@@ -109,4 +109,20 @@ public class NormalizedBrainTest {
         assertEquals( 0, bestMove.get(0).getId() );
     }
 
+    @Test
+    public void movesLeadingToTerminalBetterToSelect() {
+        GameStateImpl gameState = new GameStateImpl(
+            new GameTransitionImpl(100 ), new GameStateImpl(),
+            new GameTransitionImpl(0 ), new GameStateImpl(),
+            new GameTransitionImpl(50 ), new GameStateImpl()
+        );
+
+        List<GameTransitionImpl> bestMove = new NormalizedBrain<GameStateImpl, GameTransitionImpl>(
+                (state, transition) -> transition.getId(),
+                2
+        ).findBestMove(gameState);
+
+        assertEquals( 1, bestMove.size() );
+        assertEquals( 100, bestMove.get(0).getId() );
+    }
 }
