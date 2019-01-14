@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 
 //this test is based on Chess notions (in contrary to NormalizedBrainTest)
 //so it can be considered being more integrations with Position, Move

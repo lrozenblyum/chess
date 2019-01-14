@@ -5,6 +5,8 @@ import com.leokom.chess.engine.GameTransition;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.legal.brain.common.Brain;
 import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.ThreadContext;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -77,6 +79,8 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 		else { //just 2 is supported now
 
 			position.getMoves().forEach( move -> {
+				ThreadContext.put( "moveBeingAnalyzed", move.toString() );
+
 				StateType target = position.move( move );
 				List<TransitionType> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
 
@@ -86,8 +90,11 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 					//TODO: what if > 1
 					moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
 				} else {
+					LogManager.getLogger().info( "Evaluating just the current level" );
 					moveRatings.put( move, brains.evaluateMove( position, move ) ); //falling back to 1'st level
 				}
+
+				ThreadContext.clearAll();
 			} );
 		}
 
@@ -96,6 +103,7 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 
 	private List<TransitionType> getMoveWithMaxRating( Map< TransitionType, Double > moveValues ) {
 		return moveValues.entrySet().stream()
+                .peek( System.out::println )
 				.max(Map.Entry.comparingByValue())
 				.map(Map.Entry::getKey)
 				.map( Collections::singletonList )
