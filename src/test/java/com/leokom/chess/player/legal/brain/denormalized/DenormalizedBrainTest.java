@@ -15,7 +15,7 @@ import static org.junit.Assert.assertFalse;
  * Date-time: 27.08.16 21:58
  */
 public class DenormalizedBrainTest {
-	private Brain brain;
+	private Brain< Position, Move > brain;
 
 	@Before
 	public void prepare() {
