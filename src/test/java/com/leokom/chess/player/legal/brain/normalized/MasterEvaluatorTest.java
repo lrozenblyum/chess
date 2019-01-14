@@ -31,4 +31,12 @@ public class MasterEvaluatorTest {
 		new EvaluatorAsserts( evaluator )
 				.assertFirstBetter( position, simpleMove, captureWithRiskToLoseQueen );
 	}
+
+	@Test
+	public void resignIsWeak() {
+		Position position = Position.getInitialPosition();
+
+		new EvaluatorAsserts( evaluator )
+				.assertFirstBetter( position, new Move( "e2", "e4" ), Move.RESIGN );
+	}
 }
