@@ -85,6 +85,8 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 					//negating because bigger for the opponents means worse for the current player
 					//TODO: what if > 1
 					moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
+				} else {
+					moveRatings.put( move, -10000000d ); //TODO: check the value
 				}
 			} );
 		}

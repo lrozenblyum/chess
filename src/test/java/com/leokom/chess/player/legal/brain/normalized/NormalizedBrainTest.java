@@ -96,4 +96,17 @@ public class NormalizedBrainTest {
         ).findBestMove(gameState);
     }
 
+    @Test
+    public void singleMoveMustBeSelectableWhenNextIsTerminal() {
+        GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(0 ), new GameStateImpl() );
+
+        List<GameTransitionImpl> bestMove = new NormalizedBrain<GameStateImpl, GameTransitionImpl>(
+                (state, transition) -> transition.getId(),
+                2
+        ).findBestMove(gameState);
+
+        assertEquals( 1, bestMove.size() );
+        assertEquals( 0, bestMove.get(0).getId() );
+    }
+
 }
