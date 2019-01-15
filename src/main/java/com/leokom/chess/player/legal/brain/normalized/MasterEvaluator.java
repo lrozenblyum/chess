@@ -35,6 +35,8 @@ public class MasterEvaluator implements Evaluator {
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		//TODO: do we really ensure [ 0, 1 ] range here?
+
 		if ( position.move( move ).isTerminal() ) {
 			return new CheckmateEvaluator().evaluateMove( position, move );
 		}
