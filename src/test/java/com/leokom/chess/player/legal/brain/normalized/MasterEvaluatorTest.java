@@ -63,4 +63,17 @@ public class MasterEvaluatorTest {
 		assertEquals( 0.0, evaluator.evaluateMove(position, Move.RESIGN), 0 );
 	}
 
+	@Test
+	public void winningIsEvaluatedTo1() {
+		Position position = Position.getInitialPosition()
+				.move( "f2", "f3" )
+				.move( "e7", "e5" )
+				.move( "g2", "g4" );
+		//fools checkmate is prepared
+
+
+		Move checkmateMove = new Move( "d8", "h4" );
+		assertEquals( 1, evaluator.evaluateMove( position, checkmateMove ), 0 );
+	}
+
 }
