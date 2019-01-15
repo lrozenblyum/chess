@@ -6,6 +6,7 @@ import com.leokom.chess.player.legal.brain.common.EvaluatorAsserts;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class MasterEvaluatorTest {
@@ -53,6 +54,13 @@ public class MasterEvaluatorTest {
 					String.format( "The move %s must be evaluated in range [0,1], actually: %s", move, result )
 					,result >= 0.0 && result <= 1.0 );
 		} );
+	}
+
+	//losing should get the minimal possible value
+	@Test
+	public void losingIsEvaluatedTo0() {
+		Position position = Position.getInitialPosition();
+		assertEquals( 0.0, evaluator.evaluateMove(position, Move.RESIGN), 0 );
 	}
 
 }
