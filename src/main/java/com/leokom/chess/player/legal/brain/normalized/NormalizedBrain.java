@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Initial decision maker.
@@ -72,13 +73,12 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 			//this looks safe since Offer draw cannot be a single legal move in a position.
 
 			//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
-			position.getMoves().stream().filter(move -> move != Move.OFFER_DRAW).forEach(move ->
+			getMovesWithoutDrawOffer(position).forEach(move ->
 					moveRatings.put(move, brains.evaluateMove(position, move))
 			);
 		}
 		else { //just 2 is supported now
-
-			position.getMoves().forEach( move -> {
+			getMovesWithoutDrawOffer( position ).forEach( move -> {
 				ThreadContext.put( "moveBeingAnalyzed", move.toString() );
 
 				StateType target = position.move( move );
@@ -102,6 +102,10 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 		}
 
 		return getMoveWithMaxRating(moveRatings);
+	}
+
+	private Stream<TransitionType> getMovesWithoutDrawOffer(StateType position) {
+		return position.getMoves().stream().filter(move -> move != Move.OFFER_DRAW);
 	}
 
 	private List<TransitionType> getMoveWithMaxRating( Map< TransitionType, Double > moveValues ) {
