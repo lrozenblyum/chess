@@ -3,10 +3,10 @@ package com.leokom.chess;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.winboard.WinboardPlayer;
+import org.hamcrest.CoreMatchers;
 import org.junit.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PlayerFactoryTest {
 	private static String whiteProperty;
@@ -80,7 +80,7 @@ public class PlayerFactoryTest {
 	}
 
 	private void assertIsLegal( Player player ) {
-		assertEquals( "LegalPlayer : DenormalizedBrain", player.name() );
+		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer" ) );
 	}
 
 	@Test
