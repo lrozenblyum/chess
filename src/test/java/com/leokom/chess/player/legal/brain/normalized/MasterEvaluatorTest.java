@@ -6,6 +6,8 @@ import com.leokom.chess.player.legal.brain.common.EvaluatorAsserts;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 public class MasterEvaluatorTest {
 	private Evaluator evaluator;
 
@@ -39,4 +41,18 @@ public class MasterEvaluatorTest {
 		new EvaluatorAsserts( evaluator )
 				.assertFirstBetter( position, new Move( "e2", "e4" ), Move.RESIGN );
 	}
+
+	//enforce rules that are valid for the whole normalized package, to MasterEvaluator itself
+	@Test
+	public void allMovesMustBeEvaluatedFrom0To1() {
+		Position position = Position.getInitialPosition();
+
+		position.getMoves().forEach( move -> {
+			double result = evaluator.evaluateMove(position, move);
+			assertTrue(
+					String.format( "The move %s must be evaluated in range [0,1], actually: %s", move, result )
+					,result >= 0.0 && result <= 1.0 );
+		} );
+	}
+
 }
