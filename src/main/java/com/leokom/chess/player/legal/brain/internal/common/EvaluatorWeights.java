@@ -14,9 +14,9 @@ import static com.leokom.chess.player.legal.brain.common.EvaluatorType.*;
 public final class EvaluatorWeights {
 	private EvaluatorWeights() {}
 
-	private static final double HIGHEST_PRIORITY = 100.0;
-	private static final double INCREASED_PRIORITY = 3.0;
-	private static final double NORMAL_PRIORITY = 1.0;
+	private static final double HIGHEST_PRIORITY = 1.0;
+	private static final double INCREASED_PRIORITY = 0.03;
+	private static final double NORMAL_PRIORITY = 0.01;
 	private static final double LOWEST_POSSIBLE = 0.0;
 
 	public static Map<EvaluatorType, Double > getStandardWeights() {

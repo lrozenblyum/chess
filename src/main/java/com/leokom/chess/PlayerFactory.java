@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
+import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
+import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
@@ -73,7 +75,7 @@ public final class PlayerFactory {
 	}
 
 	public enum PlayerSelection {
-		LEGAL( LegalPlayer::new ),
+		LEGAL( () -> new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 2) ) ),
 		SIMPLE( () -> new LegalPlayer( new SimpleBrain() ) ),
 		WINBOARD( WinboardPlayer::create );
 
