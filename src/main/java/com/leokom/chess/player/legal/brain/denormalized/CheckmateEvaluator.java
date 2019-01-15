@@ -23,6 +23,7 @@ public class CheckmateEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
+		//TODO: what about accepted draw and other terminal conditions?
 		final Position result = position.move( move );
 		return result.isTerminal() &&
 				result.getWinningSide() != null && //this excludes draws
