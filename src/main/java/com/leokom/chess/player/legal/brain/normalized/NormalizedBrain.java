@@ -91,7 +91,10 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 					moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
 				} else {
 					LogManager.getLogger().info( "Evaluating just the current level" );
-					moveRatings.put( move, brains.evaluateMove( position, move ) ); //falling back to 1'st level
+					//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
+					//TODO: highly depends on MasterEvaluator [ 0, 1 ]!
+					//where all the second level moves exist
+					moveRatings.put( move, brains.evaluateMove( position, move ) - 1 ); //falling back to 1'st level
 				}
 
 				ThreadContext.clearAll();
