@@ -3,8 +3,13 @@ package com.leokom.chess.player.legal.brain.normalized;
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.brain.common.EvaluatorType;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -48,12 +53,25 @@ public class MasterEvaluatorTest {
 	public void allMovesMustBeEvaluatedFrom0To1() {
 		Position position = Position.getInitialPosition();
 
+		assertAllMovesEvaluatedIn0To1Range(position, evaluator);
+	}
+
+	private void assertAllMovesEvaluatedIn0To1Range(Position position, Evaluator evaluatorToValidate) {
 		position.getMoves().forEach( move -> {
-			double result = evaluator.evaluateMove(position, move);
+			double result = evaluatorToValidate.evaluateMove(position, move);
 			assertTrue(
 					String.format( "The move %s must be evaluated in range [0,1], actually: %s", move, result )
 					,result >= 0.0 && result <= 1.0 );
 		} );
+	}
+
+	@Test
+	public void allMovesMustBeEvaluatedFrom0To1EvenWithCustomWeights() {
+		Map<EvaluatorType, Double> weights = new HashMap<>();
+		Arrays.stream( EvaluatorType.values() ).forEach( type -> weights.put( type, 1.0 ) );
+
+		MasterEvaluator masterEvaluatorWithCustomWeigths = new MasterEvaluator(weights);
+		assertAllMovesEvaluatedIn0To1Range( Position.getInitialPosition(), masterEvaluatorWithCustomWeigths );
 	}
 
 	//losing should get the minimal possible value
