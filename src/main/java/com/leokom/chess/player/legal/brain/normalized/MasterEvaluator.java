@@ -36,6 +36,7 @@ public class MasterEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		if ( position.move( move ).isTerminal() ) {
+			//TODO: remove CheckmateEvaluator from further algorithm then
 			return new CheckmateEvaluator().evaluateMove( position, move );
 		}
 
@@ -49,7 +50,7 @@ public class MasterEvaluator implements Evaluator {
 		}).sum();
 
 		//result that is in [ 0, 1 ] range
-		//it should work assuming the weights themselves are in [ 0, 1 ]
+		//TODO: it should work assuming the weights themselves are in [ 0, 1 ]
 		double normalizedResult = result / evaluatorWeights.size();
 
 		LOG.info("{} ===> {} ===> {}", move, result, normalizedResult);
