@@ -110,7 +110,6 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 
 	private List<TransitionType> getMoveWithMaxRating( Map< TransitionType, Double > moveValues ) {
 		return moveValues.entrySet().stream()
-                .peek( System.out::println )
 				.max(Map.Entry.comparingByValue())
 				.map(Map.Entry::getKey)
 				.map( Collections::singletonList )

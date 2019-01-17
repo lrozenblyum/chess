@@ -35,8 +35,6 @@ public class MasterEvaluator implements Evaluator {
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		//TODO: do we really ensure [ 0, 1 ] range here?
-
 		if ( position.move( move ).isTerminal() ) {
 			return new CheckmateEvaluator().evaluateMove( position, move );
 		}
@@ -49,7 +47,12 @@ public class MasterEvaluator implements Evaluator {
 			LOG.debug( "{} [{}] : {} * {} = {}", move, evaluatorEntry.getKey(), weight, evaluatorResponse, moveEstimate );
 			return moveEstimate;
 		}).sum();
-		LOG.info("{} ===> {}", move, result);
-		return result;
+
+		//result that is in [ 0, 1 ] range
+		//it should work assuming the weights themselves are in [ 0, 1 ]
+		double normalizedResult = result / evaluatorWeights.size();
+
+		LOG.info("{} ===> {} ===> {}", move, result, normalizedResult);
+		return normalizedResult;
 	}
 }
