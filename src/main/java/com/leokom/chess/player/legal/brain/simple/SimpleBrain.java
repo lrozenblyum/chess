@@ -10,7 +10,7 @@ import java.util.*;
 import static java.util.Collections.singletonList;
 
 /**
- * Brain that implements Simple player in Legal player's infrastructure
+ * GenericBrain that implements Simple player in Legal player's infrastructure
  * Created by Leonid on 09.02.17.
  *
  * Based on previous implementation with comments:
@@ -23,7 +23,7 @@ import static java.util.Collections.singletonList;
  * Author: Leonid
  * Date-time: 15.04.13 22:26
  */
-public class SimpleBrain implements Brain< Position, Move > {
+public class SimpleBrain implements Brain {
     @Override
     public List< Move > findBestMove( Position position ) {
         if ( position.isTerminal() ) {

@@ -2,7 +2,6 @@ package com.leokom.chess.player.winboard;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.legal.brain.common.Brain;
 import org.junit.Assert;
@@ -27,9 +26,6 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 	private WinboardPlayer playerSpy;
 	private LegalPlayer opponent;
 
-	interface BrainMock extends Brain<Position, Move> {
-	}
-
 	@Before
 	public void prepare() {
 		communicator = mock( WinboardCommunicator.class );
@@ -49,7 +45,7 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 
 	@Test
 	public void legalPlayerCanResignWhenNotHisMove() {
-		BrainMock brain = mock( BrainMock.class );
+		Brain brain = mock( Brain.class );
 		when( brain.findBestMoveForOpponent( any() ) ).thenReturn(Move.RESIGN);
 		LegalPlayer legalPlayer = new LegalPlayer(brain);
 		setOpponent( legalPlayer );
@@ -62,7 +58,7 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 
 	@Test
 	public void winboardUnderstandsMultipleMoveWithOfferDraw() {
-		BrainMock brain = mock( BrainMock.class );
+		Brain brain = mock( Brain.class );
 		when( brain.findBestMove( any() ) ).thenReturn(Arrays.asList(
 				new Move( "d7", "d5" ),
 				Move.OFFER_DRAW )
@@ -78,7 +74,7 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 
 	@Test
 	public void winboardUnderstandsMultipleMoveWithResign() {
-		BrainMock brain = mock( BrainMock.class );
+		Brain brain = mock( Brain.class );
 		when( brain.findBestMove( any() ) ).thenReturn(Arrays.asList(
 			new Move( "e7", "e5" ),
 			Move.RESIGN )

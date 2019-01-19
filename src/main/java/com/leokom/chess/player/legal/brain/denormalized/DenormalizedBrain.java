@@ -4,10 +4,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.player.legal.brain.common.Brain;
-import com.leokom.chess.player.legal.brain.common.Evaluator;
-import com.leokom.chess.player.legal.brain.common.EvaluatorFactory;
-import com.leokom.chess.player.legal.brain.common.EvaluatorType;
+import com.leokom.chess.player.legal.brain.common.*;
 import com.leokom.chess.player.legal.brain.internal.common.EvaluatorWeights;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +18,7 @@ import java.util.*;
  * Author: Leonid
  * Date-time: 27.08.16 21:51
  */
-public class DenormalizedBrain implements Brain< Position, Move > {
+public class DenormalizedBrain implements Brain {
 	private static final Logger LOG = LogManager.getLogger();
 	private static final double DEFAULT_FOR_EQUAL_NOT_IN_RANGE = 0.5;
 

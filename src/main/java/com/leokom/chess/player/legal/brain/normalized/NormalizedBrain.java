@@ -3,7 +3,7 @@ package com.leokom.chess.player.legal.brain.normalized;
 import com.leokom.chess.engine.GameState;
 import com.leokom.chess.engine.GameTransition;
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.player.legal.brain.common.Brain;
+import com.leokom.chess.player.legal.brain.common.GenericBrain;
 import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.ThreadContext;
@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * Author: Leonid
  * Date-time: 23.08.16 22:54
  */
-public class NormalizedBrain < StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition> implements Brain< StateType, TransitionType > {
+public class NormalizedBrain < StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition> implements GenericBrain< StateType, TransitionType > {
 	private final GenericEvaluator< StateType, TransitionType > brains;
 	private final int pliesDepth;
 
