@@ -64,6 +64,7 @@ public class DenormalizedBrain implements Brain< Position, Move > {
 
 		Table< EvaluatorType, Move, Double > result = HashBasedTable.create();
 
+		//TODO: if one of normalized evaluators is disabled, here we'll get NPE.
 		normalizedTable.cellSet().forEach( cell ->
 			result.put( cell.getRowKey(), cell.getColumnKey(), cell.getValue() * standardWeights.get( cell.getRowKey() ) )
 		);
