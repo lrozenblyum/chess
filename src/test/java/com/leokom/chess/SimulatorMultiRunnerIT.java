@@ -50,7 +50,7 @@ public class SimulatorMultiRunnerIT {
 	@Test
 	public void runGamePair() {
 		final Evaluator brainLikesToProtectItself = new MasterEvaluatorBuilder()
-				.weight( EvaluatorType.PROTECTION, 1000.0 ).build();
+				.weight( EvaluatorType.PROTECTION, 1.0 ).build();
 
 		final SimulatorStatistics statistics =
 				new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToProtectItself ) )
