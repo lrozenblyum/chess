@@ -43,7 +43,7 @@ public class MasterEvaluator implements Evaluator {
 		this( new EvaluatorWeights( weights ) );
 	}
 
-	MasterEvaluator( EvaluatorWeights evaluatorWeights ) {
+	private MasterEvaluator( EvaluatorWeights evaluatorWeights ) {
 		this.evaluatorWeights = evaluatorWeights;
 	}
 
@@ -51,7 +51,9 @@ public class MasterEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		if ( position.move( move ).isTerminal() ) {
 			//TODO: remove CheckmateEvaluator from further algorithm then
-			return new CheckmateEvaluator().evaluateMove( position, move );
+			double result = new CheckmateEvaluator().evaluateMove(position, move);
+			LOG.info( "{} ===> {}", move, result );
+			return result;
 		}
 
 		double result = evaluatorWeights.stream().mapToDouble(evaluatorEntry -> {
@@ -64,7 +66,7 @@ public class MasterEvaluator implements Evaluator {
 		}).sum();
 
 		//result that is in [ 0, 1 ] range
-		//TODO: it should work assuming the weights themselves are in [ 0, 1 ]
+		//depends on the fact that the weights themselves are in [ 0, 1 ]
 		double normalizedResult = result / evaluatorWeights.size();
 
 		LOG.info("{} ===> {} ===> {}", move, result, normalizedResult);
