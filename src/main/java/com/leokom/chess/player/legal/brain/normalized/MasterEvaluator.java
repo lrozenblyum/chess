@@ -29,8 +29,23 @@ public class MasterEvaluator implements Evaluator {
 		this( EvaluatorWeights.getStandardWeights() );
 	}
 
+	/**
+	 * create evaluator with custom weights
+	 * @param weights evaluator -> weight
+	 * @throws IllegalArgumentException if any weight is outside [ 0, 1 ] range
+	 */
+	/*
+	Alternative to throwing the exception would be normalizing the weights on-fly. At the moment - not needed
+	 */
 	MasterEvaluator( Map<EvaluatorType, Double > weights ) {
+		verifyRange( weights );
 		this.evaluatorWeights = weights;
+	}
+
+	private void verifyRange(Map<EvaluatorType, Double> weights) {
+		if ( weights.values().stream().anyMatch( weight -> weight < 0.0 || weight > 1.0 ) ) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	@Override
