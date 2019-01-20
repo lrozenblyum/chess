@@ -57,7 +57,7 @@ public class DenormalizedBrain implements Brain {
 	}
 
 	private Table<EvaluatorType, Move, Double> generateWithWeights( Table<EvaluatorType, Move, Double> normalizedTable ) {
-		final Map<EvaluatorType, Double> standardWeights = EvaluatorWeights.getStandardWeights();
+		final Map<EvaluatorType, Double> standardWeights = new EvaluatorWeights().asMap();
 
 		Table< EvaluatorType, Move, Double > result = HashBasedTable.create();
 

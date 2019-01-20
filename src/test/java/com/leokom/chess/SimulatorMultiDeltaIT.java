@@ -24,7 +24,7 @@ public class SimulatorMultiDeltaIT {
 
 	/*
 	 * Protection property.
-	 * Coefficient :: [ 0 .. 90 ] delta 10 ==> 10 coefficients probed
+	 * Coefficient :: [ 0 .. 0.9 ] delta 0.1 ==> 10 coefficients probed
 	 * Each probe :: 10 games (5 pairs of games with colours switched)
 	 *
 	 */
@@ -38,31 +38,32 @@ public class SimulatorMultiDeltaIT {
 		simulateDeltas( this::createAttacker, 1 );
 	}
 
-	private LegalPlayer createAttacker( Integer coefficient ) {
+	private LegalPlayer createAttacker( double coefficient ) {
 		return new LegalPlayer( new MasterEvaluatorBuilder().weight( EvaluatorType.ATTACK, coefficient ).build() );
 	}
 
-	private void simulateDeltas( Function< Integer, LegalPlayer > whitePlayerGenerator, int gamePairsPerIteration ) {
-		Map< Integer, SimulatorStatistics > statisticsMap = new TreeMap<>();
+	private void simulateDeltas( Function< Double, LegalPlayer > whitePlayerGenerator, int gamePairsPerIteration ) {
+		Map< Double, SimulatorStatistics > statisticsMap = new TreeMap<>();
 
 		for ( int coefficient = 0; coefficient <= 90; coefficient += 10 ) {
-			final LegalPlayer protectionBasedPlayer = whitePlayerGenerator.apply( coefficient );
+			double doubleCoefficient = coefficient / 100.0; //normalizing
+			final LegalPlayer protectionBasedPlayer = whitePlayerGenerator.apply( doubleCoefficient );
 			final LegalPlayer classicPlayer = new LegalPlayer();
 
 			final SimulatorStatistics stats = new Simulator( protectionBasedPlayer, classicPlayer )
 				.gamePairs( gamePairsPerIteration ).run();
-			statisticsMap.put( coefficient, stats );
+			statisticsMap.put( doubleCoefficient, stats );
 		}
 
 		printResults( statisticsMap );
 	}
 
 
-	private LegalPlayer createProtector( int coefficient ) {
+	private LegalPlayer createProtector( double coefficient ) {
 		return new LegalPlayer( new MasterEvaluatorBuilder().weight( EvaluatorType.PROTECTION, coefficient ).build() );
 	}
 
-	private void printResults( Map<Integer, SimulatorStatistics> statisticsMap ) {
+	private void printResults( Map<Double, SimulatorStatistics> statisticsMap ) {
 		final String statsPrettyPrinted = statisticsMap.entrySet().stream()
 				.map( entry -> entry.getKey() + " ==> " + entry.getValue() )
 				.collect( Collectors.joining( "\n" ) );

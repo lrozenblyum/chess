@@ -13,7 +13,7 @@ import java.util.Map;
  * Date-time: 19.04.16 23:03
  */
 public class MasterEvaluatorBuilder {
-	private Map<EvaluatorType, Double > weights = EvaluatorWeights.getStandardWeights();
+	private Map<EvaluatorType, Double > weights = new EvaluatorWeights().asMap();
 
 	public MasterEvaluatorBuilder weight( EvaluatorType evaluatorType, double weight ) {
 		weights.put( evaluatorType, weight );

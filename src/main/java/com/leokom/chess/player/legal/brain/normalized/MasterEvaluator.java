@@ -23,10 +23,11 @@ public class MasterEvaluator implements Evaluator {
 	//among 2 'equal' moves we would like to select according to some
 	//compare 1-to-another logic
 
-	private final Map<EvaluatorType, Double > evaluatorWeights;
+	private final EvaluatorWeights evaluatorWeights;
 
 	public MasterEvaluator() {
-		this( EvaluatorWeights.getStandardWeights() );
+		//standard weights
+		this( new EvaluatorWeights() );
 	}
 
 	/**
@@ -38,14 +39,12 @@ public class MasterEvaluator implements Evaluator {
 	Alternative to throwing the exception would be normalizing the weights on-fly. At the moment - not needed
 	 */
 	MasterEvaluator( Map<EvaluatorType, Double > weights ) {
-		verifyRange( weights );
-		this.evaluatorWeights = weights;
+		//custom weights
+		this( new EvaluatorWeights( weights ) );
 	}
 
-	private void verifyRange(Map<EvaluatorType, Double> weights) {
-		if ( weights.values().stream().anyMatch( weight -> weight < 0.0 || weight > 1.0 ) ) {
-			throw new IllegalArgumentException();
-		}
+	MasterEvaluator( EvaluatorWeights evaluatorWeights ) {
+		this.evaluatorWeights = evaluatorWeights;
 	}
 
 	@Override
@@ -55,7 +54,7 @@ public class MasterEvaluator implements Evaluator {
 			return new CheckmateEvaluator().evaluateMove( position, move );
 		}
 
-		double result = evaluatorWeights.entrySet().stream().mapToDouble(evaluatorEntry -> {
+		double result = evaluatorWeights.stream().mapToDouble(evaluatorEntry -> {
 			final Evaluator evaluator = new NormalizedEvaluatorFactory().get(evaluatorEntry.getKey());
 			final double weight = evaluatorEntry.getValue();
 			final double evaluatorResponse = evaluator.evaluateMove(position, move);

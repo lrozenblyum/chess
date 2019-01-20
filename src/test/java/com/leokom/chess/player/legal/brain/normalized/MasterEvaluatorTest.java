@@ -93,19 +93,4 @@ public class MasterEvaluatorTest {
 		Move checkmateMove = new Move( "d8", "h4" );
 		assertEquals( 1, evaluator.evaluateMove( position, checkmateMove ), 0 );
 	}
-
-	@Test( expected = IllegalArgumentException.class )
-	public void evaluatorWeightBigger1NotAccepted() {
-		Map<EvaluatorType, Double> weights = new HashMap<>();
-		weights.put( EvaluatorType.PROTECTION, 1.1 );
-		new MasterEvaluator( weights );
-	}
-
-
-	@Test( expected = IllegalArgumentException.class )
-	public void evaluatorWeightLess0NotAccepted() {
-		Map<EvaluatorType, Double> weights = new HashMap<>();
-		weights.put( EvaluatorType.PROTECTION, -0.1 );
-		new MasterEvaluator( weights );
-	}
 }
