@@ -2,7 +2,7 @@
 <Configuration>
     <Appenders>
         <File name="fileApp" fileName="LeokomChess.log" append="true">
-            <PatternLayout pattern="%d{ISO8601}} %5p %c{1}:%L - [[%X{moveBeingAnalyzed}]] %m%n"/>
+            <PatternLayout pattern="%d{ISO8601} %5p %c{1}:%L - [[%X{moveBeingAnalyzed}]] %m%n"/>
         </File>
     </Appenders>
     <Loggers>
