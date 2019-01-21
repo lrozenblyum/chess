@@ -61,9 +61,9 @@ The release consists of:
 
 ## Continuous Integration
 ### Travis CI
-Builds: https://travis-ci.org/lrozenblyum/chess/builds
+Builds: https://travis-ci.com/lrozenblyum/chess/builds
 
-[![Build Status](https://travis-ci.org/lrozenblyum/chess.svg?branch=master)](https://travis-ci.org/lrozenblyum/chess)
+[![Build Status](https://travis-ci.com/lrozenblyum/chess.svg?branch=master)](https://travis-ci.com/lrozenblyum/chess)
 
 ### SonarCloud
 Full overview: https://sonarcloud.io/dashboard?id=lrozenblyum-chess
