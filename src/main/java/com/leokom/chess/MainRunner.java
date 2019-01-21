@@ -54,6 +54,7 @@ public final class MainRunner {
 	 * </p>
 	 */
 	public static void main( String[] args ) {
+		//TODO: can we handle without GitHub service hook?
 		try {
 			logger.info( "Starting the chess..." );
 			runGame();
