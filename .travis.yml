@@ -14,7 +14,7 @@ script:
   # fixes SonarCloud warning:
   # 'Shallow clone detected during the analysis. Some files will miss SCM information.
   # This will affect features like auto-assignment of issues. Please configure your build to disable shallow clone.'
-  - git fetch --unshallow --quiet
+  - git fetch --unshallow
   # by default travis 'install' phase will execute
   # mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   # travis 'script' phase is by default: mvn test -B
