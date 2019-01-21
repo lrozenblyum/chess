@@ -69,8 +69,6 @@ public final class MainRunner {
 			//trying to keep at least some information in the log
 			logger.error( "A critical error occurred", criticalError );
 		}
-		//TODO: checking sonarcloud.io integration with travis-ci.com
-
 	}
 
 	private static void runGame() {
