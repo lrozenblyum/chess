@@ -97,6 +97,7 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 					moveRatings.put( move, brains.evaluateMove( position, move ) - 1 ); //falling back to 1'st level
 				}
 
+				LogManager.getLogger().info( "result = {}", moveRatings.get( move ) );
 				ThreadContext.clearAll();
 			} );
 		}
