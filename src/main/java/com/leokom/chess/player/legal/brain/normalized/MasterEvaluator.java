@@ -4,7 +4,6 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
-import com.leokom.chess.player.legal.brain.denormalized.CheckmateEvaluator;
 import com.leokom.chess.player.legal.brain.internal.common.EvaluatorWeights;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

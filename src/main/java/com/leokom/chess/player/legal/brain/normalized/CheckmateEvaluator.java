@@ -1,4 +1,4 @@
-package com.leokom.chess.player.legal.brain.denormalized;
+package com.leokom.chess.player.legal.brain.normalized;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
@@ -10,7 +10,6 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
  *
  * Checkmate is the highest goal of the whole game
  */
-//TODO: move to normalized package
 public class CheckmateEvaluator implements Evaluator {
 
 	private static final int BEST_MOVE = 1;
