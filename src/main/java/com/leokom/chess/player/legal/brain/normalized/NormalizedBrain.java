@@ -25,6 +25,10 @@ import java.util.stream.Stream;
  * Date-time: 23.08.16 22:54
  */
 public class NormalizedBrain < StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition> implements GenericBrain< StateType, TransitionType > {
+	//this constant will increase with chess evolution
+	private static final int MAXIMAL_SUPPORTED_DEPTH = 2;
+	//this is an absolute constant
+	private static final int MINIMAL_POSSIBLE_DEPTH = 1;
 	private final GenericEvaluator< StateType, TransitionType > brains;
 	private final int pliesDepth;
 
@@ -42,6 +46,14 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 	 * @param pliesDepth depth to think
 	 */
 	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
+		if ( pliesDepth < MINIMAL_POSSIBLE_DEPTH) {
+			throw new IllegalArgumentException( String.format( "This depth is wrong: %s", pliesDepth ) );
+		}
+
+		if ( pliesDepth > MAXIMAL_SUPPORTED_DEPTH) {
+			throw new IllegalArgumentException( String.format( "This depth is not supported yet: %s", pliesDepth ) );
+		}
+
 		this.brains = brains;
 		this.pliesDepth = pliesDepth;
 	}

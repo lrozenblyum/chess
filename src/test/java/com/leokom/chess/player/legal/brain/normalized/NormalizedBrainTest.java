@@ -125,4 +125,14 @@ public class NormalizedBrainTest {
         assertEquals( 1, bestMove.size() );
         assertEquals( 100, bestMove.get(0).getId() );
     }
+
+    @Test( expected = IllegalArgumentException.class)
+    public void depthMore2NotSupported() {
+        new NormalizedBrain<GameStateImpl, GameTransitionImpl>( (state, transition) -> transition.getId(), 3 );
+    }
+
+    @Test( expected = IllegalArgumentException.class)
+    public void depthLess1NotSupported() {
+        new NormalizedBrain<GameStateImpl, GameTransitionImpl>( (state, transition) -> transition.getId(), 0 );
+    }
 }
