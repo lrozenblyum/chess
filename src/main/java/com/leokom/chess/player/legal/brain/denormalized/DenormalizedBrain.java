@@ -22,7 +22,16 @@ public class DenormalizedBrain implements Brain {
 	private static final Logger LOG = LogManager.getLogger();
 	private static final double DEFAULT_FOR_EQUAL_NOT_IN_RANGE = 0.5;
 
-	private EvaluatorFactory evaluatorFactory = new DenormalizedEvaluatorFactory();
+	private final EvaluatorFactory evaluatorFactory = new DenormalizedEvaluatorFactory();
+	private final EvaluatorWeights evaluatorWeights;
+
+	public DenormalizedBrain() {
+		this( new EvaluatorWeights() );
+	}
+
+	DenormalizedBrain( EvaluatorWeights evaluatorWeights ) {
+		this.evaluatorWeights = evaluatorWeights;
+	}
 
 	@Override
 	public List< Move > findBestMove( Position position ) {
@@ -57,7 +66,7 @@ public class DenormalizedBrain implements Brain {
 	}
 
 	private Table<EvaluatorType, Move, Double> generateWithWeights( Table<EvaluatorType, Move, Double> normalizedTable ) {
-		final Map<EvaluatorType, Double> standardWeights = new EvaluatorWeights().asMap();
+		final Map<EvaluatorType, Double> standardWeights = evaluatorWeights.asMap();
 
 		Table< EvaluatorType, Move, Double > result = HashBasedTable.create();
 
