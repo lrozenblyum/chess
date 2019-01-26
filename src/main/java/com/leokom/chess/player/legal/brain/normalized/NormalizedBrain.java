@@ -32,6 +32,10 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 	private final GenericEvaluator< StateType, TransitionType > brains;
 	private final int pliesDepth;
 
+	/**
+	 * Create normalized brain
+	 * @param brains evaluator with results in [ 0, 1 ] range
+	 */
 	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains ) {
 		this( brains, 1 );
 	}
@@ -42,7 +46,7 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 	 * It can still be kept.
 	 * The alternative could be: stable evaluator that returns positive/negative result depending on color of the side to move
 	 *
-	 * @param brains evauator
+	 * @param brains evaluator with results in [ 0, 1 ] range
 	 * @param pliesDepth depth to think
 	 */
 	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
@@ -86,7 +90,13 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 
 			//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
 			getMovesWithoutDrawOffer(position).forEach(move ->
-					moveRatings.put(move, brains.evaluateMove(position, move))
+					{
+						double value = brains.evaluateMove(position, move);
+						if ( value < 0.0 || value > 1.0 ) {
+							throw new IllegalArgumentException( String.format( "The value is outside of supported range: %s", value ) );
+						}
+						moveRatings.put(move, value);
+					}
 			);
 		}
 		else { //just 2 is supported now

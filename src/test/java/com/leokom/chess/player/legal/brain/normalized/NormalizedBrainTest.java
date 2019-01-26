@@ -2,6 +2,7 @@ package com.leokom.chess.player.legal.brain.normalized;
 
 import com.leokom.chess.engine.GameStateImpl;
 import com.leokom.chess.engine.GameTransitionImpl;
+import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
 import org.junit.Test;
 
 import java.util.List;
@@ -33,9 +34,7 @@ public class NormalizedBrainTest {
         GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(12), new GameStateImpl(),
                 new GameTransitionImpl( 20 ), new GameStateImpl() );
 
-        List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
-            (state, transition) -> transition.getId() // just a simple evaluation - let's say bigger id is better
-        ).findBestMove(gameState);
+        List<GameTransitionImpl> result = new NormalizedBrain<>(getSimpleIdEvaluator()).findBestMove(gameState);
         assertEquals( 1, result.size() );
         assertEquals( 20, result.get(0).getId() );
     }
@@ -47,9 +46,7 @@ public class NormalizedBrainTest {
                 new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ),
                 new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ) ); // bigger means better for the opponent
 
-        List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
-                (state, transition) -> transition.getId() // just a simple evaluation - let's say bigger id is better
-        ).findBestMove(gameState);
+        List<GameTransitionImpl> result = new NormalizedBrain<>( getSimpleIdEvaluator()).findBestMove(gameState);
         assertEquals( 1, result.size() );
         assertEquals( 20, result.get(0).getId() );
     }
@@ -61,12 +58,14 @@ public class NormalizedBrainTest {
                 new GameTransitionImpl(12), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl() ),
                 new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 100 ), new GameStateImpl() ) );
 
-        List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
-            (state, transition) -> transition.getId(), // just a simple evaluation - let's say bigger id is better
-            2
-        ).findBestMove(gameState);
+        List<GameTransitionImpl> result = new NormalizedBrain<>( getSimpleIdEvaluator(),2).findBestMove(gameState);
         assertEquals( 1, result.size() );
         assertEquals( 12, result.get(0).getId() );
+    }
+
+    // just a simple evaluation - let's say bigger id is better
+    private GenericEvaluator<GameStateImpl, GameTransitionImpl> getSimpleIdEvaluator() {
+        return (state, transition) -> transition.getId() / 100.0;
     }
 
     @Test
@@ -77,10 +76,7 @@ public class NormalizedBrainTest {
                 //here he can execute a cool and a bad move. Thinking about him in positive way - that he'll select the best one
                 new GameTransitionImpl( 20 ), new GameStateImpl( new GameTransitionImpl( 0 ), new GameStateImpl(), new GameTransitionImpl( 100 ), new GameStateImpl() ) );
 
-        List<GameTransitionImpl> result = new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
-                (state, transition) -> transition.getId(), // just a simple evaluation - let's say bigger id is better
-                2
-        ).findBestMove(gameState);
+        List<GameTransitionImpl> result = new NormalizedBrain<>( getSimpleIdEvaluator(),2 ).findBestMove(gameState);
         assertEquals( 1, result.size() );
         assertEquals( 12, result.get(0).getId() );
     }
@@ -134,5 +130,13 @@ public class NormalizedBrainTest {
     @Test( expected = IllegalArgumentException.class)
     public void depthLess1NotSupported() {
         new NormalizedBrain<GameStateImpl, GameTransitionImpl>( (state, transition) -> transition.getId(), 0 );
+    }
+
+    //if evaluator is not providing correct range for the move, we should throw an exception
+    //TODO: it's semantically questionable, the evaluator was passed in constructor and we'll throw this from the method
+    @Test( expected = IllegalArgumentException.class)
+    public void evaluatorWithWrongResultMustBeDetected() {
+        new NormalizedBrain<GameStateImpl, GameTransitionImpl>( ( state, transition ) -> 1.1 )
+                .findBestMove( new GameStateImpl( new GameTransitionImpl(1), new GameStateImpl() ) );
     }
 }
