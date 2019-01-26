@@ -86,10 +86,7 @@ public class NormalizedBrainTest {
         GameStateImpl gameState = new GameStateImpl( new GameTransitionImpl(25 ), new GameStateImpl()  //terminal
         );
 
-        new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
-                (state, transition) -> transition.getId(),
-                2
-        ).findBestMove(gameState);
+        new NormalizedBrain<>( getSimpleIdEvaluator(),2).findBestMove(gameState);
     }
 
     @Test
@@ -113,10 +110,7 @@ public class NormalizedBrainTest {
             new GameTransitionImpl(50 ), new GameStateImpl()
         );
 
-        List<GameTransitionImpl> bestMove = new NormalizedBrain<GameStateImpl, GameTransitionImpl>(
-                (state, transition) -> transition.getId(),
-                2
-        ).findBestMove(gameState);
+        List<GameTransitionImpl> bestMove = new NormalizedBrain<>( getSimpleIdEvaluator(),2 ).findBestMove(gameState);
 
         assertEquals( 1, bestMove.size() );
         assertEquals( 100, bestMove.get(0).getId() );

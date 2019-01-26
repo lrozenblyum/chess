@@ -58,7 +58,7 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 			throw new IllegalArgumentException( String.format( "This depth is not supported yet: %s", pliesDepth ) );
 		}
 
-		this.brains = brains;
+		this.brains = new ValidatingNormalizedEvaluator<>( brains );
 		this.pliesDepth = pliesDepth;
 	}
 
@@ -89,14 +89,8 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 			//this looks safe since Offer draw cannot be a single legal move in a position.
 
 			//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
-			getMovesWithoutDrawOffer(position).forEach(move ->
-					{
-						double value = brains.evaluateMove(position, move);
-						if ( value < 0.0 || value > 1.0 ) {
-							throw new IllegalArgumentException( String.format( "The value is outside of supported range: %s", value ) );
-						}
-						moveRatings.put(move, value);
-					}
+			getMovesWithoutDrawOffer(position).forEach( move ->
+				moveRatings.put(move, brains.evaluateMove( position, move ) )
 			);
 		}
 		else { //just 2 is supported now
