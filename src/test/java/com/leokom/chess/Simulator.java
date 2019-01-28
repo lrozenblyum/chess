@@ -1,6 +1,7 @@
 package com.leokom.chess;
 
 import com.leokom.chess.player.Player;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ class Simulator {
 	 * @return statistics about game results
 	 */
 	SimulatorStatistics run() {
+		LogManager.getLogger().info("Starting simulation for {} and {}", first.name(), second.name());
 		List< Player > winners = new ArrayList<>();
 		IntStream.rangeClosed( 1, timesToRun ).forEach( iteration -> {
 			winners.add( createGame( first, second ).run() );
@@ -52,7 +54,9 @@ class Simulator {
 		final long firstWins = countWinsOf( winners, first );
 		final long secondWins = countWinsOf( winners, second );
 		final long totalGames = timesToRun * GAMES_IN_SINGLE_ITERATION;
-		return new SimulatorStatistics( totalGames, firstWins, secondWins );
+		SimulatorStatistics simulatorStatistics = new SimulatorStatistics(totalGames, firstWins, secondWins);
+		LogManager.getLogger().info("The simulation has been finished. Stats: {}", simulatorStatistics);
+		return simulatorStatistics;
 	}
 
 	private static long countWinsOf( List< Player > winners, Player player ) {
