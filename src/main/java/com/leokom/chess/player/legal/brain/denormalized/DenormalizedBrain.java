@@ -54,9 +54,13 @@ public class DenormalizedBrain implements Brain {
 	}
 
 	private Evaluator getEvaluator(Table<EvaluatorType, Move, Double> weightedTable) {
+		//the division by evaluators count is done to ensure that the result will be in [ 0, 1 ] measures which is needed for correct input to NormalizedBrain
+		//this division is very similar to that one done in MasterEvaluator
+		//for example if we had 2 evaluators with result eval1: 1, eval2: 0.5 plain sum would be 1.5 but the normalized one is 0.75
 		return ( position, move ) ->
             //summing without converting to DoubleStream http://stackoverflow.com/q/24421140
-            weightedTable.column( move ).values().stream().reduce( 0.0, Double::sum );
+            weightedTable.column( move ).values().stream().reduce( 0.0, Double::sum ) /
+			evaluatorWeights.size();
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
