@@ -16,7 +16,7 @@ public class LegalPlayerNameTest {
 
     @Test
     public void normalizedBrain() {
-        assertEquals( "LegalPlayer : NormalizedBrain", new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator()) ).name() );
+        assertEquals( "LegalPlayer : NormalizedBrain: 1 depth", new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator()) ).name() );
     }
 
     @Test

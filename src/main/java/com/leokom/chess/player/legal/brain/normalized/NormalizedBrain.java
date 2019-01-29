@@ -121,6 +121,11 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 		return getMoveWithMaxRating(moveRatings);
 	}
 
+	@Override
+	public String name() {
+		return String.format( "NormalizedBrain: %s depth", pliesDepth );
+	}
+
 	private Stream<TransitionType> getMovesWithoutDrawOffer(StateType position) {
 		return position.getMoves().stream().filter(move -> move != Move.OFFER_DRAW);
 	}

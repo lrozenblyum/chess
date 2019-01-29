@@ -3,12 +3,12 @@ package com.leokom.chess.player.legal.brain.normalized;
 import com.leokom.chess.engine.GameStateImpl;
 import com.leokom.chess.engine.GameTransitionImpl;
 import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class NormalizedBrainTest {
     @Test
@@ -132,5 +132,17 @@ public class NormalizedBrainTest {
     public void evaluatorWithWrongResultMustBeDetected() {
         new NormalizedBrain<GameStateImpl, GameTransitionImpl>( ( state, transition ) -> 1.1 )
                 .findBestMove( new GameStateImpl( new GameTransitionImpl(1), new GameStateImpl() ) );
+    }
+
+    @Test
+    public void brainNameRespectsDepthOne() {
+        assertThat( new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
+                ( state, transition ) -> 0.0, 1 ).name(), CoreMatchers.containsString( "1" ));
+    }
+
+    @Test
+    public void brainNameRespectsDepthTwo() {
+        assertThat( new NormalizedBrain< GameStateImpl, GameTransitionImpl >(
+                ( state, transition ) -> 0.5, 2 ).name(), CoreMatchers.containsString( "2" ));
     }
 }
