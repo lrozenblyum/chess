@@ -38,6 +38,10 @@ public class PositionBuilder {
 		return this;
 	}
 
+	public Side getSideToMove() {
+		return position.getSideToMove();
+	}
+
 	public Position build() {
 		return position;
 	}

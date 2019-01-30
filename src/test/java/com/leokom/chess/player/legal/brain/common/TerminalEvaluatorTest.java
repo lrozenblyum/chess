@@ -66,6 +66,17 @@ public class TerminalEvaluatorTest extends EvaluatorTestCase {
 		asserts.assertFirstBetter( builder, checkmateMove, claimDrawMove );
 	}
 
+	@Test
+	public void drawClaimIsBetterThanResign() {
+		PositionBuilder builder = new PositionBuilder()
+				.add( Side.WHITE, "c1", PieceType.ROOK )
+				.add( Side.WHITE, "b7", PieceType.ROOK )
+				.add( Side.BLACK, "h8", PieceType.KING );
+
+
+		asserts.assertFirstBetter( builder, Move.CLAIM_DRAW, Move.RESIGN );
+	}
+
 	@Override
 	EvaluatorType getEvaluatorType() {
 		return EvaluatorType.TERMINAL;
