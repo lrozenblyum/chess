@@ -7,7 +7,7 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 01.03.15 22:31
  */
-public class CheckmateEvaluatorTest extends EvaluatorTestCase {
+public class TerminalEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void checkmateBetterThanNot() {
 		PositionBuilder builder = new PositionBuilder()
@@ -68,6 +68,6 @@ public class CheckmateEvaluatorTest extends EvaluatorTestCase {
 
 	@Override
 	EvaluatorType getEvaluatorType() {
-		return EvaluatorType.CHECKMATE;
+		return EvaluatorType.TERMINAL;
 	}
 }

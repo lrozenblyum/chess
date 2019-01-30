@@ -8,9 +8,10 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
  * Author: Leonid
  * Date-time: 01.03.15 22:32
  *
- * Checkmate is the highest goal of the whole game
+ * Evaluate final game state.
+ * Checkmate is the highest goal of the whole game and will mean win.
  */
-public class CheckmateEvaluator implements Evaluator {
+public class TerminalEvaluator implements Evaluator {
 
 	private static final int BEST_MOVE = 1;
 	private static final int WORST_MOVE = 0;

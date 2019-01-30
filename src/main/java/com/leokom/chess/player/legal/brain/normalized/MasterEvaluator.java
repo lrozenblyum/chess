@@ -49,8 +49,8 @@ public class MasterEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		if ( position.move( move ).isTerminal() ) {
-			//TODO: remove CheckmateEvaluator from further algorithm then
-			double result = new CheckmateEvaluator().evaluateMove(position, move);
+			//TODO: remove TerminalEvaluator from further algorithm then
+			double result = new TerminalEvaluator().evaluateMove(position, move);
 			LOG.info( "{} ===> {}", move, result );
 			return result;
 		}

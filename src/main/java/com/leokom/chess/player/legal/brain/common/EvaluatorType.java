@@ -8,7 +8,7 @@ package com.leokom.chess.player.legal.brain.common;
  * Date-time: 19.04.16 22:46
  */
 public enum EvaluatorType {
-	CHECKMATE,
+    TERMINAL,
 	CASTLING_SAFETY,
 	CENTER_CONTROL,
 	MATERIAL,

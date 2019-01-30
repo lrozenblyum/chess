@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
-import com.leokom.chess.player.legal.brain.normalized.CheckmateEvaluator;
+import com.leokom.chess.player.legal.brain.normalized.TerminalEvaluator;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class DenormalizedEvaluatorFactory implements EvaluatorFactory {
 		evaluatorsMutable.put( EvaluatorType.ATTACK, new AttackEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.CASTLING_SAFETY, new CastlingSafetyEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.CENTER_CONTROL, new CenterControlEvaluator() );
-		evaluatorsMutable.put( EvaluatorType.CHECKMATE, new CheckmateEvaluator() );
+		evaluatorsMutable.put( EvaluatorType.TERMINAL, new TerminalEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.MATERIAL, new MaterialEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.MOBILITY, new MobilityEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.PROTECTION, new ProtectionEvaluator() );

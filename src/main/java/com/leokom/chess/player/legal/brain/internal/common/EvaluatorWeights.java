@@ -44,7 +44,7 @@ public final class EvaluatorWeights {
 	private static Map<EvaluatorType, Double > getStandardWeights() {
 		//TODO: refactor to constant immutable map
 		Map<EvaluatorType, Double > result = new HashMap<>();
-		result.put( CHECKMATE, HIGHEST_PRIORITY );
+		result.put( TERMINAL, HIGHEST_PRIORITY );
 		result.put( CASTLING_SAFETY, NORMAL_PRIORITY );
 		result.put( CENTER_CONTROL, NORMAL_PRIORITY );
 		result.put( MOBILITY, NORMAL_PRIORITY );
