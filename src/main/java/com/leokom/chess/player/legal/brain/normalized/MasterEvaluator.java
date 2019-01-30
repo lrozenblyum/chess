@@ -23,8 +23,9 @@ public class MasterEvaluator implements Evaluator {
 	//compare 1-to-another logic
 
 	private final EvaluatorWeights evaluatorWeights;
+    private final NormalizedEvaluatorFactory evaluatorFactory;
 
-	public MasterEvaluator() {
+    public MasterEvaluator() {
 		//standard weights
 		this( new EvaluatorWeights() );
 	}
@@ -44,19 +45,20 @@ public class MasterEvaluator implements Evaluator {
 
 	private MasterEvaluator( EvaluatorWeights evaluatorWeights ) {
 		this.evaluatorWeights = evaluatorWeights;
+		this.evaluatorFactory = new NormalizedEvaluatorFactory();
 	}
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		if ( position.move( move ).isTerminal() ) {
 			//TODO: remove TerminalEvaluator from further algorithm then
-			double result = new TerminalEvaluator().evaluateMove(position, move);
+			double result = evaluatorFactory.get( EvaluatorType.TERMINAL ).evaluateMove(position, move);
 			LOG.info( "{} ===> {}", move, result );
 			return result;
 		}
 
 		double result = evaluatorWeights.stream().mapToDouble(evaluatorEntry -> {
-			final Evaluator evaluator = new NormalizedEvaluatorFactory().get(evaluatorEntry.getKey());
+			final Evaluator evaluator = evaluatorFactory.get(evaluatorEntry.getKey());
 			final double weight = evaluatorEntry.getValue();
 			final double evaluatorResponse = evaluator.evaluateMove(position, move);
 			final double moveEstimate = weight * evaluatorResponse;
