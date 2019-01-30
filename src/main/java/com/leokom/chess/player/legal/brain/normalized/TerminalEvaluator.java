@@ -13,8 +13,9 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
  */
 public class TerminalEvaluator implements Evaluator {
 
-	private static final int BEST_MOVE = 1;
-	private static final int WORST_MOVE = 0;
+	private static final double BEST_MOVE = 1;
+	private static final double AVERAGE_MOVE = 0.5;
+	private static final double WORST_MOVE = 0;
 
 	/**
 	 *
@@ -23,11 +24,18 @@ public class TerminalEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		//TODO: what about accepted draw and other terminal conditions?
 		final Position result = position.move( move );
-		return result.isTerminal() &&
-				result.getWinningSide() != null && //this excludes draws
-				position.getSide( move.getFrom() ) == result.getWinningSide() ?
-				BEST_MOVE : WORST_MOVE;
+
+		if ( !result.isTerminal() ) {
+			//TODO: maybe throw an exception if we allow calling just in terminal cases
+			return WORST_MOVE;
+		}
+
+		//assuming it's draw
+		if ( result.getWinningSide() == null ) {
+			return AVERAGE_MOVE;
+		}
+
+		return position.getSide( move.getFrom() ) == result.getWinningSide() ? BEST_MOVE : WORST_MOVE;
 	}
 }
