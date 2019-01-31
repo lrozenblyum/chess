@@ -18,8 +18,8 @@ import java.util.stream.Stream;
  * Initial decision maker.
  *
  * Historically it was based on MasterEvaluator.
- * Now it has become generic (actually even not depending on chess-related notions)/
- * You can inject any custom brains via constructor.
+ * Now it has become generic (actually even not depending on chess-related notions).
+ * You can inject any custom evaluator that acts as a normalized one via constructor.
  *
  * Author: Leonid
  * Date-time: 23.08.16 22:54
@@ -108,8 +108,8 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 				} else {
 					LogManager.getLogger().info( "Evaluating just the current level" );
 					//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
-					// highly depends on MasterEvaluator [ 0, 1 ]!
 					//where all the second level moves exist
+					// highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
 					moveRatings.put( move, brains.evaluateMove( position, move ) - 1 ); //falling back to 1'st level
 				}
 
