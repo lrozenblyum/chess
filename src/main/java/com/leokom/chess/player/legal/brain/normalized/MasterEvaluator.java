@@ -51,13 +51,16 @@ public class MasterEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		if ( position.move( move ).isTerminal() ) {
-			//TODO: remove TerminalEvaluator from further algorithm then
 			double result = evaluatorFactory.get( EvaluatorType.TERMINAL ).evaluateMove(position, move);
 			LOG.info( "{} ===> {}", move, result );
 			return result;
 		}
 
-		double result = evaluatorWeights.stream().mapToDouble(evaluatorEntry -> {
+		// Terminal evaluator excluded because it's used above.
+		// NOTE: it's still in evaluatorWeights until DenormalizedBrain uses it
+		double result = evaluatorWeights.stream().filter( evaluatorEntry ->
+			evaluatorEntry.getKey() != EvaluatorType.TERMINAL
+		).mapToDouble(evaluatorEntry -> {
 			final Evaluator evaluator = evaluatorFactory.get(evaluatorEntry.getKey());
 			final double weight = evaluatorEntry.getValue();
 			final double evaluatorResponse = evaluator.evaluateMove(position, move);
