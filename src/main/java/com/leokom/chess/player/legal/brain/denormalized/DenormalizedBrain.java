@@ -22,15 +22,16 @@ public class DenormalizedBrain implements Brain {
 	private static final Logger LOG = LogManager.getLogger();
 	private static final double DEFAULT_FOR_EQUAL_NOT_IN_RANGE = 0.5;
 
-	private final EvaluatorFactory evaluatorFactory = new DenormalizedEvaluatorFactory();
+	private final EvaluatorFactory evaluatorFactory;
 	private final EvaluatorWeights evaluatorWeights;
 
 	public DenormalizedBrain() {
-		this( new EvaluatorWeights() );
+		this( new EvaluatorWeights(), new DenormalizedEvaluatorFactory() );
 	}
 
-	DenormalizedBrain( EvaluatorWeights evaluatorWeights ) {
+	private DenormalizedBrain( EvaluatorWeights evaluatorWeights, EvaluatorFactory evaluatorFactory ) {
 		this.evaluatorWeights = evaluatorWeights;
+		this.evaluatorFactory = evaluatorFactory;
 	}
 
 	@Override
