@@ -35,6 +35,8 @@ public final class EvaluatorWeights {
 		this.weights = Collections.unmodifiableMap( new HashMap<>( weights ) );
 	}
 
+	//alternative would be: normalize during processing
+	//decided not to do that for simplicity
 	private void verifyRange(Map<EvaluatorType, Double> weights) {
 		if ( weights.values().stream().anyMatch( weight -> weight < 0.0 || weight > 1.0 ) ) {
 			throw new IllegalArgumentException( String.format( "Illegal weight outside of allowed range detected. Map: %s", weights ) );
