@@ -21,22 +21,25 @@ import java.util.stream.Stream;
  * Now it has become generic (actually even not depending on chess-related notions).
  * You can inject any custom evaluator that acts as a normalized one via constructor.
  *
+ * @param <S> game state
+ * @param <T> transition type
+ *
  * Author: Leonid
  * Date-time: 23.08.16 22:54
  */
-public class NormalizedBrain < StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition> implements GenericBrain< StateType, TransitionType > {
+public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransition> implements GenericBrain<S, T> {
 	//this constant will increase with chess evolution
 	private static final int MAXIMAL_SUPPORTED_DEPTH = 2;
 	//this is an absolute constant
 	private static final int MINIMAL_POSSIBLE_DEPTH = 1;
-	private final GenericEvaluator< StateType, TransitionType > brains;
+	private final GenericEvaluator<S, T> brains;
 	private final int pliesDepth;
 
 	/**
 	 * Create normalized brain
 	 * @param brains evaluator with results in [ 0, 1 ] range
 	 */
-	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains ) {
+	public NormalizedBrain( GenericEvaluator<S, T> brains ) {
 		this( brains, 1 );
 	}
 
@@ -49,7 +52,7 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 	 * @param brains evaluator with results in [ 0, 1 ] range
 	 * @param pliesDepth depth to think
 	 */
-	public NormalizedBrain( GenericEvaluator< StateType, TransitionType > brains, int pliesDepth ) {
+	public NormalizedBrain(GenericEvaluator<S, T> brains, int pliesDepth ) {
 		if ( pliesDepth < MINIMAL_POSSIBLE_DEPTH) {
 			throw new IllegalArgumentException( String.format( "This depth is wrong: %s", pliesDepth ) );
 		}
@@ -81,8 +84,8 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 	 *
 	 */
 	@Override
-	public List<TransitionType> findBestMove(StateType position ) {
-		Map<TransitionType, Double> moveRatings = new HashMap<>();
+	public List<T> findBestMove(S position ) {
+		Map<T, Double> moveRatings = new HashMap<>();
 
 		if ( pliesDepth == 1 ) {
 			//filtering Draw offers till #161 is solved
@@ -97,8 +100,8 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 			getMovesWithoutDrawOffer( position ).forEach( move -> {
 				ThreadContext.put( "moveBeingAnalyzed", move.toString() );
 
-				StateType target = position.move( move );
-				List<TransitionType> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
+				S target = position.move( move );
+				List<T> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
 
 				//can be empty in case of terminal position
 				if ( ! bestMove.isEmpty() ) {
@@ -126,11 +129,11 @@ public class NormalizedBrain < StateType extends GameState< TransitionType, Stat
 		return String.format( "NormalizedBrain: %s depth", pliesDepth );
 	}
 
-	private Stream<TransitionType> getMovesWithoutDrawOffer(StateType position) {
+	private Stream<T> getMovesWithoutDrawOffer(S position) {
 		return position.getMoves().stream().filter(move -> move != Move.OFFER_DRAW);
 	}
 
-	private List<TransitionType> getMoveWithMaxRating( Map< TransitionType, Double > moveValues ) {
+	private List<T> getMoveWithMaxRating(Map<T, Double > moveValues ) {
 		return moveValues.entrySet().stream()
 				.max(Map.Entry.comparingByValue())
 				.map(Map.Entry::getKey)

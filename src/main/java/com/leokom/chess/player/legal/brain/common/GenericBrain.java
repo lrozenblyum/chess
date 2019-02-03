@@ -13,10 +13,13 @@ import java.util.List;
  * A valid implementation of the decision maker must be
  * stateless.
  *
+ * @param <S> game state
+ * @param <T> transition type
+ *
  * Author: Leonid
  * Date-time: 23.08.16 22:53
  */
-public interface GenericBrain< StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition> {
+public interface GenericBrain< S extends GameState<T, S>, T extends GameTransition> {
 
 	/**
 	 * Finds the best move(s) in the current position.
@@ -26,7 +29,7 @@ public interface GenericBrain< StateType extends GameState< TransitionType, Stat
 	 * @return best move according to current strategy, absence of moves means:
 	 * no moves are legal - we reached a terminal position
 	 */
-	List< TransitionType > findBestMove( StateType position );
+	List<T> findBestMove( S position );
 
 	/**
 	 * Get the best move to execute when it's not our
@@ -40,7 +43,7 @@ public interface GenericBrain< StateType extends GameState< TransitionType, Stat
 	to allow evolving interface while not forcing existing
 	implementations to increase complexity
 	 */
-	default TransitionType findBestMoveForOpponent( StateType position ) {
+	default T findBestMoveForOpponent(S position ) {
 		return null;
 	}
 

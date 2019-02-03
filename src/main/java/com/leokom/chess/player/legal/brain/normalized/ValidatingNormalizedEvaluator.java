@@ -6,18 +6,18 @@ import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
 
 /**
  * Evaluator delegate that ensures [ 0, 1 ] constraint for the move
- * @param <StateType>
- * @param <TransitionType>
+ * @param <S> game state
+ * @param <T> transition type
  */
-class ValidatingNormalizedEvaluator < StateType extends GameState< TransitionType, StateType >, TransitionType extends GameTransition>  implements GenericEvaluator< StateType, TransitionType > {
-    private final GenericEvaluator<StateType, TransitionType> delegate;
+class ValidatingNormalizedEvaluator < S extends GameState<T, S>, T extends GameTransition>  implements GenericEvaluator<S, T> {
+    private final GenericEvaluator<S, T> delegate;
 
-    ValidatingNormalizedEvaluator(GenericEvaluator<StateType, TransitionType> delegate ) {
+    ValidatingNormalizedEvaluator(GenericEvaluator<S, T> delegate ) {
         this.delegate = delegate;
     }
 
     @Override
-    public double evaluateMove(StateType position, TransitionType move) {
+    public double evaluateMove(S position, T move) {
         double result = delegate.evaluateMove(position, move);
         if ( result < 0.0 || result > 1.0 ) {
             throw new IllegalArgumentException( String.format( "The value is outside of supported range: %s", result ) );
