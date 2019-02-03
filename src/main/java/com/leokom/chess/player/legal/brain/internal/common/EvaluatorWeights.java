@@ -16,6 +16,7 @@ import static com.leokom.chess.player.legal.brain.common.EvaluatorType.*;
  */
 public final class EvaluatorWeights {
 	private static final double HIGHEST_PRIORITY = 1.0;
+	//historically it was a minimal multiplier that causes GOOD results for DenormalizedBrain, it may be irrelevant now
 	private static final double INCREASED_PRIORITY = 0.03;
 	private static final double NORMAL_PRIORITY = 0.01;
 	private static final double LOWEST_POSSIBLE = 0.0;
@@ -50,7 +51,6 @@ public final class EvaluatorWeights {
 		result.put( CASTLING_SAFETY, NORMAL_PRIORITY );
 		result.put( CENTER_CONTROL, NORMAL_PRIORITY );
 		result.put( MOBILITY, NORMAL_PRIORITY );
-		//empirically found minimal multiplier that causes GOOD results for DenormalizedBrain
 		result.put( MATERIAL, INCREASED_PRIORITY );
 		result.put( PROTECTION, NORMAL_PRIORITY );
 		result.put( ATTACK, NORMAL_PRIORITY );
