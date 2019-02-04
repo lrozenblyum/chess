@@ -85,6 +85,6 @@ final class PlayerFactory {
 
 	private static Supplier< Player > getDefaultPlayer( Side side ) {
 		logger.info( "Selecting default engine for Side = " + side );
-		return side == Side.WHITE ?	new WinboardPlayerSupplier() : new LegalPlayerSupplier( 1 );
+		return side == Side.WHITE ?	new WinboardPlayerSupplier() : new LegalPlayerSupplier();
 	}
 }
