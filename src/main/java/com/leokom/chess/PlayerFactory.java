@@ -3,6 +3,9 @@ package com.leokom.chess;
 import com.google.common.collect.ImmutableMap;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
+import com.leokom.chess.player.legal.LegalPlayerSupplier;
+import com.leokom.chess.player.legal.brain.simple.SimplePlayerSupplier;
+import com.leokom.chess.player.winboard.WinboardPlayerSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,7 +1,6 @@
 package com.leokom.chess.player.legal.brain.simple;
 
 import com.leokom.chess.Game;
-import com.leokom.chess.SimplePlayerSupplier;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;

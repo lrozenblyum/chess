@@ -5,12 +5,14 @@ import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
+import com.leokom.chess.player.legal.LegalPlayerSupplier;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
+import com.leokom.chess.player.legal.brain.simple.SimplePlayerSupplier;
 import org.junit.Ignore;
 import org.junit.Test;
 

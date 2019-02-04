@@ -1,4 +1,4 @@
-package com.leokom.chess;
+package com.leokom.chess.player.legal;
 
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
@@ -7,7 +7,7 @@ import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 
 import java.util.function.Supplier;
 
-class LegalPlayerSupplier implements Supplier<Player> {
+public class LegalPlayerSupplier implements Supplier<Player> {
     //this depth has been used for years
     private static final int DEFAULT_DEPTH = 1;
     private final int depth;
