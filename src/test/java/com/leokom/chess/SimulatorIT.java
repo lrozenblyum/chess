@@ -160,7 +160,7 @@ public class SimulatorIT {
 	//non-deterministic, it's not a business-requirement
 	@Test
 	public void legalVsLegalCustomEvaluator() {
-		final Evaluator brainLikesToEatPieces = new MasterEvaluatorBuilder().weight( EvaluatorType.MATERIAL, 100.0 ).build();
+		final Evaluator brainLikesToEatPieces = new MasterEvaluatorBuilder().weight( EvaluatorType.MATERIAL, 1.0 ).build();
 
 		final SimulatorStatistics statistics =
 			new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToEatPieces ) ).run();
