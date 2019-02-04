@@ -138,9 +138,16 @@ public class PlayerFactoryTest {
 		assertDepth( player, 2 );
 	}
 
+	@Test
+	public void defaultDepthIs1() {
+		System.setProperty( "black", "Legal" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 1 );
+	}
+
 	/*
 	More cases:
-	- default value
 	- Refactor: automate system properties manipulation
 	 */
 

@@ -61,7 +61,11 @@ final class PlayerFactory {
 
 		switch ( engineName ) {
 			case "Legal":
-				return new LegalPlayerSupplier( Integer.valueOf( System.getProperty(getDepthProperty( side )) ) );
+				String depthProperty = System.getProperty( getDepthProperty( side ) );
+				return depthProperty != null ?
+						new LegalPlayerSupplier( Integer.valueOf( depthProperty ) ) :
+						new LegalPlayerSupplier();
+
 			case "Simple":
 				return new SimplePlayerSupplier();
 			case "Winboard":
