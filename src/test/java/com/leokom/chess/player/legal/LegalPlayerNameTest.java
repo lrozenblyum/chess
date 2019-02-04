@@ -1,11 +1,11 @@
 package com.leokom.chess.player.legal;
 
+import com.leokom.chess.SimplePlayerSupplier;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import org.junit.Test;
 
-import static com.leokom.chess.PlayerFactory.PlayerSelection.SIMPLE;
 import static org.junit.Assert.assertEquals;
 
 public class LegalPlayerNameTest {
@@ -21,6 +21,6 @@ public class LegalPlayerNameTest {
 
     @Test
     public void simpleBrain() {
-        assertEquals( "LegalPlayer : SimpleBrain", SIMPLE.create().name() );
+        assertEquals( "LegalPlayer : SimpleBrain", new SimplePlayerSupplier().get().name() );
     }
 }

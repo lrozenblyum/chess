@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 /**
@@ -25,8 +26,8 @@ class Simulator {
 
 	private int timesToRun = 1;
 
-	Simulator( PlayerFactory.PlayerSelection first, PlayerFactory.PlayerSelection second ) {
-		this( first.create(), second.create() );
+	Simulator( Supplier< Player > first, Supplier< Player > second ) {
+		this( first.get(), second.get() );
 	}
 
 	Simulator( Player first, Player second ) {

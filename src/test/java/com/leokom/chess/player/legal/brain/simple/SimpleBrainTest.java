@@ -1,13 +1,13 @@
 package com.leokom.chess.player.legal.brain.simple;
 
 import com.leokom.chess.Game;
+import com.leokom.chess.SimplePlayerSupplier;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.leokom.chess.PlayerFactory.PlayerSelection.SIMPLE;
 import static org.mockito.Mockito.*;
 
 /**
@@ -18,7 +18,7 @@ public class SimpleBrainTest {
 
     @Before
     public void prepare() {
-        simplePlayer = SIMPLE.create();
+        simplePlayer = new SimplePlayerSupplier().get();
     }
 
     @Test

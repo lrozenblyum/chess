@@ -3,11 +3,6 @@ package com.leokom.chess;
 import com.google.common.collect.ImmutableMap;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
-import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
-import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
-import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +15,7 @@ import java.util.function.Supplier;
  * Author: Leonid
  * Date-time: 06.05.14 22:45
  */
-public final class PlayerFactory {
+final class PlayerFactory {
 	private PlayerFactory() {}
 
 	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
@@ -52,10 +47,10 @@ public final class PlayerFactory {
 
 		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
 
-		return selectPlayer( side, engineName ).create();
+		return selectPlayer( side, engineName ).get();
 	}
 
-	private static PlayerSelection selectPlayer( Side side, String engineName ) {
+	private static Supplier< Player > selectPlayer( Side side, String engineName ) {
 		if ( engineName == null ) {
 			logger.info( "No selection done. Selecting default player" );
 			return getDefaultPlayer( side );
@@ -63,35 +58,30 @@ public final class PlayerFactory {
 
 		switch ( engineName ) {
 			case "Legal":
-				return PlayerSelection.LEGAL;
+				return new LegalPlayerSupplier( Integer.valueOf( System.getProperty(getDepthProperty( side )) ) );
 			case "Simple":
-				return PlayerSelection.SIMPLE;
+				return new SimplePlayerSupplier();
 			case "Winboard":
-				return PlayerSelection.WINBOARD;
+				return new WinboardPlayerSupplier();
 			default:
 				logger.warn( "Unsupported option specified. Selecting default player" );
 				return getDefaultPlayer( side );
 		}
 	}
 
-	public enum PlayerSelection {
-		LEGAL( () -> new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), Integer.valueOf(System.getProperty( "whiteDepth" ))) ) ),
-		SIMPLE( () -> new LegalPlayer( new SimpleBrain() ) ),
-		WINBOARD( WinboardPlayer::create );
-
-		private final Supplier< Player > playerCreator;
-
-		PlayerSelection( Supplier< Player > playerCreator ) {
-			this.playerCreator = playerCreator;
-		}
-
-		public Player create() {
-			return playerCreator.get();
+	private static String getDepthProperty( Side side ) {
+		switch ( side ) {
+			case WHITE:
+				return "whiteDepth";
+			case BLACK:
+				return "blackDepth";
+			default:
+				throw new IllegalArgumentException( "The side is not supported: " + side );
 		}
 	}
 
-	private static PlayerSelection getDefaultPlayer( Side side ) {
+	private static Supplier< Player > getDefaultPlayer( Side side ) {
 		logger.info( "Selecting default engine for Side = " + side );
-		return side == Side.WHITE ?	PlayerSelection.WINBOARD : PlayerSelection.LEGAL;
+		return side == Side.WHITE ?	new WinboardPlayerSupplier() : new LegalPlayerSupplier( 1 );
 	}
 }

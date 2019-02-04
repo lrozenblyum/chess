@@ -14,8 +14,6 @@ import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static com.leokom.chess.PlayerFactory.PlayerSelection.LEGAL;
-import static com.leokom.chess.PlayerFactory.PlayerSelection.SIMPLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -133,25 +131,25 @@ public class SimulatorIT {
 
 	@Test
 	public void legalVsSimpleNoCrash() {
-		new Simulator( LEGAL, SIMPLE ).run();
+		new Simulator( new LegalPlayerSupplier(), new SimplePlayerSupplier() ).run();
 	}
 
 	//we expect the default brain of the legal player is much smarter than the simple one
 	@Test
 	public void legalVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( LEGAL, SIMPLE ).run();
+		final SimulatorStatistics statistics = new Simulator( new LegalPlayerSupplier(), new SimplePlayerSupplier() ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
 
 	@Test
 	public void simpleVsSimpleNoCrash() {
-		new Simulator( SIMPLE, SIMPLE ).run();
+		new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
 	}
 
 	@Test
 	public void simpleVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( SIMPLE, SIMPLE ).run();
+		final SimulatorStatistics statistics = new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
 
 		//now simple vs simple correctly draws at the second move
 		assertEquals( new SimulatorStatistics( 2, 0, 0 ), statistics );
