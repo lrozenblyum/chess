@@ -149,6 +149,8 @@ public class PlayerFactoryTest {
 	/*
 	More cases:
 	- Refactor: automate system properties manipulation
+	- extend *.bat file(s)
+	- extend docs
 	 */
 
 	private void assertDepth( Player player, int expectedDepth ) {
