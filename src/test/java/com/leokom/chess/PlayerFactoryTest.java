@@ -12,12 +12,14 @@ public class PlayerFactoryTest {
 	private static String whiteProperty;
 	private static String blackProperty;
 	private static String whiteDepthProperty;
+	private static String blackDepthProperty;
 
 	@BeforeClass
 	public static void preserveSystemProperties() {
 		whiteProperty = System.getProperty( "white" );
 		blackProperty = System.getProperty( "black" );
 		whiteDepthProperty = System.getProperty( "whiteDepthProperty" );
+		blackDepthProperty = System.getProperty( "blackDepthProperty" );
 	}
 
 	@AfterClass
@@ -33,7 +35,10 @@ public class PlayerFactoryTest {
 		}
 
 		if ( whiteDepthProperty != null ) {
-			System.setProperty( "\"whiteDepthProperty\"", whiteDepthProperty );
+			System.setProperty( "whiteDepthProperty", whiteDepthProperty );
+		}
+		if ( blackDepthProperty != null ) {
+			System.setProperty( "blackDepthProperty", blackDepthProperty );
 		}
 	}
 
@@ -98,7 +103,7 @@ public class PlayerFactoryTest {
 	}
 
 	@Test
-	public void depth2FromCommandLineRespected() {
+	public void depth2FromCommandLineRespectedForWhite() {
 		System.setProperty( "white", "Legal" );
 		System.setProperty( "whiteDepth", "2" );
 
@@ -107,7 +112,7 @@ public class PlayerFactoryTest {
 	}
 
 	@Test
-	public void depth1FromCommandLineRespected() {
+	public void depth1FromCommandLineRespectedForWhite() {
 		System.setProperty( "white", "Legal" );
 		System.setProperty( "whiteDepth", "1" );
 
@@ -115,11 +120,28 @@ public class PlayerFactoryTest {
 		assertDepth( player, 1 );
 	}
 
+	@Test
+	public void depth1FromCommandLineRespectedForBlack() {
+		System.setProperty( "black", "Legal" );
+		System.setProperty( "blackDepth", "1" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 1 );
+	}
+
+	@Test
+	public void depth2FromCommandLineRespectedForBlack() {
+		System.setProperty( "black", "Legal" );
+		System.setProperty( "blackDepth", "2" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 2 );
+	}
+
 	/*
 	More cases:
 	- default value
-	- black
-	Refactor: automate system properties manipulation
+	- Refactor: automate system properties manipulation
 	 */
 
 	private void assertDepth( Player player, int expectedDepth ) {
