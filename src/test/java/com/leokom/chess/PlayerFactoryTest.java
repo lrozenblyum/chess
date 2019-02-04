@@ -11,11 +11,13 @@ import static org.junit.Assert.*;
 public class PlayerFactoryTest {
 	private static String whiteProperty;
 	private static String blackProperty;
+	private static String whiteDepthProperty;
 
 	@BeforeClass
 	public static void preserveSystemProperties() {
 		whiteProperty = System.getProperty( "white" );
 		blackProperty = System.getProperty( "black" );
+		whiteDepthProperty = System.getProperty( "whiteDepthProperty" );
 	}
 
 	@AfterClass
@@ -28,6 +30,10 @@ public class PlayerFactoryTest {
 
 		if ( blackProperty != null ) {
 			System.setProperty( "black", blackProperty );
+		}
+
+		if ( whiteDepthProperty != null ) {
+			System.setProperty( "\"whiteDepthProperty\"", whiteDepthProperty );
 		}
 	}
 
@@ -89,5 +95,35 @@ public class PlayerFactoryTest {
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertIsLegal( player );
+	}
+
+	@Test
+	public void depth2FromCommandLineRespected() {
+		System.setProperty( "white", "Legal" );
+		System.setProperty( "whiteDepth", "2" );
+
+		final Player player = PlayerFactory.createPlayer( Side.WHITE );
+		assertDepth( player, 2 );
+	}
+
+	@Test
+	public void depth1FromCommandLineRespected() {
+		System.setProperty( "white", "Legal" );
+		System.setProperty( "whiteDepth", "1" );
+
+		final Player player = PlayerFactory.createPlayer( Side.WHITE );
+		assertDepth( player, 1 );
+	}
+
+	/*
+	More cases:
+	- default value
+	- black
+	Refactor: automate system properties manipulation
+	 */
+
+	private void assertDepth( Player player, int expectedDepth ) {
+		//shallow yet good enough check
+		assertThat( player.name(), CoreMatchers.containsString( String.valueOf( expectedDepth ) ) );
 	}
 }
