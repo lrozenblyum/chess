@@ -75,7 +75,7 @@ public final class PlayerFactory {
 	}
 
 	public enum PlayerSelection {
-		LEGAL( () -> new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 2) ) ),
+		LEGAL( () -> new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), Integer.valueOf(System.getProperty( "whiteDepth" ))) ) ),
 		SIMPLE( () -> new LegalPlayer( new SimpleBrain() ) ),
 		WINBOARD( WinboardPlayer::create );
 
