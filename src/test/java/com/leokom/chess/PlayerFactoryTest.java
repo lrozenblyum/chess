@@ -110,6 +110,15 @@ public class PlayerFactoryTest {
 	}
 
 	@Test
+	public void legalPlayerDepthCanBeProvidedEvenIfEngineIsNotProvided() {
+		//because legal is default one
+		System.setProperty( "black.depth", "2" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 2 );
+	}
+
+	@Test
 	public void defaultDepthIs1() {
 		System.setProperty( "black.engine", "Legal" );
 

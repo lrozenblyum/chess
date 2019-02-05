@@ -64,11 +64,7 @@ final class PlayerFactory {
 			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 			switch (engineName) {
 				case "Legal":
-					return
-							new ChessSystemProperty("depth").getFor(side)
-									.map(Integer::valueOf)
-									.map(LegalPlayerSupplier::new) //takes depth parameter
-									.orElseGet(LegalPlayerSupplier::new); //without parameters, default constructor
+					return getLegalPlayerSupplier( side );
 				case "Simple":
 					return new SimplePlayerSupplier();
 				case "Winboard":
@@ -78,7 +74,14 @@ final class PlayerFactory {
 			}
 		}).orElseGet(() -> {
 			logger.info( "Selecting a default engine for Side = " + side );
-			return side == Side.WHITE ?	new WinboardPlayerSupplier() : new LegalPlayerSupplier();
+			return side == Side.WHITE ?	new WinboardPlayerSupplier() : getLegalPlayerSupplier( side );
 		}).get();
+	}
+
+	private static LegalPlayerSupplier getLegalPlayerSupplier( Side side ) {
+		return new ChessSystemProperty("depth").getFor(side)
+				.map(Integer::valueOf)
+				.map(LegalPlayerSupplier::new) //takes depth parameter
+				.orElseGet(LegalPlayerSupplier::new); //without parameters, default constructor
 	}
 }
