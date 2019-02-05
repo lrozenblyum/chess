@@ -21,6 +21,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy:1.9.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.9.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.objenesis:objenesis:2.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.github.stefanbirkner:system-rules:1.19.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jooq:jool-java-8:0.9.14" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:26.0-jre" level="project" />
     <orderEntry type="library" name="Maven: com.fluxchess:jcpi:1.4.0" level="project" />

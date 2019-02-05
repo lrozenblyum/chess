@@ -5,52 +5,14 @@ import com.leokom.chess.player.Player;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 
 import static org.junit.Assert.*;
 
 public class PlayerFactoryTest {
-	private static String whiteProperty;
-	private static String blackProperty;
-	private static String whiteDepthProperty;
-	private static String blackDepthProperty;
-
-	@BeforeClass
-	public static void preserveSystemProperties() {
-		whiteProperty = System.getProperty( "white" );
-		blackProperty = System.getProperty( "black" );
-		whiteDepthProperty = System.getProperty( "whiteDepth" );
-		blackDepthProperty = System.getProperty( "blackDepth" );
-	}
-
-	@AfterClass
-	public static void restoreSystemProperties() {
-		//if any of them is null, @After method already cleared it.
-		//setting null value of system property causes NPE
-		if ( whiteProperty != null ) {
-			System.setProperty( "white", whiteProperty );
-		}
-
-		if ( blackProperty != null ) {
-			System.setProperty( "black", blackProperty );
-		}
-
-		if ( whiteDepthProperty != null ) {
-			System.setProperty( "whiteDepth", whiteDepthProperty );
-		}
-		if ( blackDepthProperty != null ) {
-			System.setProperty( "blackDepth", blackDepthProperty );
-		}
-	}
-
-	//ensure one test has no influence on another
-	@Before
-	@After
-	public void clearSystemProperties() {
-		System.clearProperty( "black" );
-		System.clearProperty( "white" );
-		System.clearProperty( "whiteDepth" );
-		System.clearProperty( "blackDepth" );
-	}
+	//snapshots all system properties before a test, restores after it
+	@Rule
+	public final RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	@Test
 	public void noSystemPropertiesDefaultPlayerBlack() {
@@ -150,7 +112,6 @@ public class PlayerFactoryTest {
 
 	/*
 	More cases:
-	- Refactor: automate system properties manipulation
 	- extend *.bat file(s)
 	- extend docs
 	 */
