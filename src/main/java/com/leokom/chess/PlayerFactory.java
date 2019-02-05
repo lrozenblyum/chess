@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * Create players for the chess game
@@ -33,7 +32,7 @@ final class PlayerFactory {
 			this.propertyName = propertyName;
 		}
 
-		Optional<String> getFor(Side side ) {
+		Optional<String> getFor( Side side ) {
 			return Optional.ofNullable(
 				System.getProperty(
 					String.format( "%s.%s", side.name().toLowerCase(), propertyName )
@@ -61,31 +60,25 @@ final class PlayerFactory {
 	 * @return new instance of a player
 	 */
 	static Player createPlayer( Side side ) {
-		return selectPlayer( side ).get();
-	}
-
-	private static Supplier< Player > selectPlayer( Side side ) {
-		return new ChessSystemProperty( "engine" ).getFor( side ).map( engineName -> {
-			logger.info( "Selecting engine for Side = " + side + " by engine name = " + engineName );
-			switch ( engineName ) {
+		return new ChessSystemProperty("engine").getFor(side).map(engineName -> {
+			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
+			switch (engineName) {
 				case "Legal":
 					return
-						new ChessSystemProperty( "depth" ).getFor( side )
-							.map( Integer::valueOf )
-							.map( LegalPlayerSupplier::new ) //takes depth parameter
-							.orElseGet( LegalPlayerSupplier::new ); //without parameters, default constructor
+							new ChessSystemProperty("depth").getFor(side)
+									.map(Integer::valueOf)
+									.map(LegalPlayerSupplier::new) //takes depth parameter
+									.orElseGet(LegalPlayerSupplier::new); //without parameters, default constructor
 				case "Simple":
 					return new SimplePlayerSupplier();
 				case "Winboard":
 					return new WinboardPlayerSupplier();
 				default:
-					throw new IllegalArgumentException( "The engine is not supported: " + engineName );
+					throw new IllegalArgumentException( "The engine is not supported: " + engineName);
 			}
-		} ).orElseGet( () -> getDefaultPlayer( side ) );
-	}
-
-	private static Supplier< Player > getDefaultPlayer( Side side ) {
-		logger.info( "Selecting default engine for Side = " + side );
-		return side == Side.WHITE ?	new WinboardPlayerSupplier() : new LegalPlayerSupplier();
+		}).orElseGet(() -> {
+			logger.info( "Selecting a default engine for Side = " + side );
+			return side == Side.WHITE ?	new WinboardPlayerSupplier() : new LegalPlayerSupplier();
+		}).get();
 	}
 }
