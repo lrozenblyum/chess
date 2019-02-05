@@ -1,7 +1,6 @@
 package com.leokom.chess.player.legal;
 
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 

@@ -2,7 +2,6 @@ package com.leokom.chess.player.legal.brain.simple;
 
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
 
 import java.util.function.Supplier;
 
