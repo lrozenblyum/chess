@@ -22,7 +22,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void canSelectSimpleEngineForWhite() {
-		System.setProperty( "whiteEngine", "Simple" );
+		System.setProperty( "white.engine", "Simple" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertIsSimple( player );
@@ -34,7 +34,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void canSelectWinboardForBlack() {
-		System.setProperty( "blackEngine", "Winboard" );
+		System.setProperty( "black.engine", "Winboard" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertTrue( player instanceof WinboardPlayer );
@@ -60,7 +60,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void legalSelectedWhite() {
-		System.setProperty( "whiteEngine", "Legal" );
+		System.setProperty( "white.engine", "Legal" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertIsLegal( player );
@@ -68,8 +68,8 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void depth2FromCommandLineRespectedForWhite() {
-		System.setProperty( "whiteEngine", "Legal" );
-		System.setProperty( "whiteDepth", "2" );
+		System.setProperty( "white.engine", "Legal" );
+		System.setProperty( "white.depth", "2" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertDepth( player, 2 );
@@ -77,8 +77,8 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void depth1FromCommandLineRespectedForWhite() {
-		System.setProperty( "whiteEngine", "Legal" );
-		System.setProperty( "whiteDepth", "1" );
+		System.setProperty( "white.engine", "Legal" );
+		System.setProperty( "white.depth", "1" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertDepth( player, 1 );
@@ -86,8 +86,8 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void depth1FromCommandLineRespectedForBlack() {
-		System.setProperty( "blackEngine", "Legal" );
-		System.setProperty( "blackDepth", "1" );
+		System.setProperty( "black.engine", "Legal" );
+		System.setProperty( "black.depth", "1" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertDepth( player, 1 );
@@ -95,8 +95,8 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void depth2FromCommandLineRespectedForBlack() {
-		System.setProperty( "blackEngine", "Legal" );
-		System.setProperty( "blackDepth", "2" );
+		System.setProperty( "black.engine", "Legal" );
+		System.setProperty( "black.depth", "2" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertDepth( player, 2 );
@@ -104,7 +104,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void defaultDepthIs1() {
-		System.setProperty( "blackEngine", "Legal" );
+		System.setProperty( "black.engine", "Legal" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertDepth( player, 1 );

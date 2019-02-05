@@ -1,6 +1,5 @@
 package com.leokom.chess;
 
-import com.google.common.collect.ImmutableMap;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayerSupplier;
@@ -9,7 +8,6 @@ import com.leokom.chess.player.winboard.WinboardPlayerSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
 /**
@@ -23,9 +21,21 @@ final class PlayerFactory {
 
 	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
 
-	//side -> name of system property that specifies player for the side
-	private static final Map< Side, String > SYSTEM_PROPERTIES = 
-			ImmutableMap.of( Side.WHITE, "white.engine", Side.BLACK, "black.engine" );
+	/**
+	 * Chess system properties.
+	 * Represent properties in format 'side.property' (like 'white.depth' or 'black.engine')
+	 */
+	static class ChessSystemProperty {
+		private final String propertyName;
+
+		ChessSystemProperty( String propertyName ) {
+			this.propertyName = propertyName;
+		}
+
+		String getFor( Side side ) {
+			return System.getProperty( side.name().toLowerCase() + "." + propertyName );
+		}
+	}
 
 	/**
 	 * Create player for the side
@@ -46,7 +56,7 @@ final class PlayerFactory {
 	 * @return new instance of a player
 	 */
 	static Player createPlayer( Side side ) {
-		final String engineName = System.getProperty( SYSTEM_PROPERTIES.get( side ) );
+		final String engineName = new ChessSystemProperty( "engine" ).getFor( side );
 
 		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
 
@@ -61,7 +71,7 @@ final class PlayerFactory {
 
 		switch ( engineName ) {
 			case "Legal":
-				String depthProperty = System.getProperty( getDepthProperty( side ) );
+				String depthProperty = new ChessSystemProperty( "depth" ).getFor( side );
 				return depthProperty != null ?
 						new LegalPlayerSupplier( Integer.valueOf( depthProperty ) ) :
 						new LegalPlayerSupplier();
@@ -73,17 +83,6 @@ final class PlayerFactory {
 			default:
 				logger.warn( "Unsupported option specified. Selecting default player" );
 				return getDefaultPlayer( side );
-		}
-	}
-
-	private static String getDepthProperty( Side side ) {
-		switch ( side ) {
-			case WHITE:
-				return "whiteDepth";
-			case BLACK:
-				return "blackDepth";
-			default:
-				throw new IllegalArgumentException( "The side is not supported: " + side );
 		}
 	}
 
