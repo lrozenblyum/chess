@@ -126,12 +126,6 @@ public class PlayerFactoryTest {
 		assertDepth( player, 1 );
 	}
 
-	/*
-	More cases:
-	- extend *.bat file(s)
-	- extend docs
-	 */
-
 	private void assertDepth( Player player, int expectedDepth ) {
 		//shallow yet good enough check
 		assertThat( player.name(), CoreMatchers.containsString( String.valueOf( expectedDepth ) ) );

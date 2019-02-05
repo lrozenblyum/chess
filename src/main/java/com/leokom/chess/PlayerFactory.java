@@ -54,7 +54,9 @@ final class PlayerFactory {
 	 * Winboard vs any other engine that uses System.out has no practical use (UCI?)
 	 *
 	 * LegalPlayer vs LegalPlayer is possible but can lead to StackOverflow due to
-	 * no limits on move amount and single-threaded model of execution
+	 * no limits on move amount and single-threaded model of execution.
+	 *
+	 * LegalPlayer supports optional depth parameter.
 	 *
 	 * @param side side to create
 	 * @return new instance of a player
