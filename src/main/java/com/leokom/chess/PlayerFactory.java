@@ -66,6 +66,7 @@ final class PlayerFactory {
 
 	private static Supplier< Player > selectPlayer( Side side ) {
 		return new ChessSystemProperty( "engine" ).getFor( side ).map( engineName -> {
+			logger.info( "Selecting engine for Side = " + side + " by engine name = " + engineName );
 			switch ( engineName ) {
 				case "Legal":
 					return
