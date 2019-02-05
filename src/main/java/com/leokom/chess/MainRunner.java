@@ -24,8 +24,8 @@ public final class MainRunner {
 	 * <p>
 	 * Supported parameters:
 	 *             <ul>
-	 *             <li>-Dwhite=<code>engineName</code></li>
-	 *             <li>-Dblack=<code>engineName</code></li>
+	 *             <li>-Dwhite.engine=<code>engineName</code></li>
+	 *             <li>-Dblack.engine=<code>engineName</code></li>
 	 *             </ul>
 	 *
 	 * <code>engineName</code> could be any of:
@@ -37,8 +37,8 @@ public final class MainRunner {
 	 *
 	 * Default players:
 	 *             <ul>
-	 *             <li>-Dwhite=Winboard</li>
-	 *             <li>-Dblack=Legal</li>
+	 *             <li>-Dwhite.engine=Winboard</li>
+	 *             <li>-Dblack.engine=Legal</li>
 	 *             </ul>
 	 *
 	 * For Winboard opponents always specify them as Black

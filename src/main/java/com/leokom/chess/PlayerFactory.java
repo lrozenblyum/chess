@@ -25,7 +25,7 @@ final class PlayerFactory {
 
 	//side -> name of system property that specifies player for the side
 	private static final Map< Side, String > SYSTEM_PROPERTIES = 
-			ImmutableMap.of( Side.WHITE, "white", Side.BLACK, "black" );
+			ImmutableMap.of( Side.WHITE, "white.engine", Side.BLACK, "black.engine" );
 
 	/**
 	 * Create player for the side

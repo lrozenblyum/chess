@@ -5,7 +5,7 @@ call variables.bat
 SET RUNNABLE_JAR_DIRECTORY_2=%WINBOARD_INSTALLATION_PATH%\LeokomChessTest
 SET RUN_JAR_PATH_2=%RUNNABLE_JAR_DIRECTORY_2%\Chess.jar
 
-rem you may specify -Dblack=Simple
+rem you may specify -Dblack.engine=Simple (or -Dblack=Simple if the second instance is Chess <= 0.3)
 SET RUN_OPTIONS_2=
 SET ENGINE_2=%JAVA_PATH% %RUN_OPTIONS_2% -jar %RUN_JAR_PATH_2%
 

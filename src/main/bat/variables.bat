@@ -6,7 +6,7 @@ rem it should be equal to 'project.deployDirectory' property in pom.xml
 SET RUNNABLE_JAR_DIRECTORY=%WINBOARD_INSTALLATION_PATH%\LeokomChess
 SET JAVA_PATH=Q:\Program Files\Java\jdk1.8.0_162\bin\java.exe
 SET RUN_JAR_PATH=%RUNNABLE_JAR_DIRECTORY%\Chess.jar
-rem you may pass -Dblack=Simple to choose a different engine for blacks
+rem you may pass -Dblack.engine=Simple to choose a different engine for blacks
 SET RUN_OPTIONS=
 
 SET ENGINE=%JAVA_PATH% %RUN_OPTIONS% -jar %RUN_JAR_PATH%
