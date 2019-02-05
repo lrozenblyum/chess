@@ -33,7 +33,7 @@ final class PlayerFactory {
 		}
 
 		String getFor( Side side ) {
-			return System.getProperty( side.name().toLowerCase() + "." + propertyName );
+			return System.getProperty( String.format( "%s.%s", side.name().toLowerCase(), propertyName ) );
 		}
 	}
 
