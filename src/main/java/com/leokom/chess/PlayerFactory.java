@@ -8,6 +8,7 @@ import com.leokom.chess.player.winboard.WinboardPlayerSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -32,8 +33,12 @@ final class PlayerFactory {
 			this.propertyName = propertyName;
 		}
 
-		String getFor( Side side ) {
-			return System.getProperty( String.format( "%s.%s", side.name().toLowerCase(), propertyName ) );
+		Optional<String> getFor(Side side ) {
+			return Optional.ofNullable(
+				System.getProperty(
+					String.format( "%s.%s", side.name().toLowerCase(), propertyName )
+				)
+			);
 		}
 	}
 
@@ -56,34 +61,27 @@ final class PlayerFactory {
 	 * @return new instance of a player
 	 */
 	static Player createPlayer( Side side ) {
-		final String engineName = new ChessSystemProperty( "engine" ).getFor( side );
-
-		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
-
-		return selectPlayer( side, engineName ).get();
+		return selectPlayer( side ).get();
 	}
 
-	private static Supplier< Player > selectPlayer( Side side, String engineName ) {
-		if ( engineName == null ) {
-			logger.info( "No selection done. Selecting default player" );
-			return getDefaultPlayer( side );
-		}
-
-		switch ( engineName ) {
-			case "Legal":
-				String depthProperty = new ChessSystemProperty( "depth" ).getFor( side );
-				return depthProperty != null ?
-						new LegalPlayerSupplier( Integer.valueOf( depthProperty ) ) :
-						new LegalPlayerSupplier();
-
-			case "Simple":
-				return new SimplePlayerSupplier();
-			case "Winboard":
-				return new WinboardPlayerSupplier();
-			default:
-				logger.warn( "Unsupported option specified. Selecting default player" );
-				return getDefaultPlayer( side );
-		}
+	private static Supplier< Player > selectPlayer( Side side ) {
+		return new ChessSystemProperty( "engine" ).getFor( side ).map( engineName -> {
+			switch ( engineName ) {
+				case "Legal":
+					return
+						new ChessSystemProperty( "depth" ).getFor( side )
+							.map( Integer::valueOf )
+							.map( LegalPlayerSupplier::new ) //takes depth parameter
+							.orElseGet( LegalPlayerSupplier::new ); //without parameters, default constructor
+				case "Simple":
+					return new SimplePlayerSupplier();
+				case "Winboard":
+					return new WinboardPlayerSupplier();
+				default:
+					logger.warn( "Unsupported option specified. Selecting default player" );
+					return getDefaultPlayer( side );
+			}
+		} ).orElseGet( () -> getDefaultPlayer( side ) );
 	}
 
 	private static Supplier< Player > getDefaultPlayer( Side side ) {
