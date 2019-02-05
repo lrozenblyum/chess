@@ -18,8 +18,8 @@ public class PlayerFactoryTest {
 	public static void preserveSystemProperties() {
 		whiteProperty = System.getProperty( "white" );
 		blackProperty = System.getProperty( "black" );
-		whiteDepthProperty = System.getProperty( "whiteDepthProperty" );
-		blackDepthProperty = System.getProperty( "blackDepthProperty" );
+		whiteDepthProperty = System.getProperty( "whiteDepth" );
+		blackDepthProperty = System.getProperty( "blackDepth" );
 	}
 
 	@AfterClass
@@ -35,10 +35,10 @@ public class PlayerFactoryTest {
 		}
 
 		if ( whiteDepthProperty != null ) {
-			System.setProperty( "whiteDepthProperty", whiteDepthProperty );
+			System.setProperty( "whiteDepth", whiteDepthProperty );
 		}
 		if ( blackDepthProperty != null ) {
-			System.setProperty( "blackDepthProperty", blackDepthProperty );
+			System.setProperty( "blackDepth", blackDepthProperty );
 		}
 	}
 
@@ -48,6 +48,8 @@ public class PlayerFactoryTest {
 	public void clearSystemProperties() {
 		System.clearProperty( "black" );
 		System.clearProperty( "white" );
+		System.clearProperty( "whiteDepth" );
+		System.clearProperty( "blackDepth" );
 	}
 
 	@Test
