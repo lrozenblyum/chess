@@ -28,6 +28,13 @@ public class PlayerFactoryTest {
 		assertIsSimple( player );
 	}
 
+	@Test( expected = IllegalArgumentException.class )
+	public void failFastOnUnsupportedEngine() {
+		System.setProperty( "white.engine", "Unsupported" );
+
+		PlayerFactory.createPlayer( Side.WHITE );
+	}
+
 	private void assertIsSimple(Player player) {
 		assertEquals( "LegalPlayer : SimpleBrain", player.name() );
 	}

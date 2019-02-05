@@ -78,8 +78,7 @@ final class PlayerFactory {
 				case "Winboard":
 					return new WinboardPlayerSupplier();
 				default:
-					logger.warn( "Unsupported option specified. Selecting default player" );
-					return getDefaultPlayer( side );
+					throw new IllegalArgumentException( "The engine is not supported: " + engineName );
 			}
 		} ).orElseGet( () -> getDefaultPlayer( side ) );
 	}
