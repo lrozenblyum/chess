@@ -106,7 +106,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 				//can be empty in case of terminal position
 				if ( ! bestMove.isEmpty() ) {
 					//negating because bigger for the opponents means worse for the current player
-					//TODO: what if > 1
+					//composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
 					moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
 				} else {
 					LogManager.getLogger().info( "Evaluating just the current level" );
