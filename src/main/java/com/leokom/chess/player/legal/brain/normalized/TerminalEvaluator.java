@@ -27,7 +27,6 @@ public class TerminalEvaluator implements Evaluator {
 		final Position result = position.move( move );
 
 		if ( !result.isTerminal() ) {
-			//TODO: maybe throw an exception if we allow calling just in terminal cases
 			return WORST_MOVE;
 		}
 
