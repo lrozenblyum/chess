@@ -137,6 +137,8 @@ public class DenormalizedBrain implements Brain {
 		double accept( double maxValue, double minValue, Double value );
 	}
 
+	//this class is an initial attempt to introduce symmetry between denormalized and normalized brains
+	//as a matter of fact, the denormalized brain has mixed responsibilities of brain and master evaluator
 	private class DenormalizedMasterEvaluator implements Evaluator {
 		private final Table<EvaluatorType, Move, Double> weightedTable;
 

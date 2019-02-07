@@ -642,7 +642,7 @@ public class Position implements GameState< Move, Position > {
 	 * @return new position, which is received from current by making 1 move
 	 */
 	@Override
-	public Position move(Move move) {
+	public Position move( Move move ) {
 		return new PositionGenerator( this ).generate( move );
 	}
 
