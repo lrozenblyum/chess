@@ -2,6 +2,7 @@ package com.leokom.chess;
 
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ class Simulator {
 	private static final int GAMES_IN_SINGLE_ITERATION = 2;
 	private final Player first;
 	private final Player second;
+	private final Logger logger;
 
 	private int timesToRun = 1;
 
@@ -33,6 +35,7 @@ class Simulator {
 	Simulator( Player first, Player second ) {
 		this.first = first;
 		this.second = second;
+		this.logger = LogManager.getLogger();
 	}
 
 	/**
@@ -45,18 +48,20 @@ class Simulator {
 	 * @return statistics about game results
 	 */
 	SimulatorStatistics run() {
-		LogManager.getLogger().info("Starting simulation for {} and {}", first.name(), second.name());
+		logger.info("Starting simulation for {} and {}", first.name(), second.name());
 		List< Player > winners = new ArrayList<>();
 		IntStream.rangeClosed( 1, timesToRun ).forEach( iteration -> {
+			logger.info( "Simulation # {} of {}: starting...", iteration, timesToRun );
 			winners.add( createGame( first, second ).run() );
 			winners.add( createGame( second, first ).run() );
+			logger.info( "Simulation # {} of {}: done", iteration, timesToRun );
 		} );
 
 		final long firstWins = countWinsOf( winners, first );
 		final long secondWins = countWinsOf( winners, second );
 		final long totalGames = timesToRun * GAMES_IN_SINGLE_ITERATION;
 		SimulatorStatistics simulatorStatistics = new SimulatorStatistics(totalGames, firstWins, secondWins);
-		LogManager.getLogger().info("The simulation has been finished. Stats: {}", simulatorStatistics);
+		logger.info("The simulation has been finished. Stats: {}", simulatorStatistics);
 		return simulatorStatistics;
 	}
 
