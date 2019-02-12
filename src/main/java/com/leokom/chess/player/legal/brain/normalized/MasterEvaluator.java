@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Central brain of a move ('brains')
@@ -59,9 +60,7 @@ public class MasterEvaluator implements Evaluator {
 
 		// Terminal evaluator excluded because it's used above.
 		// NOTE: it's still in evaluatorWeights until DenormalizedBrain uses it (till https://github.com/lrozenblyum/chess/issues/290)
-		double result = evaluatorWeights.stream().filter( evaluatorEntry ->
-			evaluatorEntry.getKey() != EvaluatorType.TERMINAL
-		).mapToDouble(evaluatorEntry -> {
+		double result = evaluatorsExceptTerminal().mapToDouble(evaluatorEntry -> {
 			final Evaluator evaluator = evaluatorFactory.get(evaluatorEntry.getKey());
 			final double weight = evaluatorEntry.getValue();
 			final double evaluatorResponse = evaluator.evaluateMove(position, move);
@@ -72,11 +71,15 @@ public class MasterEvaluator implements Evaluator {
 
 		//result that is in [ 0, 1 ] range
 		//depends on the fact that the weights themselves are in [ 0, 1 ]
-
-        //-1 because we excluded terminal evaluator
-		double normalizedResult = result / ( evaluatorWeights.size() - 1 );
+		double normalizedResult = result / evaluatorsExceptTerminal().count();
 
 		LOG.info("{} ===> {} ===> {}", move, result, normalizedResult);
 		return normalizedResult;
+	}
+
+	private Stream<Map.Entry<EvaluatorType, Double>> evaluatorsExceptTerminal() {
+		return evaluatorWeights.stream().filter( evaluatorEntry ->
+			evaluatorEntry.getKey() != EvaluatorType.TERMINAL
+		);
 	}
 }
