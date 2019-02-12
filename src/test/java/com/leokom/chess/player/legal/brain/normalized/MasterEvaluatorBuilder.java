@@ -23,6 +23,6 @@ public class MasterEvaluatorBuilder {
 	}
 
 	public MasterEvaluator build() {
-		return new MasterEvaluator( weights );
+		return new MasterEvaluator( new EvaluatorWeights( weights ) );
 	}
 }

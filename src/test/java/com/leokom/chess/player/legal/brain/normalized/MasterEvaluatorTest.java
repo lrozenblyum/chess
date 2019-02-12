@@ -73,7 +73,7 @@ public class MasterEvaluatorTest {
 		Map<EvaluatorType, Double> weights = new HashMap<>();
 		Arrays.stream( EvaluatorType.values() ).forEach( type -> weights.put( type, 1.0 ) );
 
-		MasterEvaluator masterEvaluatorWithCustomWeights = new MasterEvaluator(weights);
+		MasterEvaluator masterEvaluatorWithCustomWeights = new MasterEvaluator(new EvaluatorWeights(weights));
 		assertAllMovesEvaluatedIn0To1Range( Position.getInitialPosition(), masterEvaluatorWithCustomWeights );
 	}
 

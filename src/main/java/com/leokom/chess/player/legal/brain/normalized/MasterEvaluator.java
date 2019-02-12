@@ -29,20 +29,16 @@ public class MasterEvaluator implements Evaluator {
 
     public MasterEvaluator() {
 		//standard weights
-		this( new EvaluatorWeights(), new NormalizedEvaluatorFactory() );
+		this( new EvaluatorWeights() );
 	}
 
 	/**
 	 * create evaluator with custom weights
 	 * @param weights evaluator -> weight
-	 * @throws IllegalArgumentException if any weight is outside [ 0, 1 ] range
 	 */
-	/*
-	Alternative to throwing the exception would be normalizing the weights on-fly. At the moment - not needed
-	 */
-	MasterEvaluator( Map<EvaluatorType, Double > weights ) {
-		//custom weights
-		this( new EvaluatorWeights( weights ), new NormalizedEvaluatorFactory() );
+	MasterEvaluator( EvaluatorWeights weights ) {
+		//standard evaluator factory
+		this( weights, new NormalizedEvaluatorFactory() );
 	}
 
 	MasterEvaluator( EvaluatorWeights evaluatorWeights, EvaluatorFactory evaluatorFactory ) {
