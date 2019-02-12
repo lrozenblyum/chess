@@ -57,7 +57,7 @@ public class MasterEvaluator implements Evaluator {
 		}
 
 		// Terminal evaluator excluded because it's used above.
-		// NOTE: it's still in evaluatorWeights until DenormalizedBrain uses it
+		// NOTE: it's still in evaluatorWeights until DenormalizedBrain uses it (till https://github.com/lrozenblyum/chess/issues/290)
 		double result = evaluatorWeights.stream().filter( evaluatorEntry ->
 			evaluatorEntry.getKey() != EvaluatorType.TERMINAL
 		).mapToDouble(evaluatorEntry -> {

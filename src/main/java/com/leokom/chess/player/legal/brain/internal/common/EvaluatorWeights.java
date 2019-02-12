@@ -47,6 +47,7 @@ public final class EvaluatorWeights {
 	private static Map<EvaluatorType, Double > getStandardWeights() {
 		//TODO: refactor to constant immutable map
 		Map<EvaluatorType, Double > result = new HashMap<>();
+		//terminal evaluator is still here till https://github.com/lrozenblyum/chess/issues/290
 		result.put( TERMINAL, HIGHEST_PRIORITY );
 		result.put( CASTLING_SAFETY, NORMAL_PRIORITY );
 		result.put( CENTER_CONTROL, NORMAL_PRIORITY );
