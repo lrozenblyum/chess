@@ -121,7 +121,9 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 			} );
 		}
 
-		return getMoveWithMaxRating(moveRatings);
+        List<T> bestMove = getMoveWithMaxRating(moveRatings);
+		LogManager.getLogger().info( "Best move(s): {}", bestMove );
+        return bestMove;
 	}
 
 	@Override
