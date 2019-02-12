@@ -3,9 +3,12 @@ package com.leokom.chess.player.legal.brain.normalized;
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorAsserts;
+import com.leokom.chess.player.legal.brain.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
+import com.leokom.chess.player.legal.brain.internal.common.EvaluatorWeights;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -70,8 +73,25 @@ public class MasterEvaluatorTest {
 		Map<EvaluatorType, Double> weights = new HashMap<>();
 		Arrays.stream( EvaluatorType.values() ).forEach( type -> weights.put( type, 1.0 ) );
 
-		MasterEvaluator masterEvaluatorWithCustomWeigths = new MasterEvaluator(weights);
-		assertAllMovesEvaluatedIn0To1Range( Position.getInitialPosition(), masterEvaluatorWithCustomWeigths );
+		MasterEvaluator masterEvaluatorWithCustomWeights = new MasterEvaluator(weights);
+		assertAllMovesEvaluatedIn0To1Range( Position.getInitialPosition(), masterEvaluatorWithCustomWeights );
+	}
+
+	@Test
+	public void singleNonTerminalEvaluatorWeightMaximalResultIs1() {
+		Map<EvaluatorType, Double> weights = new HashMap<>();
+		weights.put( EvaluatorType.TERMINAL, 1.0 );
+		weights.put( EvaluatorType.CASTLING_SAFETY, 1.0 ); //max weight
+
+		EvaluatorFactory factory = Mockito.mock(EvaluatorFactory.class);
+		Evaluator castlingEvaluatorMock = Mockito.mock(Evaluator.class);
+		//max estimate
+		Mockito.when( castlingEvaluatorMock.evaluateMove( Mockito.any(), Mockito.any() ) ).thenReturn( 1.0 );
+		Mockito.when( factory.get( EvaluatorType.CASTLING_SAFETY )) .thenReturn( castlingEvaluatorMock );
+
+		MasterEvaluator masterEvaluator = new MasterEvaluator( new EvaluatorWeights( weights ), factory );
+		double evaluation = masterEvaluator.evaluateMove(Position.getInitialPosition(), new Move("e2", "e4"));
+		assertEquals( 1.0, evaluation, 0 );
 	}
 
 	//losing should get the minimal possible value

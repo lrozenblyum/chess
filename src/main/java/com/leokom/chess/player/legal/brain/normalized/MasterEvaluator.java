@@ -3,6 +3,7 @@ package com.leokom.chess.player.legal.brain.normalized;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.chess.player.legal.brain.internal.common.EvaluatorWeights;
 import org.apache.logging.log4j.LogManager;
@@ -23,11 +24,11 @@ public class MasterEvaluator implements Evaluator {
 	//compare 1-to-another logic
 
 	private final EvaluatorWeights evaluatorWeights;
-    private final NormalizedEvaluatorFactory evaluatorFactory;
+    private final EvaluatorFactory evaluatorFactory;
 
     public MasterEvaluator() {
 		//standard weights
-		this( new EvaluatorWeights() );
+		this( new EvaluatorWeights(), new NormalizedEvaluatorFactory() );
 	}
 
 	/**
@@ -40,12 +41,12 @@ public class MasterEvaluator implements Evaluator {
 	 */
 	MasterEvaluator( Map<EvaluatorType, Double > weights ) {
 		//custom weights
-		this( new EvaluatorWeights( weights ) );
+		this( new EvaluatorWeights( weights ), new NormalizedEvaluatorFactory() );
 	}
 
-	private MasterEvaluator( EvaluatorWeights evaluatorWeights ) {
+	MasterEvaluator( EvaluatorWeights evaluatorWeights, EvaluatorFactory evaluatorFactory ) {
 		this.evaluatorWeights = evaluatorWeights;
-		this.evaluatorFactory = new NormalizedEvaluatorFactory();
+		this.evaluatorFactory = evaluatorFactory;
 	}
 
 	@Override
@@ -71,7 +72,9 @@ public class MasterEvaluator implements Evaluator {
 
 		//result that is in [ 0, 1 ] range
 		//depends on the fact that the weights themselves are in [ 0, 1 ]
-		double normalizedResult = result / evaluatorWeights.size();
+
+        //-1 because we excluded terminal evaluator
+		double normalizedResult = result / ( evaluatorWeights.size() - 1 );
 
 		LOG.info("{} ===> {} ===> {}", move, result, normalizedResult);
 		return normalizedResult;
