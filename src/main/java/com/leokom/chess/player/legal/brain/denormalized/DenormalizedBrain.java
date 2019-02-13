@@ -152,6 +152,7 @@ public class DenormalizedBrain implements Brain {
 			//this division is very similar to that one done in MasterEvaluator
 			//for example if we had 2 evaluators with result eval1: 1, eval2: 0.5 plain sum would be 1.5 but the normalized one is 0.75
 
+			//summing without converting to DoubleStream http://stackoverflow.com/q/24421140
 			return weightedTable.column(move).values().stream().reduce(0.0, Double::sum) /
 					evaluatorWeights.size();
 		}
