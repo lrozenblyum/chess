@@ -35,27 +35,27 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 	private static final int MAXIMAL_SUPPORTED_DEPTH = 2;
 	//this is an absolute constant
 	private static final int MINIMAL_POSSIBLE_DEPTH = 1;
-	private final GenericEvaluator<S, T> brains;
+	private final GenericEvaluator<S, T> evaluator;
 	private final int pliesDepth;
 
 	/**
 	 * Create normalized brain
-	 * @param brains evaluator with results in [ 0, 1 ] range
+	 * @param evaluator evaluator with results in [ 0, 1 ] range
 	 */
-	public NormalizedBrain( GenericEvaluator<S, T> brains ) {
-		this( brains, 1 );
+	public NormalizedBrain( GenericEvaluator<S, T> evaluator ) {
+		this( evaluator, 1 );
 	}
 
 	/**
-	 * We assume that brains always evaluate the move from the side to move the next ply
+	 * We assume that evaluator always evaluate the move from the side to move the next ply
 	 * It was a logical assumption when we developed a 1-ply engine.
 	 * It can still be kept.
 	 * The alternative could be: stable evaluator that returns positive/negative result depending on color of the side to move
 	 *
-	 * @param brains evaluator with results in [ 0, 1 ] range
+	 * @param evaluator evaluator with results in [ 0, 1 ] range
 	 * @param pliesDepth depth to think
 	 */
-	public NormalizedBrain(GenericEvaluator<S, T> brains, int pliesDepth ) {
+	public NormalizedBrain(GenericEvaluator<S, T> evaluator, int pliesDepth ) {
 		if ( pliesDepth < MINIMAL_POSSIBLE_DEPTH) {
 			throw new IllegalArgumentException( String.format( "This depth is wrong: %s", pliesDepth ) );
 		}
@@ -64,7 +64,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 			throw new IllegalArgumentException( String.format( "This depth is not supported yet: %s", pliesDepth ) );
 		}
 
-		this.brains = new ValidatingNormalizedEvaluator<>( brains );
+		this.evaluator = new ValidatingNormalizedEvaluator<>(evaluator);
 		this.pliesDepth = pliesDepth;
 	}
 
@@ -100,10 +100,10 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 		//filtering out draw offers till #161
 		Map<T, Double> moveRatings =
 			getMovesWithoutDrawOffer( position ).collect(
-					toMap(
-						identity(),
-						move -> moveEvaluator.applyAsDouble( position, move )
-					)
+				toMap(
+					identity(),
+					move -> moveEvaluator.applyAsDouble( position, move )
+				)
 			);
 		List<T> bestMove = getMoveWithMaxRating( moveRatings );
 		LogManager.getLogger().info( "Best move(s): {}", bestMove );
@@ -114,7 +114,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 		ThreadContext.put( "moveBeingAnalyzed", move.toString() );
 
 		S target = position.move( move );
-		List<T> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
+		List<T> bestMove = new NormalizedBrain<>(this.evaluator, 1).findBestMove(target);
 
 		//can be empty in case of terminal position
 		if ( ! bestMove.isEmpty() ) {
@@ -126,10 +126,10 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 				//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
 				//where all the second level moves exist
 				// highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
-				brains.evaluateMove(position, move) - 1 :
+				evaluator.evaluateMove(position, move) - 1 :
 				//negating because bigger for the opponents means worse for the current player
 				//composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
-				-brains.evaluateMove(target, bestMove.get(0));
+				-evaluator.evaluateMove(target, bestMove.get(0));
 
 		LogManager.getLogger().info( "result = {}", moveRating );
 		ThreadContext.clearAll();
@@ -137,7 +137,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 	}
 
 	private double evaluateMoveViaSinglePly( S position, T move ) {
-		return brains.evaluateMove( position, move );
+		return evaluator.evaluateMove( position, move );
 	}
 
 	@Override
