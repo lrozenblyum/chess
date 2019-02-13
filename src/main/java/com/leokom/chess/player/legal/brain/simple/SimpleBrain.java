@@ -10,7 +10,7 @@ import java.util.*;
 import static java.util.Collections.singletonList;
 
 /**
- * GenericBrain that implements Simple player in Legal player's infrastructure
+ * Brain that implements Simple player in Legal player's infrastructure
  * Created by Leonid on 09.02.17.
  *
  * Based on previous implementation with comments:
