@@ -4,7 +4,7 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.brain.common.Brain;
+import com.leokom.chess.player.legal.brain.common.GenericBrain;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
@@ -22,7 +22,7 @@ import java.util.List;
 public class LegalPlayer implements Player {
 	private Player opponent;
 	private Position position = Position.getInitialPosition();
-	private final Brain brain;
+	private final GenericBrain< Position, Move > brain;
 
 	private boolean recordingMode;
 	private Side ourSide;
@@ -34,16 +34,16 @@ public class LegalPlayer implements Player {
 		this( new DenormalizedBrain() );
 	}
 
-	public LegalPlayer( Brain brain ) {
+	public LegalPlayer( GenericBrain< Position, Move > brain ) {
 		this.brain = brain;
 	}
 
 	/**
-	 * Create a player with standard decision maker and injected evaluators
-	 * @param brains brains to evaluate moves
+	 * Create a player with standard decision maker and injected evaluator
+	 * @param evaluator evaluator to evaluate moves
 	 */
-	public LegalPlayer( Evaluator brains ) {
-		this.brain = new NormalizedBrain( brains );
+	public LegalPlayer( Evaluator evaluator ) {
+		this.brain = new NormalizedBrain<>(evaluator);
 	}
 
 	@Override
@@ -110,10 +110,10 @@ public class LegalPlayer implements Player {
 
 		final List< Move > bestMoves = brain.findBestMove( position );
 		if ( bestMoves == null ) {
-		    throw new IllegalStateException( "Brain should never return null but it did that" );
+		    throw new IllegalStateException( "GenericBrain should never return null but it did that" );
         }
 		if ( bestMoves.isEmpty() ) {
-	        throw new IllegalStateException( "Brain doesn't want to move while the position is not terminal! It's a bug in the brain" );
+	        throw new IllegalStateException( "GenericBrain doesn't want to move while the position is not terminal! It's a bug in the brain" );
 		}
 
 		executeMoves( bestMoves );

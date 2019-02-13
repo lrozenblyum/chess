@@ -2,13 +2,18 @@ package com.leokom.chess.player.legal.brain.denormalized;
 
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.legal.brain.common.Brain;
+import com.leokom.chess.player.legal.brain.common.EvaluatorType;
+import com.leokom.chess.player.legal.brain.internal.common.EvaluatorWeights;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Author: Leonid
@@ -48,5 +53,13 @@ public class DenormalizedBrainTest {
 		final List< Move > movesFound = brain.findBestMove( position.build() );
 		assertFalse( movesFound.isEmpty() );
 		assertEquals( captureIsSmartest, movesFound.get( 0 ) );
+	}
+
+	@Test
+	public void nonStandardEvaluatorWeightsMustNotCrash() {
+		//maximal legal 1.0 weight set up
+		Map<EvaluatorType, Double> weights = Arrays.stream(EvaluatorType.values()).collect(Collectors.toMap(Function.identity(), type -> 1.0));
+		EvaluatorWeights evaluatorWeights = new EvaluatorWeights(weights);
+		assertNotNull( new DenormalizedBrain( evaluatorWeights ).findBestMove( Position.getInitialPosition() ) );
 	}
 }

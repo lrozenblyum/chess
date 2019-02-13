@@ -1,16 +1,14 @@
 package com.leokom.chess;
 
-import com.google.common.collect.ImmutableMap;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
-import com.leokom.chess.player.winboard.WinboardPlayer;
+import com.leokom.chess.player.legal.LegalPlayerSupplier;
+import com.leokom.chess.player.legal.brain.simple.SimplePlayerSupplier;
+import com.leokom.chess.player.winboard.WinboardPlayerSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.Optional;
 
 /**
  * Create players for the chess game
@@ -18,14 +16,30 @@ import java.util.function.Supplier;
  * Author: Leonid
  * Date-time: 06.05.14 22:45
  */
-public final class PlayerFactory {
+final class PlayerFactory {
 	private PlayerFactory() {}
 
 	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
 
-	//side -> name of system property that specifies player for the side
-	private static final Map< Side, String > SYSTEM_PROPERTIES = 
-			ImmutableMap.of( Side.WHITE, "white", Side.BLACK, "black" );
+	/**
+	 * Chess system properties.
+	 * Represent properties in format 'side.property' (like 'white.depth' or 'black.engine')
+	 */
+	static class ChessSystemProperty {
+		private final String propertyName;
+
+		ChessSystemProperty( String propertyName ) {
+			this.propertyName = propertyName;
+		}
+
+		Optional<String> getFor( Side side ) {
+			return Optional.ofNullable(
+				System.getProperty(
+					String.format( "%s.%s", side.name().toLowerCase(), propertyName )
+				)
+			);
+		}
+	}
 
 	/**
 	 * Create player for the side
@@ -40,56 +54,36 @@ public final class PlayerFactory {
 	 * Winboard vs any other engine that uses System.out has no practical use (UCI?)
 	 *
 	 * LegalPlayer vs LegalPlayer is possible but can lead to StackOverflow due to
-	 * no limits on move amount and single-threaded model of execution
+	 * no limits on move amount and single-threaded model of execution.
+	 *
+	 * LegalPlayer supports optional depth parameter.
 	 *
 	 * @param side side to create
 	 * @return new instance of a player
 	 */
 	static Player createPlayer( Side side ) {
-		final String engineName = System.getProperty( SYSTEM_PROPERTIES.get( side ) );
-
-		logger.info( "Engine from system properties: " + engineName + ". Side = " + side );
-
-		return selectPlayer( side, engineName ).create();
+		return new ChessSystemProperty("engine").getFor(side).map(engineName -> {
+			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
+			switch (engineName) {
+				case "Legal":
+					return getLegalPlayerSupplier( side );
+				case "Simple":
+					return new SimplePlayerSupplier();
+				case "Winboard":
+					return new WinboardPlayerSupplier();
+				default:
+					throw new IllegalArgumentException( "The engine is not supported: " + engineName);
+			}
+		}).orElseGet(() -> {
+			logger.info( "Selecting a default engine for Side = " + side );
+			return side == Side.WHITE ?	new WinboardPlayerSupplier() : getLegalPlayerSupplier( side );
+		}).get();
 	}
 
-	private static PlayerSelection selectPlayer( Side side, String engineName ) {
-		if ( engineName == null ) {
-			logger.info( "No selection done. Selecting default player" );
-			return getDefaultPlayer( side );
-		}
-
-		switch ( engineName ) {
-			case "Legal":
-				return PlayerSelection.LEGAL;
-			case "Simple":
-				return PlayerSelection.SIMPLE;
-			case "Winboard":
-				return PlayerSelection.WINBOARD;
-			default:
-				logger.warn( "Unsupported option specified. Selecting default player" );
-				return getDefaultPlayer( side );
-		}
-	}
-
-	public enum PlayerSelection {
-		LEGAL( LegalPlayer::new ),
-		SIMPLE( () -> new LegalPlayer( new SimpleBrain() ) ),
-		WINBOARD( WinboardPlayer::create );
-
-		private final Supplier< Player > playerCreator;
-
-		PlayerSelection( Supplier< Player > playerCreator ) {
-			this.playerCreator = playerCreator;
-		}
-
-		public Player create() {
-			return playerCreator.get();
-		}
-	}
-
-	private static PlayerSelection getDefaultPlayer( Side side ) {
-		logger.info( "Selecting default engine for Side = " + side );
-		return side == Side.WHITE ?	PlayerSelection.WINBOARD : PlayerSelection.LEGAL;
+	private static LegalPlayerSupplier getLegalPlayerSupplier( Side side ) {
+		return new ChessSystemProperty("depth").getFor(side)
+				.map(Integer::valueOf)
+				.map(LegalPlayerSupplier::new) //takes depth parameter
+				.orElseGet(LegalPlayerSupplier::new); //without parameters, default constructor
 	}
 }

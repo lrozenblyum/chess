@@ -22,10 +22,10 @@ public final class MainRunner {
 	 *
 	 * The parameters are provided via easier-to-use Java system properties way.
 	 * <p>
-	 * Supported parameters:
+	 * General parameters:
 	 *             <ul>
-	 *             <li>-Dwhite=<code>engineName</code></li>
-	 *             <li>-Dblack=<code>engineName</code></li>
+	 *             <li>-Dwhite.engine=<code>engineName</code></li>
+	 *             <li>-Dblack.engine=<code>engineName</code></li>
 	 *             </ul>
 	 *
 	 * <code>engineName</code> could be any of:
@@ -34,11 +34,25 @@ public final class MainRunner {
 	 *             <li>Simple</li>
 	 *             <li>Legal</li>
 	 *             </ul>
+ 	 *
+ 	 * Default players:
+ 	 *             <ul>
+ 	 *             <li>-Dwhite.engine=Winboard</li>
+ 	 *             <li>-Dblack.engine=Legal</li>
+ 	 *             </ul>
 	 *
-	 * Default players:
+	 * <p>
+	 *
+	 * Optional parameters for LegalPlayer
+	 * 	            <ul>
+	 * 	            <li>-Dwhite.depth=<code>depth in plies</code></li>
+	 * 	            <li>-Dblack.depth=<code>depth in plies</code></li>
+	 * 	            </ul>
+	 *
+	 * <code>depth in plies</code> can be any of:
 	 *             <ul>
-	 *             <li>-Dwhite=Winboard</li>
-	 *             <li>-Dblack=Legal</li>
+	 *             <li>1</li>
+	 *             <li>2</li>
 	 *             </ul>
 	 *
 	 * For Winboard opponents always specify them as Black

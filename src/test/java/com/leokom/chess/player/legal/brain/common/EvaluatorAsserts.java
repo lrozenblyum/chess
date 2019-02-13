@@ -17,7 +17,13 @@ public class EvaluatorAsserts {
 	}
 
 	public void assertFirstBetter( PositionBuilder position, Move expectedBetter, Move expectedWorse ) {
-		assertFirstBetter( position.setSideOf( expectedBetter.getFrom() ).build(), expectedBetter, expectedWorse );
+		if ( ! expectedBetter.isSpecial() ) {
+			position.setSideOf( expectedBetter.getFrom() );
+		}
+		else if ( position.getSideToMove() == null ) {
+			throw new IllegalArgumentException( "We are unable autodetect the side to move from a special move, you should have set up it in the builder" );
+		}
+		assertFirstBetter( position.build(), expectedBetter, expectedWorse );
 	}
 
 	public void assertFirstBetter( Position position, Move expectedBetter, Move expectedWorse ) {

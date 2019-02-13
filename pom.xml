@@ -75,6 +75,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.stefanbirkner</groupId>
+            <artifactId>system-rules</artifactId>
+            <version>1.19.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- To try improved lambdas in tests, if it succeeds
         we may use it in core as well -->
         <dependency>

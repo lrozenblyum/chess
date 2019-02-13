@@ -1,10 +1,13 @@
 package com.leokom.chess;
 
 import com.leokom.chess.player.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 /**
@@ -21,16 +24,18 @@ class Simulator {
 	private static final int GAMES_IN_SINGLE_ITERATION = 2;
 	private final Player first;
 	private final Player second;
+	private final Logger logger;
 
 	private int timesToRun = 1;
 
-	Simulator( PlayerFactory.PlayerSelection first, PlayerFactory.PlayerSelection second ) {
-		this( first.create(), second.create() );
+	Simulator( Supplier< Player > first, Supplier< Player > second ) {
+		this( first.get(), second.get() );
 	}
 
 	Simulator( Player first, Player second ) {
 		this.first = first;
 		this.second = second;
+		this.logger = LogManager.getLogger();
 	}
 
 	/**
@@ -43,16 +48,21 @@ class Simulator {
 	 * @return statistics about game results
 	 */
 	SimulatorStatistics run() {
+		logger.info("Starting simulation for {} and {}", first.name(), second.name());
 		List< Player > winners = new ArrayList<>();
 		IntStream.rangeClosed( 1, timesToRun ).forEach( iteration -> {
+			logger.info( "Simulation # {} of {}: starting...", iteration, timesToRun );
 			winners.add( createGame( first, second ).run() );
 			winners.add( createGame( second, first ).run() );
+			logger.info( "Simulation # {} of {}: done", iteration, timesToRun );
 		} );
 
 		final long firstWins = countWinsOf( winners, first );
 		final long secondWins = countWinsOf( winners, second );
 		final long totalGames = timesToRun * GAMES_IN_SINGLE_ITERATION;
-		return new SimulatorStatistics( totalGames, firstWins, secondWins );
+		SimulatorStatistics simulatorStatistics = new SimulatorStatistics(totalGames, firstWins, secondWins);
+		logger.info("The simulation has been finished. Stats: {}", simulatorStatistics);
+		return simulatorStatistics;
 	}
 
 	private static long countWinsOf( List< Player > winners, Player player ) {

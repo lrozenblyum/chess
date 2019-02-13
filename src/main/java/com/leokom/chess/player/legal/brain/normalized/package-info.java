@@ -1,5 +1,5 @@
 /**
- * Brain based on normalized evaluators.
+ * GenericBrain based on normalized evaluators.
  *
  * All evaluators in this package must return value
  *

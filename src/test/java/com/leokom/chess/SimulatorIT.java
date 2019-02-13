@@ -5,16 +5,17 @@ import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
+import com.leokom.chess.player.legal.LegalPlayerSupplier;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
+import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
+import com.leokom.chess.player.legal.brain.simple.SimplePlayerSupplier;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static com.leokom.chess.PlayerFactory.PlayerSelection.LEGAL;
-import static com.leokom.chess.PlayerFactory.PlayerSelection.SIMPLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -132,25 +133,25 @@ public class SimulatorIT {
 
 	@Test
 	public void legalVsSimpleNoCrash() {
-		new Simulator( LEGAL, SIMPLE ).run();
+		new Simulator( new LegalPlayerSupplier(), new SimplePlayerSupplier() ).run();
 	}
 
 	//we expect the default brain of the legal player is much smarter than the simple one
 	@Test
 	public void legalVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( LEGAL, SIMPLE ).run();
+		final SimulatorStatistics statistics = new Simulator( new LegalPlayerSupplier(), new SimplePlayerSupplier() ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
 
 	@Test
 	public void simpleVsSimpleNoCrash() {
-		new Simulator( SIMPLE, SIMPLE ).run();
+		new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
 	}
 
 	@Test
 	public void simpleVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( SIMPLE, SIMPLE ).run();
+		final SimulatorStatistics statistics = new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
 
 		//now simple vs simple correctly draws at the second move
 		assertEquals( new SimulatorStatistics( 2, 0, 0 ), statistics );
@@ -159,7 +160,7 @@ public class SimulatorIT {
 	//non-deterministic, it's not a business-requirement
 	@Test
 	public void legalVsLegalCustomEvaluator() {
-		final Evaluator brainLikesToEatPieces = new MasterEvaluatorBuilder().weight( EvaluatorType.MATERIAL, 100.0 ).build();
+		final Evaluator brainLikesToEatPieces = new MasterEvaluatorBuilder().weight( EvaluatorType.MATERIAL, 1.0 ).build();
 
 		final SimulatorStatistics statistics =
 			new Simulator( new LegalPlayer(), new LegalPlayer( brainLikesToEatPieces ) ).run();
@@ -180,12 +181,24 @@ public class SimulatorIT {
 	@Test
 	public void newBrainShouldBeBetter() {
 		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedBrain() );
-		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain() );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator() ) );
 		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer )
 				.gamePairs( 5 )
 				.run();
 
 		assertTrue( statistics + " should prove advantage of the first player",
 			statistics.getFirstWins() > statistics.getSecondWins() );
+	}
+
+	@Test
+	public void normalizedPlayerWithDepth2IsBetterThanDepth1() {
+		final LegalPlayer deeperThinker = new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 2 ) );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 1 ) );
+		final SimulatorStatistics statistics = new Simulator( deeperThinker, classicPlayer )
+				.gamePairs( 5 )
+				.run();
+
+		assertTrue( statistics + " should prove advantage of the first player",
+				statistics.getFirstWins() > statistics.getSecondWins() );
 	}
 }

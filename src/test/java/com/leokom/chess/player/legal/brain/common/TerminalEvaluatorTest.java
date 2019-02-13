@@ -7,7 +7,7 @@ import org.junit.Test;
  * Author: Leonid
  * Date-time: 01.03.15 22:31
  */
-public class CheckmateEvaluatorTest extends EvaluatorTestCase {
+public class TerminalEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void checkmateBetterThanNot() {
 		PositionBuilder builder = new PositionBuilder()
@@ -66,8 +66,19 @@ public class CheckmateEvaluatorTest extends EvaluatorTestCase {
 		asserts.assertFirstBetter( builder, checkmateMove, claimDrawMove );
 	}
 
+	@Test
+	public void drawClaimIsBetterThanResign() {
+		PositionBuilder builder = new PositionBuilder()
+				.add( Side.WHITE, "c1", PieceType.ROOK )
+				.add( Side.WHITE, "b7", PieceType.ROOK )
+				.add( Side.BLACK, "h8", PieceType.KING );
+
+
+		asserts.assertFirstBetter( builder, Move.CLAIM_DRAW, Move.RESIGN );
+	}
+
 	@Override
 	EvaluatorType getEvaluatorType() {
-		return EvaluatorType.CHECKMATE;
+		return EvaluatorType.TERMINAL;
 	}
 }

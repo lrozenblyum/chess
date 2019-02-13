@@ -3,41 +3,16 @@ package com.leokom.chess;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.winboard.WinboardPlayer;
+import org.hamcrest.CoreMatchers;
 import org.junit.*;
+import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PlayerFactoryTest {
-	private static String whiteProperty;
-	private static String blackProperty;
-
-	@BeforeClass
-	public static void preserveSystemProperties() {
-		whiteProperty = System.getProperty( "white" );
-		blackProperty = System.getProperty( "black" );
-	}
-
-	@AfterClass
-	public static void restoreSystemProperties() {
-		//if any of them is null, @After method already cleared it.
-		//setting null value of system property causes NPE
-		if ( whiteProperty != null ) {
-			System.setProperty( "white", whiteProperty );
-		}
-
-		if ( blackProperty != null ) {
-			System.setProperty( "black", blackProperty );
-		}
-	}
-
-	//ensure one test has no influence on another
-	@Before
-	@After
-	public void clearSystemProperties() {
-		System.clearProperty( "black" );
-		System.clearProperty( "white" );
-	}
+	//snapshots all system properties before a test, restores after it
+	@Rule
+	public final RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	@Test
 	public void noSystemPropertiesDefaultPlayerBlack() {
@@ -47,10 +22,17 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void canSelectSimpleEngineForWhite() {
-		System.setProperty( "white", "Simple" );
+		System.setProperty( "white.engine", "Simple" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertIsSimple( player );
+	}
+
+	@Test( expected = IllegalArgumentException.class )
+	public void failFastOnUnsupportedEngine() {
+		System.setProperty( "white.engine", "Unsupported" );
+
+		PlayerFactory.createPlayer( Side.WHITE );
 	}
 
 	private void assertIsSimple(Player player) {
@@ -59,7 +41,7 @@ public class PlayerFactoryTest {
 
 	@Test
 	public void canSelectWinboardForBlack() {
-		System.setProperty( "black", "Winboard" );
+		System.setProperty( "black.engine", "Winboard" );
 
 		final Player player = PlayerFactory.createPlayer( Side.BLACK );
 		assertTrue( player instanceof WinboardPlayer );
@@ -80,14 +62,72 @@ public class PlayerFactoryTest {
 	}
 
 	private void assertIsLegal( Player player ) {
-		assertEquals( "LegalPlayer : DenormalizedBrain", player.name() );
+		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer" ) );
 	}
 
 	@Test
 	public void legalSelectedWhite() {
-		System.setProperty( "white", "Legal" );
+		System.setProperty( "white.engine", "Legal" );
 
 		final Player player = PlayerFactory.createPlayer( Side.WHITE );
 		assertIsLegal( player );
+	}
+
+	@Test
+	public void depth2FromCommandLineRespectedForWhite() {
+		System.setProperty( "white.engine", "Legal" );
+		System.setProperty( "white.depth", "2" );
+
+		final Player player = PlayerFactory.createPlayer( Side.WHITE );
+		assertDepth( player, 2 );
+	}
+
+	@Test
+	public void depth1FromCommandLineRespectedForWhite() {
+		System.setProperty( "white.engine", "Legal" );
+		System.setProperty( "white.depth", "1" );
+
+		final Player player = PlayerFactory.createPlayer( Side.WHITE );
+		assertDepth( player, 1 );
+	}
+
+	@Test
+	public void depth1FromCommandLineRespectedForBlack() {
+		System.setProperty( "black.engine", "Legal" );
+		System.setProperty( "black.depth", "1" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 1 );
+	}
+
+	@Test
+	public void depth2FromCommandLineRespectedForBlack() {
+		System.setProperty( "black.engine", "Legal" );
+		System.setProperty( "black.depth", "2" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 2 );
+	}
+
+	@Test
+	public void legalPlayerDepthCanBeProvidedEvenIfEngineIsNotProvided() {
+		//because legal is default one
+		System.setProperty( "black.depth", "2" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 2 );
+	}
+
+	@Test
+	public void defaultDepthIs1() {
+		System.setProperty( "black.engine", "Legal" );
+
+		final Player player = PlayerFactory.createPlayer( Side.BLACK );
+		assertDepth( player, 1 );
+	}
+
+	private void assertDepth( Player player, int expectedDepth ) {
+		//shallow yet good enough check
+		assertThat( player.name(), CoreMatchers.containsString( String.valueOf( expectedDepth ) ) );
 	}
 }

@@ -33,7 +33,7 @@ import static java.util.stream.Collectors.toSet;
  * Author: Leonid
  * Date-time: 21.08.12 15:55
  */
-public class Position {
+public class Position implements GameState< Move, Position > {
 	/**
 	 * Chess rules mention moves counter must be calculated
 	 * for both players
@@ -641,6 +641,7 @@ public class Position {
 	 * @param move act of movement
 	 * @return new position, which is received from current by making 1 move
 	 */
+	@Override
 	public Position move( Move move ) {
 		return new PositionGenerator( this ).generate( move );
 	}
@@ -803,6 +804,7 @@ public class Position {
 	 * for #getSideToMove()
 	 * @return set of possible legal moves
 	 */
+	@Override
 	public Set< Move > getMoves() {
 		if ( terminal ) {
 			return new HashSet<>();
