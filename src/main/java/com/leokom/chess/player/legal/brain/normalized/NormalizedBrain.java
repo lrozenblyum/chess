@@ -117,7 +117,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 		List<T> bestMove = new NormalizedBrain<>(this.evaluator, 1).findBestMove(target);
 
 		//can be empty in case of terminal position
-		if ( ! bestMove.isEmpty() ) {
+		if ( bestMove.isEmpty() ) {
 			LogManager.getLogger().info( "Evaluating just the current level" );
 		}
 
