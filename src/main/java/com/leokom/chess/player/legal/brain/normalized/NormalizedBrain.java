@@ -94,13 +94,11 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 			this::evaluateMoveViaSinglePly :
 			this::evaluateMoveViaTwoPlies;
 
-		//filtering Draw offers till #161 is solved
+		//1. filtering Draw offers till #161 is solved
 		//this looks safe since Offer draw cannot be a single legal move in a position.
-
 		//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
-		//filtering out draw offers till #161
 
-		//NOTE: in future we may even not materialize the map and continue the Stream API chain to find the best move
+		//2. in future we may even not materialize the map and continue the Stream API chain to find the best move
 		Map<T, Double> moveRatings =
 			getMovesWithoutDrawOffer( position ).collect(
 				toMap(
