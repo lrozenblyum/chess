@@ -24,6 +24,11 @@ import static java.util.stream.Collectors.toMap;
  * Now it has become generic (actually even not depending on chess-related notions).
  * You can inject any custom evaluator that acts as a normalized one via constructor.
  *
+ * We assume that the evaluator always evaluates the move from the side to move the next ply
+ * It was a logical assumption when we developed a 1-ply engine.
+ * It can still be kept.
+ * The alternative could be: stable evaluator that returns positive/negative result depending on color of the side to move
+ *
  * @param <S> game state
  * @param <T> transition type
  *
@@ -47,13 +52,9 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 	}
 
 	/**
-	 * We assume that evaluator always evaluate the move from the side to move the next ply
-	 * It was a logical assumption when we developed a 1-ply engine.
-	 * It can still be kept.
-	 * The alternative could be: stable evaluator that returns positive/negative result depending on color of the side to move
-	 *
+	 * Create brain with custom plies depth
 	 * @param evaluator evaluator with results in [ 0, 1 ] range
-	 * @param pliesDepth depth to think
+	 * @param pliesDepth depth to think (1 or 2 are supported)
 	 */
 	public NormalizedBrain(GenericEvaluator<S, T> evaluator, int pliesDepth ) {
 		if ( pliesDepth < MINIMAL_POSSIBLE_DEPTH) {
