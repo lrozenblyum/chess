@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * Central brain of a move ('brains')
+ * Main normalized evaluator. Delegates evaluation to other normalized evaluators.
  */
 public class MasterEvaluator implements Evaluator {
 	private static final Logger LOG = LogManager.getLogger();

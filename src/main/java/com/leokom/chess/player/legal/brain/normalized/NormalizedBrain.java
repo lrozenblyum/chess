@@ -84,46 +84,57 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 	 *
 	 */
 	@Override
-	public List<T> findBestMove(S position ) {
-		Map<T, Double> moveRatings = new HashMap<>();
-
-		if ( pliesDepth == 1 ) {
-			//filtering Draw offers till #161 is solved
-			//this looks safe since Offer draw cannot be a single legal move in a position.
-
-			//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
-			getMovesWithoutDrawOffer(position).forEach( move ->
-				moveRatings.put(move, brains.evaluateMove( position, move ) )
-			);
-		}
-		else { //just 2 is supported now
-			getMovesWithoutDrawOffer( position ).forEach( move -> {
-				ThreadContext.put( "moveBeingAnalyzed", move.toString() );
-
-				S target = position.move( move );
-				List<T> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
-
-				//can be empty in case of terminal position
-				if ( ! bestMove.isEmpty() ) {
-					//negating because bigger for the opponents means worse for the current player
-					//composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
-					moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
-				} else {
-					LogManager.getLogger().info( "Evaluating just the current level" );
-					//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
-					//where all the second level moves exist
-					// highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
-					moveRatings.put( move, brains.evaluateMove( position, move ) - 1 ); //falling back to 1'st level
-				}
-
-				LogManager.getLogger().info( "result = {}", moveRatings.get( move ) );
-				ThreadContext.clearAll();
-			} );
-		}
-
-        List<T> bestMove = getMoveWithMaxRating(moveRatings);
+	public List<T> findBestMove( S position ) {
+		//just 1 or 2 is supported now
+		Map<T, Double> moveRatings =
+			pliesDepth == 1 ?
+			getSinglePlyRatings( position ) :
+			getTwoPliesRatings( position );
+		List<T> bestMove = getMoveWithMaxRating(moveRatings);
 		LogManager.getLogger().info( "Best move(s): {}", bestMove );
-        return bestMove;
+		return bestMove;
+	}
+
+	private Map<T, Double> getTwoPliesRatings(S position) {
+		Map<T, Double> moveRatings = new HashMap<>();
+		//filtering out draw offers till #161
+		getMovesWithoutDrawOffer( position ).forEach( move -> {
+			ThreadContext.put( "moveBeingAnalyzed", move.toString() );
+
+			S target = position.move( move );
+			List<T> bestMove = new NormalizedBrain<>(this.brains, 1).findBestMove(target);
+
+			//can be empty in case of terminal position
+			if ( ! bestMove.isEmpty() ) {
+				//negating because bigger for the opponents means worse for the current player
+				//composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
+				moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
+			} else {
+				LogManager.getLogger().info( "Evaluating just the current level" );
+				//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
+				//where all the second level moves exist
+				// highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
+				moveRatings.put( move, brains.evaluateMove( position, move ) - 1 ); //falling back to the 1'st level
+			}
+
+			LogManager.getLogger().info( "result = {}", moveRatings.get( move ) );
+			ThreadContext.clearAll();
+		} );
+		return moveRatings;
+	}
+
+	//thinking for 1 ply
+	private Map<T, Double> getSinglePlyRatings( S position ) {
+		Map<T, Double> moveRatings = new HashMap<>();
+		//filtering Draw offers till #161 is solved
+		//this looks safe since Offer draw cannot be a single legal move in a position.
+
+		//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
+		getMovesWithoutDrawOffer(position).forEach( move ->
+			moveRatings.put(move, brains.evaluateMove( position, move ) )
+		);
+
+		return moveRatings;
 	}
 
 	@Override
@@ -135,7 +146,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 		return position.getMoves().stream().filter(move -> move != Move.OFFER_DRAW);
 	}
 
-	private List<T> getMoveWithMaxRating(Map<T, Double > moveValues ) {
+	private List<T> getMoveWithMaxRating( Map<T, Double > moveValues ) {
 		return moveValues.entrySet().stream()
 				.max(Map.Entry.comparingByValue())
 				.map(Map.Entry::getKey)
