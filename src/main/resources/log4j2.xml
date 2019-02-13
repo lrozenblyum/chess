@@ -4,7 +4,7 @@
 as it may damage WinBoard -->
     <Appenders>
         <File name="fileApp" fileName="LeokomChess.log" append="true">
-            <PatternLayout pattern="%d{ISO8601} %5p %c{1}:%L %m%n"/>
+            <PatternLayout pattern="%d{ISO8601} %5p %c{1}:%L - %m%n"/>
         </File>
         <!-- Additional parameters about move being analyzed, for in-depth thinking -->
         <File name="fileApp-NormalizedBrain" fileName="LeokomChess.log" append="true">
