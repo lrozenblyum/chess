@@ -39,11 +39,11 @@ public class LegalPlayer implements Player {
 	}
 
 	/**
-	 * Create a player with standard decision maker and injected evaluators
-	 * @param brains brains to evaluate moves
+	 * Create a player with standard decision maker and injected evaluator
+	 * @param evaluator evaluator to evaluate moves
 	 */
-	public LegalPlayer( Evaluator brains ) {
-		this.brain = new NormalizedBrain<>(brains);
+	public LegalPlayer( Evaluator evaluator ) {
+		this.brain = new NormalizedBrain<>(evaluator);
 	}
 
 	@Override
