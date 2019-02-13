@@ -95,7 +95,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 		return bestMove;
 	}
 
-	private Map<T, Double> getTwoPliesRatings(S position) {
+	private Map<T, Double> getTwoPliesRatings( S position ) {
 		Map<T, Double> moveRatings = new HashMap<>();
 		//filtering out draw offers till #161
 		getMovesWithoutDrawOffer( position ).forEach( move -> {
@@ -106,16 +106,20 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 
 			//can be empty in case of terminal position
 			if ( ! bestMove.isEmpty() ) {
-				//negating because bigger for the opponents means worse for the current player
-				//composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
-				moveRatings.put(move, -brains.evaluateMove(target, bestMove.get(0)));
-			} else {
 				LogManager.getLogger().info( "Evaluating just the current level" );
-				//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
-				//where all the second level moves exist
-				// highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
-				moveRatings.put( move, brains.evaluateMove( position, move ) - 1 ); //falling back to the 1'st level
 			}
+
+			double moveRating = bestMove.isEmpty() ?
+					//falling back to the 1'st level
+					//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
+					//where all the second level moves exist
+					// highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
+					brains.evaluateMove(position, move) - 1 :
+					//negating because bigger for the opponents means worse for the current player
+					//composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
+					-brains.evaluateMove(target, bestMove.get(0));
+
+			moveRatings.put(move, moveRating);
 
 			LogManager.getLogger().info( "result = {}", moveRatings.get( move ) );
 			ThreadContext.clearAll();
@@ -123,7 +127,6 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 		return moveRatings;
 	}
 
-	//thinking for 1 ply
 	private Map<T, Double> getSinglePlyRatings( S position ) {
 		Map<T, Double> moveRatings = new HashMap<>();
 		//filtering Draw offers till #161 is solved
