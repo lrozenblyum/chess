@@ -7,7 +7,7 @@
     <name>Chess</name>
     <groupId>com.leokom</groupId>
     <artifactId>Chess</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>0.4</version>
 
 
     <!-- Added in order to support github-release-plugin.
@@ -260,7 +260,17 @@
                 <configuration>
                     <releaseName>${project.version} release</releaseName>
                     <description>
-                       To be defined
+                        Chess can think for 2 plies now (NormalizedBrain only). It is a big architectural improvement. The evaluators should be upgraded in next releases to make chess really smarter.
+                        Generic chess-independent notions were introduced. They can evolve into a chess-independent game framework.
+                        SimpleBrain uses moveNumber concept from Position which allowed improving LegalPlayer's support of multiple moves execution.
+                        Evaluator stages introduced (TerminalEvaluator is the first proof of concept in MasterEvaluator).
+                        Draw is recognized by TerminalEvaluator.
+                        CI Migrated to travis-ci.com.
+                        SonarCloud integrated.
+                        Licensing organized in GitHub-recognized de-facto standard way.
+                        Libraries upgraded.
+                        Minor improvements in logging and test infrastructure.
+                        Wiki documentation enriched.
                     </description>
                     <tag>${project.version}</tag>
                     <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
