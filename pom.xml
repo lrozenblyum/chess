@@ -143,7 +143,7 @@
     <build>
     	<finalName>Chess</finalName>
         <plugins>
-            <!-- Additionally configuring maven clean plug-in in order to clean the deploy directory and thus remove potential old artefacts -->
+            <!-- Additionally configuring maven clean plug-in in order to clean the deploy directory and thus remove potential old artifacts -->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.1.0</version>
