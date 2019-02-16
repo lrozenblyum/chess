@@ -185,9 +185,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.1</version>
                 <configuration>
-
                     <outputDirectory>${project.deployDirectory}</outputDirectory>
                     <archive>
                         <manifest>
