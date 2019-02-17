@@ -309,6 +309,11 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M3</version>
+                </plugin>
                 <!-- Although we're not using it directly, it's part of Maven lifecycle -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
