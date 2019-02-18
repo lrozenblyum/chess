@@ -24,7 +24,8 @@ set INITIAL_DIRECTORY=%cd%
 rem based on fact we're in src/main/bat and need to go to pom.xml location
 cd ..\..\..
 rem need to use call, otherwise maven takes the control over the batch
-call %M3_HOME%\bin\mvn clean package -DskipTests=true
+rem skipping both test compilation and execution by maven.test.skip in order to speed up start-up
+call %M3_HOME%\bin\mvn clean package -Dmaven.test.skip=true
 
 rem another option would be cd src/main/bat
 cd %INITIAL_DIRECTORY%
