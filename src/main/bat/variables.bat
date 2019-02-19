@@ -1,8 +1,8 @@
 @rem =======================================================
 @rem Tunes common settings:
-@rem 1. Winboard location
-@rem 2. Java executable location
-@rem All derivatives and default engine settings 
+@rem * Winboard location
+@rem * Java executable location
+@rem * All derivatives and default engine settings 
 @rem =======================================================
 
 @rem the variables should be tuned per target environment
