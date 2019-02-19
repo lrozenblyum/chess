@@ -5,18 +5,18 @@ call variables.bat
 SET RUNNABLE_JAR_DIRECTORY_2=%WINBOARD_INSTALLATION_PATH%\LeokomChessTest
 SET RUN_JAR_PATH_2=%RUNNABLE_JAR_DIRECTORY_2%\Chess.jar
 
-rem you may specify -Dblack.engine=Simple (or -Dblack=Simple if the second instance is Chess <= 0.3)
-rem for LegalPlayer you may specify -Dblack.depth=2 (if the second instance is Chess >= 0.4)
+@rem you may specify -Dblack.engine=Simple (or -Dblack=Simple if the second instance is Chess <= 0.3)
+@rem for LegalPlayer you may specify -Dblack.depth=2 (if the second instance is Chess >= 0.4)
 SET RUN_OPTIONS_2=
 SET ENGINE_2=%JAVA_PATH% %RUN_OPTIONS_2% -jar %RUN_JAR_PATH_2%
 
 SET MATCHES_COUNT=1
 
-rem to turn on debug mode add -debug
-rem it will create winboard debug log
+@rem to turn on debug mode add -debug
+@rem it will create winboard debug log
 
-rem -mg means match game
-rem -testClaims disabled claims test in order to allow draw claim manually from the engine without adjudication
+@rem -mg means match game
+@rem -testClaims disabled claims test in order to allow draw claim manually from the engine without adjudication
 %WINBOARD_PATH% ^
 -debug ^
 -reuseFirst false ^
