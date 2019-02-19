@@ -1,4 +1,6 @@
 @rem support Eclipse which doesn't set up working directory to this file's directory
+@rem however the working directory can be configured if we create an external tools configuration for this file
+@rem it also will then redirect the output to Eclipse console
 @rem TODO: duplicated over 3 files, how to avoid?
 %~d0
 cd %~p0
