@@ -4,6 +4,7 @@
 @rem Pre-requisites:
 @rem JAVA_HOME pointing to a valid Java installation
 @rem M3_HOME pointing to a valid Maven3 installation
+@rem variables.bat contains correct configuration
 @rem =======================================================
 
 @rem ----

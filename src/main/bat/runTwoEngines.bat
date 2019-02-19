@@ -1,3 +1,9 @@
+@rem =======================================================
+@rem Runs 2-engine match between Chess deployed to <WinboardRoot>/LeokomChess and <WinboardRoot>/LeokomChessTest
+@rem Pre-requisites:
+@rem variables.bat contains correct configuration
+@rem =======================================================
+
 %~d0
 cd %~p0
 

@@ -1,3 +1,10 @@
+@rem =======================================================
+@rem Tunes common settings:
+@rem 1. Winboard location
+@rem 2. Java executable location
+@rem All derivatives and default engine settings 
+@rem =======================================================
+
 @rem the variables should be tuned per target environment
 SET WINBOARD_INSTALLATION_PATH=E:\Games\WinBoard-4.8.0
 SET JAVA_PATH=Q:\Program Files\Java\jdk1.8.0_162\bin\java.exe
