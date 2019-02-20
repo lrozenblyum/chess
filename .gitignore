@@ -1,21 +1,21 @@
 #IDEA-specific files
-/out/
+*.iml
 .idea/libraries/
-.idea/compiler.xml
-.idea/encodings.xml
-.idea/misc.xml
 .idea/modules.xml
-.idea/vcs.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
 .idea/workspace.xml
+# I decided to share user dictionaries despite the fact it may be a problem in case of name conflict
 
 #Eclipse-specific files
 /.classpath
 /.project
-.settings/**
+/.settings/
 
 #Maven-specific files
 /target/
 
 #Chess-specific files
 LeokomChess.log
+
 
