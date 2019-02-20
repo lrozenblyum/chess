@@ -11,11 +11,12 @@
 #Eclipse-specific files
 /.classpath
 /.project
-.settings/**
+/.settings/
 
 #Maven-specific files
 /target/
 
 #Chess-specific files
 LeokomChess.log
+
 
