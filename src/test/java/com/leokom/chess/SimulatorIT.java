@@ -140,11 +140,6 @@ public class SimulatorIT {
 	}
 
 	@Test
-	public void simpleVsSimpleNoCrash() {
-		new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
-	}
-
-	@Test
 	public void simpleVsSimpleStatistics() {
 		final SimulatorStatistics statistics = new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
 
