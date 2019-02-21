@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.stubbing.Answer;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -53,6 +54,8 @@ public class LegalPlayerTest {
 		.when( opponent ).opponentMoved( any( Move.class ) );
 
 		player.joinGameForSideToMove();
+
+		assertTrue( player.getPosition().isTerminal() );
 	}
 
 	@Test
@@ -65,11 +68,14 @@ public class LegalPlayerTest {
 		player.setOpponent( opponent );
 		//not pawn, not capture
 		player.opponentMoved( new Move( "g1", "f3" ) );
+
+		assertTrue( player.getPosition().isTerminal() );
 	}
 
 	@Test
 	public void legalPlayerCreation() {
-		getLegalPlayer();
+		LegalPlayer legalPlayer = getLegalPlayer();
+		assertFalse( legalPlayer.getPosition().isTerminal() );
 	}
 
 	@Test
