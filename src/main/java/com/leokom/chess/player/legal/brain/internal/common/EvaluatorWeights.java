@@ -1,8 +1,10 @@
 package com.leokom.chess.player.legal.brain.internal.common;
 
+import com.google.common.collect.Maps;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -45,8 +47,7 @@ public final class EvaluatorWeights {
 	}
 
 	private static Map<EvaluatorType, Double > getStandardWeights() {
-		//TODO: refactor to constant immutable map
-		Map<EvaluatorType, Double > result = new HashMap<>();
+		Map<EvaluatorType, Double > result = new EnumMap<>( EvaluatorType.class	);
 		//terminal evaluator is still here till https://github.com/lrozenblyum/chess/issues/290
 		result.put( TERMINAL, HIGHEST_PRIORITY );
 		result.put( CASTLING_SAFETY, NORMAL_PRIORITY );
@@ -58,7 +59,7 @@ public final class EvaluatorWeights {
 		//this disabling is not absolute. Those moves anyway have chance
 		//e.g. if LegalPlayer selects moves in reverse order (from worse to best)
 		result.put( SPECIAL_MOVE, LOWEST_POSSIBLE );
-		return result;
+		return Maps.immutableEnumMap( result );
 	}
 
 	public Stream<Entry< EvaluatorType, Double >> stream() {

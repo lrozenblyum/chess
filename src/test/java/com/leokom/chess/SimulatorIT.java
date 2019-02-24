@@ -131,22 +131,12 @@ public class SimulatorIT {
 		when( second.getPosition() ).thenReturn( position, positions );
 	}
 
-	@Test
-	public void legalVsSimpleNoCrash() {
-		new Simulator( new LegalPlayerSupplier(), new SimplePlayerSupplier() ).run();
-	}
-
 	//we expect the default brain of the legal player is much smarter than the simple one
 	@Test
 	public void legalVsSimpleStatistics() {
 		final SimulatorStatistics statistics = new Simulator( new LegalPlayerSupplier(), new SimplePlayerSupplier() ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
-	}
-
-	@Test
-	public void simpleVsSimpleNoCrash() {
-		new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
 	}
 
 	@Test

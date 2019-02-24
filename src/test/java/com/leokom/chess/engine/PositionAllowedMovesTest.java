@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Author: Leonid
@@ -74,8 +75,8 @@ public class PositionAllowedMovesTest {
 	}
 
 	@Test
-	public void position() {
-		Position.getInitialPosition().isTerminal();
+	public void initialPositionNotTerminal() {
+		assertFalse( Position.getInitialPosition().isTerminal() );
 	}
 
 }

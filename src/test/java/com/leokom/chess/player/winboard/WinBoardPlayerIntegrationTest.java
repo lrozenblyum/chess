@@ -5,6 +5,7 @@ import com.leokom.chess.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
@@ -146,7 +147,8 @@ public class WinBoardPlayerIntegrationTest {
 		when( communicator.receive() ).thenReturn( "usermove e2e4" );
 		//mid-level processing
 		commander.processInputFromServer();
-		//no exceptions expected
+		//no exceptions expected, the move should be respected
+		assertEquals( Side.BLACK, player.getPosition().getSideToMove() );
 	}
 
 	//Winboard -> Player
