@@ -39,6 +39,20 @@ public class MobilityEvaluatorTest extends EvaluatorTestCase {
 		asserts.assertFirstBetter( position, expectedBetter, expectedWorse );
 	}
 
+	//0.5 attempt is to make analyze not only ours but the opponent's position
+	@Test
+	public void blockingOpponentMobilityIsBetterThanNot() {
+		Position position = new Position( Side.WHITE );
+		position.add( Side.BLACK, "a8", PieceType.QUEEN );
+		position.add( Side.WHITE, "c8", PieceType.ROOK );
+
+		//difference for the opponent, our mobility is not affected
+		Move lessFreedomForQueen = new Move( "c8", "b8" );
+		Move moreFreedomForQueen = new Move( "c8", "d8" );
+
+		asserts.assertFirstBetter( position, lessFreedomForQueen, moreFreedomForQueen );
+	}
+
 	@Override
 	EvaluatorType getEvaluatorType() {
 		return EvaluatorType.MOBILITY;
