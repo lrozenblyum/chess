@@ -21,7 +21,7 @@ class MaterialEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		double materialAdvantage = new DenormalizedEvaluatorFactory().get( EvaluatorType.MATERIAL ).evaluateMove( position, move );
-		return range.normalize( materialAdvantage );
+		return RANGE.normalize( materialAdvantage );
 	}
 
 	//highly depends on actual values
@@ -40,5 +40,5 @@ class MaterialEvaluator implements Evaluator {
 	//but to support 'invalid' positions we keep the lowest possible value
 	private static final int MINIMAL_VALUE = 0;
 
-	private static final SymmetricalNormalizedRange range = new SymmetricalNormalizedRange( MINIMAL_VALUE, MAXIMAL_VALUE );
+	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( MINIMAL_VALUE, MAXIMAL_VALUE );
 }

@@ -18,12 +18,12 @@ class MobilityEvaluator implements Evaluator {
 	private static final int MAXIMAL_POSSIBLE_MOVES = 1000;
 	private static final int MINIMAL_POSSIBLE_MOVES = 0;
 
-	private static final SymmetricalNormalizedRange range = new SymmetricalNormalizedRange( MINIMAL_POSSIBLE_MOVES, MAXIMAL_POSSIBLE_MOVES );
+	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( MINIMAL_POSSIBLE_MOVES, MAXIMAL_POSSIBLE_MOVES );
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		double denormalized = new DenormalizedEvaluatorFactory().get( EvaluatorType.MOBILITY )
 				.evaluateMove(position, move);
-		return range.normalize( denormalized );
+		return RANGE.normalize( denormalized );
 	}
 }
