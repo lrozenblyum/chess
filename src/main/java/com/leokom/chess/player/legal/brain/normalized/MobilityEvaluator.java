@@ -16,11 +16,14 @@ import com.leokom.chess.player.legal.brain.denormalized.DenormalizedEvaluatorFac
 class MobilityEvaluator implements Evaluator {
 	//TODO: calculate theoretical max. possible moves count in a position (9 promoted queens + all others? )
 	private static final int MAXIMAL_POSSIBLE_MOVES = 1000;
+	private static final int MINIMAL_POSSIBLE_MOVES = 0;
+
+	private static final SymmetricalNormalizedRange range = new SymmetricalNormalizedRange( MINIMAL_POSSIBLE_MOVES, MAXIMAL_POSSIBLE_MOVES );
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		double denormalized = new DenormalizedEvaluatorFactory().get(EvaluatorType.MOBILITY)
+		double denormalized = new DenormalizedEvaluatorFactory().get( EvaluatorType.MOBILITY )
 				.evaluateMove(position, move);
-		return ( denormalized + 2 * MAXIMAL_POSSIBLE_MOVES ) / ( 4 * MAXIMAL_POSSIBLE_MOVES );
+		return range.normalize( denormalized );
 	}
 }

@@ -10,6 +10,9 @@ class SymmetricalNormalizedRange {
     private final double maximalAdvantage;
     private final double minimalAdvantage;
 
+    //NOTE: the algorithm can be speed-up by simplifying the expressions below. Not a goal now.
+
+    //the range will be [ -(max-min); (max-min) ]
     SymmetricalNormalizedRange( double minimalPossibleValue, double maximalPossibleValue ) {
         this.maximalAdvantage = maximalPossibleValue - minimalPossibleValue;
         this.minimalAdvantage = minimalPossibleValue - maximalPossibleValue;
