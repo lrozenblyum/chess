@@ -9,6 +9,7 @@ import org.junit.Test;
 /**
  * Author: Leonid
  * Date-time: 23.07.14 21:44
+ * This test is generic (verifies both normalized and denormalized behavior)
  */
 public class MobilityEvaluatorTest extends EvaluatorTestCase {
 

@@ -19,8 +19,8 @@ class MobilityEvaluator implements Evaluator {
 
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return new DenormalizedEvaluatorFactory().get( EvaluatorType.MOBILITY )
-				.evaluateMove( position, move )
-				/ MAXIMAL_POSSIBLE_MOVES;
+		double denormalized = new DenormalizedEvaluatorFactory().get(EvaluatorType.MOBILITY)
+				.evaluateMove(position, move);
+		return ( denormalized + 2 * MAXIMAL_POSSIBLE_MOVES ) / ( 4 * MAXIMAL_POSSIBLE_MOVES );
 	}
 }
