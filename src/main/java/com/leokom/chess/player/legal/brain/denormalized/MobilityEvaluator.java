@@ -30,6 +30,6 @@ class MobilityEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		return target.toMirror().getMoves().size();
+		return target.toMirror().getMoves().size() - target.getMoves().size();
 	}
 }
