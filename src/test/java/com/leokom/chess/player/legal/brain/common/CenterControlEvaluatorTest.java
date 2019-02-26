@@ -101,6 +101,19 @@ public class CenterControlEvaluatorTest extends EvaluatorTestCase {
 		asserts.assertFirstBetter( position, twoSquaresControlled, singleSquareControl );
 	}
 
+	@Test
+	public void blockingOpponentFromCenterControlIsBetterThanNot() {
+		PositionBuilder position = new PositionBuilder()
+				.add( Side.WHITE, "a8", PieceType.BISHOP ) //controls d5/e4
+				.add( Side.BLACK, "b6", PieceType.PAWN )
+				.add( Side.BLACK, "h6", PieceType.PAWN );
+
+		Move blockingOpponentCenterControl = new Move( "b6", "b7" );
+		Move notBlockingOpponentCenterControl = new Move( "h6", "h7" );
+
+		asserts.assertFirstBetter( position, blockingOpponentCenterControl, notBlockingOpponentCenterControl );
+	}
+
 	@Override
 	EvaluatorType getEvaluatorType() {
 		return EvaluatorType.CENTER_CONTROL;
