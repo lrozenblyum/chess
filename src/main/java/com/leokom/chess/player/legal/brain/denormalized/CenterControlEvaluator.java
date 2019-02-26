@@ -39,9 +39,13 @@ class CenterControlEvaluator implements Evaluator {
 		//technically it's naive check - since the situation
 		//can change drastically after the opponent's move
 		//however we look now only at 1/2 depth
-		final Set< String > squaresAttackedByUs = targetPosition.getSquaresAttackedBy( ourSide );
+		return centerControlIndex( targetPosition, ourSide ) - centerControlIndex( targetPosition, ourSide.opposite() );
+	}
 
-		final Set< String > intersection = Sets.intersection( squaresAttackedByUs, CENTER_SQUARES );
+	private double centerControlIndex(Position targetPosition, Side side) {
+		final Set< String > squaresAttacked = targetPosition.getSquaresAttackedBy(side);
+
+		final Set< String > intersection = Sets.intersection( squaresAttacked, CENTER_SQUARES );
 
 		return intersection.size();
 	}
