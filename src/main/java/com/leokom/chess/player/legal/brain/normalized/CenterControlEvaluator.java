@@ -23,13 +23,15 @@ class CenterControlEvaluator implements Evaluator {
 	//TODO: duplication with brain from another package, should we generalize?
 	private static final Set<String> CENTER_SQUARES = ImmutableSet.of( "e5", "e4", "d4", "d5" );
 
+	private static final SymmetricalNormalizedRange range = new SymmetricalNormalizedRange( 0, 4 );
+
 	/**
 	 * {@inheritDoc}
 	 *
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return new DenormalizedEvaluatorFactory().get( EvaluatorType.CENTER_CONTROL )
-				.evaluateMove( position, move ) / (float) CENTER_SQUARES.size();
+		return range.normalize( new DenormalizedEvaluatorFactory().get( EvaluatorType.CENTER_CONTROL )
+				.evaluateMove( position, move ) );
 	}
 }

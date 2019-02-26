@@ -24,7 +24,7 @@ class CenterControlEvaluator implements Evaluator {
 
 	/**
 	 * {@inheritDoc}
-	 * @return [ 0, 4 ]
+	 * @return [ -4, 4 ]
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
