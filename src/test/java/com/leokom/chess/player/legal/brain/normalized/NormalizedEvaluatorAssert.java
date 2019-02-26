@@ -7,7 +7,7 @@ import org.junit.Assert;
 class NormalizedEvaluatorAssert {
     private final Evaluator evaluator;
 
-    NormalizedEvaluatorAssert( Evaluator  evaluator ) {
+    NormalizedEvaluatorAssert( Evaluator evaluator ) {
         this.evaluator = evaluator;
     }
 
@@ -15,7 +15,8 @@ class NormalizedEvaluatorAssert {
         position.getMoves().forEach(move -> {
             double value = evaluator.evaluateMove( position, move );
             if ( value < 0.0 || value > 1.0 ) {
-                Assert.fail( String.format( "Value %s outside of normalized range for move: %s ", value, move ) );
+                Assert.fail( String.format( "Evaluator %s returned value %s outside of normalized range for move: %s ",
+                    evaluator.getClass().getSimpleName(), value, move ) );
             }
         } );
     }

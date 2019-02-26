@@ -13,8 +13,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertTrue;
-
 /**
  * Ensure normalized evaluators correctly implement contract
  * [ 0, 1 ]
@@ -34,7 +32,8 @@ public class NormalizedEvaluatorsCorrectnessTest {
 
 	@Test
 	public void allMovesInCorrectRangeFromInitialPosition() {
-		assertAllMovesCorrectlyEvaluated( Position.getInitialPosition() );
+		new NormalizedEvaluatorAssert( new NormalizedEvaluatorFactory().get( evaluatorType ) )
+				.assertAllMovesEvaluatedInNormalizedRange( Position.getInitialPosition() );
 	}
 
 	@Test
@@ -46,16 +45,8 @@ public class NormalizedEvaluatorsCorrectnessTest {
 				.setSide( Side.WHITE )
 				.build();
 
-		assertAllMovesCorrectlyEvaluated( position );
+		new NormalizedEvaluatorAssert( new NormalizedEvaluatorFactory().get( evaluatorType ) )
+				.assertAllMovesEvaluatedInNormalizedRange( position );
 	}
 
-	private void assertAllMovesCorrectlyEvaluated( Position position ) {
-		position.getMoves().forEach(
-			move -> {
-				final double value = new NormalizedEvaluatorFactory().get( evaluatorType ).evaluateMove( position, move );
-				assertTrue( String.format( "Evaluator %s returned wrong value %s for move %s", evaluatorType, value, move ),
-					value >= 0.0 && value <= 1.0 );
-			}
-		);
-	}
 }
