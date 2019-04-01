@@ -96,9 +96,7 @@ class CastlingSafetyEvaluator implements Evaluator {
 	 * Collecting pieces between king and not-moved rook
 	 * @param position position
 	 * @param side side (important to inject to check state AFTER move)
-	 * @return amount of occupied squares between king & not-moved rook BY US
-	 * Since we're not taking into account opponents moves, we don't take his pieces into account
-	 *
+	 * @return amount of occupied squares between king & not-moved rook
 	 */
 	private int getOccupiedInBetween( Position position, Side side ) {
 		//collecting squares between king and not-moved rook
@@ -114,7 +112,10 @@ class CastlingSafetyEvaluator implements Evaluator {
 		}
 
 		final Set<String> occupiedInBetween =
-				Sets.intersection( position.getSquaresOccupiedBySide( side ), squaresInBetween );
+				Sets.intersection(
+						Sets.union( position.getSquaresOccupiedBySide( side ),
+									position.getSquaresOccupiedBySide( side.opposite() )),
+								squaresInBetween );
 
 		return occupiedInBetween.size();
 	}
