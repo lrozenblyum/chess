@@ -1,4 +1,4 @@
-package com.leokom.chess.player.legal.brain.denormalized;
+package com.leokom.chess.player.legal.brain.normalized;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -15,7 +15,6 @@ import java.util.Set;
  * Author: Leonid
  * Date-time: 14.07.14 22:58
  */
-//public because it should be accessed from 'normalized' package test
 public class CastlingSafetyEvaluator implements Evaluator {
 	//we can also create some enum and use it instead of integers in data structures
 	//however so far it's simpler to have in so to reuse Collections.max etc

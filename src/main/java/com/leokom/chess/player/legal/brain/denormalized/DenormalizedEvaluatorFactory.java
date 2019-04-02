@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorFactory;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
+import com.leokom.chess.player.legal.brain.normalized.CastlingSafetyEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.TerminalEvaluator;
 
 import java.util.EnumMap;

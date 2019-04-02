@@ -1,7 +1,6 @@
 package com.leokom.chess.player.legal.brain.normalized;
 
 import com.leokom.chess.engine.Position;
-import com.leokom.chess.player.legal.brain.denormalized.CastlingSafetyEvaluator;
 import org.junit.Before;
 import org.junit.Test;
 
