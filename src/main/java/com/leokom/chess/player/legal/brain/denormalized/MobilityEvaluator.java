@@ -32,6 +32,7 @@ class MobilityEvaluator implements Evaluator {
 
 		int ourMobilityIndex = target.toMirror().getMoves().size();
 		int opponentMobilityIndex = target.getMoves().size();
-		return ourMobilityIndex - opponentMobilityIndex;
+		//sonar suggests this casting
+		return (double) ourMobilityIndex - opponentMobilityIndex;
 	}
 }
