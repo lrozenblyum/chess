@@ -24,6 +24,8 @@ public class CastlingSafetyEvaluator implements Evaluator {
 	private static final double BAD_MOVE = 0.25;
 	private static final double WORST_MOVE = 0;
 
+	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( WORST_MOVE, BEST_MOVE );
+
 	private static final Set< Move > CASTLING_MOVES = ImmutableSet.of(
 			new Move( "e1", "g1" ),
 			new Move( "e1", "c1" ),
@@ -52,7 +54,7 @@ public class CastlingSafetyEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Side side = position.getSideToMove();
 
-		return getCastlingSafetyIndex( position, move, side ) - getCastlingSafetyIndex( position, move, side.opposite() );
+		return RANGE.normalize( getCastlingSafetyIndex( position, move, side ) - getCastlingSafetyIndex( position, move, side.opposite() ) );
 	}
 
 	private double getCastlingSafetyIndex(Position position, Move move, Side side) {
