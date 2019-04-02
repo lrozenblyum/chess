@@ -29,13 +29,6 @@
         </repository>
     </distributionManagement>
 
-    <repositories>
-        <repository>
-            <id>maven.fluxchess.com</id>
-            <url>http://maven.fluxchess.com/release</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -125,17 +118,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fluxchess</groupId>
+            <groupId>com.fluxchess.jcpi</groupId>
             <artifactId>jcpi</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.fluxchess</groupId>
-            <artifactId>jcpi</artifactId>
-            <version>1.4.0</version>
-            <type>test-jar</type>
-            <scope>test</scope>
+            <version>1.4.1</version>
         </dependency>
     </dependencies>
 
