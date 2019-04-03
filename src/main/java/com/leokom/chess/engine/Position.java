@@ -341,7 +341,7 @@ public class Position implements GameState< Move, Position > {
 	}
 
 	private Stream<String> getSquaresOccupiedBySideToStream( Side neededSide ) {
-		return pieces.keySet().stream().filter( square -> this.isOccupiedBy( square, neededSide ) );
+		return getSquaresOccupied().stream().filter( square -> this.isOccupiedBy( square, neededSide ) );
 	}
 
 	private boolean isKingInCheck( Side side ) {
@@ -674,7 +674,7 @@ public class Position implements GameState< Move, Position > {
 	 */
 	void copyStateTo( Position position ) {
 		//cloning position
-		for ( String square : pieces.keySet() ) {
+		for ( String square : getSquaresOccupied() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
 			position.pieces.put( square, pieces.get( square ) );
 		}
