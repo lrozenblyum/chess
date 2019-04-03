@@ -113,11 +113,7 @@ public class CastlingSafetyEvaluator implements Evaluator {
 			FILES_IN_BETWEEN_KING_SIDE.forEach( file -> squaresInBetween.add( file + rank ) );
 		}
 
-		final Set<String> occupiedInBetween =
-				Sets.intersection(
-						Sets.union( position.getSquaresOccupiedBySide( side ),
-									position.getSquaresOccupiedBySide( side.opposite() )),
-								squaresInBetween );
+		final Set<String> occupiedInBetween = Sets.intersection( position.getSquaresOccupied(), squaresInBetween );
 
 		return occupiedInBetween.size();
 	}

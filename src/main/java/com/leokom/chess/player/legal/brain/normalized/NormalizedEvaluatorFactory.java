@@ -29,6 +29,7 @@ public class NormalizedEvaluatorFactory implements EvaluatorFactory {
 		evaluatorsMutable.put( EvaluatorType.MOBILITY, new MobilityEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.PROTECTION, new ProtectionEvaluator() );
 
+
 		EVALUATORS = Maps.immutableEnumMap( evaluatorsMutable );
 	}
 

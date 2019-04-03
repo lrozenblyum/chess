@@ -331,6 +331,11 @@ public class Position implements GameState< Move, Position > {
 		return result;
 	}
 
+	public Set<String> getSquaresOccupied() {
+		//risk for immutability?
+		return pieces.keySet();
+	}
+
 	public Set<String> getSquaresOccupiedBySide( Side neededSide ) {
 		return getSquaresOccupiedBySideToStream( neededSide ).collect( toSet() );
 	}
