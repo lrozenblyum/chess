@@ -3,7 +3,6 @@ package com.leokom.chess.player.legal.brain.normalized;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
@@ -58,34 +57,29 @@ public class CastlingSafetyEvaluator implements Evaluator {
 	}
 
 	private double getCastlingSafetyIndex(Position position, Move move, Side side) {
-		//if king has moved already - all other moves are fine
-		//they don't bring anything for castling safety
-
-		if ( position.hasKingMoved( side ) ) {
-			return ACCEPTABLE_MOVE;
-		}
-
-		//both rooks moved - no chance to castling
-		if ( position.hasARookMoved( side ) && position.hasHRookMoved( side ) ) {
-			return ACCEPTABLE_MOVE;
-		}
-
 		//strategy : 'castling addicted player'
 		// avoid moving rook and king
 		//if it's not castling (I want to see castling)
 		//in principle after castling we could allow such moves
 
-		if ( position.getPieceType( move.getFrom() ) == PieceType.ROOK ) {
+		if ( position.getSideToMove() == side && CASTLING_MOVES.contains( move ) )  {
+			return BEST_MOVE;
+		}
+
+		Position target = position.move( move );
+
+		//if king has moved already - all other moves don't help in castling safety
+		if ( target.hasKingMoved( side ) ) {
 			return WORST_MOVE;
 		}
 
-		if ( position.getPieceType( move.getFrom() ) == PieceType.KING ) {
-			//REFACTOR: duplication with PositionGenerator to detect castling moves
-			return CASTLING_MOVES.contains( move ) ? BEST_MOVE : WORST_MOVE;
+		//both rooks moved - no chance to castling
+		if ( target.hasARookMoved( side ) && target.hasHRookMoved( side ) ) {
+			return WORST_MOVE;
 		}
 
 		int occupied = getOccupiedInBetween( position, side );
-		int occupiedAfterMove = getOccupiedInBetween( position.move( move ), side );
+		int occupiedAfterMove = getOccupiedInBetween( target, side );
 
 		if ( occupiedAfterMove == occupied ) {
 			return ACCEPTABLE_MOVE;
