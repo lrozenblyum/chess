@@ -73,8 +73,8 @@ public class CastlingSafetyEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		//both rooks moved - no chance to castling
-		if ( target.hasARookMoved( side ) && target.hasHRookMoved( side ) ) {
+		//any of rooks is moving: reducing chances to castle
+		if ( target.hasARookMoved( side ) || target.hasHRookMoved( side ) ) {
 			return WORST_MOVE;
 		}
 
