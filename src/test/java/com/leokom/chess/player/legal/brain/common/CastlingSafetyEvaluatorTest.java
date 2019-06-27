@@ -6,6 +6,20 @@ import org.junit.Test;
 
 public class CastlingSafetyEvaluatorTest extends EvaluatorTestCase {
 	@Test
+	public void movingRookToLoseOneOfCastlingIsNotFine() {
+		Position position = new PositionBuilder()
+				.add(Side.WHITE, "e1", PieceType.KING)
+				.add(Side.WHITE, "b1", PieceType.KNIGHT)
+				.add(Side.WHITE, "a1", PieceType.ROOK)
+				.add(Side.WHITE, "h1", PieceType.ROOK)
+				.add(Side.WHITE, "h2", PieceType.PAWN)
+				.add(Side.BLACK, "e8", PieceType.KING)
+				.build();
+
+		asserts.assertFirstBetter( position, new Move( "h2", "h3" ), new Move( "a1", "a2" ) );
+	}
+
+	@Test
 	public void noCastlingSafetyAfterKingMovement() {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e1", PieceType.KING );
