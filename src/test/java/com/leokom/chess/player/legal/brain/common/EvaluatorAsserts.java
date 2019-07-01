@@ -12,9 +12,9 @@ import static org.junit.Assert.assertEquals;
  * Date-time: 15.07.14 21:42
  */
 public class EvaluatorAsserts {
-	private final Evaluator evaluator;
+	private final GenericEvaluator<Position, Move> evaluator;
 
-	public EvaluatorAsserts( Evaluator evaluator ) {
+	public EvaluatorAsserts( GenericEvaluator<Position, Move>  evaluator ) {
 		this.evaluator = evaluator;
 	}
 
