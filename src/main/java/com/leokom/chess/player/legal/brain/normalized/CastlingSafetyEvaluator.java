@@ -15,13 +15,10 @@ import java.util.Set;
  * Date-time: 14.07.14 22:58
  */
 public class CastlingSafetyEvaluator implements Evaluator {
-	//we can also create some enum and use it instead of integers in data structures
-	//however so far it's simpler to have in so to reuse Collections.max etc
 	private static final double BEST_MOVE = 1;
-	private static final double GOOD_MOVE = 0.75;
-	private static final double ACCEPTABLE_MOVE = 0.5;
-	private static final double BAD_MOVE = 0.25;
 	private static final double WORST_MOVE = 0;
+
+	private static final int MAX_PIECES_BETWEEN_KING_AND_ROOKS = 5; //8 in the row - pieces of interest themselves
 
 	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( WORST_MOVE, BEST_MOVE );
 
@@ -78,14 +75,9 @@ public class CastlingSafetyEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		int occupied = getOccupiedInBetween( position, side );
-		int occupiedAfterMove = getOccupiedInBetween( target, side );
-
-		if ( occupiedAfterMove == occupied ) {
-			return ACCEPTABLE_MOVE;
-		}
-
-		return  occupiedAfterMove < occupied ? GOOD_MOVE : BAD_MOVE;
+		//the less occupied - the better
+		//normalizing to range [ 0.25, 0.75 ] of 'acceptable' moves
+		return ( 1 - (double) getOccupiedInBetween( target, side ) / MAX_PIECES_BETWEEN_KING_AND_ROOKS ) * 0.5 + 0.25;
 	}
 
 	/**

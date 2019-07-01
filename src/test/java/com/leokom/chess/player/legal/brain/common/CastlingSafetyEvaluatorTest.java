@@ -32,10 +32,10 @@ public class CastlingSafetyEvaluatorTest extends EvaluatorTestCase {
 
 		Position prepare = position.move( "e1", "f1" ).move("e7", "e5" );
 
-		//0 for us. 0.5 (acceptable) for the opponent -> 0.25
+		//0 for us. 0.25 (fine because empty between king and rooks) for the opponent -> 0.125
 		//0, 0 would be 0.5
 		//0, 1 would be 0 however it doesn't seem possible now - the opponent cannot castle when you move
-		asserts.assertEvaluation( 0.25,  prepare, new Move( "h1", "g2" ) );
+		asserts.assertEvaluation( 0.125,  prepare, new Move( "h1", "g2" ) );
 	}
 
 	@Test
