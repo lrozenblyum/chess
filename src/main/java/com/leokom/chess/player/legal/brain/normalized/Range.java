@@ -30,9 +30,13 @@ class Range {
             throw new IllegalArgumentException( String.format( "The value %s is out of range [ %s, %s ] ", value, minValue, maxValue ) );
         }
 
-        double ourPosition = ( value - minValue ) / ( maxValue - minValue );
+        double ourPosition = ( value - minValue ) / length();
 
-        return ( targetRange.maxValue - targetRange.minValue ) * ourPosition + targetRange.minValue;
+        return targetRange.length() * ourPosition + targetRange.minValue;
+    }
+
+    private double length() {
+        return this.maxValue - this.minValue;
     }
 
     boolean contains( double value ) {
