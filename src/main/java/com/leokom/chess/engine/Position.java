@@ -70,6 +70,10 @@ public class Position implements GameState< Move, Position > {
 
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
+	//this should be replaced by position history which would be needed for repetition rules
+	//now it's used for Castling evaluator, it's some extension of historical information
+	private Set< Side > hasCastlingExecuted = new HashSet<>();
+
 	private Side sideToMove;
 
 	private Result gameResult;
@@ -90,6 +94,10 @@ public class Position implements GameState< Move, Position > {
 
 	void setHasHRookMoved( Side side ) {
 		this.hasHRookMoved.add( side );
+	}
+
+	void setHasCastlingExecuted( Side side ) {
+		this.hasCastlingExecuted.add( side );
 	}
 
 	void setEnPassantFile( Character enPassantFile ) {	this.enPassantFile = enPassantFile; }
@@ -667,6 +675,10 @@ public class Position implements GameState< Move, Position > {
 		return hasKingMoved.contains( side );
 	}
 
+	public boolean hasCastlingExecuted( Side side ) {
+		return hasCastlingExecuted.contains( side );
+	}
+
 	/**
 	 * Copy pieces from current position to the destination
 	 * Copy state (like info if the king has moved)
@@ -684,6 +696,7 @@ public class Position implements GameState< Move, Position > {
 		position.hasKingMoved = new HashSet<>( this.hasKingMoved );
 		position.hasARookMoved = new HashSet<>( this.hasARookMoved );
 		position.hasHRookMoved = new HashSet<>( this.hasHRookMoved );
+		position.hasCastlingExecuted = new HashSet<>( this.hasCastlingExecuted );
 
 		//little overhead but ensuring we really copy the FULL state
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;

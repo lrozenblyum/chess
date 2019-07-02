@@ -22,13 +22,6 @@ public class CastlingSafetyEvaluator implements Evaluator {
 
 	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( WORST_MOVE, BEST_MOVE );
 
-	private static final Set< Move > CASTLING_MOVES = ImmutableSet.of(
-			new Move( "e1", "g1" ),
-			new Move( "e1", "c1" ),
-			new Move( "e8", "g8" ),
-			new Move( "e8", "c8" )
-	);
-
 	private static final Set< String > FILES_IN_BETWEEN_QUEEN_SIDE = ImmutableSet.of( "b", "c", "d" );
 
 	private static final Set< String > FILES_IN_BETWEEN_KING_SIDE = ImmutableSet.of( "f", "g" );
@@ -57,13 +50,14 @@ public class CastlingSafetyEvaluator implements Evaluator {
 		//strategy : 'castling addicted player'
 		// avoid moving rook and king
 		//if it's not castling (I want to see castling)
-		//in principle after castling we could allow such moves
-
-		if ( position.getSideToMove() == side && CASTLING_MOVES.contains( move ) )  {
-			return BEST_MOVE;
-		}
+		//after castling we allow such moves
 
 		Position target = position.move( move );
+
+		//if anywhere in the history the castling was executed, our goal has been reached
+		if ( target.hasCastlingExecuted( side ) ) {
+			return BEST_MOVE;
+		}
 
 		//if king has moved already - all other moves don't help in castling safety
 		if ( target.hasKingMoved( side ) ) {

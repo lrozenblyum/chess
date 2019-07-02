@@ -196,7 +196,13 @@ final class PositionGenerator {
 			newPosition.moveUnconditionally( "a" + rank, "d" + rank );
 		}
 
-		newPosition.setHasKingMoved( this.source.getSide( squareFrom ) );
+		Side ourSide = this.source.getSide( squareFrom );
+
+		if ( isCastlingKingSide || isCastlingQueenSide ) {
+			newPosition.setHasCastlingExecuted( ourSide );
+		}
+
+		newPosition.setHasKingMoved(ourSide);
 		return newPosition;
 	}
 
