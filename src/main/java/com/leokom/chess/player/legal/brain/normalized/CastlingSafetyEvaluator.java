@@ -18,7 +18,12 @@ public class CastlingSafetyEvaluator implements Evaluator {
 	private static final double BEST_MOVE = 1;
 	private static final double WORST_MOVE = 0;
 
-	private static final int MAX_PIECES_BETWEEN_KING_AND_ROOKS = 5; //8 in the row - pieces of interest themselves
+	private static final int MAX_PIECES_BETWEEN_KING_AND_ROOKS = 5;
+	//maximally 5: 8 in the row - pieces of interest themselves
+	private static final Range PIECES_BETWEEN_KING_AND_ROOKS = new Range( 0, MAX_PIECES_BETWEEN_KING_AND_ROOKS);
+
+	//something between the worst and the best
+	private static final Range ACCEPTABLE_MOVES_EVALUATION = new Range( 0.25, 0.75 );
 
 	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( WORST_MOVE, BEST_MOVE );
 
@@ -71,7 +76,11 @@ public class CastlingSafetyEvaluator implements Evaluator {
 
 		//the less occupied - the better
 		//normalizing to range [ 0.25, 0.75 ] of 'acceptable' moves
-		return ( 1 - (double) getOccupiedInBetween( target, side ) / MAX_PIECES_BETWEEN_KING_AND_ROOKS ) * 0.5 + 0.25;
+		return PIECES_BETWEEN_KING_AND_ROOKS.convert( ACCEPTABLE_MOVES_EVALUATION, getFreeInBetween( target, side ) );
+	}
+
+	private int getFreeInBetween( Position position, Side side ) {
+		return MAX_PIECES_BETWEEN_KING_AND_ROOKS - getOccupiedInBetween( position, side );
 	}
 
 	/**
