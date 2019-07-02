@@ -7,21 +7,23 @@ package com.leokom.chess.player.legal.brain.normalized;
  * Symmetrical denormalized evaluator behavior is based on a simple difference of the two indices.
  */
 class SymmetricalNormalizedRange {
-    private final double maximalAdvantage;
-    private final double minimalAdvantage;
+    private static final Range NORMALIZED_RANGE = new Range( 0.0, 1.0 );
+    private final Range range;
 
     //NOTE: the algorithm can be speed-up by simplifying the expressions below. Not a goal now.
 
     //the range will be [ -(max-min); (max-min) ]
     SymmetricalNormalizedRange( double minimalPossibleValue, double maximalPossibleValue ) {
-        this.maximalAdvantage = maximalPossibleValue - minimalPossibleValue;
-        this.minimalAdvantage = minimalPossibleValue - maximalPossibleValue;
+        this.range = new Range(
+            minimalPossibleValue - maximalPossibleValue,
+            maximalPossibleValue - minimalPossibleValue
+        );
+
     }
 
     //convert advantage [ MINIMAL_ADV..MAXIMAL_ADV ] to value [ 0..1 ]
     double normalize( double denormalizedValue ) {
-        return ( denormalizedValue - minimalAdvantage ) /
-                (maximalAdvantage - minimalAdvantage);
+        return this.range.convert( NORMALIZED_RANGE, denormalizedValue );
     }
 
 }
