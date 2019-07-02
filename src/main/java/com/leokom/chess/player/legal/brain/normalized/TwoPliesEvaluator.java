@@ -9,7 +9,7 @@ import org.apache.logging.log4j.ThreadContext;
 import java.util.List;
 
 /**
- * Evolution of Evaluator to support thinking for 2 plies
+ * Evolution of Evaluator to support thinking for 2 plies.
  * @param <S>
  * @param <T>
  */
@@ -23,6 +23,12 @@ public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransit
         this.brain = new NormalizedBrain<>(this.evaluator, 1);
     }
 
+    /**
+     * Evaluate move from the position, keeping normalized constraints
+     * @param position source position
+     * @param move move to evaluate
+     * @return move estimation in [0, 1]
+     */
     @Override
     public double evaluateMove(S position, T move) {
         ThreadContext.put( "moveBeingAnalyzed", move.toString() );
@@ -37,14 +43,12 @@ public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransit
         }
 
         double moveRating = bestMove.isEmpty() ?
-                //falling back to the 1'st level
-                //trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
-                //where all the second level moves exist
-                // highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
-                evaluator.evaluateMove(position, move) - 1 :
-                //negating because bigger for the opponents means worse for the current player
+                //falling back to the 1'st level which is already normalized
+                evaluator.evaluateMove( position, move ):
+                //subtracting from 1 because bigger for the opponent means worse for the current player
+                //this subtraction keeps us in [0, 1] range which is guaranteed by ValidatingNormalizedEvaluator
                 //composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
-                -evaluator.evaluateMove(target, bestMove.get(0));
+                1 - evaluator.evaluateMove(target, bestMove.get(0));
 
         LogManager.getLogger().info( "result = {}", moveRating );
         ThreadContext.clearAll();
