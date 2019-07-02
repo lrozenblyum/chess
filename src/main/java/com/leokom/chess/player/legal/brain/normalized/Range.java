@@ -26,12 +26,16 @@ class Range {
      * @return value put proportionally in target range
      */
     double convert( Range targetRange, double value ) {
-        if ( value < this.minValue || value > this.maxValue ) {
+        if ( !contains( value ) ) {
             throw new IllegalArgumentException( String.format( "The value %s is out of range [ %s, %s ] ", value, minValue, maxValue ) );
         }
 
         double ourPosition = ( value - minValue ) / ( maxValue - minValue );
 
         return ( targetRange.maxValue - targetRange.minValue ) * ourPosition + targetRange.minValue;
+    }
+
+    boolean contains( double value ) {
+        return value >= this.minValue && value <= this.maxValue;
     }
 }
