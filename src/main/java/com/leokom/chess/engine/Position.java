@@ -72,6 +72,7 @@ public class Position implements GameState< Move, Position > {
 
 	//this should be replaced by position history which would be needed for repetition rules
 	//now it's used for Castling evaluator, it's some extension of historical information
+    //remove me in https://github.com/lrozenblyum/chess/issues/321
 	private Set< Side > hasCastlingExecuted = new HashSet<>();
 
 	private Side sideToMove;
