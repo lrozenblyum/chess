@@ -18,6 +18,9 @@ as it may damage WinBoard -->
         <Logger name = "com.leokom.chess.player.legal.brain.normalized.MasterEvaluator" level = "debug" additivity = "false">
             <AppenderRef ref = "fileApp-NormalizedBrain" />
         </Logger>
+        <Logger name = "com.leokom.chess.player.legal.brain.normalized.TwoPliesEvaluator" level = "debug" additivity = "false">
+            <AppenderRef ref = "fileApp-NormalizedBrain" />
+        </Logger>
         <Root level = "debug">
             <AppenderRef ref = "fileApp" />
         </Root>
