@@ -36,9 +36,6 @@ class CenterControlEvaluator implements Evaluator {
 		final Side ourSide = position.getSideToMove();
 
 		final Position targetPosition = position.move( move );
-		//technically it's naive check - since the situation
-		//can change drastically after the opponent's move
-		//however we look now only at 1/2 depth
 		return centerControlIndex( targetPosition, ourSide ) - centerControlIndex( targetPosition, ourSide.opposite() );
 	}
 
