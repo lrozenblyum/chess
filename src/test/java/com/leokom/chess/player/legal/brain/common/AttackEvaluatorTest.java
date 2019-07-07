@@ -1,9 +1,6 @@
 package com.leokom.chess.player.legal.brain.common;
 
-import com.leokom.chess.engine.Move;
-import com.leokom.chess.engine.PieceType;
-import com.leokom.chess.engine.PositionBuilder;
-import com.leokom.chess.engine.Side;
+import com.leokom.chess.engine.*;
 import org.junit.Test;
 
 /**
@@ -23,6 +20,19 @@ public class AttackEvaluatorTest extends EvaluatorTestCase {
 		Move notAttacking = new Move( "h4", "g2" );
 
 		asserts.assertFirstBetter( position, attacking, notAttacking );
+	}
+
+	@Test
+	public void removingFromOpponentAttackIsBetterThanNot() {
+		Position position = new PositionBuilder()
+				.add(Side.WHITE, "a1", PieceType.ROOK)
+				.add(Side.BLACK, "h1", PieceType.ROOK)
+				.build();
+
+		Move removingFromAttack = new Move( "a1", "a2" );
+		Move keepingOnAttackLine = new Move( "a1", "b1" );
+
+		asserts.assertFirstBetter( position, removingFromAttack, keepingOnAttackLine );
 	}
 
 	@Override
