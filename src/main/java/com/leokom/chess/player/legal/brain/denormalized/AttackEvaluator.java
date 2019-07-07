@@ -13,6 +13,8 @@ class AttackEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		final Side ourSide = position.getSideToMove();
-		return AttackIndexCalculator.getAttackIndex( position.move( move ), ourSide );
+		Position targetPosition = position.move(move);
+		return AttackIndexCalculator.getAttackIndex( targetPosition, ourSide )
+				- AttackIndexCalculator.getAttackIndex( targetPosition, ourSide.opposite() );
 	}
 }

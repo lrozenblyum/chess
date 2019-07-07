@@ -25,12 +25,12 @@ public class AttackEvaluatorTest extends EvaluatorTestCase {
 	@Test
 	public void removingFromOpponentAttackIsBetterThanNot() {
 		Position position = new PositionBuilder()
-				.add(Side.WHITE, "a1", PieceType.ROOK)
+				.add(Side.WHITE, "a1", PieceType.BISHOP)
 				.add(Side.BLACK, "h1", PieceType.ROOK)
 				.build();
 
-		Move removingFromAttack = new Move( "a1", "a2" );
-		Move keepingOnAttackLine = new Move( "a1", "b1" );
+		Move removingFromAttack = new Move( "a1", "b2" );
+		Move keepingOnAttackLine = new Move( "a1", "h8" );
 
 		asserts.assertFirstBetter( position, removingFromAttack, keepingOnAttackLine );
 	}
