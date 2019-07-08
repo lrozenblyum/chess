@@ -7,6 +7,20 @@ import org.junit.Test;
 
 public class ProtectionEvaluatorTest extends EvaluatorTestCase {
 	@Test
+	public void reducingOpponentProtectionIsGood() {
+		Position position = new PositionBuilder()
+				.add(Side.WHITE, "a1", PieceType.BISHOP) //protects rook
+				.add(Side.WHITE, "h8", PieceType.ROOK)
+				.add(Side.BLACK, "b7", PieceType.ROOK)
+				.setSide( Side.BLACK )
+				.build();
+
+		Move intersectingProtection = new Move( "b7", "b2" );
+		Move notIntersectingProtection = new Move( "b7", "c3" );
+		asserts.assertFirstBetter( position, intersectingProtection, notIntersectingProtection );
+	}
+
+	@Test
 	public void leaveAttackedSquare() {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "h8", PieceType.ROOK );
