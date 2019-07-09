@@ -35,6 +35,6 @@ class ProtectionEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		final Side ourSide = position.getSideToMove();
-		return -AttackIndexCalculator.getAttackIndex( position.move( move ), ourSide.opposite() );
+		return -ProtectionIndexCalculator.getAttackIndex( position.move( move ), ourSide.opposite() );
 	}
  }
