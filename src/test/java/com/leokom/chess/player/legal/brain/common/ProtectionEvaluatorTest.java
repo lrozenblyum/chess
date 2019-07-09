@@ -21,6 +21,21 @@ public class ProtectionEvaluatorTest extends EvaluatorTestCase {
 	}
 
 	@Test
+	public void increasingOurProtectionIsGood() {
+		Position position = new PositionBuilder()
+				.add(Side.WHITE, "a2", PieceType.ROOK)
+				.add(Side.WHITE, "c2", PieceType.BISHOP)
+				.add(Side.BLACK, "h1", PieceType.KING)
+				.build();
+
+		//b1 -> a2 protection
+		Move protectingRook = new Move( "c2", "b1" );
+		Move notProtectingRook = new Move( "c2", "d3" );
+
+		asserts.assertFirstBetter( position, protectingRook, notProtectingRook );
+	}
+
+	@Test
 	public void leaveAttackedSquare() {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "h8", PieceType.ROOK );
