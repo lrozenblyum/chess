@@ -16,7 +16,7 @@ public class ProtectionEvaluatorTest extends EvaluatorTestCase {
 				.build();
 
 		Move intersectingProtection = new Move( "b7", "b2" );
-		Move notIntersectingProtection = new Move( "b7", "c3" );
+		Move notIntersectingProtection = new Move( "b7", "b3" );
 		asserts.assertFirstBetter( position, intersectingProtection, notIntersectingProtection );
 	}
 
