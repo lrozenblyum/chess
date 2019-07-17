@@ -36,21 +36,6 @@ public class ProtectionEvaluatorTest extends EvaluatorTestCase {
 	}
 
 	@Test
-	public void leaveAttackedSquare() {
-		PositionBuilder position = new PositionBuilder();
-		position.add( Side.WHITE, "h8", PieceType.ROOK );
-		position.add( Side.WHITE, "c2", PieceType.PAWN );
-
-		position.add( Side.BLACK, "g6", PieceType.KNIGHT ); //attacks the rook
-
-		Move leavingAttackedSquare = new Move( "h8", "b8" );
-
-		Move stayingCalm = new Move( "c2", "c3" );
-
-		asserts.assertFirstBetter( position, leavingAttackedSquare, stayingCalm );
-	}
-
-	@Test
 	public void doubleAttackMeansNeedToAct() {
 		Position position = new Position( Side.BLACK );
 		//attacks b3, d3

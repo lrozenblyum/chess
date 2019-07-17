@@ -23,7 +23,7 @@ public class AttackEvaluatorTest extends EvaluatorTestCase {
 	}
 
 	@Test
-	public void removingFromOpponentAttackIsBetterThanNot() {
+	public void leaveAttackedSquare() {
 		Position position = new PositionBuilder()
 				.add(Side.WHITE, "a1", PieceType.BISHOP)
 				.add(Side.BLACK, "h1", PieceType.ROOK)
@@ -33,6 +33,22 @@ public class AttackEvaluatorTest extends EvaluatorTestCase {
 		Move keepingOnAttackLine = new Move( "a1", "h8" );
 
 		asserts.assertFirstBetter( position, removingFromAttack, keepingOnAttackLine );
+	}
+
+	//just one more test (previously it was job of ProtectionEvaluator)
+	@Test
+	public void leaveAttackedSquare2() {
+		PositionBuilder position = new PositionBuilder();
+		position.add( Side.WHITE, "h8", PieceType.ROOK );
+		position.add( Side.WHITE, "c2", PieceType.PAWN );
+
+		position.add( Side.BLACK, "g6", PieceType.KNIGHT ); //attacks the rook
+
+		Move leavingAttackedSquare = new Move( "h8", "b8" );
+
+		Move stayingCalm = new Move( "c2", "c3" );
+
+		asserts.assertFirstBetter( position, leavingAttackedSquare, stayingCalm );
 	}
 
 	@Override
