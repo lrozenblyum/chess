@@ -10,7 +10,7 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
  * Date-time: 21.10.14 23:03
  */
 class ProtectionEvaluator implements Evaluator {
-	/**
+    /**
 	 	Protection has 2 aspects:
 	 	a) tactical: act when your pieces are under attack
 		b) strategical: make the pieces protect each other even against further attacks
@@ -36,7 +36,14 @@ class ProtectionEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Side ourSide = position.getSideToMove();
 		return
-			ProtectionIndexCalculator.getIndex( position.move( move ), ourSide ) -
-			ProtectionIndexCalculator.getIndex( position.move( move ), ourSide.opposite() );
+			getIndex( position.move( move ), ourSide ) -
+			getIndex( position.move( move ), ourSide.opposite() );
 	}
- }
+
+	private float getIndex( Position targetPosition, Side ourSide ) {
+		//checks level of protection
+		return targetPosition.getSquaresOccupiedBySide(ourSide).stream().mapToLong(
+				square -> targetPosition.getSquaresAttackingSquare( ourSide, square ).count()
+		).sum();
+	}
+}
