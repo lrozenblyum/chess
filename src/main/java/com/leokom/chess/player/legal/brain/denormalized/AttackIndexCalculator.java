@@ -18,8 +18,7 @@ final class AttackIndexCalculator {
 
 	/*
 	 * Backlog for improvements:
-	 * - for protection brain king is taken too seriously
-	 * - for attack brain king has become a main target for attacks
+	 * - king has become a main target for attacks
 	 */
 
 	static float getAttackIndex( Position targetPosition, Side attackerSide ) {
