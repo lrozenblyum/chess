@@ -11,10 +11,13 @@ import com.leokom.chess.player.legal.brain.denormalized.DenormalizedEvaluatorFac
  * Date-time: 21.10.14 23:03
  */
 class ProtectionEvaluator implements Evaluator {
+	//TODO: we should use a more precise dynamic maximal value (count of our pieces * (count-1) )
+	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( 0.0, MaterialEvaluator.MAXIMAL_VALUE );
+
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return 1 +
+		return RANGE.normalize(
 				new DenormalizedEvaluatorFactory().get( EvaluatorType.PROTECTION )
-				.evaluateMove( position, move ) / MaterialEvaluator.MAXIMAL_VALUE;
+				.evaluateMove( position, move ) );
 	}
  }
