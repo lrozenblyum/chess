@@ -3,6 +3,8 @@ language: java
 jdk:
   - oraclejdk8
 
+dist: trusty
+
 addons:
   sonarcloud:
     # the organization key was found here: https://sonarcloud.io/account/organizations
