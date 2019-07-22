@@ -4,6 +4,8 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.SideEvaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 /**
  * If inside a position there is a bigger variety of moves
@@ -31,17 +33,20 @@ class MobilityEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		final Side side = position.getSideToMove();
-		//sonar suggests this casting
-		return (double) getMobilityIndex( target, side ) - getMobilityIndex( target, side.opposite() );
+		return new SymmetricEvaluator( new MobilitySideEvaluator() ).evaluate( target );
 	}
 
-	private int getMobilityIndex( Position target, Side side ) {
-		if ( target.getSideToMove() == side ) {
-			return target.getMoves().size();
-		}
-		else {
-			return target.toMirror().getMoves().size();
+	private class MobilitySideEvaluator implements SideEvaluator {
+
+		@Override
+		public double evaluatePosition(Position target, Side side) {
+			if ( target.getSideToMove() == side ) {
+				return target.getMoves().size();
+			}
+			else {
+				return target.toMirror().getMoves().size();
+			}
 		}
 	}
+
 }
