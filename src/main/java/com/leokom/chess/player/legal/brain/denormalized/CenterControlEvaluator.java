@@ -22,8 +22,6 @@ import java.util.Set;
  * Date-time: 14.07.14 23:11
  */
 class CenterControlEvaluator implements Evaluator {
-	private static final Set<String> CENTER_SQUARES = ImmutableSet.of( "e5", "e4", "d4", "d5" );
-
 	/**
 	 * {@inheritDoc}
 	 * @return [ -4, 4 ]
@@ -40,6 +38,7 @@ class CenterControlEvaluator implements Evaluator {
 	}
 
 	private static class CenterControlSideEvaluator implements SideEvaluator {
+		private static final Set<String> CENTER_SQUARES = ImmutableSet.of( "e5", "e4", "d4", "d5" );
 
 		@Override
 		public double evaluatePosition(Position position, Side side) {
