@@ -4,6 +4,8 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.SideEvaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 /**
  * Author: Leonid
@@ -34,17 +36,18 @@ class ProtectionEvaluator implements Evaluator {
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		final Side ourSide = position.getSideToMove();
 		Position targetPosition = position.move(move);
-		return
-			getIndex(targetPosition, ourSide ) -
-			getIndex(targetPosition, ourSide.opposite() );
+		return new SymmetricEvaluator( new ProtectionSideEvaluator() ).evaluate( targetPosition );
 	}
 
-	private float getIndex( Position targetPosition, Side ourSide ) {
-		//checks level of protection
-		return targetPosition.getSquaresOccupiedBySide(ourSide).stream().mapToLong(
-				square -> targetPosition.getSquaresAttackingSquare( ourSide, square ).count()
-		).sum();
+	private class ProtectionSideEvaluator implements SideEvaluator {
+
+		@Override
+		public double evaluatePosition(Position target, Side side) {
+			//checks level of protection
+			return target.getSquaresOccupiedBySide(side).stream().mapToLong(
+					square -> target.getSquaresAttackingSquare( side, square ).count()
+			).sum();
+		}
 	}
 }
