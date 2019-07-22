@@ -2,6 +2,8 @@ package com.leokom.chess.player.legal.brain.denormalized;
 
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.SideEvaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 import java.util.stream.Stream;
 
@@ -26,32 +28,31 @@ class MaterialEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
 		final Position target = position.move( move );
-
-		Side ourSide = position.getSideToMove();
-
-		int ourMaterialValue = getMaterialValue( target, ourSide );
-		int opponentMaterialValue = getMaterialValue( target, ourSide.opposite() );
-
-		return ourMaterialValue - opponentMaterialValue;
+		return new SymmetricEvaluator( new MaterialSideEvaluator() ).evaluate( target );
 	}
 
-	private int getMaterialValue( Position position, Side side ) {
-		return value( position.getPieces( side ).
-			//king is excluded because it's invaluable
-			filter( this::isNotAKing ) );
+	private static class MaterialSideEvaluator implements SideEvaluator {
+
+		@Override
+		public double evaluatePosition(Position position, Side side) {
+			return value( position.getPieces( side ).
+					//king is excluded because it's invaluable
+							filter( this::isNotAKing ) );
+		}
+
+		private boolean isNotAKing( Piece piece ) {
+			return piece.getPieceType() != PieceType.KING;
+		}
+
+		private static int value( Stream< Piece > pieces ) {
+			return pieces
+					.map( Piece::getPieceType )
+					.mapToInt( VALUES::get )
+					.sum();
+		}
 	}
 
-	private boolean isNotAKing( Piece piece ) {
-		return piece.getPieceType() != PieceType.KING;
-	}
 	static int getValue( PieceType pieceType ) {
 		return VALUES.get( pieceType );
-	}
-
-	private static int value( Stream< Piece > pieces ) {
-		return pieces
-				.map( Piece::getPieceType )
-				.mapToInt( VALUES::get )
-				.sum();
 	}
 }
