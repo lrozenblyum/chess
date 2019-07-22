@@ -5,6 +5,7 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 import java.util.Set;
 import java.util.stream.Stream;
@@ -16,10 +17,8 @@ import java.util.stream.Stream;
 class AttackEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		final Side ourSide = position.getSideToMove();
 		Position targetPosition = position.move(move);
-
-		return new AttackSideEvaluator().evaluatePosition( targetPosition, ourSide ) - new AttackSideEvaluator().evaluatePosition( targetPosition, ourSide.opposite() );
+		return new SymmetricEvaluator( new AttackSideEvaluator() ).evaluate( targetPosition );
 	}
 
 	private static class AttackSideEvaluator implements com.leokom.chess.player.legal.brain.common.SideEvaluator {
