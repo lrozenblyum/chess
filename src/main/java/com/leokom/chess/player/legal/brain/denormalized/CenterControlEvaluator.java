@@ -42,8 +42,8 @@ class CenterControlEvaluator implements Evaluator {
 	private static class CenterControlSideEvaluator implements SideEvaluator {
 
 		@Override
-		public double evaluatePosition(Position targetPosition, Side side) {
-			final Set< String > squaresAttacked = targetPosition.getSquaresAttackedBy(side);
+		public double evaluatePosition(Position position, Side side) {
+			final Set< String > squaresAttacked = position.getSquaresAttackedBy(side);
 
 			final Set< String > intersection = Sets.intersection( squaresAttacked, CENTER_SQUARES );
 

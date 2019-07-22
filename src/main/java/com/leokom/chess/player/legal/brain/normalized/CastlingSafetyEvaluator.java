@@ -56,30 +56,30 @@ public class CastlingSafetyEvaluator implements Evaluator {
 
 
 		@Override
-		public double evaluatePosition(Position target, Side side) {
+		public double evaluatePosition(Position position, Side side) {
 			//strategy : 'castling addicted player'
 			// avoid moving rook and king
 			//if it's not castling (I want to see castling)
 			//after castling we allow such moves
 
 			//if anywhere in the history the castling was executed, our goal has been reached
-			if ( target.hasCastlingExecuted( side ) ) {
+			if ( position.hasCastlingExecuted( side ) ) {
 				return BEST_MOVE;
 			}
 
 			//if king has moved already - all other moves don't help in castling safety
-			if ( target.hasKingMoved( side ) ) {
+			if ( position.hasKingMoved( side ) ) {
 				return WORST_MOVE;
 			}
 
 			//any of rooks is moving: reducing chances to castle
-			if ( target.hasARookMoved( side ) || target.hasHRookMoved( side ) ) {
+			if ( position.hasARookMoved( side ) || position.hasHRookMoved( side ) ) {
 				return WORST_MOVE;
 			}
 
 			//the less occupied - the better
 			//normalizing to range [ 0.25, 0.75 ] of 'acceptable' moves
-			return PIECES_BETWEEN_KING_AND_ROOKS.convert( ACCEPTABLE_MOVES_EVALUATION, getFreeInBetween( target, side ) );
+			return PIECES_BETWEEN_KING_AND_ROOKS.convert( ACCEPTABLE_MOVES_EVALUATION, getFreeInBetween( position, side ) );
 		}
 
 

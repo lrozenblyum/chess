@@ -39,12 +39,12 @@ class MobilityEvaluator implements Evaluator {
 	private class MobilitySideEvaluator implements SideEvaluator {
 
 		@Override
-		public double evaluatePosition(Position target, Side side) {
-			if ( target.getSideToMove() == side ) {
-				return target.getMoves().size();
+		public double evaluatePosition(Position position, Side side) {
+			if ( position.getSideToMove() == side ) {
+				return position.getMoves().size();
 			}
 			else {
-				return target.toMirror().getMoves().size();
+				return position.toMirror().getMoves().size();
 			}
 		}
 	}

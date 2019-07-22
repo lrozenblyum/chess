@@ -43,10 +43,10 @@ class ProtectionEvaluator implements Evaluator {
 	private class ProtectionSideEvaluator implements SideEvaluator {
 
 		@Override
-		public double evaluatePosition(Position target, Side side) {
+		public double evaluatePosition(Position position, Side side) {
 			//checks level of protection
-			return target.getSquaresOccupiedBySide(side).stream().mapToLong(
-					square -> target.getSquaresAttackingSquare( side, square ).count()
+			return position.getSquaresOccupiedBySide(side).stream().mapToLong(
+					square -> position.getSquaresAttackingSquare( side, square ).count()
 			).sum();
 		}
 	}
