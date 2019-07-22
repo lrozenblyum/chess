@@ -11,6 +11,12 @@ public class SymmetricEvaluator implements PositionEvaluator {
         this.sideEvaluator = sideEvaluator;
     }
 
+    /**
+     * Evaluate the position 'symmetrically' from point of view of the player
+     * who reached this position (by evaluating BOTH sides)
+     * @param target target position
+     * @return symmetrical position evaluation
+     */
     @Override
     public double evaluate( Position target ) {
         Side ourSide = target.getSideToMove().opposite();
