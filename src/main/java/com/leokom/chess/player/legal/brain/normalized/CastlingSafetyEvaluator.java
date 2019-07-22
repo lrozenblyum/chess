@@ -48,16 +48,16 @@ public class CastlingSafetyEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		final Side side = position.getSideToMove();
 
-		return RANGE.normalize( getCastlingSafetyIndex( position, move, side ) - getCastlingSafetyIndex( position, move, side.opposite() ) );
+		Position targetPosition = position.move( move );
+
+		return RANGE.normalize( getCastlingSafetyIndex( targetPosition, side ) - getCastlingSafetyIndex( targetPosition, side.opposite() ) );
 	}
 
-	private double getCastlingSafetyIndex(Position position, Move move, Side side) {
+	private double getCastlingSafetyIndex(Position target, Side side) {
 		//strategy : 'castling addicted player'
 		// avoid moving rook and king
 		//if it's not castling (I want to see castling)
 		//after castling we allow such moves
-
-		Position target = position.move( move );
 
 		//if anywhere in the history the castling was executed, our goal has been reached
 		if ( target.hasCastlingExecuted( side ) ) {
