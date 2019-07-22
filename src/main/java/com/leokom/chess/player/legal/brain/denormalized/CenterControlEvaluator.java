@@ -6,6 +6,8 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.SideEvaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 import java.util.Set;
 
@@ -33,17 +35,19 @@ class CenterControlEvaluator implements Evaluator {
 		//e.g. Knight on e5 cannot attack e4, d4, d5
 		//but blocks the center
 
-		final Side ourSide = position.getSideToMove();
-
 		final Position targetPosition = position.move( move );
-		return centerControlIndex( targetPosition, ourSide ) - centerControlIndex( targetPosition, ourSide.opposite() );
+		return new SymmetricEvaluator( new CenterControlSideEvaluator() ).evaluate( targetPosition );
 	}
 
-	private double centerControlIndex(Position targetPosition, Side side) {
-		final Set< String > squaresAttacked = targetPosition.getSquaresAttackedBy(side);
+	private static class CenterControlSideEvaluator implements SideEvaluator {
 
-		final Set< String > intersection = Sets.intersection( squaresAttacked, CENTER_SQUARES );
+		@Override
+		public double evaluatePosition(Position targetPosition, Side side) {
+			final Set< String > squaresAttacked = targetPosition.getSquaresAttackedBy(side);
 
-		return intersection.size();
+			final Set< String > intersection = Sets.intersection( squaresAttacked, CENTER_SQUARES );
+
+			return intersection.size();
+		}
 	}
 }
