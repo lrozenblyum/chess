@@ -26,8 +26,8 @@ class AttackEvaluator implements Evaluator {
 	 * Backlog for improvements:
 	 * - king has become a main target for attacks
 	 */
-	private float getIndex( Position targetPosition, Side attackerSide ) {
-		final Set< String > squaresAttacked = getPiecesAttackedBy( targetPosition, attackerSide );
+	private float getIndex( Position targetPosition, Side side ) {
+		final Set< String > squaresAttacked = getPiecesAttackedBy( targetPosition, side );
 
 		// sum of piece values
 		// if a piece is protected - index of piece value is reduced
@@ -36,7 +36,7 @@ class AttackEvaluator implements Evaluator {
 			//REFACTOR: probably bad dependency on another brain - extract common utility
 			int pieceValue = MaterialEvaluator.getValue( targetPosition.getPieceType( attackedSquare ) );
 
-			final Stream< String > protectors = targetPosition.getSquaresAttackingSquare( attackerSide.opposite(), attackedSquare );
+			final Stream< String > protectors = targetPosition.getSquaresAttackingSquare( side.opposite(), attackedSquare );
 
 			//+1 to avoid / 0, more protectors is better
 			result += pieceValue / ( protectors.count() + 1.0 );
