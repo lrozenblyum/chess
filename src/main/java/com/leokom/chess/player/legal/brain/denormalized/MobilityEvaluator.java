@@ -2,6 +2,7 @@ package com.leokom.chess.player.legal.brain.denormalized;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 
 /**
@@ -30,9 +31,17 @@ class MobilityEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		int ourMobilityIndex = target.toMirror().getMoves().size();
-		int opponentMobilityIndex = target.getMoves().size();
+		final Side side = position.getSideToMove();
 		//sonar suggests this casting
-		return (double) ourMobilityIndex - opponentMobilityIndex;
+		return (double) getMobilityIndex( target, side ) - getMobilityIndex( target, side.opposite() );
+	}
+
+	private int getMobilityIndex( Position target, Side side ) {
+		if ( target.getSideToMove() == side ) {
+			return target.getMoves().size();
+		}
+		else {
+			return target.toMirror().getMoves().size();
+		}
 	}
 }
