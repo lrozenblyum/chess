@@ -44,6 +44,7 @@ public class CastlingSafetyEvaluatorTest extends EvaluatorTestCase {
 		position.add( Side.WHITE, "e1", PieceType.KING );
 		position.add( Side.WHITE, "h1", PieceType.ROOK );
 		position.add( Side.WHITE, "c1", PieceType.BISHOP );
+		position.add( Side.BLACK, "h8", PieceType.KING );
 
 		Move kingMove = new Move( "e1", "f1" );
 
@@ -67,7 +68,8 @@ public class CastlingSafetyEvaluatorTest extends EvaluatorTestCase {
 		final PositionBuilder position = new PositionBuilder()
 				.add( Side.WHITE, "a1", PieceType.ROOK )
 				.add( Side.WHITE, "e1", PieceType.KING )
-				.add( Side.WHITE, "d3", PieceType.KNIGHT );
+				.add( Side.WHITE, "d3", PieceType.KNIGHT )
+				.add( Side.BLACK, "h8", PieceType.KING );
 
 		Move noCastlingPrevention = new Move( "d3", "e5" );
 		Move preventCastlingByBlock = new Move( "d3", "c1" );
