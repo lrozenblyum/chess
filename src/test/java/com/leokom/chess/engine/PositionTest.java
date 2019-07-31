@@ -28,4 +28,10 @@ public class PositionTest {
 		Position position = Position.getInitialPosition();
 		assertFalse( position.isCapture( new Move( "e2", "e4" ) ) );
 	}
+
+	@Test
+	public void movedSideForInitialPosition() {
+		//nullable for symmetry with position.getSideToMove()
+		assertNull( Position.getInitialPosition().getMovedSide() );
+	}
 }

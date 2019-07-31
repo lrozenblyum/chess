@@ -913,6 +913,10 @@ public class Position implements GameState< Move, Position > {
 		return sideToMove;
 	}
 
+    Side getMovedSide() {
+        return null;
+    }
+
 	void setSideToMove( Side sideToMove ) {
 		this.sideToMove = sideToMove;
 	}
