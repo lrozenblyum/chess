@@ -77,7 +77,9 @@ public class Position implements GameState< Move, Position > {
 
 	private Side sideToMove;
 	//technically this historical information should be filled in by .getPrevious().getSideToMove()
-	private final Side movedSide;
+	//due to mutability of sideToMove AND need to support consistency for test-only method
+	//setSideToMove, this field is mutable as well
+	private Side movedSide;
 
 	private Result gameResult;
 	private boolean terminal;
@@ -926,7 +928,12 @@ public class Position implements GameState< Move, Position > {
     }
 
 	void setSideToMove( Side sideToMove ) {
+		setSideToMove( sideToMove, sideToMove.opposite() );
+	}
+
+	void setSideToMove(Side sideToMove, Side lastMovedSide) {
 		this.sideToMove = sideToMove;
+		this.movedSide = lastMovedSide;
 	}
 
 	/**
