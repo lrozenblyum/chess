@@ -921,7 +921,7 @@ public class Position implements GameState< Move, Position > {
 		return sideToMove;
 	}
 
-    Side getMovedSide() {
+    public Side getMovedSide() {
         return movedSide;
     }
 

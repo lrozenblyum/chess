@@ -19,12 +19,8 @@ public class SymmetricEvaluator implements PositionEvaluator {
      */
     @Override
     public double evaluate( Position target ) {
-        if ( target.isTerminal() ) {
-            //it's not our job, TerminalEvaluator is responsible
-            return 0;
-        }
-
-        Side ourSide = target.getSideToMove().opposite();
+        //technically we shouldn't process terminal positions here but we do that.
+        Side ourSide = target.getMovedSide();
 
         return sideEvaluator.evaluatePosition( target, ourSide ) - sideEvaluator.evaluatePosition( target, ourSide.opposite() );
     }
