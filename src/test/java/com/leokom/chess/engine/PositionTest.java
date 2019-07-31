@@ -34,4 +34,9 @@ public class PositionTest {
 		//nullable for symmetry with position.getSideToMove()
 		assertNull( Position.getInitialPosition().getMovedSide() );
 	}
+
+	@Test
+	public void correctSideForNextMove() {
+		assertEquals( Side.WHITE, Position.getInitialPosition().move( "e2", "e4" ).getMovedSide() );
+	}
 }

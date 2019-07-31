@@ -76,6 +76,8 @@ public class Position implements GameState< Move, Position > {
 	private Set< Side > hasCastlingExecuted = new HashSet<>();
 
 	private Side sideToMove;
+	//technically this historical information should be filled in by .getPrevious().getSideToMove()
+	private final Side movedSide;
 
 	private Result gameResult;
 	private boolean terminal;
@@ -128,7 +130,12 @@ public class Position implements GameState< Move, Position > {
 	 *
 	 */
 	public Position( Side sideToMove ) {
+		this( sideToMove, sideToMove != null ? sideToMove.opposite() : null );
+	}
+
+	public Position( Side sideToMove, Side movedSide ) {
 		this.sideToMove = sideToMove;
+		this.movedSide = movedSide;
 		this.rules = Rules.DEFAULT;
 	}
 
@@ -914,7 +921,7 @@ public class Position implements GameState< Move, Position > {
 	}
 
     Side getMovedSide() {
-        return null;
+        return movedSide;
     }
 
 	void setSideToMove( Side sideToMove ) {
