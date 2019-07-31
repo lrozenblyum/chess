@@ -126,11 +126,12 @@ public class Position implements GameState< Move, Position > {
 	 *
 	 * By default en passant file is absent
 	 *
-	 * @param sideToMove side which turn will be now, null for terminal positions
+	 * @param sideToMove side which turn will be now, null is prohibited.
+	 *                   To init terminal position use another constructor.
 	 *
 	 */
 	public Position( Side sideToMove ) {
-		this( sideToMove, sideToMove != null ? sideToMove.opposite() : null );
+		this( sideToMove, sideToMove.opposite() );
 	}
 
 	public Position( Side sideToMove, Side movedSide ) {

@@ -49,4 +49,9 @@ public class PositionTest {
 	public void correctSideForTerminalMove() {
 		assertEquals( Side.WHITE, Position.getInitialPosition().move( Move.RESIGN ).getMovedSide() );
 	}
+
+	@Test( expected = NullPointerException.class)
+	public void noSingleNullAllowed() {
+		new Position( null );
+	}
 }
