@@ -12,6 +12,8 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
  * Author: Leonid
  * Date-time: 03.08.15 22:15
  */
+//NOTE: symmetry (?) of this evaluator is questionable
+//decided leaving it as is because it's disabled
 class SpecialMoveEvaluator implements Evaluator {
 
 	private static final int PREFERRED_MOVE = 1;
