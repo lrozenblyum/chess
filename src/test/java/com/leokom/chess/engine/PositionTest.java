@@ -44,4 +44,9 @@ public class PositionTest {
 	public void correctSideForOppositeMove() {
 		assertEquals( Side.BLACK, Position.getInitialPosition().move( "e2", "e4" ).move( "e7", "e5" ).getMovedSide() );
 	}
+
+	@Test
+	public void correctSideForTerminalMove() {
+		assertEquals( Side.WHITE, Position.getInitialPosition().move( Move.RESIGN ).getMovedSide() );
+	}
 }

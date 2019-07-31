@@ -145,7 +145,7 @@ final class PositionGenerator {
 	}
 
 	private Position createTerminalPosition(Side winningSide, Result gameResult) {
-		final Position terminalPosition = new Position( null );
+		final Position terminalPosition = new Position( null, source.getSideToMove() );
 		source.copyStateTo( terminalPosition );
 		//TODO: should checkmate move also set this flag?
 		terminalPosition.setTerminal(winningSide);
