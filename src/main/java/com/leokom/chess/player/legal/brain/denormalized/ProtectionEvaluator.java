@@ -32,7 +32,7 @@ class ProtectionEvaluator implements Evaluator {
 		3'd way is more related to strategical protection (but anyway it's a way to act)
 		4'th way is a little bit similar to 1-2  (if we take piece value into account)
 
-	 @return index [ 0, 16 * 15 ] (sum of protection indices of all pieces, 16 is max amount of pieces on board)
+	 @return difference of indices of opponents, each in range [ 0, 16 * 15 ] (sum of protection indices of all pieces, 16 is max amount of pieces on board)
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
