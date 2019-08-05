@@ -64,7 +64,7 @@ public class SimulatorIT {
 
 	@Test
 	public void twoDraws() {
-		this.position = new PositionBuilder().draw().build();
+		this.position = new PositionBuilder().draw( Side.WHITE ).build();
 
 		SimulatorStatistics statistics = runSimulator();
 		assertEquals( new SimulatorStatistics( 2, 0, 0 ), statistics );

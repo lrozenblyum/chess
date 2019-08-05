@@ -145,7 +145,7 @@ final class PositionGenerator {
 	}
 
 	private Position createTerminalPosition(Side winningSide, Result gameResult) {
-		final Position terminalPosition = new Position( null );
+		final Position terminalPosition = new Position( null, source.getSideToMove() );
 		source.copyStateTo( terminalPosition );
 		//TODO: should checkmate move also set this flag?
 		terminalPosition.setTerminal(winningSide);
@@ -196,7 +196,13 @@ final class PositionGenerator {
 			newPosition.moveUnconditionally( "a" + rank, "d" + rank );
 		}
 
-		newPosition.setHasKingMoved( this.source.getSide( squareFrom ) );
+		Side ourSide = this.source.getSide( squareFrom );
+
+		if ( isCastlingKingSide || isCastlingQueenSide ) {
+			newPosition.setHasCastlingExecuted( ourSide );
+		}
+
+		newPosition.setHasKingMoved(ourSide);
 		return newPosition;
 	}
 

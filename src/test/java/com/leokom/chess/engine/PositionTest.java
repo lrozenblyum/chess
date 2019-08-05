@@ -28,4 +28,30 @@ public class PositionTest {
 		Position position = Position.getInitialPosition();
 		assertFalse( position.isCapture( new Move( "e2", "e4" ) ) );
 	}
+
+	@Test
+	public void movedSideForInitialPosition() {
+		//nullable for symmetry with position.getSideToMove()
+		assertNull( Position.getInitialPosition().getMovedSide() );
+	}
+
+	@Test
+	public void correctSideForNextMove() {
+		assertEquals( Side.WHITE, Position.getInitialPosition().move( "e2", "e4" ).getMovedSide() );
+	}
+
+	@Test
+	public void correctSideForOppositeMove() {
+		assertEquals( Side.BLACK, Position.getInitialPosition().move( "e2", "e4" ).move( "e7", "e5" ).getMovedSide() );
+	}
+
+	@Test
+	public void correctSideForTerminalMove() {
+		assertEquals( Side.WHITE, Position.getInitialPosition().move( Move.RESIGN ).getMovedSide() );
+	}
+
+	@Test( expected = NullPointerException.class)
+	public void noSingleNullAllowed() {
+		new Position( null );
+	}
 }

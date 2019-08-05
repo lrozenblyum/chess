@@ -6,12 +6,10 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.legal.brain.common.GenericBrain;
 import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.ThreadContext;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.ToDoubleBiFunction;
 import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
@@ -65,7 +63,16 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 			throw new IllegalArgumentException( String.format( "This depth is not supported yet: %s", pliesDepth ) );
 		}
 
-		this.evaluator = new ValidatingNormalizedEvaluator<>(evaluator);
+		//just 1 or 2 is supported now
+		this.evaluator  = pliesDepth == 1 ?
+			new ValidatingNormalizedEvaluator<>(
+				evaluator
+			) :
+			new TwoPliesEvaluator<>(
+				new ValidatingNormalizedEvaluator<>(
+					evaluator
+				)
+			);
 		this.pliesDepth = pliesDepth;
 	}
 
@@ -89,11 +96,6 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 	 */
 	@Override
 	public List<T> findBestMove( S position ) {
-		//just 1 or 2 is supported now
-		ToDoubleBiFunction< S, T > moveEvaluator = pliesDepth == 1 ?
-			this::evaluateMoveViaSinglePly :
-			this::evaluateMoveViaTwoPlies;
-
 		//1. filtering Draw offers till #161 is solved
 		//this looks safe since Offer draw cannot be a single legal move in a position.
 		//the best place to filter is this decision maker because it's used both by Normalized and Denormalized branches
@@ -103,42 +105,12 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 			getMovesWithoutDrawOffer( position ).collect(
 				toMap(
 					identity(),
-					move -> moveEvaluator.applyAsDouble( position, move )
+					move -> this.evaluator.evaluateMove( position, move )
 				)
 			);
 		List<T> bestMove = getMoveWithMaxRating( moveRatings );
 		LogManager.getLogger().info( "Best move(s): {}", bestMove );
 		return bestMove;
-	}
-
-	private double evaluateMoveViaTwoPlies( S position, T move ) {
-		ThreadContext.put( "moveBeingAnalyzed", move.toString() );
-
-		S target = position.move( move );
-		List<T> bestMove = new NormalizedBrain<>(this.evaluator, 1).findBestMove(target);
-
-		//can be empty in case of terminal position
-		if ( bestMove.isEmpty() ) {
-			LogManager.getLogger().info( "Evaluating just the current level" );
-		}
-
-		double moveRating = bestMove.isEmpty() ?
-				//falling back to the 1'st level
-				//trick: moving our evaluation results from [ 0, 1 ] to [ -1, 0 ] range
-				//where all the second level moves exist
-				// highly depends on evaluator range [ 0, 1 ] which is guaranteed by ValidatingNormalizedEvaluator
-				evaluator.evaluateMove(position, move) - 1 :
-				//negating because bigger for the opponents means worse for the current player
-				//composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
-				-evaluator.evaluateMove(target, bestMove.get(0));
-
-		LogManager.getLogger().info( "result = {}", moveRating );
-		ThreadContext.clearAll();
-		return moveRating;
-	}
-
-	private double evaluateMoveViaSinglePly( S position, T move ) {
-		return evaluator.evaluateMove( position, move );
 	}
 
 	@Override

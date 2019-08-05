@@ -24,6 +24,7 @@ public class StalemateTest {
 		Assert.assertTrue( result.isTerminal() );
 		assertNull( result.getWinningSide() );
 		assertNull( result.getSideToMove() );
+		Assert.assertEquals( Side.WHITE, result.getMovedSide() );
 	}
 
 	@Test

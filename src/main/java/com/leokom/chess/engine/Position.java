@@ -70,7 +70,16 @@ public class Position implements GameState< Move, Position > {
 
 	private Set< Side > hasHRookMoved = new HashSet<>();
 
+	//this should be replaced by position history which would be needed for repetition rules
+	//now it's used for Castling evaluator, it's some extension of historical information
+	//remove me in https://github.com/lrozenblyum/chess/issues/321
+	private Set< Side > hasCastlingExecuted = new HashSet<>();
+
 	private Side sideToMove;
+	//technically this historical information should be filled in by .getPrevious().getSideToMove()
+	//due to mutability of sideToMove AND need to support consistency for test-only method
+	//setSideToMove, this field is mutable as well
+	private Side movedSide;
 
 	private Result gameResult;
 	private boolean terminal;
@@ -90,6 +99,10 @@ public class Position implements GameState< Move, Position > {
 
 	void setHasHRookMoved( Side side ) {
 		this.hasHRookMoved.add( side );
+	}
+
+	void setHasCastlingExecuted( Side side ) {
+		this.hasCastlingExecuted.add( side );
 	}
 
 	void setEnPassantFile( Character enPassantFile ) {	this.enPassantFile = enPassantFile; }
@@ -115,11 +128,17 @@ public class Position implements GameState< Move, Position > {
 	 *
 	 * By default en passant file is absent
 	 *
-	 * @param sideToMove side which turn will be now, null for terminal positions
+	 * @param sideToMove side which turn will be now, null is prohibited.
+	 *                   To init terminal position use another constructor.
 	 *
 	 */
 	public Position( Side sideToMove ) {
+		this( sideToMove, sideToMove.opposite() );
+	}
+
+	public Position( Side sideToMove, Side movedSide ) {
 		this.sideToMove = sideToMove;
+		this.movedSide = movedSide;
 		this.rules = Rules.DEFAULT;
 	}
 
@@ -331,12 +350,17 @@ public class Position implements GameState< Move, Position > {
 		return result;
 	}
 
+	public Set<String> getSquaresOccupied() {
+		//risk for immutability?
+		return pieces.keySet();
+	}
+
 	public Set<String> getSquaresOccupiedBySide( Side neededSide ) {
 		return getSquaresOccupiedBySideToStream( neededSide ).collect( toSet() );
 	}
 
 	private Stream<String> getSquaresOccupiedBySideToStream( Side neededSide ) {
-		return pieces.keySet().stream().filter( square -> this.isOccupiedBy( square, neededSide ) );
+		return getSquaresOccupied().stream().filter( square -> this.isOccupiedBy( square, neededSide ) );
 	}
 
 	private boolean isKingInCheck( Side side ) {
@@ -662,6 +686,10 @@ public class Position implements GameState< Move, Position > {
 		return hasKingMoved.contains( side );
 	}
 
+	public boolean hasCastlingExecuted( Side side ) {
+		return hasCastlingExecuted.contains( side );
+	}
+
 	/**
 	 * Copy pieces from current position to the destination
 	 * Copy state (like info if the king has moved)
@@ -669,7 +697,7 @@ public class Position implements GameState< Move, Position > {
 	 */
 	void copyStateTo( Position position ) {
 		//cloning position
-		for ( String square : pieces.keySet() ) {
+		for ( String square : getSquaresOccupied() ) {
 			//looks safe as both keys and pieces are IMMUTABLE
 			position.pieces.put( square, pieces.get( square ) );
 		}
@@ -679,6 +707,7 @@ public class Position implements GameState< Move, Position > {
 		position.hasKingMoved = new HashSet<>( this.hasKingMoved );
 		position.hasARookMoved = new HashSet<>( this.hasARookMoved );
 		position.hasHRookMoved = new HashSet<>( this.hasHRookMoved );
+		position.hasCastlingExecuted = new HashSet<>( this.hasCastlingExecuted );
 
 		//little overhead but ensuring we really copy the FULL state
 		position.waitingForAcceptDraw = this.waitingForAcceptDraw;
@@ -894,8 +923,17 @@ public class Position implements GameState< Move, Position > {
 		return sideToMove;
 	}
 
+	public Side getMovedSide() {
+		return movedSide;
+	}
+
 	void setSideToMove( Side sideToMove ) {
+		setSideToMove( sideToMove, sideToMove.opposite() );
+	}
+
+	void setSideToMove(Side sideToMove, Side lastMovedSide) {
 		this.sideToMove = sideToMove;
+		this.movedSide = lastMovedSide;
 	}
 
 	/**

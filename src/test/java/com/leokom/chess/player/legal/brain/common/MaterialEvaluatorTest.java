@@ -13,6 +13,7 @@ public class MaterialEvaluatorTest extends EvaluatorTestCase {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e4", PieceType.PAWN );
 		position.add( Side.BLACK, "d5", PieceType.PAWN );
+		position.add( Side.BLACK, "h8", PieceType.KING );
 
 		Move capture = new Move( "e4", "d5" );
 		Move justMove = new Move( "e4", "e5" );
@@ -25,6 +26,7 @@ public class MaterialEvaluatorTest extends EvaluatorTestCase {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e4", PieceType.QUEEN );
 		position.add( Side.BLACK, "e8", PieceType.PAWN );
+		position.add( Side.BLACK, "h8", PieceType.KING );
 
 		Move capture = new Move( "e4", "e8" );
 		Move justMove = new Move( "e4", "d5" );
@@ -37,6 +39,7 @@ public class MaterialEvaluatorTest extends EvaluatorTestCase {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e7", PieceType.PAWN );
 		position.add( Side.WHITE, "b2", PieceType.PAWN );
+		position.add( Side.BLACK, "h8", PieceType.KING );
 
 		Move promotion = new Move( "e7", "e8B" );
 		Move justMove = new Move( "b2", "b3" );
@@ -49,6 +52,7 @@ public class MaterialEvaluatorTest extends EvaluatorTestCase {
 	public void shouldPromotionToHigherPieceGiveMaterialBenefit() {
 		PositionBuilder position = new PositionBuilder();
 		position.add( Side.WHITE, "e7", PieceType.PAWN );
+		position.add( Side.BLACK, "h8", PieceType.KING );
 
 		Move toBishop = new Move( "e7", "e8B" );
 		Move toQueen = new Move( "e7", "e8Q" );

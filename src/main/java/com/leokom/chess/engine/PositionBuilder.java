@@ -83,10 +83,10 @@ public class PositionBuilder {
 		return this;
 	}
 
-	public PositionBuilder draw() {
+	public PositionBuilder draw( Side lastMovedSide ) {
 		this.position.setTerminal( null );
 		//see the reason of this in PositionBuilder
-		this.position.setSideToMove( null );
+		this.position.setSideToMove( null, lastMovedSide );
 		return this;
 	}
 }

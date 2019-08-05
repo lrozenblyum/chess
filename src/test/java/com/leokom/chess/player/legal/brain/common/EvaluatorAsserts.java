@@ -5,14 +5,16 @@ import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.PositionBuilder;
 import org.junit.Assert;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Author: Leonid
  * Date-time: 15.07.14 21:42
  */
 public class EvaluatorAsserts {
-	private final Evaluator evaluator;
+	private final GenericEvaluator<Position, Move> evaluator;
 
-	public EvaluatorAsserts( Evaluator evaluator ) {
+	public EvaluatorAsserts( GenericEvaluator<Position, Move>  evaluator ) {
 		this.evaluator = evaluator;
 	}
 
@@ -40,10 +42,14 @@ public class EvaluatorAsserts {
 		double firstMoveEstimate = evaluator.evaluateMove( position, firstMove );
 		double secondMoveEstimate = evaluator.evaluateMove( position, secondMove );
 
-		Assert.assertEquals(String.format("%s -> %s must be equal to %s -> %s ",
+		assertEquals(String.format("%s -> %s must be equal to %s -> %s ",
 				firstMove, firstMoveEstimate, secondMove, secondMoveEstimate),
 				firstMoveEstimate,
 				secondMoveEstimate,
 				0);
+	}
+
+	void assertEvaluation( double expected, Position position, Move move ) {
+		assertEquals( expected, evaluator.evaluateMove( position, move ), 0 );
 	}
 }

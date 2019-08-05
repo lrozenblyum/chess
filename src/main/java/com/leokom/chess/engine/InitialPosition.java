@@ -35,7 +35,7 @@ final class InitialPosition {
 	}
 
 	static Position generate( Rules rules ) {
-		final Position result = new Position( Side.WHITE );
+		final Position result = new Position( Side.WHITE, null );
 		result.setRules( rules );
 
 		final Set< String > initialRookFiles = new HashSet<>( Arrays.asList( "a", "h" ) );

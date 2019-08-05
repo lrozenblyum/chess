@@ -4,13 +4,15 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.SideEvaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 /**
  * Author: Leonid
  * Date-time: 21.10.14 23:03
  */
 class ProtectionEvaluator implements Evaluator {
-	/**
+    /**
 	 	Protection has 2 aspects:
 	 	a) tactical: act when your pieces are under attack
 		b) strategical: make the pieces protect each other even against further attacks
@@ -30,11 +32,22 @@ class ProtectionEvaluator implements Evaluator {
 		3'd way is more related to strategical protection (but anyway it's a way to act)
 		4'th way is a little bit similar to 1-2  (if we take piece value into account)
 
-	 @return non-positive index [ - some big number, 0 ]
+	 @return difference of indices of opponents, each in range [ 0, 16 * 15 ] (sum of protection indices of all pieces, 16 is max amount of pieces on board)
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		final Side ourSide = position.getSideToMove();
-		return -AttackIndexCalculator.getAttackIndex( position.move( move ), ourSide.opposite() );
+		Position targetPosition = position.move(move);
+		return new SymmetricEvaluator( new ProtectionSideEvaluator() ).evaluate( targetPosition );
 	}
- }
+
+	private class ProtectionSideEvaluator implements SideEvaluator {
+
+		@Override
+		public double evaluatePosition(Position position, Side side) {
+			//checks level of protection
+			return position.getSquaresOccupiedBySide(side).stream().mapToLong(
+					square -> position.getSquaresAttackingSquare( side, square ).count()
+			).sum();
+		}
+	}
+}

@@ -11,10 +11,10 @@ import com.leokom.chess.player.legal.brain.denormalized.DenormalizedEvaluatorFac
  * Date-time: 25.08.16 20:54
  */
 class AttackEvaluator implements Evaluator {
+	private static final SymmetricalNormalizedRange RANGE = new SymmetricalNormalizedRange( 0.0, MaterialEvaluator.MAXIMAL_VALUE );
+
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		return
-			new DenormalizedEvaluatorFactory().get( EvaluatorType.ATTACK )
-			.evaluateMove( position, move ) / MaterialEvaluator.MAXIMAL_VALUE;
+		return RANGE.normalize(	new DenormalizedEvaluatorFactory().get( EvaluatorType.ATTACK ).evaluateMove( position, move ) );
 	}
 }

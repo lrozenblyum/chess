@@ -29,12 +29,13 @@ public class NormalizedEvaluatorFactory implements EvaluatorFactory {
 		evaluatorsMutable.put( EvaluatorType.MOBILITY, new MobilityEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.PROTECTION, new ProtectionEvaluator() );
 
+
 		EVALUATORS = Maps.immutableEnumMap( evaluatorsMutable );
 	}
 
 	/**
 	 * @implNote part of EVALUATORS might be reused from denormalized package if they already
-	 * provide the correct values
+	 * provide the correct values (NOTE: most likely we should move them to normalized package then!)
 	 * @param type type of brain to get brain from
 	 * @return brain that is normalized [ 0, 1 ]
 	 */

@@ -2,7 +2,10 @@ package com.leokom.chess.player.legal.brain.denormalized;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
+import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.SideEvaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 /**
  * If inside a position there is a bigger variety of moves
@@ -16,7 +19,7 @@ class MobilityEvaluator implements Evaluator {
 
 	/**
 	 * {@inheritDoc}
-	 * @return [ 0, max amount of legal moves in a position ]
+	 * @return [ -max amount of legal moves in a position, max amount of legal moves in a position ]
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
@@ -30,6 +33,20 @@ class MobilityEvaluator implements Evaluator {
 			return WORST_MOVE;
 		}
 
-		return target.toMirror().getMoves().size();
+		return new SymmetricEvaluator( new MobilitySideEvaluator() ).evaluate( target );
 	}
+
+	private class MobilitySideEvaluator implements SideEvaluator {
+
+		@Override
+		public double evaluatePosition(Position position, Side side) {
+			if ( position.getSideToMove() == side ) {
+				return position.getMoves().size();
+			}
+			else {
+				return position.toMirror().getMoves().size();
+			}
+		}
+	}
+
 }

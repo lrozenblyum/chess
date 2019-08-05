@@ -27,6 +27,12 @@ public class MasterEvaluatorTest {
 
 	/**
 	 * Avoid really 'stupid' moves
+	 *
+	 */
+	/*
+	 In 0.4 this test was based on single-ply evaluation.
+	 However since 0.5 protection + material evaluator start 'winning' the attack evaluator in this position.
+	 So we start being smart for this position only when we think for 2 plies.
 	 */
 	@Test
 	public void beSmartALittle() {
@@ -39,7 +45,9 @@ public class MasterEvaluatorTest {
 		Move captureWithRiskToLoseQueen = new Move( "g6", "g7" );
 		Move simpleMove = new Move( "g6", "g5" );
 
-		new EvaluatorAsserts( evaluator )
+		TwoPliesEvaluator<Position, Move> twoPliesEvaluator = new TwoPliesEvaluator<>(evaluator);
+
+		new EvaluatorAsserts( twoPliesEvaluator )
 				.assertFirstBetter( position, simpleMove, captureWithRiskToLoseQueen );
 	}
 

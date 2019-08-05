@@ -1,9 +1,14 @@
 package com.leokom.chess.player.legal.brain.denormalized;
 
+import com.google.common.collect.Sets;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
+
+import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * Author: Leonid
@@ -12,7 +17,41 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
 class AttackEvaluator implements Evaluator {
 	@Override
 	public double evaluateMove( Position position, Move move ) {
-		final Side ourSide = position.getSideToMove();
-		return AttackIndexCalculator.getAttackIndex( position.move( move ), ourSide );
+		Position targetPosition = position.move(move);
+		return new SymmetricEvaluator( new AttackSideEvaluator() ).evaluate( targetPosition );
 	}
+
+	private static class AttackSideEvaluator implements com.leokom.chess.player.legal.brain.common.SideEvaluator {
+		//TODO: technically, in case of a terminal position, it should return empty result
+		//REFACTOR: too generic to encapsulate into Position?
+		private static Set<String> getPiecesAttackedBy( Position position, Side attackerSide ) {
+			Set<String> defenderSquares = position.getSquaresOccupiedBySide( attackerSide.opposite() );
+			return Sets.intersection( position.getSquaresAttackedBy( attackerSide ),
+					defenderSquares );
+		}
+
+		/*
+		 * Backlog for improvements:
+		 * - king has become a main target for attacks
+		 */
+		@Override
+		public double evaluatePosition(Position position, Side side) {
+			final Set< String > squaresAttacked = getPiecesAttackedBy( position, side );
+
+			// sum of piece values
+			// if a piece is protected - index of piece value is reduced
+			float result = 0;
+			for ( String attackedSquare : squaresAttacked ) {
+				//REFACTOR: probably bad dependency on another brain - extract common utility
+				int pieceValue = MaterialEvaluator.getValue( position.getPieceType( attackedSquare ) );
+
+				final Stream< String > protectors = position.getSquaresAttackingSquare( side.opposite(), attackedSquare );
+
+				//+1 to avoid / 0, more protectors is better
+				result += pieceValue / ( protectors.count() + 1.0 );
+			}
+			return result;
+		}
+	}
+
 }

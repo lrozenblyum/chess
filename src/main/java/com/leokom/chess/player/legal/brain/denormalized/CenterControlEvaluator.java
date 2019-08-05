@@ -6,6 +6,8 @@ import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
+import com.leokom.chess.player.legal.brain.common.SideEvaluator;
+import com.leokom.chess.player.legal.brain.internal.common.SymmetricEvaluator;
 
 import java.util.Set;
 
@@ -20,11 +22,9 @@ import java.util.Set;
  * Date-time: 14.07.14 23:11
  */
 class CenterControlEvaluator implements Evaluator {
-	private static final Set<String> CENTER_SQUARES = ImmutableSet.of( "e5", "e4", "d4", "d5" );
-
 	/**
 	 * {@inheritDoc}
-	 * @return [ 0, 4 ]
+	 * @return [ -4, 4 ]
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
@@ -33,16 +33,20 @@ class CenterControlEvaluator implements Evaluator {
 		//e.g. Knight on e5 cannot attack e4, d4, d5
 		//but blocks the center
 
-		final Side ourSide = position.getSideToMove();
-
 		final Position targetPosition = position.move( move );
-		//technically it's naive check - since the situation
-		//can change drastically after the opponent's move
-		//however we look now only at 1/2 depth
-		final Set< String > squaresAttackedByUs = targetPosition.getSquaresAttackedBy( ourSide );
+		return new SymmetricEvaluator( new CenterControlSideEvaluator() ).evaluate( targetPosition );
+	}
 
-		final Set< String > intersection = Sets.intersection( squaresAttackedByUs, CENTER_SQUARES );
+	private static class CenterControlSideEvaluator implements SideEvaluator {
+		private static final Set<String> CENTER_SQUARES = ImmutableSet.of( "e5", "e4", "d4", "d5" );
 
-		return intersection.size();
+		@Override
+		public double evaluatePosition(Position position, Side side) {
+			final Set< String > squaresAttacked = position.getSquaresAttackedBy(side);
+
+			final Set< String > intersection = Sets.intersection( squaresAttacked, CENTER_SQUARES );
+
+			return intersection.size();
+		}
 	}
 }

@@ -7,35 +7,32 @@ import org.junit.Test;
 
 public class ProtectionEvaluatorTest extends EvaluatorTestCase {
 	@Test
-	public void leaveAttackedSquare() {
-		PositionBuilder position = new PositionBuilder();
-		position.add( Side.WHITE, "h8", PieceType.ROOK );
-		position.add( Side.WHITE, "c2", PieceType.PAWN );
+	public void reducingOpponentProtectionIsGood() {
+		Position position = new PositionBuilder()
+				.add(Side.WHITE, "a1", PieceType.BISHOP) //protects rook
+				.add(Side.WHITE, "h8", PieceType.ROOK)
+				.add(Side.BLACK, "b7", PieceType.ROOK)
+				.setSide( Side.BLACK )
+				.build();
 
-		position.add( Side.BLACK, "g6", PieceType.KNIGHT ); //attacks the rook
-
-		Move leavingAttackedSquare = new Move( "h8", "b8" );
-
-		Move stayingCalm = new Move( "c2", "c3" );
-
-		asserts.assertFirstBetter( position, leavingAttackedSquare, stayingCalm );
+		Move intersectingProtection = new Move( "b7", "b2" );
+		Move notIntersectingProtection = new Move( "b7", "b3" );
+		asserts.assertFirstBetter( position, intersectingProtection, notIntersectingProtection );
 	}
 
 	@Test
-	public void doubleAttackMeansNeedToAct() {
-		Position position = new Position( Side.BLACK );
-		//attacks b3, d3
-		position.add( Side.WHITE, "c1", PieceType.KNIGHT );
+	public void increasingOurProtectionIsGood() {
+		Position position = new PositionBuilder()
+				.add(Side.WHITE, "a2", PieceType.ROOK)
+				.add(Side.WHITE, "c2", PieceType.BISHOP)
+				.add(Side.BLACK, "h1", PieceType.KING)
+				.build();
 
-		position.add( Side.BLACK, "b3", PieceType.PAWN );
-		position.add( Side.BLACK, "d3", PieceType.PAWN );
+		//b1 -> a2 protection
+		Move protectingRook = new Move( "c2", "b1" );
+		Move notProtectingRook = new Move( "c2", "d3" );
 
-		position.add( Side.BLACK, "g1", PieceType.KING );
-
-		Move leaveOneOfAttacked = new Move( "b3", "b2" );
-		Move ignoreAttack = new Move( "g1", "h1" );
-
-		asserts.assertFirstBetter( position, leaveOneOfAttacked, ignoreAttack );
+		asserts.assertFirstBetter( position, protectingRook, notProtectingRook );
 	}
 
 	@Test
