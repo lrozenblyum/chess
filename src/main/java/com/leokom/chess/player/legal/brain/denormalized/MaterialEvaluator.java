@@ -32,7 +32,7 @@ class MaterialEvaluator implements Evaluator {
 		public double evaluatePosition(Position position, Side side) {
 			return value( position.getPieces( side ).
 					//king is excluded because it's invaluable
-							filter( this::isNotAKing ) );
+					filter( this::isNotAKing ) );
 		}
 
 		private boolean isNotAKing( Piece piece ) {
