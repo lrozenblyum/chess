@@ -10,12 +10,7 @@ import java.util.stream.Stream;
 import static com.leokom.chess.player.legal.brain.internal.common.MaterialValues.VALUES;
 
 /**
- * Evaluate material domination
- *
- * This is the first brain
- * for which I think symmetric counter-part
- * has no sense (since it's a difference between us & opponent)
- *
+ * Evaluate material domination in symmetric manner.
  */
 class MaterialEvaluator implements Evaluator {
 	/**
