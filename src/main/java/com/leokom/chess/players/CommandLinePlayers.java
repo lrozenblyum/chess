@@ -20,6 +20,14 @@ import java.util.function.Function;
 public final class CommandLinePlayers implements Function< Side, Player > {
 	private static Logger logger = LogManager.getLogger( CommandLinePlayers.class );
 
+	private final ChessSystemProperty engineProperty;
+	private final ChessSystemProperty depthProperty;
+
+	CommandLinePlayers() {
+		this.engineProperty = new ChessSystemProperty( "engine" );
+		this.depthProperty = new ChessSystemProperty( "depth" );
+	}
+
 	/**
 	 * Chess system properties.
 	 * Represent properties in format 'side.property' (like 'white.depth' or 'black.engine')
@@ -62,7 +70,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	 */
 	@Override
 	public Player apply( Side side ) {
-		return new ChessSystemProperty("engine").getFor(side).map(engineName -> {
+		return engineProperty.getFor(side).map(engineName -> {
 			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 			switch (engineName) {
 				case "Legal":
@@ -80,8 +88,8 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 		}).get();
 	}
 
-	private static LegalPlayerSupplier getLegalPlayerSupplier( Side side ) {
-		return new ChessSystemProperty("depth").getFor(side)
+	private LegalPlayerSupplier getLegalPlayerSupplier( Side side ) {
+		return depthProperty.getFor(side)
 				.map(Integer::valueOf)
 				.map(LegalPlayerSupplier::new) //takes depth parameter
 				.orElseGet(LegalPlayerSupplier::new); //without parameters, default constructor
