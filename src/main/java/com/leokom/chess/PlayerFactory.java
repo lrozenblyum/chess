@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Create players for the chess game
@@ -16,7 +17,7 @@ import java.util.Optional;
  * Author: Leonid
  * Date-time: 06.05.14 22:45
  */
-final class PlayerFactory {
+final class PlayerFactory implements Function< Side, Player > {
 	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
 
 	/**
@@ -59,7 +60,8 @@ final class PlayerFactory {
 	 * @param side side to create
 	 * @return new instance of a player
 	 */
-	Player createPlayer( Side side ) {
+	@Override
+	public Player apply( Side side ) {
 		return new ChessSystemProperty("engine").getFor(side).map(engineName -> {
 			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 			switch (engineName) {

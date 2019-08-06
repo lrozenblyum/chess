@@ -6,6 +6,8 @@ import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.function.Function;
+
 /**
  * Entry point to the Chess application.
  */
@@ -87,9 +89,9 @@ public final class MainRunner {
 	}
 
 	private static void runGame() {
-		PlayerFactory factory = new PlayerFactory();
-		final Player whitePlayer = factory.createPlayer( Side.WHITE );
-		final Player blackPlayer = factory.createPlayer( Side.BLACK );
+		Function< Side, Player > factory = new PlayerFactory();
+		final Player whitePlayer = factory.apply( Side.WHITE );
+		final Player blackPlayer = factory.apply( Side.BLACK );
 
 		new Game( whitePlayer, blackPlayer ).run();
 	}
