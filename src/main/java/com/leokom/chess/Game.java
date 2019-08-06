@@ -5,6 +5,8 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 
+import java.util.function.Function;
+
 /**
  * Create &amp; Run Game of Chess.
  * Author: Leonid
@@ -13,6 +15,13 @@ import org.apache.logging.log4j.LogManager;
 public final class Game {
 	private final Player whitePlayer;
 	private final Player blackPlayer;
+
+	Game( Function< Side, Player > players ) {
+		this(
+			players.apply( Side.WHITE ),
+			players.apply( Side.BLACK )
+		);
+	}
 
 	/**
 	 * Initiate game between two players

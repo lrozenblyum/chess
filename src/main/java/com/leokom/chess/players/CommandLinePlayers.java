@@ -1,4 +1,4 @@
-package com.leokom.chess;
+package com.leokom.chess.players;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
@@ -12,19 +12,19 @@ import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * Create players for the chess game
+ * Create players for the chess game based on command-line parameters
  *
  * Author: Leonid
  * Date-time: 06.05.14 22:45
  */
-final class PlayerFactory implements Function< Side, Player > {
-	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
+public final class CommandLinePlayers implements Function< Side, Player > {
+	private static Logger logger = LogManager.getLogger( CommandLinePlayers.class );
 
 	/**
 	 * Chess system properties.
 	 * Represent properties in format 'side.property' (like 'white.depth' or 'black.engine')
 	 */
-	static class ChessSystemProperty {
+	private static class ChessSystemProperty {
 		private final String propertyName;
 
 		ChessSystemProperty( String propertyName ) {

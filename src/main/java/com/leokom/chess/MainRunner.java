@@ -1,12 +1,9 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.engine.Side;
-import com.leokom.chess.player.Player;
+import com.leokom.chess.players.CommandLinePlayers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.function.Function;
 
 /**
  * Entry point to the Chess application.
@@ -72,8 +69,10 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		try {
 			logger.info( "Starting the chess..." );
-			runGame();
-			logger.info( "Chess are stopped. Bye-bye" );
+            new Game(
+                new CommandLinePlayers()
+            ).run();
+            logger.info( "Chess are stopped. Bye-bye" );
 		}
 		catch ( RuntimeException re ) {
 			//important to investigate issues
@@ -86,14 +85,6 @@ public final class MainRunner {
 			logger.error( "A critical error occurred", criticalError );
 		}
 
-	}
-
-	private static void runGame() {
-		Function< Side, Player > factory = new PlayerFactory();
-		final Player whitePlayer = factory.apply( Side.WHITE );
-		final Player blackPlayer = factory.apply( Side.BLACK );
-
-		new Game( whitePlayer, blackPlayer ).run();
 	}
 
 }

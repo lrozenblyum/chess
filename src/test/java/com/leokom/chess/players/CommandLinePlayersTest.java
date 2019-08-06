@@ -1,4 +1,4 @@
-package com.leokom.chess;
+package com.leokom.chess.players;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
@@ -9,14 +9,14 @@ import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 
 import static org.junit.Assert.*;
 
-public class PlayerFactoryTest {
+public class CommandLinePlayersTest {
 	//snapshots all system properties before a test, restores after it
 	@Rule
 	public final RestoreSystemProperties restoreSystemProperties = new RestoreSystemProperties();
 
 	@Test
 	public void noSystemPropertiesDefaultPlayerBlack() {
-		final Player player = new PlayerFactory().apply( Side.BLACK );
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertIsLegal( player );
 	}
 
@@ -24,7 +24,7 @@ public class PlayerFactoryTest {
 	public void canSelectSimpleEngineForWhite() {
 		System.setProperty( "white.engine", "Simple" );
 
-		final Player player = new PlayerFactory().apply( Side.WHITE );
+		final Player player = new CommandLinePlayers().apply( Side.WHITE );
 		assertIsSimple( player );
 	}
 
@@ -32,7 +32,7 @@ public class PlayerFactoryTest {
 	public void failFastOnUnsupportedEngine() {
 		System.setProperty( "white.engine", "Unsupported" );
 
-		new PlayerFactory().apply( Side.WHITE );
+		new CommandLinePlayers().apply( Side.WHITE );
 	}
 
 	private void assertIsSimple(Player player) {
@@ -43,13 +43,13 @@ public class PlayerFactoryTest {
 	public void canSelectWinboardForBlack() {
 		System.setProperty( "black.engine", "Winboard" );
 
-		final Player player = new PlayerFactory().apply( Side.BLACK );
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertTrue( player instanceof WinboardPlayer );
 	}
 
 	@Test
 	public void noSystemPropertiesDefaultPlayerWhite() {
-		final Player player = new PlayerFactory().apply( Side.WHITE );
+		final Player player = new CommandLinePlayers().apply( Side.WHITE );
 		assertTrue( player instanceof WinboardPlayer );
 	}
 
@@ -57,7 +57,7 @@ public class PlayerFactoryTest {
 	public void legalSelected() {
 		System.setProperty( "black", "Legal" );
 
-		final Player player = new PlayerFactory().apply( Side.BLACK );
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertIsLegal( player );
 	}
 
@@ -69,7 +69,7 @@ public class PlayerFactoryTest {
 	public void legalSelectedWhite() {
 		System.setProperty( "white.engine", "Legal" );
 
-		final Player player = new PlayerFactory().apply( Side.WHITE );
+		final Player player = new CommandLinePlayers().apply( Side.WHITE );
 		assertIsLegal( player );
 	}
 
@@ -78,7 +78,7 @@ public class PlayerFactoryTest {
 		System.setProperty( "white.engine", "Legal" );
 		System.setProperty( "white.depth", "2" );
 
-		final Player player = new PlayerFactory().apply( Side.WHITE );
+		final Player player = new CommandLinePlayers().apply( Side.WHITE );
 		assertDepth( player, 2 );
 	}
 
@@ -87,7 +87,7 @@ public class PlayerFactoryTest {
 		System.setProperty( "white.engine", "Legal" );
 		System.setProperty( "white.depth", "1" );
 
-		final Player player = new PlayerFactory().apply( Side.WHITE );
+		final Player player = new CommandLinePlayers().apply( Side.WHITE );
 		assertDepth( player, 1 );
 	}
 
@@ -96,7 +96,7 @@ public class PlayerFactoryTest {
 		System.setProperty( "black.engine", "Legal" );
 		System.setProperty( "black.depth", "1" );
 
-		final Player player = new PlayerFactory().apply( Side.BLACK );
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertDepth( player, 1 );
 	}
 
@@ -105,7 +105,7 @@ public class PlayerFactoryTest {
 		System.setProperty( "black.engine", "Legal" );
 		System.setProperty( "black.depth", "2" );
 
-		final Player player = new PlayerFactory().apply( Side.BLACK );
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertDepth( player, 2 );
 	}
 
@@ -114,7 +114,7 @@ public class PlayerFactoryTest {
 		//because legal is default one
 		System.setProperty( "black.depth", "2" );
 
-		final Player player = new PlayerFactory().apply( Side.BLACK );
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertDepth( player, 2 );
 	}
 
@@ -122,7 +122,7 @@ public class PlayerFactoryTest {
 	public void defaultDepthIs1() {
 		System.setProperty( "black.engine", "Legal" );
 
-		final Player player = new PlayerFactory().apply( Side.BLACK );
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertDepth( player, 1 );
 	}
 
