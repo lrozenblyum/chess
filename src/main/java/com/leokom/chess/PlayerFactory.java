@@ -17,8 +17,6 @@ import java.util.Optional;
  * Date-time: 06.05.14 22:45
  */
 final class PlayerFactory {
-	private PlayerFactory() {}
-
 	private static Logger logger = LogManager.getLogger( PlayerFactory.class );
 
 	/**
@@ -61,7 +59,7 @@ final class PlayerFactory {
 	 * @param side side to create
 	 * @return new instance of a player
 	 */
-	static Player createPlayer( Side side ) {
+	Player createPlayer( Side side ) {
 		return new ChessSystemProperty("engine").getFor(side).map(engineName -> {
 			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 			switch (engineName) {

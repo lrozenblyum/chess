@@ -87,8 +87,9 @@ public final class MainRunner {
 	}
 
 	private static void runGame() {
-		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
-		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
+		PlayerFactory factory = new PlayerFactory();
+		final Player whitePlayer = factory.createPlayer( Side.WHITE );
+		final Player blackPlayer = factory.createPlayer( Side.BLACK );
 
 		new Game( whitePlayer, blackPlayer ).run();
 	}
