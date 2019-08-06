@@ -23,7 +23,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	private final ChessSystemProperty engineProperty;
 	private final ChessSystemProperty depthProperty;
 
-	CommandLinePlayers() {
+	public CommandLinePlayers() {
 		this.engineProperty = new ChessSystemProperty( "engine" );
 		this.depthProperty = new ChessSystemProperty( "depth" );
 	}
