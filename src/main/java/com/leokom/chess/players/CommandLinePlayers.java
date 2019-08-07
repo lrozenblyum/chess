@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Create players for the chess game based on command-line parameters
@@ -72,24 +73,28 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	 */
 	@Override
 	public Player apply( Side side ) {
-		return engineProperty.getFor(side).map(engineName -> {
-			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
-			switch (engineName) {
-				case "brain.normalized":
-					return getLegalPlayerSupplier( side );
-				case "brain.denormalized":
-					return new DenormalizedPlayerSupplier();
-				case "brain.simple":
-					return new SimplePlayerSupplier();
-				case "Winboard":
-					return new WinboardPlayerSupplier();
-				default:
-					throw new IllegalArgumentException( "The engine is not supported: " + engineName);
-			}
-		}).orElseGet(() -> {
+		String engineName = engineProperty.getFor( side ).orElseGet( () -> {
 			logger.info( "Selecting a default engine for Side = " + side );
-			return side == Side.WHITE ?	new WinboardPlayerSupplier() : getLegalPlayerSupplier( side );
-		}).get();
+			return side == Side.WHITE ?	"Winboard" : "brain.normalized";
+		} );
+
+		return getPlayerSupplier( side, engineName ).get();
+	}
+
+	private Supplier<Player> getPlayerSupplier( Side side, String engineName ) {
+		logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
+		switch (engineName) {
+			case "brain.normalized":
+				return getLegalPlayerSupplier( side );
+			case "brain.denormalized":
+				return new DenormalizedPlayerSupplier();
+			case "brain.simple":
+				return new SimplePlayerSupplier();
+			case "Winboard":
+				return new WinboardPlayerSupplier();
+			default:
+				throw new IllegalArgumentException( "The engine is not supported: " + engineName);
+		}
 	}
 
 	private LegalPlayerSupplier getLegalPlayerSupplier( Side side ) {
