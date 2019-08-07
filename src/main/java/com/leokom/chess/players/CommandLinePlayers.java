@@ -3,6 +3,7 @@ package com.leokom.chess.players;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayerSupplier;
+import com.leokom.chess.player.legal.brain.denormalized.DenormalizedPlayerSupplier;
 import com.leokom.chess.player.legal.brain.simple.SimplePlayerSupplier;
 import com.leokom.chess.player.winboard.WinboardPlayerSupplier;
 import org.apache.logging.log4j.LogManager;
@@ -75,6 +76,8 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 			switch (engineName) {
 				case "Legal":
 					return getLegalPlayerSupplier( side );
+				case "brain.denormalized":
+					return new DenormalizedPlayerSupplier();
 				case "Simple":
 					return new SimplePlayerSupplier();
 				case "Winboard":

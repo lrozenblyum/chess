@@ -28,6 +28,14 @@ public class CommandLinePlayersTest {
 		assertIsSimple( player );
 	}
 
+	@Test
+	public void canSelectDenormalizedBrainForWhite() {
+		System.setProperty( "white.engine", "brain.denormalized" );
+
+		final Player player = new CommandLinePlayers().apply( Side.WHITE );
+		assertThat( player.name(), CoreMatchers.containsString( "Denormalized" ) );
+	}
+
 	@Test( expected = IllegalArgumentException.class )
 	public void failFastOnUnsupportedEngine() {
 		System.setProperty( "white.engine", "Unsupported" );
