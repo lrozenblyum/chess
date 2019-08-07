@@ -2,9 +2,10 @@ package com.leokom.chess.players;
 
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
-import com.leokom.chess.player.legal.LegalPlayerSupplier;
-import com.leokom.chess.player.legal.brain.denormalized.DenormalizedPlayerSupplier;
-import com.leokom.chess.player.legal.brain.simple.SimplePlayerSupplier;
+import com.leokom.chess.player.legal.LegalPlayer;
+import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
+import com.leokom.chess.player.legal.brain.normalized.NormalizedBrainSupplier;
+import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
 import com.leokom.chess.player.winboard.WinboardPlayerSupplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,11 +86,11 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 		logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 		switch (engineName) {
 			case "brain.normalized":
-				return getLegalPlayerSupplier( side );
+				return () -> new LegalPlayer( getNormalizedBrainSupplier( side ).get() );
 			case "brain.denormalized":
-				return new DenormalizedPlayerSupplier();
+				return () -> new LegalPlayer( new DenormalizedBrain() );
 			case "brain.simple":
-				return new SimplePlayerSupplier();
+				return () -> new LegalPlayer( new SimpleBrain() );
 			case "Winboard":
 				return new WinboardPlayerSupplier();
 			default:
@@ -97,10 +98,10 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 		}
 	}
 
-	private LegalPlayerSupplier getLegalPlayerSupplier( Side side ) {
+	private NormalizedBrainSupplier getNormalizedBrainSupplier(Side side ) {
 		return depthProperty.getFor(side)
 				.map(Integer::valueOf)
-				.map(LegalPlayerSupplier::new) //takes depth parameter
-				.orElseGet(LegalPlayerSupplier::new); //without parameters, default constructor
+				.map(NormalizedBrainSupplier::new) //takes depth parameter
+				.orElseGet(NormalizedBrainSupplier::new); //without parameters, default constructor
 	}
 }
