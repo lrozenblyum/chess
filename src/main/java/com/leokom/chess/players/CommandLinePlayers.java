@@ -74,7 +74,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 		return engineProperty.getFor(side).map(engineName -> {
 			logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 			switch (engineName) {
-				case "Legal":
+				case "brain.normalized":
 					return getLegalPlayerSupplier( side );
 				case "brain.denormalized":
 					return new DenormalizedPlayerSupplier();

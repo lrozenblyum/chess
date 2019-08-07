@@ -17,7 +17,7 @@ public class CommandLinePlayersTest {
 	@Test
 	public void noSystemPropertiesDefaultPlayerBlack() {
 		final Player player = new CommandLinePlayers().apply( Side.BLACK );
-		assertIsLegal( player );
+		assertHasNormalizedBrain( player );
 	}
 
 	@Test
@@ -62,28 +62,28 @@ public class CommandLinePlayersTest {
 	}
 
 	@Test
-	public void legalSelected() {
-		System.setProperty( "black", "Legal" );
+	public void normalizedSelectedBlack() {
+		System.setProperty( "black.engine", "brain.normalized" );
 
 		final Player player = new CommandLinePlayers().apply( Side.BLACK );
-		assertIsLegal( player );
+		assertHasNormalizedBrain( player );
 	}
 
-	private void assertIsLegal( Player player ) {
-		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer" ) );
+	private void assertHasNormalizedBrain(Player player ) {
+		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer : NormalizedBrain" ) );
 	}
 
 	@Test
-	public void legalSelectedWhite() {
-		System.setProperty( "white.engine", "Legal" );
+	public void normalizedSelectedWhite() {
+		System.setProperty( "white.engine", "brain.normalized" );
 
 		final Player player = new CommandLinePlayers().apply( Side.WHITE );
-		assertIsLegal( player );
+		assertHasNormalizedBrain( player );
 	}
 
 	@Test
 	public void depth2FromCommandLineRespectedForWhite() {
-		System.setProperty( "white.engine", "Legal" );
+		System.setProperty( "white.engine", "brain.normalized" );
 		System.setProperty( "white.depth", "2" );
 
 		final Player player = new CommandLinePlayers().apply( Side.WHITE );
@@ -92,7 +92,7 @@ public class CommandLinePlayersTest {
 
 	@Test
 	public void depth1FromCommandLineRespectedForWhite() {
-		System.setProperty( "white.engine", "Legal" );
+		System.setProperty( "white.engine", "brain.normalized" );
 		System.setProperty( "white.depth", "1" );
 
 		final Player player = new CommandLinePlayers().apply( Side.WHITE );
@@ -101,7 +101,7 @@ public class CommandLinePlayersTest {
 
 	@Test
 	public void depth1FromCommandLineRespectedForBlack() {
-		System.setProperty( "black.engine", "Legal" );
+		System.setProperty( "black.engine", "brain.normalized" );
 		System.setProperty( "black.depth", "1" );
 
 		final Player player = new CommandLinePlayers().apply( Side.BLACK );
@@ -110,7 +110,7 @@ public class CommandLinePlayersTest {
 
 	@Test
 	public void depth2FromCommandLineRespectedForBlack() {
-		System.setProperty( "black.engine", "Legal" );
+		System.setProperty( "black.engine", "brain.normalized" );
 		System.setProperty( "black.depth", "2" );
 
 		final Player player = new CommandLinePlayers().apply( Side.BLACK );
@@ -118,8 +118,8 @@ public class CommandLinePlayersTest {
 	}
 
 	@Test
-	public void legalPlayerDepthCanBeProvidedEvenIfEngineIsNotProvided() {
-		//because legal is default one
+	public void normalizedBrainDepthCanBeProvidedEvenIfEngineIsNotProvided() {
+		//because normalized is default one
 		System.setProperty( "black.depth", "2" );
 
 		final Player player = new CommandLinePlayers().apply( Side.BLACK );
@@ -128,7 +128,7 @@ public class CommandLinePlayersTest {
 
 	@Test
 	public void defaultDepthIs1() {
-		System.setProperty( "black.engine", "Legal" );
+		System.setProperty( "black.engine", "brain.normalized" );
 
 		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertDepth( player, 1 );
