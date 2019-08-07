@@ -4,15 +4,15 @@ import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
-import com.leokom.chess.player.legal.brain.normalized.NormalizedBrainSupplier;
+import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
+import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
 import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
-import com.leokom.chess.player.winboard.WinboardPlayerSupplier;
+import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 /**
  * Create players for the chess game based on command-line parameters
@@ -79,29 +79,25 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 			return side == Side.WHITE ?	"Winboard" : "brain.normalized";
 		} );
 
-		return getPlayerSupplier( side, engineName ).get();
+		return getPlayer( side, engineName );
 	}
 
-	private Supplier<Player> getPlayerSupplier( Side side, String engineName ) {
+	private Player getPlayer(Side side, String engineName ) {
 		logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 		switch (engineName) {
 			case "brain.normalized":
-				return () -> new LegalPlayer( getNormalizedBrainSupplier( side ).get() );
+				int depth = depthProperty.getFor(side)
+						.map(Integer::valueOf)
+						.orElse( 1 ); //this depth has been used for years
+				return new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), depth ) );
 			case "brain.denormalized":
-				return () -> new LegalPlayer( new DenormalizedBrain() );
+				return new LegalPlayer( new DenormalizedBrain() );
 			case "brain.simple":
-				return () -> new LegalPlayer( new SimpleBrain() );
+				return new LegalPlayer( new SimpleBrain() );
 			case "Winboard":
-				return new WinboardPlayerSupplier();
+				return WinboardPlayer.create();
 			default:
 				throw new IllegalArgumentException( "The engine is not supported: " + engineName);
 		}
-	}
-
-	private NormalizedBrainSupplier getNormalizedBrainSupplier(Side side ) {
-		return depthProperty.getFor(side)
-				.map(Integer::valueOf)
-				.map(NormalizedBrainSupplier::new) //takes depth parameter
-				.orElseGet(NormalizedBrainSupplier::new); //without parameters, default constructor
 	}
 }
