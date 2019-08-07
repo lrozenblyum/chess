@@ -15,7 +15,7 @@ SET WINBOARD_PATH=%WINBOARD_INSTALLATION_PATH%\WinBoard\winboard.exe
 @rem it should be equal to 'project.deployDirectory' property in pom.xml
 SET RUNNABLE_JAR_DIRECTORY=%WINBOARD_INSTALLATION_PATH%\LeokomChess
 SET RUN_JAR_PATH=%RUNNABLE_JAR_DIRECTORY%\Chess.jar
-@rem you may pass -Dblack.engine=Simple to choose a different engine for blacks
+@rem you may pass -Dblack.engine=brain.simple or brain.denormalized to choose a different engine for blacks
 @rem for LegalPlayer you may specify -Dblack.depth (1 or 2)
 SET RUN_OPTIONS=-Dblack.depth=2
 

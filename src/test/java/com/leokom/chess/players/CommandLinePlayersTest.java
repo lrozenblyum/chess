@@ -21,8 +21,8 @@ public class CommandLinePlayersTest {
 	}
 
 	@Test
-	public void canSelectSimpleEngineForWhite() {
-		System.setProperty( "white.engine", "Simple" );
+	public void canSelectSimpleBrainForWhite() {
+		System.setProperty( "white.engine", "brain.simple" );
 
 		final Player player = new CommandLinePlayers().apply( Side.WHITE );
 		assertIsSimple( player );

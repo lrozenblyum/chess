@@ -78,7 +78,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 					return getLegalPlayerSupplier( side );
 				case "brain.denormalized":
 					return new DenormalizedPlayerSupplier();
-				case "Simple":
+				case "brain.simple":
 					return new SimplePlayerSupplier();
 				case "Winboard":
 					return new WinboardPlayerSupplier();

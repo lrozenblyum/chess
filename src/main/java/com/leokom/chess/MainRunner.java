@@ -30,7 +30,8 @@ public final class MainRunner {
 	 * <code>engineName</code> could be any of:
 	 *             <ul>
 	 *             <li>Winboard</li>
-	 *             <li>Simple</li>
+	 *             <li>brain.simple</li>
+	 *             <li>brain.denormalized</li>
 	 *             <li>Legal</li>
 	 *             </ul>
  	 *
