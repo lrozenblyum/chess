@@ -16,7 +16,7 @@ SET WINBOARD_PATH=%WINBOARD_INSTALLATION_PATH%\WinBoard\winboard.exe
 SET RUNNABLE_JAR_DIRECTORY=%WINBOARD_INSTALLATION_PATH%\LeokomChess
 SET RUN_JAR_PATH=%RUNNABLE_JAR_DIRECTORY%\Chess.jar
 @rem you may pass -Dblack.engine=brain.simple or brain.denormalized to choose a different engine for blacks
-@rem for LegalPlayer you may specify -Dblack.depth (1 or 2)
+@rem for brain.normalized you may specify -Dblack.depth (1 or 2)
 SET RUN_OPTIONS=-Dblack.depth=2
 
 SET ENGINE=%JAVA_PATH% %RUN_OPTIONS% -jar %RUN_JAR_PATH%

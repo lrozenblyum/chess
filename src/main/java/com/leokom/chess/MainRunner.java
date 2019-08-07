@@ -32,18 +32,18 @@ public final class MainRunner {
 	 *             <li>Winboard</li>
 	 *             <li>brain.simple</li>
 	 *             <li>brain.denormalized</li>
-	 *             <li>Legal</li>
+	 *             <li>brain.normalized</li>
 	 *             </ul>
  	 *
  	 * Default players:
  	 *             <ul>
  	 *             <li>-Dwhite.engine=Winboard</li>
- 	 *             <li>-Dblack.engine=Legal</li>
+ 	 *             <li>-Dblack.engine=brain.normalized</li>
  	 *             </ul>
 	 *
 	 * <p>
 	 *
-	 * Optional parameters for LegalPlayer
+	 * Optional parameters for brain.normalized
 	 * 	            <ul>
 	 * 	            <li>-Dwhite.depth=<code>depth in plies</code></li>
 	 * 	            <li>-Dblack.depth=<code>depth in plies</code></li>
