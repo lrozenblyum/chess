@@ -76,13 +76,13 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	public Player apply( Side side ) {
 		String engineName = engineProperty.getFor( side ).orElseGet( () -> {
 			logger.info( "Selecting a default engine for Side = " + side );
-			return side == Side.WHITE ?	"Winboard" : "brain.normalized";
+			return side == Side.WHITE ?	"ui.winboard" : "brain.normalized";
 		} );
 
 		return getPlayer( side, engineName );
 	}
 
-	private Player getPlayer(Side side, String engineName ) {
+	private Player getPlayer( Side side, String engineName ) {
 		logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
 		switch (engineName) {
 			case "brain.normalized":
@@ -94,7 +94,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 				return new LegalPlayer( new DenormalizedBrain() );
 			case "brain.simple":
 				return new LegalPlayer( new SimpleBrain() );
-			case "Winboard":
+			case "ui.winboard":
 				return WinboardPlayer.create();
 			default:
 				throw new IllegalArgumentException( "The engine is not supported: " + engineName);

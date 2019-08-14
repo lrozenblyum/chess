@@ -29,7 +29,7 @@ public final class MainRunner {
 	 *
 	 * <code>engineName</code> could be any of:
 	 *             <ul>
-	 *             <li>Winboard</li>
+	 *             <li>ui.winboard</li>
 	 *             <li>brain.simple</li>
 	 *             <li>brain.denormalized</li>
 	 *             <li>brain.normalized</li>
@@ -37,7 +37,7 @@ public final class MainRunner {
  	 *
  	 * Default players:
  	 *             <ul>
- 	 *             <li>-Dwhite.engine=Winboard</li>
+ 	 *             <li>-Dwhite.engine=ui.winboard</li>
  	 *             <li>-Dblack.engine=brain.normalized</li>
  	 *             </ul>
 	 *

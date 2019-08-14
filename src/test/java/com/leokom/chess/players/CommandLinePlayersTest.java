@@ -49,7 +49,7 @@ public class CommandLinePlayersTest {
 
 	@Test
 	public void canSelectWinboardForBlack() {
-		System.setProperty( "black.engine", "Winboard" );
+		System.setProperty( "black.engine", "ui.winboard" );
 
 		final Player player = new CommandLinePlayers().apply( Side.BLACK );
 		assertTrue( player instanceof WinboardPlayer );
