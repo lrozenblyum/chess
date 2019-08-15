@@ -1,8 +1,7 @@
 package com.leokom.chess;
 
 
-import com.leokom.chess.engine.Side;
-import com.leokom.chess.player.Player;
+import com.leokom.chess.players.CommandLinePlayers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,20 +29,21 @@ public final class MainRunner {
 	 *
 	 * <code>engineName</code> could be any of:
 	 *             <ul>
-	 *             <li>Winboard</li>
-	 *             <li>Simple</li>
-	 *             <li>Legal</li>
+	 *             <li>ui.winboard</li>
+	 *             <li>brain.simple</li>
+	 *             <li>brain.denormalized</li>
+	 *             <li>brain.normalized</li>
 	 *             </ul>
  	 *
  	 * Default players:
  	 *             <ul>
- 	 *             <li>-Dwhite.engine=Winboard</li>
- 	 *             <li>-Dblack.engine=Legal</li>
+ 	 *             <li>-Dwhite.engine=ui.winboard</li>
+ 	 *             <li>-Dblack.engine=brain.normalized</li>
  	 *             </ul>
 	 *
 	 * <p>
 	 *
-	 * Optional parameters for LegalPlayer
+	 * Optional parameters for brain.normalized
 	 * 	            <ul>
 	 * 	            <li>-Dwhite.depth=<code>depth in plies</code></li>
 	 * 	            <li>-Dblack.depth=<code>depth in plies</code></li>
@@ -70,8 +70,10 @@ public final class MainRunner {
 	public static void main( String[] args ) {
 		try {
 			logger.info( "Starting the chess..." );
-			runGame();
-			logger.info( "Chess are stopped. Bye-bye" );
+            new Game(
+                new CommandLinePlayers()
+            ).run();
+            logger.info( "Chess are stopped. Bye-bye" );
 		}
 		catch ( RuntimeException re ) {
 			//important to investigate issues
@@ -84,13 +86,6 @@ public final class MainRunner {
 			logger.error( "A critical error occurred", criticalError );
 		}
 
-	}
-
-	private static void runGame() {
-		final Player whitePlayer = PlayerFactory.createPlayer( Side.WHITE );
-		final Player blackPlayer = PlayerFactory.createPlayer( Side.BLACK );
-
-		new Game( whitePlayer, blackPlayer ).run();
 	}
 
 }

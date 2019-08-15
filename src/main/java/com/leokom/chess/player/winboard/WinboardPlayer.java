@@ -162,7 +162,7 @@ public class WinboardPlayer implements Player {
 	 * @return instance of properly initialized Player against WinBoard-powered player
 	 *
 	 */
-	static Player create() {
+	public static Player create() {
 		//TODO: implement some singleton policy?
 		final WinboardCommunicator communicator = new WinboardCommunicator();
 		return new WinboardPlayer( new WinboardCommanderImpl( communicator ) );

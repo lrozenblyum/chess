@@ -5,14 +5,13 @@ import com.leokom.chess.engine.PositionBuilder;
 import com.leokom.chess.engine.Side;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.LegalPlayer;
-import com.leokom.chess.player.legal.LegalPlayerSupplier;
 import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
-import com.leokom.chess.player.legal.brain.simple.SimplePlayerSupplier;
+import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -131,17 +130,17 @@ public class SimulatorIT {
 		when( second.getPosition() ).thenReturn( position, positions );
 	}
 
-	//we expect the default brain of the legal player is much smarter than the simple one
+	//we expect the normalized brain of the legal player is much smarter than the simple one
 	@Test
 	public void legalVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( new LegalPlayerSupplier(), new SimplePlayerSupplier() ).run();
+		final SimulatorStatistics statistics = new Simulator( new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator() ) ), new LegalPlayer( new SimpleBrain() ) ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
 
 	@Test
 	public void simpleVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( new SimplePlayerSupplier(), new SimplePlayerSupplier() ).run();
+		final SimulatorStatistics statistics = new Simulator( new LegalPlayer( new SimpleBrain() ), new LegalPlayer( new SimpleBrain() ) ).run();
 
 		//now simple vs simple correctly draws at the second move
 		assertEquals( new SimulatorStatistics( 2, 0, 0 ), statistics );

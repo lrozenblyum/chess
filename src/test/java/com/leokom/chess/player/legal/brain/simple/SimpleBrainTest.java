@@ -4,6 +4,7 @@ import com.leokom.chess.Game;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.PlayerBuilder;
+import com.leokom.chess.player.legal.LegalPlayer;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class SimpleBrainTest {
 
     @Before
     public void prepare() {
-        simplePlayer = new SimplePlayerSupplier().get();
+        simplePlayer = new LegalPlayer( new SimpleBrain() );
     }
 
     @Test
