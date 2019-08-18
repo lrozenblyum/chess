@@ -14,7 +14,7 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
 public class TerminalEvaluator implements Evaluator {
 
 	private static final double BEST_MOVE = 1;
-	private static final double AVERAGE_MOVE = 0.5;
+	private static final double DRAW_EVALUATION = 0.001;
 	private static final double WORST_MOVE = 0;
 
 	/**
@@ -32,7 +32,7 @@ public class TerminalEvaluator implements Evaluator {
 
 		//assuming it's draw
 		if ( result.getWinningSide() == null ) {
-			return AVERAGE_MOVE;
+			return DRAW_EVALUATION;
 		}
 
 		return position.getSide( move.getFrom() ) == result.getWinningSide() ? BEST_MOVE : WORST_MOVE;

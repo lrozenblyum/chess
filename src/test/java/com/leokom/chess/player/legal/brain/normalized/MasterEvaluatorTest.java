@@ -52,6 +52,20 @@ public class MasterEvaluatorTest {
 	}
 
 	@Test
+	public void drawAcceptingWhenDominatingIsNotOK() {
+		Position position = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.KING )
+				.add( Side.WHITE, "b1", PieceType.QUEEN )
+				.add( Side.BLACK, "h7", PieceType.KING )
+				.setSide( Side.BLACK )
+				.build();
+
+		Position toThink = position.move("h7", "h8").move( Move.OFFER_DRAW );
+
+		new EvaluatorAsserts( evaluator ).assertFirstBetter( toThink, new Move( "b1", "h1" ), Move.ACCEPT_DRAW );
+	}
+
+	@Test
 	public void resignIsWeak() {
 		Position position = Position.getInitialPosition();
 
