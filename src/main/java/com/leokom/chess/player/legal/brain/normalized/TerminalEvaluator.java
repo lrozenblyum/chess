@@ -14,13 +14,14 @@ import com.leokom.chess.player.legal.brain.common.Evaluator;
 public class TerminalEvaluator implements Evaluator {
 
 	private static final double BEST_MOVE = 1;
+	//this naive coefficient tuning should be improved in https://github.com/lrozenblyum/chess/issues/336
 	private static final double DRAW_EVALUATION = 0.001;
 	private static final double WORST_MOVE = 0;
 
 	/**
 	 *
 	 * {@inheritDoc}
-	 * @return 0 or 1
+	 * @return 0 if we lost or the position is non-terminal, 1 if we won, something in-between if we reached draw
 	 */
 	@Override
 	public double evaluateMove( Position position, Move move ) {
