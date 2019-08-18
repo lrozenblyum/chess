@@ -3,6 +3,7 @@ package com.leokom.chess.player.legal;
 import com.leokom.chess.engine.*;
 import com.leokom.chess.player.Player;
 import com.leokom.chess.player.legal.brain.common.Brain;
+import com.leokom.chess.player.legal.brain.common.Evaluator;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorTweaked;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,12 +59,31 @@ public class LegalPlayerTest {
 		assertTrue( player.getPosition().isTerminal() );
 	}
 
+	private static class EvaluatorToSpeedUpObligatoryDraw implements Evaluator {
+		private static final double WORST_MOVE = 0.0;
+		private static final double BEST_MOVE = 1.0;
+
+		@Override
+		public double evaluateMove( Position position, Move move ) {
+			if ( move.isSpecial() ) {
+				return WORST_MOVE;
+			}
+
+			final Position result = position.move( move );
+			if ( result.isTerminal() && result.getWinningSide() == null ) {
+				return BEST_MOVE;
+			}
+
+			return WORST_MOVE;
+		}
+	}
+
 	@Test
 	public void legalPlayerCorrectWhenObligatoryDrawAchievedByHisMove() {
 		Rules rules = new RulesBuilder().movesTillDraw( 1 ).build();
 		final Position position = Position.getInitialPosition( rules );
 
-		final LegalPlayer player = getLegalPlayer();
+		final LegalPlayer player = new LegalPlayer( new EvaluatorToSpeedUpObligatoryDraw() );
 		player.setPosition( position, Side.BLACK );
 		player.setOpponent( opponent );
 		//not pawn, not capture

@@ -41,6 +41,8 @@ public class MasterEvaluatorTest {
 		position.add( Side.BLACK, "g7", PieceType.PAWN );
 		//protects the pawn
 		position.add( Side.BLACK, "g8", PieceType.ROOK );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+		position.add( Side.WHITE, "c1", PieceType.KING );
 
 		Move captureWithRiskToLoseQueen = new Move( "g6", "g7" );
 		Move simpleMove = new Move( "g6", "g5" );
@@ -49,6 +51,20 @@ public class MasterEvaluatorTest {
 
 		new EvaluatorAsserts( twoPliesEvaluator )
 				.assertFirstBetter( position, simpleMove, captureWithRiskToLoseQueen );
+	}
+
+	@Test
+	public void drawAcceptingWhenDominatingIsNotOK() {
+		Position position = new PositionBuilder()
+				.add( Side.WHITE, "a1", PieceType.KING )
+				.add( Side.WHITE, "b1", PieceType.QUEEN )
+				.add( Side.BLACK, "h7", PieceType.KING )
+				.setSide( Side.BLACK )
+				.build();
+
+		Position toThink = position.move("h7", "h8").move( Move.OFFER_DRAW );
+
+		new EvaluatorAsserts( evaluator ).assertFirstBetter( toThink, new Move( "b1", "h1" ), Move.ACCEPT_DRAW );
 	}
 
 	@Test
