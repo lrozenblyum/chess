@@ -41,6 +41,8 @@ public class MasterEvaluatorTest {
 		position.add( Side.BLACK, "g7", PieceType.PAWN );
 		//protects the pawn
 		position.add( Side.BLACK, "g8", PieceType.ROOK );
+		position.add( Side.BLACK, "a1", PieceType.KING );
+		position.add( Side.WHITE, "c1", PieceType.KING );
 
 		Move captureWithRiskToLoseQueen = new Move( "g6", "g7" );
 		Move simpleMove = new Move( "g6", "g5" );
