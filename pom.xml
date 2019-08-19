@@ -7,7 +7,7 @@
     <name>Chess</name>
     <groupId>com.leokom</groupId>
     <artifactId>Chess</artifactId>
-    <version>0.5</version>
+    <version>0.6-SNAPSHOT</version>
 
 
     <!-- Added in order to support github-release-plugin.
@@ -244,17 +244,7 @@
                 <configuration>
                     <releaseName>${project.version} release</releaseName>
                     <description>
-                        Brain: all supported evaluators are symmetrical which makes 2-ply thinking more logical.
-                        Brain: 2-plies evaluation extracted.
-                        Brain: concept of Range and related stuff extracted.
-                        Core: Position contains more historical information.
-                        CLI: denormalized brain is selectable.
-                        UCI: migrated to Maven central.
-                        Maven plugins: updated.
-                        The project has become more IDE-neutral.
-                        Tests: a lot of test supply kings for correctness.
-                        CI: migrated to Trusty Travis environment.
-                        Maintainability: refactorings and clean-ups.
+                        to be defined
                     </description>
                     <tag>${project.version}</tag>
                     <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
