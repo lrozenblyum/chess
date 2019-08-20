@@ -6,5 +6,6 @@ package com.leokom.chess.player.winboard;
  */
 interface UserMoveListener extends StringParameterListener {
 	//NOTE: move format is currently highly-coupled with Winboard...
+	@Override
 	void execute( String move );
 }

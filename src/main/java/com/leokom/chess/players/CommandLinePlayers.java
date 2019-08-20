@@ -21,7 +21,7 @@ import java.util.function.Function;
  * Date-time: 06.05.14 22:45
  */
 public final class CommandLinePlayers implements Function< Side, Player > {
-	private static Logger logger = LogManager.getLogger( CommandLinePlayers.class );
+	private static final Logger logger = LogManager.getLogger( CommandLinePlayers.class );
 
 	private final ChessSystemProperty engineProperty;
 	private final ChessSystemProperty depthProperty;
@@ -83,7 +83,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	}
 
 	private Player getPlayer( Side side, String engineName ) {
-		logger.info("Selecting an engine for Side = " + side + " by engine name = " + engineName);
+		logger.info("Selecting an engine for Side = {} by engine name = {}", side, engineName);
 		switch (engineName) {
 			case "brain.normalized":
 				int depth = depthProperty.getFor(side)

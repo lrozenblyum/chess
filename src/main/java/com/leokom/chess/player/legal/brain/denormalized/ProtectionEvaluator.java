@@ -40,7 +40,7 @@ class ProtectionEvaluator implements Evaluator {
 		return new SymmetricEvaluator( new ProtectionSideEvaluator() ).evaluate( targetPosition );
 	}
 
-	private class ProtectionSideEvaluator implements SideEvaluator {
+	private static class ProtectionSideEvaluator implements SideEvaluator {
 
 		@Override
 		public double evaluatePosition(Position position, Side side) {

@@ -6,5 +6,6 @@ package com.leokom.chess.player.winboard;
  * Date-time: 17.11.12 22:11
  */
 interface QuitListener extends NoParametersListener {
+	@Override
 	void execute();
 }

@@ -9,5 +9,6 @@ package com.leokom.chess.player.winboard;
  * has to move again.
  */
 interface GoListener extends NoParametersListener {
+	@Override
 	void execute();
 }

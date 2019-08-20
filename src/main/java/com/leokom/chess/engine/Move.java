@@ -54,7 +54,7 @@ public final class Move implements GameTransition {
 	//claim draw by 50 moves rule & claim draw by threefold repetition
 	//or just a common generic claim draw. The generic claim draw
 	//is easier to implement if UI integration doesn't support more specific one
-	//while the specifics are more semantical.
+	//while the specifics are more semantic.
 	//so far implementing the minimal decision
 
 	/**

@@ -26,6 +26,7 @@ public class LegalPlayer implements Player {
 
 	private boolean recordingMode;
 	private Side ourSide;
+	private final Logger logger = LogManager.getLogger();
 
 	/**
 	 * Create player with denormalized brain
@@ -48,7 +49,7 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartNewGameWhite() {
-		getLogger().info( "Opponent suggested me starting a new game whites. Starting it" );
+		logger.info( "Opponent suggested me starting a new game whites. Starting it" );
 		position = Position.getInitialPosition();
 		ourSide = Side.WHITE;
 		executeOurMove();
@@ -56,14 +57,14 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void opponentSuggestsMeStartNewGameBlack() {
-		getLogger().info( "Opponent suggested me starting a new game black. Starting it" );
+		logger.info( "Opponent suggested me starting a new game black. Starting it" );
 		position = Position.getInitialPosition();
 		ourSide = Side.BLACK;
 	}
 
 	@Override
 	public void opponentMoved( Move... opponentMoves ) {
-		LogManager.getLogger().info( "Opponent moved : {}", (Object[]) opponentMoves);
+		logger.info( "Opponent moved : {}", (Object[]) opponentMoves);
 		//REFACTOR: should be part of man-in-the-middle (judge, board, validator?)
 		if ( opponentMoves == null ) {
 			throw new IllegalArgumentException( "Wrong opponent move null" );
@@ -83,7 +84,7 @@ public class LegalPlayer implements Player {
 	//exposing package-private for tests
 	void executeOurMove() {
 		if ( recordingMode ) {
-			getLogger().info( "Just recording the moves." );
+			logger.info( "Just recording the moves." );
 			return;
 		}
 
@@ -95,15 +96,15 @@ public class LegalPlayer implements Player {
 		//can be not our move : when opponent offers draw before HIS move
 		//so he still has the right to move
 		if ( position.getSideToMove() != ourSide ) {
-			getLogger().info( "It's not our side to move" );
+			logger.info( "It's not our side to move" );
 
 			Move bestMove = brain.findBestMoveForOpponent( position );
 			if ( bestMove != null ) {
-				getLogger().info( "Anyway we're ready to move: " + bestMove );
+				logger.info( "Anyway we're ready to move: {}", bestMove );
 				executeMoves( Collections.singletonList(bestMove) );
 			}
 			else {
-			    getLogger().info( "We don't want to move now" );
+				logger.info( "We don't want to move now" );
             }
 			return;
 		}
@@ -132,21 +133,17 @@ public class LegalPlayer implements Player {
 
 	//updating internal representation of current position
 	private void updatePositionByOurMove( Move move ) {
-		getLogger().info( this.position.getSideToMove() + " : Moved " + move );
+		logger.info( "{} : Moved {}", this.position.getSideToMove(), move );
 		position = position.move( move );
-		getLogger().info( "\nNew position : " + position );
+		logger.info( "\nNew position : {}", position );
 		if ( position.isTerminal() ) {
             logTerminal( "our" );
         }
 	}
 
     private void logTerminal(String whoseMoveItWas) {
-        getLogger().info( "Final position has been reached by " + whoseMoveItWas + " move! " + getWinningSideDescription() );
+        logger.info( "Final position has been reached by {} move! {} ", whoseMoveItWas, getWinningSideDescription() );
     }
-
-    private Logger getLogger() {
-		return LogManager.getLogger( this.getClass() );
-	}
 
 	@Override
 	public void setOpponent( Player opponent ) {
@@ -155,19 +152,19 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public void switchToRecodingMode() {
-		getLogger().info( "Switching to recording mode... Moves will be executed by external source" );
+		logger.info( "Switching to recording mode... Moves will be executed by external source" );
 		this.recordingMode = true;
 	}
 
 	@Override
 	public void leaveRecordingMode() {
-		getLogger().info( "Leaving recording mode" );
+		logger.info( "Leaving recording mode" );
 		this.recordingMode = false;
 	}
 
 	@Override
 	public void joinGameForSideToMove() {
-		getLogger().info( "Opponent suggested me to join the game for side: {}. Joining...", position.getSideToMove() );
+		logger.info( "Opponent suggested me to join the game for side: {}. Joining...", position.getSideToMove() );
 		leaveRecordingMode();
 		ourSide = position.getSideToMove();
 		executeOurMove();

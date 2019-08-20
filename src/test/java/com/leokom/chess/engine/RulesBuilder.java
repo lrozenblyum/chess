@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
  * Date-time: 27.03.16 17:32
  */
 public class RulesBuilder {
-	private Rules rules;
+	private final Rules rules;
 	private int movesTillDraw = Rules.DEFAULT.getMovesTillDraw().orElse(1);
 	private int movesTillClaimDraw = Rules.DEFAULT.getMovesTillClaimDraw();
 
