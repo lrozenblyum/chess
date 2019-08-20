@@ -25,15 +25,7 @@ final class PositionUtils {
 	 * Note: I expect that the position will be still valid after this addition.
 	 * But this note requires deeper thinking about what's 'valid' position
 	 * and how must it be kept (e.g. by some validating builder?)
-	 * @param position
-	 * @param side
-	 * @param square
 	 */
-	static PieceType addAny( Position position, Side side, String square ) {
-		position.addPawn( side, square );
-		return PieceType.PAWN;
-	}
-
 	static PieceType addAny( PositionBuilder position, Side side, String square ) {
 		position.addPawn( side, square );
 		return PieceType.PAWN;
