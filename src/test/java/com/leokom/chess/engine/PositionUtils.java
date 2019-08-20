@@ -10,10 +10,6 @@ final class PositionUtils {
 
 	//TODO: point to extend! When we introduce new pieces - need to make here randomization
 	//over each piece that can be captured (all, except King, except pawns on final rank, except...?)
-	static void addCapturable( Position position, Side side, String square ) {
-		position.addPawn( side, square );
-	}
-
 	static void addCapturable( PositionBuilder position, Side side, String square ) {
 		position.addPawn( side, square );
 	}
