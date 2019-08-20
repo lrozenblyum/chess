@@ -133,16 +133,16 @@ public class LegalPlayer implements Player {
 
 	//updating internal representation of current position
 	private void updatePositionByOurMove( Move move ) {
-		logger.info( this.position.getSideToMove() + " : Moved " + move );
+		logger.info( "{} : Moved {}", this.position.getSideToMove(), move );
 		position = position.move( move );
-		logger.info( "\nNew position : " + position );
+		logger.info( "\nNew position : {}", position );
 		if ( position.isTerminal() ) {
             logTerminal( "our" );
         }
 	}
 
     private void logTerminal(String whoseMoveItWas) {
-        logger.info( "Final position has been reached by " + whoseMoveItWas + " move! " + getWinningSideDescription() );
+        logger.info( "Final position has been reached by {} move! {} ", whoseMoveItWas, getWinningSideDescription() );
     }
 
 	@Override

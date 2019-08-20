@@ -54,7 +54,7 @@ class WinboardCommunicator implements Communicator {
 
 	@Override
     public void send( String command ) {
-		logger.info( "Sent: " + command );
+		logger.info( "Sent: {}", command );
 		//From Spec : All your output to xboard must be in complete lines; any form of prompt or partial line will cause problems.
         outputStream.println( command );
     }
@@ -66,7 +66,7 @@ class WinboardCommunicator implements Communicator {
 			//from CPU POV
 			//http://stackoverflow.com/questions/7281385/bufferedreader-read-eating-100-of-cpu
 			final String line = reader.readLine();
-			logger.info( "Received: " + line );
+			logger.info( "Received: {}", line );
 			return line;
         } catch ( IOException e ) {
 			//avoid propagating internal exception to the method signature
