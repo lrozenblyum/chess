@@ -23,9 +23,9 @@ import static org.mockito.Mockito.when;
 //particularly similar to WinboardTestGameBuilder
 public class PlayerBuilder {
     private final Player opponent;
-    private Player player;
+    private final Player player;
 
-    private List< List< Move > > movesToExecute = new ArrayList<>();
+    private final List< List< Move > > movesToExecute = new ArrayList<>();
     private Position position;
 
     public PlayerBuilder( Player opponent ) {

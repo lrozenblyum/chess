@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class MasterEvaluatorBuilder {
 	//wrapping to a hash map to allow mutability
-	private Map<EvaluatorType, Double > weights = new HashMap<>( new EvaluatorWeights().asMap() );
+	private final Map<EvaluatorType, Double > weights = new HashMap<>( new EvaluatorWeights().asMap() );
 
 	public MasterEvaluatorBuilder weight( EvaluatorType evaluatorType, double weight ) {
 		weights.put( evaluatorType, weight );

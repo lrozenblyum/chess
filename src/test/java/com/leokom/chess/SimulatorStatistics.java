@@ -7,9 +7,9 @@ import java.util.Objects;
  * Date-time: 06.04.16 22:13
  */
 final class SimulatorStatistics {
-	private long firstWins;
-	private long secondWins;
-	private long totalGames;
+	private final long firstWins;
+	private final long secondWins;
+	private final long totalGames;
 
 	SimulatorStatistics( long totalGames, long firstWins, long secondWins ) {
 		this.totalGames = totalGames;

@@ -22,14 +22,14 @@ class WinboardCommunicator implements Communicator {
 	private static final String INPUT_ENCODING = "US-ASCII";
 	private final BufferedReader reader;
     private final PrintStream outputStream;
-	private Logger logger = LogManager.getLogger( this.getClass() );
+	private final Logger logger = LogManager.getLogger( this.getClass() );
 
     /**
      * Create the winboard-commander with default dependencies
 	 * We don't need extra flexibility of injecting in/out streams
 	 * till really proved by tests
 	 */
-    public WinboardCommunicator() {
+    WinboardCommunicator() {
 		//TODO: if in any application place we'll use System.out.println or System.in.read
 		//this may damage Winboard behaviour. The easiest way to fix it is to redirect System.out, System.in calls
 		//to anything else (Logger?) and use the 'standard' in/out only inside WinboardPlayer
