@@ -34,7 +34,7 @@ public class SimulatorMultiRunnerIT {
 	}
 
 	public SimulatorMultiRunnerIT( int index ) {
-		LogManager.getLogger().info( "Running test %s", index );
+		LogManager.getLogger().info( "Running test {}", index );
 	}
 
 	//REFACTOR: something like http://www.codeaffine.com/2013/04/10/running-junit-tests-repeatedly-without-loops/
