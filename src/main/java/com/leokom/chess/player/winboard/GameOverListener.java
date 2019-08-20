@@ -13,5 +13,6 @@ package com.leokom.chess.player.winboard;
  * result 1-0 {White mates}
  */
 public interface GameOverListener extends StringParameterListener {
+	@Override
 	void execute( String data );
 }

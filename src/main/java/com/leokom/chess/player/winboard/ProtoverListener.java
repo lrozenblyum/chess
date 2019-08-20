@@ -14,5 +14,6 @@ package com.leokom.chess.player.winboard;
  * Date-time: 13.11.12 21:37
  */
 interface ProtoverListener extends IntParameterListener {
+	@Override
 	void execute( int protocolVersion );
 }

@@ -36,7 +36,8 @@ public class GameStateImpl implements GameState< GameTransitionImpl, GameStateIm
         return tree.get(move);
     }
 
-    public Set<GameTransitionImpl> getMoves() {
+    @Override
+	public Set<GameTransitionImpl> getMoves() {
         return tree.keySet();
     }
 }

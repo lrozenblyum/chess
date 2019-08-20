@@ -21,5 +21,6 @@ public interface Evaluator extends GenericEvaluator< Position, Move > {
 	 *
 	 * Specific categories of evaluators can introduce some limits on range of values supported
 	 */
+	@Override
 	double evaluateMove( Position position, Move move );
 }

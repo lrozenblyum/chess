@@ -25,6 +25,7 @@ public final class Piece {
 		return side;
 	}
 
+	@Override
 	public String toString() {
 		return pieceType + ":" + side;
 	}
