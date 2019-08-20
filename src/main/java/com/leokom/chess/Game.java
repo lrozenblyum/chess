@@ -41,7 +41,7 @@ public final class Game {
 	 * @return winner among whitePlayer, blackPlayer or null in case of draw
 	 */
 	public Player run() {
-		logger.info( "Starting game : {} vs {}", whitePlayer.name(), blackPlayer.name() );
+		logger.info( "Starting game : {} vs {}", whitePlayer::name, blackPlayer::name );
 
 		//setting opponents for symmetry. Technically it's possible
 		// for one set to make a back reference
@@ -59,7 +59,7 @@ public final class Game {
 	}
 
 	private Player getWinner() {
-		logger.info( "Game finished: {} vs {}", whitePlayer.name(), blackPlayer.name() );
+		logger.info( "Game finished: {} vs {}", whitePlayer::name, blackPlayer::name );
 
 		//TODO: asymmetry, need validating that blackPlayer position gives same result
 		//maybe it's time to share the Position
