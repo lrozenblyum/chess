@@ -36,7 +36,7 @@ class MobilityEvaluator implements Evaluator {
 		return new SymmetricEvaluator( new MobilitySideEvaluator() ).evaluate( target );
 	}
 
-	private class MobilitySideEvaluator implements SideEvaluator {
+	private static class MobilitySideEvaluator implements SideEvaluator {
 
 		@Override
 		public double evaluatePosition(Position position, Side side) {
