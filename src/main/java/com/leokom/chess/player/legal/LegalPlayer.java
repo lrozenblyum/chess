@@ -99,7 +99,7 @@ public class LegalPlayer implements Player {
 
 			Move bestMove = brain.findBestMoveForOpponent( position );
 			if ( bestMove != null ) {
-				getLogger().info( "Anyway we're ready to move: " + bestMove );
+				getLogger().info( "Anyway we're ready to move: {}", bestMove );
 				executeMoves( Collections.singletonList(bestMove) );
 			}
 			else {
