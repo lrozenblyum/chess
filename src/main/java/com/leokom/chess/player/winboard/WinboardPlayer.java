@@ -250,11 +250,6 @@ public class WinboardPlayer implements Player {
 		}
 	}
 
-	private boolean isPromotion( String move ) {
-		//well it depends on fact that Player and Winboard promotion length is the same
-		//so far so good
-		return move.length() == PROMOTION_MOVE_LENGTH;
-	}
 
 	@Override
 	public void setOpponent( Player opponent ) {
@@ -336,6 +331,12 @@ public class WinboardPlayer implements Player {
 			String destination = translatedMove.substring( 2 );
 
 			return new Move( squareFrom, destination );
+		}
+
+		private boolean isPromotion( String move ) {
+			//well it depends on fact that Player and Winboard promotion length is the same
+			//so far so good
+			return move.length() == PROMOTION_MOVE_LENGTH;
 		}
 	}
 }
