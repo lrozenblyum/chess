@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Low-level communication engine with some Winboard 'server'
@@ -19,7 +21,7 @@ class WinboardCommunicator implements Communicator {
 	 * I don't set up UTF-8 since specification says we'll get only latin characters and digits
 	 * US-ASCII is 7-bit latin charset
 	 */
-	private static final String INPUT_ENCODING = "US-ASCII";
+	private static final Charset INPUT_CHARSET = StandardCharsets.US_ASCII;
 	private final BufferedReader reader;
     private final PrintStream outputStream;
 	private final Logger logger = LogManager.getLogger( this.getClass() );
@@ -39,15 +41,8 @@ class WinboardCommunicator implements Communicator {
     }
 
 	private static BufferedReader getReaderFromStream( InputStream inputStream ) {
-		final InputStreamReader streamReader;
-		try {
-			streamReader = new InputStreamReader( inputStream, INPUT_ENCODING );
-		} catch ( UnsupportedEncodingException e ) {
-			final InstantiationError instantiationError = new InstantiationError(
-				"Java installation seems incorrect. It doesn't support standard encoding = " + INPUT_ENCODING );
-			instantiationError.initCause( e );
-			throw instantiationError;
-		}
+		final InputStreamReader streamReader = new InputStreamReader( inputStream, INPUT_CHARSET );
+
 		//TODO: think about buffers, they're not recommended to use
 		return new BufferedReader( streamReader );
 	}
