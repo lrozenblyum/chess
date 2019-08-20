@@ -263,17 +263,17 @@ public class WinboardPlayer implements Player {
 
 	@Override
 	public void switchToRecodingMode() {
-		//TODO: can an opponent tell me this? what to do?
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void leaveRecordingMode() {
-
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void joinGameForSideToMove() {
-		//TODO: can an opponent tell me this? what to do?
+		throw new UnsupportedOperationException();
 	}
 
 	/**
