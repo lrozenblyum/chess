@@ -3,7 +3,6 @@ package com.leokom.chess.player.legal.brain.normalized;
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
 import com.leokom.chess.player.legal.brain.common.GenericEvaluator;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
