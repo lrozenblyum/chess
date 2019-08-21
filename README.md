@@ -11,7 +11,7 @@ If you are a human being you should deploy it to your favourite Chess GUI softwa
 The chess software is developed for fun.
 It should proof that OOP and TDD principles can lead to quality game software.
 
-## Who?
+## Creator
 Initial creator is Leonid Rozenblyum
 (the last name could also be spelled as Rozenblium according to Ukrainian transliteration rules)
 
