@@ -13,8 +13,9 @@ SET JAVA_PATH=Q:\Program Files\Java\jdk1.8.0_162\bin\java.exe
 SET WINBOARD_PATH=%WINBOARD_INSTALLATION_PATH%\WinBoard\winboard.exe
 @rem I use the Winboard installation as a Chess deployment target
 @rem it should be equal to 'project.deployDirectory' property in pom.xml
-SET RUNNABLE_JAR_DIRECTORY=%WINBOARD_INSTALLATION_PATH%\LeokomChess
-SET RUN_JAR_PATH=%RUNNABLE_JAR_DIRECTORY%\Chess.jar
+SET BRAND_NAME=LeokomChess
+SET RUNNABLE_JAR_DIRECTORY=%WINBOARD_INSTALLATION_PATH%\%BRAND_NAME%
+SET RUN_JAR_PATH=%RUNNABLE_JAR_DIRECTORY%\%BRAND_NAME%.jar
 @rem you may pass -Dblack.engine=brain.simple or brain.denormalized to choose a different engine for blacks
 @rem for brain.normalized you may specify -Dblack.depth (1 or 2)
 SET RUN_OPTIONS=-Dblack.depth=2

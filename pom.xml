@@ -126,7 +126,7 @@
 
 
     <build>
-    	<finalName>Chess</finalName>
+    	<finalName>LeokomChess</finalName>
         <plugins>
             <!-- Additionally configuring maven clean plug-in in order to clean the deploy directory and thus remove potential old artifacts -->
             <plugin>
