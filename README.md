@@ -1,9 +1,9 @@
 ## Goal
-Leokom Chess is a Java-based chess engine.
-The engine is using Chess Engine Communication Protocol for communication with existing GUI.
+**Leokom Chess** is a Java-based chess engine.
+The engine is using Chess Engine Communication Protocol for communication with any existing GUI that supports the protocol.
 
 ## Not a goal
-Leokom Chess doesn't include a GUI.
+**Leokom Chess** doesn't include any GUI.
 If you are a bot you can play with it using command line :)
 If you are a human being you should deploy it to your favourite Chess GUI software. 
 
