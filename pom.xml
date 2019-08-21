@@ -3,12 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <name>Chess</name>
     <groupId>com.leokom</groupId>
     <artifactId>Chess</artifactId>
     <version>0.6-SNAPSHOT</version>
 
+    <name>Leokom Chess</name>
+    <inceptionYear>2012</inceptionYear>
 
     <!-- Added in order to support github-release-plugin.
     This information is also useful itself for semantic purposes.
@@ -126,7 +126,7 @@
 
 
     <build>
-    	<finalName>Chess</finalName>
+    	<finalName>${brandName}</finalName>
         <plugins>
             <!-- Additionally configuring maven clean plug-in in order to clean the deploy directory and thus remove potential old artifacts -->
             <plugin>
@@ -353,10 +353,11 @@
         <!-- Naming convention inspired by http://stackoverflow.com/a/30318342/1429367 -->
         <log4j2version>2.11.1</log4j2version>
 
-        <project.deployDirectory>E:\Games\WinBoard-4.8.0\LeokomChess</project.deployDirectory>
+        <project.deployDirectory>E:\Games\WinBoard-4.8.0\${brandName}</project.deployDirectory>
 
         <dependenciesDirectory>lib</dependenciesDirectory>
-
-        <binaryReleaseName>LeokomChess-${project.version}</binaryReleaseName>
+        <!-- The variable defines chess brand without spaces, should be used for building various artifacts -->
+        <brandName>LeokomChess</brandName>
+        <binaryReleaseName>${brandName}-${project.version}</binaryReleaseName>
     </properties>
 </project>
