@@ -1,7 +1,17 @@
 ## Goal
-The chess software that is developed for fun.
+Leokom Chess is a Java-based chess engine.
+The engine is using Chess Engine Communication Protocol for communication with existing GUI.
 
-## Creator
+## Not a goal
+Leokom Chess doesn't include a GUI.
+If you are a bot you can play with it using command line :)
+If you are a human being you should deploy it to your favourite Chess GUI software. 
+
+## Motivation
+The chess software is developed for fun.
+It should proof that OOP and TDD principles can lead to quality game software.
+
+## Who?
 Initial creator is Leonid Rozenblyum
 (the last name could also be spelled as Rozenblium according to Ukrainian transliteration rules)
 
