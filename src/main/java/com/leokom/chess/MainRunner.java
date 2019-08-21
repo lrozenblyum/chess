@@ -14,6 +14,7 @@ final class MainRunner {
 	}
 
 	private static final Logger logger = LogManager.getLogger( MainRunner.class );
+	private static final String BRAND_NAME = "Leokom Chess";
 
 	/**
 	 * Start whole chess program
@@ -69,11 +70,11 @@ final class MainRunner {
 	 */
 	public static void main( String[] args ) {
 		try {
-			logger.info( "Starting the chess..." );
+			logger.info( "Booting {}...", BRAND_NAME );
             new Game(
                 new CommandLinePlayers()
             ).run();
-            logger.info( "Chess are stopped. Bye-bye" );
+            logger.info( "{} successfully completed its job. Bye-bye", BRAND_NAME );
 		}
 		catch ( RuntimeException re ) {
 			//important to investigate issues
