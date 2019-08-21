@@ -29,7 +29,6 @@ public class DenormalizedEvaluatorFactory implements EvaluatorFactory {
 		evaluatorsMutable.put( EvaluatorType.MATERIAL, new MaterialEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.MOBILITY, new MobilityEvaluator() );
 		evaluatorsMutable.put( EvaluatorType.PROTECTION, new ProtectionEvaluator() );
-		evaluatorsMutable.put( EvaluatorType.SPECIAL_MOVE, new SpecialMoveEvaluator() );
 
 		EVALUATORS = Maps.immutableEnumMap( evaluatorsMutable );
 	}
