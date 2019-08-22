@@ -21,7 +21,6 @@ public final class EvaluatorWeights {
 	//this value provides test-proofed GOOD results for 1 position via DenormalizedBrain
 	private static final double INCREASED_PRIORITY = 0.1;
 	private static final double NORMAL_PRIORITY = 0.01;
-	private static final double LOWEST_POSSIBLE = 0.0;
 
 	private final Map<EvaluatorType, Double> weights;
 
@@ -56,9 +55,6 @@ public final class EvaluatorWeights {
 		result.put( MATERIAL, INCREASED_PRIORITY );
 		result.put( PROTECTION, NORMAL_PRIORITY );
 		result.put( ATTACK, NORMAL_PRIORITY );
-		//this disabling is not absolute. Those moves anyway have chance
-		//e.g. if LegalPlayer selects moves in reverse order (from worse to best)
-		result.put( SPECIAL_MOVE, LOWEST_POSSIBLE );
 		return Maps.immutableEnumMap( result );
 	}
 

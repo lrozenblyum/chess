@@ -14,6 +14,5 @@ public enum EvaluatorType {
 	MATERIAL,
 	MOBILITY,
 	PROTECTION,
-	SPECIAL_MOVE,
 	ATTACK
 }
