@@ -6,6 +6,7 @@ import com.leokom.chess.player.legal.LegalPlayer;
 import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
+import com.leokom.chess.player.legal.brain.random.RandomBrain;
 import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
 import com.leokom.chess.player.winboard.WinboardPlayer;
 import org.apache.logging.log4j.LogManager;
@@ -94,6 +95,8 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 				return new LegalPlayer( new DenormalizedBrain() );
 			case "brain.simple":
 				return new LegalPlayer( new SimpleBrain() );
+			case "brain.random":
+				return new LegalPlayer( new RandomBrain() );
 			case "ui.winboard":
 				return WinboardPlayer.create();
 			default:
