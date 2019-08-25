@@ -12,7 +12,8 @@ SET RUNNABLE_JAR_DIRECTORY_2=%WINBOARD_INSTALLATION_PATH%\%BRAND_NAME%Test
 @rem for Chess <= 0.5 you should use Chess.jar instead of %BRAND_NAME%.jar for running
 SET RUN_JAR_PATH_2=%RUNNABLE_JAR_DIRECTORY_2%\%BRAND_NAME%.jar
 
-@rem you may specify -Dblack.engine=brain.simple or brain.denormalized for Chess 0.5+
+@rem you may specify -Dblack.engine=brain.simple or brain.denormalized or brain.random for Chess 0.6+
+@rem you may specify -Dblack.engine=brain.simple or brain.denormalized for Chess 0.5
 @rem you may specify -Dblack.engine=Simple for Chess 0.4
 @rem you may specify -Dblack=Simple for Chess <= 0.3
 @rem for brain.normalized you may specify -Dblack.depth=2 (if the second instance is Chess >= 0.4)
