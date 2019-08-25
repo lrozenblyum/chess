@@ -2,7 +2,6 @@ package com.leokom.chess.player.legal.brain.random;
 
 import com.leokom.chess.engine.Move;
 import com.leokom.chess.engine.Position;
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.util.List;
@@ -16,6 +15,10 @@ public class RandomBrainTest {
         assertEquals( "RandomBrain", new RandomBrain().name() );
     }
 
+    //it's really hard to check our player behavior
+    //even if we mock random generator, set of moves has no defined order in general
+    //thus it has no clear notion of 'index'
+    //NOTE: mocking with some kind of ordered Set might help
     @Test
     public void minimalConsistency() {
         RandomBrain brain = new RandomBrain();
