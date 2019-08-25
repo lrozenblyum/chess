@@ -19,7 +19,11 @@ public class RandomBrain implements Brain {
 
     @Override
     public List<Move> findBestMove( Position position ) {
-        int moveToPeek = randomGenerator.nextInt(position.getMoves().size());
+        int movesAvailable = position.getMoves().size();
+        if ( movesAvailable == 0 ) { //terminal
+            return Collections.emptyList();
+        }
+        int moveToPeek = randomGenerator.nextInt(movesAvailable);
         Iterator<Move> moveIterator = position.getMoves().iterator();
 
         for ( int moveIndex = 0; moveIndex < moveToPeek; moveIndex++ ) {

@@ -22,4 +22,11 @@ public class RandomBrainTest {
         List<Move> bestMoves = brain.findBestMove( Position.getInitialPosition() );
         assertThat( Position.getInitialPosition().getMoves(), hasItem( bestMoves.get( 0 ) ) );
     }
+
+    @Test
+    public void supportTerminalPositions() {
+        RandomBrain brain = new RandomBrain();
+        List<Move> bestMoves = brain.findBestMove( Position.getInitialPosition().move( Move.RESIGN ) );
+        assertEquals( 0, bestMoves.size() );
+    }
 }
