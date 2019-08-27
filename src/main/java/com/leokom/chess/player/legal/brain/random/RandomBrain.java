@@ -7,30 +7,22 @@ import com.leokom.chess.player.legal.brain.common.Brain;
 import java.util.*;
 
 public class RandomBrain implements Brain {
-    private final Random randomGenerator;
+    private final RandomMove randomMove;
 
     public RandomBrain() {
-        this( new Random() );
+        this( new RandomMove( new Random()::nextInt ) );
     }
 
-    private RandomBrain( Random randomGenerator ) {
-        this.randomGenerator = randomGenerator;
+    private RandomBrain( RandomMove randomMove )  {
+        this.randomMove = randomMove;
     }
 
     @Override
     public List<Move> findBestMove( Position position ) {
-        int movesAvailable = position.getMoves().size();
-        if ( movesAvailable == 0 ) { //terminal
-            return Collections.emptyList();
-        }
-        int moveToPeek = randomGenerator.nextInt(movesAvailable);
-        Iterator<Move> moveIterator = position.getMoves().iterator();
-
-        for ( int moveIndex = 0; moveIndex < moveToPeek; moveIndex++ ) {
-            moveIterator.next();
-        }
-
-        return Collections.singletonList(moveIterator.next());
+        return
+            randomMove.select( position.getMoves() )
+                .map( Collections::singletonList )
+                .orElse( Collections.emptyList() );
     }
 
     //at the moment move for the opponent is not generated, although it's possible and may bring
