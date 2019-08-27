@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
@@ -32,9 +31,7 @@ public class RandomMoveTest {
         moves.add( expected );
         moves.add( new Move( "a2", "a4" ) );
 
-        Function< Integer, Integer > randomGenerator = size -> 2;
-
-        Optional<Move> result = new RandomMove(randomGenerator).select(moves);
+        Optional<Move> result = new RandomMove(size -> 2).select(moves);
 
         assertTrue( result.isPresent() );
         assertEquals( expected, result.get() );
@@ -50,9 +47,7 @@ public class RandomMoveTest {
         moves.add( new Move("g3", "g4") );
         moves.add( expected );
 
-        Function< Integer, Integer > randomGenerator = size -> 3;
-
-        Optional<Move> result = new RandomMove(randomGenerator).select(moves);
+        Optional<Move> result = new RandomMove(size -> 3).select(moves);
 
         assertTrue( result.isPresent() );
         assertEquals( expected, result.get() );

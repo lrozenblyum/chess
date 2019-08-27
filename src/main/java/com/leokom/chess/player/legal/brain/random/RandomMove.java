@@ -3,7 +3,7 @@ package com.leokom.chess.player.legal.brain.random;
 import com.leokom.chess.engine.Move;
 
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 /**
  * Peeks move from a given Set by policy:
@@ -12,13 +12,13 @@ import java.util.function.Function;
  * count of items until the desired index.
  */
 class RandomMove {
-    private final Function<Integer, Integer> randomGenerator;
+    private final UnaryOperator<Integer> randomGenerator;
 
     /**
      *
      * @param randomGenerator function(max) -> [0, max)
      */
-    RandomMove( Function< Integer, Integer > randomGenerator ) {
+    RandomMove( UnaryOperator<Integer> randomGenerator ) {
         this.randomGenerator = randomGenerator;
     }
 
