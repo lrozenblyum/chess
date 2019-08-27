@@ -5,6 +5,12 @@ import com.leokom.chess.engine.Move;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * Peeks move from a given Set by policy:
+ * random generator defines 'index' in the Set.
+ * Since Set is not an ordered Collection by default that means we'll iterate the given
+ * count of items until the desired index.
+ */
 class RandomMove {
     private final Function<Integer, Integer> randomGenerator;
 
