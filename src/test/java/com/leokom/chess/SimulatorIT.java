@@ -157,15 +157,15 @@ public class SimulatorIT {
 		assertNotNull( statistics );
 	}
 
-    @Test
-    public void simpleVsRandom() {
-        final SimulatorStatistics statistics = new Simulator(
-                new LegalPlayer( new SimpleBrain() ),
-                new LegalPlayer( new RandomBrain() )
-        ).run();
+	@Test
+	public void simpleVsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+				new LegalPlayer( new SimpleBrain() ),
+				new LegalPlayer( new RandomBrain() )
+		).run();
 
-        assertNotNull( statistics );
-    }
+		assertNotNull(statistics);
+	}
 
 	@Test
 	public void normalizedDepth1VsRandom() {
