@@ -29,6 +29,14 @@ public class CommandLinePlayersTest {
 	}
 
 	@Test
+	public void canSelectRandomBrainForBlack() {
+		System.setProperty( "black.engine", "brain.random" );
+
+		final Player player = new CommandLinePlayers().apply( Side.BLACK );
+		assertIsRandom( player );
+	}
+
+	@Test
 	public void canSelectDenormalizedBrainForWhite() {
 		System.setProperty( "white.engine", "brain.denormalized" );
 
@@ -71,6 +79,10 @@ public class CommandLinePlayersTest {
 
 	private void assertHasNormalizedBrain(Player player ) {
 		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer : NormalizedBrain" ) );
+	}
+
+	private void assertIsRandom(Player player) {
+		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer : RandomBrain" ) );
 	}
 
 	@Test

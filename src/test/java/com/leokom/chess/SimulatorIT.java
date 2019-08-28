@@ -11,6 +11,7 @@ import com.leokom.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
 import com.leokom.chess.player.legal.brain.normalized.NormalizedBrain;
+import com.leokom.chess.player.legal.brain.random.RandomBrain;
 import com.leokom.chess.player.legal.brain.simple.SimpleBrain;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -144,6 +145,57 @@ public class SimulatorIT {
 
 		//now simple vs simple correctly draws at the second move
 		assertEquals( new SimulatorStatistics( 2, 0, 0 ), statistics );
+	}
+
+	@Test
+	public void randomVsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+			new LegalPlayer( new RandomBrain() ),
+			new LegalPlayer( new RandomBrain() )
+		).run();
+
+		assertNotNull( statistics );
+	}
+
+	@Test
+	public void simpleVsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+				new LegalPlayer( new SimpleBrain() ),
+				new LegalPlayer( new RandomBrain() )
+		).run();
+
+		assertNotNull(statistics);
+	}
+
+	@Test
+	public void normalizedDepth1VsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+				new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 1 ) ),
+				new LegalPlayer( new RandomBrain() )
+		).run();
+
+		assertNotNull( statistics );
+	}
+
+	@Test
+	public void normalizedDepth2VsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+				new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 2 ) ),
+				new LegalPlayer( new RandomBrain() )
+		).run();
+
+		//we still cannot assert anything smarter. Random player has a theoretical possibility to win a grandmaster.
+		assertNotNull( statistics );
+	}
+
+	@Test
+	public void denormalizedVsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+				new LegalPlayer( new DenormalizedBrain() ),
+				new LegalPlayer( new RandomBrain() )
+		).run();
+
+		assertNotNull( statistics );
 	}
 
 	//non-deterministic, it's not a business-requirement

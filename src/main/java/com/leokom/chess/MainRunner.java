@@ -34,6 +34,7 @@ final class MainRunner {
 	 *             <li>brain.simple</li>
 	 *             <li>brain.denormalized</li>
 	 *             <li>brain.normalized</li>
+	 *             <li>brain.random</li>
 	 *             </ul>
  	 *
  	 * Default players:
@@ -63,9 +64,16 @@ final class MainRunner {
 	 *             Winboard's opponent.
 	 *
 	 * Not supported player combinations:
-	 *             <ul>
-	 *                 <li>Winboard vs Winboard (has no sense as 2 thin clients for UI?)</li>
-	 *             </ul>
+	 * 				<ul>
+	 * 					<li>Winboard vs Winboard (has no sense as 2 thin clients for UI?)</li>
+	 * 					<li>Winboard vs any other engine that uses System.out has no practical use (UCI?)</li>
+	 *				</ul>
+	 *
+	 * Combination supported with a known limitation:
+	 *  brain.* vs brain.* is possible but can lead to StackOverflow due to
+	 * 	no limits on move amount and single-threaded model of execution
+	 * 	(although some brains like brain.simple have internal limit on count of moves).
+	 *
 	 * </p>
 	 */
 	public static void main( String[] args ) {
