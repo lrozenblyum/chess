@@ -34,6 +34,7 @@ final class MainRunner {
 	 *             <li>brain.simple</li>
 	 *             <li>brain.denormalized</li>
 	 *             <li>brain.normalized</li>
+	 *             <li>brain.random</li>
 	 *             </ul>
  	 *
  	 * Default players:
