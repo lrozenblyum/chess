@@ -157,6 +157,16 @@ public class SimulatorIT {
 		assertNotNull( statistics );
 	}
 
+    @Test
+    public void simpleVsRandom() {
+        final SimulatorStatistics statistics = new Simulator(
+                new LegalPlayer( new SimpleBrain() ),
+                new LegalPlayer( new RandomBrain() )
+        ).run();
+
+        assertNotNull( statistics );
+    }
+
 	//non-deterministic, it's not a business-requirement
 	@Test
 	public void legalVsLegalCustomEvaluator() {
