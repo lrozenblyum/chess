@@ -12,6 +12,7 @@ class MoveFilter implements UnaryOperator< Set<Move> >  {
     public Set<Move> apply(Set<Move> moves) {
         return moves.stream().
                 filter( move -> !move.equals( Move.RESIGN ) ).
+                filter( move -> !move.equals( Move.OFFER_DRAW ) ).
                 collect(Collectors.toSet() );
     }
 }

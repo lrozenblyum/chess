@@ -22,4 +22,10 @@ public class MoveFilterTest {
         Set<Move> output = new MoveFilter().apply(new HashSet<>(Arrays.asList( Move.RESIGN, new Move( "e2", "e4" ) ) ));
         assertEquals( new HashSet<>(Collections.singletonList( new Move( "e2", "e4" ) ) ), output );
     }
+
+    @Test
+    public void drawOfferFiltered() {
+        Set<Move> output = new MoveFilter().apply(new HashSet<>(Arrays.asList( new Move( "e7", "e5" ), Move.OFFER_DRAW ) ));
+        assertEquals( new HashSet<>(Collections.singletonList( new Move( "e7", "e5" ) ) ), output );
+    }
 }
