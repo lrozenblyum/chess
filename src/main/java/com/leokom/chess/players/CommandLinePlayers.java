@@ -53,23 +53,8 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	}
 
 	/**
-	 * Create player for the side
-	 * Basing on defaults or system properties.
-	 * Defaults :
-	 * WHITE: Winboard
-	 * BLACK: brain.normalized
-	 *
-	 * There are practical important limitations (not yet validated):
-	 *
-	 * Winboard vs Winboard game has no practical use (both will work with System.out)
-	 * Winboard vs any other engine that uses System.out has no practical use (UCI?)
-	 *
-	 * brain.* vs brain.* is possible but can lead to StackOverflow due to
-	 * no limits on move amount and single-threaded model of execution
-	 * (although some brains like brain.simple have internal limit on count of moves).
-	 *
-	 * brain.normalized supports optional depth parameter.
-	 *
+	 * Create a player for the side basing on defaults or system properties.
+	 * 
 	 * @param side side to create
 	 * @return new instance of a player
 	 */
