@@ -167,6 +167,27 @@ public class SimulatorIT {
         assertNotNull( statistics );
     }
 
+	@Test
+	public void normalizedDepth1VsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+				new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 1 ) ),
+				new LegalPlayer( new RandomBrain() )
+		).run();
+
+		assertNotNull( statistics );
+	}
+
+	@Test
+	public void normalizedDepth2VsRandom() {
+		final SimulatorStatistics statistics = new Simulator(
+				new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator(), 2 ) ),
+				new LegalPlayer( new RandomBrain() )
+		).run();
+
+		//we still cannot assert anything smarter. Random player has a theoretical possibility to win a grandmaster.
+		assertNotNull( statistics );
+	}
+
 	//non-deterministic, it's not a business-requirement
 	@Test
 	public void legalVsLegalCustomEvaluator() {
