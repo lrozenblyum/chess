@@ -124,14 +124,14 @@ public class WinBoardPlayerTest {
 	public void reactionToObligatoryDrawAfterOpponentMove() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
-		final WinboardPlayer player = new WinboardPlayer();
+		final WinboardPlayer player = new WinboardPlayer( commander );
 
 		final Player opponent = mock( Player.class );
 		doAnswer( (invocation -> { player.opponentMoved( new Move( "g8", "f6" ) );return null; } ) ).
 				when( opponent ).opponentMoved( new Move( "g1", "f3" ) );
 
 		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() );
-		initWinboardPlayer( player, commander, opponent, position );
+		initWinboardPlayer( player, opponent, position );
 
 		executeMoveFromUI( commander, "g1f3" );
 
@@ -143,13 +143,13 @@ public class WinBoardPlayerTest {
 	public void reactionToClaimDrawFromOpponent() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
-		final WinboardPlayer player = new WinboardPlayer();
+		final WinboardPlayer player = new WinboardPlayer( commander );
 
 		final Player opponent = mock( Player.class );
 
 		int movesTillClaimDraw = 1;
 		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillClaimDraw(movesTillClaimDraw).build() );
-		initWinboardPlayer( player, commander, opponent, position );
+		initWinboardPlayer( player, opponent, position );
 
 		player.opponentMoved( new Move( "g1", "f3" ) );
 		executeMoveFromUI( commander, "g8f6" );
@@ -164,13 +164,13 @@ public class WinBoardPlayerTest {
 	public void reactionToClaimDrawFromUI() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
-		final WinboardPlayer player = new WinboardPlayer();
+		final WinboardPlayer player = new WinboardPlayer( commander );
 
 		final Player opponent = mock( Player.class );
 
 		int movesTillClaimDraw = 1;
 		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillClaimDraw(movesTillClaimDraw).build() );
-		initWinboardPlayer( player, commander, opponent, position );
+		initWinboardPlayer( player, opponent, position );
 
 		player.opponentMoved( new Move( "g1", "f3" ) );
 		executeMoveFromUI( commander, "g8f6" );
@@ -185,12 +185,12 @@ public class WinBoardPlayerTest {
 	public void reactionToObligatoryDrawAfterWinboardMove() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
-		final WinboardPlayer player = new WinboardPlayer();
+		final WinboardPlayer player = new WinboardPlayer( commander );
 
 		final Player opponent = mock( Player.class );
 
 		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() );
-		initWinboardPlayer( player, commander, opponent, position );
+		initWinboardPlayer( player, opponent, position );
 
 		player.opponentMoved( new Move( "g1", "f3" ) );
 
@@ -204,14 +204,14 @@ public class WinBoardPlayerTest {
 	public void correctReactionToDrawByAgreement() {
 		WinboardCommander commander = mock( WinboardCommander.class );
 
-		final WinboardPlayer player = new WinboardPlayer();
+		final WinboardPlayer player = new WinboardPlayer( commander );
 		final Player opponent = mock( Player.class );
 		doAnswer( (invocation -> { player.opponentMoved( Move.ACCEPT_DRAW );return null; } ) ).
 				when( opponent ).opponentMoved( Move.OFFER_DRAW );
 
 		final Position position = Position.getInitialPosition( new RulesBuilder().movesTillDraw( 1 ).build() );
 
-		initWinboardPlayer( player, commander, opponent, position );
+		initWinboardPlayer( player, opponent, position );
 
 		makeDrawOfferFromUI( commander );
 
@@ -220,10 +220,9 @@ public class WinBoardPlayerTest {
 		verify( commander ).agreeToDrawOffer();
 	}
 
-	private void initWinboardPlayer( WinboardPlayer player, WinboardCommander commander, Player opponent, Position position ) {
+	private void initWinboardPlayer(WinboardPlayer player, Player opponent, Position position) {
 		player.setOpponent( opponent );
 		player.setPosition( position );
-		player.initCommander( commander );
 	}
 
 	@Test
