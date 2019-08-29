@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
  * The main processing is done on the Winboard-side
  * (on which a real human or some engine could be playing)
  *
- * Singleton to prohibit irregularities
  * Author: Leonid
  * Date-time: 20.08.12 19:28
  */
@@ -163,7 +162,6 @@ public class WinboardPlayer implements Player {
 	 *
 	 */
 	public static Player create() {
-		//TODO: implement some singleton policy?
 		final WinboardCommunicator communicator = new WinboardCommunicator();
 		return new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
 	}
