@@ -43,10 +43,19 @@ public class WinboardPlayer implements Player {
 	//creating several instances of the player (must be singleton)
 	//calling run several times (from different threads)
 
-	/* For delayed initialization of spy in test.
-	 * Complex scenario to ensure commander will be associated with the spy
-	 * not with the original player */
-	WinboardPlayer() {
+	/**
+	 * Create an instance of a generic Player,
+	 * who is able to play against existing WinBoard-powered player
+	 * This Winboard-powered opponent could be a human
+	 * running the WinBoard-powered software or another engine
+	 * that can communicate via Winboard protocol
+	 */
+	public WinboardPlayer() {
+		this(
+			new WinboardCommanderImpl(
+				new WinboardCommunicator()
+			)
+		);
 	}
 
 	/**
@@ -149,21 +158,6 @@ public class WinboardPlayer implements Player {
 
 	private boolean canClaimDrawBeExecutedNow() {
 		return position.getMoves().contains( Move.CLAIM_DRAW );
-	}
-
-	/**
-	 * Create an instance of generic Player,
-	 * who is able to play against existing WinBoard-powered player
-	 * This Winboard-powered opponent could be a human
-	 * running the WinBoard-powered software or another engine
-	 * that can communicate via Winboard protocol
-	 *
-	 * @return instance of properly initialized Player against WinBoard-powered player
-	 *
-	 */
-	public static Player create() {
-		final WinboardCommunicator communicator = new WinboardCommunicator();
-		return new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
 	}
 
 	/**
