@@ -83,7 +83,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 			case "brain.random":
 				return new LegalPlayer( new RandomBrain() );
 			case "ui.winboard":
-				return WinboardPlayer.create();
+				return new WinboardPlayer();
 			default:
 				throw new IllegalArgumentException( "The engine is not supported: " + engineName);
 		}

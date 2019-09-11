@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
  * The main processing is done on the Winboard-side
  * (on which a real human or some engine could be playing)
  *
- * Singleton to prohibit irregularities
  * Author: Leonid
  * Date-time: 20.08.12 19:28
  */
@@ -25,6 +24,7 @@ public class WinboardPlayer implements Player {
 	private static final int SQUARE_FROM_LENGTH = 2;
 
 	private final Logger logger = LogManager.getLogger( this.getClass() );
+	//it should be made final as part of https://github.com/lrozenblyum/chess/issues/354
 	private WinboardCommander commander;
 	private boolean needQuit = false;
 	private Player opponent;
@@ -44,10 +44,19 @@ public class WinboardPlayer implements Player {
 	//creating several instances of the player (must be singleton)
 	//calling run several times (from different threads)
 
-	/* For delayed initialization of spy in test.
-	 * Complex scenario to ensure commander will be associated with the spy
-	 * not with the original player */
-	WinboardPlayer() {
+	/**
+	 * Create an instance of a generic Player,
+	 * who is able to play against existing WinBoard-powered player
+	 * This Winboard-powered opponent could be a human
+	 * running the WinBoard-powered software or another engine
+	 * that can communicate via Winboard protocol
+	 */
+	public WinboardPlayer() {
+		this(
+			new WinboardCommanderImpl(
+				new WinboardCommunicator()
+			)
+		);
 	}
 
 	/**
@@ -150,22 +159,6 @@ public class WinboardPlayer implements Player {
 
 	private boolean canClaimDrawBeExecutedNow() {
 		return position.getMoves().contains( Move.CLAIM_DRAW );
-	}
-
-	/**
-	 * Create an instance of generic Player,
-	 * who is able to play against existing WinBoard-powered player
-	 * This Winboard-powered opponent could be a human
-	 * running the WinBoard-powered software or another engine
-	 * that can communicate via Winboard protocol
-	 *
-	 * @return instance of properly initialized Player against WinBoard-powered player
-	 *
-	 */
-	public static Player create() {
-		//TODO: implement some singleton policy?
-		final WinboardCommunicator communicator = new WinboardCommunicator();
-		return new WinboardPlayer( new WinboardCommanderImpl( communicator ) );
 	}
 
 	/**

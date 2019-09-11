@@ -30,6 +30,8 @@ public class WinboardLegalIntegrationTest {private WinboardCommunicator communic
 	public void prepare() {
 		communicator = mock( WinboardCommunicator.class );
 		commander = new WinboardCommanderImpl( communicator );
+		//the constructor initializes not needed commander in default constructor and then injects another one,
+		//it should be improved in https://github.com/lrozenblyum/chess/issues/354
 		WinboardPlayer player = new WinboardPlayer();
 		playerSpy = spy( player );
 		playerSpy.initCommander( commander );
