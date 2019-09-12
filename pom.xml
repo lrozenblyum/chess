@@ -177,7 +177,7 @@
                         <manifest>
                         	<addClasspath>true</addClasspath>
                         	<classpathPrefix>${dependenciesDirectory}</classpathPrefix>
-                        	<mainClass>com.leokom.chess.MainRunner</mainClass>
+                        	<mainClass>com.leokom.games.chess.MainRunner</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -199,11 +199,11 @@
                 <version>1.0.0</version>
                 <configuration>
                   <targetClasses>
-                    <param>com.leokom.chess.*</param>
+                    <param>com.leokom.games.chess.*</param>
                   </targetClasses>
                   <targetTests>
                     <!-- thus avoiding IT tests run -->
-                    <param>com.leokom.chess.*Test</param>
+                    <param>com.leokom.games.chess.*Test</param>
                   </targetTests>
 
                     <!-- XML is required for pitest plugin in SonarQube (default is HTML) -->

@@ -12,13 +12,13 @@ as it may damage WinBoard -->
         </File>
     </Appenders>
     <Loggers>
-        <Logger name = "com.leokom.chess.player.legal.brain.normalized.NormalizedBrain" level = "debug" additivity = "false">
+        <Logger name = "com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain" level = "debug" additivity = "false">
             <AppenderRef ref = "fileApp-NormalizedBrain" />
         </Logger>
-        <Logger name = "com.leokom.chess.player.legal.brain.normalized.MasterEvaluator" level = "debug" additivity = "false">
+        <Logger name = "com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluator" level = "debug" additivity = "false">
             <AppenderRef ref = "fileApp-NormalizedBrain" />
         </Logger>
-        <Logger name = "com.leokom.chess.player.legal.brain.normalized.TwoPliesEvaluator" level = "debug" additivity = "false">
+        <Logger name = "com.leokom.games.chess.player.legal.brain.normalized.TwoPliesEvaluator" level = "debug" additivity = "false">
             <AppenderRef ref = "fileApp-NormalizedBrain" />
         </Logger>
         <Root level = "debug">
