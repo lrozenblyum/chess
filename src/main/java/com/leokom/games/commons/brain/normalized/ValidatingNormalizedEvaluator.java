@@ -1,5 +1,6 @@
 package com.leokom.games.commons.brain.normalized;
 
+import com.leokom.games.commons.brain.normalized.range.Range;
 import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
 import com.leokom.games.commons.brain.GenericEvaluator;
@@ -10,6 +11,8 @@ import com.leokom.games.commons.brain.GenericEvaluator;
  * @param <T> transition type
  */
 class ValidatingNormalizedEvaluator < S extends GameState<T, S>, T extends GameTransition>  implements GenericEvaluator<S, T> {
+    private static final Range NORMALIZED_RANGE = new Range( 0.0, 1.0 );
+
     private final GenericEvaluator<S, T> delegate;
 
     ValidatingNormalizedEvaluator(GenericEvaluator<S, T> delegate ) {
@@ -19,9 +22,7 @@ class ValidatingNormalizedEvaluator < S extends GameState<T, S>, T extends GameT
     @Override
     public double evaluateMove(S position, T move) {
         double result = delegate.evaluateMove(position, move);
-        if ( result < 0.0 || result > 1.0 ) {
-            throw new IllegalArgumentException( String.format( "The value is outside of supported range: %s", result ) );
-        }
+        NORMALIZED_RANGE.validateRange( result );
         return result;
     }
 }

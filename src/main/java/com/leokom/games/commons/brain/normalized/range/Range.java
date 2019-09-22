@@ -8,9 +8,7 @@ public class Range {
     private final double maxValue;
 
     public Range( double minValue, double maxValue ) {
-        if ( minValue >= maxValue ) {
-            throw new IllegalArgumentException( String.format( "[%s, %s] cannot be created", minValue, maxValue ) );
-        }
+        validate(minValue < maxValue, String.format( "[%s, %s] cannot be created", minValue, maxValue ));
 
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -26,13 +24,21 @@ public class Range {
      * @return value put proportionally in target range
      */
     public double convert( Range targetRange, double value ) {
-        if ( !contains( value ) ) {
-            throw new IllegalArgumentException( String.format( "The value %s is out of range [ %s, %s ] ", value, minValue, maxValue ) );
-        }
+        validateRange(value);
 
         double ourPosition = ( value - minValue ) / length();
 
         return targetRange.length() * ourPosition + targetRange.minValue;
+    }
+
+    public void validateRange(double value) {
+        validate( contains( value ), String.format("The value %s is out of range [ %s, %s ] ", value, minValue, maxValue) );
+    }
+
+    private void validate(boolean conditionMustBeTrue, String errorText) {
+        if ( ! conditionMustBeTrue ) {
+            throw new IllegalArgumentException( errorText );
+        }
     }
 
     private double length() {
