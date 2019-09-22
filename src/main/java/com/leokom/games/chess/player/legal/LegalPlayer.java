@@ -4,7 +4,7 @@ import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.engine.Side;
 import com.leokom.games.chess.player.Player;
-import com.leokom.games.chess.player.legal.brain.common.GenericBrain;
+import com.leokom.games.commons.brain.GenericBrain;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain;

@@ -1,4 +1,4 @@
-package com.leokom.games.chess.player.legal.brain.common;
+package com.leokom.games.commons.brain;
 
 import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
