@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toMap;
  * Initial decision maker.
  *
  * Historically it was based on MasterEvaluator.
- * Now it has become generic (actually even not depending on chess-related notions).
+ * Now it has become generic.
  * You can inject any custom evaluator that acts as a normalized one via constructor.
  *
  * We assume that the evaluator always evaluates the move from the side to move the next ply
@@ -34,7 +34,7 @@ import static java.util.stream.Collectors.toMap;
  * Date-time: 23.08.16 22:54
  */
 public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransition> implements GenericBrain<S, T> {
-	//this constant will increase with chess evolution
+	//this constant will increase with games evolution
 	private static final int MAXIMAL_SUPPORTED_DEPTH = 2;
 	//this is an absolute constant
 	private static final int MINIMAL_POSSIBLE_DEPTH = 1;
