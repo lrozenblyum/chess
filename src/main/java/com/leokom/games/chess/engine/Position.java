@@ -3,6 +3,7 @@ package com.leokom.games.chess.engine;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.leokom.games.commons.engine.GameState;
 
 import java.util.*;
 import java.util.stream.Collectors;

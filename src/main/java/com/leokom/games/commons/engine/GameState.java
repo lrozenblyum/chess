@@ -1,11 +1,9 @@
-package com.leokom.games.chess.engine;
-
-import com.leokom.games.commons.engine.GameTransition;
+package com.leokom.games.commons.engine;
 
 import java.util.Set;
 
 /**
- * The notion of game state is very generic and can be extracted to something chess-independent
+ * The generic notion of game state.
  * @param <T> type of transitions
  * @param <S> current type (state)
  */

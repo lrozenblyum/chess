@@ -1,6 +1,7 @@
 package com.leokom.games.chess.engine;
 
 import com.google.common.collect.ImmutableMap;
+import com.leokom.games.commons.engine.GameState;
 
 import java.util.Map;
 import java.util.Set;

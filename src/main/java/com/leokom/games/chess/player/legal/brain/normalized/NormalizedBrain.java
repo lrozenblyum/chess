@@ -1,6 +1,6 @@
 package com.leokom.games.chess.player.legal.brain.normalized;
 
-import com.leokom.games.chess.engine.GameState;
+import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
 import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.player.legal.brain.common.GenericBrain;
