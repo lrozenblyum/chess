@@ -1,5 +1,6 @@
 package com.leokom.games.commons.brain.normalized;
 
+import com.leokom.games.commons.brain.GenericBrain;
 import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
 import com.leokom.games.commons.brain.GenericEvaluator;
@@ -7,7 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.ThreadContext;
 
 import java.util.List;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 /**
  * Evolution of GenericEvaluator to support thinking for 2 plies.
@@ -17,11 +18,11 @@ import java.util.function.Predicate;
 public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransition> implements GenericEvaluator< S, T > {
 
     private final GenericEvaluator<S, T> evaluator;
-    private final NormalizedBrain<S, T> brain;
+    private final GenericBrain<S, T> brain;
 
-    public TwoPliesEvaluator(GenericEvaluator<S, T> evaluator, Predicate< T > movesFilter) {
+    public < E extends GenericEvaluator< S, T >> TwoPliesEvaluator( E evaluator, Function< E, GenericBrain< S, T > > singlePlyBrainCreator ) {
         this.evaluator = evaluator;
-        this.brain = new NormalizedBrain<>(this.evaluator, 1, movesFilter);
+        this.brain = singlePlyBrainCreator.apply( evaluator );
     }
 
     /**

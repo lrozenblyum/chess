@@ -66,7 +66,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 				new ValidatingNormalizedEvaluator<>(
 					evaluator
 				),
-				movesFilter
+				evaluatorParameter -> new NormalizedBrain<>( evaluatorParameter, 1, movesFilter )
 			);
 		this.pliesDepth = pliesDepth;
 		this.movesFilter = movesFilter;

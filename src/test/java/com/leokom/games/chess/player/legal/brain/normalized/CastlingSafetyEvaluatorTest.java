@@ -21,7 +21,7 @@ public class CastlingSafetyEvaluatorTest {
     public static List< GenericEvaluator<Position, Move> > parameters() {
         return Arrays.asList(
             new CastlingSafetyEvaluator(),
-            new TwoPliesEvaluator<>( new CastlingSafetyEvaluator(), move -> move != Move.OFFER_DRAW )
+                new TwoPliesEvaluator<>(new CastlingSafetyEvaluator(), NormalizedChessBrain::new)
         );
     }
 
