@@ -9,8 +9,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-//it's move integration than NormalizedBrainPositionMoveTest
-public class NormalizedBrainMasterEvaluatorTest {
+//it's move integration than NormalizedChessBrainBrainPositionMoveTest
+public class NormalizedChessBrainMasterEvaluatorTest {
     @Test
     public void resignIsNotTheBest() {
         List<Move> bestMove = new NormalizedChessBrain(new MasterEvaluator(), 2)
