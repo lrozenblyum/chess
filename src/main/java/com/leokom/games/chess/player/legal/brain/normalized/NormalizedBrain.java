@@ -4,20 +4,20 @@ import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.commons.brain.GenericBrain;
-import com.leokom.games.commons.brain.normalized.NormalizedBrain;
+import com.leokom.games.commons.brain.normalized.GenericNormalizedBrain;
 
 import java.util.List;
 
-public class NormalizedChessBrain implements GenericBrain<Position, Move> {
-    private final NormalizedBrain<Position, Move> engine;
+public class NormalizedBrain implements GenericBrain<Position, Move> {
+    private final GenericNormalizedBrain<Position, Move> engine;
 
-    public NormalizedChessBrain(Evaluator evaluator) {
+    public NormalizedBrain(Evaluator evaluator) {
         this( evaluator, 1 );
     }
 
-    public NormalizedChessBrain(Evaluator evaluator, int depth) {
+    public NormalizedBrain(Evaluator evaluator, int depth) {
         this(
-            new NormalizedBrain<>(
+            new GenericNormalizedBrain<>(
                 evaluator,
                 depth,
                 move -> move != Move.OFFER_DRAW //we're not supporting draw offers so far
@@ -25,7 +25,7 @@ public class NormalizedChessBrain implements GenericBrain<Position, Move> {
         );
     }
 
-    private NormalizedChessBrain(NormalizedBrain<Position, Move> engine) {
+    private NormalizedBrain(GenericNormalizedBrain<Position, Move> engine) {
         this.engine = engine;
     }
 

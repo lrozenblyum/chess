@@ -4,7 +4,6 @@ import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.commons.brain.GenericEvaluator;
 import com.leokom.games.commons.brain.normalized.TwoPliesEvaluator;
-import javafx.geometry.Pos;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -22,7 +21,7 @@ public class ProtectionEvaluatorTest {
     public static List< GenericEvaluator<Position, Move> > parameters() {
         return Arrays.asList(
                 new ProtectionEvaluator(),
-                new TwoPliesEvaluator<>(new ProtectionEvaluator(), NormalizedChessBrain::new)
+                new TwoPliesEvaluator<>(new ProtectionEvaluator(), NormalizedBrain::new)
         );
     }
 

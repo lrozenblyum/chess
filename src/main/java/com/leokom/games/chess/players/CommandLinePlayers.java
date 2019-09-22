@@ -5,7 +5,7 @@ import com.leokom.games.chess.player.Player;
 import com.leokom.games.chess.player.legal.LegalPlayer;
 import com.leokom.games.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluator;
-import com.leokom.games.chess.player.legal.brain.normalized.NormalizedChessBrain;
+import com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain;
 import com.leokom.games.chess.player.legal.brain.random.RandomBrain;
 import com.leokom.games.chess.player.legal.brain.simple.SimpleBrain;
 import com.leokom.games.chess.player.winboard.WinboardPlayer;
@@ -75,7 +75,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 				int depth = depthProperty.getFor(side)
 						.map(Integer::valueOf)
 						.orElse( 1 ); //this depth has been used for years
-				return new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator(), depth ) );
+				return new LegalPlayer( new NormalizedBrain( new MasterEvaluator(), depth ) );
 			case "brain.denormalized":
 				return new LegalPlayer( new DenormalizedBrain() );
 			case "brain.simple":

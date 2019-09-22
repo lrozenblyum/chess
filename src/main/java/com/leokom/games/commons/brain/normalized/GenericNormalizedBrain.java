@@ -33,7 +33,7 @@ import static java.util.stream.Collectors.toMap;
  * Author: Leonid
  * Date-time: 23.08.16 22:54
  */
-public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransition> implements GenericBrain<S, T> {
+public class GenericNormalizedBrain< S extends GameState<T, S>, T extends GameTransition> implements GenericBrain<S, T> {
 	//this constant will increase with games evolution
 	private static final int MAXIMAL_SUPPORTED_DEPTH = 2;
 	//this is an absolute constant
@@ -48,7 +48,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 	 * @param pliesDepth depth to think (1 or 2 are supported)
 	 * @param movesFilter filter that allows evaluating a move
 	 */
-	public NormalizedBrain(GenericEvaluator<S, T> evaluator, int pliesDepth, Predicate<T> movesFilter) {
+	public GenericNormalizedBrain(GenericEvaluator<S, T> evaluator, int pliesDepth, Predicate<T> movesFilter) {
 		if ( pliesDepth < MINIMAL_POSSIBLE_DEPTH) {
 			throw new IllegalArgumentException( String.format( "This depth is wrong: %s", pliesDepth ) );
 		}
@@ -66,7 +66,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 				new ValidatingNormalizedEvaluator<>(
 					evaluator
 				),
-				evaluatorParameter -> new NormalizedBrain<>( evaluatorParameter, 1, movesFilter )
+				evaluatorParameter -> new GenericNormalizedBrain<>( evaluatorParameter, 1, movesFilter )
 			);
 		this.pliesDepth = pliesDepth;
 		this.movesFilter = movesFilter;

@@ -10,7 +10,7 @@ import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.games.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluator;
 import com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
-import com.leokom.games.chess.player.legal.brain.normalized.NormalizedChessBrain;
+import com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain;
 import com.leokom.games.chess.player.legal.brain.random.RandomBrain;
 import com.leokom.games.chess.player.legal.brain.simple.SimpleBrain;
 import org.junit.Ignore;
@@ -134,7 +134,7 @@ public class SimulatorIT {
 	//we expect the normalized brain of the legal player is much smarter than the simple one
 	@Test
 	public void legalVsSimpleStatistics() {
-		final SimulatorStatistics statistics = new Simulator( new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator() ) ), new LegalPlayer( new SimpleBrain() ) ).run();
+		final SimulatorStatistics statistics = new Simulator( new LegalPlayer( new NormalizedBrain( new MasterEvaluator() ) ), new LegalPlayer( new SimpleBrain() ) ).run();
 
 		assertEquals( new SimulatorStatistics( 2, 2, 0 ), statistics );
 	}
@@ -170,7 +170,7 @@ public class SimulatorIT {
 	@Test
 	public void normalizedDepth1VsRandom() {
 		final SimulatorStatistics statistics = new Simulator(
-				new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator(), 1 ) ),
+				new LegalPlayer( new NormalizedBrain( new MasterEvaluator(), 1 ) ),
 				new LegalPlayer( new RandomBrain() )
 		).run();
 
@@ -180,7 +180,7 @@ public class SimulatorIT {
 	@Test
 	public void normalizedDepth2VsRandom() {
 		final SimulatorStatistics statistics = new Simulator(
-				new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator(), 2 ) ),
+				new LegalPlayer( new NormalizedBrain( new MasterEvaluator(), 2 ) ),
 				new LegalPlayer( new RandomBrain() )
 		).run();
 
@@ -222,7 +222,7 @@ public class SimulatorIT {
 	@Test
 	public void newBrainShouldBeBetter() {
 		final LegalPlayer withNewSkills = new LegalPlayer( new DenormalizedBrain() );
-		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator() ) );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain( new MasterEvaluator() ) );
 		final SimulatorStatistics statistics = new Simulator( withNewSkills, classicPlayer )
 				.gamePairs( 5 )
 				.run();
@@ -233,8 +233,8 @@ public class SimulatorIT {
 
 	@Test
 	public void normalizedPlayerWithDepth2IsBetterThanDepth1() {
-		final LegalPlayer deeperThinker = new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator(), 2 ) );
-		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator(), 1 ) );
+		final LegalPlayer deeperThinker = new LegalPlayer( new NormalizedBrain( new MasterEvaluator(), 2 ) );
+		final LegalPlayer classicPlayer = new LegalPlayer( new NormalizedBrain( new MasterEvaluator(), 1 ) );
 		final SimulatorStatistics statistics = new Simulator( deeperThinker, classicPlayer )
 				.gamePairs( 5 )
 				.run();

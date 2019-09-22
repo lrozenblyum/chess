@@ -48,7 +48,7 @@ public class MasterEvaluatorTest {
 		Move captureWithRiskToLoseQueen = new Move( "g6", "g7" );
 		Move simpleMove = new Move( "g6", "g5" );
 
-		TwoPliesEvaluator<Position, Move> twoPliesEvaluator = new TwoPliesEvaluator<>(evaluator, NormalizedChessBrain::new);
+		TwoPliesEvaluator<Position, Move> twoPliesEvaluator = new TwoPliesEvaluator<>(evaluator, NormalizedBrain::new);
 
 		new EvaluatorAsserts( twoPliesEvaluator )
 				.assertFirstBetter( position, simpleMove, captureWithRiskToLoseQueen );

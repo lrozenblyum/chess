@@ -10,11 +10,11 @@ import static org.junit.Assert.assertFalse;
 
 //this test is based on Chess notions (in contrary to NormalizedBrainTest)
 //so it can be considered being more integrations with Position, Move
-public class NormalizedChessBrainPositionMoveTest {
+public class NormalizedBrainPositionMoveTest {
 
     @Test
     public void integrationWithPosition() {
-        List<Move> bestMove = new NormalizedChessBrain(((position, move) -> 0), 2)
+        List<Move> bestMove = new NormalizedBrain(((position, move) -> 0), 2)
                 .findBestMove(Position.getInitialPosition());
         assertFalse( bestMove.isEmpty() );
     }
