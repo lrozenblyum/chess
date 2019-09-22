@@ -1,6 +1,6 @@
 package com.leokom.games.chess.engine;
 
-import com.leokom.games.chess.utils.CollectionUtils;
+import com.leokom.games.commons.utils.CollectionUtils;
 
 import java.util.Set;
 

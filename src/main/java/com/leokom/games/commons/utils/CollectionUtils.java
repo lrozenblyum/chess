@@ -1,4 +1,4 @@
-package com.leokom.games.chess.utils;
+package com.leokom.games.commons.utils;
 
 import java.util.*;
 import java.util.function.Predicate;
