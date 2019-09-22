@@ -21,7 +21,7 @@ public class ProtectionEvaluatorTest {
     public static List< GenericEvaluator<Position, Move> > parameters() {
         return Arrays.asList(
                 new ProtectionEvaluator(),
-                new TwoPliesEvaluator<>( new ProtectionEvaluator() )
+                new TwoPliesEvaluator<>( new ProtectionEvaluator(), move -> move != Move.OFFER_DRAW )
         );
     }
 

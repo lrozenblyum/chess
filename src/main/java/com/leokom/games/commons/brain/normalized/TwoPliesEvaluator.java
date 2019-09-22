@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.ThreadContext;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Evolution of GenericEvaluator to support thinking for 2 plies.
@@ -19,9 +20,9 @@ public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransit
     private final GenericEvaluator<S, T> evaluator;
     private final NormalizedBrain<S, T> brain;
 
-    public TwoPliesEvaluator(GenericEvaluator<S, T> evaluator) {
+    public TwoPliesEvaluator(GenericEvaluator<S, T> evaluator, Predicate< T > movesFilter) {
         this.evaluator = evaluator;
-        this.brain = new NormalizedBrain<>(this.evaluator, 1);
+        this.brain = new NormalizedBrain<>(this.evaluator, 1, movesFilter);
     }
 
     /**

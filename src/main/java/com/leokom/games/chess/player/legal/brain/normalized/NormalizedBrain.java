@@ -3,7 +3,6 @@ package com.leokom.games.chess.player.legal.brain.normalized;
 import com.leokom.games.commons.brain.normalized.TwoPliesEvaluator;
 import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
-import com.leokom.games.chess.engine.Move;
 import com.leokom.games.commons.brain.GenericBrain;
 import com.leokom.games.commons.brain.GenericEvaluator;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
@@ -41,21 +41,15 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 	private static final int MINIMAL_POSSIBLE_DEPTH = 1;
 	private final GenericEvaluator<S, T> evaluator;
 	private final int pliesDepth;
+	private final Predicate<T> movesFilter;
 
 	/**
-	 * Create normalized brain
-	 * @param evaluator evaluator with results in [ 0, 1 ] range
-	 */
-	public NormalizedBrain( GenericEvaluator<S, T> evaluator ) {
-		this( evaluator, 1 );
-	}
-
-	/**
-	 * Create brain with custom plies depth
+	 * Create a normalized brain
 	 * @param evaluator evaluator with results in [ 0, 1 ] range
 	 * @param pliesDepth depth to think (1 or 2 are supported)
+	 * @param movesFilter filter that allows evaluating a move
 	 */
-	public NormalizedBrain(GenericEvaluator<S, T> evaluator, int pliesDepth ) {
+	public NormalizedBrain(GenericEvaluator<S, T> evaluator, int pliesDepth, Predicate<T> movesFilter) {
 		if ( pliesDepth < MINIMAL_POSSIBLE_DEPTH) {
 			throw new IllegalArgumentException( String.format( "This depth is wrong: %s", pliesDepth ) );
 		}
@@ -72,9 +66,11 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 			new TwoPliesEvaluator<>(
 				new ValidatingNormalizedEvaluator<>(
 					evaluator
-				)
+				),
+				movesFilter
 			);
 		this.pliesDepth = pliesDepth;
+		this.movesFilter = movesFilter;
 	}
 
 	/**
@@ -103,7 +99,7 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 
 		//2. in future we may even not materialize the map and continue the Stream API chain to find the best move
 		Map<T, Double> moveRatings =
-			getMovesWithoutDrawOffer( position ).collect(
+			getMovesFiltered( position ).collect(
 				toMap(
 					identity(),
 					move -> this.evaluator.evaluateMove( position, move )
@@ -119,8 +115,8 @@ public class NormalizedBrain < S extends GameState<T, S>, T extends GameTransiti
 		return String.format( "NormalizedBrain: %s depth", pliesDepth );
 	}
 
-	private Stream<T> getMovesWithoutDrawOffer(S position) {
-		return position.getMoves().stream().filter(move -> move != Move.OFFER_DRAW);
+	private Stream<T> getMovesFiltered(S position) {
+		return position.getMoves().stream().filter(movesFilter);
 	}
 
 	private List<T> getMoveWithMaxRating( Map<T, Double > moveValues ) {

@@ -11,11 +11,17 @@ public class NormalizedChessBrain implements GenericBrain<Position, Move> {
     private final NormalizedBrain<Position, Move> engine;
 
     public NormalizedChessBrain(Evaluator evaluator) {
-        this( new NormalizedBrain<>( evaluator ) );
+        this( evaluator, 1 );
     }
 
     public NormalizedChessBrain(Evaluator evaluator, int depth) {
-        this( new NormalizedBrain<>( evaluator, depth ) );
+        this(
+            new NormalizedBrain<>(
+                evaluator,
+                depth,
+                move -> move != Move.OFFER_DRAW //we're not supporting draw offers so far
+            )
+        );
     }
 
     private NormalizedChessBrain(NormalizedBrain<Position, Move> engine) {
