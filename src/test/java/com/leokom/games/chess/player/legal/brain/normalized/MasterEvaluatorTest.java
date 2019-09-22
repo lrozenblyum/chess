@@ -6,6 +6,7 @@ import com.leokom.games.chess.player.legal.brain.common.EvaluatorAsserts;
 import com.leokom.games.chess.player.legal.brain.common.EvaluatorFactory;
 import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.games.chess.player.legal.brain.internal.common.EvaluatorWeights;
+import com.leokom.games.commons.brain.normalized.TwoPliesEvaluator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

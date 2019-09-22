@@ -1,5 +1,6 @@
-package com.leokom.games.chess.player.legal.brain.normalized;
+package com.leokom.games.commons.brain.normalized;
 
+import com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain;
 import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
 import com.leokom.games.commons.brain.GenericEvaluator;
@@ -9,7 +10,7 @@ import org.apache.logging.log4j.ThreadContext;
 import java.util.List;
 
 /**
- * Evolution of Evaluator to support thinking for 2 plies.
+ * Evolution of GenericEvaluator to support thinking for 2 plies.
  * @param <S>
  * @param <T>
  */
@@ -18,7 +19,7 @@ public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransit
     private final GenericEvaluator<S, T> evaluator;
     private final NormalizedBrain<S, T> brain;
 
-    TwoPliesEvaluator(GenericEvaluator<S, T> evaluator) {
+    public TwoPliesEvaluator(GenericEvaluator<S, T> evaluator) {
         this.evaluator = evaluator;
         this.brain = new NormalizedBrain<>(this.evaluator, 1);
     }
