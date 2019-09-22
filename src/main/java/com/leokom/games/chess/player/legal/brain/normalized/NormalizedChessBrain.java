@@ -4,6 +4,7 @@ import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.commons.brain.GenericBrain;
+import com.leokom.games.commons.brain.normalized.NormalizedBrain;
 
 import java.util.List;
 

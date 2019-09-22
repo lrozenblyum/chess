@@ -1,6 +1,7 @@
 package com.leokom.games.chess.player.legal.brain.normalized;
 
 import com.leokom.games.commons.brain.GenericEvaluator;
+import com.leokom.games.commons.brain.normalized.NormalizedBrain;
 import com.leokom.games.commons.engine.GameStateImpl;
 import com.leokom.games.commons.engine.GameTransitionImpl;
 import org.hamcrest.CoreMatchers;
