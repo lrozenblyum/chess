@@ -1,9 +1,9 @@
 package com.leokom.games.chess.player.legal;
 
-import com.leokom.games.chess.player.legal.brain.simple.SimpleBrain;
 import com.leokom.games.chess.player.legal.brain.denormalized.DenormalizedBrain;
 import com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluator;
-import com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain;
+import com.leokom.games.chess.player.legal.brain.normalized.NormalizedChessBrain;
+import com.leokom.games.chess.player.legal.brain.simple.SimpleBrain;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +16,7 @@ public class LegalPlayerNameTest {
 
     @Test
     public void normalizedBrain() {
-        assertEquals( "LegalPlayer : NormalizedBrain: 1 depth", new LegalPlayer( new NormalizedBrain<>( new MasterEvaluator()) ).name() );
+        assertEquals( "LegalPlayer : NormalizedBrain: 1 depth", new LegalPlayer( new NormalizedChessBrain( new MasterEvaluator()) ).name() );
     }
 
     @Test

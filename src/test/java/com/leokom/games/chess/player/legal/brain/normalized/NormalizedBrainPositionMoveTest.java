@@ -14,7 +14,7 @@ public class NormalizedBrainPositionMoveTest {
 
     @Test
     public void integrationWithPosition() {
-        List<Move> bestMove = new NormalizedBrain<Position, Move>(((position, move) -> 0), 2)
+        List<Move> bestMove = new NormalizedChessBrain(((position, move) -> 0), 2)
                 .findBestMove(Position.getInitialPosition());
         assertFalse( bestMove.isEmpty() );
     }

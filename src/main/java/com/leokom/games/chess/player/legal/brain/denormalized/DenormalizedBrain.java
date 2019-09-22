@@ -5,11 +5,11 @@ import com.google.common.collect.Table;
 import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.player.legal.brain.internal.common.EvaluatorWeights;
-import com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain;
 import com.leokom.games.chess.player.legal.brain.common.Brain;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.chess.player.legal.brain.common.EvaluatorFactory;
 import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
+import com.leokom.games.chess.player.legal.brain.normalized.NormalizedChessBrain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,7 +53,7 @@ public class DenormalizedBrain implements Brain {
 		Table<EvaluatorType, Move, Double> weightedTable = generateWithWeights( normalizedTable );
 		logTable( weightedTable, "WEIGHTED" );
 
-		return new NormalizedBrain<>( new DenormalizedMasterEvaluator( weightedTable ) ).findBestMove( position );
+		return new NormalizedChessBrain( new DenormalizedMasterEvaluator( weightedTable ) ).findBestMove( position );
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {

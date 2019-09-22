@@ -4,10 +4,10 @@ import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.engine.Side;
 import com.leokom.games.chess.player.Player;
+import com.leokom.games.chess.player.legal.brain.normalized.NormalizedChessBrain;
 import com.leokom.games.commons.brain.GenericBrain;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.chess.player.legal.brain.denormalized.DenormalizedBrain;
-import com.leokom.games.chess.player.legal.brain.normalized.NormalizedBrain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +44,7 @@ public class LegalPlayer implements Player {
 	 * @param evaluator evaluator to evaluate moves
 	 */
 	public LegalPlayer( Evaluator evaluator ) {
-		this.brain = new NormalizedBrain<>(evaluator);
+		this.brain = new NormalizedChessBrain(evaluator);
 	}
 
 	@Override
