@@ -1,7 +1,7 @@
 package com.leokom.games.chess.player.legal.brain.common;
 
 import com.leokom.games.chess.engine.GameState;
-import com.leokom.games.chess.engine.GameTransition;
+import com.leokom.games.commons.engine.GameTransition;
 
 /**
  * Generic evaluator, actually game-agnostic

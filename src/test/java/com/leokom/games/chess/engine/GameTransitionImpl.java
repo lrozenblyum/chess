@@ -1,5 +1,7 @@
 package com.leokom.games.chess.engine;
 
+import com.leokom.games.commons.engine.GameTransition;
+
 //fake implementation for test purposes
 public class GameTransitionImpl implements GameTransition {
     private final long id;

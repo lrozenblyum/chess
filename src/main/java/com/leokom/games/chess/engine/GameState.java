@@ -1,5 +1,7 @@
 package com.leokom.games.chess.engine;
 
+import com.leokom.games.commons.engine.GameTransition;
+
 import java.util.Set;
 
 /**
