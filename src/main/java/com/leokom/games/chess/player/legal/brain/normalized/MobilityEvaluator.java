@@ -5,6 +5,7 @@ import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.games.chess.player.legal.brain.denormalized.DenormalizedEvaluatorFactory;
+import com.leokom.games.commons.brain.normalized.range.SymmetricalNormalizedRange;
 
 /**
  * If inside a position there is a bigger variety of moves

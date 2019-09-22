@@ -8,6 +8,8 @@ import com.leokom.games.chess.engine.Side;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.chess.player.legal.brain.common.SideEvaluator;
 import com.leokom.games.chess.player.legal.brain.internal.common.SymmetricEvaluator;
+import com.leokom.games.commons.brain.normalized.range.Range;
+import com.leokom.games.commons.brain.normalized.range.SymmetricalNormalizedRange;
 
 import java.util.HashSet;
 import java.util.Set;

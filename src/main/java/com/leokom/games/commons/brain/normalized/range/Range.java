@@ -1,13 +1,13 @@
-package com.leokom.games.chess.player.legal.brain.normalized;
+package com.leokom.games.commons.brain.normalized.range;
 
 /**
  * Double Interval (inclusive) [ minValue, maxValue ]
  */
-class Range {
+public class Range {
     private final double minValue;
     private final double maxValue;
 
-    Range( double minValue, double maxValue ) {
+    public Range( double minValue, double maxValue ) {
         if ( minValue >= maxValue ) {
             throw new IllegalArgumentException( String.format( "[%s, %s] cannot be created", minValue, maxValue ) );
         }
@@ -25,7 +25,7 @@ class Range {
      * @param value value inside current range
      * @return value put proportionally in target range
      */
-    double convert( Range targetRange, double value ) {
+    public double convert( Range targetRange, double value ) {
         if ( !contains( value ) ) {
             throw new IllegalArgumentException( String.format( "The value %s is out of range [ %s, %s ] ", value, minValue, maxValue ) );
         }
@@ -39,7 +39,7 @@ class Range {
         return this.maxValue - this.minValue;
     }
 
-    boolean contains( double value ) {
+    public boolean contains( double value ) {
         return value >= this.minValue && value <= this.maxValue;
     }
 }

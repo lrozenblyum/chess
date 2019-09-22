@@ -6,6 +6,7 @@ import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.player.legal.brain.common.Evaluator;
 import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.games.chess.player.legal.brain.denormalized.DenormalizedEvaluatorFactory;
+import com.leokom.games.commons.brain.normalized.range.SymmetricalNormalizedRange;
 
 import static com.leokom.games.chess.player.legal.brain.internal.common.MaterialValues.VALUES;
 

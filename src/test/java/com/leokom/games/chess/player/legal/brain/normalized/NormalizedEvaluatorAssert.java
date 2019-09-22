@@ -3,6 +3,7 @@ package com.leokom.games.chess.player.legal.brain.normalized;
 import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.commons.brain.GenericEvaluator;
+import com.leokom.games.commons.brain.normalized.range.Range;
 
 import static org.junit.Assert.assertTrue;
 

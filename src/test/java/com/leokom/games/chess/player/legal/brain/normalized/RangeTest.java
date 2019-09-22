@@ -1,5 +1,6 @@
 package com.leokom.games.chess.player.legal.brain.normalized;
 
+import com.leokom.games.commons.brain.normalized.range.Range;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
