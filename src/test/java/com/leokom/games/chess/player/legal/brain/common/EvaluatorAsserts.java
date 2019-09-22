@@ -3,6 +3,7 @@ package com.leokom.games.chess.player.legal.brain.common;
 import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.engine.PositionBuilder;
+import com.leokom.games.commons.brain.GenericEvaluator;
 import org.junit.Assert;
 
 import static org.junit.Assert.assertEquals;

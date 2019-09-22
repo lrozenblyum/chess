@@ -2,7 +2,7 @@ package com.leokom.games.chess.player.legal.brain.normalized;
 
 import com.leokom.games.chess.engine.*;
 import com.leokom.games.chess.player.legal.brain.common.EvaluatorAsserts;
-import com.leokom.games.chess.player.legal.brain.common.GenericEvaluator;
+import com.leokom.games.commons.brain.GenericEvaluator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

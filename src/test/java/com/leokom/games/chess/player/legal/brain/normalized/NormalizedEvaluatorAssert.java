@@ -2,7 +2,7 @@ package com.leokom.games.chess.player.legal.brain.normalized;
 
 import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
-import com.leokom.games.chess.player.legal.brain.common.GenericEvaluator;
+import com.leokom.games.commons.brain.GenericEvaluator;
 
 import static org.junit.Assert.assertTrue;
 

@@ -4,7 +4,7 @@ import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
 import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.player.legal.brain.common.GenericBrain;
-import com.leokom.games.chess.player.legal.brain.common.GenericEvaluator;
+import com.leokom.games.commons.brain.GenericEvaluator;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.Collections;

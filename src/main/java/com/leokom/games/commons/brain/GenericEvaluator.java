@@ -1,10 +1,10 @@
-package com.leokom.games.chess.player.legal.brain.common;
+package com.leokom.games.commons.brain;
 
 import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
 
 /**
- * Generic evaluator, actually game-agnostic
+ * Generic game-agnostic evaluator
  * @param <S> game state
  * @param <T> transition type
  */

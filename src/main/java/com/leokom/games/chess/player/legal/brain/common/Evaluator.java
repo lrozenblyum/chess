@@ -2,6 +2,7 @@ package com.leokom.games.chess.player.legal.brain.common;
 
 import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
+import com.leokom.games.commons.brain.GenericEvaluator;
 
 /**
  * Estimate a move from a position.

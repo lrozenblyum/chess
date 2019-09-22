@@ -2,7 +2,7 @@ package com.leokom.games.chess.player.legal.brain.normalized;
 
 import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
-import com.leokom.games.chess.player.legal.brain.common.GenericEvaluator;
+import com.leokom.games.commons.brain.GenericEvaluator;
 
 /**
  * Evaluator delegate that ensures [ 0, 1 ] constraint for the move
