@@ -2,7 +2,6 @@ package com.leokom.games.chess.player.winboard;
 
 import com.leokom.games.chess.player.Player;
 import com.leokom.games.chess.engine.*;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -149,7 +148,7 @@ public class WinBoardPlayerIntegrationTest {
 		//mid-level processing
 		commander.processInputFromServer();
 		//no exceptions expected, the move should be respected
-		Assert.assertEquals( Side.BLACK, player.getPosition().getSideToMove() );
+		assertEquals( Side.BLACK, player.getPosition().getSideToMove() );
 	}
 
 	//Winboard -> Player
