@@ -54,6 +54,22 @@
             <scope>test</scope>
         </dependency>
 
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit-junit4</artifactId>
+			<version>0.11.0</version>
+			<scope>test</scope>
+		</dependency>
+
+        <!-- ArchUnit uses SLF4j, using Log4j2 implementation to avoid
+         SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder" -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j2version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.mutabilitydetector</groupId>
             <artifactId>MutabilityDetector</artifactId>
@@ -177,7 +193,7 @@
                         <manifest>
                         	<addClasspath>true</addClasspath>
                         	<classpathPrefix>${dependenciesDirectory}</classpathPrefix>
-                        	<mainClass>com.leokom.chess.MainRunner</mainClass>
+                        	<mainClass>com.leokom.games.chess.MainRunner</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -199,11 +215,11 @@
                 <version>1.0.0</version>
                 <configuration>
                   <targetClasses>
-                    <param>com.leokom.chess.*</param>
+                    <param>com.leokom.games.chess.*</param>
                   </targetClasses>
                   <targetTests>
                     <!-- thus avoiding IT tests run -->
-                    <param>com.leokom.chess.*Test</param>
+                    <param>com.leokom.games.chess.*Test</param>
                   </targetTests>
 
                     <!-- XML is required for pitest plugin in SonarQube (default is HTML) -->
