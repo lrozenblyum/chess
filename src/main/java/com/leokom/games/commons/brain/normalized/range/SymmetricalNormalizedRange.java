@@ -1,8 +1,6 @@
 package com.leokom.games.commons.brain.normalized.range;
 
 
-import com.leokom.games.commons.brain.normalized.range.Range;
-
 /**
  * Normalize move estimates that were calculated by a symmetrical evaluator.
  * Symmetrical denormalized evaluator can provide [min, max] ranges for index for OUR and THEIR position
