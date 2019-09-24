@@ -76,11 +76,11 @@ Builds: https://travis-ci.com/lrozenblyum/chess/builds
 [![Build Status](https://travis-ci.com/lrozenblyum/chess.svg?branch=master)](https://travis-ci.com/lrozenblyum/chess)
 
 ### SonarCloud
-Full overview: https://sonarcloud.io/dashboard?id=lrozenblyum-chess
+Full overview: https://sonarcloud.io/dashboard?id=leokom-chess
 
-[![Technical debt](https://sonarcloud.io/api/project_badges/measure?project=lrozenblyum-chess&metric=sqale_index)](https://sonarcloud.io/component_measures?id=lrozenblyum-chess&metric=sqale_index)
+[![Technical debt](https://sonarcloud.io/api/project_badges/measure?project=leokom-chess&metric=sqale_index)](https://sonarcloud.io/component_measures?id=leokom-chess&metric=sqale_index)
 
-[![Maintainability rating](https://sonarcloud.io/api/project_badges/measure?project=lrozenblyum-chess&metric=sqale_rating)](https://sonarcloud.io/component_measures?id=lrozenblyum-chess&metric=Maintainability)
+[![Maintainability rating](https://sonarcloud.io/api/project_badges/measure?project=leokom-chess&metric=sqale_rating)](https://sonarcloud.io/component_measures?id=leokom-chess&metric=Maintainability)
 
 
 ## License
