@@ -209,26 +209,6 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                  <targetClasses>
-                    <param>com.leokom.games.chess.*</param>
-                  </targetClasses>
-                  <targetTests>
-                    <!-- thus avoiding IT tests run -->
-                    <param>com.leokom.games.chess.*Test</param>
-                  </targetTests>
-
-                    <!-- XML is required for pitest plugin in SonarQube (default is HTML) -->
-                    <outputFormats>
-                        <outputFormat>XML</outputFormat>
-                    </outputFormats>
-                </configuration>
-              </plugin>
-
             <!-- Assembly plug-in will allow us create a *.zip artifact with binaries
              which previously was created manually -->
             <plugin>
@@ -325,40 +305,7 @@
         </pluginManagement>
     </build>
 
-
-  <!-- BEGIN: Specific to mapping unit tests and covered code (Sonar)-->
 	<profiles>
-    <profile>
-      <id>coverage-per-test</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <!-- Minimal supported version is 2.4 -->
-            <version>2.19.1</version>
-            <configuration>
-              <properties>
-                <property>
-                  <name>listener</name>
-                  <value>org.sonar.java.jacoco.JUnitListener</value>
-                </property>
-              </properties>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-
-      <dependencies>
-        <dependency>
-          <groupId>org.codehaus.sonar-plugins.java</groupId>
-          <artifactId>sonar-jacoco-listeners</artifactId>
-          <version>1.2</version>
-          <scope>test</scope>
-        </dependency>
-      </dependencies>
-	</profile>
-
         <profile>
             <id>coverage</id>
             <build>
