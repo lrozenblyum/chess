@@ -9,7 +9,9 @@ public class PGNTest {
     @Test
     public void eventTag() {
         String pgn = new PGNGame().run();
-        assertThat( pgn, CoreMatchers.startsWith( "[Event (?)]" ));
+        assertThat( pgn,
+            CoreMatchers.startsWith( "[Event \"?\"]" )
+        );
     }
 
     @Test

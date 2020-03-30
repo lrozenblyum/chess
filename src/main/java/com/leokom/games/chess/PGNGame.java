@@ -5,6 +5,6 @@ public class PGNGame {
     }
 
     public String run() {
-        return "[Event (?)]\n";
+        return "[Event \"?\"]\n";
     }
 }
