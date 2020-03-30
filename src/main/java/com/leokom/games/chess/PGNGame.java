@@ -10,6 +10,7 @@ public class PGNGame {
     public String run() {
         return "[Event \"" +
                 ( event.getName() != null ? event.getName() : "?" ) +
-                "\"]\n";
+                "\"]\n" +
+                "[Site \"?\"]";
     }
 }

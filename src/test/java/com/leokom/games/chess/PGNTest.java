@@ -26,4 +26,10 @@ public class PGNTest {
         String pgn = new PGNGame(new Event("Good event")).run();
         assertThat( pgn, CoreMatchers.containsString( "\n" ));
     }
+
+    @Test
+    public void locationUnknown() {
+        String pgn = new PGNGame(new Event(null)).run();
+        assertEquals( "[Site \"?\"]", pgn.split( "\n" )[ 1 ] );
+    }
 }
