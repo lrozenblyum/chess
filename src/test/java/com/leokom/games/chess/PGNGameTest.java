@@ -46,4 +46,5 @@ public class PGNGameTest {
         String pgn = new PGNGame(new Event(null, null, LocalDate.of(2020, 7, 5))).run();
         assertEquals( "[Date \"2020-07-05\"]", pgn.split( "\n" )[ 2 ] );
     }
+
 }
