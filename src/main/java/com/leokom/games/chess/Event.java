@@ -1,13 +1,19 @@
 package com.leokom.games.chess;
 
 public class Event {
-    private String name;
+    private final String name;
+    private final String location;
 
-    public Event(String name) {
+    public Event(String name, String location) {
         this.name = name;
+        this.location = location;
     }
 
-    public String getName() {
+    String getName() {
         return this.name;
+    }
+
+    String getLocation() {
+        return location;
     }
 }

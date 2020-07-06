@@ -11,6 +11,8 @@ public class PGNGame {
         return "[Event \"" +
                 ( event.getName() != null ? event.getName() : "?" ) +
                 "\"]\n" +
-                "[Site \"?\"]";
+                "[Site \"" +
+                ( event.getLocation() != null ? event.getLocation() : "?" ) +
+                "\"]";
     }
 }
