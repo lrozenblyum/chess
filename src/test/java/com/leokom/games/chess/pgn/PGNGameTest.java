@@ -1,7 +1,5 @@
 package com.leokom.games.chess.pgn;
 
-import com.leokom.games.chess.pgn.Event;
-import com.leokom.games.chess.pgn.PGNGame;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
