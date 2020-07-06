@@ -1,5 +1,7 @@
 package com.leokom.games.chess;
 
+import java.time.format.DateTimeFormatter;
+
 public class PGNGame {
     private final Event event;
 
@@ -9,8 +11,13 @@ public class PGNGame {
 
     public String run() {
         return "[Event \"" +
-                ( event.getName() != null ? event.getName() : "?" ) +
+                (event.getName() != null ? event.getName() : "?") +
                 "\"]\n" +
-                "[Site \"?\"]";
+                "[Site \"" +
+                (event.getLocation() != null ? event.getLocation() : "?") +
+                "\"]\n" +
+                "[Date \"" +
+                ( event.getDate() != null ? DateTimeFormatter.ofPattern("yyyy-MM-dd").format( event.getDate() ) : "????-??-??" ) +
+                "\"]";
     }
 }
