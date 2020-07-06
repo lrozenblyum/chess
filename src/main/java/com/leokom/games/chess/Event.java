@@ -1,7 +1,6 @@
 package com.leokom.games.chess;
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalAccessor;
 
 public class Event {
     private final String name;
