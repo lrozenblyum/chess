@@ -1,4 +1,4 @@
-package com.leokom.games.chess;
+package com.leokom.games.chess.pgn;
 
 import java.time.format.DateTimeFormatter;
 
