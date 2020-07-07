@@ -47,4 +47,10 @@ public class PGNGameTest {
         assertEquals( "[Date \"2020-07-05\"]", pgn.split( "\n" )[ 2 ] );
     }
 
+    @Test
+    public void hyphenNotAppropriate() {
+        String pgn = new PGNGame(new Event(null, null, null)).run();
+        assertEquals( "[Round \"-\"]", pgn.split( "\n" )[ 3 ] );
+    }
+
 }
