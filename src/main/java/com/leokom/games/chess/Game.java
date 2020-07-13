@@ -72,7 +72,7 @@ public final class Game {
 				return null;
 			}
 
-			return winningSide == Side.WHITE ? whitePlayer : blackPlayer;
+			return player( winningSide );
 		}
 		else {
 			logger.warn( "The game has been finished without reaching a terminal position" );
