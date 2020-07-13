@@ -79,4 +79,8 @@ public final class Game {
 			return null;
 		}
 	}
+
+	public Player player(Side white) {
+		return whitePlayer;
+	}
 }
