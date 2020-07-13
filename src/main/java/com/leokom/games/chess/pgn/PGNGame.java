@@ -23,9 +23,10 @@ public class PGNGame {
         PGNTag roundTag = new PGNTag( "Round", "-" );
 
         PGNTag whitePlayerTag = new PGNTag( "White", game.player( Side.WHITE ).name() );
+        PGNTag blackPlayerTag = new PGNTag( "Black", game.player( Side.BLACK ).name() );
 
         return
-            Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag )
+            Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag )
             .map( PGNTag::toString )
             .collect(Collectors.joining( "\n" ) );
 

@@ -80,7 +80,7 @@ public final class Game {
 		}
 	}
 
-	public Player player(Side white) {
-		return whitePlayer;
+	public Player player(Side side) {
+		return side == Side.WHITE ? whitePlayer : blackPlayer;
 	}
 }

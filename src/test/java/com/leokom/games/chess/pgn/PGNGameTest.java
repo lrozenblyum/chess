@@ -14,12 +14,14 @@ import static org.junit.Assert.assertThat;
 
 public class PGNGameTest {
     private Player whitePlayer;
+    private Player blackPlayer;
     private Game game;
 
     @Before
     public void prepare() {
         this.whitePlayer = Mockito.mock(Player.class);
-        this.game = new Game( whitePlayer, Mockito.mock( Player.class ) );
+        this.blackPlayer = Mockito.mock(Player.class);
+        this.game = new Game( whitePlayer, blackPlayer );
     }
 
     @Test
@@ -72,6 +74,14 @@ public class PGNGameTest {
         String pgn = new PGNGame(new Event(null, null, null), game ).run();
 
         assertEquals( "[White \"White player name\"]", pgn.split( "\n" )[ 4 ] );
+    }
+
+    @Test
+    public void blackName() {
+        Mockito.when( blackPlayer.name() ).thenReturn( "Some black player name" );
+        String pgn = new PGNGame(new Event(null, null, null), game ).run();
+
+        assertEquals( "[Black \"Some black player name\"]", pgn.split( "\n" )[ 5 ] );
     }
 
 }
