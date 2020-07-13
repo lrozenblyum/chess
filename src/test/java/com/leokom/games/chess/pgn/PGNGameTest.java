@@ -84,4 +84,14 @@ public class PGNGameTest {
         assertEquals( "[Black \"Some black player name\"]", pgn.split( "\n" )[ 5 ] );
     }
 
+    @Test
+    public void unknownPlayerNames() {
+        Mockito.when( whitePlayer.name() ).thenReturn( null );
+        Mockito.when( blackPlayer.name() ).thenReturn( null );
+        String pgn = new PGNGame(new Event(null, null, null), game ).run();
+
+        assertEquals( "[White \"?\"]", pgn.split( "\n" )[ 4 ] );
+        assertEquals( "[Black \"?\"]", pgn.split( "\n" )[ 5 ] );
+    }
+
 }

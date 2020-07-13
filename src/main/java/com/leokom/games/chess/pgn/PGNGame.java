@@ -22,13 +22,17 @@ public class PGNGame {
         PGNTag dateTag = new PGNTag( "Date", ( event.getDate() != null ? DateTimeFormatter.ofPattern("yyyy-MM-dd").format( event.getDate() ) : "????-??-??" ) );
         PGNTag roundTag = new PGNTag( "Round", "-" );
 
-        PGNTag whitePlayerTag = new PGNTag( "White", game.player( Side.WHITE ).name() );
-        PGNTag blackPlayerTag = new PGNTag( "Black", game.player( Side.BLACK ).name() );
+        PGNTag whitePlayerTag = new PGNTag( "White", playerName(Side.WHITE));
+        PGNTag blackPlayerTag = new PGNTag( "Black", playerName(Side.BLACK));
 
         return
             Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag )
             .map( PGNTag::toString )
             .collect(Collectors.joining( "\n" ) );
 
+    }
+
+    private String playerName(Side side) {
+        return game.player(side).name() != null ? game.player(side).name() : "?";
     }
 }
