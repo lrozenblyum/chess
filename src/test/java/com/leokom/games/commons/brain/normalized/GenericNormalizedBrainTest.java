@@ -5,6 +5,7 @@ import com.leokom.games.commons.engine.GameStateImpl;
 import com.leokom.games.commons.engine.GameTransitionImpl;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 import java.util.function.Predicate;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RandomBrainTest {
     @Test

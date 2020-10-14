@@ -5,6 +5,7 @@ import com.leokom.games.chess.player.Player;
 import com.leokom.games.chess.player.winboard.WinboardPlayer;
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.contrib.java.lang.system.RestoreSystemProperties;
 
 import static org.junit.Assert.*;
