@@ -22,4 +22,5 @@ script:
   # coverage profile is needed for test coverage for sonar
   # specified the project key explicitly because I didn't like the automatically generate Maven-based name (com.leokom:chess)
   # thanks to this explicit specification we're free to change Maven coordinates
-  - mvn test sonar:sonar -Pcoverage -B -Dsonar.projectKey=leokom-chess
+  - mvn test -Pcoverage -B
+  - mvn sonar:sonar -Dsonar.projectKey=leokom-chess
