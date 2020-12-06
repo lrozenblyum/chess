@@ -24,5 +24,5 @@ script:
   # thanks to this explicit specification we're free to change Maven coordinates
   - mvn test -Pcoverage -B
   - export JAVA_HOME=$HOME/openjdk11
-  - $TRAVIS_BUILD_DIR/install-jdk.sh --install openjdk11 --target $JAVA_HOME
+  - ~/bin/install-jdk.sh --install openjdk11 --target $JAVA_HOME
   - mvn sonar:sonar -Dsonar.projectKey=leokom-chess
