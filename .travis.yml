@@ -34,6 +34,9 @@ script:
   - java -version
   #- update-java-alternatives --list
   - cd /
-  - find . -name "install-jdk.sh"
+  #- find . -name "install-jdk.sh"
+  - export JAVA_HOME=$HOME/openjdk11
+  - /usr/local/bin/install-jdk.sh --install openjdk11 --target $JAVA_HOME
+  - java -version
   - echo "Done"
   #- mvn sonar:sonar -Dsonar.projectKey=leokom-chess
