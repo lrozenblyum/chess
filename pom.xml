@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.leokom.games</groupId>
     <artifactId>chess</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.6</version>
 
     <name>Leokom Chess</name>
     <inceptionYear>2012</inceptionYear>
@@ -240,7 +240,14 @@
                 <configuration>
                     <releaseName>${project.version} release</releaseName>
                     <description>
-                        to be defined
+                        Brain: RandomBrain introduced.
+                        PR: Defined the game name: Leokom Chess.
+                        CI: migrated to Xenial Travis environment.
+                        CI: migrated to OpenJDK.
+                        CI: SonarCloud analyzing is based on JDK11.
+                        Maintainability: split chess-independent notions from chess-dependent (with ArchUnit).
+                        Maintainability: dropped legacy CI support.
+                        Maintainability: local refactorings.
                     </description>
                     <tag>${project.version}</tag>
                     <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
