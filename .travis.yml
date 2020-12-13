@@ -36,7 +36,7 @@ script:
   - cd /
   #- find . -name "install-jdk.sh"
   - export JAVA_HOME=$HOME/openjdk11
-  - /usr/local/bin/install-jdk.sh --install openjdk11 --target $JAVA_HOME
+  - export PATH=${JAVA_HOME}/bin:$PATH
   - java -version
   - echo "Done"
   #- mvn sonar:sonar -Dsonar.projectKey=leokom-chess
