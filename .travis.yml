@@ -32,4 +32,5 @@ script:
   - ls -la
   - export JAVA_HOME=/usr/local/lib/jvm/openjdk11
   - java -version
+  - update-java-alternatives --list
   #- mvn sonar:sonar -Dsonar.projectKey=leokom-chess
