@@ -240,13 +240,14 @@
                 <configuration>
                     <releaseName>${project.version} release</releaseName>
                     <description>
-                        Player: new RandomPlayer introduced.
+                        Brain: RandomBrain introduced.
+                        PR: Defined the game name: Leokom Chess.
                         CI: migrated to Xenial Travis environment.
                         CI: migrated to OpenJDK.
                         CI: SonarCloud analyzing is based on JDK11.
                         Maintainability: split chess-independent notions from chess-dependent (with ArchUnit).
                         Maintainability: dropped legacy CI support.
-                        PR: Defined the game name: Leokom Chess.
+                        Maintainability: local refactorings.
                     </description>
                     <tag>${project.version}</tag>
                     <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
