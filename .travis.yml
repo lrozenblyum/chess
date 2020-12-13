@@ -33,7 +33,8 @@ script:
   - java -version
   #- update-java-alternatives --list
   - cd /
-  #- find . -name "install-jdk.sh"
+  - find . -name "jdk_switcher"
+  - echo "Search done"
   - export JAVA_HOME=/usr/local/lib/jvm/openjdk11
   - export PATH=${JAVA_HOME}/bin:$PATH
   - java -version
