@@ -2,7 +2,6 @@ language: java
 
 jdk:
   - openjdk8
-  - openjdk11
 
 dist: xenial
 
@@ -28,5 +27,7 @@ script:
   - cd $TRAVIS_BUILD_DIR
   - ls -la
   - cd /usr/lib/jvm
+  - ls -la
+  - cd /usr/local/lib/jvm
   - ls -la
   #- mvn sonar:sonar -Dsonar.projectKey=leokom-chess
