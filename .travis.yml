@@ -22,21 +22,8 @@ script:
   # coverage profile is needed for test coverage for sonar
   # specified the project key explicitly because I didn't like the automatically generate Maven-based name (com.leokom:chess)
   # thanks to this explicit specification we're free to change Maven coordinates
-  #- mvn test -Pcoverage -B
-  - echo $JAVA_HOME
-  - cd $TRAVIS_BUILD_DIR
-  - ls -la
-  - cd /usr/lib/jvm
-  - ls -la
-  - cd /usr/local/lib/jvm
-  - ls -la
-  - java -version
-  #- update-java-alternatives --list
-  - cd /
-  - find . -name "jdk_switcher"
-  - echo "Search done"
+  - mvn test -Pcoverage -B
   - export JAVA_HOME=/usr/local/lib/jvm/openjdk11
   - export PATH=${JAVA_HOME}/bin:$PATH
   - java -version
-  - echo "Done"
-  #- mvn sonar:sonar -Dsonar.projectKey=leokom-chess
+  - mvn sonar:sonar -Dsonar.projectKey=leokom-chess
