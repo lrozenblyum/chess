@@ -23,5 +23,7 @@ script:
   # specified the project key explicitly because I didn't like the automatically generate Maven-based name (com.leokom:chess)
   # thanks to this explicit specification we're free to change Maven coordinates
   - mvn test -Pcoverage -B
-  - jdk_switcher use openjdk11
+  - echo $JAVA_HOME
+  - cd $TRAVIS_BUILD_DIR
+  - ls
   - mvn sonar:sonar -Dsonar.projectKey=leokom-chess
