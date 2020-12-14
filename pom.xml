@@ -248,6 +248,8 @@
                         Maintainability: split chess-independent notions from chess-dependent (with ArchUnit).
                         Maintainability: dropped legacy CI support.
                         Maintainability: local refactorings.
+
+                        The release is dedicated to the  Latkes Ovnt (the 5'th day of Hanukkah 5781).
                     </description>
                     <tag>${project.version}</tag>
                     <!-- Automatically it's based on SNAPSHOT presence, however in chess at the moment
