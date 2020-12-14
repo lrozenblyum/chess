@@ -7,7 +7,7 @@
 
 @rem the variables should be tuned per target environment
 SET WINBOARD_INSTALLATION_PATH=E:\Games\WinBoard-4.8.0
-SET JAVA_PATH=Q:\Program Files\Java\jdk1.8.0_162\bin\java.exe
+SET JAVA_PATH=C:\Program Files\Java\jre1.8.0_271\bin\java.exe
 
 @rem UI that we use to run our Chess with
 SET WINBOARD_PATH=%WINBOARD_INSTALLATION_PATH%\WinBoard\winboard.exe
