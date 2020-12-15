@@ -96,7 +96,7 @@ public class WinboardPlayer implements Player {
 			commander.enableUserMovePrefixes();
 			commander.finishInit();
 
-			logger.info( "Protocol version detected = " + protocolVersion );
+			logger.info( "Protocol version detected = {}", protocolVersion );
 		} );
 
 		//there is no 'onAcceptDraw' in Winboard protocol
@@ -119,7 +119,7 @@ public class WinboardPlayer implements Player {
 		});
 
 		commander.onGameOver( gameOverDetails -> {
-			logger.info( "Game over. Extra details: " + gameOverDetails );
+			logger.info( "Game over. Extra details: {}", gameOverDetails );
 			if ( position.isTerminal() ) {
 				logger.info( "We already knew about the game over due to terminal position" );
 				//e.g. this can occur due to 75 moves draw.

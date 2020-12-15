@@ -61,7 +61,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	@Override
 	public Player apply( Side side ) {
 		String engineName = engineProperty.getFor( side ).orElseGet( () -> {
-			logger.info( "Selecting a default engine for Side = " + side );
+			logger.info( "Selecting a default engine for Side = {}", side );
 			return side == Side.WHITE ?	"ui.winboard" : "brain.normalized";
 		} );
 
