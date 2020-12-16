@@ -281,9 +281,6 @@ public class PawnAllowedMovesTest {
 				"e8Q", "e8N", "e8R", "e8B" );
 	}
 
-	//TODO; instead of this test may extend addCapturable
-	//to support Random pieces... But I'm not sure
-	//I need Random at all.
 	@Test
 	public void promotionCanCaptureOppositeQueen() {
 		position.addQueen( Side.BLACK, "d8" );
