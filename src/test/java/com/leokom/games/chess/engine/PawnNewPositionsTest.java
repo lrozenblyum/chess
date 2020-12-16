@@ -151,10 +151,15 @@ public class PawnNewPositionsTest {
 	}
 
 	private void testCapture( Side movingSide, Side sideToCapture, String sourceSquare, String targetSquare ) {
-		position.addPawn( movingSide, sourceSquare );
-		addCapturable( position, sideToCapture, targetSquare );
+		PositionBuilder positionBuilder =
+			new PositionBuilder()
+			.addPawn( movingSide, sourceSquare );
 
-		Position newPosition = position.setSideOf( sourceSquare ).build().move( sourceSquare, targetSquare );
+		addCapturable( positionBuilder, sideToCapture, targetSquare );
+
+		Position position = positionBuilder.setSideOf(sourceSquare).build();
+
+		Position newPosition = position.move( sourceSquare, targetSquare );
 		assertHasPawn( newPosition, targetSquare, movingSide );
 		assertEmptySquare( newPosition, sourceSquare );
 		org.junit.Assert.assertEquals( movingSide.opposite(), newPosition.getSideToMove() );
