@@ -163,12 +163,9 @@ public class PawnNewPositionsTest {
 
 	/**
 	 * Assert that:
-	 * if we add a pawn to the #position
-	 * and call Position#move method,
+	 * if we add a pawn to the position from the positionBuilder and call Position#move method,
 	 * the result will have empty initialSquare and pawn on squareToMove
-	 * @param side
-	 * @param initialSquare
-	 * @param squareToMove
+
 	 * @return newPosition for further asserts
 	 */
 	private Position assertPawnMovement( PositionBuilder positionBuilder, Side side, String initialSquare, String squareToMove ) {
