@@ -40,7 +40,7 @@ public class PawnNewPositionsTest {
 
 		final String squareToMove = "c4";
 
-		assertPawnMovement( side, anySquare, squareToMove );
+		assertPawnMovement( position, side, anySquare, squareToMove );
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class PawnNewPositionsTest {
 		final Side side = Side.WHITE;
 		final String squareToMove = "e3";
 
-		assertPawnMovement( side, initialSquare, squareToMove );
+		assertPawnMovement( position, side, initialSquare, squareToMove );
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class PawnNewPositionsTest {
 		final Side side = Side.BLACK;
 		final String squareToMove = "f3";
 
-		assertPawnMovement( side, initialSquare, squareToMove );
+		assertPawnMovement( position, side, initialSquare, squareToMove );
 	}
 
 	@Test
@@ -67,12 +67,12 @@ public class PawnNewPositionsTest {
 		final Side side = Side.WHITE;
 		final String squareToMove = "c4";
 
-		assertPawnMovement( side, initialSquare, squareToMove );
+		assertPawnMovement( position, side, initialSquare, squareToMove );
 	}
 
 	@Test
 	public void doubleBlackMove() {
-		assertPawnMovement( Side.BLACK, "g7", "g5" );
+		assertPawnMovement( position, Side.BLACK, "g7", "g5" );
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class PawnNewPositionsTest {
 		PieceType notMovedPieceType = addAny( position, notMovedPieceSide, notMovedPieceSquare );
 
 		//side effect of moving
-		Position newPosition = assertPawnMovement( Side.BLACK, "c6", "c5" );
+		Position newPosition = assertPawnMovement( position, Side.BLACK, "c6", "c5" );
 
 		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
 	}
@@ -94,7 +94,7 @@ public class PawnNewPositionsTest {
 
 		PieceType notMovedPieceType = addAny( position, notMovedPieceSide, notMovedPieceSquare );
 
-		Position newPosition = assertPawnMovement( Side.WHITE, "d3", "d4" );
+		Position newPosition = assertPawnMovement( position, Side.WHITE, "d3", "d4" );
 
 		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
 	}
@@ -107,7 +107,7 @@ public class PawnNewPositionsTest {
 		PieceType notMovedPieceType = addAny( position, notMovedPieceSide, notMovedPieceSquare );
 
 		//side effect of moving
-		Position newPosition = assertPawnMovement( Side.BLACK, "d6", "d5" );
+		Position newPosition = assertPawnMovement( position, Side.BLACK, "d6", "d5" );
 
 		assertHasPiece( newPosition, notMovedPieceType, notMovedPieceSide, notMovedPieceSquare );
 	}
@@ -124,7 +124,7 @@ public class PawnNewPositionsTest {
 		PieceType notMovedPieceType = addAny( position, firstAnySide, firstAnySquare );
 		PieceType notMovedPieceType2 = addAny( position, secondAnySide, secondAnySquare );
 
-		Position newPosition = assertPawnMovement( Side.WHITE, "e2", "e4" );
+		Position newPosition = assertPawnMovement( position, Side.WHITE, "e2", "e4" );
 
 		assertHasPiece( newPosition, notMovedPieceType, firstAnySide, firstAnySquare );
 		assertHasPiece( newPosition, notMovedPieceType2, secondAnySide, secondAnySquare );
@@ -170,9 +170,12 @@ public class PawnNewPositionsTest {
 	 * @param squareToMove
 	 * @return newPosition for further asserts
 	 */
-	private Position assertPawnMovement( Side side, String initialSquare, String squareToMove ) {
-		position.addPawn( side, initialSquare ).setSideOf( initialSquare );
-		Position newPosition = position.build().move( initialSquare, squareToMove );
+	private Position assertPawnMovement( PositionBuilder positionBuilder, Side side, String initialSquare, String squareToMove ) {
+		Position position = positionBuilder
+				.addPawn(side, initialSquare)
+				.setSideOf(initialSquare)
+				.build();
+		Position newPosition = position.move( initialSquare, squareToMove );
 
 		assertHasPawn( newPosition, squareToMove, side );
 		assertEmptySquare( newPosition, initialSquare );
