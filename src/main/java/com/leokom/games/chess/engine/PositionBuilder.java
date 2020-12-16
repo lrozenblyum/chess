@@ -47,7 +47,7 @@ public class PositionBuilder {
 	}
 
 	public PositionBuilder addPawn( Side side, String square ) {
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		return this;
 	}
 

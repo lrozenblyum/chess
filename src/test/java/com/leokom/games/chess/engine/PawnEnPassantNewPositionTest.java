@@ -13,9 +13,9 @@ public class PawnEnPassantNewPositionTest {
 	public void enPassantLeft() {
 		Position position = new Position( Side.WHITE );
 		position.setEnPassantFile( 'd' );
-		position.addPawn( Side.BLACK, "d5" );
+		position.add( Side.BLACK, "d5", PieceType.PAWN );
 
-		position.addPawn( Side.WHITE, "e5" );
+		position.add( Side.WHITE, "e5", PieceType.PAWN );
 
 		Position newPosition = position.move( "e5", "d6" );
 
@@ -31,9 +31,9 @@ public class PawnEnPassantNewPositionTest {
 		Position position = new Position( Side.WHITE );
 		position.setEnPassantFile( 'e' );
 
-		position.addPawn( Side.BLACK, "e5" );
+		position.add( Side.BLACK, "e5", PieceType.PAWN );
 
-		position.addPawn( Side.WHITE, "f5" );
+		position.add( Side.WHITE, "f5", PieceType.PAWN );
 
 		Position newPosition = position.move( "f5", "e6" );
 
@@ -49,9 +49,9 @@ public class PawnEnPassantNewPositionTest {
 	public void right() {
 		Position position = new Position( Side.WHITE );
 		position.setEnPassantFile( 'g' );
-		position.addPawn( Side.BLACK, "g5" );
+		position.add( Side.BLACK, "g5", PieceType.PAWN );
 
-		position.addPawn( Side.WHITE, "f5" );
+		position.add( Side.WHITE, "f5", PieceType.PAWN );
 
 		Position newPosition = position.move( "f5", "g6" );
 
@@ -67,9 +67,9 @@ public class PawnEnPassantNewPositionTest {
 	public void enPassantBlackLeft() {
 		Position position = new Position( Side.BLACK );
 		position.setEnPassantFile( 'a' );
-		position.addPawn( Side.WHITE, "a4" );
+		position.add( Side.WHITE, "a4", PieceType.PAWN );
 
-		position.addPawn( Side.BLACK, "b4" );
+		position.add( Side.BLACK, "b4", PieceType.PAWN );
 		Position newPosition = position.move( "b4", "a3" );
 
 		PositionAsserts.assertEmptySquare( newPosition, "b4" );
@@ -81,9 +81,9 @@ public class PawnEnPassantNewPositionTest {
 	public void enPassantBlackTriangulate() {
 		Position position = new Position( Side.BLACK );
 		position.setEnPassantFile( 'g' );
-		position.addPawn( Side.WHITE, "g4" );
+		position.add( Side.WHITE, "g4", PieceType.PAWN );
 
-		position.addPawn( Side.BLACK, "h4" );
+		position.add( Side.BLACK, "h4", PieceType.PAWN );
 		Position newPosition = position.move( "h4", "g3" );
 
 		PositionAsserts.assertEmptySquare( newPosition, "h4" );
@@ -95,9 +95,9 @@ public class PawnEnPassantNewPositionTest {
 	public void enPassantRightBlack() {
 		Position position = new Position( Side.BLACK );
 		position.setEnPassantFile( 'c' );
-		position.addPawn( Side.WHITE, "c4" );
+		position.add( Side.WHITE, "c4", PieceType.PAWN );
 
-		position.addPawn( Side.BLACK, "b4" );
+		position.add( Side.BLACK, "b4", PieceType.PAWN );
 		Position newPosition = position.move( "b4", "c3" );
 
 		//en passant right now is absent

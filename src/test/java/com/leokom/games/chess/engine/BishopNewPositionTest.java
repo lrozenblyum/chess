@@ -12,7 +12,7 @@ public class BishopNewPositionTest {
 	@Test
 	public void moveBishop() {
 		Position position = new Position( Side.BLACK );
-		position.addPawn( Side.WHITE, "a1" );
+		position.add( Side.WHITE, "a1", PieceType.PAWN );
 		position.add( Side.BLACK, "h8", PieceType.BISHOP );
 
 		final Position captured = position.move( "h8", "a1" );

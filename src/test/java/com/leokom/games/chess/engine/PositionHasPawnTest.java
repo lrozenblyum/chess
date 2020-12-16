@@ -31,7 +31,7 @@ public class PositionHasPawnTest {
 	public void presentPawn() {
 		final String square = "g6";
 		final Side side = Side.WHITE;
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		assertTrue( position.hasPawn( side, square ) );
 	}
 
@@ -39,7 +39,7 @@ public class PositionHasPawnTest {
 	public void absentPawnOfAnotherColor() {
 		final String anySquare = "c6";
 		final Side anySide = Side.WHITE;
-		position.addPawn( anySide, anySquare );
+		position.add( anySide, anySquare, PieceType.PAWN );
 
 		assertFalse( position.hasPawn( anySide.opposite(), anySquare ) );
 	}
@@ -48,7 +48,7 @@ public class PositionHasPawnTest {
 	public void presentPawnInitial() {
 		final String square = "a2";
 		final Side side = Side.WHITE;
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		assertTrue( position.hasPawn( side, square ) );
 	}
 
@@ -56,7 +56,7 @@ public class PositionHasPawnTest {
 	public void presentBlackPawn() {
 		final String square = "c4";
 		final Side side = Side.BLACK;
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		assertTrue( position.hasPawn( side, square ) );
 	}
 
@@ -110,6 +110,6 @@ public class PositionHasPawnTest {
 
 	@Test( expected = IllegalArgumentException.class )
 	public void cannotAddPawnToWrongSquare() {
-		position.addPawn( Side.WHITE, "h8Q" );
+		position.add( Side.WHITE, "h8Q", PieceType.PAWN );
 	}
 }

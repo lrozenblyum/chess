@@ -229,7 +229,7 @@ final class PositionGenerator {
 			result.add( movingSide, squareTo, promotedPieceType );
 		} else {
 			//if it's capture - also ok - as it overwrites....
-			result.addPawn( movingSide, squareTo );
+			result.add( movingSide, squareTo, PieceType.PAWN );
 		}
 
 		return result;
