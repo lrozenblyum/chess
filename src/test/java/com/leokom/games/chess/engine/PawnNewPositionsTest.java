@@ -26,11 +26,11 @@ public class PawnNewPositionsTest {
 	public void basicContractRequirements() {
 		final String anyInitialSquare = "g3";
 		final String anyValidSquareToMove = "g4";
-		position.addPawn( Side.WHITE, anyInitialSquare );
+		Position position = new PositionBuilder().addPawn(Side.WHITE, anyInitialSquare).build();
 
 		Position newPosition = position.move( anyInitialSquare, anyValidSquareToMove );
 		assertNotNull( "New position must be not null", newPosition );
-		assertNotSame( newPosition, position );
+		assertNotSame( newPosition, position);
 	}
 
 	@Test
