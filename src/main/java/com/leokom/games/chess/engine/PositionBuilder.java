@@ -52,7 +52,7 @@ public class PositionBuilder {
 	}
 
 	PositionBuilder addQueen( Side side, String square ) {
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		return this;
 	}
 

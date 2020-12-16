@@ -64,7 +64,7 @@ public class PositionHasPawnTest {
 	public void addedQueenNoHasPawn() {
 		final String square = "a8"; //any
 		final Side side = Side.BLACK; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		assertFalse( position.hasPawn( side, square ) );
 	}
 	
@@ -80,7 +80,7 @@ public class PositionHasPawnTest {
 	public void addedQueenFound() {
 		final String square = "c1"; //any
 		final Side side = Side.WHITE; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		assertTrue( position.hasQueen( side, square ) );
 	}
 
@@ -95,7 +95,7 @@ public class PositionHasPawnTest {
 	public void queenOfOppositeSideNotFound() {
 		final String square = "c1"; //any
 		final Side side = Side.WHITE; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		assertFalse( position.hasQueen( side.opposite(), square ) );
 	}
 
@@ -104,7 +104,7 @@ public class PositionHasPawnTest {
 		final String square = "b4"; //any
 		final String anotherSquare = "c1";
 		final Side side = Side.BLACK; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		assertFalse( position.hasQueen( side, anotherSquare ) );
 	}
 
