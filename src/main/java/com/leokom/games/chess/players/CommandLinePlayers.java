@@ -22,7 +22,7 @@ import java.util.function.Function;
  * Date-time: 06.05.14 22:45
  */
 public final class CommandLinePlayers implements Function< Side, Player > {
-	private static final Logger logger = LogManager.getLogger( CommandLinePlayers.class );
+	private static final Logger logger = LogManager.getLogger();
 
 	private final ChessSystemProperty engineProperty;
 	private final ChessSystemProperty depthProperty;

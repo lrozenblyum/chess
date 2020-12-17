@@ -23,7 +23,7 @@ public class WinboardPlayer implements Player {
 	//like e7
 	private static final int SQUARE_FROM_LENGTH = 2;
 
-	private final Logger logger = LogManager.getLogger( this.getClass() );
+	private final Logger logger = LogManager.getLogger();
 	//it should be made final as part of https://github.com/lrozenblyum/chess/issues/354
 	private WinboardCommander commander;
 	private boolean needQuit = false;

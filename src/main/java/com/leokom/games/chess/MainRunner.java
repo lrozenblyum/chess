@@ -13,7 +13,7 @@ final class MainRunner {
 	private MainRunner() {
 	}
 
-	private static final Logger logger = LogManager.getLogger( MainRunner.class );
+	private static final Logger logger = LogManager.getLogger();
 	private static final String BRAND_NAME = "Leokom Chess";
 
 	/**
