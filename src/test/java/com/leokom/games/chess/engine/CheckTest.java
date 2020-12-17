@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.Set;
 
-import static com.leokom.games.chess.engine.PositionAsserts.assertAllowedMoves;
 import static org.junit.Assert.assertEquals;
 
 

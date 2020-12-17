@@ -1,16 +1,18 @@
 package com.leokom.games.chess;
 
-import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
-import com.leokom.games.chess.player.legal.LegalPlayer;
-import com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import com.leokom.games.chess.player.legal.LegalPlayer;
+import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
+import com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
 
 
 /**
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
  */
 @Ignore( "Till we find a way to exclude them nicely in IDEA" )
 public class SimulatorMultiDeltaIT {
+	private final Logger logger = LogManager.getLogger();
 
 	/*
 	 * Protection property.
@@ -69,7 +72,7 @@ public class SimulatorMultiDeltaIT {
 				.collect( Collectors.joining( "\n" ) );
 
 
-		LogManager.getLogger().info( "STATISTICS :::\n {}", statsPrettyPrinted );
+		logger.info( "STATISTICS :::\n {}", statsPrettyPrinted );
 	}
 
 	/*

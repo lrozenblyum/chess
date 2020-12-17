@@ -22,8 +22,8 @@ import java.util.*;
  * Date-time: 27.08.16 21:51
  */
 public class DenormalizedBrain implements Brain {
-	private static final Logger LOG = LogManager.getLogger();
 	private static final double DEFAULT_FOR_EQUAL_NOT_IN_RANGE = 0.5;
+	private final Logger logger = LogManager.getLogger();
 
 	private final EvaluatorFactory evaluatorFactory = new DenormalizedEvaluatorFactory();
 	private final EvaluatorWeights evaluatorWeights;
@@ -57,8 +57,8 @@ public class DenormalizedBrain implements Brain {
 	}
 
 	private void logTable( Table<EvaluatorType, Move, Double> weightedTable, String prefix ) {
-		if ( LOG.isTraceEnabled() ) {
-			weightedTable.cellSet().forEach(cell -> LOG.debug(prefix + ": {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue()));
+		if ( logger.isTraceEnabled() ) {
+			weightedTable.cellSet().forEach(cell -> logger.debug(prefix + ": {} [{}] : {}", cell.getColumnKey(), cell.getRowKey(), cell.getValue()));
 		}
 	}
 

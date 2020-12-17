@@ -752,14 +752,6 @@ public class Position implements GameState< Move, Position > {
 		return this.enPassantFile;
 	}
 
-	void addPawn( Side side, String square ) {
-		add( side, square, PieceType.PAWN );
-	}
-
-	void addQueen( Side side, String square ) {
-		add( side, square, PieceType.QUEEN );
-	}
-
 	//TODO: temporary public
 	//need better solution (like PositionBuilder?)
 	//to avoid outside position change!!

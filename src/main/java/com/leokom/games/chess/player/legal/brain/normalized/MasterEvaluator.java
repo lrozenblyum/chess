@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * Main normalized evaluator. Delegates evaluation to other normalized evaluators.
  */
 public class MasterEvaluator implements Evaluator {
-	private static final Logger LOG = LogManager.getLogger();
+	private final Logger logger = LogManager.getLogger();
 
 	//we don't need to know that we can execute other moves
 	//while evaluating a move, do we?
@@ -50,7 +50,7 @@ public class MasterEvaluator implements Evaluator {
 	public double evaluateMove( Position position, Move move ) {
 		if ( position.move( move ).isTerminal() ) {
 			double result = evaluatorFactory.get( EvaluatorType.TERMINAL ).evaluateMove(position, move);
-			LOG.info( "{} ===> {}", move, result );
+			logger.info( "{} ===> {}", move, result );
 			return result;
 		}
 
@@ -61,7 +61,7 @@ public class MasterEvaluator implements Evaluator {
 			final double weight = evaluatorEntry.getValue();
 			final double evaluatorResponse = evaluator.evaluateMove(position, move);
 			final double moveEstimate = weight * evaluatorResponse;
-			LOG.debug( "{} [{}] : {} * {} = {}", move, evaluatorEntry.getKey(), weight, evaluatorResponse, moveEstimate );
+			logger.debug( "{} [{}] : {} * {} = {}", move, evaluatorEntry.getKey(), weight, evaluatorResponse, moveEstimate );
 			return moveEstimate;
 		}).sum();
 
@@ -69,7 +69,7 @@ public class MasterEvaluator implements Evaluator {
 		//depends on the fact that the weights themselves are in [ 0, 1 ]
 		double normalizedResult = result / evaluatorsExceptTerminal().count();
 
-		LOG.info("{} ===> {} ===> {}", move, result, normalizedResult);
+		logger.info("{} ===> {} ===> {}", move, result, normalizedResult);
 		return normalizedResult;
 	}
 

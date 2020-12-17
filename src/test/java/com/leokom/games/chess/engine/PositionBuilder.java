@@ -47,12 +47,12 @@ public class PositionBuilder {
 	}
 
 	public PositionBuilder addPawn( Side side, String square ) {
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		return this;
 	}
 
 	PositionBuilder addQueen( Side side, String square ) {
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		return this;
 	}
 

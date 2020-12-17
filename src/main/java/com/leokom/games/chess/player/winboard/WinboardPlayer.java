@@ -23,7 +23,7 @@ public class WinboardPlayer implements Player {
 	//like e7
 	private static final int SQUARE_FROM_LENGTH = 2;
 
-	private final Logger logger = LogManager.getLogger( this.getClass() );
+	private final Logger logger = LogManager.getLogger();
 	//it should be made final as part of https://github.com/lrozenblyum/chess/issues/354
 	private WinboardCommander commander;
 	private boolean needQuit = false;
@@ -96,7 +96,7 @@ public class WinboardPlayer implements Player {
 			commander.enableUserMovePrefixes();
 			commander.finishInit();
 
-			logger.info( "Protocol version detected = " + protocolVersion );
+			logger.info( "Protocol version detected = {}", protocolVersion );
 		} );
 
 		//there is no 'onAcceptDraw' in Winboard protocol
@@ -119,7 +119,7 @@ public class WinboardPlayer implements Player {
 		});
 
 		commander.onGameOver( gameOverDetails -> {
-			logger.info( "Game over. Extra details: " + gameOverDetails );
+			logger.info( "Game over. Extra details: {}", gameOverDetails );
 			if ( position.isTerminal() ) {
 				logger.info( "We already knew about the game over due to terminal position" );
 				//e.g. this can occur due to 75 moves draw.

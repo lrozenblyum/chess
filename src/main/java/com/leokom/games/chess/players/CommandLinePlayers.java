@@ -22,7 +22,7 @@ import java.util.function.Function;
  * Date-time: 06.05.14 22:45
  */
 public final class CommandLinePlayers implements Function< Side, Player > {
-	private static final Logger logger = LogManager.getLogger( CommandLinePlayers.class );
+	private final Logger logger = LogManager.getLogger();
 
 	private final ChessSystemProperty engineProperty;
 	private final ChessSystemProperty depthProperty;
@@ -61,7 +61,7 @@ public final class CommandLinePlayers implements Function< Side, Player > {
 	@Override
 	public Player apply( Side side ) {
 		String engineName = engineProperty.getFor( side ).orElseGet( () -> {
-			logger.info( "Selecting a default engine for Side = " + side );
+			logger.info( "Selecting a default engine for Side = {}", side );
 			return side == Side.WHITE ?	"ui.winboard" : "brain.normalized";
 		} );
 

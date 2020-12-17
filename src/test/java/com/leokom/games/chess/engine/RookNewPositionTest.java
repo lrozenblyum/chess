@@ -12,7 +12,7 @@ public class RookNewPositionTest {
 	@Test
 	public void moveRook() {
 		Position position = new Position( Side.BLACK );
-		position.addQueen( Side.WHITE, "a1" );
+		position.add( Side.WHITE, "a1", PieceType.QUEEN );
 		position.add( Side.BLACK, "a8", PieceType.ROOK );
 
 		final Position captured = position.move( "a8", "a1" );

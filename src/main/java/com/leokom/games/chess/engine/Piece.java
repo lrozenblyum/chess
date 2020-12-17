@@ -1,5 +1,7 @@
 package com.leokom.games.chess.engine;
 
+import java.util.Objects;
+
 /**
  * Represent single IMMUTABLE piece of some specific side
  * (e.g. white rook, black pawn)
@@ -41,9 +43,8 @@ public final class Piece {
 				( this.pieceType == right.pieceType );
 	}
 
-	//TODO: use some HashBuilder etc
 	@Override
 	public int hashCode() {
-		return side.hashCode() + pieceType.hashCode();
+		return Objects.hash( this.side, this.pieceType );
 	}
 }

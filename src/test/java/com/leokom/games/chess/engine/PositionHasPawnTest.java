@@ -31,7 +31,7 @@ public class PositionHasPawnTest {
 	public void presentPawn() {
 		final String square = "g6";
 		final Side side = Side.WHITE;
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		assertTrue( position.hasPawn( side, square ) );
 	}
 
@@ -39,7 +39,7 @@ public class PositionHasPawnTest {
 	public void absentPawnOfAnotherColor() {
 		final String anySquare = "c6";
 		final Side anySide = Side.WHITE;
-		position.addPawn( anySide, anySquare );
+		position.add( anySide, anySquare, PieceType.PAWN );
 
 		assertFalse( position.hasPawn( anySide.opposite(), anySquare ) );
 	}
@@ -48,7 +48,7 @@ public class PositionHasPawnTest {
 	public void presentPawnInitial() {
 		final String square = "a2";
 		final Side side = Side.WHITE;
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		assertTrue( position.hasPawn( side, square ) );
 	}
 
@@ -56,7 +56,7 @@ public class PositionHasPawnTest {
 	public void presentBlackPawn() {
 		final String square = "c4";
 		final Side side = Side.BLACK;
-		position.addPawn( side, square );
+		position.add( side, square, PieceType.PAWN );
 		assertTrue( position.hasPawn( side, square ) );
 	}
 
@@ -64,7 +64,15 @@ public class PositionHasPawnTest {
 	public void addedQueenNoHasPawn() {
 		final String square = "a8"; //any
 		final Side side = Side.BLACK; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
+		assertFalse( position.hasPawn( side, square ) );
+	}
+	
+	@Test
+	public void addedKingNoHasPawn() {
+		final String square = "c3";
+		final Side side = Side.WHITE;
+		position.add( side, square, PieceType.KING );
 		assertFalse( position.hasPawn( side, square ) );
 	}
 
@@ -72,7 +80,7 @@ public class PositionHasPawnTest {
 	public void addedQueenFound() {
 		final String square = "c1"; //any
 		final Side side = Side.WHITE; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		assertTrue( position.hasQueen( side, square ) );
 	}
 
@@ -87,7 +95,7 @@ public class PositionHasPawnTest {
 	public void queenOfOppositeSideNotFound() {
 		final String square = "c1"; //any
 		final Side side = Side.WHITE; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		assertFalse( position.hasQueen( side.opposite(), square ) );
 	}
 
@@ -96,16 +104,12 @@ public class PositionHasPawnTest {
 		final String square = "b4"; //any
 		final String anotherSquare = "c1";
 		final Side side = Side.BLACK; //any
-		position.addQueen( side, square );
+		position.add( side, square, PieceType.QUEEN );
 		assertFalse( position.hasQueen( side, anotherSquare ) );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
 	public void cannotAddPawnToWrongSquare() {
-		position.addPawn( Side.WHITE, "h8Q" );
+		position.add( Side.WHITE, "h8Q", PieceType.PAWN );
 	}
-
-	//TODO: when new pieces are introduced:
-	//add asserts that if we add such a piece on a square,
-	//hasPawn will return FALSE!
 }
