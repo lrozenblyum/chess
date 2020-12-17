@@ -13,7 +13,8 @@ import java.util.function.Function;
  * Author: Leonid
  * Date-time: 11.02.16 23:00
  */
-public final class Game {
+//non-final for mocking
+public class Game {
 	private final Player whitePlayer;
 	private final Player blackPlayer;
 
