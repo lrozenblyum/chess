@@ -31,17 +31,15 @@ class Bootstrap {
 	void run() {
 		try {
 			logger.info( "Booting {}...", BRAND_NAME );
-            this.game.run();
-            logger.info( "{} successfully completed its job. Bye-bye", BRAND_NAME );
-		}
-		catch ( RuntimeException re ) {
-			//important to investigate issues
-			//and to avoid sending console output from exception to Winboard
+			this.game.run();
+			logger.info( "{} successfully completed its job. Bye-bye", BRAND_NAME );
+		} catch ( RuntimeException re ) {
+			// important to investigate issues
+			// and to avoid sending console output from exception to Winboard
 			logger.error( "An error occurred during the game running", re );
-		}
-		catch ( Error criticalError ) {
-			//for example some dependent library is missing
-			//trying to keep at least some information in the log
+		} catch ( Error criticalError ) {
+			// for example some dependent library is missing
+			// trying to keep at least some information in the log
 			logger.error( "A critical error occurred", criticalError );
 		}
 	}
