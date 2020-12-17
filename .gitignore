@@ -5,6 +5,7 @@
 .idea/tasks.xml
 .idea/usage.statistics.xml
 .idea/workspace.xml
+.idea/jarRepositories.xml
 # I decided to share user dictionaries despite the fact it may be a problem in case of name conflict
 
 #Eclipse-specific files
@@ -17,5 +18,4 @@
 
 #Chess-specific files
 LeokomChess.log
-
 
