@@ -5,6 +5,7 @@ import com.leokom.games.commons.engine.GameTransition;
 import com.leokom.games.commons.brain.GenericBrain;
 import com.leokom.games.commons.brain.GenericEvaluator;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +42,7 @@ public class GenericNormalizedBrain< S extends GameState<T, S>, T extends GameTr
 	private final GenericEvaluator<S, T> evaluator;
 	private final int pliesDepth;
 	private final Predicate<T> movesFilter;
+	private final Logger logger;
 
 	/**
 	 * Create a normalized brain
@@ -70,6 +72,7 @@ public class GenericNormalizedBrain< S extends GameState<T, S>, T extends GameTr
 			);
 		this.pliesDepth = pliesDepth;
 		this.movesFilter = movesFilter;
+		this.logger = LogManager.getLogger();
 	}
 
 	/**
@@ -105,7 +108,7 @@ public class GenericNormalizedBrain< S extends GameState<T, S>, T extends GameTr
 				)
 			);
 		List<T> bestMove = getMoveWithMaxRating( moveRatings );
-		LogManager.getLogger().info( "Best move(s): {}", bestMove );
+		logger.info( "Best move(s): {}", bestMove );
 		return bestMove;
 	}
 

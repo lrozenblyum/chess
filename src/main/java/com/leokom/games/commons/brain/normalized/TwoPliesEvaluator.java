@@ -5,6 +5,7 @@ import com.leokom.games.commons.engine.GameState;
 import com.leokom.games.commons.engine.GameTransition;
 import com.leokom.games.commons.brain.GenericEvaluator;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
 
 import java.util.List;
@@ -19,10 +20,12 @@ public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransit
 
     private final GenericEvaluator<S, T> evaluator;
     private final GenericBrain<S, T> brain;
+    private final Logger logger;
 
     public < E extends GenericEvaluator< S, T >> TwoPliesEvaluator( E evaluator, Function< E, GenericBrain< S, T > > singlePlyBrainCreator ) {
         this.evaluator = evaluator;
         this.brain = singlePlyBrainCreator.apply( evaluator );
+        this.logger = LogManager.getLogger();
     }
 
     /**
@@ -41,7 +44,7 @@ public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransit
 
         //can be empty in case of terminal position
         if ( bestMove.isEmpty() ) {
-            LogManager.getLogger().info( "Evaluating just the current level" );
+            logger.info( "Evaluating just the current level" );
         }
 
         double moveRating = bestMove.isEmpty() ?
@@ -52,7 +55,7 @@ public class TwoPliesEvaluator< S extends GameState<T, S>, T extends GameTransit
                 //composite moves handling split to https://github.com/lrozenblyum/chess/issues/291
                 1 - evaluator.evaluateMove(target, bestMove.get(0));
 
-        LogManager.getLogger().info( "result = {}", moveRating );
+        logger.info( "result = {}", moveRating );
         ThreadContext.clearAll();
         return moveRating;
     }
