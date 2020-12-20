@@ -102,6 +102,7 @@ public class PGNGameTest {
     @Test
     public void whiteWins() {
         Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
+        Mockito.doReturn( true ).when( positionAfterTheGame ).isTerminal();
         Mockito.doReturn( whitePlayer ).when( spyGame ).run();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
@@ -113,6 +114,7 @@ public class PGNGameTest {
     public void blackWins() {
         Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
         Mockito.doReturn( blackPlayer ).when( spyGame ).run();
+        Mockito.doReturn( true ).when( positionAfterTheGame ).isTerminal();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
@@ -123,10 +125,23 @@ public class PGNGameTest {
     public void draw() {
         Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
         Mockito.doReturn( null ).when( spyGame ).run();
+        Mockito.doReturn( true ).when( positionAfterTheGame ).isTerminal();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
         assertEquals( "[Result \"1/2-1/2\"]", pgn.split( "\n" )[ 6 ] );
+    }
+
+    @Test
+    public void unfinishedGameResultSupported() {
+        Mockito.doReturn( false ).when( positionAfterTheGame ).isTerminal();
+
+        Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
+        Mockito.doReturn( null ).when( spyGame ).run();
+
+        String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
+
+        assertEquals( "[Result \"*\"]", pgn.split( "\n" )[ 6 ] );
     }
 
 }
