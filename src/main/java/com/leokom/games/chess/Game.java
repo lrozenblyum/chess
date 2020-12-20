@@ -42,6 +42,12 @@ public class Game {
 	 * @return winner among whitePlayer, blackPlayer or null in case of draw
 	 */
 	public Player run() {
+		runGame();
+
+		return getWinner();
+	}
+
+	private void runGame() {
 		logger.info( "Starting game : {} vs {}", whitePlayer::name, blackPlayer::name );
 
 		//setting opponents for symmetry. Technically it's possible
@@ -56,12 +62,10 @@ public class Game {
 		//white player should start the game e.g. by providing main loop
 		whitePlayer.opponentSuggestsMeStartNewGameWhite();
 
-		return getWinner();
+		logger.info( "Game finished: {} vs {}", whitePlayer::name, blackPlayer::name );
 	}
 
 	private Player getWinner() {
-		logger.info( "Game finished: {} vs {}", whitePlayer::name, blackPlayer::name );
-
 		//TODO: asymmetry, need validating that blackPlayer position gives same result
 		//maybe it's time to share the Position
 		//it caused extra complexity in PGNGameTest
