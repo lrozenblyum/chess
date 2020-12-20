@@ -6,6 +6,7 @@ import com.leokom.games.chess.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -45,7 +46,7 @@ public class Game {
 	public Player run() {
 		runGame();
 
-		return getWinner();
+		return winner().orElse(null);
 	}
 
 	public GameResult runGame() {
@@ -95,18 +96,16 @@ public class Game {
 		}
 	}
 
-	private Player getWinner() {
+	public Optional<Player> winner() {
 		GameResult gameResult = result();
 		switch (gameResult) {
 			case WHITE_WINS:
-				return whitePlayer;
+				return Optional.of(whitePlayer);
 			case BLACK_WINS:
-				return blackPlayer;
+				return Optional.of(blackPlayer);
 			case DRAW:
-				return null;
 			case UNFINISHED_GAME:
-				logger.warn( "The game has been finished without reaching a terminal position" );
-				return null;
+				return Optional.empty();
 			default:
 				throw new IllegalStateException( "The result is not supported: " + gameResult );
 		}

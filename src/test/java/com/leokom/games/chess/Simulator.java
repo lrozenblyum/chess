@@ -47,8 +47,9 @@ class Simulator {
 		List< Player > winners = new ArrayList<>();
 		IntStream.rangeClosed( 1, timesToRun ).forEach( iteration -> {
 			logger.info( "Simulation # {} of {}: starting...", iteration, timesToRun );
-			winners.add( createGame( first, second ).run() );
-			winners.add( createGame( second, first ).run() );
+
+			collectWinnerInfo(winners, createGame(first, second));
+			collectWinnerInfo(winners, createGame(second, first));
 			logger.info( "Simulation # {} of {}: done", iteration, timesToRun );
 		} );
 
@@ -58,6 +59,11 @@ class Simulator {
 		SimulatorStatistics simulatorStatistics = new SimulatorStatistics(totalGames, firstWins, secondWins);
 		logger.info("The simulation has been finished. Stats: {}", simulatorStatistics);
 		return simulatorStatistics;
+	}
+
+	private void collectWinnerInfo(List<Player> winners, Game game) {
+		game.runGame();
+		game.winner().ifPresent(winners::add);
 	}
 
 	private static long countWinsOf( List< Player > winners, Player player ) {
