@@ -2,6 +2,7 @@ package com.leokom.games.chess.pgn;
 
 import com.leokom.games.chess.Game;
 import com.leokom.games.chess.engine.Side;
+import com.leokom.games.chess.player.Player;
 
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
@@ -24,7 +25,12 @@ public class PGNGame {
 
         PGNTag whitePlayerTag = new PGNTag( "White", playerName(Side.WHITE));
         PGNTag blackPlayerTag = new PGNTag( "Black", playerName(Side.BLACK));
-        PGNTag resultTag = new PGNTag( "Result", game.run() == game.player(Side.WHITE) ? "1-0" : "0-1");
+        Player winner = game.run();
+
+        //TODO: duplication with Game.java itself
+        PGNTag resultTag = new PGNTag( "Result",
+                winner == null ? "1/2-1/2" :
+                winner == game.player(Side.WHITE) ? "1-0" : "0-1");
 
         return
             Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag, resultTag )

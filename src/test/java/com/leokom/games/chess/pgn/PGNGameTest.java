@@ -119,5 +119,14 @@ public class PGNGameTest {
         assertEquals( "[Result \"0-1\"]", pgn.split( "\n" )[ 6 ] );
     }
 
+    @Test
+    public void draw() {
+        Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
+        Mockito.doReturn( null ).when( spyGame ).run();
+
+        String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
+
+        assertEquals( "[Result \"1/2-1/2\"]", pgn.split( "\n" )[ 6 ] );
+    }
 
 }
