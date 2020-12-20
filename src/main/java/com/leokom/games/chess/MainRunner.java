@@ -1,10 +1,6 @@
 package com.leokom.games.chess;
 
 
-import com.leokom.games.chess.players.CommandLinePlayers;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * Entry point to the Chess application.
  */
@@ -12,9 +8,6 @@ final class MainRunner {
 	//prohibit instantiation
 	private MainRunner() {
 	}
-
-	private static final Logger logger = LogManager.getLogger( MainRunner.class );
-	private static final String BRAND_NAME = "Leokom Chess";
 
 	/**
 	 * Start whole chess program
@@ -77,24 +70,8 @@ final class MainRunner {
 	 * </p>
 	 */
 	public static void main( String[] args ) {
-		try {
-			logger.info( "Booting {}...", BRAND_NAME );
-            new Game(
-                new CommandLinePlayers()
-            ).run();
-            logger.info( "{} successfully completed its job. Bye-bye", BRAND_NAME );
-		}
-		catch ( RuntimeException re ) {
-			//important to investigate issues
-			//and to avoid sending console output from exception to Winboard
-			logger.error( "An error occurred during the game running", re );
-		}
-		catch ( Error criticalError ) {
-			//for example some dependent library is missing
-			//trying to keep at least some information in the log
-			logger.error( "A critical error occurred", criticalError );
-		}
-
+		new Bootstrap()
+			.run();
 	}
 
 }

@@ -17,7 +17,7 @@ final class PawnUtils {
 	 * @param allMoves
 	 */
 	static void testPawn( Position position, String pawnPosition, Side side, String... allMoves ) {
-		position.addPawn( side, pawnPosition );
+		position.add( side, pawnPosition, PieceType.PAWN );
 		PositionAsserts.assertAllowedMoves( position, pawnPosition, allMoves );
 	}
 

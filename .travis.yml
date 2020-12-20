@@ -1,9 +1,9 @@
 language: java
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
-dist: trusty
+dist: xenial
 
 addons:
   sonarcloud:
@@ -20,6 +20,12 @@ script:
   # travis 'script' phase is by default: mvn test -B
   # -B means: batch-mode (no questions, no progress-related logs pollution)
   # coverage profile is needed for test coverage for sonar
-  # specified the project key explicitly because I didn't like the automatically generate Maven-based name (com.leokom:chess)
-  # thanks to this explicit specification we're free to change Maven coordinates
-  - mvn test sonar:sonar -Pcoverage -B -Dsonar.projectKey=leokom-chess
+  - mvn test -Pcoverage -B
+  # manually switching from OpenJDK11. Travis CI doc points us to use install-jdk.sh which fails
+  # xenial distributive at the moment already has OpenJDK8 + OpenJDK11 installed. Just env. vars changes seem to be needed.
+  - export JAVA_HOME=/usr/local/lib/jvm/openjdk11
+  - export PATH=${JAVA_HOME}/bin:$PATH
+  - java -version
+   # specified the project key explicitly because I didn't like the automatically generate Maven-based name (com.leokom:chess)
+   # thanks to this explicit specification we're free to change Maven coordinates
+  - mvn sonar:sonar -Dsonar.projectKey=leokom-chess

@@ -24,7 +24,7 @@ class WinboardCommunicator implements Communicator {
 	private static final Charset INPUT_CHARSET = StandardCharsets.US_ASCII;
 	private final BufferedReader reader;
     private final PrintStream outputStream;
-	private final Logger logger = LogManager.getLogger( this.getClass() );
+	private final Logger logger = LogManager.getLogger();
 
     /**
      * Create the winboard-commander with default dependencies

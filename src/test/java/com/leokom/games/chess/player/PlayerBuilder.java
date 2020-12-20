@@ -34,8 +34,10 @@ public class PlayerBuilder {
         this.position = Position.getInitialPosition();
 
         updatePositionByOpponentMove();
-        //TODO: it will return the original position due to immutability
-        when( player.getPosition() ).thenReturn( position );
+
+        // the delayed calculation allows overcome immutability of the position 
+        //it will return the actual field value at the time of the call
+        when( player.getPosition() ).then( (invocationOnMock) -> position );
     }
 
     private void updatePositionByOpponentMove() {

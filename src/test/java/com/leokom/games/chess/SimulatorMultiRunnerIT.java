@@ -5,6 +5,7 @@ import com.leokom.games.chess.player.legal.brain.common.EvaluatorType;
 import com.leokom.games.chess.player.legal.LegalPlayer;
 import com.leokom.games.chess.player.legal.brain.normalized.MasterEvaluatorBuilder;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -27,6 +28,8 @@ public class SimulatorMultiRunnerIT {
 	private static final int COUNT_OF_PAIRS_OF_GAMES = 3;
 	private static SimulatorStatistics collector = SimulatorStatistics.EMPTY();
 
+	private final Logger logger = LogManager.getLogger();
+
 	@AfterClass
 	public static void afterAll() {
 		//protector should win, shouldn't it?
@@ -34,7 +37,7 @@ public class SimulatorMultiRunnerIT {
 	}
 
 	public SimulatorMultiRunnerIT( int index ) {
-		LogManager.getLogger().info( "Running test {}", index );
+		logger.info( "Running test {}", index );
 	}
 
 	//REFACTOR: something like http://www.codeaffine.com/2013/04/10/running-junit-tests-repeatedly-without-loops/
