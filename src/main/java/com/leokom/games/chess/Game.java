@@ -64,6 +64,7 @@ public class Game {
 
 		//TODO: asymmetry, need validating that blackPlayer position gives same result
 		//maybe it's time to share the Position
+		//it caused extra complexity in PGNGameTest
 		Position position = whitePlayer.getPosition();
 
 		if ( position.isTerminal() ) {

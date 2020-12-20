@@ -24,7 +24,7 @@ public class PGNGame {
 
         PGNTag whitePlayerTag = new PGNTag( "White", playerName(Side.WHITE));
         PGNTag blackPlayerTag = new PGNTag( "Black", playerName(Side.BLACK));
-        PGNTag resultTag = new PGNTag( "Result", "1-0");
+        PGNTag resultTag = new PGNTag( "Result", game.run() == game.player(Side.WHITE) ? "1-0" : "0-1");
 
         return
             Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag, resultTag )

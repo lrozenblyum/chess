@@ -1,6 +1,7 @@
 package com.leokom.games.chess.pgn;
 
 import com.leokom.games.chess.Game;
+import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.player.Player;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
@@ -15,12 +16,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class PGNGameTest {
     private Player whitePlayer;
     private Player blackPlayer;
+    private Position positionAfterTheGame;
     private Game game;
 
     @Before
     public void prepare() {
         this.whitePlayer = Mockito.mock(Player.class);
         this.blackPlayer = Mockito.mock(Player.class);
+        //game at the moment depends on whitePlayer's position, the test needs to resolve this dependency
+        this.positionAfterTheGame = Mockito.mock( Position.class );
+        Mockito.when( whitePlayer.getPosition() ).thenReturn(positionAfterTheGame);
         this.game = new Game( whitePlayer, blackPlayer );
     }
 
