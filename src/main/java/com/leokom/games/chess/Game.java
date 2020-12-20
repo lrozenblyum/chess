@@ -47,6 +47,33 @@ public class Game {
 		return getWinner();
 	}
 
+	public GameResult result() {
+		//TODO: asymmetry, need validating that blackPlayer position gives same result
+		//maybe it's time to share the Position
+		//it caused extra complexity in PGNGameTest
+		Position position = whitePlayer.getPosition();
+
+		if ( position.isTerminal() ) {
+			final Side winningSide = position.getWinningSide();
+
+			if ( winningSide == null ) {
+				return GameResult.DRAW;
+			} else if ( winningSide == Side.WHITE ) {
+				return GameResult.WHITE_WINS;
+			}
+			else if ( winningSide == Side.BLACK ) {
+				return GameResult.BLACK_WINS;
+			}
+			else {
+				throw new IllegalStateException( "Unknown winning side: " + winningSide );
+			}
+
+		}
+		else {
+			return GameResult.UNFINISHED_GAME;
+		}
+	}
+
 	private void runGame() {
 		logger.info( "Starting game : {} vs {}", whitePlayer::name, blackPlayer::name );
 
@@ -66,23 +93,19 @@ public class Game {
 	}
 
 	private Player getWinner() {
-		//TODO: asymmetry, need validating that blackPlayer position gives same result
-		//maybe it's time to share the Position
-		//it caused extra complexity in PGNGameTest
-		Position position = whitePlayer.getPosition();
-
-		if ( position.isTerminal() ) {
-			final Side winningSide = position.getWinningSide();
-
-			if ( winningSide == null ) {
+		GameResult gameResult = result();
+		switch (gameResult) {
+			case WHITE_WINS:
+				return whitePlayer;
+			case BLACK_WINS:
+				return blackPlayer;
+			case DRAW:
 				return null;
-			}
-
-			return player( winningSide );
-		}
-		else {
-			logger.warn( "The game has been finished without reaching a terminal position" );
-			return null;
+			case UNFINISHED_GAME:
+				logger.warn( "The game has been finished without reaching a terminal position" );
+				return null;
+			default:
+				throw new IllegalStateException( "The result is not supported: " + gameResult );
 		}
 	}
 

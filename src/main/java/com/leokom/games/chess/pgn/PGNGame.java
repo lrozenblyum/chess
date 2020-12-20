@@ -1,6 +1,7 @@
 package com.leokom.games.chess.pgn;
 
 import com.leokom.games.chess.Game;
+import com.leokom.games.chess.GameResult;
 import com.leokom.games.chess.engine.Side;
 import com.leokom.games.chess.player.Player;
 
@@ -25,17 +26,32 @@ public class PGNGame {
 
         PGNTag whitePlayerTag = new PGNTag( "White", playerName(Side.WHITE));
         PGNTag blackPlayerTag = new PGNTag( "Black", playerName(Side.BLACK));
-        Player winner = game.run();
 
-        //TODO: duplication with Game.java itself
-        PGNTag resultTag = new PGNTag( "Result",
-                winner == null ? "1/2-1/2" :
-                winner == game.player(Side.WHITE) ? "1-0" : "0-1");
+        game.run();
+
+        PGNTag resultTag = new PGNTag( "Result", pgnResult() );
 
         return
             Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag, resultTag )
             .map( PGNTag::toString )
             .collect(Collectors.joining( "\n" ) );
+
+    }
+
+    private String pgnResult() {
+        GameResult gameResult = game.result();
+        switch ( gameResult ) {
+            case WHITE_WINS:
+                return "1-0";
+            case BLACK_WINS:
+                return "0-1";
+            case DRAW:
+                return "1/2-1/2";
+            case UNFINISHED_GAME:
+                return "*";
+            default:
+                throw new IllegalStateException( "Unsupported game result: " + gameResult );
+        }
 
     }
 

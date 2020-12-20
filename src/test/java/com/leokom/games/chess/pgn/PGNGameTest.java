@@ -2,6 +2,7 @@ package com.leokom.games.chess.pgn;
 
 import com.leokom.games.chess.Game;
 import com.leokom.games.chess.engine.Position;
+import com.leokom.games.chess.engine.Side;
 import com.leokom.games.chess.player.Player;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
@@ -103,7 +104,7 @@ public class PGNGameTest {
     public void whiteWins() {
         Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
         Mockito.doReturn( true ).when( positionAfterTheGame ).isTerminal();
-        Mockito.doReturn( whitePlayer ).when( spyGame ).run();
+        Mockito.doReturn(Side.WHITE ).when(positionAfterTheGame).getWinningSide();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
@@ -113,8 +114,8 @@ public class PGNGameTest {
     @Test
     public void blackWins() {
         Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
-        Mockito.doReturn( blackPlayer ).when( spyGame ).run();
         Mockito.doReturn( true ).when( positionAfterTheGame ).isTerminal();
+        Mockito.doReturn( Side.BLACK ).when( positionAfterTheGame ).getWinningSide();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
@@ -124,7 +125,7 @@ public class PGNGameTest {
     @Test
     public void draw() {
         Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
-        Mockito.doReturn( null ).when( spyGame ).run();
+        Mockito.doReturn( null ).when( positionAfterTheGame ).getWinningSide();
         Mockito.doReturn( true ).when( positionAfterTheGame ).isTerminal();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
@@ -137,7 +138,6 @@ public class PGNGameTest {
         Mockito.doReturn( false ).when( positionAfterTheGame ).isTerminal();
 
         Game spyGame = Mockito.spy(new Game(whitePlayer, blackPlayer));
-        Mockito.doReturn( null ).when( spyGame ).run();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
