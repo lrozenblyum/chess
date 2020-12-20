@@ -40,16 +40,9 @@ public class Game {
 
 	/**
 	 * Run the game.
-	 * @return winner among whitePlayer, blackPlayer or null in case of draw
-	 * @deprecated use {@link #runGame()}
+	 * @return the game result.
 	 */
-	public Player run() {
-		runGame();
-
-		return winner().orElse(null);
-	}
-
-	public GameResult runGame() {
+	public GameResult run() {
 		logger.info( "Starting game : {} vs {}", whitePlayer::name, blackPlayer::name );
 
 		//setting opponents for symmetry. Technically it's possible
@@ -89,7 +82,6 @@ public class Game {
 			else {
 				throw new IllegalStateException( "Unknown winning side: " + winningSide );
 			}
-
 		}
 		else {
 			return GameResult.UNFINISHED_GAME;

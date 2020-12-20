@@ -27,9 +27,7 @@ public class PGNGame {
         PGNTag whitePlayerTag = new PGNTag( "White", playerName(Side.WHITE));
         PGNTag blackPlayerTag = new PGNTag( "Black", playerName(Side.BLACK));
 
-        game.runGame();
-
-        PGNTag resultTag = new PGNTag( "Result", pgnResult() );
+        PGNTag resultTag = new PGNTag( "Result", toPgnResult( game.run() ) );
 
         return
             Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag, resultTag )
@@ -38,8 +36,7 @@ public class PGNGame {
 
     }
 
-    private String pgnResult() {
-        GameResult gameResult = game.result();
+    private String toPgnResult( GameResult gameResult ) {
         switch ( gameResult ) {
             case WHITE_WINS:
                 return "1-0";

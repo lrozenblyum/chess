@@ -62,7 +62,7 @@ class Simulator {
 	}
 
 	private void collectWinnerInfo(List<Player> winners, Game game) {
-		game.runGame();
+		game.run();
 		game.winner().ifPresent(winners::add);
 	}
 

@@ -20,7 +20,7 @@ public class GameTest {
         setPosition(white);
 
         Player black = mock( Player.class );
-        GameResult gameResult = new Game( white, black ).runGame();
+        GameResult gameResult = new Game( white, black ).run();
         //no exceptions expected
         assertEquals(GameResult.UNFINISHED_GAME, gameResult);
     }
@@ -31,7 +31,7 @@ public class GameTest {
         setPosition( white );
         Player black = mock( Player.class );
 
-        new Game( white, black ).runGame();
+        new Game( white, black ).run();
 
         verify( white ).setOpponent( black );
         verify( black ).setOpponent( white );
