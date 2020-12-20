@@ -11,16 +11,16 @@ import static org.junit.Assert.assertEquals;
 public class LegalPlayerNameTest {
     @Test
     public void denormalizedBrain() {
-        assertEquals( "LegalPlayer : DenormalizedBrain", new LegalPlayer( new DenormalizedBrain() ).name() );
+        assertEquals( "LegalPlayer: DenormalizedBrain", new LegalPlayer( new DenormalizedBrain() ).name() );
     }
 
     @Test
     public void normalizedBrain() {
-        assertEquals( "LegalPlayer : NormalizedBrain: 1 depth", new LegalPlayer( new NormalizedBrain( new MasterEvaluator()) ).name() );
+        assertEquals( "LegalPlayer: NormalizedBrain: 1 depth", new LegalPlayer( new NormalizedBrain( new MasterEvaluator()) ).name() );
     }
 
     @Test
     public void simpleBrain() {
-        assertEquals( "LegalPlayer : SimpleBrain", new LegalPlayer( new SimpleBrain() ).name() );
+        assertEquals( "LegalPlayer: SimpleBrain", new LegalPlayer( new SimpleBrain() ).name() );
     }
 }

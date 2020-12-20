@@ -53,7 +53,7 @@ public class CommandLinePlayersTest {
 	}
 
 	private void assertIsSimple(Player player) {
-		assertEquals( "LegalPlayer : SimpleBrain", player.name() );
+		assertEquals( "LegalPlayer: SimpleBrain", player.name() );
 	}
 
 	@Test
@@ -79,11 +79,11 @@ public class CommandLinePlayersTest {
 	}
 
 	private void assertHasNormalizedBrain(Player player ) {
-		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer : NormalizedBrain" ) );
+		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer: NormalizedBrain" ) );
 	}
 
 	private void assertIsRandom(Player player) {
-		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer : RandomBrain" ) );
+		assertThat( player.name(), CoreMatchers.startsWith( "LegalPlayer: RandomBrain" ) );
 	}
 
 	@Test

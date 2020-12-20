@@ -188,6 +188,6 @@ public class LegalPlayer implements Player {
 
 	@Override
 	public String name() {
-		return Player.super.name() + " : " + this.brain.name();
+		return Player.super.name() + ": " + this.brain.name();
 	}
 }
