@@ -3,7 +3,6 @@ package com.leokom.games.chess.pgn;
 import com.leokom.games.chess.Game;
 import com.leokom.games.chess.GameResult;
 import com.leokom.games.chess.engine.Side;
-import com.leokom.games.chess.player.Player;
 
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
