@@ -27,7 +27,7 @@ public class PGNGame {
         PGNTag whitePlayerTag = new PGNTag( "White", playerName(Side.WHITE));
         PGNTag blackPlayerTag = new PGNTag( "Black", playerName(Side.BLACK));
 
-        game.run();
+        game.runGame();
 
         PGNTag resultTag = new PGNTag( "Result", pgnResult() );
 

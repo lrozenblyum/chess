@@ -40,11 +40,32 @@ public class Game {
 	/**
 	 * Run the game.
 	 * @return winner among whitePlayer, blackPlayer or null in case of draw
+	 * @deprecated use {@link #runGame()}
 	 */
 	public Player run() {
 		runGame();
 
 		return getWinner();
+	}
+
+	public GameResult runGame() {
+		logger.info( "Starting game : {} vs {}", whitePlayer::name, blackPlayer::name );
+
+		//setting opponents for symmetry. Technically it's possible
+		// for one set to make a back reference
+		blackPlayer.setOpponent( whitePlayer );
+		whitePlayer.setOpponent( blackPlayer );
+
+		//Black is informed first, to passively wait for the White's first move
+		blackPlayer.opponentSuggestsMeStartNewGameBlack();
+
+		//inform white that black is ready so you may start
+		//white player should start the game e.g. by providing main loop
+		whitePlayer.opponentSuggestsMeStartNewGameWhite();
+
+		logger.info( "Game finished: {} vs {}", whitePlayer::name, blackPlayer::name );
+
+		return result();
 	}
 
 	public GameResult result() {
@@ -72,24 +93,6 @@ public class Game {
 		else {
 			return GameResult.UNFINISHED_GAME;
 		}
-	}
-
-	private void runGame() {
-		logger.info( "Starting game : {} vs {}", whitePlayer::name, blackPlayer::name );
-
-		//setting opponents for symmetry. Technically it's possible
-		// for one set to make a back reference
-		blackPlayer.setOpponent( whitePlayer );
-		whitePlayer.setOpponent( blackPlayer );
-
-		//Black is informed first, to passively wait for the White's first move
-		blackPlayer.opponentSuggestsMeStartNewGameBlack();
-
-		//inform white that black is ready so you may start
-		//white player should start the game e.g. by providing main loop
-		whitePlayer.opponentSuggestsMeStartNewGameWhite();
-
-		logger.info( "Game finished: {} vs {}", whitePlayer::name, blackPlayer::name );
 	}
 
 	private Player getWinner() {

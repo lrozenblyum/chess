@@ -27,7 +27,7 @@ public class SimpleBrainTest {
                 .moveMulti( new Move( "a2", "a4" ), Move.OFFER_DRAW )
                 .build();
 
-        new Game( whitePlayer, simplePlayer ).run();
+        new Game( whitePlayer, simplePlayer ).runGame();
 
         verify( whitePlayer ).opponentMoved( Move.ACCEPT_DRAW );
     }
@@ -38,7 +38,7 @@ public class SimpleBrainTest {
                 .moveMulti( new Move( "d7", "d5" ), Move.OFFER_DRAW )
                 .build();
 
-        new Game( simplePlayer, blackPlayer ).run();
+        new Game( simplePlayer, blackPlayer ).runGame();
 
         verify( blackPlayer ).opponentMoved( Move.ACCEPT_DRAW );
     }
@@ -54,7 +54,7 @@ public class SimpleBrainTest {
     @Test
     public void whiteFirstMove() {
         Player player = mock( Player.class );
-        new Game( simplePlayer, player ).run();
+        new Game( simplePlayer, player ).runGame();
 
         verify( player ).opponentMoved( new Move( "e2", "e4" ) );
     }
@@ -63,7 +63,7 @@ public class SimpleBrainTest {
     public void blackFirstMove() {
         Player player = new PlayerBuilder( simplePlayer ).move( "a1", "a2" ).build();
 
-        new Game( player, simplePlayer ).run();
+        new Game( player, simplePlayer ).runGame();
 
         verify( player ).opponentMoved( new Move( "e7", "e5" ) );
     }
@@ -74,7 +74,7 @@ public class SimpleBrainTest {
             .move( "h7", "h6" )
             .build();
 
-        new Game( simplePlayer, player ).run();
+        new Game( simplePlayer, player ).runGame();
 
         verify( player ).opponentMoved( new Move( "d2", "d4" ), Move.OFFER_DRAW );
     }
@@ -86,7 +86,7 @@ public class SimpleBrainTest {
                 .move( "g7", "g6" )
                 .build();
 
-        new Game( simplePlayer, player ).run();
+        new Game( simplePlayer, player ).runGame();
 
         verify( player ).opponentMoved( Move.RESIGN );
     }
@@ -99,7 +99,7 @@ public class SimpleBrainTest {
                 .move( "a4", "a5" )
                 .build();
 
-        new Game( player, simplePlayer ).run();
+        new Game( player, simplePlayer ).runGame();
 
         verify( player ).opponentMoved( Move.RESIGN );
     }
@@ -111,7 +111,7 @@ public class SimpleBrainTest {
                 .move( Move.RESIGN )
                 .build();
 
-        new Game( player, simplePlayer ).run();
+        new Game( player, simplePlayer ).runGame();
 
         verify( player, never() ).opponentMoved( Move.RESIGN );
     }
@@ -124,7 +124,7 @@ public class SimpleBrainTest {
             .move( "c2", "c3" )
             .build();
 
-        new Game( player, simplePlayer ).run();
+        new Game( player, simplePlayer ).runGame();
 
         verify( player ).opponentMoved( new Move( "d7", "d5" ), Move.OFFER_DRAW );
     }
@@ -137,7 +137,7 @@ public class SimpleBrainTest {
                         .move( "c3", "d5" )
                         .build();
 
-        new Game( player, simplePlayer ).run();
+        new Game( player, simplePlayer ).runGame();
 
         verify( player, never() ).opponentMoved( new Move( "d7", "d5" ) );
     }
@@ -148,7 +148,7 @@ public class SimpleBrainTest {
                 .move( Move.OFFER_DRAW )
                 .build();
 
-        new Game( simplePlayer, player ).run();
+        new Game( simplePlayer, player ).runGame();
 
         verify( player ).opponentMoved( Move.ACCEPT_DRAW );
     }
@@ -159,7 +159,7 @@ public class SimpleBrainTest {
                 .move( Move.OFFER_DRAW )
                 .build();
 
-        new Game( player, simplePlayer ).run();
+        new Game( player, simplePlayer ).runGame();
 
         verify( player ).opponentMoved( Move.ACCEPT_DRAW );
     }

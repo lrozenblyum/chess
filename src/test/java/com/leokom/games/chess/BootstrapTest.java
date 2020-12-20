@@ -17,24 +17,24 @@ public class BootstrapTest {
 	public void gameIsRun() {
 		new Bootstrap( gameMock ).run();
 		
-		Mockito.verify( gameMock ).run();
+		Mockito.verify( gameMock ).runGame();
 	}
 
 	@Test
 	public void runtimeExceptionDoesNotFailBootstrap() {
-		Mockito.doThrow( new RuntimeException() ).when( gameMock ).run();
+		Mockito.doThrow( new RuntimeException() ).when( gameMock ).runGame();
 
 		new Bootstrap( gameMock ).run();
 
-		Mockito.verify( gameMock ).run();
+		Mockito.verify( gameMock ).runGame();
 	}
 	
 	@Test
 	public void errorDoesNotFailBootstrap() {
-		Mockito.doThrow( new Error() ).when( gameMock ).run();
+		Mockito.doThrow( new Error() ).when( gameMock ).runGame();
 
 		new Bootstrap( gameMock ).run();
 
-		Mockito.verify( gameMock ).run();
+		Mockito.verify( gameMock ).runGame();
 	}
 }

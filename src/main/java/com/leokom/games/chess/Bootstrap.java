@@ -31,8 +31,8 @@ class Bootstrap {
 	void run() {
 		try {
 			logger.info( "Booting {}...", BRAND_NAME );
-			this.game.run();
-			logger.info( "{} successfully completed its job. Bye-bye", BRAND_NAME );
+			GameResult gameResult = this.game.runGame();
+			logger.info( "{} successfully completed its job. Result: {}. Bye-bye", BRAND_NAME, gameResult );
 		} catch ( RuntimeException re ) {
 			// important to investigate issues
 			// and to avoid sending console output from exception to Winboard

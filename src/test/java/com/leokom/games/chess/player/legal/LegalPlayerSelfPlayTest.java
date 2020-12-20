@@ -19,7 +19,7 @@ public class LegalPlayerSelfPlayTest {
 
 	@Test
 	public void twoLegalPlayers() {
-		new Game( getLegalPlayer(), getLegalPlayer() ).run();
+		new Game( getLegalPlayer(), getLegalPlayer() ).runGame();
 	}
 
 	private LegalPlayer getLegalPlayer() {
@@ -32,6 +32,6 @@ public class LegalPlayerSelfPlayTest {
 	// to change order of execution
 	@Test
 	public void secondTestInfluence() {
-		new Game( getLegalPlayer(), getLegalPlayer() ).run();
+		new Game( getLegalPlayer(), getLegalPlayer() ).runGame();
 	}
 }
