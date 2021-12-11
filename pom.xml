@@ -343,7 +343,7 @@
 
 
         <!-- Naming convention inspired by http://stackoverflow.com/a/30318342/1429367 -->
-        <log4j2version>2.13.3</log4j2version>
+        <log4j2version>2.15.0</log4j2version>
 
         <project.deployDirectory>E:\Games\WinBoard-4.8.0\${brandName}</project.deployDirectory>
 
