@@ -20,3 +20,6 @@ jobs:
         # -B means: batch-mode (no questions, no progress-related log pollution)
         # coverage profile is needed for test coverage for sonar
         run: mvn test -Pcoverage -B
+      - name: Run Sonar analyzing
+        # Sonar would require extra preparations
+        run: mvn sonar:sonar -Dsonar.projectKey=leokom-chess
