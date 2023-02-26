@@ -70,10 +70,8 @@ The release consists of:
 * binaries in *.zip   
 
 ## Continuous Integration
-### Travis CI
-Builds: https://travis-ci.com/lrozenblyum/chess/builds
-
-[![Build Status](https://travis-ci.com/lrozenblyum/chess.svg?branch=master)](https://travis-ci.com/lrozenblyum/chess)
+### GitHub Actions
+[![CI](https://github.com/lrozenblyum/chess/actions/workflows/ci.yml/badge.svg)](https://github.com/lrozenblyum/chess/actions/workflows/ci.yml)
 
 ### SonarCloud
 Full overview: https://sonarcloud.io/dashboard?id=leokom-chess
