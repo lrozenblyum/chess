@@ -14,7 +14,7 @@ public class MoveTest {
 
 	@Test
 	public void claimDrawToString() {
-		assertEquals( "CLAIM_DRAW", Move.CLAIM_DRAW.toString() );
+		assertEquals( "CLAIM_DRAW1", Move.CLAIM_DRAW.toString() );
 	}
 
 	@Test
