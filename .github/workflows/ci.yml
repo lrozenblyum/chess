@@ -5,10 +5,19 @@ on:
   pull_request:
 
 jobs:
-  build:
+  CI_Sonar:
+    # carries Sonar secret
+    environment: CI
+    env:
+      # The SonarScanner for Maven automatically picks up the value directly from the environment variable.
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          # unlimited fetch depth for Sonar
+          fetch-depth: 0
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
@@ -20,18 +29,6 @@ jobs:
         # -B means: batch-mode (no questions, no progress-related log pollution)
         # coverage profile is needed for test coverage for sonar
         run: mvn test -Pcoverage -B
-  sonar:
-    runs-on: ubuntu-latest
-    # carries Sonar secret
-    environment: CI
-    env:
-      # The SonarScanner for Maven automatically picks up the value directly from the environment variable.
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          # unlimited fetch depth for Sonar
-          fetch-depth: 0
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
