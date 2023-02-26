@@ -14,7 +14,7 @@ public class MoveTest {
 
 	@Test
 	public void claimDrawToString() {
-		assertEquals( "CLAIM_DRAW1", Move.CLAIM_DRAW.toString() );
+		assertEquals( "CLAIM_DRAW", Move.CLAIM_DRAW.toString() );
 	}
 
 	@Test
@@ -31,4 +31,10 @@ public class MoveTest {
 	public void resignIsNotDraw() {
 		assertNotEquals( Move.RESIGN, Move.OFFER_DRAW );
 	}
+
+	@Test
+	public void coverage() {
+		assertEquals( 125, Move.coverageCheck(false, 5));
+	}
+
 }

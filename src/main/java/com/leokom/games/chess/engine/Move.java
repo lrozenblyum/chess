@@ -198,4 +198,11 @@ public final class Move implements GameTransition {
 	public String toOldStringPresentation() {
 		return getFrom() + getTo();
 	}
+
+	public static int coverageCheck(boolean a, int b) {
+		if (a) {
+			return b;
+		}
+		return b+120;
+	}
 }
