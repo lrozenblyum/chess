@@ -45,7 +45,7 @@ final class PositionGenerator {
 	 */
 	private void updateMovesCounter( Position position, Move move ) {
 		//no changes on board
-		if ( move.isSpecial() ) {
+		if ( !move.isSpecial() ) {
 			return;
 		}
 
