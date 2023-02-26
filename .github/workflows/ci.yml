@@ -24,6 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     # carries Sonar secret
     environment: CI
+    env:
+      # The SonarScanner for Maven automatically picks up the value directly from the environment variable.
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
