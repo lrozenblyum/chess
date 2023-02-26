@@ -11,7 +11,8 @@ jobs:
     env:
       # The SonarScanner for Maven automatically picks up the value directly from the environment variable.
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
+      # According to Sonar: Needed to get PR information, if any
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
