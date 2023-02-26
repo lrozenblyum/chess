@@ -43,4 +43,5 @@ jobs:
         # Sonar would require extra preparations
         run: mvn sonar:sonar \
           -Dsonar.projectKey=leokom-chess \ 
-          -Dsonar.organization=lrozenblyum-github
+          -Dsonar.organization=lrozenblyum-github \
+          -Dsonar.host.url=https://sonarcloud.io
