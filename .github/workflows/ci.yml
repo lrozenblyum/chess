@@ -41,7 +41,7 @@ jobs:
           cache: maven
       - name: Run Sonar analyzing
         # Sonar would require extra preparations
-        run: mvn sonar:sonar \
-          -Dsonar.projectKey=leokom-chess \ 
-          -Dsonar.organization=lrozenblyum-github \
+        run: mvn sonar:sonar
+          -Dsonar.projectKey=leokom-chess 
+          -Dsonar.organization=lrozenblyum-github
           -Dsonar.host.url=https://sonarcloud.io
