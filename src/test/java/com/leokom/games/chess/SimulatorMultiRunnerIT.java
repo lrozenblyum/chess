@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Author: Leonid
- * Trying to avoid Travis limitation on test duration < 10 minutes:
+ * Historical reasons of the collector usage: trying to avoid Travis limitation on test duration < 10 minutes:
  * run every game in a separate test, collect all results and analyze
  * Date-time: 24.04.16 22:54
  */
