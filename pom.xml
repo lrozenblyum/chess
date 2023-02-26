@@ -107,7 +107,7 @@
             <artifactId>guava</artifactId>
             <!-- I'm reluctant to update to 27.0.1 because of https://groups.google.com/forum/#!topic/guava-announce/Km82fZG68Sw
             and a weird additional empty artifact which comes with guava then -->
-            <version>26.0-jre</version>
+            <version>29.0-jre</version>
             <!-- The exclusions are done due to https://github.com/google/guava/issues/2824 -->
             <exclusions>
                 <exclusion>
