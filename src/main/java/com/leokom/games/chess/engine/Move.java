@@ -200,9 +200,9 @@ public final class Move implements GameTransition {
 	}
 
 	public static int coverageCheck(boolean a, int b) {
-		if (a) {
+		if (a)
 			return b;
-		}
+
 		return b+120;
 	}
 }
