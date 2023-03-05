@@ -323,7 +323,7 @@
                             </execution>
                             <execution>
                                 <id>report</id>
-                                <!-- By default 'report' is bound to verify phase but we don't call that yet in Travis -->
+                                <!-- By default 'report' is bound to verify phase but we don't call that yet in CI -->
                                 <phase>test</phase>
                                 <goals>
                                     <goal>report</goal>
@@ -343,7 +343,7 @@
 
 
         <!-- Naming convention inspired by http://stackoverflow.com/a/30318342/1429367 -->
-        <log4j2version>2.13.3</log4j2version>
+        <log4j2version>2.17.1</log4j2version>
 
         <project.deployDirectory>E:\Games\WinBoard-4.8.0\${brandName}</project.deployDirectory>
 
