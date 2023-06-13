@@ -1,9 +1,11 @@
 package com.leokom.games.chess.pgn;
 
 import com.leokom.games.chess.Game;
+import com.leokom.games.chess.engine.Move;
 import com.leokom.games.chess.engine.Position;
 import com.leokom.games.chess.engine.Side;
 import com.leokom.games.chess.player.Player;
+import com.leokom.games.chess.player.PlayerBuilder;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class PGNGameTest {
     private Player whitePlayer;
@@ -22,10 +25,10 @@ public class PGNGameTest {
 
     @Before
     public void prepare() {
-        this.whitePlayer = Mockito.mock(Player.class);
-        this.blackPlayer = Mockito.mock(Player.class);
+        this.whitePlayer = mock(Player.class);
+        this.blackPlayer = mock(Player.class);
         //game at the moment depends on whitePlayer's position, the test needs to resolve this dependency
-        this.positionAfterTheGame = Mockito.mock( Position.class );
+        this.positionAfterTheGame = mock( Position.class );
         Mockito.when( whitePlayer.getPosition() ).thenReturn(positionAfterTheGame);
         this.game = new Game( whitePlayer, blackPlayer );
     }
@@ -118,6 +121,15 @@ public class PGNGameTest {
         Mockito.doReturn( Side.BLACK ).when( positionAfterTheGame ).getWinningSide();
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
+
+        assertEquals( "[Result \"0-1\"]", pgn.split( "\n" )[ 6 ] );
+    }
+
+    @Test
+    public void whiteResignsBeforeFirstMove() {
+        Player whitePlayer = new PlayerBuilder(blackPlayer).move(Move.RESIGN).build();
+        Game game = new Game(whitePlayer, blackPlayer);
+        String pgn = new PGNGame(new Event(null, null, null), game).run();
 
         assertEquals( "[Result \"0-1\"]", pgn.split( "\n" )[ 6 ] );
     }
