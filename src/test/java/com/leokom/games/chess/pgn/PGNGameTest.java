@@ -44,7 +44,7 @@ public class PGNGameTest {
     @Test
     public void eventNameKnown() {
         String pgn = new PGNGame( new Event( "Good event", null, null), game).run();
-        assertEquals( "[Event \"Good event\"]", pgn.split( "\n" )[ 0 ] );
+        assertEquals( "[Event \"Good event\"]", splitByLines(pgn)[ 0 ] );
     }
 
     @Test
@@ -56,25 +56,25 @@ public class PGNGameTest {
     @Test
     public void locationUnknown() {
         String pgn = new PGNGame(new Event(null, null, null), game).run();
-        assertEquals( "[Site \"?\"]", pgn.split( "\n" )[ 1 ] );
+        assertEquals( "[Site \"?\"]", splitByLines(pgn)[ 1 ] );
     }
 
     @Test
     public void locationKnown() {
         String pgn = new PGNGame(new Event(null, "New York City, NY USA", null), game).run();
-        assertEquals( "[Site \"New York City, NY USA\"]", pgn.split( "\n" )[ 1 ] );
+        assertEquals( "[Site \"New York City, NY USA\"]", splitByLines(pgn)[ 1 ] );
     }
 
     @Test
     public void dateKnown() {
         String pgn = new PGNGame(new Event(null, null, LocalDate.of(2020, 7, 5)), game).run();
-        assertEquals( "[Date \"2020-07-05\"]", pgn.split( "\n" )[ 2 ] );
+        assertEquals( "[Date \"2020-07-05\"]", splitByLines(pgn)[ 2 ] );
     }
 
     @Test
     public void hyphenNotAppropriate() {
         String pgn = new PGNGame(new Event(null, null, null), game).run();
-        assertEquals( "[Round \"-\"]", pgn.split( "\n" )[ 3 ] );
+        assertEquals( "[Round \"-\"]", splitByLines(pgn)[ 3 ] );
     }
 
     @Test
@@ -82,7 +82,7 @@ public class PGNGameTest {
         Mockito.when( whitePlayer.name() ).thenReturn( "White player name" );
         String pgn = new PGNGame(new Event(null, null, null), game ).run();
 
-        assertEquals( "[White \"White player name\"]", pgn.split( "\n" )[ 4 ] );
+        assertEquals( "[White \"White player name\"]", splitByLines(pgn)[ 4 ] );
     }
 
     @Test
@@ -90,7 +90,7 @@ public class PGNGameTest {
         Mockito.when( blackPlayer.name() ).thenReturn( "Some black player name" );
         String pgn = new PGNGame(new Event(null, null, null), game ).run();
 
-        assertEquals( "[Black \"Some black player name\"]", pgn.split( "\n" )[ 5 ] );
+        assertEquals( "[Black \"Some black player name\"]", splitByLines(pgn)[ 5 ] );
     }
 
     @Test
@@ -99,8 +99,8 @@ public class PGNGameTest {
         Mockito.when( blackPlayer.name() ).thenReturn( null );
         String pgn = new PGNGame(new Event(null, null, null), game ).run();
 
-        assertEquals( "[White \"?\"]", pgn.split( "\n" )[ 4 ] );
-        assertEquals( "[Black \"?\"]", pgn.split( "\n" )[ 5 ] );
+        assertEquals( "[White \"?\"]", splitByLines(pgn)[ 4 ] );
+        assertEquals( "[Black \"?\"]", splitByLines(pgn)[ 5 ] );
     }
 
     @Test
@@ -111,7 +111,7 @@ public class PGNGameTest {
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
-        assertEquals( "[Result \"1-0\"]", pgn.split( "\n" )[ 6 ] );
+        assertEquals( "[Result \"1-0\"]", splitByLines(pgn)[ 6 ] );
     }
 
     @Test
@@ -122,7 +122,7 @@ public class PGNGameTest {
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
-        assertEquals( "[Result \"0-1\"]", pgn.split( "\n" )[ 6 ] );
+        assertEquals( "[Result \"0-1\"]", splitByLines(pgn)[ 6 ] );
     }
 
     @Test
@@ -131,8 +131,7 @@ public class PGNGameTest {
         Game game = new Game(whitePlayer, blackPlayer);
         String pgn = new PGNGame(new Event(null, null, null), game).run();
 
-        // -1 helps avoid ignoring trailing empty lines
-        String[] pgnSplitByLines = pgn.split("\n", -1);
+        String[] pgnSplitByLines = splitByLines(pgn);
         assertEquals("[Result \"0-1\"]", pgnSplitByLines[6]);
         // PGN export format: a single blank line appears after the last of the tag pairs
         assertEquals("", pgnSplitByLines[7]);
@@ -146,7 +145,7 @@ public class PGNGameTest {
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
-        assertEquals( "[Result \"1/2-1/2\"]", pgn.split( "\n" )[ 6 ] );
+        assertEquals( "[Result \"1/2-1/2\"]", splitByLines(pgn)[ 6 ] );
     }
 
     @Test
@@ -157,7 +156,12 @@ public class PGNGameTest {
 
         String pgn = new PGNGame(new Event(null, null, null), spyGame ).run();
 
-        assertEquals( "[Result \"*\"]", pgn.split( "\n" )[ 6 ] );
+        assertEquals( "[Result \"*\"]", splitByLines(pgn)[ 6 ] );
+    }
+
+    private static String[] splitByLines(String pgn) {
+        // -1 helps avoid ignoring trailing empty lines
+        return pgn.split("\n", -1);
     }
 
 }
