@@ -131,7 +131,11 @@ public class PGNGameTest {
         Game game = new Game(whitePlayer, blackPlayer);
         String pgn = new PGNGame(new Event(null, null, null), game).run();
 
-        assertEquals( "[Result \"0-1\"]", pgn.split( "\n" )[ 6 ] );
+        // -1 helps avoid ignoring trailing empty lines
+        String[] pgnSplitByLines = pgn.split("\n", -1);
+        assertEquals("[Result \"0-1\"]", pgnSplitByLines[6]);
+        // PGN export format: a single blank line appears after the last of the tag pairs
+        assertEquals("", pgnSplitByLines[7]);
     }
 
     @Test

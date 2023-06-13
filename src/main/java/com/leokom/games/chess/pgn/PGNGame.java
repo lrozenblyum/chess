@@ -18,6 +18,13 @@ public class PGNGame {
     }
 
     public String run() {
+        //8.1.1
+        //For PGN export format, a single blank line appears after the last of the tag pairs to conclude the tag pair section.
+        //This helps simple scanning programs to quickly determine the end of the tag pair section and the beginning of the movetext section.
+        return sevenTagsRoster() + "\n";
+    }
+
+    private String sevenTagsRoster() {
         PGNTag eventTag = new PGNTag( "Event", (event.getName() != null ? event.getName() : "?") );
         PGNTag locationTag = new PGNTag( "Site", (event.getLocation() != null ? event.getLocation() : "?") );
         PGNTag dateTag = new PGNTag( "Date", ( event.getDate() != null ? DateTimeFormatter.ofPattern("yyyy-MM-dd").format( event.getDate() ) : "????-??-??" ) );
@@ -28,11 +35,9 @@ public class PGNGame {
 
         PGNTag resultTag = new PGNTag( "Result", toPgnResult( game.run() ) );
 
-        return
-            Stream.of( eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag, resultTag )
-            .map( PGNTag::toString )
-            .collect(Collectors.joining( "\n" ) );
-
+        return Stream.of(eventTag, locationTag, dateTag, roundTag, whitePlayerTag, blackPlayerTag, resultTag)
+                .map(PGNTag::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     private String toPgnResult( GameResult gameResult ) {
