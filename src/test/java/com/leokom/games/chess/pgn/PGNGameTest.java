@@ -135,6 +135,8 @@ public class PGNGameTest {
         assertEquals("[Result \"0-1\"]", pgnSplitByLines[6]);
         // PGN export format: a single blank line appears after the last of the tag pairs
         assertEquals("", pgnSplitByLines[7]);
+        // pretty artificial, minimal game
+        assertEquals("1. 0-1", pgnSplitByLines[8]);
     }
 
     @Test
